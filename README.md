@@ -1,17 +1,19 @@
 # prism-pipeline
 
+WIP
+
 Table of Contents:
 
-- Preparation
-- Building Everything
-- Building Tools Individually
-    - Container Images
-    - CWL Wrappers
-- Creating Installation Package
-- Installation
-    - Local Virtual Machine
-    - Luna
-    - Amazon Web Services
+1. Preparation
+1. Building Everything
+1. Building Tools Individually
+    1. Container Images
+    1. CWL Wrappers
+1. Creating Installation Package
+1. Installation
+    1. Local Virtual Machine
+    1. Luna
+    1. Amazon Web Services
 
 ## Preparation
 
