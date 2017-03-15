@@ -1,0 +1,28 @@
+outputs:
+  bam:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O;
+          return null;
+        }
+  bai:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.bam/,'') + ".bai";
+          return null;
+        }
+  mdmetrics:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.M)
+            return inputs.M;
+          return null;
+        }

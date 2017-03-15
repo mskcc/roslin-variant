@@ -1,0 +1,24 @@
+out_dir: "/scratch/prism-test/ifs/prism/inputs/chunj/outputs"
+adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+fastq1: "/scratch/prism-test/ifs/prism/inputs/chunj/P1_R1.fastq.gz"
+fastq2: "/scratch/prism-test/ifs/prism/inputs/chunj/P1_R2.fastq.gz"
+paired: True
+
+genome: "GRCh37"
+bwa_output: P1.bam
+
+add_rg_LB: "5"
+add_rg_PL: "Illumina"
+add_rg_ID: "P-0000377"
+add_rg_PU: "bc26"
+add_rg_SM: "P-0000377-T02-IM3"
+add_rg_CN: "MSKCC"
+add_rg_output: "P-0000377-T02-IM3_ARRDRG.bam"
+
+md_output: "P-0000377-T02-IM3_ARRDRG_MD.bam"
+md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
+
+create_index: True
+
+tmp_dir: "/scratch/prism-test/prism/tmp"
