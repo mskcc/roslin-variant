@@ -2,6 +2,7 @@
 
 Table of Contents:
 
+1. Prerequisites
 1. Preparation
 1. Building Everything
 1. Building Tools Individually
@@ -12,6 +13,10 @@ Table of Contents:
     1. Local Virtual Machine
     1. Luna
     1. Amazon Web Services
+
+## Prerequisites
+
+- [Vagrant 1.9.0+](https://www.vagrantup.com/downloads.html)
 
 ## Preparation
 
