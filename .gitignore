@@ -1,0 +1,9 @@
+.vagrant
+*.log
+/build/containers/**/*.img
+/build/cwl-wrappers/**/*.bak
+/build/tmp/**
+/setup/data/assemblies
+/setup/data/inputs/P-*.fastq.gz
+/setup/tools/**
+/*.tgz

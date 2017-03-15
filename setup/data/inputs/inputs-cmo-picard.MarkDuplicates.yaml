@@ -1,0 +1,4 @@
+I: ["/scratch/prism-test/ifs/prism/inputs/chunj/sample-cmo-picard.MarkDuplicates.bam"]
+O: "P-0000377-T02-IM3_withcwltoil_ARRDRG_MD.bam"
+M: "P-0000377-T02-IM3_withcwltoil_ARRDRG_MD.metrics"
+TMP_DIR: "/scratch/prism-test/prism/tmp"

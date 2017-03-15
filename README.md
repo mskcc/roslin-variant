@@ -1,9 +1,8 @@
 # prism-pipeline
 
-WIP
-
 Table of Contents:
 
+1. Prerequisites
 1. Preparation
 1. Building Everything
 1. Building Tools Individually
@@ -14,6 +13,10 @@ Table of Contents:
     1. Local Virtual Machine
     1. Luna
     1. Amazon Web Services
+
+## Prerequisites
+
+- [Vagrant 1.9.0+](https://www.vagrantup.com/downloads.html)
 
 ## Preparation
 
@@ -163,13 +166,13 @@ Bring up an AWS EC2 instance (minimum `t2.large` with 50GB disk) using the AMI `
 Upload the installation package to AWS EC2.
 
 ```bash
-$ ./upload-to-ec2.sh -k ~/mskcc-chunj.pem -h ec2-54-172-127-54.compute-1.amazonaws.com
+$ ./upload-to-ec2.sh -k ~/mskcc-chunj.pem -h ec2-w-x-y-z.compute-1.amazonaws.com
 ```
 
 Log in to EC2:
 
 ```bash
-$ ssh -i "~/mskcc-chunj.pem" ubuntu@ec2-54-172-127-54.compute-1.amazonaws.com
+$ ssh -i "~/mskcc-chunj.pem" ubuntu@ec2-w-x-y-z.compute-1.amazonaws.com
 ```
 
 Create a directory where Prism will be installed:
@@ -201,3 +204,7 @@ $ ./configure-reference-data.sh -l s3
 
 Log out and log back in.
 
+
+## Adding a New Tool
+
+Please refer to [this document](./docs/adding-new-tool.md)

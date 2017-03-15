@@ -1,0 +1,10 @@
+outputs:
+  bam:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.output)
+            return inputs.output;
+          return null;
+        }
