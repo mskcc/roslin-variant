@@ -5,7 +5,7 @@
 868d690f091d730f3d5e0a66925d63cf  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
 125ebfd5b0ed46acd0e0d9a05fa4a773  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 017dfcaebd911aacfa7bf9b00aa9df61  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-c3266db38a6ac1fe3e88ebe335e7d6cd  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
-f6af2a3b86689f7ad1cbcde855fe772f  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
+2c24b1c26836d88dd1a8fb0dc3d6676a  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
+8b806edce9e8a048d0dff158b32ae216  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 c7ea8961feb03792a4045073a40130b9  ./module-1.cwl
 bc5ba30eabfbb9da986c8b8079801d02  ./samtools/1.3.1/samtools-sam2bam.cwl

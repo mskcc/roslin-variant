@@ -1,6 +1,6 @@
 outputs:
   clfastq1:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -11,7 +11,7 @@ outputs:
         }
 
   clfastq2:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${
@@ -22,7 +22,7 @@ outputs:
         }
 
   clstats1:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${
@@ -33,7 +33,7 @@ outputs:
         }
 
   clstats2:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${

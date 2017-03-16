@@ -1,7 +1,7 @@
 #!/usr/bin/env cwl-runner
 # metadata:
 #   - version.tool=0.4.3
-#   - timestamp.created=2017-03-16 20:07:20
+#   - timestamp.created=2017-03-16 20:24:53
 #   - key1=value1
 #   - key2=value2
 
@@ -363,7 +363,7 @@ inputs:
 
 outputs:
   clfastq1:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -374,7 +374,7 @@ outputs:
         }
 
   clfastq2:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${
@@ -385,7 +385,7 @@ outputs:
         }
 
   clstats1:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${
@@ -396,7 +396,7 @@ outputs:
         }
 
   clstats2:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${
