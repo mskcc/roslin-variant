@@ -6,12 +6,10 @@ requirements:
   
 inputs:
 
-    out_dir: string
     adapter: string
     adapter2: string
     fastq1: string
     fastq2: string
-    paired: boolean
 
     genome: string
     bwa_output: string
@@ -36,14 +34,10 @@ steps:
     cmo-trimgalore:
         run: ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
         in:
-            out_dir: out_dir
             adapter: adapter
             adapter2: adapter2
             fastq1: fastq1
             fastq2: fastq2
-            paired: paired
-            quality:
-              default: "1"
         out: [clfastq1,clfastq2,clstats1,clstats2]
 
     cmo-bwa-mem:
