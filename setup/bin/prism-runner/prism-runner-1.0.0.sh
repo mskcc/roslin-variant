@@ -43,7 +43,7 @@ do
         w) WORKFLOW_FILENAME=$OPTARG ;;
         i) INPUT_FILENAME=$OPTARG ;;
         o) OUTPUT_DIRECTORY=$OPTARG ;;
-        d) DEBUG_OPTIONS="--disableCaching --logDebug --cleanWorkDir never" ;;
+        d) DEBUG_OPTIONS="--logDebug --cleanWorkDir never" ;;
         *) usage; exit 1 ;;
     esac
 done
@@ -65,6 +65,7 @@ cwltoil \
     --defaultDisk 10G \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH CMO_RESOURCE_CONFIG \
     --no-container \
+    --disableCaching \
     --workDir ${PRISM_BIN_PATH}/tmp \
     --outdir ${OUTPUT_DIRECTORY} ${DEBUG_OPTIONS}
 

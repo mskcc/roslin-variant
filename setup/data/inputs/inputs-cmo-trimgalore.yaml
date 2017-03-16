@@ -1,8 +1,4 @@
-out_dir: "/scratch/prism-test/ifs/prism/inputs/chunj/outputs"
 adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 fastq1: /scratch/prism-test/ifs/prism/inputs/chunj/P1_R1.fastq.gz
 fastq2: /scratch/prism-test/ifs/prism/inputs/chunj/P1_R2.fastq.gz
-paired: True
-quality: "1"
-gzip: True
