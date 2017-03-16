@@ -77,12 +77,14 @@ do
 
     if [ $INTERACTIVE_MODE -eq 0 ]
     then
+        error_file_name="error.${cmo_wrapper}-${tool_version}.txt"
+
         sudo docker run -it --rm \
             -v ${MY_TEMP_DIRECTORY}/cmo-gxargparse:/tmp \
             -v ${MY_TEMP_DIRECTORY}/cache:/var/cache \
             -v $(pwd):/scripts \
             -v ${CWL_WRAPPER_DIRECTORY}:/cwl-wrappers \
-            --entrypoint="/scripts/process-cwl.sh" ${tool_name}:${tool_version} -t ${tool_name} -v ${tool_version} -c ${cmo_wrapper}
+            --entrypoint="/scripts/process-cwl.sh" ${tool_name}:${tool_version} -t ${tool_name} -v ${tool_version} -c ${cmo_wrapper} 2>${error_file_name}
     else
         sudo docker run -it --rm \
             -v ${MY_TEMP_DIRECTORY}/cmo-gxargparse:/tmp \
