@@ -1,7 +1,7 @@
 #!/usr/bin/env cwl-runner
 # metadata:
 #   - version.tool=0.4.3
-#   - timestamp.created=2017-03-16 19:10:02
+#   - timestamp.created=2017-03-16 20:07:20
 #   - key1=value1
 #   - key2=value2
 
@@ -368,8 +368,9 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return inputs.fastq1.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.fastq.gz';
-          return null;
+            return inputs.fastq1.split('/').slice(-1)[0].split('.').slice(0)[0] + '_val_1.fq.gz';
+          else
+            return null;
         }
 
   clfastq2:
@@ -377,26 +378,31 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.paired && inputs.fastq2)
-            return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.fastq.gz';
-          return null;
+          if (inputs.paired && inputs.fastq1)
+            return inputs.fastq2.split('/').slice(-1)[0].split('.').slice(0)[0] + '_val_2.fq.gz';
+          else
+            return null;
         }
+
   clstats1:
     type: File
     outputBinding:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return inputs.fastq1.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
-          return null;
+            return inputs.fastq1.split('/').slice(-1)[0] + '_trimming_report.txt';
+          else
+            return null;
         }
 
   clstats2:
     type: File
     outputBinding:
-      glob: |-
+      glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
-          return null;
+            return inputs.fastq2.split('/').slice(-1)[0] + '_trimming_report.txt';
+          else
+            return null;
         }
+
