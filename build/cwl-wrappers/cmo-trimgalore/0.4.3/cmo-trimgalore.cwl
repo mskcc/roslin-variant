@@ -1,7 +1,7 @@
 #!/usr/bin/env cwl-runner
 # metadata:
 #   - version.tool=0.4.3
-#   - timestamp.created=2017-03-16 19:10:02
+#   - timestamp.created=2017-03-16 19:18:52
 #   - key1=value1
 #   - key2=value2
 
@@ -394,9 +394,7 @@ outputs:
   clstats2:
     type: File
     outputBinding:
-      glob: |-
+      glob: |
         ${
           if (inputs.paired && inputs.fastq2)
             return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
-          return null;
-        }
