@@ -16,7 +16,17 @@ Table of Contents:
 
 ## Prerequisites
 
-- [Vagrant 1.9.0+](https://www.vagrantup.com/downloads.html)
+The versions mentioned here are the ones that are tested. This does not necessarily mean that higher versions would automatically work.
+
+- For Building Pipelines
+    - [Vagrant 1.9.0](https://www.vagrantup.com/downloads.html)
+        
+- For Running Pipelines
+    - Python 2.7.x
+    - Node.js 6.1.0
+    - [Singularity 2.2.1](http://singularity.lbl.gov/release-2-2-1)
+    - cwltoil
+    - [cmo](https://github.com/mskcc/cmo)
 
 ## Preparation
 
