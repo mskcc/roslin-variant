@@ -14,7 +14,3 @@ DOCKER_REPO_NAME="hisplan"
 
 # e.g. full name would be "hisplan/pipeline-trimgalore"
 DOCKER_REPO_TOOLNAME_PREFIX="pipeline"
-
-# todo: can we use local repo?
-# DOCKER_REPO_NAME="localhost:5000"
-# export SINGULARITY_DOCKER_REGISTRY='--registry ${DOCKER_REPO_NAME}'
