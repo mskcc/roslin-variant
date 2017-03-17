@@ -1,8 +1,13 @@
 #!/bin/bash
 
-if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || [ -z $PRISM_INPUT_PATH ]
+if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || \
+   [ -z $PRISM_INPUT_PATH ] || [ -z $PRISM_SINGULARITY_PATH ]
 then
     echo "Some necessary paths are not correctly configured."
+    echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
+    echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
+    echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
+    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"    
     exit 1
 fi
 
@@ -63,7 +68,7 @@ cwltoil \
     ${PRISM_INPUT_PATH}/chunj/${INPUT_FILENAME} \
     --jobStore file://${PRISM_BIN_PATH}/tmp/jobStore \
     --defaultDisk 10G \
-    --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH CMO_RESOURCE_CONFIG \
+    --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --disableCaching \
     --workDir ${PRISM_BIN_PATH}/tmp \
