@@ -164,7 +164,7 @@ Start installation:
 ```bash
 $ cd prism-setup-v1.0.0/setup/scripts
 $ ./install-production.sh -l
-$ ./configure-reference-data.sh -l luna
+$ ./configure-reference-data.sh -l ifs
 ```
 
 Log out and log back in.
