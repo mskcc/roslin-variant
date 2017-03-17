@@ -3,6 +3,15 @@
 # do not echo out anything,
 # otherwise sing.sh ... | sing.sh ... won't work
 
+if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || [ -z $PRISM_SINGULARITY_PATH ]
+then
+    echo "Some necessary paths are not correctly configured!"
+    echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
+    echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
+    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
+    exit 1
+fi
+
 usage()
 {
 cat << EOF
@@ -28,9 +37,8 @@ shift
 TOOL_VERSION=$1
 shift
 
-# fixme: use full path to singularity
-# or read from settings
-/usr/local/bin/singularity run \
+# run singularity
+${PRISM_SINGULARITY_PATH} run \
   --bind ${BIND_BIN} \
   --bind ${BIND_DATA} \
   ${CONTAINER_IMAGE_PATH}/${TOOL_NAME}/${TOOL_VERSION}/${TOOL_NAME}.img $*

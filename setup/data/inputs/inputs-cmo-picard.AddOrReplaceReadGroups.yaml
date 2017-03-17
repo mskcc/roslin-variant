@@ -4,9 +4,9 @@ ID: "P-0000377"
 PU: "bc26"
 SM: "P-0000377-T02-IM3"
 CN: "MSKCC"
-I: ["/scratch/prism-test/ifs/prism/inputs/chunj/sample-cmo-picard.AddOrReplaceReadGroups.bam"]
+I: ["/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/sample-cmo-picard.AddOrReplaceReadGroups.bam"]
 O: "P-0000377-T02-IM3_ARRDRG.bam"
 SO: "coordinate"
-TMP_DIR: "/scratch/prism-test/prism/tmp"
+TMP_DIR: "/ifs/work/chunj/prism-proto/prism/tmp"
 CREATE_INDEX: true 
 VALIDATION_STRINGENCY: "LENIENT"

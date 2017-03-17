@@ -1,7 +1,7 @@
 genome: "GRCh37"
 
-fastq1: "/scratch/prism-test/ifs/prism/inputs/chunj/P1_R1.fastq.gz"
-fastq2: "/scratch/prism-test/ifs/prism/inputs/chunj/P1_R2.fastq.gz"
+fastq1: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/P1_R1.fastq.gz"
+fastq2: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/P1_R2.fastq.gz"
 
 # piping fails for some reason
 sam: True

@@ -12,15 +12,15 @@ USAGE: $0 [options]
 OPTIONS:
 
    -l      Location of the genome reference files
-           (either "luna" or "local", case-sensitive)
+           (either "ifs" or "local", case-sensitive)
 
-           "luna"  : uses the files from the /ifs on Luna
+           "ifs"  : uses the files from the /ifs on ifs
            "local" : uses the files that were shipped with the installation package
            "s3"    : uses the files in AWS S3
 
 EXAMPLES:
 
-   `basename $0` -l luna
+   `basename $0` -l ifs
 
 EOF
 }
@@ -36,11 +36,14 @@ done
 
 case $LOC_GENASSM in
 
-    luna)
+    ifs)
 
-        # copy and configure reference data
-        mkdir -p ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
-        cp /ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/* ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+        if [ -z $SKIP_B3 ]
+        then
+            # copy and configure reference data
+            mkdir -p ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            cp /ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/* ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+        fi
         ;;
 
     local)

@@ -1,9 +1,6 @@
 Bootstrap: docker
-From: hisplan/pipeline-bwa:0.7.15
-
-#From: localhost:5000/pipeline-samtools
-#Registry: localhost:5000
-#Token: no
+From: /pipeline-bwa:0.7.15
+Registry: http://localhost:5000
 
 %setup
 
