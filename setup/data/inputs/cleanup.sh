@@ -1,4 +1,3 @@
 #!/bin/bash
 
-rm -rf /scratch/prism-test/prism/tmp/*
-rm -rf /tmp/tmp*
+rm -rf ${PRISM_BIN_PATH}/tmp/*
