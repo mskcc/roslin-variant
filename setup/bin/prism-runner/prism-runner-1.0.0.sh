@@ -62,17 +62,25 @@ fi
 # override CMO_RESOURC_CONFIG only while cwltoil is running
 export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
 
+jobstore_uuid="jobstore-`python -c 'import uuid; print str(uuid.uuid1())'`"
+jobstore_path="${PRISM_BIN_PATH}/tmp/${jobstore_uuid}"
+
+printf "\n---> JOBSTORE = ${jobstore_uuid}\n"
+
 # run cwltoil
 cwltoil \
     ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
     ${PRISM_INPUT_PATH}/chunj/${INPUT_FILENAME} \
-    --jobStore file://${PRISM_BIN_PATH}/tmp/jobStore \
+    --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --disableCaching \
     --workDir ${PRISM_BIN_PATH}/tmp \
+    --batchSystem lsf --stats \
     --outdir ${OUTPUT_DIRECTORY} ${DEBUG_OPTIONS}
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
+
+printf "\n<--- JOBSTORE = ${jobstore_uuid}\n\n"
