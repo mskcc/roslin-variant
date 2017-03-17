@@ -1,5 +1,6 @@
 Bootstrap: docker
-From: hisplan/pipeline-trimgalore:0.2.5.mod
+From: /pipeline-trimgalore:0.2.5.mod
+Registry: http://localhost:5000
 
 %setup
 

@@ -42,29 +42,6 @@ do
     esac
 done
 
- 
-if [ $BUILD_DOCKER_IMAGE_ONLY -ne 1 ]
-then
-    # check if user is logged in to Docker Hub.
-    # the following command returns auth token if user is authenticated
-    if sudo test -f ~/.docker/config.json
-    then
-        is_login=`sudo cat ~/.docker/config.json | jq -r ".auths[].auth"`
-    else
-        is_login=""
-    fi
-
-    if [ -z $is_login ]
-    then
-        sudo docker login
-        if [ $? -ne 0 ]
-        then
-            echo "You must be logged in to Docker Hub. Please try again."
-            exit 1
-        fi
-    fi
-fi
-
 # check if the specified tool are supported one.
 for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
 do
@@ -124,7 +101,7 @@ do
     tool_version=$(get_tool_version $tool_info)
     echo "Building: ${tool_name} (version ${tool_version})"
 
-    docker_image_full_name=${DOCKER_REPO_NAME}/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}
+    docker_image_full_name="localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
 
     # add --quite to make it less verbose
     sudo docker build -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
@@ -144,13 +121,7 @@ do
     # overwrite if already exists
     sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img 
 
-    if [ -s "${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity" ]
-    then
-        sudo singularity bootstrap ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
-    else
-        sudo singularity import ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img docker://${docker_image_full_name}
-    fi
+    sudo singularity bootstrap \
+        ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img \
+        ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
 done
-
-
-

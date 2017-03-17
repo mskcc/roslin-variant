@@ -1,5 +1,6 @@
 Bootstrap: docker
-From: hisplan/pipeline-picard:1.96
+From: /pipeline-picard:1.96
+Registry: http://localhost:5000
 
 %setup
 

@@ -1,5 +1,6 @@
 Bootstrap: docker
-From: hisplan/pipeline-bwa:0.7.5a
+From: /pipeline-bwa:0.7.5a
+Registry: http://localhost:5000
 
 %setup
 

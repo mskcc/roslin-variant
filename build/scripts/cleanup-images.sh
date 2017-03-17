@@ -18,6 +18,7 @@ for tool_info in $(echo $all_avail_tools | sed "s/,/ /g")
 do
     sudo docker rmi ${tool_info} -f
     sudo docker images ${DOCKER_REPO_NAME}/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info} --format '{{.ID}}' | xargs sudo docker rmi -f
+    sudo docker images localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info} --format '{{.ID}}' | xargs sudo docker rmi -f
 done
 
 # fixme: delete from docker hub
