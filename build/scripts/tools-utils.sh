@@ -25,24 +25,12 @@ function is_tool_available {
         return 1
     fi
     echo `python tools_utils.py is_available $tool_name $tool_version`
-
-    # deprecate: jq version
-    # if [ -z $tool_version ]
-    # then
-    #     echo "false"
-    #     return 1
-    # fi
-    # echo `jq -r "contains(  { programs: { $tool_name: [\"$tool_version\"] } } )" tools.json`
 }
 
 # this returns comma-separated list of all tools instalalble
 # e.g. samtools:1.3.1,trimgalore:0.4.3
 function get_tools_name_version {
     echo `python tools_utils.py get_name_version`
-
-    # deprecate: jq version
-    # fixme: there gotta be better way to do this
-    # echo `jq -r '.programs | [leaf_paths as $path | { "key": $path[0], "value": getpath($path) }] | .[] | "\(.key):\(.value)"' tools.json`
 }
 
 # this returns comma-separated list of all tools instalalble including correspodning cwl wrapper
