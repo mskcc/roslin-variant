@@ -1,4 +1,4 @@
 sam:
   class: File
-  path: /scratch/prism-test/ifs/prism/inputs/chunj/sample-samtools.sam
+  path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/sample-samtools.sam
 output_filename: ex1.bam

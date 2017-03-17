@@ -1,7 +1,7 @@
 adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
-fastq1: "/scratch/prism-test/ifs/prism/inputs/chunj/P1_R1.fastq.gz"
-fastq2: "/scratch/prism-test/ifs/prism/inputs/chunj/P1_R2.fastq.gz"
+fastq1: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/P1_R1.fastq.gz"
+fastq2: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/P1_R2.fastq.gz"
 
 genome: "GRCh37"
 bwa_output: P1.bam
@@ -19,4 +19,4 @@ md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
 
 create_index: True
 
-tmp_dir: "/scratch/prism-test/prism/tmp"
+tmp_dir: "/ifs/work/chunj/prism-proto/prism/tmp"
