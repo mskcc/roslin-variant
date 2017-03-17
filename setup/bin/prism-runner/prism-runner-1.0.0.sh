@@ -11,9 +11,10 @@ then
     exit 1
 fi
 
-
+# defaults
 PIPELINE_VERSION=${PRISM_VERSION}
 DEBUG_OPTIONS=""
+BATCH_SYSTEM="singleMachine"
 OUTPUT_DIRECTORY=${PRISM_INPUT_PATH}/chunj/outputs
 
 usage()
@@ -29,6 +30,7 @@ OPTIONS:
    -v      Pipeline version (default=${PIPELINE_VERSION})
    -w      Workflow filename (*.cwl)
    -i      Input filename (*.yaml)
+   -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
    -d      Enable debugging
 
@@ -41,12 +43,13 @@ EOF
 }
 
 
-while getopts “v:w:i:o:d” OPTION
+while getopts “v:w:i:b:o:d” OPTION
 do
     case $OPTION in
         v) PIPELINE_VERSION=$OPTARG ;;
         w) WORKFLOW_FILENAME=$OPTARG ;;
         i) INPUT_FILENAME=$OPTARG ;;
+        b) BATCH_SYSTEM=$OPTARG ;;
         o) OUTPUT_DIRECTORY=$OPTARG ;;
         d) DEBUG_OPTIONS="--logDebug --cleanWorkDir never" ;;
         *) usage; exit 1 ;;
@@ -58,6 +61,32 @@ then
     usage
     exit 1
 fi
+
+#fixme: check if input file exists?
+
+
+# handle batch system options
+case $BATCH_SYSTEM in
+
+    singleMachine)
+        BATCH_SYS_OPTIONS="--batchSystem singleMachine"
+        ;;
+
+    lsf)
+        BATCH_SYS_OPTIONS="--batchSystem lsf --stats"
+        ;;
+
+    mesos)
+        echo "Unsupported right now."
+        exit 1
+        ;;
+
+    *)
+        usage
+        exit 1
+        ;;
+esac
+
 
 # override CMO_RESOURC_CONFIG only while cwltoil is running
 export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
@@ -77,8 +106,7 @@ cwltoil \
     --no-container \
     --disableCaching \
     --workDir ${PRISM_BIN_PATH}/tmp \
-    --batchSystem lsf --stats \
-    --outdir ${OUTPUT_DIRECTORY} ${DEBUG_OPTIONS}
+    --outdir ${OUTPUT_DIRECTORY} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
