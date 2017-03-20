@@ -1,5 +1,5 @@
-b6844aae8bd366bac588271d503091f4  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
-03adc0c3d4626742709223c4709a69ae  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
+4c7e0d246ce215d5ef9a26aba722ef6b  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
+c1cc3ef0a1a76ba5e3e23f8f3180b126  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 e43950a63e47d2a60e917936a497b369  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 9b05c5e839ef7bef29780d2c5192c3ca  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 176017611373592c4228a2608eae27fe  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
