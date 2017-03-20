@@ -7,7 +7,7 @@
             "default": "/usr/local/bwa"
         },
         "gatk": {
-            "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.4-0-g7e26428/GenomeAnalysisTK.jar"
+            "default": "/usr/local/gatk.jar"
         },
         "samstat": {
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
