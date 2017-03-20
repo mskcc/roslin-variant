@@ -1,7 +1,7 @@
 {
     "programs": {
         "abra": {
-            "default": "/opt/common/CentOS_6/abra/abra-0.92/abra.jar"
+            "default": "/usr/bin/abra.jar"
         },
         "bwa": {
             "default": "/usr/bin/bwa"

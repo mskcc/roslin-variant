@@ -18,6 +18,9 @@
         ],
         "gatk": [
             "3.3-0"
+        ],
+        "abra": [
+            "0.92"
         ]
     },
     "containerDependency": {

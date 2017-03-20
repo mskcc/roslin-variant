@@ -134,9 +134,8 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
-            "0.91": "/opt/common/CentOS_6/abra/abra-0.91/abra.jar", 
-            "0.92": "/opt/common/CentOS_6/abra/abra-0.92/abra.jar", 
-            "default": "/opt/common/CentOS_6/abra/abra-0.92/abra.jar"
+            "0.92": "sing.sh abra 0.92", 
+            "default": "sing.sh abra 0.92"
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
