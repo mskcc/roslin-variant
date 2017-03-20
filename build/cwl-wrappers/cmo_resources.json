@@ -4,10 +4,10 @@
             "default": "/opt/common/CentOS_6/abra/abra-0.92/abra.jar"
         },
         "bwa": {
-            "default": "/usr/local/bwa"
+            "default": "/usr/bin/bwa"
         },
         "gatk": {
-            "default": "/usr/local/gatk.jar"
+            "default": "/usr/bin/gatk.jar"
         },
         "samstat": {
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
