@@ -66,6 +66,12 @@ do
     tool_name=$(get_tool_name $tool_info)
     tool_version=$(get_tool_version $tool_info)
     cmo_wrapper=$(get_cmo_wrapper_name $tool_info)
+
+    if [ "$tool_name" == "abra" ] || [ "$tool_name" == "gatk" ]
+    then
+        continue
+    fi
+
     echo "Generating CWL: ${cmo_wrapper} (${tool_name} version ${tool_version})"
 
     docker_image_full_name="localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"

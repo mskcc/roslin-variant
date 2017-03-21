@@ -40,29 +40,21 @@ CMO_WRAPPER_WITH_DASH=`echo "${CMO_WRAPPER}" | sed "s/_/-/g"`
 
 TOOL_DIRECTORY="../cwl-wrappers/${CMO_WRAPPER_WITH_DASH}/${TOOL_VERSION}"
 
-#fixme:
-mkdir -p /tmp/${TOOL_DIRECTORY}
-
 # fixme: skip picard until we can generate cwl for picard
 if [ "$TOOL_NAME" != "picard" ]
 then
 
-    cp ../cwl-wrappers/prism_resources.json /tmp/
+    cp ../cwl-wrappers/cmo_resources.json /tmp/
     # no -t because that messes up stdout and stderr
     tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION"
 
-    python ./update_prism_resources.py -f /tmp/prism_resources.json ${TOOL_NAME} default "${tool_cmd}"
+    python ./update_prism_resources.py -f /tmp/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
 
-    export CMO_RESOURCE_CONFIG="/tmp/prism_resources.json"
-
-    python /usr/local/bin/cmo-gxargparse/cmo/bin/${CMO_WRAPPER} --generate_cwl_tool \
-        --directory /tmp/${TOOL_DIRECTORY}
-
-    exit 1
+    export CMO_RESOURCE_CONFIG="/tmp/cmo_resources.json"
 
     # finally, run cmo wrapper and generate cwl
     # https://github.com/common-workflow-language/gxargparse
-    sudo /usr/local/bin/cmo-gxargparse/cmo/bin/${CMO_WRAPPER} --generate_cwl_tool \
+    python /usr/local/bin/cmo-gxargparse/cmo/bin/${CMO_WRAPPER} --generate_cwl_tool \
         --directory ${TOOL_DIRECTORY} \
         --output_section ${TOOL_DIRECTORY}/outputs.yaml
         # --basecommand="${CMO_WRAPPER} --version ${TOOL_VERSION}"
@@ -97,4 +89,4 @@ fi
 
 tree ${TOOL_DIRECTORY}
 
-python ./update_prism_resources.py -f /cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
+python ./update_prism_resources.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"

@@ -55,7 +55,7 @@ inputs:
   genome:
     type:
       type: enum
-      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
+      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
     inputBinding:
       prefix: --genome
 
