@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+# required to do cwl postprocess
+pip install pyyaml ruamel.yaml
+
 DEST_PATH="/usr/local/bin/"
 
 #---------------------------------
