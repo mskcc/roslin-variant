@@ -1,5 +1,8 @@
 #!/bin/bash
 
-sudo apt-get -y update
+apt-get -y update
 
-sudo apt-get -y install tree jq
+apt-get -y install tree jq
+
+# required to do cwl postprocess
+pip install pyyaml ruamel.yaml

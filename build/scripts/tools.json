@@ -38,6 +38,9 @@
             "cmo_gatk.FindCoveredInterval",
             "cmo_gatk.BaseRecalibrator",
             "cmo_gatk.PrintReads"
+        ],
+        "abra": [
+            "cmo_abra"
         ]
     }
 }
