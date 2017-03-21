@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # load build-related settings
 source ./settings-build.sh
@@ -51,22 +51,13 @@ then
 fi
 
 
-# override cmo_resources.json in git repository.
-# the paths in the new cmo_resources.json point to the location of each tool in the containers.
-cp ${CWL_WRAPPER_DIRECTORY}/cmo_resources.json ${MY_TEMP_DIRECTORY}/cmo-gxargparse/cmo/cmo/data/
-
-# this will be used for local cache for alpine linux package manager & python pip.
-# this let us avoid from downloading the same packages over and over again for each and every tool.
-# https://wiki.alpinelinux.org/wiki/Local_APK_cache
-# https://pip.pypa.io/en/latest/reference/pip_install/#caching
-mkdir -p ${MY_TEMP_DIRECTORY}/cache/
-
 for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
 do
     tool_name=$(get_tool_name $tool_info)
     tool_version=$(get_tool_version $tool_info)
     cmo_wrapper=$(get_cmo_wrapper_name $tool_info)
 
+    #fixme: abra/gatk not supported yet
     if [ "$tool_name" == "abra" ] || [ "$tool_name" == "gatk" ]
     then
         continue
@@ -77,6 +68,6 @@ do
     docker_image_full_name="localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
 
     error_file_name="error.${cmo_wrapper}-${tool_version}.txt"
-    ./process-cwl-2.sh -t ${tool_name} -v ${tool_version} -c ${cmo_wrapper} #2>${error_file_name}
+    ./process-cwl-2.sh -t ${tool_name} -v ${tool_version} -c ${cmo_wrapper} 2>${error_file_name}
 
 done

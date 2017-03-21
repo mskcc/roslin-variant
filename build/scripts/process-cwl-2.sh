@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 usage()
 {
@@ -44,13 +44,12 @@ TOOL_DIRECTORY="../cwl-wrappers/${CMO_WRAPPER_WITH_DASH}/${TOOL_VERSION}"
 if [ "$TOOL_NAME" != "picard" ]
 then
 
-    cp ../cwl-wrappers/cmo_resources.json /tmp/
-    # no -t because that messes up stdout and stderr
+    # do not use "-t" because docker messes up stdout and stderr
     tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION"
 
-    python ./update_prism_resources.py -f /tmp/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
+    python ./update_prism_resources.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
 
-    export CMO_RESOURCE_CONFIG="/tmp/cmo_resources.json"
+    export CMO_RESOURCE_CONFIG="../cwl-wrappers/cmo_resources.json"
 
     # finally, run cmo wrapper and generate cwl
     # https://github.com/common-workflow-language/gxargparse
