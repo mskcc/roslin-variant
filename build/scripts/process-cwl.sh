@@ -47,8 +47,10 @@ then
     # do not use "-t" because docker messes up stdout and stderr
     tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION"
 
+    # modify cmo_resources.json so that cmo calls a dockerized tool
     python ./update_prism_resources.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
 
+    # tell cmo to use this json file for calling tools
     export CMO_RESOURCE_CONFIG="../cwl-wrappers/cmo_resources.json"
 
     # finally, run cmo wrapper and generate cwl
@@ -88,4 +90,5 @@ fi
 
 tree ${TOOL_DIRECTORY}
 
+# modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)
 python ./update_prism_resources.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
