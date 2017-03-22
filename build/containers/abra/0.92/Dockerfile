@@ -1,11 +1,11 @@
-FROM java:8-alpine
+FROM java:7-alpine
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.container="1.0" \
-      version.gatk="0.92" \
+      version.abra="0.92" \
       version.alpine="3.4.6" \
-      source.picard="https://github.com/mozack/abra/releases/tag/v0.92"
+      source.abra="https://github.com/mozack/abra/releases/tag/v0.92"
 
 ENV TOOL_VERSION 0.92
 
