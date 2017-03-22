@@ -8,3 +8,6 @@ source ./tools-utils.sh
 
 # delete singularity images created
 find ${CWL_WRAPPER_DIRECTORY}/ -name '*.cwl' -type f -delete
+
+# delete error files
+rm -rf error.*.txt
