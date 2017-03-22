@@ -15,6 +15,12 @@
         "trimgalore": [
             "0.4.3",
             "0.2.5.mod"
+        ],
+        "gatk": [
+            "3.3-0"
+        ],
+        "abra": [
+            "0.92"
         ]
     },
     "containerDependency": {
@@ -27,6 +33,14 @@
         "picard": [
             "cmo_picard.MarkDuplicates",
             "cmo_picard.AddOrReplaceReadGroups"
+        ],
+        "gatk": [
+            "cmo_gatk.FindCoveredInterval",
+            "cmo_gatk.BaseRecalibrator",
+            "cmo_gatk.PrintReads"
+        ],
+        "abra": [
+            "cmo_abra"
         ]
     }
 }

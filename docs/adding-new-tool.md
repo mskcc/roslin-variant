@@ -48,6 +48,17 @@ Make sure that `/build/cwl-wrappers/cmo_resources.json` has only the `default` k
 }
 ```
 
+Make sure that `/build/cwl-wrappers/prism_resources.json` has the correct key/value mapping something like below under the tool name (e.g. `bwa`).
+
+```
+"bwa": {
+    "0.7.12": "sing.sh bwa 0.7.12", 
+    "0.7.15": "sing.sh bwa 0.7.15", 
+    "0.7.5a": "sing.sh bwa 0.7.5a", 
+    "default": "sing.sh bwa 0.7.5a"
+}
+```
+
 Build a Docker image:
 
 ```bash
@@ -93,5 +104,6 @@ Add the following files under the directory:
 Generate the CWL Wrapper:
 
 ```bash
+sudo su
 ./build-cwl.sh -t bwa:0.7.5a:cmo_bwa_mem
 ```

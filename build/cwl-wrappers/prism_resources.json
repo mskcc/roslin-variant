@@ -134,9 +134,8 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
-            "0.91": "/opt/common/CentOS_6/abra/abra-0.91/abra.jar", 
-            "0.92": "/opt/common/CentOS_6/abra/abra-0.92/abra.jar", 
-            "default": "/opt/common/CentOS_6/abra/abra-0.92/abra.jar"
+            "0.92": "sing.sh abra 0.92", 
+            "default": "sing.sh abra 0.92"
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
@@ -190,10 +189,8 @@
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
         }, 
         "gatk": {
-            "3.2-2": "opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.2-2-gec30cee/GenomeAnalysisTK.jar", 
-            "3.3-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar", 
-            "3.4-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.4-0-g7e26428/GenomeAnalysisTK.jar", 
-            "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.4-0-g7e26428/GenomeAnalysisTK.jar"
+            "3.3-0": "sing.sh gatk 3.3-0", 
+            "default": "sing.sh gatk 3.3-0"
         }, 
         "gdc-client": {
             "1.1.0": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client", 

@@ -14,6 +14,8 @@ fi
 # defaults
 PIPELINE_VERSION=${PRISM_VERSION}
 DEBUG_OPTIONS=""
+RESTART_OPTIONS=""
+RESTART_JOBSTORE=""
 BATCH_SYSTEM="singleMachine"
 OUTPUT_DIRECTORY=${PRISM_INPUT_PATH}/chunj/outputs
 
@@ -32,6 +34,7 @@ OPTIONS:
    -i      Input filename (*.yaml)
    -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
+   -r      Restart the workflow with the given Job Store
    -d      Enable debugging
 
 EXAMPLE:
@@ -43,7 +46,7 @@ EOF
 }
 
 
-while getopts “v:w:i:b:o:d” OPTION
+while getopts “v:w:i:b:o:r:d” OPTION
 do
     case $OPTION in
         v) PIPELINE_VERSION=$OPTARG ;;
@@ -51,6 +54,7 @@ do
         i) INPUT_FILENAME=$OPTARG ;;
         b) BATCH_SYSTEM=$OPTARG ;;
         o) OUTPUT_DIRECTORY=$OPTARG ;;
+        r) RESTART_JOBSTORE=$OPTARG; RESTART_OPTIONS="--restart" ;;
         d) DEBUG_OPTIONS="--logDebug --cleanWorkDir never" ;;
         *) usage; exit 1 ;;
     esac
@@ -91,7 +95,15 @@ esac
 # override CMO_RESOURC_CONFIG only while cwltoil is running
 export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
 
-job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+if [ -z $RESTART_JOBSTORE ]
+then
+    # create a new UUID for job
+    job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+else
+    # we're doing a restart - use the supplied uuid
+    job_uuid=${RESTART_JOBSTORE}
+fi
+
 jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
 
 printf "\n---> JOBSTORE = ${job_uuid}\n"
@@ -107,7 +119,7 @@ cwltoil \
     --disableCaching \
     --logFile ${OUTPUT_DIRECTORY}/${job_uuid}.log \
     --workDir ${PRISM_BIN_PATH}/tmp \
-    --outdir ${OUTPUT_DIRECTORY} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
+    --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG

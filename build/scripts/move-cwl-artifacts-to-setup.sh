@@ -24,6 +24,11 @@ do
     cmo_wrapper_with_dash=`echo "${cmo_wrapper}" | sed "s/_/-/g"`
     cmo_output_dir="${OUTPUT_ROOT_DIR}/${cmo_wrapper_with_dash}/${tool_version}"
 
+    if [ ! -e ${CWL_WRAPPER_DIRECTORY}/${cmo_wrapper_with_dash}/${tool_version}/${cmo_wrapper_with_dash}.cwl ]
+    then
+        continue
+    fi
+
     # delete and recreate output directory
     rm -rf ${cmo_output_dir}
     mkdir -p ${cmo_output_dir}

@@ -6,5 +6,8 @@ source ./settings-build.sh
 # load utils
 source ./tools-utils.sh
 
-# delete singularity images created
-find ${CWL_WRAPPER_DIRECTORY}/ -name '*.cwl' -type f -delete
+# delete cwl wrappers created
+find ${CWL_WRAPPER_DIRECTORY}/ -name '*.cwl' ! -name '*.original.cwl' -type f
+
+# delete error files
+rm -rf error.*.txt
