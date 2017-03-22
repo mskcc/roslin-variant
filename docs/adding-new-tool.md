@@ -104,5 +104,6 @@ Add the following files under the directory:
 Generate the CWL Wrapper:
 
 ```bash
+sudo su
 ./build-cwl.sh -t bwa:0.7.5a:cmo_bwa_mem
 ```
