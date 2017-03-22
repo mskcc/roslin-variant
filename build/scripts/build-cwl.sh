@@ -68,4 +68,9 @@ do
     error_file_name="error.${cmo_wrapper}-${tool_version}.txt"
     ./process-cwl.sh -t ${tool_name} -v ${tool_version} -c ${cmo_wrapper} 2>${error_file_name}
 
+    if [ $? -eq 0 ]
+    then
+        rm -rf ${error_file_name}
+    fi
+
 done
