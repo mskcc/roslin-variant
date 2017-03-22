@@ -66,6 +66,9 @@ then
     exit 1
 fi
 
+# create output directory
+mkdir -p ${OUTPUT_DIRECTORY}
+
 #fixme: check if input file exists?
 
 
