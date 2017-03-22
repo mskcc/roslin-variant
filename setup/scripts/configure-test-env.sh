@@ -19,13 +19,3 @@ mkdir -p ${PRISM_INPUT_PATH}/chunj/outputs
 cp ../data/inputs/* ${PRISM_INPUT_PATH}/chunj
 chmod -R g+rw ${PRISM_INPUT_PATH}/chunj
 
-
-# hack: local vm doesn't have enough ram/cores
-if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
-then
-    find ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION} -name "*.cwl" | xargs -I {} sudo sed -i.bak "s/ramMin: .*/ramMin: 5/g" {}
-    find ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION} -name "*.cwl" | xargs -I {} sudo sed -i.bak "s/coresMin: .*/coresMin: 1/g" {}
-else
-    find ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION} -name "*.cwl" | xargs -I {} sed -i.bak "s/ramMin: .*/ramMin: 5/g" {}
-    find ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION} -name "*.cwl" | xargs -I {} sed -i.bak "s/coresMin: .*/coresMin: 1/g" {}
-fi
