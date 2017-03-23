@@ -23,13 +23,13 @@ get_archive_name()
 # get LSF job ids
 JOB_IDS=`grep -o -P "Got the job id: \d+" ${STDOUT_LOG} | awk -F':' '{ print $2 }' | uniq`
 
-# get job id, name, final status
+# get job id, name, final status, resources requeted and/or used
 # https://www.ibm.com/support/knowledgecenter/en/SSETD4_9.1.2/lsf_command_ref/bjobs.1.html
-bjobs -o 'jobid stat job_name delimiter=","' ${JOB_IDS} > ${OUTPUTS_PATH}/bjobs.csv
+bjobs -o 'jobid stat job_name max_mem avg_mem memlimit max_req_proc delimiter=","' ${JOB_IDS} > ${OUTPUTS_PATH}/bjobs.csv
 
-if [ -e ~/.local/bin/csvlook ]
+if [ -x "$(command -v csvlook)" ]
 then
-  ~/.local/bin/csvlook ${OUTPUTS_PATH}/bjobs.csv
+  csvlook --no-inference ${OUTPUTS_PATH}/bjobs.csv
 else
   cat ${OUTPUTS_PATH}/bjobs.csv
 fi
@@ -60,7 +60,6 @@ python tree.py -f $PRISM_BIN_PATH/tmp/toil-${workflow_id} > ${OUTPUTS_PATH}/tree
 ls -lh ${OUTPUTS_PATH}/* >> ${OUTPUTS_PATH}/tree.outputs.txt
 
 # backup everything
-
 new_archive_path=$(get_archive_name $ARCHIVES_PATH/$job_uuid)
 mkdir -p ${new_archive_path}
 
@@ -68,3 +67,4 @@ tar czf ${new_archive_path}/outputs.tgz ${OUTPUTS_PATH}/*
 tar czf ${new_archive_path}/jobstore.tgz -C $PRISM_BIN_PATH/tmp/ ./jobstore-${job_uuid}
 tar czf ${new_archive_path}/toiltmp.tgz -C $PRISM_BIN_PATH/tmp/ ./toil-${workflow_id}
 
+ls -l ${new_archive_path}
