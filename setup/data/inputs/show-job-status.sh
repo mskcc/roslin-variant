@@ -12,7 +12,7 @@ fi
 # get LSF job ids
 JOB_IDS=`grep -o -P "Got the job id: \d+" ${STDOUT_LOG} | awk -F':' '{ print $2 }' | uniq`
 
-if [ -z $JOB_IDS ]
+if [ -z "$JOB_IDS" ]
 then
   echo "No jobs found"
   exit 1
