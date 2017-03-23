@@ -40,15 +40,18 @@ CMO_WRAPPER_WITH_DASH=`echo "${CMO_WRAPPER}" | sed "s/_/-/g"`
 
 TOOL_DIRECTORY="../cwl-wrappers/${CMO_WRAPPER_WITH_DASH}/${TOOL_VERSION}"
 
-# fixme: skip picard until we can generate cwl for picard
-if [ "$TOOL_NAME" != "picard" ]
+# if .original.cwl exists, use that as the basis
+# otherwise, use gxargparse to generate
+if [ -e ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ]
 then
-
+    # cwl manually genereated in the past (*.original.cwl) must be placed in the tool directory
+    cp ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
+else
     # do not use "-t" because docker messes up stdout and stderr
     tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION"
 
     # modify cmo_resources.json so that cmo calls a dockerized tool
-    python ./update_prism_resources.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
+    python ./update_resource_def.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
 
     # tell cmo to use this json file for calling tools
     export CMO_RESOURCE_CONFIG="../cwl-wrappers/cmo_resources.json"
@@ -62,9 +65,6 @@ then
 
     # rename _ to -
     mv ${TOOL_DIRECTORY}/${CMO_WRAPPER}.cwl ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
-else
-    # cwl manually genereated in the past (*.original.cwl) must be placed in the tool directory
-    cp ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
 fi
 
 # replace str with string
@@ -74,7 +74,7 @@ sed -i "s/type: str$/type: string/g" ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.
 # remove unnecessasry u (unicode)
 sed -i "s/u'/'/g" ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
 
-# postprocess: add version information, requirements section, other necessary 
+# postprocess: add metadata, requirements section, other necessary 
 python ./postprocess_cwl.py \
     -f ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl \
     -v ${TOOL_VERSION} \
@@ -91,4 +91,4 @@ fi
 tree ${TOOL_DIRECTORY}
 
 # modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)
-python ./update_prism_resources.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
+python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"

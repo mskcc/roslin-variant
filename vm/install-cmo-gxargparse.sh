@@ -33,11 +33,3 @@ apt-get install -y python-lxml
 # install
 cd ${DEST_PATH}/cmo-gxargparse/gxargparse
 python setup.py install --user
-
-
-# export CMO_RESOURCE_CONFIG=/vagrant/build/tmp/cmo-gxargparse/cmo/cmo/data/cmo_resources.json
-
-#PYTHONPATH=~/.local/lib/python2.7/site-packages/gxargparse-0.3.1-py2.7.egg
-
-#PYTHONPATH=~/.local/lib/python2.7/site-packages/gxargparse-0.3.1-py2.7.egg cmo_trimgalore --generate_cwl_tool
-

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd /tmp
-git clone --branch prism-pipeline-test --single-branch https://github.com/hisplan/cmo.git
+git clone https://github.com/mskcc/cmo.git
 cd cmo
 
 sudo pip install python-daemon

@@ -29,12 +29,19 @@ Registry: http://localhost:5000
 
 %test
 
-    # get actual output of the tool
+    # get actual output of abra
     java -jar /usr/bin/abra.jar 2>/dev/null | head -1 > /tmp/actual.diff.txt
+
+    # get actual output of bwa
+    /usr/bin/bwa 2>&1 | head -4 >> /tmp/actual.diff.txt
 
 # expected output
 cat > /tmp/expected.diff.txt << EOM
 Starting 0.92 ...
+
+Program: bwa (alignment via Burrows-Wheeler transformation)
+Version: 0.7.9a-r786
+Contact: Heng Li <lh3@sanger.ac.uk>
 EOM
 
     # diff

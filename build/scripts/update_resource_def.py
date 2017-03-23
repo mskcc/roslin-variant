@@ -1,5 +1,5 @@
 #!/usr/bin/python
-"""update_prism_resources"""
+"""update_resource_def"""
 
 import json
 import argparse
@@ -8,7 +8,7 @@ import argparse
 def main():
     """main function"""
 
-    parser = argparse.ArgumentParser(description='update_prism_resources')
+    parser = argparse.ArgumentParser(description='update_resource_def')
 
     parser.add_argument(
         '-f',
