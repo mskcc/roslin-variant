@@ -8,3 +8,4 @@
 /setup/data/inputs/P-*.fastq.gz
 /setup/tools/**
 /*.tgz
+*.pyc
