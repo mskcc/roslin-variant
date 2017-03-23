@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 ARCHIVES_PATH="./archives"
 OUTPUTS_PATH="./outputs"
@@ -45,12 +45,12 @@ echo
 job_uuid=`sed -n '2{p;q;}' ${STDOUT_LOG} | awk -F'=' '{ print $2 }' | sed 's/ //g'`
 printf "Job UUID : $job_uuid\n"
 
-# get toil stats
-toil stats $PRISM_BIN_PATH/tmp/jobstore-${job_uuid} > ${OUTPUTS_PATH}/toil-stats.log 2>&1
-
 # get workflow id
 workflow_id=`grep -m 1 -P -o "The workflow ID is: '(.*?)'" ${OUTPUTS_PATH}/${job_uuid}.log | awk -F':' '{ print $2 }' | sed "s/[' ]//g"`
 printf "Workflow ID : $workflow_id\n"
+
+# get toil stats
+toil stats $PRISM_BIN_PATH/tmp/jobstore-${job_uuid} > ${OUTPUTS_PATH}/toil-stats.log 2>&1
 
 # save file contents
 python tree.py -f ${OUTPUTS_PATH} > ${OUTPUTS_PATH}/tree.outputs.txt
