@@ -82,6 +82,8 @@ $ ./move-container-artifacts-to-setup.sh
 
 ### CWL Wrappers
 
+![/docs/cwl-autogen-process.png](./docs/cwl-autogen-process.png)
+
 ```bash
 $ cd /vagrant/build/scripts/
 $ ./build-cwl.sh
