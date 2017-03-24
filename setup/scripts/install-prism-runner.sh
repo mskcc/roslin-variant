@@ -11,6 +11,4 @@ cp ../bin/prism-runner/prism-runner-${VERSION}.sh ${PRISM_BIN_PATH}/bin/prism-ru
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
     echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" | sudo tee /etc/profile.d/prism-runner.sh
-else
-    echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" | tee ~/.prism/prism-runner.sh
 fi
