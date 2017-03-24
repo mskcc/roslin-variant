@@ -39,16 +39,6 @@ fi
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
     cp ./settings.sh /etc/profile.d/prism-pipeline-envs.sh
-else
-    mkdir -p ~/.prism
-    cp ./settings.sh ~/.prism/
-    cp ~/.profile ~/.profile.bak
-    
-    settings_found=`grep "# PRISM.SETTINGS\$" ~/.profile`
-    if [ -z "$settings_found" ]
-    then
-        echo "for file in ~/.prism/*.sh; do source \$file; done  # PRISM.SETTINGS" | tee -a ~/.profile
-    fi
 fi
 
 ./configure-directory.sh
@@ -61,8 +51,11 @@ fi
 
 ./install-cwl-wrappers.sh
 
-./configure-test-env.sh
+# ./configure-test-env.sh
 
 # only supported in RHEL7.3+
 # ./configure-singularity.sh
+
+# you must run this at the very end
+./install-prism-setup.sh
 
