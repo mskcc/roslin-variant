@@ -16,7 +16,7 @@ PIPELINE_VERSION=${PRISM_VERSION}
 DEBUG_OPTIONS=""
 RESTART_OPTIONS=""
 RESTART_JOBSTORE=""
-BATCH_SYSTEM="singleMachine"
+BATCH_SYSTEM=""
 OUTPUT_DIRECTORY=${PRISM_INPUT_PATH}/chunj/outputs
 
 usage()
@@ -39,8 +39,8 @@ OPTIONS:
 
 EXAMPLE:
 
-   `basename $0` -v 1.0.0 -w module-1.cwl -i inputs-module-1.yaml
-   `basename $0` -v test  -w cmo-bwa-mem.cwl -i inputs-cmo-bwa-mem.yaml
+   `basename $0` -w module-1.cwl -i inputs-module-1.yaml -b lsf
+   `basename $0` -w cmo-bwa-mem.cwl -i inputs-cmo-bwa-mem.yaml -b singleMachine
 
 EOF
 }
@@ -69,8 +69,11 @@ fi
 # create output directory
 mkdir -p ${OUTPUT_DIRECTORY}
 
-#fixme: check if input file exists?
-
+if [ ! -r "$INPUT_FILENAME" ]
+then
+    echo "The input file is not found or not readable."
+    exit 1
+fi
 
 # handle batch system options
 case $BATCH_SYSTEM in
