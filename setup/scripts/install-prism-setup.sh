@@ -10,12 +10,12 @@ source ./settings.sh
 # copy settings
 cp ./settings.sh ${PRISM_BIN_PATH}/bin/setup/
 
-# copy remove-settings script
-cp ./remove-settings.sh ${PRISM_BIN_PATH}/bin/setup/
-
 # fixme: use symlink
 # copy init script
 cp ../bin/setup/prism-init-${VERSION}.sh ${PRISM_BIN_PATH}/bin/setup/prism-init.sh
+
+# copy remove-settings script
+cp ../bin/setup/remove-settings-${VERSION}.sh ${PRISM_BIN_PATH}/bin/setup/remove-settings.sh
 
 # copy and configure jumpstart example
 tar cvzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz ../data/inputs/*
