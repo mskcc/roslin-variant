@@ -67,7 +67,7 @@ mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}
 mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}/outputs
 
 # copy jumpstart exampels
-tar xvzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz -C ${PRISM_INPUT_PATH}/${USER_ID} --strip-components 2
+tar xzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz -C ${PRISM_INPUT_PATH}/${USER_ID} --strip-components 2
 
 find ${PRISM_INPUT_PATH}/${USER_ID}/ -name "*.yaml" | xargs sed -i "s/inputs\/chunj/inputs\/${USER}/g"
 
