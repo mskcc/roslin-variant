@@ -8,13 +8,15 @@ mkdir -p ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}
 
 mkdir -p ${PRISM_BIN_PATH}/tools
 
+mkdir -p ${PRISM_BIN_PATH}/bin/setup
 mkdir -p ${PRISM_BIN_PATH}/bin/sing
 mkdir -p ${PRISM_BIN_PATH}/bin/prism-runner
 
-mkdir -p ${PRISM_BIN_PATH}/bin/singularity
-mkdir -p ${PRISM_BIN_PATH}/bin/cwl
-mkdir -p ${PRISM_BIN_PATH}/bin/cwl/cwl-runner
-mkdir -p ${PRISM_BIN_PATH}/bin/cwl/cwltoil
+#fixme: probably not needed
+# mkdir -p ${PRISM_BIN_PATH}/bin/singularity
+# mkdir -p ${PRISM_BIN_PATH}/bin/cwl
+# mkdir -p ${PRISM_BIN_PATH}/bin/cwl/cwl-runner
+# mkdir -p ${PRISM_BIN_PATH}/bin/cwl/cwltoil
 
 # user executes cwltoil which creates tmp directories and tmp files.
 if [ "$USE_VAGRANT_BIG_DISK" == "YES" ]
@@ -24,6 +26,8 @@ then
 else
     mkdir -p ${PRISM_BIN_PATH}/tmp
 fi
+
+#fixme: 777 really?
 chmod -R 777 ${PRISM_BIN_PATH}/tmp
 
 # directories for pipeline inputs
