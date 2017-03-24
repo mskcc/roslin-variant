@@ -44,16 +44,22 @@ then
     exit 1
 fi
 
-#fixme:
-# if [ `whoami` != "$USER_ID" ]
-# then
-#     echo "`whoami` != ${USER_ID}"
-#     echo "Aborting..."
-#     exit 1
-# fi
+if [ `whoami` != "$USER_ID" ]
+then
+    echo "`whoami` != ${USER_ID}"
+    echo "Aborted."
+    exit 1
+fi
 
 # HOME_DIR=$HOME_DIR
 HOME_DIR="/home/${USER_ID}"
+
+if [ -d "${PRISM_INPUT_PATH}/${USER_ID}" ]
+then
+    echo "Your workspace already exists: ${PRISM_INPUT_PATH}/${USER_ID}"
+    echo "Aborted."
+    exit 1
+fi
 
 mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}
 
@@ -80,3 +86,6 @@ if [ -z "$settings_found" ]
 then
     echo "for file in $HOME_DIR/.prism/*.sh; do source \$file; done  # PRISM.SETTINGS" | tee -a $HOME_DIR/.profile
 fi
+
+echo "Your workspace: ${PRISM_INPUT_PATH}/${USER_ID}"
+echo "Done. Log out and log back in."
