@@ -1,16 +1,16 @@
 #!/bin/bash
 
 OUTPUTS_PATH="./outputs"
-STDOUT_LOG="${OUTPUTS_PATH}/stdout.log"
+CWLTOIL_LOG="${OUTPUTS_PATH}/log/cwltoil.log"
 
-if [ ! -d $OUTPUTS_PATH ] || [ ! -e $STDOUT_LOG ]
+if [ ! -d $OUTPUTS_PATH ] || [ ! -e $CWLTOIL_LOG ]
 then
   echo "No output found. Did you run the job?"
   exit 1
 fi
 
 # get LSF job ids
-JOB_IDS=`grep -o -P "Got the job id: \d+" ${STDOUT_LOG} | awk -F':' '{ print $2 }' | uniq`
+JOB_IDS=`grep -o -P "Got the job id: \d+" ${CWLTOIL_LOG} | awk -F':' '{ print $2 }' | uniq`
 
 if [ -z "$JOB_IDS" ]
 then

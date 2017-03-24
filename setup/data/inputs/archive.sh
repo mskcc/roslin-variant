@@ -2,7 +2,7 @@
 
 ARCHIVES_PATH="./archives"
 OUTPUTS_PATH="./outputs"
-STDOUT_LOG="${OUTPUTS_PATH}/stdout.log"
+CWLTOIL_LOG="${OUTPUTS_PATH}/log/cwltoil.log"
 
 # if exists, add suffix .1, .2, ...
 get_archive_name()
@@ -21,7 +21,7 @@ get_archive_name()
 }
 
 # get LSF job ids
-JOB_IDS=`grep -o -P "Got the job id: \d+" ${STDOUT_LOG} | awk -F':' '{ print $2 }' | uniq`
+JOB_IDS=`grep -o -P "Got the job id: \d+" ${CWLTOIL_LOG} | awk -F':' '{ print $2 }' | uniq`
 
 # get job id, name, final status, resources requeted and/or used
 # https://www.ibm.com/support/knowledgecenter/en/SSETD4_9.1.2/lsf_command_ref/bjobs.1.html
@@ -42,11 +42,11 @@ done
 echo
 
 # get job uuid
-job_uuid=`sed -n '2{p;q;}' ${STDOUT_LOG} | awk -F'=' '{ print $2 }' | sed 's/ //g'`
+job_uuid=`cat ${OUTPUTS_PATH}/job-uuid`
 printf "Job UUID : $job_uuid\n"
 
 # get workflow id
-workflow_id=`grep -m 1 -P -o "The workflow ID is: '(.*?)'" ${OUTPUTS_PATH}/${job_uuid}.log | awk -F':' '{ print $2 }' | sed "s/[' ]//g"`
+workflow_id=`grep -m 1 -P -o "The workflow ID is: '(.*?)'" ${CWLTOIL_LOG} | awk -F':' '{ print $2 }' | sed "s/[' ]//g"`
 printf "Workflow ID : $workflow_id\n"
 
 # get toil stats
