@@ -7,13 +7,15 @@ then
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
-    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"    
+    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
     exit 1
 fi
 
 # defaults
 PIPELINE_VERSION=${PRISM_VERSION}
-DEBUG_OPTIONS=""
+
+#fixme: always enable for now
+DEBUG_OPTIONS="--logDebug --cleanWorkDir never"
 RESTART_OPTIONS=""
 RESTART_JOBSTORE=""
 BATCH_SYSTEM=""
@@ -35,7 +37,8 @@ OPTIONS:
    -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
    -r      Restart the workflow with the given Job Store
-   -d      Enable debugging
+   -d      Enable debugging (default="enabled")
+           fixme: you're not allowed to disable this right now
 
 EXAMPLE:
 
@@ -68,6 +71,9 @@ fi
 
 # create output directory
 mkdir -p ${OUTPUT_DIRECTORY}
+
+# create log directory (under output)
+mkdir -p ${OUTPUT_DIRECTORY}/log
 
 if [ ! -r "$INPUT_FILENAME" ]
 then
@@ -110,6 +116,9 @@ else
     job_uuid=${RESTART_JOBSTORE}
 fi
 
+# save job uuid
+echo "${job_uuid}" > ${OUTPUT_DIRECTORY}/job-uuid
+
 jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
 
 printf "\n---> JOBSTORE = ${job_uuid}\n"
@@ -123,7 +132,9 @@ cwltoil \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --disableCaching \
-    --logFile ${OUTPUT_DIRECTORY}/${job_uuid}.log \
+    --realTimeLogging \
+    --writeLogs	${OUTPUT_DIRECTORY}/log \
+    --logFile ${OUTPUT_DIRECTORY}/log/cwltoil.log \
     --workDir ${PRISM_BIN_PATH}/tmp \
     --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
 
