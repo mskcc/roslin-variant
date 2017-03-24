@@ -25,7 +25,7 @@ JOB_IDS=`grep -o -P "Got the job id: \d+" ${STDOUT_LOG} | awk -F':' '{ print $2 
 
 # get job id, name, final status, resources requeted and/or used
 # https://www.ibm.com/support/knowledgecenter/en/SSETD4_9.1.2/lsf_command_ref/bjobs.1.html
-bjobs -o 'jobid stat job_name max_mem avg_mem memlimit max_req_proc delimiter=","' ${JOB_IDS} > ${OUTPUTS_PATH}/bjobs.csv
+bjobs -o 'jobid stat job_name max_mem avg_mem memlimit max_req_proc exec_host delimiter=","' ${JOB_IDS} > ${OUTPUTS_PATH}/bjobs.csv
 
 if [ -x "$(command -v csvlook)" ]
 then
