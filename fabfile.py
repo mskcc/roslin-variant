@@ -1,8 +1,18 @@
 from fabric.api import *
 
 env.user = 'chunj'
-env.key_filename = ["~/.ssh/id_rsa"]
+# env.key_filename = ["~/.ssh/id_rsa"]
 env.hosts = ['u36.cbio.mskcc.org']
+
+
+@task
+@hosts('u36.cbio.mskcc.org')
+def test():
+    """
+    test
+    """
+    run('ls -l')
+
 
 @task
 @hosts('u36.cbio.mskcc.org')
