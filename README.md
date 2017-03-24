@@ -61,6 +61,8 @@ $ ./move-all-artifacts-to-setup.sh
 
 ### Container Images
 
+![/docs/image-build-process.png](./docs/image-build-process.png)
+
 ```bash
 $ cd /vagrant/build/scripts/
 $ ./build-images.sh
@@ -144,7 +146,7 @@ Log out and log back in.
 
 ### Luna (u36)
 
-If you have `Fabric` on your machine, just run `fab install`, otherwise follow the instructions below.
+If you have `Fabric` on your machine, just run `fab -i [your-private-key] install`, otherwise follow the instructions below.
 
 Upload the installation package to Luna:
 
