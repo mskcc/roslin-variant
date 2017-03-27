@@ -46,7 +46,7 @@ fi
 
 if [ `whoami` != "$USER_ID" ]
 then
-    echo "`whoami` != ${USER_ID}"
+    echo "You can only run this from your own account (`whoami` != ${USER_ID})"
     echo "Aborted."
     exit 1
 fi

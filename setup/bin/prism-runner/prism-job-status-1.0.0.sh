@@ -5,6 +5,7 @@ CWLTOIL_LOG="${OUTPUTS_PATH}/log/cwltoil.log"
 
 if [ ! -d $OUTPUTS_PATH ] || [ ! -e $CWLTOIL_LOG ]
 then
+  echo "Unable to find ${CWLTOIL_LOG}"
   echo "No output found. Did you run the job?"
   exit 1
 fi
