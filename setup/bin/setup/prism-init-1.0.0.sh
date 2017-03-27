@@ -75,7 +75,7 @@ mkdir -p $HOME_DIR/.prism
 # add under .prism the scripts & settings to be loaded upon user login
 cp ./settings.sh $HOME_DIR/.prism/
 echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" > $HOME_DIR/.prism/sing.sh
-echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" > tee ~/.prism/prism-runner.sh
+echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" > ~/.prism/prism-runner.sh
 
 cp $HOME_DIR/.profile $HOME_DIR/.profile.bak
 
