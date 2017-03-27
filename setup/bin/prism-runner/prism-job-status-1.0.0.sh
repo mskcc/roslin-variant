@@ -24,7 +24,7 @@ csv=`bjobs -o 'jobid stat job_name max_mem avg_mem memlimit max_req_proc exec_ho
 
 if [ -x "$(command -v csvlook)" ]
 then
-  echo "$csv" | ~/.local/bin/csvlook --no-inference
+  echo "$csv" | csvlook --no-inference
 else
-  echo "$csv"
+  echo "$csv" | column -s, -t
 fi

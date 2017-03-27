@@ -31,7 +31,7 @@ if [ -x "$(command -v csvlook)" ]
 then
   csvlook --no-inference ${OUTPUTS_PATH}/bjobs.csv
 else
-  cat ${OUTPUTS_PATH}/bjobs.csv
+  column -s, -t < ${OUTPUTS_PATH}/bjobs.csv
 fi
 
 # save the result of each job
