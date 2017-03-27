@@ -43,8 +43,8 @@ inputs:
 
     adapter: string
     adapter2: string
-    fastq1: string
-    fastq2: string
+    fastq1: File
+    fastq2: File
 
     genome: string
     bwa_output: string
