@@ -43,7 +43,7 @@ echo
 
 # get job uuid
 job_uuid=`cat ${OUTPUTS_PATH}/job-uuid`
-printf "Job UUID : $job_uuid\n"
+printf "Job UUID    : $job_uuid\n"
 
 # get workflow id (choose the last one if many)
 workflow_id=`grep -m 1 -P -o "The workflow ID is: '(.*?)'" ${CWLTOIL_LOG} | tail -1 | awk -F':' '{ print $2 }' | sed "s/[' ]//g"`
@@ -67,4 +67,4 @@ tar czf ${new_archive_path}/outputs.tgz ${OUTPUTS_PATH}/*
 tar czf ${new_archive_path}/jobstore.tgz -C ${PRISM_BIN_PATH}/tmp/ ./jobstore-${job_uuid}
 tar czf ${new_archive_path}/toiltmp.tgz -C ${PRISM_BIN_PATH}/tmp/ ./toil-${workflow_id}
 
-echo "Archived: ${new_archive_path}"
+echo "Archived    : ${new_archive_path}"
