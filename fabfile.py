@@ -55,6 +55,7 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
             if not skip_upload:
                 put('prism-v1.0.0.tgz', ".")
 
+            run('rm -rf 1.0.0')
             run('mkdir -p 1.0.0')
             run('tar xvzf prism-v1.0.0.tgz -C 1.0.0')
 
