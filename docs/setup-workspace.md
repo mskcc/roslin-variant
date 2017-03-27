@@ -103,3 +103,47 @@ Run the following command to archive the job output and log files. This must be 
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-archive.sh
 ```
+
+## Running Module 1 with Your Own Data
+
+Make a new directory.
+
+Create a new `inputs.yaml` something like below and make necessary changes such as setting paths to your fastq files and etc.
+
+```yaml
+adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
+adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
+fastq1:
+  class: File
+  path: ../fastq/P1_R1.fastq.gz
+fastq2:
+  class: File
+  path: ../fastq/P1_R2.fastq.gz
+
+genome: "GRCh37"
+bwa_output: P1.bam
+
+add_rg_LB: "5"
+add_rg_PL: "Illumina"
+add_rg_ID: "P-0000377"
+add_rg_PU: "bc26"
+add_rg_SM: "P-0000377-T02-IM3"
+add_rg_CN: "MSKCC"
+add_rg_output: "P-0000377-T02-IM3_ARRDRG.bam"
+
+md_output: "P-0000377-T02-IM3_ARRDRG_MD.bam"
+md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
+
+create_index: True
+
+tmp_dir: "/ifs/work/chunj/prism-proto/prism/tmp"
+```
+
+Run the following command:
+
+```bash
+$ prism-runner.sh \
+    -w module-1.cwl \
+    -i inputs.yaml \
+    -b lsf
+```
