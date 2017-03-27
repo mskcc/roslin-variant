@@ -36,12 +36,13 @@ def half_delete_prism_input():
 
 @task
 @hosts('u36.cbio.mskcc.org')
-def install(skip_b3=False):
+def install(skip_b3=False, skip_compress=False, skip_upload=False):
     """
     install on u36.cbio.mskcc.org
     """
 
-    local('./compress.sh')
+    if not skip_compress:
+        local('./compress.sh')
 
     work_dir = '/home/chunj'
 
@@ -51,7 +52,10 @@ def install(skip_b3=False):
 
         with cd('prism-setups'):
 
-            put('prism-v1.0.0.tgz', ".")
+            if not skip_upload:
+                put('prism-v1.0.0.tgz', ".")
+
+            run('rm -rf 1.0.0')
             run('mkdir -p 1.0.0')
             run('tar xvzf prism-v1.0.0.tgz -C 1.0.0')
 
@@ -59,7 +63,8 @@ def install(skip_b3=False):
 
                 run('./install-production.sh -l')
 
+                pass_envs = ''
                 if skip_b3:
-                    run('export SKIP_B3=yes')
-                run('./configure-reference-data.sh -l ifs')
+                    pass_envs = 'export SKIP_B3=yes && '
+                run(pass_envs + './configure-reference-data.sh -l ifs')
 

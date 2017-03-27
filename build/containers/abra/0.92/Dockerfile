@@ -13,8 +13,10 @@ ENV ABRA_VERSION 0.92
 ENV BWA_VERSION 0.7.9a
 
 # install abra
+# bash : ABRA runs bwa using bash -c (Aligner.java)
+# libstdc++ libc6-compat : ABRA requires libc
 RUN apk add --update \
-      && apk add ca-certificates openssl libstdc++ libc6-compat \
+      && apk add ca-certificates openssl bash libstdc++ libc6-compat \
       && cd /tmp && wget https://github.com/mozack/abra/releases/download/v${ABRA_VERSION}/abra-${ABRA_VERSION}-SNAPSHOT-jar-with-dependencies.jar \
       && mv /tmp/abra-${ABRA_VERSION}-SNAPSHOT-jar-with-dependencies.jar /usr/bin/abra.jar \
       && rm -rf /tmp/*

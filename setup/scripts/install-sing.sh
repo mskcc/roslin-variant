@@ -15,6 +15,4 @@ cp ../bin/sing/sing-java-${VERSION}.sh ${PRISM_BIN_PATH}/bin/sing/sing-java.sh
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
     echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" | sudo tee /etc/profile.d/sing.sh
-else
-    echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" | tee ~/.prism/sing.sh
 fi

@@ -45,4 +45,5 @@ else
     rm -rf ~/.prism
     grep -v "# PRISM.SETTINGS$" ~/.profile > ~/.profile.tmp
     mv ~/.profile.tmp ~/.profile
+    echo "Done. Log out and log back in."
 fi

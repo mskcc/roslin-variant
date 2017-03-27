@@ -43,10 +43,14 @@ class: CommandLineTool
 baseCommand: [cmo_trimgalore]
 
 requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
+- class: InlineJavascriptRequirement
+  expressionLib:
+  - var getBaseName = function(inputFile) { var path; if (typeof inputFile.path ===
+    'undefined') path = inputFile; else path = inputFile.path; return path.replace(/^.*[\\\/]/,
+    '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,''); };
+- class: ResourceRequirement
+  ramMin: 10
+  coresMin: 2 
 
 doc: |
   None
@@ -259,14 +263,18 @@ inputs:
       prefix: --length_2
 
   fastq1:
-    type: string
+    type: 
 
 
+      - string
+      - File
     inputBinding:
       position: 1
 
   fastq2:
-    type: ['null', string]
+    type:
+    - string
+    - File
     inputBinding:
       position: 2
 
@@ -290,17 +298,16 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return inputs.fastq1.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq1) + '_cl.fastq.gz';
           return null;
         }
-
   clfastq2:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq2) + '_cl.fastq.gz';
           return null;
         }
   clstats1:
@@ -309,7 +316,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return inputs.fastq1.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
+            return getBaseName(inputs.fastq1) + '_cl.stats';
           return null;
         }
 
@@ -319,6 +326,6 @@ outputs:
       glob: |-
         ${
           if (inputs.paired && inputs.fastq2)
-            return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
+            return getBaseName(inputs.fastq2) + '_cl.stats';
           return null;
         }

@@ -7,17 +7,19 @@ then
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
-    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"    
+    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
     exit 1
 fi
 
 # defaults
 PIPELINE_VERSION=${PRISM_VERSION}
-DEBUG_OPTIONS=""
+
+#fixme: always enable for now
+DEBUG_OPTIONS="--logDebug --cleanWorkDir never"
 RESTART_OPTIONS=""
 RESTART_JOBSTORE=""
-BATCH_SYSTEM="singleMachine"
-OUTPUT_DIRECTORY=${PRISM_INPUT_PATH}/chunj/outputs
+BATCH_SYSTEM=""
+OUTPUT_DIRECTORY="./outputs"
 
 usage()
 {
@@ -35,12 +37,13 @@ OPTIONS:
    -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
    -r      Restart the workflow with the given Job Store
-   -d      Enable debugging
+   -d      Enable debugging (default="enabled")
+           fixme: you're not allowed to disable this right now
 
 EXAMPLE:
 
-   `basename $0` -v 1.0.0 -w module-1.cwl -i inputs-module-1.yaml
-   `basename $0` -v test  -w cmo-bwa-mem.cwl -i inputs-cmo-bwa-mem.yaml
+   `basename $0` -w module-1.cwl -i inputs-module-1.yaml -b lsf
+   `basename $0` -w cmo-bwa-mem.cwl -i inputs-cmo-bwa-mem.yaml -b singleMachine
 
 EOF
 }
@@ -66,11 +69,20 @@ then
     exit 1
 fi
 
+# get absolute path for output directory
+OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
+
 # create output directory
 mkdir -p ${OUTPUT_DIRECTORY}
 
-#fixme: check if input file exists?
+# create log directory (under output)
+mkdir -p ${OUTPUT_DIRECTORY}/log
 
+if [ ! -r "$INPUT_FILENAME" ]
+then
+    echo "The input file is not found or not readable."
+    exit 1
+fi
 
 # handle batch system options
 case $BATCH_SYSTEM in
@@ -107,24 +119,29 @@ else
     job_uuid=${RESTART_JOBSTORE}
 fi
 
+# save job uuid
+echo "${job_uuid}" > ${OUTPUT_DIRECTORY}/job-uuid
+
 jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
 
-printf "\n---> JOBSTORE = ${job_uuid}\n"
+printf "\n---> PRISM JOB UUID = ${job_uuid}\n"
 
 # run cwltoil
 cwltoil \
     ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
-    ${PRISM_INPUT_PATH}/chunj/${INPUT_FILENAME} \
+    ${INPUT_FILENAME} \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --disableCaching \
-    --logFile ${OUTPUT_DIRECTORY}/${job_uuid}.log \
+    --realTimeLogging \
+    --writeLogs	${OUTPUT_DIRECTORY}/log \
+    --logFile ${OUTPUT_DIRECTORY}/log/cwltoil.log \
     --workDir ${PRISM_BIN_PATH}/tmp \
     --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
 
-printf "\n<--- JOBSTORE = ${job_uuid}\n\n"
+printf "\n<--- PRISM JOB UUID = ${job_uuid}\n\n"

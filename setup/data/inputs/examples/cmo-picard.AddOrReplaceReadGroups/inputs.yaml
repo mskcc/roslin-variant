@@ -4,7 +4,9 @@ ID: "P-0000377"
 PU: "bc26"
 SM: "P-0000377-T02-IM3"
 CN: "MSKCC"
-I: ["/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/sample-cmo-picard.AddOrReplaceReadGroups.bam"]
+I:
+  class: File
+  path: ./sample.bam
 O: "P-0000377-T02-IM3_ARRDRG.bam"
 SO: "coordinate"
 TMP_DIR: "/ifs/work/chunj/prism-proto/prism/tmp"
