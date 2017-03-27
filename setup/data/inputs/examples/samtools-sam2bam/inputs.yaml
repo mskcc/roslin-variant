@@ -1,0 +1,4 @@
+sam:
+  class: File
+  path: sample.sam
+output_filename: sample.bam

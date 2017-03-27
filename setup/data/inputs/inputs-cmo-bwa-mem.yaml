@@ -1,7 +1,0 @@
-genome: "GRCh37"
-
-fastq1: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/P1_R1.fastq.gz"
-fastq2: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/P1_R2.fastq.gz"
-
-# no path, just the file name
-output: P1.sam

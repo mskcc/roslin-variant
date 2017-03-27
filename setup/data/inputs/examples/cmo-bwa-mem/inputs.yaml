@@ -1,0 +1,11 @@
+genome: "GRCh37"
+
+fastq1:
+  class: File
+  path: ../fastq/P1_R1.fastq.gz
+fastq2:
+  class: File
+  path: ../fastq/P1_R2.fastq.gz
+
+# no path, just the file name
+output: P1.bam
