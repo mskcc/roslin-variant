@@ -7,6 +7,7 @@ Table of Contents
     1. csvkit
 1. Configuring Prism Workspace
 1. Running Examples
+1. Running Module 1 with Your Own Data
 
 ## Prerequisites
 
