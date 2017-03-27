@@ -1,12 +1,33 @@
 #!/bin/bash
 
 OUTPUTS_PATH="./outputs"
+
+usage()
+{
+cat << EOF
+
+USAGE: `basename $0` [options]
+
+OPTIONS:
+
+   -o      Job output directory
+
+EOF
+}
+
+while getopts “o:” OPTION
+do
+    case $OPTION in
+        o) OUTPUTS_PATH=$OPTARG ;;
+        *) usage; exit 1 ;;
+    esac
+done
+
 CWLTOIL_LOG="${OUTPUTS_PATH}/log/cwltoil.log"
 
 if [ ! -d $OUTPUTS_PATH ] || [ ! -e $CWLTOIL_LOG ]
 then
   echo "Unable to find ${CWLTOIL_LOG}"
-  echo "No output found. Did you run the job?"
   exit 1
 fi
 

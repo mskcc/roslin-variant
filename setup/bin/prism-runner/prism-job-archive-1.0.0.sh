@@ -2,7 +2,35 @@
 
 ARCHIVES_PATH="./archives"
 OUTPUTS_PATH="./outputs"
+
+usage()
+{
+cat << EOF
+
+USAGE: `basename $0` [options]
+
+OPTIONS:
+
+   -o      Job output directory
+
+EOF
+}
+
+while getopts “o:” OPTION
+do
+    case $OPTION in
+        o) OUTPUTS_PATH=$OPTARG ;;
+        *) usage; exit 1 ;;
+    esac
+done
+
 CWLTOIL_LOG="${OUTPUTS_PATH}/log/cwltoil.log"
+
+if [ ! -d $OUTPUTS_PATH ] || [ ! -e $CWLTOIL_LOG ]
+then
+  echo "Unable to find ${CWLTOIL_LOG}"
+  exit 1
+fi
 
 # if exists, add suffix .1, .2, ...
 get_archive_name()
