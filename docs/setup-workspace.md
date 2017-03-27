@@ -98,7 +98,7 @@ $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-status.sh
 ```
 
-Run the following command to archive the job output and log files. This must be run from where you ran the job or use `-o` to specify the job output directory:
+Run the following command to archive the job output and log files once the job is completed. This must be run from where you ran the job or use `-o` to specify the job output directory:
 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
