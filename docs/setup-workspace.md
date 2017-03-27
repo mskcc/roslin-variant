@@ -76,6 +76,8 @@ You're all set.
 
 Make sure to replace `chunj` with your own login name.
 
+### 1. Job Submission
+
 Go to your workspace:
 
 ```bash
@@ -91,12 +93,16 @@ $ cd examples/module-1
 $ ./run-example.sh
 ```
 
+### 2. Job Status
+
 To see the status of the job, open another terminal, and run the following command. This must be run from where you ran the job or use `-o` to specify the job output directory:
 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-status.sh
 ```
+
+### 3. Archiving
 
 Run the following command to archive the job output and log files once the job is completed. This must be run from where you ran the job or use `-o` to specify the job output directory:
 
