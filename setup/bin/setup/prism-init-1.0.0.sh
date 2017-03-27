@@ -61,10 +61,8 @@ then
     exit 1
 fi
 
+# create user directory
 mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}
-
-# directories for pipeline outputs
-mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}/outputs
 
 # copy jumpstart exampels
 tar xzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz -C ${PRISM_INPUT_PATH}/${USER_ID} --strip-components 2
@@ -76,15 +74,15 @@ mkdir -p $HOME_DIR/.prism
 
 # add under .prism the scripts & settings to be loaded upon user login
 cp ./settings.sh $HOME_DIR/.prism/
-echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" | tee $HOME_DIR/.prism/sing.sh
-echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" | tee ~/.prism/prism-runner.sh
+echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" > $HOME_DIR/.prism/sing.sh
+echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" > tee ~/.prism/prism-runner.sh
 
 cp $HOME_DIR/.profile $HOME_DIR/.profile.bak
 
 settings_found=`grep "# PRISM.SETTINGS\$" $HOME_DIR/.profile`
 if [ -z "$settings_found" ]
 then
-    echo "for file in $HOME_DIR/.prism/*.sh; do source \$file; done  # PRISM.SETTINGS" | tee -a $HOME_DIR/.profile
+    echo "for file in $HOME_DIR/.prism/*.sh; do source \$file; done  # PRISM.SETTINGS" >> $HOME_DIR/.profile
 fi
 
 echo "Your workspace: ${PRISM_INPUT_PATH}/${USER_ID}"
