@@ -365,14 +365,16 @@ inputs:
       prefix: --length_2
 
   fastq1:
-    type: string
+    type: 
 
 
+      - string
+      - File
     inputBinding:
       position: 1
 
   fastq2:
-    type: ['null', string]
+    type: ['null', File, string]
     inputBinding:
       position: 2
 

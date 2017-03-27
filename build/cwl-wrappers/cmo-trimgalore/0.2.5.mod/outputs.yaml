@@ -5,17 +5,16 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return inputs.fastq1.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq1) + '_cl.fastq.gz';
           return null;
         }
-
   clfastq2:
     type: File?
     outputBinding:
       glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq2) + '_cl.fastq.gz';
           return null;
         }
   clstats1:
@@ -24,7 +23,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return inputs.fastq1.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
+            return getBaseName(inputs.fastq1) + '_cl.stats';
           return null;
         }
 
@@ -34,6 +33,6 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return inputs.fastq2.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'') + '_cl.stats';
+            return getBaseName(inputs.fastq2) + '_cl.stats';
           return null;
         }
