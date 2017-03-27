@@ -19,7 +19,7 @@ DEBUG_OPTIONS="--logDebug --cleanWorkDir never"
 RESTART_OPTIONS=""
 RESTART_JOBSTORE=""
 BATCH_SYSTEM=""
-OUTPUT_DIRECTORY=${PRISM_INPUT_PATH}/chunj/outputs
+OUTPUT_DIRECTORY="./outputs"
 
 usage()
 {
@@ -68,6 +68,9 @@ then
     usage
     exit 1
 fi
+
+# get absolute path for output directory
+OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
 
 # create output directory
 mkdir -p ${OUTPUT_DIRECTORY}
@@ -121,12 +124,12 @@ echo "${job_uuid}" > ${OUTPUT_DIRECTORY}/job-uuid
 
 jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
 
-printf "\n---> JOBSTORE = ${job_uuid}\n"
+printf "\n---> PRISM JOB UUID = ${job_uuid}\n"
 
 # run cwltoil
 cwltoil \
     ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
-    ${PRISM_INPUT_PATH}/chunj/${INPUT_FILENAME} \
+    ${INPUT_FILENAME} \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
@@ -141,4 +144,4 @@ cwltoil \
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
 
-printf "\n<--- JOBSTORE = ${job_uuid}\n\n"
+printf "\n<--- PRISM JOB UUID = ${job_uuid}\n\n"
