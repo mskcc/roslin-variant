@@ -90,23 +90,16 @@ $ cd examples/module-1
 $ ./run-example.sh
 ```
 
-To see the status of the job, open another terminal, and run the following command. This must be run from where you run the job:
+To see the status of the job, open another terminal, and run the following command. This must be run from where you ran the job or use `-o` to specify the job output directory:
 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-status.sh
 ```
 
-Run the following command to archive the job output and log files. This must be run from where you run the job:
+Run the following command to archive the job output and log files. This must be run from where you ran the job or use `-o` to specify the job output directory:
 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-archive.sh
-```
-
-```bash
-prism-runner.sh \
-    -w module-1.cwl \
-    -i inputs-module-1.yaml \
-    -b lsf
 ```
