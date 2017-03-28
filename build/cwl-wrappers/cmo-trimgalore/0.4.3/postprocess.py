@@ -43,7 +43,7 @@ def main():
     cwl['inputs']['length']['default'] = '25'
     cwl['inputs']['suppress_warn']['default'] = True
     cwl['inputs']['fastq1']['type'] = ['string', 'File']
-    cwl['inputs']['fastq2']['type'].insert(1, 'File')
+    cwl['inputs']['fastq2']['type'] = ['string', 'File']
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))
