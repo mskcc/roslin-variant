@@ -6,6 +6,7 @@ cd /tmp
 
 wget -O cmo-${VERSION}.tar.gz https://github.com/mskcc/cmo/archive/${VERSION}.tar.gz
 tar xvzf cmo-${VERSION}.tar.gz
+# git clone https://github.com/mskcc/cmo.git cmo-${VERSION}
 
 cd cmo-${VERSION}
 
