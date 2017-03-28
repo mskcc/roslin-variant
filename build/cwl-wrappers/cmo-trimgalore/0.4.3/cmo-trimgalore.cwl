@@ -20,7 +20,6 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    id: chunj@mskcc.org
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
@@ -29,7 +28,6 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    id: chunj@mskcc.org
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
@@ -374,7 +372,9 @@ inputs:
       position: 1
 
   fastq2:
-    type: ['null', File, string]
+    type:
+    - string
+    - File
     inputBinding:
       position: 2
 
