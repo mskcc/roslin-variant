@@ -41,6 +41,11 @@ arguments:
   - id: samtools-command
     valueFrom: "view -bh"
 
+requirements:
+  ResourceRequirement:
+    ramMin: 1
+    coresMin: 1
+
 inputs:
   sam:
     type: File
