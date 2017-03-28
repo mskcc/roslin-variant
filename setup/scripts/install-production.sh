@@ -51,8 +51,6 @@ fi
 
 ./install-cwl-wrappers.sh
 
-# ./configure-test-env.sh
-
 # only supported in RHEL7.3+
 # ./configure-singularity.sh
 
