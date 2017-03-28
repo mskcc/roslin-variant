@@ -44,6 +44,8 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
     if not skip_compress:
         local('./compress.sh')
 
+    version="1.0.0"
+
     work_dir = '/home/chunj'
 
     with cd(work_dir):
@@ -53,13 +55,13 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
         with cd('prism-setups'):
 
             if not skip_upload:
-                put('prism-v1.0.0.tgz', ".")
+                put('prism-v{}.tgz'.format(version), ".")
 
-            run('rm -rf 1.0.0')
-            run('mkdir -p 1.0.0')
-            run('tar xvzf prism-v1.0.0.tgz -C 1.0.0')
+            run('rm -rf {}'.format(version))
+            run('mkdir -p {}'.format(version))
+            run('tar xvzf prism-v{0}.tgz -C {0}'.format(version))
 
-            with cd('1.0.0/setup/scripts'):
+            with cd('{}/setup/scripts'.format(version)):
 
                 run('./install-production.sh -l')
 
@@ -67,4 +69,27 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
                 if skip_b3:
                     pass_envs = 'export SKIP_B3=yes && '
                 run(pass_envs + './configure-reference-data.sh -l ifs')
+
+
+@task
+@hosts('u36.cbio.mskcc.org')
+def rsync(skip_b3=False):
+    """
+    install on u36.cbio.mskcc.org
+    """
+
+    version = '1.0.0'
+
+    work_dir = '/home/chunj'
+
+    local('rsync -ave "ssh -p 22" --delete --exclude=".DS_Store" ./setup/ chunj@$u36.cbio.mskcc.org:{}/prism-setup/{}'.format(work_dir, version))
+
+    # with cd("{}/prism-setups/{}/setup/scripts".format(work_dir, version)):
+
+    #     run('./install-production.sh -l')
+
+    #     pass_envs = ''
+    #     if skip_b3:
+    #         pass_envs = 'export SKIP_B3=yes && '
+    #     run(pass_envs + './configure-reference-data.sh -l ifs')
 
