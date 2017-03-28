@@ -223,4 +223,4 @@ Log out and log back in.
 
 ## Adding a New Tool
 
-Please refer to [this document](./docs/adding-new-tool.md)
+Please refer to [this document](./docs/build/adding-new-tool.md)
