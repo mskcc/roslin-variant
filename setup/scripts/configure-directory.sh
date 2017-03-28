@@ -32,3 +32,6 @@ chmod -R 777 ${PRISM_BIN_PATH}/tmp
 
 # directories for pipeline inputs
 mkdir -p ${PRISM_INPUT_PATH}
+
+#fixme: needed for now because other users need to create their own directories (workspace) under this
+chmod 777 ${PRISM_INPUT_PATH}
