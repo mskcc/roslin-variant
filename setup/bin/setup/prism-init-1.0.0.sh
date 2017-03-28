@@ -28,11 +28,13 @@ EXAMPLE:
 EOF
 }
 
+USE_SINGLE_MACHINE_EXAMPLE=0
 
-while getopts “u:h” OPTION
+while getopts “u:sh” OPTION
 do
     case $OPTION in
         u) USER_ID=$OPTARG ;;
+        s) USE_SINGLE_MACHINE_EXAMPLE=1 ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
@@ -51,8 +53,8 @@ then
     exit 1
 fi
 
-# HOME_DIR=$HOME_DIR
-HOME_DIR="/home/${USER_ID}"
+HOME_DIR=$HOME
+# HOME_DIR="/home/${USER_ID}"
 
 if [ -d "${PRISM_INPUT_PATH}/${USER_ID}" ]
 then
@@ -67,7 +69,10 @@ mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}
 # copy jumpstart exampels
 tar xzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz -C ${PRISM_INPUT_PATH}/${USER_ID} --strip-components 2
 
-find ${PRISM_INPUT_PATH}/${USER_ID}/ -name "*.yaml" | xargs sed -i "s/inputs\/chunj/inputs\/${USER}/g"
+if [ "$USE_SINGLE_MACHINE_EXAMPLE" -eq 1 ]
+then
+    find ${PRISM_INPUT_PATH}/${USER_ID}/ -name "run-example.sh" | xargs -I {} sed -i "s/lsf/singleMachine/g" {}
+fi
 
 # .prism
 mkdir -p $HOME_DIR/.prism
