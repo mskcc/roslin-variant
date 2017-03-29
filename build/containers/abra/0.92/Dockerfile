@@ -35,4 +35,5 @@ RUN apk add --update --no-cache ncurses \
       && rm -rf /var/cache/apk/* /tmp/* \
       && apk del deps
 
-CMD ["java", "-jar", "/usr/bin/abra.jar", "--help"]
+ENTRYPOINT ["java", "-jar", "/usr/bin/abra.jar"]
+CMD ["--help"]

@@ -132,7 +132,7 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
-            "default": "/usr/bin/abra.jar"
+            "default": "sudo docker run -i abra:0.92"
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
@@ -180,7 +180,7 @@
             "default": "/opt/common/CentOS_6-dev/hotspots/0.6.1/"
         }, 
         "java": {
-            "default": "/opt/common/CentOS_6/java/jdk1.7.0_75/bin/java"
+            "default": "/vagrant/build/scripts/fake-java.sh"
         }, 
         "kallisto": {
             "default": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto"
@@ -219,7 +219,7 @@
             "default": "/opt/common/CentOS_6-dev/snp-pileup/ppflag-fixer"
         }, 
         "python": {
-            "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python"
+            "default": "/usr/bin/python"
         }, 
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"
