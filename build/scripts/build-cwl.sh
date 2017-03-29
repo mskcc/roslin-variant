@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # load build-related settings
 source ./settings-build.sh
@@ -50,6 +50,8 @@ then
     SELECTED_TOOLS_TO_BUILD=$(get_tools_name_version_cmo)
 fi
 
+# assume no error
+error_flag=0
 
 for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
 do
@@ -57,9 +59,10 @@ do
     tool_version=$(get_tool_version $tool_info)
     cmo_wrapper=$(get_cmo_wrapper_name $tool_info)
 
-    #fixme: abra/gatk not supported yet
-    if [ "$tool_name" == "abra" ] || [ "$tool_name" == "gatk" ]
+    # fixme: not supported yet
+    if [ "$tool_name" == "gatk" ]
     then
+        echo "${tool_name} ${tool_version} ${cmo_wrapper}: not supported"
         continue
     fi
 
@@ -70,7 +73,19 @@ do
 
     if [ $? -eq 0 ]
     then
+        # no error found, remove the empty file
         rm -rf ${error_file_name}
+    else
+        # set error flag to 1
+        error_flag=1
     fi
 
 done
+
+if [ $error_flag -eq 1 ]
+then
+    echo "Error(s) occurred - please check error.*.txt for more information."
+    exit 1
+else
+    exit 0
+fi
