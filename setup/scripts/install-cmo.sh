@@ -10,6 +10,9 @@ tar xvzf cmo-${VERSION}.tar.gz
 
 cd cmo-${VERSION}
 
+# hack
+echo "__version__ = '1.0'" > ./cmo/_version.py
+
 sudo pip install python-daemon
 sudo python setup.py install
 
