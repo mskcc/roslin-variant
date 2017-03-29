@@ -1,4 +1,4 @@
-# Set Up Prism Workspace
+# Setting Up Prism Workspace
 
 *Table of Contents*
 

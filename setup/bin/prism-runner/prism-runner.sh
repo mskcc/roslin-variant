@@ -36,7 +36,7 @@ OPTIONS:
    -i      Input filename (*.yaml)
    -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
-   -r      Restart the workflow with the given Job Store
+   -r      Restart the workflow with the given job UUID
    -d      Enable debugging (default="enabled")
            fixme: you're not allowed to disable this right now
 
