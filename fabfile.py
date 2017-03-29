@@ -35,7 +35,7 @@ def half_delete_prism_input():
 
 
 @task
-@hosts('u36.cbio.mskcc.org')
+@hosts('chunj@u36.cbio.mskcc.org')
 def install(skip_b3=False, skip_compress=False, skip_upload=False):
     """
     install on u36.cbio.mskcc.org
@@ -72,7 +72,7 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
 
 
 @task
-@hosts('ec2-54-152-103-209.compute-1.amazonaws.com')
+@hosts('ubuntu@ec2-54-152-103-209.compute-1.amazonaws.com')
 def rsync(skip_b3=False):
     """
     install on AWS EC2
