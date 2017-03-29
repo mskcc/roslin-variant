@@ -18,7 +18,7 @@ $ node
 
 If not, follow [this instructions to install it](./prerequisites.md).
 
-## Configuring Prism Workspace
+## Configuring Workspace
 
 Log in to `selene.mskcc.org`.
 
