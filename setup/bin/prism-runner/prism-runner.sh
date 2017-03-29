@@ -37,6 +37,7 @@ OPTIONS:
    -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
    -r      Restart the workflow with the given job UUID
+   -z      Show list of supported workflows
    -d      Enable debugging (default="enabled")
            fixme: you're not allowed to disable this right now
 
@@ -49,7 +50,7 @@ EOF
 }
 
 
-while getopts “v:w:i:b:o:r:d” OPTION
+while getopts “v:w:i:b:o:r:zd” OPTION
 do
     case $OPTION in
         v) PIPELINE_VERSION=$OPTARG ;;
@@ -58,6 +59,10 @@ do
         b) BATCH_SYSTEM=$OPTARG ;;
         o) OUTPUT_DIRECTORY=$OPTARG ;;
         r) RESTART_JOBSTORE=$OPTARG; RESTART_OPTIONS="--restart" ;;
+       	z) cd ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}
+           find . -name "*.cwl" -exec bash -c "echo {} | cut -c 3- | sort" \;
+           exit 0
+           ;;
         d) DEBUG_OPTIONS="--logDebug --cleanWorkDir never" ;;
         *) usage; exit 1 ;;
     esac
