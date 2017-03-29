@@ -1,8 +1,8 @@
 from fabric.api import *
 
-env.user = 'chunj'
+# env.user = 'chunj'
 # env.key_filename = ["~/.ssh/id_rsa"]
-env.hosts = ['u36.cbio.mskcc.org']
+# env.hosts = ['u36.cbio.mskcc.org']
 
 
 @task
@@ -72,17 +72,22 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
 
 
 @task
-@hosts('u36.cbio.mskcc.org')
+@hosts('ec2-54-152-103-209.compute-1.amazonaws.com')
 def rsync(skip_b3=False):
     """
-    install on u36.cbio.mskcc.org
+    install on AWS EC2
     """
 
     version = '1.0.0'
 
-    work_dir = '/home/chunj'
+    work_dir = '/tmp/prism-setup-{}'.format(version)
+    keyfile = '~/mskcc-chunj.pem'
+    username = 'ubuntu'
+    hostname = 'ec2-54-152-103-209.compute-1.amazonaws.com'
 
-    local('rsync -ave "ssh -p 22" --delete --exclude=".DS_Store" ./setup/ chunj@$u36.cbio.mskcc.org:{}/prism-setup/{}'.format(work_dir, version))
+    local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(keyfile, username, hostname, work_dir))
+
+    # run('hostname')
 
     # with cd("{}/prism-setups/{}/setup/scripts".format(work_dir, version)):
 
