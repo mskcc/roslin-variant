@@ -76,6 +76,14 @@ To see the status of the job while it's running, open another terminal, and run 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-status.sh
+
+|   JOBID | STAT   | JOB_NAME                                | MAX_REQ_PROC   | EXEC_HOST   |
+|---------+--------+-----------------------------------------+----------------+-------------|
+| 9367614 | DONE   | CWLWorkflow                             | -              | u35         |
+| 9367615 | DONE   | cmo_trimgalore                          | 2              | 2*u35       |
+| 9367618 | DONE   | cmo_bwa_mem                             | 5              | 5*u35       |
+| 9367624 | DONE   | cmo_picard_--cmd_AddOrReplaceReadGroups | 2              | 2*u35       |
+| 9367629 | DONE   | cmo_picard_--cmd_MarkDuplicates         | 2              | 2*u35       |
 ```
 
 ### 3. Archiving
