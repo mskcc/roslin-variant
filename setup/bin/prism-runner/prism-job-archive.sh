@@ -55,7 +55,10 @@ JOB_IDS=`grep -o -P "Got the job id: \d+" ${CWLTOIL_LOG} | awk -F':' '{ print $2
 # https://www.ibm.com/support/knowledgecenter/en/SSETD4_9.1.2/lsf_command_ref/bjobs.1.html
 bjobs -o 'jobid stat job_name max_mem avg_mem memlimit max_req_proc exec_host delimiter=","' ${JOB_IDS} > ${OUTPUTS_PATH}/bjobs.csv
 
-if [ -x "$(command -v csvlook)" ]
+if [ -x "$(command -v tabulate)" ]
+then
+  tabulate --sep , -1 --format orgtbl ${OUTPUTS_PATH}/bjobs.csv
+elif [ -x "$(command -v csvlook)" ]
 then
   csvlook --no-inference ${OUTPUTS_PATH}/bjobs.csv
 else

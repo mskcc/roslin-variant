@@ -20,7 +20,6 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    id: chunj@mskcc.org
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
@@ -29,7 +28,6 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    id: chunj@mskcc.org
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
@@ -40,6 +38,11 @@ baseCommand: ["sing.sh", "samtools", "1.3.1"]
 arguments:
   - id: samtools-command
     valueFrom: "view -bh"
+
+requirements:
+  ResourceRequirement:
+    ramMin: 1
+    coresMin: 1
 
 inputs:
   sam:

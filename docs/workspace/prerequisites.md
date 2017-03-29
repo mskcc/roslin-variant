@@ -1,6 +1,6 @@
 # Prerequisites
 
-## 1. Node.js
+## Node.js
 
 This step is necessary until sysadmin installs Node.js across all cluster nodes.
 
@@ -28,19 +28,3 @@ $ nvm alias default node
 ```
 
 Execute `node --version`, and you are all set if you see `v6.10.0`.
-
-## 2. csvkit
-
-This is actually optional, but `csvkit` will give you a pretty output when displaying the job status.
-
-Log in to `selene.mskcc.org` and run the following command:
-
-```bash
-$ pip install csvkit --user
-```
-
-If `~/.local/bin` is not already included in `PATH`, add the following line to your profile (`~/.profile` or `~/.bash_profile`) 
-
-```bash
-PATH="$PATH:~/.local/bin"
-```

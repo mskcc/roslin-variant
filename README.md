@@ -127,7 +127,7 @@ Log in to the virtual machine.
 Create a directory where Prism will be installed:
 
 ```bash
-$ sudo mkdir -p /scratch && sudo chmod a+w /scratch
+$ sudo mkdir -p /ifs && sudo chmod a+w /ifs
 ```
 
 Install cmo wrapper:
@@ -194,7 +194,7 @@ $ ssh -i "~/mskcc-chunj.pem" ubuntu@ec2-w-x-y-z.compute-1.amazonaws.com
 Create a directory where Prism will be installed:
 
 ```bash
-$ sudo mkdir -p /scratch && sudo chmod a+w /scratch
+$ sudo mkdir -p /ifs && sudo chmod a+w /ifs
 ```
 
 Uncompress the installation package:
