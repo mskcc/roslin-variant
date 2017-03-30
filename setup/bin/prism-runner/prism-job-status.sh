@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ ! -x "$(command -v bjobs)" ]
+then
+  echo "No bjobs found. Aborted.".
+  exit 1
+fi
+
 OUTPUTS_PATH="./outputs"
 
 usage()
@@ -36,7 +42,7 @@ JOB_IDS=`grep -o -P "Got the job id: \d+" ${CWLTOIL_LOG} | awk -F':' '{ print $2
 
 if [ -z "$JOB_IDS" ]
 then
-  echo "No jobs found"
+  echo "No jobs found."
   exit 1
 fi
 

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ ! -x "$(command -v bjobs)" ]
+then
+  echo "No bjobs found. Aborted.".
+  exit 1
+fi
+
 ARCHIVES_PATH="./archives"
 OUTPUTS_PATH="./outputs"
 
