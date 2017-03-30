@@ -39,18 +39,36 @@ tool_name=${sing_opts[1]}
 tool_version=${sing_opts[2]}
 # echo "$0 $@"
 
-if [ "$tool_name" == "picard" ]
-then
-    if [ "$tool_version" == "1.96" ]
-    then
-        tool_name="/usr/bin/picard-tools/${sing_opts[3]}.jar"
-    else
-        tool_name="/usr/bin/picard-tools/picard.jar ${sing_opts[3]}"
-    fi
-fi
+# if [ "$tool_name" == "picard" ]
+# then
+#     if [ "$tool_version" == "1.96" ]
+#     then
+#         tool_name="/usr/bin/picard-tools/${sing_opts[3]}.jar"
+#     else
+#         tool_name="/usr/bin/picard-tools/picard.jar ${sing_opts[3]}"
+#     fi
+# fi
+
+case $tool_name in
+
+    picard)
+        case $tool_version in
+            1.96)
+                tool_name="/usr/bin/picard-tools/${sing_opts[3]}.jar" ;;
+            *)
+                tool_name="/usr/bin/picard-tools/picard.jar ${sing_opts[3]}" ;;
+        esac
+        tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f5-`
+        ;;
+
+    abra)
+        tool_name="/usr/bin/abra.jar"
+        tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
+        ;;
+
+esac
 
 sing=`echo ${sing_opts[*]} | cut -d' ' -f1-3`
-tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f5-`
 
 # echo "==> $sing ${java_opts[*]} ${tool_name} ${tool_opts}"
 $sing ${java_opts[*]} ${tool_name} ${tool_opts}
