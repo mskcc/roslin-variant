@@ -71,11 +71,10 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
                 run(pass_envs + './configure-reference-data.sh -l ifs')
 
 
-# fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync
 @task
-def rsync(skip_b3=False):
+def rsync_aws(skip_b3=False):
     """
-    rsync to AWS EC2
+    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync
     """
 
     version = '1.0.0'
@@ -98,11 +97,10 @@ def rsync(skip_b3=False):
         run(pass_envs + './configure-reference-data.sh -l s3')
 
 
-# fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
 @task
 def rsync_luna(skip_b3=False):
     """
-    rsync to u36
+    fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
     """
 
     version = '1.0.0'
