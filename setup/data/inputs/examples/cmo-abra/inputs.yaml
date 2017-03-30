@@ -1,0 +1,5 @@
+ref: GRCh37
+in: ./sample.bam
+out: realigned.bam
+working: /ifs/work/chunj/prism-proto/prism/tmp
+targets: sample.bed
