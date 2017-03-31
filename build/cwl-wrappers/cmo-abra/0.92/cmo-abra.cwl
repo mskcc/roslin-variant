@@ -131,12 +131,16 @@ inputs:
       prefix: --mnf
 
   in:
-    type: string
+    type: 
 
+      - string
+      - File
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
       prefix: --in
 
+    secondaryFiles:
+    - .bai
   rcf:
     type: ['null', string]
     doc: Minimum read candidate fraction for triggering assembly (default - 0.01)
@@ -211,7 +215,7 @@ inputs:
       prefix: --target-kmers
 
   targets:
-    type: ['null', string]
+    type: ['null', File, string]
     doc: BED file containing target regions
     inputBinding:
       prefix: --targets
