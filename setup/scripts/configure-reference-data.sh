@@ -92,5 +92,7 @@ case $LOC_GENASSM in
         ;;
 esac
 
+cp ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
+
 # adjust ifs paths in CMO_RESOURCE_CONFIG
 sed -i.bak "s|\/ifs|${PRISM_DATA_PATH}|g" "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"

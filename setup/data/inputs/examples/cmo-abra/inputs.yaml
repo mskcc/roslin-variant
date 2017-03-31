@@ -1,5 +1,9 @@
 ref: GRCh37
-in: ./sample.bam
+in:
+  class: File
+  path: ./sample.bam
+targets:
+  class: File
+  path: ./sample.bed
+working: /ifs/work/chunj/prism-proto/prism/tmp/abra
 out: realigned.bam
-working: /ifs/work/chunj/prism-proto/prism/tmp
-targets: sample.bed
