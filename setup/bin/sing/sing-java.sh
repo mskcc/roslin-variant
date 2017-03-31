@@ -9,7 +9,7 @@ java_opts=()
 sing_opts=()
 
 flag=0
-for var in "$@"
+for var in $@
 do
 
     if [ $flag -eq 0 ]
@@ -29,15 +29,16 @@ do
 
 done
 
-# -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar
 # echo ${java_opts[*]}
+# -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar
 
-# sing.sh picard 1.129 MarkDuplicates a b c d
 # echo ${sing_opts[*]}
+# sing.sh picard 1.129 MarkDuplicates a b c d
+
 
 tool_name=${sing_opts[1]}
 tool_version=${sing_opts[2]}
-# echo "$0 $@"
+tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
 
 # if [ "$tool_name" == "picard" ]
 # then
@@ -49,6 +50,7 @@ tool_version=${sing_opts[2]}
 #     fi
 # fi
 
+# override $tool_name and/or $tool_opts 
 case $tool_name in
 
     picard)
