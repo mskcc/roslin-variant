@@ -2,7 +2,7 @@
 
 if [ ! -x "$(command -v bjobs)" ]
 then
-  echo "No bjobs found. Aborted.".
+  echo "bjobs not found. Aborted.".
   exit 1
 fi
 
