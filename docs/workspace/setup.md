@@ -49,8 +49,9 @@ $ cd $PRISM_INPUT_PATH/chunj
 You will find the `examples` directory:
 
 ```bash
-chunj/
+chunj
 └── examples
+   ├── cmo-abra
    ├── cmo-bwa-mem
    ├── cmo-picard.AddOrReplaceReadGroups
    ├── cmo-picard.MarkDuplicates
@@ -149,14 +150,15 @@ Here are some of the parameters you can specify for `prism-runner.sh`:
 
 The current supported workflow that you can specify with `-w` is as follows:
 
+- cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
+- cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+- samtools/1.3.1/samtools-sam2bam.cwl
 - module-1.cwl
+- cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
+- cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
 - cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 - cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 - cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 - cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 - cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
-- cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
-- cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
-- cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
-- cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-- samtools/1.3.1/samtools-sam2bam.cwl
+- cmo-abra/0.92/cmo-abra.cwl
