@@ -22,10 +22,15 @@ If not, follow [this instructions to install it](./prerequisites.md).
 
 Log in to `selene.mskcc.org`.
 
-Run the following command. Make sure to replace `chunj` with your own login name:
+Change to the setup directory:
 
 ```bash
 $ cd /ifs/work/chunj/prism-proto/prism/bin/setup
+```
+
+Run the following command. Make sure to replace `chunj` with your own login name:
+
+```bash
 $ ./prism-init.sh -u chunj
 ```
 
