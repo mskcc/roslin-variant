@@ -23,4 +23,4 @@ md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
 
 create_index: True
 
-tmp_dir: "/ifs/work/chunj/prism-proto/prism/tmp"
+tmp_dir: $TMPDIR

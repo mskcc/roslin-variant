@@ -36,16 +36,7 @@ def get_metadata(filename, params=None):
 
     with open(filename, "r") as file_in:
         metadata = "\n" + file_in.read() + "\n"
-    #     for doc in yaml.load(file_in)["metadata"]:
-    #         for key, value in doc.items():
-    #             if key == "version.tool":
-    #                 value = params.version
-    #             if key == "timestamp.created":
-    #                 value = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-    #             metadata = metadata + "#   - {}={}\n".format(key, value)
-
-    # if metadata:
-    #     metadata = "# metadata:\n" + metadata + "\n"
+        # datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
     return metadata
 

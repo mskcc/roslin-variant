@@ -90,5 +90,20 @@ then
     echo "for file in $HOME_DIR/.prism/*.sh; do source \$file; done  # PRISM.SETTINGS" >> $HOME_DIR/.profile
 fi
 
+cat << "EOF"
+  ____   ____   ___  ____   __  __                    
+ |  _ \ |  _ \ |_ _|/ ___| |  \/  |                   
+ | |_) || |_) | | | \___ \ | |\/| |                   
+ |  __/ |  _ <  | |  ___) || |  | |                   
+ |_|    |_| \_\|___||____/ |_|  |_|                   
+    ____  ___  ____   _____  _      ___  _   _  _____ 
+   |  _ \|_ _||  _ \ | ____|| |    |_ _|| \ | || ____|
+   | |_) || | | |_) ||  _|  | |     | | |  \| ||  _|  
+   |  __/ | | |  __/ | |___ | |___  | | | |\  || |___ 
+   |_|   |___||_|    |_____||_____||___||_| \_||_____|
+                                                      
+EOF
+
 echo "Your workspace: ${PRISM_INPUT_PATH}/${USER_ID}"
-echo "Done. Log out and log back in."
+echo "You're all set. Log out and log back in."
+echo

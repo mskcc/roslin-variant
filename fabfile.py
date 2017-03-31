@@ -72,29 +72,50 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
 
 
 @task
-@hosts('ubuntu@ec2-54-152-103-209.compute-1.amazonaws.com')
-def rsync(skip_b3=False):
+def rsync_aws(skip_b3=False):
     """
-    install on AWS EC2
+    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync
+    """
+
+    version = '1.0.0'
+
+    # make /ifs directory
+    run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
+
+    work_dir = '/tmp/prism-setup-{}'.format(version)
+
+    local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
+        env.key_filename[0], env.user, env.host, work_dir))
+
+    with cd("{}/scripts".format(work_dir)):
+
+        run('./install-production.sh -l')
+
+        pass_envs = ''
+        if skip_b3:
+            pass_envs = 'export SKIP_B3=yes && '
+        run(pass_envs + './configure-reference-data.sh -l s3')
+
+
+@task
+def rsync_luna(skip_b3=False):
+    """
+    fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
     """
 
     version = '1.0.0'
 
     work_dir = '/tmp/prism-setup-{}'.format(version)
-    keyfile = '~/mskcc-chunj.pem'
-    username = 'ubuntu'
-    hostname = 'ec2-54-152-103-209.compute-1.amazonaws.com'
 
-    local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(keyfile, username, hostname, work_dir))
+    local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
+        env.key_filename[0], env.user, env.host, work_dir))
 
-    # run('hostname')
+    with cd("{}/scripts".format(work_dir)):
 
-    # with cd("{}/prism-setups/{}/setup/scripts".format(work_dir, version)):
+        run('./install-production.sh -l')
 
-    #     run('./install-production.sh -l')
-
-    #     pass_envs = ''
-    #     if skip_b3:
-    #         pass_envs = 'export SKIP_B3=yes && '
-    #     run(pass_envs + './configure-reference-data.sh -l ifs')
+        pass_envs = ''
+        if skip_b3:
+            pass_envs = 'export SKIP_B3=yes && '
+        run(pass_envs + './configure-reference-data.sh -l ifs')
 

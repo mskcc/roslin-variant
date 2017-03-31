@@ -1,0 +1,9 @@
+ref: GRCh37
+in:
+  class: File
+  path: ./sample.bam
+targets:
+  class: File
+  path: ./sample.bed
+working: $TMPDIR
+out: realigned.bam
