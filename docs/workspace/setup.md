@@ -149,7 +149,7 @@ Here are some of the parameters you can specify for `prism-runner.sh`:
 - `-o` : Output directory (default=./outputs)
 - `-r` : Restart the workflow with the given job UUID
 
-The current supported workflow that you can specify with `-w` is as follows:
+The current supported workflows that you can specify with `-w` is as follows:
 
 - cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 - cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
