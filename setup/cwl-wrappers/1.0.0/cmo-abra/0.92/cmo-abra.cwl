@@ -243,9 +243,9 @@ outputs:
   bam:
     type: File
     outputBinding:
-      glob: |-
+      glob: |
         ${
-          if (inputs.output)
-            return inputs.output;
+          if (inputs.out)
+            return inputs.out;
           return null;
         }
