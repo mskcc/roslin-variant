@@ -5,8 +5,8 @@ baseCommand: ["env"]
 stdout:	env.txt
 
 inputs:
-   message: string
+    message: string
 
 outputs:
     output:
-	type: stdout
+        type: stdout

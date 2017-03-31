@@ -9,6 +9,6 @@ I:
   path: ./sample.bam
 O: "P-0000377-T02-IM3_ARRDRG.bam"
 SO: "coordinate"
-TMP_DIR: "/ifs/work/chunj/prism-proto/prism/tmp"
+TMP_DIR: $TMPDIR
 CREATE_INDEX: true 
 VALIDATION_STRINGENCY: "LENIENT"

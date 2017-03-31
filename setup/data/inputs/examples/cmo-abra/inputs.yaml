@@ -5,5 +5,5 @@ in:
 targets:
   class: File
   path: ./sample.bed
-working: /ifs/work/chunj/prism-proto/prism/tmp/abra
+working: $TMPDIR
 out: realigned.bam

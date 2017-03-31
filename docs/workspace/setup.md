@@ -56,6 +56,7 @@ chunj
    ├── cmo-picard.AddOrReplaceReadGroups
    ├── cmo-picard.MarkDuplicates
    ├── cmo-trimgalore
+   ├── env
    ├── fastq
    ├── module-1
    └── samtools-sam2bam
@@ -128,7 +129,7 @@ md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
 
 create_index: True
 
-tmp_dir: "/ifs/work/chunj/prism-proto/prism/tmp"
+tmp_dir: $TMPDIR
 ```
 
 Run the following command:
