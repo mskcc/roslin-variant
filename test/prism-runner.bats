@@ -3,8 +3,7 @@
 load 'helpers/bats-support/load'
 load 'helpers/bats-assert/load'
 load 'helpers/bats-file/load'
-
-source ./helpers/stub.bash
+load 'helpers/stub/load'
 
 PRISM_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
 

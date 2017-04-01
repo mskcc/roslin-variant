@@ -3,8 +3,7 @@
 load 'helpers/bats-support/load'
 load 'helpers/bats-assert/load'
 load 'helpers/bats-file/load'
-
-source ./helpers/stub.bash
+load 'helpers/stub/load'
 
 SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
