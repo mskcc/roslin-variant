@@ -1,8 +1,9 @@
 #!/usr/bin/env bats
 
-source ./helpers/bats-support/load.bash
-source ./helpers/bats-assert/load.bash
-source ./helpers/bats-file/load.bash
+load 'helpers/bats-support/load'
+load 'helpers/bats-assert/load'
+load 'helpers/bats-file/load'
+
 source ./helpers/stub.bash
 
 PRISM_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
