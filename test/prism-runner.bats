@@ -15,11 +15,16 @@ teardown() {
   temp_del "$TEST_TEMP_DIR"
 }
 
+# the second line would look like this:
+#
+# ---> PRISM JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece"
+#
 get_job_uuid() {
     line=$(echo "$1" | sed -n "2p")
     echo $(echo $line | cut -c23-)
 }
 
+# the third line would have all the arguments supplied to prism-runner
 get_args_line() {
     echo $(echo "$1" | sed -n "3p")
 }
@@ -185,7 +190,11 @@ get_args_line() {
 
     assert_success
 
+    # the line 0 and line 2 would have something like this:
+    #
     # PRISM JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece
+    #
+    # note that bats doesn't count empty lines
     assert_line --index 0 --regexp 'JOB UUID = [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'
     assert_line --index 2 --regexp 'JOB UUID = [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'
 
@@ -221,14 +230,35 @@ get_args_line() {
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
 
-    # parse argument lines
+    # parse argument line (each arg separated by a single space character)
+    # and then split to make an array
     args_line=$(get_args_line "$output")
     read -r -a args <<< "$args_line"
 
-    # check workflow filename (pos arg 0)
+    # example argument line:
+    #
+    # /vagrant/test/mock/bin/pipeline/1.0.0/abc.cwl
+    # /tmp/prism-runner.bats-12-7uktFHNZ4w/test.yaml
+    # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
+    # --defaultDisk 10G
+    # --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMSOURCE_CONFIG
+    # --no-container
+    # --disableCaching
+    # --realTimeLogging
+    # --writeLogs /vagrant/test/outputs/log
+    # --logFile /vagrant/test/outputs/log/cwltoil.log
+    # --workDir /vagrant/test/mock/bin/tmp
+    # --outdir: /vagrant/test/outputs
+    # --batchSystem lsf
+    # --stats
+    # --logDebug
+    # --cleanWorkDir never
+    #
+
+    # check workflow filename (positional arg 0)
     assert_equal "${args[0]}" "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/${workflow_filename}"
 
-    # check input filename (pos arg 1)    
+    # check input filename (positional arg 1)
     assert_equal "${args[1]}" "${input_filename}"
 
     # check --jobStore
@@ -255,23 +285,6 @@ get_args_line() {
     # check debug-related
     assert_line --index 1 --partial "--logDebug --cleanWorkDir never"
 
-    # /vagrant/test/mock/bin/pipeline/1.0.0/abc.cwl
-    # /tmp/prism-runner.bats-12-7uktFHNZ4w/test.yaml
-    # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
-    # --defaultDisk 10G
-    # --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMSOURCE_CONFIG
-    # --no-container
-    # --disableCaching
-    # --realTimeLogging
-    # --writeLogs /vagrant/test/outputs/log
-    # --logFile /vagrant/test/outputs/log/cwltoil.log
-    # --workDir /vagrant/test/mock/bin/tmp
-    # --outdir: /vagrant/test/outputs
-    # --batchSystem lsf
-    # --stats
-    # --logDebug
-    # --cleanWorkDir never
-
     unstubs
 }
 
@@ -289,6 +302,7 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
+    # call prism-runner with -b lsf
     run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_success
@@ -313,6 +327,7 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
+    # call prism-runner with -b singleMachine
     run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
@@ -403,18 +418,17 @@ get_args_line() {
     pipeline_version='2.0.1'
     workflow_filename='abc.cwl'
     
+    # call prism-runner with -v
     run ${PRISM_RUNNER_SCRIPT} -v ${pipeline_version} -w ${workflow_filename} -i ${input_filename} -b lsf
 
     assert_success
 
-    # get job UUID
-    job_uuid=$(get_job_uuid "$output")
-
-    # parse argument lines
+    # parse argument line (each arg separated by a single space character)
+    # and then split to make an array
     args_line=$(get_args_line "$output")
     read -r -a args <<< "$args_line"
 
-    # check workflow filename (pos arg 0)
+    # check workflow filename (positional arg 0)
     assert_equal "${args[0]}" "${PRISM_BIN_PATH}/pipeline/${pipeline_version}/${workflow_filename}"
 
     unstubs
@@ -456,6 +470,7 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
+    # call prism-runner with -r
     run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r some-uuid
 
     assert_success
