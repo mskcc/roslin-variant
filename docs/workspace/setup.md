@@ -2,14 +2,22 @@
 
 *Table of Contents*
 
+1. Supported MSKCC HPC Clusters
 1. Prerequisites
 1. Configuring Workspace
 1. Running Examples
 1. Running Module 1 with Your Own Data
 
+## Supported MSKCC HPC Clusters
+
+This has been tested on the following MSKCC HPC clusters:
+
+- `luna.mskcc.org`
+- `selene.mskcc.org`
+
 ## Prerequisites
 
-First, log in to `selene.mskcc.org` and check if you have access to Node.js REPL (shell):
+First, log in to one of the MSKCC HPC clusters and check if you have access to Node.js REPL (shell):
 
 ```bash
 $ node
@@ -20,7 +28,7 @@ If not, follow [this instructions to install it](./prerequisites.md).
 
 ## Configuring Workspace
 
-Log in to `selene.mskcc.org`.
+Log in to one of the MSKCC HPC clusters.
 
 Change to the setup directory:
 
