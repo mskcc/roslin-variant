@@ -87,5 +87,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     run ${SING_SCRIPT} fake-tool 1.0.0 "Hello, World!"
 
     assert_success
+
+    # because of the way fake-tool is built,
+    # if it runs correctly, it will echo out the arguments received
     assert_output "Hello, World!"
 }

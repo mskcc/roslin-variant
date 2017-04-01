@@ -60,7 +60,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
     assert_success
 
     # expect:
+    #
     # sing.sh picard 1.129 -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar /usr/bin/picard-tools/picard.jar MarkDuplicates a b c d
+    #
     assert_output "sing.sh ${tool_name} ${tool_version} ${java_opts} /usr/bin/picard-tools/picard.jar ${tool_subcmd} ${tool_opts}"
 
     unstubs
@@ -88,7 +90,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
     assert_success
 
     # expect:
+    #
     # sing.sh picard 1.96 -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar /usr/bin/picard-tools/MarkDuplicates.jar a b c d
+    #
     assert_output "sing.sh ${tool_name} ${tool_version} ${java_opts} /usr/bin/picard-tools/${tool_subcmd}.jar ${tool_opts}"
 
     unstubs
@@ -115,7 +119,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
     assert_success
 
     # expect:
+    #
     # sing.sh abra 0.92 -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar /usr/bin/abra.jar a b c d
+    #
     assert_output "sing.sh ${tool_name} ${tool_version} ${java_opts} /usr/bin/${tool_name}.jar ${tool_opts}"
 
     unstubs
