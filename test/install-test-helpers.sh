@@ -2,8 +2,9 @@
 
 # install bats
 git clone https://github.com/sstephenson/bats.git ./helpers/bats
-cd bats
-./install.sh /usr/local
+cd ./helpers/bats
+sudo ./install.sh /usr/local
 
-# install stub
-git clone https://github.com/jimeh/stub.sh.git ./helpers/stub
+git clone https://github.com/ztombol/bats-support.git ./helpers/bats-support
+git clone https://github.com/ztombol/bats-assert.git ./helpers/bats-assert
+git clone https://github.com/ztombol/bats-file.git ./helpers/bats-file
