@@ -4,6 +4,7 @@
 git clone https://github.com/sstephenson/bats.git ./helpers/bats
 cd ./helpers/bats
 sudo ./install.sh /usr/local
+cd ../..
 
 # install bats helper libraries
 git clone https://github.com/ztombol/bats-support.git ./helpers/bats-support
