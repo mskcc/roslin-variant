@@ -11,4 +11,4 @@
 *.pyc
 /test/outputs
 /test/mock/stub
-/test/bats*
+/test/helpers/bats*
