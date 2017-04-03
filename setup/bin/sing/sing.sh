@@ -5,7 +5,7 @@
 
 if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || [ -z $PRISM_SINGULARITY_PATH ]
 then
-    echo "Some necessary paths are not correctly configured!"
+    echo "Some of the necessary paths are not correctly configured!"
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"

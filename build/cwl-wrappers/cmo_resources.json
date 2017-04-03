@@ -165,7 +165,7 @@
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
         }, 
         "gatk": {
-            "default": "/usr/bin/gatk.jar"
+            "default": "sudo docker run -i gatk:3.3-0"
         }, 
         "gdc-client": {
             "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client"
@@ -204,7 +204,7 @@
             "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
         }, 
         "picard": {
-            "default": "/usr/bin/picard-tools/picard.jar"
+            "default": "sudo docker run -i picard:1.129"
         }, 
         "pindel": {
             "default": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel"

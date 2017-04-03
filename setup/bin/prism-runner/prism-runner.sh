@@ -74,6 +74,12 @@ then
     exit 1
 fi
 
+if [ ! -r "$INPUT_FILENAME" ]
+then
+    echo "The input file is not found or not readable."
+    exit 1
+fi
+
 # get absolute path for output directory
 OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
 
@@ -82,12 +88,6 @@ mkdir -p ${OUTPUT_DIRECTORY}
 
 # create log directory (under output)
 mkdir -p ${OUTPUT_DIRECTORY}/log
-
-if [ ! -r "$INPUT_FILENAME" ]
-then
-    echo "The input file is not found or not readable."
-    exit 1
-fi
 
 # handle batch system options
 case $BATCH_SYSTEM in

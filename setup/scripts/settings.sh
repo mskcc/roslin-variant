@@ -17,5 +17,6 @@ export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
 export PRISM_INPUT_PATH="${PRISM_ROOT}/ifs/prism/inputs"
 
 # path to singularity executable
-# override this if you want to test a different version of singularity
-export PRISM_SINGULARITY_PATH=`which singularity`
+# singularity is expected to be found at the same location regardless of the nodes you're on
+# override this if you want to test a different version of singularity.
+export PRISM_SINGULARITY_PATH="/usr/bin/singularity"

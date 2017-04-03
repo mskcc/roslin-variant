@@ -9,3 +9,6 @@
 /setup/tools/**
 /*.tgz
 *.pyc
+/test/outputs
+/test/mock/stub
+/test/helpers/bats*

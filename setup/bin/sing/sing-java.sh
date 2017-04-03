@@ -35,20 +35,9 @@ done
 # echo ${sing_opts[*]}
 # sing.sh picard 1.129 MarkDuplicates a b c d
 
-
 tool_name=${sing_opts[1]}
 tool_version=${sing_opts[2]}
 tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
-
-# if [ "$tool_name" == "picard" ]
-# then
-#     if [ "$tool_version" == "1.96" ]
-#     then
-#         tool_name="/usr/bin/picard-tools/${sing_opts[3]}.jar"
-#     else
-#         tool_name="/usr/bin/picard-tools/picard.jar ${sing_opts[3]}"
-#     fi
-# fi
 
 # override $tool_name and/or $tool_opts 
 case $tool_name in
