@@ -1,0 +1,10 @@
+outputs:
+  recal_matrix: 
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.o) 
+            return inputs.o;
+          return null;
+        }

@@ -2,8 +2,12 @@
 e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 39a50e01369af1b85d4a37230cfe8640  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 94462d01c111f9e8e5a061b37d127d50  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
+bb1b33663789b0016ca889b45159b292  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
+b9016dc073bad957f26f52eb2263ab2c  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
+e4f541583f63ede66a5f8f043c152008  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 ed873a7dc75dcc9c26788834fa1ab043  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
+17058c46149babc9bea6c6007de65674  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 1ea49f6ef77497dbe0bc104dae5af362  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 a602195336d9c9717f93da5d619c40bc  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl

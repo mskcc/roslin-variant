@@ -60,11 +60,14 @@ do
     cmo_wrapper=$(get_cmo_wrapper_name $tool_info)
 
     # fixme: not supported yet
-    if [ "$tool_name" == "gatk" ]
-    then
-        echo "${tool_name} ${tool_version} ${cmo_wrapper}: not supported"
-        continue
-    fi
+    # if [ "$tool_name" == "gatk" ]
+    # then
+    #     if [ "$cmo_wrapper" != "cmo_gatk.FindCoveredIntervals" ]
+    #     then
+    #         echo "${tool_name} ${tool_version} ${cmo_wrapper}: not supported"
+    #         continue
+    #     fi
+    # fi
 
     echo "Generating CWL: ${cmo_wrapper} (${tool_name} version ${tool_version})"
 
