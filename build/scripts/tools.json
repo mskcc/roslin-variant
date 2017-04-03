@@ -9,7 +9,6 @@
             "1.3.1"
         ],
         "picard": [
-            "1.129",
             "1.96"
         ],
         "trimgalore": [
@@ -32,10 +31,11 @@
         ],
         "picard": [
             "cmo_picard.MarkDuplicates",
-            "cmo_picard.AddOrReplaceReadGroups"
+            "cmo_picard.AddOrReplaceReadGroups",
+            "cmo_picard.FixMateInformation"
         ],
         "gatk": [
-            "cmo_gatk.FindCoveredInterval",
+            "cmo_gatk.FindCoveredIntervals",
             "cmo_gatk.BaseRecalibrator",
             "cmo_gatk.PrintReads"
         ],
