@@ -1,0 +1,42 @@
+Bootstrap: docker
+From: /pipeline-vardict:1.4.6
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    source /tmp/settings-container.sh
+    
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    exec /usr/bin/vardict/bin/VarDict "$@"
+
+%test
+
+    # get actual output of the tool
+    /usr/bin/vardict/bin/VarDict | head -1 > /tmp/actual.diff.txt
+
+# expected output
+cat > /tmp/expected.diff.txt << EOM
+usage: vardict [-n name_reg] [-b bam] [-c chr] [-S start] [-E end] [-s seg_starts] [-e seg_ends] [-x #_nu] [-g gene] [-f freq] [-r #_reads]
+EOM
+
+    # diff
+    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+
+    # delete tmp
+    rm -rf /tmp/*.diff.txt
