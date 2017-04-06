@@ -24,4 +24,7 @@ RUN apk add --update \
       && mv /tmp/VarDict-${VARDICT_VERSION} /usr/bin/vardict \
       && rm -rf /tmp/*
 
+COPY testsomatic.R /usr/bin/vardict/
+COPY var2vcf_paired.pl /usr/bin/vardict/
+
 ENTRYPOINT ["/usr/bin/vardict/bin/VarDict"]
