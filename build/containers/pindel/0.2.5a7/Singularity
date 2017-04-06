@@ -1,0 +1,51 @@
+Bootstrap: docker
+From: /pipeline-pindel:0.2.5a7
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    source /tmp/settings-container.sh
+    
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    case $1 in
+        pindel) shift; exec /usr/bin/pindel "$@" ;;
+        pindel2vcf) shift; exec /usr/bin/pindel2vcf "$@" ;;
+        *) echo "pindel or pindel2vcf?"; exit 1 ;;
+    esac
+
+%test
+
+    # get actual output of the tool
+    /usr/bin/pindel -h | head -2 > /tmp/actual.diff.txt
+    /usr/bin/pindel2vcf -h | head -3  >> /tmp/actual.diff.txt
+
+# expected output
+cat > /tmp/expected.diff.txt << EOM
+Initializing parameters...
+Pindel version 0.2.5a7, Sept 16 2014.
+
+Program:   pindel2vcf (conversion of Pindel output to VCF format)
+Version:   0.6.0
+EOM
+
+    # diff
+    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+
+    # delete tmp
+    rm -rf /tmp/*.diff.txt
