@@ -29,10 +29,12 @@ Registry: http://localhost:5000
 
     # get actual output of the tool
     /usr/bin/vardict/bin/VarDict | head -1 > /tmp/actual.diff.txt
+    /usr/bin/Rscript --version >> /tmp/actual.diff.txt 2>&1
 
 # expected output
 cat > /tmp/expected.diff.txt << EOM
 usage: vardict [-n name_reg] [-b bam] [-c chr] [-S start] [-E end] [-s seg_starts] [-e seg_ends] [-x #_nu] [-g gene] [-f freq] [-r #_reads]
+R scripting front-end version 3.3.2 (2016-10-31)
 EOM
 
     # diff
