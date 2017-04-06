@@ -5,5 +5,5 @@ in:
 targets:
   class: File
   path: ./sample.bed
-working: $TMPDIR
+working: ${tmpdir}
 out: realigned.bam
