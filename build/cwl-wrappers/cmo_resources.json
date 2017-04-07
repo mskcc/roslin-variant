@@ -195,7 +195,7 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "default": "/opt/common/CentOS_6-dev/mutect/v1.1.8/mutect.jar"
+            "default": "sudo docker run -i mutect:1.1.4"
         }, 
         "mutsig-cv": {
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
@@ -240,7 +240,7 @@
             "default": "sudo docker run -i trimgalore:0.2.5.mod"
         }, 
         "vardict": {
-            "default": "/opt/common/CentOS_6-dev/vardict/v1.4.2/build/install/VarDict/bin/VarDict"
+            "default": "sudo docker run -i vardict:1.4.6"
         }, 
         "varscan": {
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"

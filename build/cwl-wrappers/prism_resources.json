@@ -230,10 +230,8 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar", 
-            "1.1.7": "/opt/common/CentOS_6-dev/mutect/v1.1.7/mutect.jar", 
-            "1.1.8": "/opt/common/CentOS_6-dev/mutect/v1.1.8/mutect.jar", 
-            "default": "/opt/common/CentOS_6-dev/mutect/v1.1.8/mutect.jar"
+            "1.1.4": "sing.sh mutect 1.1.4",
+            "default": "sing.sh mutect 1.1.4"
         }, 
         "mutsig-cv": {
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
@@ -292,8 +290,8 @@
             "default": "sing.sh trimgalore 0.2.5.mod"
         }, 
         "vardict": {
-            "1.4.2": "/opt/common/CentOS_6-dev/vardict/v1.4.2/build/install/VarDict/bin/VarDict", 
-            "default": "/opt/common/CentOS_6-dev/vardict/v1.4.2/build/install/VarDict/bin/VarDict"
+            "1.4.6": "sing.sh vardict 1.4.6",
+            "default": "sing.sh vardict 1.4.6"
         }, 
         "varscan": {
             "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar", 

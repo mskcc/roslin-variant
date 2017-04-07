@@ -35,7 +35,7 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
 
     # because of the way fake-tool is built,
     # if it runs correctly, it will echo out the arguments received
-    assert_output "${java_opts} fake-tool ${tool_opts}"
+    assert_output "${java_opts} /usr/bin/fake-tool.jar ${tool_opts}"
 }
 
 @test "should properly construct the sing call for picard 1.129" {
@@ -121,6 +121,35 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
     # expect:
     #
     # sing.sh abra 0.92 -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar /usr/bin/abra.jar a b c d
+    #
+    assert_output "sing.sh ${tool_name} ${tool_version} ${java_opts} /usr/bin/${tool_name}.jar ${tool_opts}"
+
+    unstubs
+}
+
+@test "should properly construct the sing call for mutect 1.1.4" {
+
+    # this will load PRISM_BIN_PATH and PRISM_DATA_PATH
+    source ./settings.sh
+    
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    java_opts="-Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar"
+    tool_name="mutect"
+    tool_version="1.1.4"
+    tool_opts="a b c d"
+
+    # stub sing.sh to echo out "sing.sh" + all the rest of the arguments passed
+    stub sing.sh 'echo "sing.sh $@"'
+
+    run ${SING_JAVA_SCRIPT} ${java_opts} \
+        sing.sh ${tool_name} ${tool_version} ${tool_opts}
+
+    assert_success
+
+    # expect:
+    #
+    # sing.sh mutect 1.1.4 -Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar /usr/bin/mutect.jar a b c d
     #
     assert_output "sing.sh ${tool_name} ${tool_version} ${java_opts} /usr/bin/${tool_name}.jar ${tool_opts}"
 

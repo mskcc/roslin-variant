@@ -57,6 +57,11 @@ case $tool_name in
         tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
         ;;
 
+    *)
+        tool_name="/usr/bin/${tool_name}.jar"
+        tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
+        ;;
+
 esac
 
 sing=`echo ${sing_opts[*]} | cut -d' ' -f1-3`

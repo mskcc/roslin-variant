@@ -20,6 +20,16 @@
         ],
         "abra": [
             "0.92"
+        ],
+        "mutect": [
+            "1.1.4"
+        ],
+        "vardict": [
+            "1.4.6"
+        ],
+        "pindel": [
+            "0.2.5b8",
+            "0.2.5a7"
         ]
     },
     "containerDependency": {
