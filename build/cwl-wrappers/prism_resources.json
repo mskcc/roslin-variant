@@ -230,7 +230,7 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "1.1.4": "sing.sh mutect 1.1.4",
+            "1.1.4": "sing.sh mutect 1.1.4", 
             "default": "sing.sh mutect 1.1.4"
         }, 
         "mutsig-cv": {
@@ -290,7 +290,7 @@
             "default": "sing.sh trimgalore 0.2.5.mod"
         }, 
         "vardict": {
-            "1.4.6": "sing.sh vardict 1.4.6",
+            "1.4.6": "sing.sh vardict 1.4.6", 
             "default": "sing.sh vardict 1.4.6"
         }, 
         "varscan": {
