@@ -2,9 +2,9 @@ outputs:
   out_bam:
     type: File
     outputBinding:
-      glob: | 
+      glob: |
         $(
-          if(inputs.out) 
+          if(inputs.out)
             return inputs.out;
           return null;
         }
