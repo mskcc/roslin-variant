@@ -6,14 +6,14 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-  - http://dublincore.org/2012/06/14/dcterms.rdf
-  - http://xmlns.com/foaf/spec/20140114.rdf
-  - http://usefulinc.com/ns/doap#
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:name: cmo-picard.FixMateInformation.cwl
 doap:release:
-  - class: doap:Version
-    doap:revision: '1.96'
+- class: doap:Version
+  doap:revision: '1.96'
 
 dct:creator:
 - class: foaf:Organization
@@ -35,10 +35,13 @@ dct:contributor:
 # To generate again: $ cmo_picard --generate_cwl_tool
 # Help: $ cmo_picard --help_arg2cwl
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: ['cmo_picard', '--version 1.96', '--cmd FixMateInformation']
+baseCommand:
+- cmo_picard
+- --cmd
+- FixMateInformation
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -54,89 +57,89 @@ inputs:
 
   I:
     type:
-    - "null"
-    - type: array
-      items: string
-  
-  
+    - 'null'
+    - File
     inputBinding:
-      prefix: --I 
+      prefix: --I
 
   O:
-    type: ["null", string]
-    doc: The output file to write to. If no output file is supplied, the input file is overwritten. Default value - null. 
+    type: ['null', string]
+    doc: The output file to write to. If no output file is supplied, the input file
+      is overwritten. Default value - null.
     inputBinding:
-      prefix: --O 
+      prefix: --O
 
   QUIET:
-    type: ["null", boolean]
-    default: False
-  
+    type: ['null', boolean]
+    default: false
+
     inputBinding:
-      prefix: --QUIET 
+      prefix: --QUIET
 
   CREATE_MD5_FILE:
-    type: ["null", boolean]
-    default: False
-  
+    type: ['null', boolean]
+    default: false
+
     inputBinding:
-      prefix: --CREATE_MD5_FILE 
+      prefix: --CREATE_MD5_FILE
 
   CREATE_INDEX:
-    type: ["null", boolean]
-    default: False
-  
+    type: ['null', boolean]
+    default: false
+
     inputBinding:
-      prefix: --CREATE_INDEX 
+      prefix: --CREATE_INDEX
 
   TMP_DIR:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --TMP_DIR 
+      prefix: --TMP_DIR
 
   VERBOSITY:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY 
+      prefix: --VERBOSITY
 
   VALIDATION_STRINGENCY:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --VALIDATION_STRINGENCY 
+      prefix: --VALIDATION_STRINGENCY
 
   COMPRESSION_LEVEL:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL 
+      prefix: --COMPRESSION_LEVEL
 
   MAX_RECORDS_IN_RAM:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM 
+      prefix: --MAX_RECORDS_IN_RAM
 
   REFERENCE_SEQUENCE:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --REFERENCE_SEQUENCE 
+      prefix: --REFERENCE_SEQUENCE
 
   stderr:
-    type: ["null", string]
+    type: ['null', string]
     doc: log stderr to file
     inputBinding:
-      prefix: --stderr 
+      prefix: --stderr
 
   stdout:
-    type: ["null", string]
+    type: ['null', string]
     doc: log stdout to file
     inputBinding:
-      prefix: --stdout 
+      prefix: --stdout
 
 
 outputs:
-    []
+  out_bam:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O;
+          return null;
+        }
