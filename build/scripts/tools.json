@@ -30,6 +30,9 @@
         "pindel": [
             "0.2.5b8",
             "0.2.5a7"
+        ],
+        "list2bed": [
+            "1.0.0"
         ]
     },
     "containerDependency": {

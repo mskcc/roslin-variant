@@ -219,6 +219,10 @@
             "0.42.1": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto", 
             "default": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto"
         }, 
+        "list2bed": {
+            "1.0.0": "sing.sh list2bed 1.0.0", 
+            "default": "sing.sh list2bed 1.0.0"
+        }, 
         "matlab": {
             "R2014b": "/opt/common/CentOS_6-dev/matlab/R2014b/", 
             "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"
