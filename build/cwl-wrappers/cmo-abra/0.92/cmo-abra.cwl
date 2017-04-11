@@ -133,8 +133,8 @@ inputs:
   in:
     type: 
 
-      - string
-      - File
+      - string[]
+      - File[]
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
       prefix: --in
@@ -167,7 +167,7 @@ inputs:
       prefix: --adc
 
   out:
-    type: string
+    type: string[]
 
     doc: Required list of output sam or bam file (s) separated by comma
     inputBinding:
