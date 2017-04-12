@@ -8,10 +8,10 @@ $schemas:
   - http://xmlns.com/foaf/spec/20140114.rdf
   - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-abra.cwl
+doap:name: list2bed.cwl
 doap:release:
   - class: doap:Version
-    doap:revision: '0.92'
+    doap:revision: '1.0.0'
 
 dct:creator:
 - class: foaf:Organization
