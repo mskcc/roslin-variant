@@ -82,7 +82,7 @@ inputs:
   input_file:
     type:
       type: array
-      items: string
+      items: File
       inputBinding:
         prefix: --input_file
     doc: Input file containing sequence data (SAM or BAM)
