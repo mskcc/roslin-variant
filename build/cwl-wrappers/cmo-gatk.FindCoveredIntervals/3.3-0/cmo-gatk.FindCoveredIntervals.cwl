@@ -81,13 +81,11 @@ inputs:
 
   input_file:
     type:
-    - type: array
+      type: array
       items: string
-
+      inputBinding:
+        prefix: --input_file
     doc: Input file containing sequence data (SAM or BAM)
-    inputBinding:
-      prefix: --input_file
-
   read_buffer_size:
     type:
     - 'null'

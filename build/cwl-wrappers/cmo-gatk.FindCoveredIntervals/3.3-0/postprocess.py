@@ -37,7 +37,19 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['input_file']['type'].remove('null')
+# 1) we're doing this way to preserve the order
+#    can't figure out other ways.
+# 2) the prefix --input_file param must be set up this way to have
+#    GATK output --input_file multiple times
+    input_file_type = """
+type: array
+items: string
+inputBinding:
+  prefix: --input_file
+"""
+    cwl['inputs']['input_file']['type'] = ruamel.yaml.load(input_file_type, ruamel.yaml.RoundTripLoader)
+    del cwl['inputs']['input_file']['inputBinding']
+
     cwl['inputs']['num_threads']['type'] = ['null', 'string']
     cwl['inputs']['out']['type'] = 'string'
 

@@ -1,0 +1,4 @@
+input_file: ['/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/bam/P1_ADDRG_MD.bam','/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/bam/P2_ADDRG_MD.bam']
+java_args: '-Xmx48g -Xms256m -XX:-UseGCOverheadLimit'
+out: intervals.list
+reference_sequence: GRCh37
