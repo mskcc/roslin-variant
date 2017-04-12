@@ -131,10 +131,8 @@ inputs:
       prefix: --mnf
 
   in:
-    type: 
+    type: string[]
 
-      - string[]
-      - File[]
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
       prefix: --in
@@ -240,12 +238,7 @@ inputs:
 
 
 outputs:
-  bam:
-    type: File
+  out:
+    type: File[]
     outputBinding:
-      glob: |
-        ${
-          if (inputs.out)
-            return inputs.out;
-          return null;
-        }
+      glob: '*.abra.bam'
