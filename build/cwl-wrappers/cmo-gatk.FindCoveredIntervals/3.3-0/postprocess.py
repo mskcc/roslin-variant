@@ -43,7 +43,7 @@ def main():
 #    GATK output --input_file multiple times
     input_file_type = """
 type: array
-items: string
+items: File
 inputBinding:
   prefix: --input_file
 """
