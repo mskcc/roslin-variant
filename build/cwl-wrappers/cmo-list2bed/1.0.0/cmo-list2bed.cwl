@@ -10,10 +10,10 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-abra.cwl
+doap:name: cmo-list2bed.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: '0.92'
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -32,16 +32,13 @@ dct:contributor:
     foaf:mbox: mailto:chunj@mskcc.org
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ list2bed.py --generate_cwl_tool
-# Help: $ list2bed.py --help_arg2cwl
+# To generate again: $ cmo_list2bed -o FILENAME --generate_cwl_tool
+# Help: $ cmo_list2bed  --help_arg2cwl
 
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- sing.sh
-- list2bed
-- 1.0.0
+baseCommand: cmo_list2bed
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -51,16 +48,16 @@ requirements:
 
 
 doc: |
-  None
+  rerun a FIZZLED Job
 
 inputs:
-
   input_file:
-    type:
-    - string
-    - File
-    - type: array
-      items: string
+    type: 
+
+      - string
+      - File
+      - type: array
+        items: string
     doc: picard interval list
     inputBinding:
       prefix: --input_file
@@ -90,6 +87,3 @@ outputs:
             return inputs.output_file;
           return null;
         }
-
-
-

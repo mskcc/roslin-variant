@@ -54,6 +54,9 @@
         ],
         "abra": [
             "cmo_abra"
+        ],
+        "list2bed": [
+            "cmo_list2bed"
         ]
     }
 }

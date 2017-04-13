@@ -8,7 +8,7 @@ $schemas:
   - http://xmlns.com/foaf/spec/20140114.rdf
   - http://usefulinc.com/ns/doap#
 
-doap:name: list2bed.cwl
+doap:name: cmo-list2bed.cwl
 doap:release:
   - class: doap:Version
     doap:revision: '1.0.0'

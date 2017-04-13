@@ -37,7 +37,17 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['baseCommand'] = ['sing.sh', 'list2bed', '1.0.0']
+    cwl['baseCommand'] = 'cmo_list2bed'
+
+# we're doing this way to preserve the order
+# can't figure out other ways.
+    input_file_type = """
+- string
+- File
+- type: array
+  items: string
+"""
+    cwl['inputs']['input_file']['type'] = ruamel.yaml.load(input_file_type, ruamel.yaml.RoundTripLoader)
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))
