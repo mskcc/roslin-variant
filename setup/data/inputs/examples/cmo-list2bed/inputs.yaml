@@ -1,0 +1,4 @@
+input_file:
+  class: File
+  path: ./intervals.list
+output_file: 'intervals.bed'
