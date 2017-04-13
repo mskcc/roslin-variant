@@ -23,7 +23,8 @@ Registry: http://localhost:5000
 
 %runscript
 
-    # just run java so that caller can pass java options
+    # disable per-user site-packages before run
+    export PYTHONNOUSERSITE="set"
     python /usr/bin/list2bed.py
 
 %test
