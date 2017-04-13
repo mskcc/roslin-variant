@@ -1,4 +1,4 @@
-f37c376cc7c01437a70c79276b8f37cf  ./cmo-abra/0.92/cmo-abra.cwl
+579b17b37d92b2a50d1b8bfc9968d805  ./cmo-abra/0.92/cmo-abra.cwl
 e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 39a50e01369af1b85d4a37230cfe8640  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 94462d01c111f9e8e5a061b37d127d50  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
@@ -14,5 +14,6 @@ a602195336d9c9717f93da5d619c40bc  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 5667fb56756146f2b22f2701499b5991  ./module-1.cwl
-f2d1b01180ab7a7fbf5cc925de692354  ./module-2.cwl
+941b7459de2fcf0bb513b939e2914ba8  ./module-2.cwl
+661fa1c3c2057cc56bb9c9a8d943d9dc  ./module-2a.cwl
 7a1dfe1cdc09749d77e3c8333b250fb6  ./samtools/1.3.1/samtools-sam2bam.cwl

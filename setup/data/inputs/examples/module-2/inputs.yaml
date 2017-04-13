@@ -14,5 +14,4 @@ covariates: [ 'CycleCovariate','ContextCovariate','ReadGroupCovariate','QualityS
 abra_scratch: "/scratch/abra_temp/"
 recal_file: "recal.matrix"
 emit_original_quals: true
-fci_file:  "intervals.list"
 num_threads: "10"

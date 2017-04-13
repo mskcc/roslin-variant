@@ -22,16 +22,6 @@ inputs:
     num_threads: string
 
 outputs:
-    covint_list:
-        type:
-            type: array
-            items: File
-        outputSource: gatk_find_covered_intervals/fci_list
-#    covint_bed:
-#        type:
-#            type: array
-#            items: File
-#        outputSource: group_process/fci_bed
     bams:
         type:
             type: array
@@ -39,21 +29,6 @@ outputs:
         outputSource: parallel_printreads/out
 
 steps:
-    gatk_find_covered_intervals:
-        run: ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
-        in:
-            reference_sequence: fasta
-            input_file: bams
-            out: fci_file
-        out: [fci_list]
-    list2bed:
-        run: ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
-        in:
-            input_file: gatk_find_covered_intervals/fci_list
-            output_file:
-                valueFrom: |
-                    ${ return inputs.input_file.basename.replace( ".list", ".bed"); }
-        out: [output_file]
     abra:
         run: ./cmo-abra/0.92/cmo-abra.cwl
         in:
@@ -63,7 +38,8 @@ steps:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.nameroot + ".abra.bam"; }); }
             working: abra_scratch
-            targets: list2bed/output_file
+            targets:
+                valueFrom: './intervals.bed'
         out: [out]
     parallel_fixmate:
         in:

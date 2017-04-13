@@ -37,10 +37,17 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['in']['type'] = 'File[]'
+# we're doing this way to preserve the order
+# can't figure out other ways.
+    input_file_type = """
+type: array
+items: File
+"""
+    cwl['inputs']['in']['type'] = ruamel.yaml.load(input_file_type, ruamel.yaml.RoundTripLoader)
     cwl['inputs']['in']['secondaryFiles'] = ['.bai']
     cwl['inputs']['targets']['type'].insert(1, 'File')
     cwl['inputs']['out']['type'] = 'string[]'
+    cwl['inputs']['out']['inputBinding'].insert(0, 'itemSeparator', ',')
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 

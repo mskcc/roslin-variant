@@ -131,8 +131,10 @@ inputs:
       prefix: --mnf
 
   in:
-    type: File[]
+    type: 
 
+      type: array
+      items: File
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
       prefix: --in
@@ -169,6 +171,7 @@ inputs:
 
     doc: Required list of output sam or bam file (s) separated by comma
     inputBinding:
+      itemSeparator: ','
       prefix: --out
 
   sv:
