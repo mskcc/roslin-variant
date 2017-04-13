@@ -28,7 +28,7 @@ else
 fi
 
 #fixme: 777 really?
-chmod -R 777 ${PRISM_BIN_PATH}/tmp
+chmod 777 ${PRISM_BIN_PATH}/tmp
 
 # directories for pipeline inputs
 mkdir -p ${PRISM_INPUT_PATH}
