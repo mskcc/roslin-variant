@@ -137,6 +137,7 @@ inputs:
       items: File
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
+      itemSeparator: ','
       prefix: --in
 
     secondaryFiles:
