@@ -5,7 +5,7 @@ source ./settings.sh
 
 # directories for binaries, executables, scripts
 mkdir -p ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}
-
+mkdir -p ${PRISM_BIN_PATH}/schemas
 mkdir -p ${PRISM_BIN_PATH}/tools
 
 mkdir -p ${PRISM_BIN_PATH}/bin/setup
