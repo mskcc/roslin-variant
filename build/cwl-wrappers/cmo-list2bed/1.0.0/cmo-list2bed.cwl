@@ -38,7 +38,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: cmo_list2bed
+baseCommand:
+- sing.sh
+- list2bed
+- 1.0.0
 
 requirements:
   InlineJavascriptRequirement: {}
