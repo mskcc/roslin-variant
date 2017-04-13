@@ -1,9 +1,11 @@
 ref: GRCh37
 in:
-  class: File
-  path: ./sample.bam
+  - class: File
+    path: ./sample.bam
 targets:
   class: File
   path: ./sample.bed
 working: ${tmpdir}
-out: realigned.bam
+
+# filename must end with .abra.bam
+out: ['realigned.abra.bam']

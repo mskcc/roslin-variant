@@ -131,7 +131,7 @@ inputs:
       prefix: --mnf
 
   in:
-    type: string[]
+    type: File[]
 
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:

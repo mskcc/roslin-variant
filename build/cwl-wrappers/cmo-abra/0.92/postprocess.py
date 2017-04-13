@@ -37,7 +37,7 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['in']['type'] = 'string[]'
+    cwl['inputs']['in']['type'] = 'File[]'
     cwl['inputs']['in']['secondaryFiles'] = ['.bai']
     cwl['inputs']['targets']['type'].insert(1, 'File')
     cwl['inputs']['out']['type'] = 'string[]'
