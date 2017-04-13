@@ -25,7 +25,7 @@ Registry: http://localhost:5000
 
     # disable per-user site-packages before run
     export PYTHONNOUSERSITE="set"
-    python /usr/bin/list2bed.py
+    python /usr/bin/list2bed.py "$@"
 
 %test
 
