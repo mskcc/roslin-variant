@@ -5,7 +5,7 @@ source ./settings.sh
 
 # directories for binaries, executables, scripts
 mkdir -p ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}
-
+mkdir -p ${PRISM_BIN_PATH}/schemas
 mkdir -p ${PRISM_BIN_PATH}/tools
 
 mkdir -p ${PRISM_BIN_PATH}/bin/setup
@@ -28,7 +28,7 @@ else
 fi
 
 #fixme: 777 really?
-chmod -R 777 ${PRISM_BIN_PATH}/tmp
+chmod 777 ${PRISM_BIN_PATH}/tmp
 
 # directories for pipeline inputs
 mkdir -p ${PRISM_INPUT_PATH}

@@ -66,12 +66,15 @@ chunj
 └── examples
    ├── cmo-abra
    ├── cmo-bwa-mem
+   ├── cmo-gatk.FindCoveredIntervals
+   ├── cmo-list2bed
    ├── cmo-picard.AddOrReplaceReadGroups
    ├── cmo-picard.MarkDuplicates
    ├── cmo-trimgalore
    ├── env
    ├── fastq
    ├── module-1
+   ├── module-2
    └── samtools-sam2bam
 ```
 
@@ -121,10 +124,10 @@ adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 fastq1:
   class: File
-  path: ../fastq/P1_R1.fastq.gz
+  path: .../data/fastq/P1_R1.fastq.gz
 fastq2:
   class: File
-  path: ../fastq/P1_R2.fastq.gz
+  path: .../data/fastq/P1_R2.fastq.gz
 
 genome: "GRCh37"
 bwa_output: P1.bam
@@ -164,15 +167,23 @@ Here are some of the parameters you can specify for `prism-runner.sh`:
 
 The current supported workflows that you can specify with `-w` is as follows:
 
-- cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
-- cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-- samtools/1.3.1/samtools-sam2bam.cwl
-- module-1.cwl
-- cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
-- cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
-- cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
-- cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
-- cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
-- cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
-- cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
-- cmo-abra/0.92/cmo-abra.cwl
+```
+cmo-abra/0.92/cmo-abra.cwl
+cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
+cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
+cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
+cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
+cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
+cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
+cmo-list2bed/1.0.0/cmo-list2bed.cwl
+cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
+cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
+cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
+cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
+cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
+cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
+module-1.cwl
+module-2.cwl
+samtools/1.3.1/samtools-sam2bam.cwl
+```

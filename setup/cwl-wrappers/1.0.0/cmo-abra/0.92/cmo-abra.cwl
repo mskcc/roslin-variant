@@ -133,10 +133,11 @@ inputs:
   in:
     type: 
 
-      - string
-      - File
+      type: array
+      items: File
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
+      itemSeparator: ','
       prefix: --in
 
     secondaryFiles:
@@ -167,10 +168,11 @@ inputs:
       prefix: --adc
 
   out:
-    type: string
+    type: string[]
 
     doc: Required list of output sam or bam file (s) separated by comma
     inputBinding:
+      itemSeparator: ','
       prefix: --out
 
   sv:
@@ -240,12 +242,7 @@ inputs:
 
 
 outputs:
-  bam:
-    type: File
+  out:
+    type: File[]
     outputBinding:
-      glob: |
-        ${
-          if (inputs.out)
-            return inputs.out;
-          return null;
-        }
+      glob: '*.abra.bam'

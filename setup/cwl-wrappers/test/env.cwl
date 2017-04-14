@@ -2,7 +2,7 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand: ["env"]
-stdout:	env.txt
+stdout: env.txt
 
 inputs:
     message: string

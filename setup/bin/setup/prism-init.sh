@@ -20,6 +20,7 @@ USAGE: `basename $0` [options]
 OPTIONS:
 
    -u      Username you want to configure a workplace for
+   -f      Overwrite workspace even if it exists
 
 EXAMPLE:
 
@@ -29,12 +30,14 @@ EOF
 }
 
 USE_SINGLE_MACHINE_EXAMPLE=0
+FORCE_OVERWRITE=0
 
-while getopts “u:sh” OPTION
+while getopts “u:sfh” OPTION
 do
     case $OPTION in
         u) USER_ID=$OPTARG ;;
         s) USE_SINGLE_MACHINE_EXAMPLE=1 ;;
+        f) FORCE_OVERWRITE=1 ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
@@ -56,7 +59,7 @@ fi
 HOME_DIR=$HOME
 # HOME_DIR="/home/${USER_ID}"
 
-if [ -d "${PRISM_INPUT_PATH}/${USER_ID}" ]
+if [ -d "${PRISM_INPUT_PATH}/${USER_ID}" ] && [ "${FORCE_OVERWRITE}" -eq 0 ]
 then
     echo "Your workspace already exists: ${PRISM_INPUT_PATH}/${USER_ID}"
     echo "Aborted."
