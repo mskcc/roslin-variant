@@ -683,7 +683,7 @@ outputs:
     type: File
     outputBinding:
       glob: |
-        $(
+        ${
           if (inputs.out)
             return inputs.out;
           return null;
