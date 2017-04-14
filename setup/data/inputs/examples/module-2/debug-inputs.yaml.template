@@ -25,7 +25,6 @@ abra_scratch: ${tmpdir}
 recal_file: 'recal.matrix'
 emit_original_quals: true
 fci_file:  'intervals.list'
-num_threads: '10'
 
 ############################### debug
 intervals:

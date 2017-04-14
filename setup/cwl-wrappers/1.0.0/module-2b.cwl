@@ -36,7 +36,6 @@ inputs:
     abra_scratch: string
     recal_file: string
     emit_original_quals: boolean
-    num_threads: string
 
 
 ############### debug
