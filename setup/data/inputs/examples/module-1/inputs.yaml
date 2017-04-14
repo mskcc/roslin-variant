@@ -2,10 +2,10 @@ adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
 adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
 fastq1:
   class: File
-  path: ../fastq/P1_R1.fastq.gz
+  path: ../data/fastq/P1_R1.fastq.gz
 fastq2:
   class: File
-  path: ../fastq/P1_R2.fastq.gz
+  path: ../data/fastq/P1_R2.fastq.gz
 
 genome: "GRCh37"
 bwa_output: P1.bam
