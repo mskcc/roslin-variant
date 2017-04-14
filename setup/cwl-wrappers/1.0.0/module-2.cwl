@@ -14,11 +14,24 @@ inputs:
         secondaryFiles:
             - .bai
     fasta: string
-    hapmap: string
-    dbsnp: string
-    indels_1000g: string
-    snps_1000g: string
+    hapmap:
+        type: File
+        secondaryFiles:
+            - .idx    
+    dbsnp:
+        type: File
+        secondaryFiles:
+            - .idx
+    indels_1000g:
+        type: File
+        secondaryFiles:
+            - .idx    
+    snps_1000g:
+        type: File
+        secondaryFiles:
+            - .idx    
     rf: string[]
+    fci_file: string
     num_cpu_threads_per_data_thread: string
     covariates: string[]
     abra_scratch: string

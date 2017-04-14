@@ -26,3 +26,16 @@ recal_file: 'recal.matrix'
 emit_original_quals: true
 fci_file:  'intervals.list'
 num_threads: '10'
+
+############################### debug
+intervals:
+  class: File
+  path: ./intervals.bed
+parallel_fixmate:
+  - class: File
+    path: ./P1_ADDRG_MD.abra.fmi.bam
+  - class: File
+    path: ./P2_ADDRG_MD.abra.fmi.bam
+recal_matrix:
+  class: File
+  path: ./recal.matrix
