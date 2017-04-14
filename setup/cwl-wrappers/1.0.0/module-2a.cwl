@@ -7,12 +7,29 @@ requirements:
     InlineJavascriptRequirement: {}
 
 inputs:
-    bams: File[]
+    bams:
+        type:
+            type: array
+            items: File
+        secondaryFiles:
+            - .bai
     fasta: string
-    hapmap: string
-    dbsnp: string
-    indels_1000g: string
-    snps_1000g: string
+    hapmap:
+        type: File
+        secondaryFiles:
+            - .idx    
+    dbsnp:
+        type: File
+        secondaryFiles:
+            - .idx
+    indels_1000g:
+        type: File
+        secondaryFiles:
+            - .idx    
+    snps_1000g:
+        type: File
+        secondaryFiles:
+            - .idx    
     rf: string[]
     num_cpu_threads_per_data_thread: string
     covariates: string[]
@@ -20,6 +37,8 @@ inputs:
     recal_file: string
     emit_original_quals: boolean
     num_threads: string
+    intervals:
+        type: File
 
 outputs:
     bams:
@@ -38,9 +57,9 @@ steps:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.nameroot + ".abra.bam"; }); }
             working: abra_scratch
-            targets:
-                valueFrom: './intervals.bed'
+            targets: intervals
         out: [out]
+
     parallel_fixmate:
         in:
             I: abra/out
@@ -79,6 +98,7 @@ steps:
             covariate: covariates
             out: recal_file
         out: [recal_matrix]
+
     parallel_printreads:
         in:
             input_file: parallel_fixmate/out

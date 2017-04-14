@@ -7,7 +7,12 @@ requirements:
     InlineJavascriptRequirement: {}
 
 inputs:
-    bams: File[]
+    bams:
+        type:
+            type: array
+            items: File
+        secondaryFiles:
+            - .bai
     fasta: string
     hapmap: string
     dbsnp: string
@@ -46,6 +51,7 @@ steps:
             input_file: bams
             out: fci_file
         out: [fci_list]
+
     list2bed:
         run: ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
         in:
@@ -65,6 +71,7 @@ steps:
             working: abra_scratch
             targets: list2bed/output_file
         out: [out]
+
     parallel_fixmate:
         in:
             I: abra/out
@@ -103,6 +110,7 @@ steps:
             covariate: covariates
             out: recal_file
         out: [recal_matrix]
+
     parallel_printreads:
         in:
             input_file: parallel_fixmate/out
