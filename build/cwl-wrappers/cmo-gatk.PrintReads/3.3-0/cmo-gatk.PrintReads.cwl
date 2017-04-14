@@ -684,7 +684,7 @@ outputs:
     outputBinding:
       glob: |
         $(
-          if(inputs.out)
+          if (inputs.out)
             return inputs.out;
           return null;
         }
