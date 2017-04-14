@@ -167,6 +167,7 @@ Here are some of the parameters you can specify for `prism-runner.sh`:
 
 The current supported workflows that you can specify with `-w` is as follows:
 
+```
 cmo-abra/0.92/cmo-abra.cwl
 cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
@@ -185,3 +186,4 @@ cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 module-1.cwl
 module-2.cwl
 samtools/1.3.1/samtools-sam2bam.cwl
+```
