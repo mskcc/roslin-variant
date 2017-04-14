@@ -83,10 +83,9 @@ inputs:
     - 'null'
     - type: array
       items: File
+      inputBinding:
+        prefix: --input_file
     doc: Input file containing sequence data (SAM or BAM)
-    inputBinding:
-      prefix: --input_file
-
   read_buffer_size:
     type:
     - 'null'
@@ -589,13 +588,13 @@ inputs:
 
   knownSites:
     type:
-    - type: array
-      items: string
-
+      type: array
+      items: File
+      inputBinding:
+        prefix: --knownSites
     doc: A database of known polymorphic sites to skip over in the recalibration algorithm
-    inputBinding:
-      prefix: --knownSites
-
+    secondaryFiles:
+    - .idx
   list:
     type: ['null', boolean]
     default: false
@@ -605,14 +604,12 @@ inputs:
 
   covariate:
     type:
-    - type: array
+      type: array
       items: string
-
+      inputBinding:
+        prefix: --covariate
     doc: One or more covariates to be used in the recalibration. Can be specified
       multiple times
-    inputBinding:
-      prefix: --covariate
-
   no_standard_covs:
     type: ['null', boolean]
     default: false

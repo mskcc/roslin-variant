@@ -37,17 +37,49 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-# we're doing this way to preserve the order
-# can't figure out other ways.
+# --input_file abc
+# --input_file def
+# --input_file ghi
     input_file = """
 - 'null'
 - type: array
   items: File
+  inputBinding:
+    prefix: --input_file
 """
-    cwl['inputs']['input_file']['type'] = ruamel.yaml.load(input_file, ruamel.yaml.RoundTripLoader)
+    cwl['inputs']['input_file']['type'] = ruamel.yaml.load(
+        input_file, ruamel.yaml.RoundTripLoader)
+    del cwl['inputs']['input_file']['inputBinding']
+
+# support multiple knownSites with .idx 
+# --knownSites abc.vcf
+# --knownSites def.vcf
+# --knownSites ghi.vcf
+    known_sites = """
+type: array
+items: File
+inputBinding:
+  prefix: --knownSites
+"""
+    cwl['inputs']['knownSites']['type'] = ruamel.yaml.load(
+        known_sites, ruamel.yaml.RoundTripLoader)
+    del cwl['inputs']['knownSites']['inputBinding']
+    cwl['inputs']['knownSites']['secondaryFiles'] = ['.idx']
+
+# --covariate abc
+# --covariate def
+# --covariate ghi
+    covariate = """
+type: array
+items: string
+inputBinding:
+  prefix: --covariate
+"""
+    cwl['inputs']['covariate']['type'] = ruamel.yaml.load(
+        covariate, ruamel.yaml.RoundTripLoader)
+    del cwl['inputs']['covariate']['inputBinding']
+
     cwl['inputs']['out']['type'] = ['null', 'string']
-    cwl['inputs']['knownSites']['type'].remove('null')
-    cwl['inputs']['covariate']['type'].remove('null')
 
     #-->
     # fixme: until we can auto generate cwl for GATK
@@ -59,7 +91,8 @@ def main():
 
     # from : ['cmo_gatk', '-T BaseRecalibrator', '--version 3.3-0']
     # to   : ['cmo_gatk', '-T', 'BaseRecalibrator', '--version', '3.3-0']
-    cwl['baseCommand'] = ['cmo_gatk', '-T', 'BaseRecalibrator', '--version', '3.3-0']
+    cwl['baseCommand'] = ['cmo_gatk', '-T',
+                          'BaseRecalibrator', '--version', '3.3-0']
     #<--
 
     write(params.filename_cwl, ruamel.yaml.dump(
