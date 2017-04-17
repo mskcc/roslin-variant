@@ -1,0 +1,44 @@
+Bootstrap: docker
+From: /pipeline-gatk:2.3-9
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    source /tmp/settings-container.sh
+    
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    # just run java so that caller can pass java options
+    # exec java -jar /usr/bin/gatk/"$@"
+    exec java "$@"
+
+%test
+
+    # get actual output of the tool
+    java -jar /usr/bin/gatk.jar --help | sed -n '2p;' > /tmp/actual.diff.txt
+
+# expected output
+cat > /tmp/expected.diff.txt << EOM
+The Genome Analysis Toolkit (GATK) v2.3-9-ge5ebf34, Compiled 2013/01/11 22:43:14
+EOM
+
+    # diff
+    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+
+    # delete tmp
+    rm -rf /tmp/*.diff.txt
