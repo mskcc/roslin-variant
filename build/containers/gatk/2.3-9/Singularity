@@ -24,7 +24,7 @@ Registry: http://localhost:5000
 %runscript
 
     # just run java so that caller can pass java options
-    # exec java -jar /usr/bin/gatk/"$@"
+    # exec java -jar /usr/bin/gatk.jar "$@"
     exec java "$@"
 
 %test
