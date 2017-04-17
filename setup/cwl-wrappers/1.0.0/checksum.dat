@@ -5,6 +5,7 @@ e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 0fcea72e3a28144a87e3d5331c78c523  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 937812c5db5f7ef8d1834c34b8b182c9  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
+0546ed755bd2a022c5077e12770ae10f  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 40da95f68018e0b5e885bf22712a8a0a  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 ed873a7dc75dcc9c26788834fa1ab043  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
@@ -14,7 +15,8 @@ a602195336d9c9717f93da5d619c40bc  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 5667fb56756146f2b22f2701499b5991  ./module-1.cwl
-b77f15ad0165e59dc58b06eeb6f2e0c6  ./module-2.cwl
-7908bb6e64bdd531d1443fd1e86fd392  ./module-2a.cwl
-d84bc18c3bdcbb1da6e0f063da624107  ./module-2b.cwl
+751f42da07c174192b7dc9b210815baf  ./module-2.cwl
+4cddbbfae5f4ea263b6a9abed281e156  ./module-2a.cwl
+e874d98ac325224fb25fba02c1a5585f  ./module-2b.cwl
+86db15a3c7ad1ce3e00dfc04e4ce63ed  ./modules-1-2.cwl
 7a1dfe1cdc09749d77e3c8333b250fb6  ./samtools/1.3.1/samtools-sam2bam.cwl

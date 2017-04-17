@@ -1,0 +1,19 @@
+outputs:
+  output:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.out)
+            return inputs.out;
+          return null;
+        }
+  verbose_output:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.verbose)
+            return inputs.verbose;
+          return null;
+        }

@@ -189,6 +189,7 @@
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
         }, 
         "gatk": {
+            "2.3-9": "sing.sh gatk 2.3-9", 
             "3.3-0": "sing.sh gatk 3.3-0", 
             "default": "sing.sh gatk 3.3-0"
         }, 
