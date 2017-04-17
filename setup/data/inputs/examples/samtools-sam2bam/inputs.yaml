@@ -1,4 +1,4 @@
 sam:
   class: File
-  path: sample.sam
+  path: ../data/sam/sample.sam
 output_filename: sample.bam

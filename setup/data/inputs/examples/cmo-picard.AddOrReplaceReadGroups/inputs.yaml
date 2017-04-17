@@ -6,7 +6,7 @@ SM: "P-0000377-T02-IM3"
 CN: "MSKCC"
 I:
   class: File
-  path: ./sample.bam
+  path: ../data/bam/sample1.bam
 O: "P-0000377-T02-IM3_ARRDRG.bam"
 SO: "coordinate"
 TMP_DIR: $TMPDIR
