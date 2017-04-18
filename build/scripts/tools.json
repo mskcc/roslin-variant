@@ -59,6 +59,9 @@
         ],
         "list2bed": [
             "cmo_list2bed"
+        ],
+        "mutect": [
+            "cmo_mutect"
         ]
     }
 }
