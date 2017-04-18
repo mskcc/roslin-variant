@@ -40,6 +40,12 @@ CMO_WRAPPER_WITH_DASH=`echo "${CMO_WRAPPER}" | sed "s/_/-/g"`
 
 TOOL_DIRECTORY="../cwl-wrappers/${CMO_WRAPPER_WITH_DASH}/${TOOL_VERSION}"
 
+if [ ! -d $TOOL_DIRECTORY ]
+then
+    # skip
+    exit 0
+fi
+
 # if .original.cwl exists, use that as the basis
 # otherwise, use gxargparse to generate
 if [ -e ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ]
