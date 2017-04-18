@@ -11,6 +11,9 @@ baseCommand: ['cmo_gatk']
 doc: |
   None
 
+#"$BSUB -q $queue -cwd $outdir -J SID.$id.$$ -o SID.$id.$$.%J.stdout -e SID.$id.$$.%J.stderr -R \"rusage[mem=8]\" -M 12 -n 1 \"$JAVA_1_6 -Xmx4g -jar $GATK_SomaticIndel -T SomaticIndelDetector -R $Reference -I:normal $normalBamFile -I:tumor $tumorBamFile -filter 'T_COV<10||N_COV<4||T_INDEL_F<0.0001||T_INDEL_CF<0.7' -verbose $IndelVerboseOutFilename -o $IndelOutFilename -refseq $Refseq --maxNumberOfReads 100000 -rf DuplicateRead -rf FailsVendorQualityCheck -rf NotPrimaryAlignment -rf BadMate -rf MappingQualityUnavailable -rf UnmappedRead -rf BadCigar -rf MappingQuality -mmq $MAPQ -L $targetFile\"";
+
+
 inputs:
   
   version:
@@ -593,5 +596,23 @@ inputs:
     inputBinding:
       prefix: --stdout 
 
+
 outputs:
-    []
+  output: 
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.out) 
+            return inputs.out;
+          return null;
+        }
+  verbose_output: 
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.verbose) 
+            return inputs.verbose;
+          return null;
+        }

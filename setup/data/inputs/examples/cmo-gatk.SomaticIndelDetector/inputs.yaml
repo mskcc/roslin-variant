@@ -5,10 +5,12 @@ tumor_bam:
 normal_bam:
     class: File
     path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam
-sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlignment', 'BadMate', 'MappingQualityUnavailable', 'UnmappedRead', 'MappingQuality']
-bed:
+read_filter: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlignment', 'BadMate', 'MappingQualityUnavailable', 'UnmappedRead', 'MappingQuality']
+intervals:
     class: File
     path: ../data/from-module-2/intervals.bed
 refseq:
     class: File
     path: /ifs/work/chunj/prism-proto/ifs/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/refGene_b37.sorted.txt
+out: 'P1_ADDRG_MD.abra.fmi.printreads.sid.vcf'
+verboseOutput: ['P1_ADDRG_MD.abra.fmi.printreads.sid.verbose.vcf']
