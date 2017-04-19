@@ -13,7 +13,7 @@ ed873a7dc75dcc9c26788834fa1ab043  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-p
 ee8674f5d39242708ae0ef91cdc94aa6  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 1ea49f6ef77497dbe0bc104dae5af362  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 a602195336d9c9717f93da5d619c40bc  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-7898d3326f3aa16b113b07bb93ffc4c5  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
+0b1e82983816c54a81c7bf9f42f9d737  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 5667fb56756146f2b22f2701499b5991  ./module-1.cwl

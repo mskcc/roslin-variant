@@ -38,12 +38,15 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_pindel]
+baseCommand:
+- cmo_pindel
+- --version
+- 0.2.5a7
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
+    ramMin: 10
     coresMin: 5
 
 doc: |

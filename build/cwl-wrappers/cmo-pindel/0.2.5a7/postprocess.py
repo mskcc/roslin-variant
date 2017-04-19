@@ -38,7 +38,10 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl).replace('\t', ' '),
                            ruamel.yaml.RoundTripLoader)
 
+    # this CWL is genereated specifically for cmo_pindel 0.2.5a7
+    cwl['baseCommand'] = ['cmo_pindel', '--version', '0.2.5a7']
     del cwl['inputs']['version']
+
     del cwl['inputs']['config_file']
     del cwl['inputs']['config_line']
 
