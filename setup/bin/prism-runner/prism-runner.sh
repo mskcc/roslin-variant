@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || \
-   [ -z $PRISM_INPUT_PATH ] || [ -z $PRISM_EXTRA_BIND_PATH ] || \
+   [ -z $PRISM_INPUT_PATH ] || [ -z "$PRISM_EXTRA_BIND_PATH" ] || \
    [ -z $PRISM_SINGULARITY_PATH ]
 then
     echo "Some necessary paths are not correctly configured."

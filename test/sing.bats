@@ -21,6 +21,7 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     unset PRISM_BIN_PATH
     unset PRISM_DATA_PATH
     unset PRISM_SINGULARITY_PATH
+    unset PRISM_EXTRA_BIND_PATH
 
     run ${SING_SCRIPT}
 
@@ -32,6 +33,7 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
     export PRISM_BIN_PATH="a"
     export PRISM_DATA_PATH="b"
+    export PRISM_EXTRA_BIND_PATH="c"
     unset PRISM_SINGULARITY_PATH
 
     run ${SING_SCRIPT}
@@ -44,7 +46,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
     export PRISM_BIN_PATH="a"
     unset PRISM_DATA_PATH
-    export PRISM_SINGULARITY_PATH="c"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_SINGULARITY_PATH="d"
 
     run ${SING_SCRIPT}
 
@@ -56,7 +59,21 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
     unset PRISM_BIN_PATH
     export PRISM_DATA_PATH="b"
-    export PRISM_SINGULARITY_PATH="c"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_SINGULARITY_PATH="d"
+
+    run ${SING_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if PRISM_EXTRA_BIND_PATH is not configured" {
+
+    export PRISM_BIN_PATH="a"
+    export PRISM_DATA_PATH="b"
+    unset PRISM_EXTRA_BIND_PATH
+    export PRISM_SINGULARITY_PATH="d"
 
     run ${SING_SCRIPT}
 
@@ -69,8 +86,9 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     # mock paths
     export PRISM_BIN_PATH="a"
     export PRISM_DATA_PATH="b"
-    export PRISM_SINGULARITY_PATH="c"
-    
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_SINGULARITY_PATH="d"
+
     run ${SING_SCRIPT}
 
     assert_failure
@@ -79,11 +97,11 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should run the tool image and display 'Hello, World!'" {
 
-    # this will load PRISM_BIN_PATH and PRISM_DATA_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_EXTRA_BIND_PATH
     source ./settings.sh
-    
+
     export PRISM_SINGULARITY_PATH=`which singularity`
-    
+
     run ${SING_SCRIPT} fake-tool 1.0.0 "Hello, World!"
 
     assert_success
@@ -91,4 +109,26 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     # because of the way fake-tool is built,
     # if it runs correctly, it will echo out the arguments received
     assert_output "Hello, World!"
+}
+
+@test "should properly bind extra paths defined" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_EXTRA_BIND_PATH
+    source ./settings.sh
+
+    # fake singularity so that it just echoed out the arguments received
+    export PRISM_SINGULARITY_PATH="echo"
+
+    run ${SING_SCRIPT} fake-tool 1.0.0
+
+    assert_success
+
+    # because of the way fake-tool is built,
+    # if it runs correctly, it will echo out the arguments received
+    bind_extra=""
+    for extra_path in ${PRISM_EXTRA_BIND_PATH}
+    do
+        bind_extra="${bind_extra} --bind ${extra_path}:${extra_path}"
+    done
+    assert_output "run --bind ${PRISM_BIN_PATH}:${PRISM_BIN_PATH} --bind ${PRISM_DATA_PATH}:${PRISM_DATA_PATH}${bind_extra} ${PWD}/mock/bin/tools/fake-tool/1.0.0/fake-tool.img"
 }
