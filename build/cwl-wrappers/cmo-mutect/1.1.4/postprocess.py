@@ -37,7 +37,10 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
+    # this CWL is genereated specifically for cmo_mutect 1.1.4
+    cwl['baseCommand'] = ['cmo_mutect', '--version', '1.1.4']
     del cwl['inputs']['version']
+
     del cwl['inputs']['java_version']
 
     #-->

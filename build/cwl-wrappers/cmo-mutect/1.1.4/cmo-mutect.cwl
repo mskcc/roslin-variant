@@ -38,7 +38,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_mutect]
+baseCommand:
+- cmo_mutect
+- --version
+- 1.1.4
 
 requirements:
   InlineJavascriptRequirement: {}
