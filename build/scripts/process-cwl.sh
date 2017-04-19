@@ -97,4 +97,13 @@ fi
 tree ${TOOL_DIRECTORY}
 
 # modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)
-python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
+case ${TOOL_NAME} in
+    pindel)
+        # pindel needs special treament since pindel container has two executables "pindel" and "pindel2vcf"
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json pindel ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} pindel"
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json pindel2vcf ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} pindel2vcf"
+        ;;
+    *)
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
+        ;;
+esac
