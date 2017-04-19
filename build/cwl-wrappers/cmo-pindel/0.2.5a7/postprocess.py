@@ -34,14 +34,41 @@ def main():
 
     params = parser.parse_args()
 
-    cwl = ruamel.yaml.load(read(params.filename_cwl),
+    # replace tab characters and then load
+    cwl = ruamel.yaml.load(read(params.filename_cwl).replace('\t', ' '),
                            ruamel.yaml.RoundTripLoader)
 
     del cwl['inputs']['version']
-    del cwl['inputs']['java_version']
+    del cwl['inputs']['config_file']
+    del cwl['inputs']['config_line']
+
+    cwl['inputs']['sample_names'] = ruamel.yaml.load("""
+type: 
+  - "null"
+  - type: array
+    items: string
+inputBinding:
+  prefix: --sample_names
+  itemSeparator: " "
+  separate: True
+doc: one line of config file per specification will autogenerate config on fly.
+""", ruamel.yaml.RoundTripLoader)
+
+    cwl['inputs']['bams'] = ruamel.yaml.load("""
+type: 
+  - "null"
+  - type: array
+    items: File
+inputBinding:
+  prefix: --bam
+  itemSeparator: " "
+  separate: True
+secondaryFiles: ['.bai']
+doc: cwltool doesn't copy file inputs if thy dont have input binding it seems...idk.
+""", ruamel.yaml.RoundTripLoader)
 
     #-->
-    # fixme: until we can auto generate cwl for MuTect
+    # fixme: until we can auto generate cwl for GATK
     # set outputs using outputs.yaml
     import os
     cwl['outputs'] = ruamel.yaml.load(
