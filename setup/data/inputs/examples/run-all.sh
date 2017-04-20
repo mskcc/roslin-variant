@@ -13,10 +13,6 @@ do
   # we will treat this separately at the end
   if [ "$dir" == "bsub-of-prism-runner" ]; then continue; fi
 
-  # skip module-2 for now because at this moment it uses singleMachine, not lsf
-  # so we will treat this separately at the end
-  if [ "$dir" == "module-2" ]; then continue; fi 
-
   echo $dir
 
   cd $dir
@@ -30,7 +26,6 @@ do
 
 done
 
-
 # bsub-of-prism-runner
 bsub -q test -K -cwd ./bsub-of-prism-runner \
   -eo ../results.bsub-of-prism-runner.stderr.txt \
@@ -38,7 +33,7 @@ bsub -q test -K -cwd ./bsub-of-prism-runner \
   "./run-example.sh"
 
 # module-2
-bsub -q test -K -cwd ./module-2 \
-  -eo ../results.module-2.stderr.txt \
-  -oo ../results.module-2.txt \
-  "./run-example.sh"
+# bsub -q test -K -cwd ./module-2 \
+#   -eo ../results.module-2.stderr.txt \
+#   -oo ../results.module-2.txt \
+#   "./run-example.sh"
