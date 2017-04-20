@@ -14,7 +14,7 @@ This has been tested on the MSKCC Luna cluster (http://hpc.mskcc.org/index.php/h
 
 ## Prerequisites
 
-**For users of the Luna cluster at MSKCC CMO**
+### For users of the Luna cluster at MSKCC CMO
 
 Log in to Luna and check if you have access to Node.js REPL (shell):
 
@@ -32,7 +32,7 @@ export LD_LIBRARY_PATH=/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:$LD_LIBRARY_PATH
 
 Log out and log back in or execute `source ~/.profile`.
 
-**For external users**
+### For external users
 
 Follow [this instructions](./prerequisites.md) to install Node.js.
 
