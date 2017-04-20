@@ -1,0 +1,23 @@
+fasta: 'GRCh37'
+dbsnp:
+    class: File
+    path: /ifs/work/charris/temp_depot/dbsnp_138.b37.excluding_sites_after_129.vcf
+cosmic:
+    class: File
+    path: /ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
+rf: ["BadCigar"]
+sid_rf: ["BadCigar", "DuplicateRead", "FailsVendorQualityCheck", "NotPrimaryAlignment", "BadMate", "MappingQualityUnavailable", "UnmappedRead", "MappingQuality"]
+normal_sample_id: "Normal"
+tumor_sample_id: "Tumor"
+bed:
+    class: File
+    path: ../data/from-module-2/intervals.bed
+tumor_bam: 
+    class: File
+    path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
+normal_bam:
+    class: File
+    path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam
+refseq:
+    class: File
+    path: "/ifs/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/refGene_b37.sorted.txt"
