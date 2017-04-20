@@ -65,7 +65,7 @@ inputs:
     default: false
     doc: Indicate to move indels to 3-prime if alternative alignment can be achieved.
     inputBinding:
-      prefix: -3
+      prefix: '-3'
 
   a:
     type: ['null', string]

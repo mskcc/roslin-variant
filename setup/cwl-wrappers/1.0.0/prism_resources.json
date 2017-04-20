@@ -292,8 +292,12 @@
             "default": "sing.sh trimgalore 0.2.5.mod"
         }, 
         "vardict": {
-            "1.4.6": "sing.sh vardict 1.4.6", 
-            "default": "sing.sh vardict 1.4.6"
+            "1.4.6": "sing.sh vardict 1.4.6 vardict", 
+            "default": "sing.sh vardict 1.4.6 vardict"
+        }, 
+        "vardict_bin": {
+            "1.4.6": "sing.sh vardict 1.4.6 ", 
+            "default": "sing.sh vardict 1.4.6 "
         }, 
         "varscan": {
             "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar", 

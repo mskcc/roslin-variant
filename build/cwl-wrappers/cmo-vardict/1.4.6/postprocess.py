@@ -35,9 +35,13 @@ def main():
 
     params = parser.parse_args()
 
-    # replace tab characters and then load
+    # replace tab characters
     cwl_str = read(params.filename_cwl).replace('\t', ' ')
+
+    # cwl(toil) unable to handle numeric parameters
     cwl_str = re.sub(r"3:$", "three:", cwl_str, flags=re.MULTILINE)
+
+    # load
     cwl = ruamel.yaml.load(cwl_str, ruamel.yaml.RoundTripLoader)
 
     # this CWL is genereated specifically for cmo_vardict 1.4.6
@@ -87,8 +91,11 @@ def main():
         ruamel.yaml.RoundTripLoader)['outputs']
     #<--
 
-    write(params.filename_cwl, ruamel.yaml.dump(
-        cwl, Dumper=ruamel.yaml.RoundTripDumper))
+    # numeric parameter must be wrapped with quotes
+    cwl_str = ruamel.yaml.dump(cwl, Dumper=ruamel.yaml.RoundTripDumper)
+    cwl_str = re.sub(r"prefix: -3$", "prefix: '-3'", cwl_str, flags=re.MULTILINE)
+
+    write(params.filename_cwl, cwl_str)
 
 
 if __name__ == "__main__":
