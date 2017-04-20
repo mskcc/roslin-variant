@@ -37,10 +37,6 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    # fixme: call sing.sh directly until cmo_list2bed is released
-    # cwl['baseCommand'] = 'cmo_list2bed'
-    cwl['baseCommand'] = ['sing.sh', 'list2bed', '1.0.0']
-
 # we're doing this way to preserve the order
 # can't figure out other ways.
     input_file_type = """
