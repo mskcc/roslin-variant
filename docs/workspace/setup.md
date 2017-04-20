@@ -73,18 +73,24 @@ You will find the `examples` directory:
 ```bash
 chunj
 └── examples
-   ├── cmo-abra
-   ├── cmo-bwa-mem
-   ├── cmo-gatk.FindCoveredIntervals
-   ├── cmo-list2bed
-   ├── cmo-picard.AddOrReplaceReadGroups
-   ├── cmo-picard.MarkDuplicates
-   ├── cmo-trimgalore
-   ├── env
-   ├── fastq
-   ├── module-1
-   ├── module-2
-   └── samtools-sam2bam
+    ├── bsub-of-prism-runner
+    ├── cmo-abra
+    ├── cmo-bwa-mem
+    ├── cmo-gatk.FindCoveredIntervals
+    ├── cmo-gatk.SomaticIndelDetector
+    ├── cmo-list2bed
+    ├── cmo-mutect
+    ├── cmo-picard.AddOrReplaceReadGroups
+    ├── cmo-picard.MarkDuplicates
+    ├── cmo-pindel
+    ├── cmo-trimgalore
+    ├── cmo-vardict
+    ├── data
+    ├── env
+    ├── module-1
+    ├── module-2
+    ├── module-3
+    └── samtools-sam2bam
 ```
 
 For example, you can run Module 1 by:
@@ -184,15 +190,22 @@ cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
+cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 cmo-list2bed/1.0.0/cmo-list2bed.cwl
+cmo-mutect/1.1.4/cmo-mutect.cwl
 cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
 cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+cmo-pindel/0.2.5a7/cmo-pindel.cwl
 cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
+cmo-vardict/1.4.6/cmo-vardict.cwl
 module-1.cwl
 module-2.cwl
+module-2a.cwl
+module-2b.cwl
+module-3.cwl
 samtools/1.3.1/samtools-sam2bam.cwl
 ```
