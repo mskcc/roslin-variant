@@ -204,8 +204,6 @@ cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 cmo-vardict/1.4.6/cmo-vardict.cwl
 module-1.cwl
 module-2.cwl
-module-2a.cwl
-module-2b.cwl
 module-3.cwl
 samtools/1.3.1/samtools-sam2bam.cwl
 ```
