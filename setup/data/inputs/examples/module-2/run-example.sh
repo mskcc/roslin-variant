@@ -8,4 +8,4 @@ eval "echo \"$(cat inputs.yaml.template)\"" > inputs.yaml
 prism-runner.sh \
     -w module-2.cwl \
     -i inputs.yaml \
-    -b singleMachine
+    -b lsf
