@@ -16,6 +16,7 @@ a602195336d9c9717f93da5d619c40bc  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 0b1e82983816c54a81c7bf9f42f9d737  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
+240615b12045749b3dba7c81fbc5fd81  ./cmo-vardict/1.4.6/cmo-vardict.cwl
 5667fb56756146f2b22f2701499b5991  ./module-1.cwl
 751f42da07c174192b7dc9b210815baf  ./module-2.cwl
 4cddbbfae5f4ea263b6a9abed281e156  ./module-2a.cwl

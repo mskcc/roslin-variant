@@ -65,6 +65,9 @@
         ],
         "pindel": [
             "cmo_pindel"
+        ],
+        "vardict": [
+            "cmo_vardict"
         ]
     }
 }
