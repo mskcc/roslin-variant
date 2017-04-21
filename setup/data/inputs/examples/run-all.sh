@@ -1,39 +1,44 @@
 #!/bin/bash
 
 # e.g. list='cmo-abra cmo-bwa-mem'
-list=`find . -maxdepth 1 -type d -not -path . -exec bash -c "echo {} | cut -c3-" \;`
+
+if [ -z "$*" ]
+then
+  list=`find . -maxdepth 1 -type d -not -path . -exec bash -c "echo {} | cut -c3-" \;`
+else
+  list="$*"
+fi
 
 for dir in $list
 do
 
-  # skip the data directory
-  if [ "$dir" == "data" ]; then continue; fi
+  case "$dir" in
 
-  # skip bsub-of-prism-runner
-  # we will treat this separately at the end
-  if [ "$dir" == "bsub-of-prism-runner" ]; then continue; fi
+    data)
+      # skip the data directory
+      continue
+      ;;
 
-  echo $dir
+    bsub-of-prism-runner)
+      bsub -q test -K -cwd ./bsub-of-prism-runner \
+        -eo ../results.bsub-of-prism-runner.stderr.txt \
+        -oo ../results.bsub-of-prism-runner.txt \
+        "prism-runner.sh -w samtools/1.3.1/samtools-sam2bam.cwl -i ./inputs.yaml -b lsf"
+      ;;
 
-  cd $dir
+    *)
+      echo "Starting: ${dir}..."
 
-  if [ -e "./run-example.sh" ]
-  then
-    ./run-example.sh | tee ../results.$dir.txt
-  fi
+      cd $dir
 
-  cd ..
+      if [ -e "./run-example.sh" ]
+      then
+        ./run-example.sh | tee ../results.$dir.txt
+      fi
+
+      cd ..
+      ;;
+
+  esac
 
 done
-
-# bsub-of-prism-runner
-bsub -q test -K -cwd ./bsub-of-prism-runner \
-  -eo ../results.bsub-of-prism-runner.stderr.txt \
-  -oo ../results.bsub-of-prism-runner.txt \
-  "./run-example.sh"
-
-# module-2
-# bsub -q test -K -cwd ./module-2 \
-#   -eo ../results.module-2.stderr.txt \
-#   -oo ../results.module-2.txt \
-#   "./run-example.sh"
