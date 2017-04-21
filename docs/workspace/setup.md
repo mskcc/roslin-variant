@@ -23,7 +23,7 @@ $ node
 >
 ```
 
-If not, add the following to your profile (`~/.profile` or `~/.bash_profile`):
+If not, add the following to your profile (`~/.profile`):
 
 ```bash
 export PATH="$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/"
