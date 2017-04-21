@@ -38,6 +38,7 @@ get_args_line() {
 
     unset PRISM_BIN_PATH
     unset PRISM_DATA_PATH
+    unset PRISM_EXTRA_BIND_PATH
     unset PRISM_INPUT_PATH
     unset PRISM_SINGULARITY_PATH
 
@@ -51,8 +52,9 @@ get_args_line() {
 
     unset PRISM_BIN_PATH
     export PRISM_DATA_PATH="b"
-    export PRISM_INPUT_PATH="c"
-    export PRISM_SINGULARITY_PATH="d"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_INPUT_PATH="d"
+    export PRISM_SINGULARITY_PATH="e"
 
     run ${PRISM_RUNNER_SCRIPT}
 
@@ -64,8 +66,23 @@ get_args_line() {
 
     export PRISM_BIN_PATH="a"
     unset PRISM_DATA_PATH
-    export PRISM_INPUT_PATH="c"
-    export PRISM_SINGULARITY_PATH="d"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_INPUT_PATH="d"
+    export PRISM_SINGULARITY_PATH="e"
+
+    run ${PRISM_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some necessary paths are not correctly configured.'
+}
+
+@test "should abort if PRISM_EXTRA_BIND_PATH is not configured" {
+
+    export PRISM_BIN_PATH="a"
+    export PRISM_DATA_PATH="b"
+    unset PRISM_EXTRA_BIND_PATH
+    export PRISM_INPUT_PATH="d"
+    export PRISM_SINGULARITY_PATH="e"
 
     run ${PRISM_RUNNER_SCRIPT}
 
@@ -77,8 +94,9 @@ get_args_line() {
 
     export PRISM_BIN_PATH="a"
     export PRISM_DATA_PATH="b"
+    export PRISM_EXTRA_BIND_PATH="c"
     unset PRISM_INPUT_PATH
-    export PRISM_SINGULARITY_PATH="d"
+    export PRISM_SINGULARITY_PATH="e"
 
     run ${PRISM_RUNNER_SCRIPT}
 
@@ -90,7 +108,8 @@ get_args_line() {
 
     export PRISM_BIN_PATH="a"
     export PRISM_DATA_PATH="b"
-    export PRISM_INPUT_PATH="c"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_INPUT_PATH="d"
     unset PRISM_SINGULARITY_PATH
 
     run ${PRISM_RUNNER_SCRIPT}
@@ -101,7 +120,7 @@ get_args_line() {
 
 @test "should abort if workflow or input filename is not supplied" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -114,7 +133,7 @@ get_args_line() {
 
 @test "should abort if input file doesn't exit" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -127,7 +146,7 @@ get_args_line() {
 
 @test "should abort if batch system is not specified with -b" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -143,7 +162,7 @@ get_args_line() {
 
 @test "should abort if unknown batch system is supplied via -b" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -159,7 +178,7 @@ get_args_line() {
 
 @test "should abort if mesos is selected for batch system" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -175,7 +194,7 @@ get_args_line() {
 
 @test "should output job UUID at the beginning and the end" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -209,7 +228,7 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -241,7 +260,7 @@ get_args_line() {
     # /tmp/prism-runner.bats-12-7uktFHNZ4w/test.yaml
     # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
     # --defaultDisk 10G
-    # --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMSOURCE_CONFIG
+    # --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMSOURCE_CONFIG
     # --no-container
     # --disableCaching
     # --realTimeLogging
@@ -265,7 +284,7 @@ get_args_line() {
     assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
 
     # check --preserve-environment
-    assert_line --index 1 --partial "--preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH"
+    assert_line --index 1 --partial "--preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH"
 
     # check --no-container
     assert_line --index 1 --partial "--no-container"
@@ -290,7 +309,7 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil for lsf" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -315,7 +334,7 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil for singleMachine" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -340,7 +359,7 @@ get_args_line() {
 
 @test "should correctly handle -o (output directory) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -403,7 +422,7 @@ get_args_line() {
 
 @test "should correctly handle -v (pipeline version) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -436,7 +455,7 @@ get_args_line() {
 
 @test "should set CMO_RESOURCE_CONFIG correctly before run, unset after run" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`
@@ -459,7 +478,7 @@ get_args_line() {
 
 @test "should correctly handle -r (restart) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_INPUT_PATH
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
     source ./settings.sh
 
     export PRISM_SINGULARITY_PATH=`which singularity`

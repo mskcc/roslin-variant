@@ -7,8 +7,9 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.alpine="3.4.6" \
       source.gatk="https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af"
 
-ENV TOOL_VERSION 3.3-0
+ENV GATK_VERSION 3.3-0
 
-COPY gatk-${TOOL_VERSION}.jar /usr/bin/gatk.jar
+COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar
 
-CMD ["java", "-jar", "/usr/bin/gatk.jar", "--help"]
+ENTRYPOINT ["java", "-jar", "/usr/bin/gatk.jar"]
+CMD ["--help"]

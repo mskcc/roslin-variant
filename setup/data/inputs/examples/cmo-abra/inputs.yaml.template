@@ -1,9 +1,9 @@
 ref: GRCh37
 in:
   - class: File
-    path: ./sample1.bam
+    path: ../data/bam/sample1.bam
   - class: File
-    path: ./sample2.bam
+    path: ../data/bam/sample2.bam
 targets:
   class: File
   path: ./sample.bed

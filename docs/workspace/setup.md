@@ -10,21 +10,31 @@
 
 ## Supported MSKCC HPC Clusters
 
-This has been tested on the following MSKCC HPC clusters:
-
-- `luna.mskcc.org`
-- `selene.mskcc.org`
+This has been tested on the MSKCC Luna cluster (http://hpc.mskcc.org/index.php/hpc-systems-old/bioinformatics-hpc/the-luna-cluster/)
 
 ## Prerequisites
 
-First, log in to one of the MSKCC HPC clusters and check if you have access to Node.js REPL (shell):
+### For users of the Luna cluster at MSKCC CMO
+
+Log in to Luna and check if you have access to Node.js REPL (shell):
 
 ```bash
 $ node
 >
 ```
 
-If not, follow [this instructions to install it](./prerequisites.md).
+If not, add the following to your profile (`~/.profile`):
+
+```bash
+export PATH="$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin/"
+export LD_LIBRARY_PATH=/opt/common/CentOS_6/gcc/gcc-4.9.3/lib64:$LD_LIBRARY_PATH
+```
+
+Log out and log back in or execute `source ~/.profile`.
+
+### For external users
+
+Follow [this instructions](./prerequisites.md) to install Node.js.
 
 ## Configuring Workspace
 
@@ -41,7 +51,6 @@ Run the following command. Make sure to replace `chunj` with your own login name
 ```bash
 $ ./prism-init.sh -u chunj
 ```
-
 
 Log out and log back in or execute `source ~/.profile`.
 
@@ -64,18 +73,24 @@ You will find the `examples` directory:
 ```bash
 chunj
 └── examples
-   ├── cmo-abra
-   ├── cmo-bwa-mem
-   ├── cmo-gatk.FindCoveredIntervals
-   ├── cmo-list2bed
-   ├── cmo-picard.AddOrReplaceReadGroups
-   ├── cmo-picard.MarkDuplicates
-   ├── cmo-trimgalore
-   ├── env
-   ├── fastq
-   ├── module-1
-   ├── module-2
-   └── samtools-sam2bam
+    ├── bsub-of-prism-runner
+    ├── cmo-abra
+    ├── cmo-bwa-mem
+    ├── cmo-gatk.FindCoveredIntervals
+    ├── cmo-gatk.SomaticIndelDetector
+    ├── cmo-list2bed
+    ├── cmo-mutect
+    ├── cmo-picard.AddOrReplaceReadGroups
+    ├── cmo-picard.MarkDuplicates
+    ├── cmo-pindel
+    ├── cmo-trimgalore
+    ├── cmo-vardict
+    ├── data
+    ├── env
+    ├── module-1
+    ├── module-2
+    ├── module-3
+    └── samtools-sam2bam
 ```
 
 For example, you can run Module 1 by:
@@ -175,15 +190,20 @@ cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
+cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 cmo-list2bed/1.0.0/cmo-list2bed.cwl
+cmo-mutect/1.1.4/cmo-mutect.cwl
 cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
 cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+cmo-pindel/0.2.5a7/cmo-pindel.cwl
 cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
+cmo-vardict/1.4.6/cmo-vardict.cwl
 module-1.cwl
 module-2.cwl
+module-3.cwl
 samtools/1.3.1/samtools-sam2bam.cwl
 ```

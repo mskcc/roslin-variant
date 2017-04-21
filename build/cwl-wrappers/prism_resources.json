@@ -189,6 +189,7 @@
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
         }, 
         "gatk": {
+            "2.3-9": "sing.sh gatk 2.3-9", 
             "3.3-0": "sing.sh gatk 3.3-0", 
             "default": "sing.sh gatk 3.3-0"
         }, 
@@ -234,8 +235,7 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "1.1.4": "sing.sh mutect 1.1.4", 
-            "default": "sing.sh mutect 1.1.4"
+            "1.1.4": "sing.sh mutect 1.1.4"
         }, 
         "mutsig-cv": {
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
@@ -250,12 +250,10 @@
             "default": "sing.sh picard 1.96"
         }, 
         "pindel": {
-            "0.2.5b4": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel", 
-            "default": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel"
+            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel"
         }, 
         "pindel2vcf": {
-            "0.2.5b4": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel2vcf", 
-            "default": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel2vcf"
+            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel2vcf"
         }, 
         "postprocess": {
             "1.3.1": "/opt/common/CentOS_6-dev/postprocess/1.3.1", 
@@ -294,8 +292,12 @@
             "default": "sing.sh trimgalore 0.2.5.mod"
         }, 
         "vardict": {
-            "1.4.6": "sing.sh vardict 1.4.6", 
-            "default": "sing.sh vardict 1.4.6"
+            "1.4.6": "sing.sh vardict 1.4.6 vardict", 
+            "default": "sing.sh vardict 1.4.6 vardict"
+        }, 
+        "vardict_bin": {
+            "1.4.6": "sing.sh vardict 1.4.6 ", 
+            "default": "sing.sh vardict 1.4.6 "
         }, 
         "varscan": {
             "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar", 

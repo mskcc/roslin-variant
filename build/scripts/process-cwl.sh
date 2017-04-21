@@ -40,6 +40,12 @@ CMO_WRAPPER_WITH_DASH=`echo "${CMO_WRAPPER}" | sed "s/_/-/g"`
 
 TOOL_DIRECTORY="../cwl-wrappers/${CMO_WRAPPER_WITH_DASH}/${TOOL_VERSION}"
 
+if [ ! -d $TOOL_DIRECTORY ]
+then
+    # skip
+    exit 0
+fi
+
 # if .original.cwl exists, use that as the basis
 # otherwise, use gxargparse to generate
 if [ -e ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ]
@@ -90,5 +96,24 @@ fi
 
 tree ${TOOL_DIRECTORY}
 
+#fixme: is it the right location to do this? or should we do right after create containers?
 # modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)
-python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
+case ${TOOL_NAME} in
+    pindel)
+        # pindel needs special treament since pindel container has two executables "pindel" and "pindel2vcf"
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json pindel ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} pindel"
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json pindel2vcf ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} pindel2vcf"
+        ;;
+    vardict)
+        # vardict needs special treament since vardict container has one R script and one Perl script to be exposed
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vardict ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} vardict"
+
+        # an extra space needed at the end because cmo will append either "testsomatic.R" or "var2vcf_paired.pl"
+        # and we need to make sure it's treated as an argument.
+        # e.g. sing.sh vardict 1.4.6 testsomatic.R
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vardict_bin ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} "
+        ;;
+    *)
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
+        ;;
+esac

@@ -41,4 +41,4 @@ eval "echo \"$(cat debug-inputs.yaml.template)\"" > debug-inputs.yaml
 prism-runner.sh \
     -w ${cwl_name} \
     -i debug-inputs.yaml \
-    -b singleMachine
+    -b lsf

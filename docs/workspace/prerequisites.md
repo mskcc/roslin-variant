@@ -2,15 +2,13 @@
 
 ## Node.js
 
-This step is necessary until sysadmin installs Node.js across all cluster nodes.
-
-Log in to `selene.mskcc.org` and run the following command:
+Run the following command:
 
 ```bash
 $ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 ```
 
-Add the following lines to your profile (`~/.profile` or `~/.bash_profile`)
+Add the following lines to your profile (`~/.profile`)
 
 ```bash
 export NVM_DIR="$HOME/.nvm"

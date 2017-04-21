@@ -29,5 +29,5 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev \
       && mv /tmp/pindel-${PINDEL_VERSION}/sam2pindel /usr/bin \
       && rm -rf /var/cache/apk/* /tmp/*
 
-CMD ["/usr/bin/pindel"]
-
+ENTRYPOINT ["/usr/bin/pindel"]
+CMD ["-h"]

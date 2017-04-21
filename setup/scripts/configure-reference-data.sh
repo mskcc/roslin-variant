@@ -96,6 +96,8 @@ esac
 cp /ifs/depot/assemblies/H.sapiens/b37/b37.fasta ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
 cp /ifs/depot/assemblies/H.sapiens/b37/b37.fasta.fai ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
 cp /ifs/depot/assemblies/H.sapiens/b37/b37.dict ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
+mkdir -p ${PRISM_DATA_PATH}/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/
+cp /ifs/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/refGene_b37.sorted.txt ${PRISM_DATA_PATH}/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/
 
 # adjust ifs paths in CMO_RESOURCE_CONFIG
 sed -i.bak "s|\/ifs|${PRISM_DATA_PATH}|g" "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"

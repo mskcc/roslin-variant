@@ -3,13 +3,16 @@ export PRISM_VERSION="1.0.0"
 # fixme: use / in the production
 PRISM_ROOT="/ifs/work/chunj/prism-proto"
 
-#--> the following two paths will be supplied to singularity as bind points
+#--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
 export PRISM_BIN_PATH="${PRISM_ROOT}/prism"
 
 # reference data (e.g. genome assemblies)
 export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
+
+# other paths that we'd like to bind (space separated)
+export PRISM_EXTRA_BIND_PATH="/scratch"
 
 #<--
 

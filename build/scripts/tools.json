@@ -16,7 +16,8 @@
             "0.2.5.mod"
         ],
         "gatk": [
-            "3.3-0"
+            "3.3-0",
+            "2.3-9"
         ],
         "abra": [
             "0.92"
@@ -50,13 +51,23 @@
         "gatk": [
             "cmo_gatk.FindCoveredIntervals",
             "cmo_gatk.BaseRecalibrator",
-            "cmo_gatk.PrintReads"
+            "cmo_gatk.PrintReads",
+            "cmo_gatk.SomaticIndelDetector"
         ],
         "abra": [
             "cmo_abra"
         ],
         "list2bed": [
             "cmo_list2bed"
+        ],
+        "mutect": [
+            "cmo_mutect"
+        ],
+        "pindel": [
+            "cmo_pindel"
+        ],
+        "vardict": [
+            "cmo_vardict"
         ]
     }
 }
