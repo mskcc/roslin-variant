@@ -146,7 +146,8 @@ cwltoil \
     --writeLogs	${OUTPUT_DIRECTORY}/log \
     --logFile ${OUTPUT_DIRECTORY}/log/cwltoil.log \
     --workDir ${PRISM_BIN_PATH}/tmp \
-    --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
+    --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS} \
+    | tee ${OUTPUT_DIRECTORY}/output-meta.json
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
