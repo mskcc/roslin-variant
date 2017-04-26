@@ -1,10 +1,10 @@
 fasta: 'GRCh37'
 dbsnp:
     class: File
-    path: /ifs/work/charris/temp_depot/dbsnp_138.b37.excluding_sites_after_129.vcf
+    path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf
 cosmic:
     class: File
-    path: /ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
+    path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
 rf: ["BadCigar"]
 sid_rf: ["BadCigar", "DuplicateRead", "FailsVendorQualityCheck", "NotPrimaryAlignment", "BadMate", "MappingQualityUnavailable", "UnmappedRead", "MappingQuality"]
 normal_sample_id: "Normal"
@@ -20,4 +20,4 @@ normal_bam:
     path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam
 refseq:
     class: File
-    path: "/ifs/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/refGene_b37.sorted.txt"
+    path: "/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt"
