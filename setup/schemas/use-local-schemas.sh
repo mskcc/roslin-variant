@@ -1,6 +1,9 @@
 #!/bin/bash
 
-root_dir="/ifs/work/chunj/prism-proto/prism/pipeline/"
+# load config
+source ./settings.sh
+
+root_dir="${PRISM_BIN_PATH}/pipeline/"
 for file in `find ${root_dir} -name "*.cwl"`
 do
 
