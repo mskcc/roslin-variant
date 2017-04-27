@@ -74,7 +74,7 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
 @task
 def rsync_aws(skip_b3=False):
     """
-    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync
+    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync_aws
     """
 
     version = '1.0.0'
