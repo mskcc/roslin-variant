@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='$version.'
+version='1.0.0'
 
 aws s3 cp s3://prism-installer/prism-v$version.tgz /tmp/
 mkdir -p /tmp/prism-v$version/

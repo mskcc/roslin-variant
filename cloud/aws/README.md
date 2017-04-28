@@ -125,13 +125,15 @@ $ ./tag.sh
 
 ### Installation
 
-Install using Fabric:
+Prism installation automatically kicks in as the instance is up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3. To check the status, ssh into the instance and run the following command:
 
 ```bash
-$ fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-54-236-40-224.compute-1.amazonaws.com deploy_s3_to_aws
+$ tail -f /var/log/cloud-init-output.log
 ```
 
-### Testing
+### Creating Workspace
+
+SSH into the instance and run the `prism-init.sh` command based on the instance you brought up:
 
 ### r4.2xlarge or higher
 
@@ -155,3 +157,5 @@ See if you can run the sam2bam workflow:
 $ cd $PRISM_INPUT_PATH/ubuntu/examples/samtools-sam2bam
 $ ./run-example.sh
 ```
+
+You are ready.
