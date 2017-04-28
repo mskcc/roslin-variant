@@ -1,0 +1,25 @@
+{
+    "IamInstanceProfile": {
+        "Arn": "arn:aws:iam::273241104452:instance-profile/My-S3-Role"
+    }, 
+    "Placement": {
+        "AvailabilityZone": "us-east-1c"
+    }, 
+    "SecurityGroupIds": [
+        "sg-19c52d66"
+    ], 
+    "BlockDeviceMappings": [
+        {
+            "DeviceName": "/dev/sda1", 
+            "Ebs": {
+                "SnapshotId": "snap-051b8e1a5ac3959cc", 
+                "DeleteOnTermination": true, 
+                "VolumeType": "gp2", 
+                "VolumeSize": 60
+            }
+        }
+    ], 
+    "KeyName": "mskcc-chunj", 
+    "ImageId": "ami-5bddba4d", 
+    "InstanceType": "r4.8xlarge"
+}

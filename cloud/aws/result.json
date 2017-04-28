@@ -1,0 +1,49 @@
+{
+    "SpotInstanceRequests": [
+        {
+            "Status": {
+                "UpdateTime": "2017-04-28T18:07:54.000Z", 
+                "Code": "pending-evaluation", 
+                "Message": "Your Spot request has been submitted for review, and is pending evaluation."
+            }, 
+            "ProductDescription": "Linux/UNIX", 
+            "SpotInstanceRequestId": "sir-nvjr5zik", 
+            "State": "open", 
+            "LaunchSpecification": {
+                "Placement": {
+                    "AvailabilityZone": "us-east-1c"
+                }, 
+                "ImageId": "ami-5bddba4d", 
+                "KeyName": "mskcc-chunj", 
+                "BlockDeviceMappings": [
+                    {
+                        "DeviceName": "/dev/sda1", 
+                        "Ebs": {
+                            "DeleteOnTermination": true, 
+                            "SnapshotId": "snap-051b8e1a5ac3959cc", 
+                            "VolumeSize": 60, 
+                            "VolumeType": "gp2"
+                        }
+                    }
+                ], 
+                "SecurityGroups": [
+                    {
+                        "GroupName": "my-security-group-ssh", 
+                        "GroupId": "sg-19c52d66"
+                    }
+                ], 
+                "SubnetId": "subnet-d4fe67b1", 
+                "Monitoring": {
+                    "Enabled": false
+                }, 
+                "IamInstanceProfile": {
+                    "Arn": "arn:aws:iam::273241104452:instance-profile/My-S3-Role"
+                }, 
+                "InstanceType": "r4.8xlarge"
+            }, 
+            "Type": "one-time", 
+            "CreateTime": "2017-04-28T18:07:54.000Z", 
+            "SpotPrice": "0.400000"
+        }
+    ]
+}

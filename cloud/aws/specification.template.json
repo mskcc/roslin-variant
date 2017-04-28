@@ -1,0 +1,25 @@
+{
+  "ImageId": "ami-5bddba4d",
+  "BlockDeviceMappings": [
+    {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+        "DeleteOnTermination": true,
+        "VolumeType": "gp2",
+        "VolumeSize": 60,
+        "SnapshotId": "snap-051b8e1a5ac3959cc"
+      }
+    }
+  ],
+  "KeyName": "mskcc-chunj",
+  "SecurityGroupIds": [
+    "sg-19c52d66"
+  ],
+  "InstanceType": "r4.2xlarge",
+  "Placement": {
+    "AvailabilityZone": "us-east-1c"
+  },
+  "IamInstanceProfile": {
+    "Arn": "arn:aws:iam::273241104452:instance-profile/My-S3-Role"
+  }
+}
