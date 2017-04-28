@@ -125,7 +125,7 @@ $ ./tag.sh
 
 ### Installation
 
-Prism installation automatically kicks in as the instance is up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3. To check the status, ssh into the instance and run the following command:
+Prism installation automatically kicks in as the instance is up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3 (will start using EBS once MSKCC AWS account is set up). To check the status, ssh into the instance and run the following command:
 
 ```bash
 $ tail -f /var/log/cloud-init-output.log
