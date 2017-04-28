@@ -13,3 +13,4 @@ input_file_tumor:
     path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
 rf: ['BadCigar']
 vcf: 'P1_ADDRG_MD.abra.fmi.printreads.mutect.vcf'
+intervals: ['1']
