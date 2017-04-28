@@ -117,6 +117,12 @@ Output would look something like below:
 }
 ```
 
+Optional: run the following to tag the instance. Note that this only works for a single instance. Also, you need `jq` to run this. And run after an instance shows up.
+
+```bash
+$ ./tag.sh
+```
+
 ### Installation
 
 Install using Fabric:
