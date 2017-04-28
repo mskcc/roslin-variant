@@ -222,7 +222,8 @@
         }, 
         "list2bed": {
             "1.0.0": "sing.sh list2bed 1.0.0", 
-            "default": "sing.sh list2bed 1.0.0"
+            "1.0.1": "sing.sh list2bed 1.0.1", 
+            "default": "sing.sh list2bed 1.0.1"
         }, 
         "matlab": {
             "R2014b": "/opt/common/CentOS_6-dev/matlab/R2014b/", 

@@ -65,7 +65,7 @@ steps:
         out: [fci_list]
 
     list2bed:
-        run: ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
+        run: ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
         in:
             input_file: gatk_find_covered_intervals/fci_list
             output_file:

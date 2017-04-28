@@ -191,7 +191,7 @@ cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
 cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
-cmo-list2bed/1.0.0/cmo-list2bed.cwl
+cmo-list2bed/1.0.1/cmo-list2bed.cwl
 cmo-mutect/1.1.4/cmo-mutect.cwl
 cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl

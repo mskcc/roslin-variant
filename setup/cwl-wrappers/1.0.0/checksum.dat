@@ -7,6 +7,7 @@ e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
 4585769701d4b50515be35dd49785b2f  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
+9397490df4170fbb1a25ce3c508f9d95  ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
 126949ee37cbf7aefbad9bc19ae9426b  ./cmo-mutect/1.1.4/cmo-mutect.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 ed873a7dc75dcc9c26788834fa1ab043  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
