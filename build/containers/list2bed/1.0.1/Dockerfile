@@ -5,7 +5,7 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.container="1.0" \
       version.list2bed="1.0.1" \
       version.alpine="3.4.6" \
-      source.gatk="https://github.com/mskcc/list2bed/releases/tag/1.0.1"
+      source.list2bed="https://github.com/mskcc/list2bed/releases/tag/1.0.1"
 
 ENV LIST2BED_VERSION 1.0.1
 
