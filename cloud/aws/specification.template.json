@@ -1,5 +1,5 @@
 {
-  "ImageId": "ami-5bddba4d",
+  "ImageId": "ami-f493f0e2",
   "BlockDeviceMappings": [
     {
       "DeviceName": "/dev/sda1",
@@ -7,7 +7,7 @@
         "DeleteOnTermination": true,
         "VolumeType": "gp2",
         "VolumeSize": 60,
-        "SnapshotId": "snap-051b8e1a5ac3959cc"
+        "SnapshotId": "snap-0604b4eeec7df2487"
       }
     }
   ],

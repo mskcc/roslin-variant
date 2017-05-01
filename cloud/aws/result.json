@@ -2,25 +2,25 @@
     "SpotInstanceRequests": [
         {
             "Status": {
-                "UpdateTime": "2017-04-28T18:07:54.000Z", 
+                "UpdateTime": "2017-05-01T16:10:30.000Z", 
                 "Code": "pending-evaluation", 
                 "Message": "Your Spot request has been submitted for review, and is pending evaluation."
             }, 
             "ProductDescription": "Linux/UNIX", 
-            "SpotInstanceRequestId": "sir-nvjr5zik", 
+            "SpotInstanceRequestId": "sir-pbwg52mk", 
             "State": "open", 
             "LaunchSpecification": {
                 "Placement": {
                     "AvailabilityZone": "us-east-1c"
                 }, 
-                "ImageId": "ami-5bddba4d", 
+                "ImageId": "ami-f493f0e2", 
                 "KeyName": "mskcc-chunj", 
                 "BlockDeviceMappings": [
                     {
                         "DeviceName": "/dev/sda1", 
                         "Ebs": {
                             "DeleteOnTermination": true, 
-                            "SnapshotId": "snap-051b8e1a5ac3959cc", 
+                            "SnapshotId": "snap-0604b4eeec7df2487", 
                             "VolumeSize": 60, 
                             "VolumeType": "gp2"
                         }
@@ -42,8 +42,8 @@
                 "InstanceType": "r4.8xlarge"
             }, 
             "Type": "one-time", 
-            "CreateTime": "2017-04-28T18:07:54.000Z", 
-            "SpotPrice": "0.400000"
+            "CreateTime": "2017-05-01T16:10:30.000Z", 
+            "SpotPrice": "0.420000"
         }
     ]
 }

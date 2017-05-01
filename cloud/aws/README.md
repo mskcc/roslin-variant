@@ -145,7 +145,7 @@ $ ./prism-init.sh -u ubuntu -s
 ### t2.micro
 
 ```bash
-$ cd /tmp/prism-setup-1.0.0/scripts
+$ cd /tmp/prism-v1.0.0/setup/scripts/
 $ ./reduce-resources-requirements.sh
 ```
 
@@ -159,3 +159,11 @@ $ ./run-example.sh
 ```
 
 You are ready.
+
+## Trouble Shooting
+
+The versions of the major software installed can be found by:
+
+```bash
+$ cat prism-software-versions.txt
+```

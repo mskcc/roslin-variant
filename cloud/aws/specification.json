@@ -13,7 +13,7 @@
         {
             "DeviceName": "/dev/sda1", 
             "Ebs": {
-                "SnapshotId": "snap-051b8e1a5ac3959cc", 
+                "SnapshotId": "snap-0604b4eeec7df2487", 
                 "DeleteOnTermination": true, 
                 "VolumeType": "gp2", 
                 "VolumeSize": 60
@@ -21,6 +21,6 @@
         }
     ], 
     "KeyName": "mskcc-chunj", 
-    "ImageId": "ami-5bddba4d", 
+    "ImageId": "ami-f493f0e2", 
     "InstanceType": "r4.8xlarge"
 }
