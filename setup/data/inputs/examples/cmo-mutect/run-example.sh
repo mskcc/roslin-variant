@@ -7,8 +7,8 @@ prism-runner.sh \
 
 
 # cmo_mutect \
-#     --cosmic /ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v67_b37_20131024__NDS.vcf \
-#     --dbsnp /ifs/work/charris/temp_depot/dbsnp_138.b37.excluding_sites_after_129.vcf \
+#     --cosmic /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf \
+#     --dbsnp /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf \
 #     --downsampling_type NONE \
 #     --enable_extended_output \
 #     --input_file:normal ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam \

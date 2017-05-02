@@ -13,6 +13,13 @@ then
     exit 1
 fi
 
+if [ ! -x "`command -v $PRISM_SINGULARITY_PATH`" ]
+then
+    echo "Unable to find Singularity."
+    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
+    exit 1
+fi
+
 # defaults
 PIPELINE_VERSION=${PRISM_VERSION}
 
@@ -141,12 +148,14 @@ cwltoil \
     --defaultDisk 10G \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
+    --not-strict \
     --disableCaching \
     --realTimeLogging \
     --writeLogs	${OUTPUT_DIRECTORY}/log \
     --logFile ${OUTPUT_DIRECTORY}/log/cwltoil.log \
     --workDir ${PRISM_BIN_PATH}/tmp \
-    --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS}
+    --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS} \
+    | tee ${OUTPUT_DIRECTORY}/output-meta.json
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG

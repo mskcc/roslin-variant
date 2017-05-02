@@ -4,6 +4,7 @@ from fabric.api import *
 # env.key_filename = ["~/.ssh/id_rsa"]
 # env.hosts = ['u36.cbio.mskcc.org']
 
+version = '1.0.0'
 
 @task
 @hosts('u36.cbio.mskcc.org')
@@ -36,15 +37,13 @@ def half_delete_prism_input():
 
 @task
 @hosts('chunj@u36.cbio.mskcc.org')
-def install(skip_b3=False, skip_compress=False, skip_upload=False):
+def install(skip_ref=False, skip_compress=False, skip_upload=False):
     """
     install on u36.cbio.mskcc.org
     """
 
     if not skip_compress:
         local('./compress.sh')
-
-    version="1.0.0"
 
     work_dir = '/home/chunj'
 
@@ -66,18 +65,16 @@ def install(skip_b3=False, skip_compress=False, skip_upload=False):
                 run('./install-production.sh -l')
 
                 pass_envs = ''
-                if skip_b3:
+                if skip_ref:
                     pass_envs = 'export SKIP_B3=yes && '
                 run(pass_envs + './configure-reference-data.sh -l ifs')
 
 
 @task
-def rsync_aws(skip_b3=False):
+def rsync_aws(skip_ref=False):
     """
-    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync
+    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync_aws
     """
-
-    version = '1.0.0'
 
     # make /ifs directory
     run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
@@ -92,18 +89,47 @@ def rsync_aws(skip_b3=False):
         run('./install-production.sh -l')
 
         pass_envs = ''
-        if skip_b3:
+        if skip_ref:
             pass_envs = 'export SKIP_B3=yes && '
         run(pass_envs + './configure-reference-data.sh -l s3')
 
+@task
+def deploy_s3_to_aws(skip_ref=False):
+    """
+    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com deploy_s3_to_aws
+    """
+
+    # get from s3
+    run('aws s3 cp s3://prism-installer/prism-v{}.tgz /tmp/'.format(version))
+
+    # uncompress
+    run('mkdir -p /tmp/prism-v{}/'.format(version))
+    run('tar xvzf /tmp/prism-v{0}.tgz -C /tmp/prism-v{0}/'.format(version))
+
+    # /ifs required
+    run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
+
+    with cd('/tmp/prism-v{}/setup/scripts/'.format(version)):
+
+        # install
+        run('./install-production.sh -l')
+
+        # install reference files
+        pass_envs = ''
+        if skip_ref:
+            pass_envs = 'export SKIP_B3=yes && '
+        run(pass_envs + './configure-reference-data.sh -l s3')
+
+    # adjust singularity location
+    with cd('/ifs/work/chunj/prism-proto/prism/bin/setup'):
+        run('sed -i "s|/usr/bin/singularity|/usr/local/bin/singularity|g" settings.sh')
+
 
 @task
-def rsync_luna(skip_b3=False):
+def rsync_luna(skip_ref=False):
     """
     fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
     """
-
-    version = '1.0.0'
 
     work_dir = '/tmp/prism-setup-{}'.format(version)
 
@@ -115,7 +141,7 @@ def rsync_luna(skip_b3=False):
         run('./install-production.sh -l')
 
         pass_envs = ''
-        if skip_b3:
+        if skip_ref:
             pass_envs = 'export SKIP_B3=yes && '
         run(pass_envs + './configure-reference-data.sh -l ifs')
 

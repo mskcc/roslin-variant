@@ -118,6 +118,20 @@ get_args_line() {
     assert_line 'Some necessary paths are not correctly configured.'
 }
 
+@test "should abort if unable to find Singularity at PRISM_SINGULARITY_PATH" {
+
+    export PRISM_BIN_PATH="a"
+    export PRISM_DATA_PATH="b"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_INPUT_PATH="d"
+    export PRISM_SINGULARITY_PATH="/usr/no-bin/singularity"
+
+    run ${PRISM_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Unable to find Singularity.'
+}
+
 @test "should abort if workflow or input filename is not supplied" {
 
     # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
@@ -262,6 +276,7 @@ get_args_line() {
     # --defaultDisk 10G
     # --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMSOURCE_CONFIG
     # --no-container
+    # --not-strcit
     # --disableCaching
     # --realTimeLogging
     # --writeLogs /vagrant/test/outputs/log
@@ -303,6 +318,9 @@ get_args_line() {
 
     # check debug-related
     assert_line --index 1 --partial "--logDebug --cleanWorkDir never"
+
+    # check --not-strcit
+    assert_line --index 1 --partial "--not-strict"
 
     unstubs
 }

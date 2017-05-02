@@ -218,6 +218,8 @@ $ ./install-production.sh -l
 $ ./configure-reference-data.sh -l s3
 ```
 
+Set singularity path in `settings.sh` to `/usr/local/bin/singularity`.
+
 Log out and log back in.
 
 

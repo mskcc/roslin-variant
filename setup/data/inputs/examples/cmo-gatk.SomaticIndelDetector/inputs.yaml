@@ -11,6 +11,6 @@ intervals:
     path: ../data/from-module-2/intervals.bed
 refseq:
     class: File
-    path: /ifs/work/chunj/prism-proto/ifs/depot/resources/dmp/data/pubdata/refgene-sorted/VERSIONS/cv1/refGene_b37.sorted.txt
+    path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt
 out: 'P1_ADDRG_MD.abra.fmi.printreads.sid.vcf'
 verboseOutput: ['P1_ADDRG_MD.abra.fmi.printreads.sid.verbose.vcf']

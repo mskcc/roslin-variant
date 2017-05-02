@@ -33,7 +33,10 @@
             "0.2.5a7"
         ],
         "list2bed": [
-            "1.0.0"
+            "1.0.1"
+        ],
+        "basic-filtering": [
+            "0.1.6"
         ]
     },
     "containerDependency": {

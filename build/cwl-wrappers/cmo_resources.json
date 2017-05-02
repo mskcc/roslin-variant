@@ -187,7 +187,7 @@
         }, 
         "list2bed": {
             "1.0.0": "sudo docker run -i list2bed:1.0.0", 
-            "default": "sudo docker run -i list2bed:1.0.0"
+            "default": "sudo docker run -i list2bed:1.0.1"
         }, 
         "matlab": {
             "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"

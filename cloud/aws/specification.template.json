@@ -1,0 +1,26 @@
+{
+  "ImageId": "ami-f493f0e2",
+  "BlockDeviceMappings": [
+    {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+        "DeleteOnTermination": true,
+        "VolumeType": "gp2",
+        "VolumeSize": 60,
+        "SnapshotId": "snap-0604b4eeec7df2487"
+      }
+    }
+  ],
+  "KeyName": "mskcc-chunj",
+  "SecurityGroupIds": [
+    "sg-19c52d66"
+  ],
+  "InstanceType": "r4.2xlarge",
+  "Placement": {
+    "AvailabilityZone": "us-east-1c"
+  },
+  "IamInstanceProfile": {
+    "Arn": "arn:aws:iam::273241104452:instance-profile/My-S3-Role"
+  },
+  "UserData": "IyEvYmluL2Jhc2gKCnZlcnNpb249JzEuMC4wJwoKYXdzIHMzIGNwIHMzOi8vcHJpc20taW5zdGFsbGVyL3ByaXNtLXYkdmVyc2lvbi50Z3ogL3RtcC8KbWtkaXIgLXAgL3RtcC9wcmlzbS12JHZlcnNpb24vCnRhciB4dnpmIC90bXAvcHJpc20tdiR2ZXJzaW9uLnRneiAtQyAvdG1wL3ByaXNtLXYkdmVyc2lvbi8KY2QgL3RtcC9wcmlzbS12JHZlcnNpb24vc2V0dXAvc2NyaXB0cy8KCnN1ZG8gbWtkaXIgLXAgL2lmcyAmJiBzdWRvIGNobW9kIGErdyAvaWZzCi4vaW5zdGFsbC1wcm9kdWN0aW9uLnNoIC1sCi4vY29uZmlndXJlLXJlZmVyZW5jZS1kYXRhLnNoIC1sIHMzCgpjZCAvaWZzL3dvcmsvY2h1bmovcHJpc20tcHJvdG8vcHJpc20vYmluL3NldHVwCnNlZCAtaSAic3wvdXNyL2Jpbi9zaW5ndWxhcml0eXwvdXNyL2xvY2FsL2Jpbi9zaW5ndWxhcml0eXxnIiBzZXR0aW5ncy5zaAo="
+}
