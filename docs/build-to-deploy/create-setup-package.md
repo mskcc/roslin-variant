@@ -6,11 +6,11 @@ This document covers Step 4:
 
 ## Luna
 
-There are many ways available, but the latest deploymnent script for Luna does rsync on `/setup`, thus no special setup package is required at the moment.
+There are many ways, but the latest deploymnent script for Luna does rsync on `/setup`, thus no special setup package is required at the moment.
 
 ## AWS
 
-There are many ways available, but the latest method uses:
+There are many ways, but the latest method uses:
 
 From Local:
 
@@ -33,6 +33,8 @@ Run the following command outside the vagrant box. This will create `prism-v1.0.
 ```bash
 $ ./compress.sh
 ```
+
+### Upload to S3
 
 Upload the compressed file to AWS S3:
 

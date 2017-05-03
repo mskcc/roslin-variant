@@ -6,15 +6,15 @@ This document covers Step 5:
 
 Table of Contents:
 
-1. Local Virtual Machine
 1. Luna
 1. Amazon Web Services
+1. Local Virtual Machine
 
 ## Installation
 
 ### Luna
 
-You can either use `Fabric` or do it manually
+You can either use `Fabric` or do it manually:
 
 #### Fabric
 
@@ -51,7 +51,7 @@ $ ./configure-reference-data.sh -l ifs
 
 Log out and log back in.
 
-### ~~Amazon Web Services~~ (OUTDAˇED)
+### ~~Amazon Web Services~~ (OUTDATED)
 
 Bring up an AWS EC2 instance (minimum `t2.large` with 50GB disk) using the AMI `ami-2cc4643a`. This AMI is not currently exposed to public. Add Full S3 Access role to EC2 being spawned.
 
@@ -98,7 +98,7 @@ Set singularity path in `settings.sh` to `/usr/local/bin/singularity`.
 
 Log out and log back in.
 
-### ~~Local Virtual Machine~~ (OUTDAˇED)
+### ~~Local Virtual Machine~~ (OUTDATED)
 
 Get genome assemblies files and place them under `./setup/data/assemblies`.
 
