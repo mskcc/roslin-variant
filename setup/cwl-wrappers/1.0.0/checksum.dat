@@ -1,4 +1,5 @@
 d1031c7cd563cf70bbcc9f7b855dd2f2  ./cmo-abra/0.92/cmo-abra.cwl
+1331ea05bfb4998ecaa4a0077c41b631  ./cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
 e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 39a50e01369af1b85d4a37230cfe8640  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 94462d01c111f9e8e5a061b37d127d50  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl

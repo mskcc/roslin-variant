@@ -74,6 +74,9 @@
         ],
         "vardict": [
             "cmo_vardict"
+        ],
+        "bcftools": [
+            "cmo_bcftools.norm"
         ]
     }
 }
