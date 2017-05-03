@@ -10,7 +10,7 @@ This document will walk you through using *BCFTools v1.3.1* as an example, but s
 
 Define a dependency relationship in `/build/scripts/tools.json`. The `containerDependency` section describes that `cmo_bcftools` calls the containerized `bcftools` with tool-specific parameters. The suffix `.norm` denotes that we are generating a CWL wrapper for BCFTools' `norm` command.
 
-```json
+```
 {
     "containerDependency": {
         ...
@@ -24,7 +24,7 @@ Define a dependency relationship in `/build/scripts/tools.json`. The `containerD
 
 Sometimes, there could be 1:N relationships, especially for those tools that provide a single binary/executable, but expose multiple functionalities via subcommands (e.g. GATK, Picard, BCFTools):
 
-```json
+```
 {
     "containerDependency": {
         ...

@@ -19,9 +19,7 @@ To run the pipeline you need:
 
 ## From Build to Deploy
 
-```
-1) Set Up VM --> 2) Build --> 3) Move Artifacts --> 4) Create Setup Package --> 5) Deploy
-```
+![/docs/prism-build-to-deploy.png](/docs/prism-build-to-deploy.png)
 
 ### Step 1
 

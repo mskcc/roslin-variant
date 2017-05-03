@@ -10,7 +10,7 @@ This document will walk you through using *BCFTools v1.3.1* as an example.
 
 Add an entry to `/build/scripts/tools.json`.
 
-```json
+```
 {
     "programs": {
         ...
@@ -24,7 +24,7 @@ Add an entry to `/build/scripts/tools.json`.
 
 There could be multiple versions for a given tool. In this case, you can simply add a new vesion to the existing entry, for example:
 
-```json
+```
 {
     "programs": {
         ...

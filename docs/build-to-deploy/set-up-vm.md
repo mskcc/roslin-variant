@@ -1,10 +1,8 @@
-# Set Up VM
+# Set Up Virtual Machine
 
 This document covers Step 1:
 
-```
-1) Set Up VM --> 2) Build --> 3) Move Artifacts --> 4) Create Setup Package --> 5) Deploy
-```
+![/docs/prism-build-to-deploy.png](/docs/prism-build-to-deploy.png)
 
 ## Prerequisites
 
@@ -79,11 +77,15 @@ export PRISM_SINGULARITY_PATH="/usr/bin/singularity"
 
 ### /build/settings-container.sh
 
-Make sure that the bind points defined in `/setup/settings.sh` must be also defined in `/build/settings-container.sh`. Note that here each path is separated by a single space character. The directories specified in this file will be automatically created duruing the image creation process. This is necessary to make the images compatible with environments where Overlay FS is not supported. For more information about this, please refer to the [Bind Paths / File Sharing](http://singularity.lbl.gov/docs-mount) section of the Singularity's User Guide.
+Make sure that the bind points defined in `/setup/settings.sh` must be also defined in `/build/settings-container.sh`.
 
 ```bash
 export SINGULARITY_BIND_POINTS="/ifs/work/chunj/prism-proto/ifs /ifs/work/chunj/prism-proto/prism /scratch"
 ```
+
+Note that each path is separated by a single space character. The directories specified in this file will be automatically created inside the container duruing the image creation process. This is necessary to make the images compatible with runtime environments where Overlay FS is not supported.
+
+For more information about this, please refer to the [Bind Paths / File Sharing](http://singularity.lbl.gov/docs-mount) section of the Singularity's User Guide.
 
 ## Create Build Envrionment
 
@@ -104,8 +106,10 @@ $ vagrant ssh
 Now you're inside the virtual machine. Try the following commands to see if everything is correctly installed:
 
 ```bash
-$ python --version
-$ singularity --version
-$ docker --version
-$ cat /usr/local/bin/cmo-gxargparse/cmo/cmo/_version.py
+$ /vagrant/vm/check-versions.sh
+python : Python 2.7.12
+pip : pip 8.1.1 from /usr/lib/python2.7/dist-packages (python 2.7)
+docker : Docker version 1.13.1, build 092cba3
+singularity : 2.2.1
+cmo : 1.0.5
 ```

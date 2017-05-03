@@ -2,9 +2,7 @@
 
 This document covers Step 2 and 3:
 
-```
-1) Set Up VM --> 2) Build --> 3) Move Artifacts --> 4) Create Setup Package --> 5) Deploy
-```
+![/docs/prism-build-to-deploy.png](/docs/prism-build-to-deploy.png)
 
 ## Build Container Images and CWL Wrappers
 
