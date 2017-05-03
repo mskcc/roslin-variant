@@ -105,7 +105,7 @@ Output would look something like below:
                     "Enabled": false
                 }, 
                 "IamInstanceProfile": {
-                    "Arn": "arn:aws:iam::273241104452:instance-profile/My-S3-Role"
+                    "Arn": "arn:aws:iam::273241104452:instance-profile/prism-node-role"
                 }, 
                 "InstanceType": "r4.8xlarge"
             }, 

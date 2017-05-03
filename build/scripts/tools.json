@@ -37,6 +37,9 @@
         ],
         "basic-filtering": [
             "0.1.6"
+        ],
+        "bcftools": [
+            "1.3.1"
         ]
     },
     "containerDependency": {
@@ -71,6 +74,9 @@
         ],
         "vardict": [
             "cmo_vardict"
+        ],
+        "bcftools": [
+            "cmo_bcftools.norm"
         ]
     }
 }

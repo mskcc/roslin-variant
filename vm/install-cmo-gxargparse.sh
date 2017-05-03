@@ -14,7 +14,6 @@ git clone https://github.com/mskcc/cmo.git ${DEST_PATH}/cmo-gxargparse/cmo
 
 # install dependencies
 pip install --upgrade pip
-pip install python-daemon
 
 # install
 cd ${DEST_PATH}/cmo-gxargparse/cmo

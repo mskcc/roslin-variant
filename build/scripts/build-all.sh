@@ -1,5 +1,30 @@
 #!/bin/bash -e
 
+usage()
+{
+cat << EOF
+
+USAGE: $0 [options]
+
+OPTIONS:
+
+   -n      Do not push to Docker Hub
+   -h      Help
+
+EOF
+}
+
+push_to_dockerhub='yes'
+
+while getopts “nh” OPTION
+do
+    case $OPTION in
+        n) push_to_dockerhub='no' ;;
+        h) usage; exit 1 ;;
+        *) usage; exit 1 ;;
+    esac
+done
+
 # build container images
 ./build-images.sh
 
@@ -11,9 +36,14 @@
 
 if [ $? -eq 0 ]
 then
-    # push to docker hub
-    ./push-to-docker-hub.sh
+    if [ "$push_to_dockerhub" = 'yes' ]
+    then
+        # push to docker hub
+        ./push-to-docker-hub.sh
+    fi
 else
     echo "Bind points are not properly built into the container images."
     exit 1
 fi
+
+echo "Done."

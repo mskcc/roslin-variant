@@ -20,6 +20,6 @@
         "AvailabilityZone": "us-east-1c"
     },
     "IamInstanceProfile": {
-        "Arn": "arn:aws:iam::273241104452:instance-profile/My-S3-Role"
+        "Arn": "arn:aws:iam::273241104452:instance-profile/prism-node-role"
     }
 }
