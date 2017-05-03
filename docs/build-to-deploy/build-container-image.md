@@ -300,6 +300,7 @@ list2bed:1.0.1
 ```
 
 To build a specific tool, run `build-image.sh` with the `-t` parameter:
+
 ```bash
 $ cd /vagrant/build/scripts/
 $ ./build-images.sh -t bcftools:1.3.1 -d
