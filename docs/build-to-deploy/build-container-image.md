@@ -273,6 +273,8 @@ Specify the tool's docker image name and version. Note that the prefix `pipeline
 
 ## Build and Verify
 
+Note that this part must be done inside the virtual machine.
+
 To see what tools can be built, run `build-image.sh` with the `-z` parameter:
 
 ```bash
