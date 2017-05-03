@@ -53,28 +53,31 @@ At the end of the day, this directory would look something like below:
     └── Singularity
 ```
 
+where `bcftools.img` is the final artifact.
+
 ## Dockerfile
 
-Create a file named `Dockerfile`. This will contain metadata and steps to dockerize the tool, e.g. bcftools. These steps usually include either compiling the tool's source code or downloading/copying the final binaries/executables, or sometimes even both.
+Create a file named `Dockerfile`. This will contain metadata and steps to dockerize the tool, e.g. bcftools. These steps usually include either downloading/compiling the tool's source code or downloading/copying the final binaries/executables, or sometimes even both.
 
-- If the tool you're trying to containerize is written in
-    - C or C++:
-        - Download the source code and compile inside the container.
-    - Java:
-        - Instal JRE or JDK in the container.
-        - You can either compile the tool's Java source code or simply copy the final Jar file(s) into the container.
-    - Perl:
-        - Install Perl in the container.
-        - A simply copy of the `*.pl` files(s) should work.
-    - Python:
-        - Install Python in the container.
-        - A simple copy of the `*.py` file(s) should work, but make sure to install all the necessary dependencies or preferrably install the tool using `pip` or `python setup.py install`.
-    - R:
-        - Install R in the container.
-        - A simple copy of the `*.R` file(s) should work, but make sure to install all the necessary dependencies.
+If the tool you're trying to containerize is written in
 
+- C or C++:
+    - Install C/C++ compilers and other necessary build tools.
+    - Download the source code and compile inside the container.
+- Java:
+    - Instal JRE or JDK in the container.
+    - You can either compile the tool's Java source code or simply copy the final Jar file(s) into the container.
+- Perl:
+    - Install Perl in the container.
+    - Simply including the `*.pl` files(s) in the container should be sufficient.
+- Python:
+    - Install Python in the container.
+    - Simply including the `*.py` file(s) in the container should be sufficient, but make sure to install all the necessary dependencies or preferrably install the tool using `pip` or `python setup.py install`.
+- R:
+    - Install R in the container.
+    - Simply including the `*.R` file(s) in the container should be sufficient, but make sure to install all the necessary dependencies.
 
-Use the template as the basis and make necessary changes. Below is pindel example:
+Use the template as the basis and make necessary changes. Below is PINDEL example:
 
 ```
 #1
@@ -144,16 +147,18 @@ Include metadata:
 - `version.???`
     - Version of the tool being containerized.
     - Replace `???` with the tool name (e.g. `version.bcftools`)
-    - If multiple tools are being containerized, you must specify the versions of all the tools being containerized.
+    - If multiple tools are being containerized, you must specify the versions of all the tools being containerized (e.g. `version.pindel="0.2.5a7"` and `version.samtools="0.1.19"`)
 - `version.alpine`
     - Version of the base image.
     - `alpine` is the name of the base image in this case.
-- `source.bcftools`
+- `source.???`
     - Usually a link to the GitHub repository that stores the specific version of the tool being containerized.
+    - Replace `???` with the tool name (e.g. `source.bcftools`)
+    - If multiple tools are being containerized, you must specify the sources of all the tools being containerized (e.g. `source.pindel="https://github.com/genome/pindel/releases/tag/0.2.5a7"` and `source.samtools="https://github.com/samtools/samtools/releases/tag/0.1.19"`)
 
 ### #4 ENV
 
-Store the version of the tool in the environment variable:
+Store the version(s) of the tool(s) in the environment variable:
 
 - `ENV ???_VERSION x.y.z` where `???` is the name of the tool being containerized, `x.y.z` is the version of the tool.
 - If multiple tools are being containerized, you must create multiple `ENV`s.
@@ -225,14 +230,14 @@ Registry: http://localhost:5000
     # remove settings-container.sh
     rm -rf /tmp/settings-container.sh
 
+#2
 %runscript
 
-#2
     exec /usr/bin/bcftools "$@"
 
+#3
 %test
 
-#3
     # get actual output of the tool
     exec /usr/bin/bcftools "$@"
 
@@ -249,7 +254,7 @@ EOM
     rm -rf /tmp/*.diff.txt
 ```
 
-Some of the sections such as `%setup` do not need to be modified. Unless you know what you're doing, make changes only in the sections mentioned below.
+Some of the sections such as `%setup` and `%post` do not need to be modified. Unless you know what you're doing, make changes only in the sections mentioned below.
 
 ### #1 From
 
@@ -264,22 +269,47 @@ Specify the tool's docker image name and version. Note that the prefix `pipeline
 ### #3 %test
 
 - Add unit test code to verify that the tool is correctly containerized.
-- In general, you want to call the tool and check the version or help message.
+- In general, you'd want to call the tool and check the version or help message.
 
 ## Build and Verify
 
+To see what tools can be built, run `build-image.sh` with the `-z` parameter:
+
+```bash
+$ cd /vagrant/build/scripts/
+$ ./build-images.sh -z
+samtools:1.3.1
+trimgalore:0.4.3
+trimgalore:0.2.5.mod
+pindel:0.2.5b8
+pindel:0.2.5a7
+basic-filtering:0.1.6
+picard:1.96
+mutect:1.1.4
+vardict:1.4.6
+bwa:0.7.15
+bwa:0.7.12
+bwa:0.7.5a
+abra:0.92
+gatk:3.3-0
+gatk:2.3-9
+bcftools:1.3.1
+list2bed:1.0.1
+```
+
+To build a specific tool, run `build-image.sh` with the `-t` parameter:
 ```bash
 $ cd /vagrant/build/scripts/
 $ ./build-images.sh -t bcftools:1.3.1 -d
 ```
 
-Verify if you can run it:
+Once the build has been completed with no errors, verify if you can run it:
 
 ```bash
 $ sudo docker run -it --rm bcftools:1.3.1
 ```
 
-If everything looks good, rebulid the Docker image without the `-d` parameter this time. This will not only create the Docker image, but also convert the Docker image to a Singularity image using the `Singularity` file we created previously.
+If everything looks good, run `build-image.sh` again, but this time without the `-d` parameter. This will not only create the Docker image, but also convert the Docker image to a Singularity image using the `Singularity` file we created previously.
 
 ```bash
 $ ./build-images.sh -t bcftools:1.3.1
