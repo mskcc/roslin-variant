@@ -48,6 +48,8 @@ $ tree prism-pipeline -L 2 -d
 
 ## Settings
 
+### /setup/settings.sh
+
 Configure `/setup/settings.sh`. Below is what's already configured for the Luna environment. No need to change unless you know what you're doing.
 
 ```bash
@@ -75,7 +77,9 @@ export PRISM_INPUT_PATH="${PRISM_ROOT}/ifs/prism/inputs"
 export PRISM_SINGULARITY_PATH="/usr/bin/singularity"
 ```
 
-Make sure that the bind points defined above must be defined in `/build/settings-container.sh` as well. Note that, unlike the above, here each path is separated by a single space character. The directories specified in this file will be automatically created duruing the image creation process. This is necessary to make the images compatible with environments where Overlay FS is not supported. For more information about this, please refer to the [Bind Paths / File Sharing](http://singularity.lbl.gov/docs-mount) section of the Singularity's User Guide.
+### /build/settings-container.sh
+
+Make sure that the bind points defined in `/setup/settings.sh` must be also defined in `/build/settings-container.sh`. Note that here each path is separated by a single space character. The directories specified in this file will be automatically created duruing the image creation process. This is necessary to make the images compatible with environments where Overlay FS is not supported. For more information about this, please refer to the [Bind Paths / File Sharing](http://singularity.lbl.gov/docs-mount) section of the Singularity's User Guide.
 
 ```bash
 export SINGULARITY_BIND_POINTS="/ifs/work/chunj/prism-proto/ifs /ifs/work/chunj/prism-proto/prism /scratch"

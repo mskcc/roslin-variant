@@ -3,226 +3,44 @@
 Table of Contents:
 
 1. Prerequisites
-1. Preparation
-1. Building Everything
-1. Building Tools Individually
-    1. Container Images
-    1. CWL Wrappers
-1. Creating Installation Package
-1. Installation
-    1. Local Virtual Machine
-    1. Luna
-    1. Amazon Web Services
+1. From Build to Deploy
+1. Setting Up Workspace
 
 ## Prerequisites
 
-The versions mentioned here are the ones that are tested. This does not necessarily mean that higher versions would automatically work.
+To run the pipeline you need:
 
-- For Building Pipelines
-    - [Vagrant 1.9.0](https://www.vagrantup.com/downloads.html)
-        
-- For Running Pipelines
-    - Python 2.7.x
-    - Node.js 6.1.0
-    - [Singularity 2.2.1](http://singularity.lbl.gov/release-2-2-1)
-    - cwltoil
-    - [cmo](https://github.com/mskcc/cmo)
+- Python 2.7.x
+- Node.js 6.1.0
+- [Singularity 2.2.1](http://singularity.lbl.gov/release-2-2-1)
+- cwltoil
+- [cmo](https://github.com/mskcc/cmo)
 
-## Preparation
 
-Make sure that the bind points defined in the following directories must match each other.
+## From Build to Deploy
 
-- `/setup/settings.sh`
-- `/build/settings-container.sh`
-
-## Building Everything
-
-Bring up the vagrant box:
-
-```bash
-$ vagrant up
-$ vagrant ssh
+```
+1) Set Up VM --> 2) Build --> 3) Move Artifacts --> 4) Create Setup Package --> 5) Deploy
 ```
 
-Run the following command to bulid all the necessary container images as well as the CWL wrappers:
+### Step 1
 
-```bash
-$ cd /vagrant/build/scripts/
-$ ./build-all.sh
-```
+- [Set Up Virtual Machine](./docs/build-to-deploy/set-up-vm.md)
 
-The following command will gather all the created container images as well as the CWL wrappers and place them in the `setup` directory.
+### Step 2 and 3
 
-```bash
-$ ./move-all-artifacts-to-setup.sh
-```
+- [Build Everything](./docs/build-to-deploy/build-everything.md)
+- [Build Container Image](./docs/build-to-deploy/build-container-image.md)
+- [Build CWL Wrapper](./docs/build-to-deploy/build-cwl-wrappers.md)
 
-## Building Tools Individually
+### Step 4
 
-### Container Images
+- [Create Setup Package](./docs/build-to-deploy/create-setup-package.md)
 
-![/docs/image-build-process.png](./docs/image-build-process.png)
+### Step 5
 
-```bash
-$ cd /vagrant/build/scripts/
-$ ./build-images.sh
-```
+- [Deploy](./docs/build-to-deploy/deploy.md)
 
-The `-t` parameter allows you to build a specific tool image:
+## Setting Up Workspace
 
-```bash
-$ ./build-images.sh -t bwa-mem:0.7.5a
-```
-
-The following command will gather all the created container images and place them in the `setup` directory.
-
-```bash
-$ ./move-container-artifacts-to-setup.sh
-```
-
-### CWL Wrappers
-
-![/docs/cwl-autogen-process.png](./docs/cwl-autogen-process.png)
-
-```bash
-$ cd /vagrant/build/scripts/
-$ ./build-cwl.sh
-```
-
-
-The `-t` parameter allows you to build a specific CWL wrapper:
-
-```bash
-$ ./build-cwl.sh -t bwa-mem:0.7.5a:cmo_bwa_mem
-```
-
-The following command will gather all the generated cwl files and place them in the `setup` directory. You must run this from inside the vagrant box.
-
-```bash
-$ ./move-cwl-artifacts-to-setup.sh
-```
-
-## Creating Installation Package
-
-Exit out from the vagrant box and run the following command. This will create `prism-v1.0.0.tgz`.
-
-```bash
-$ ./compress.sh
-```
-
-## Installation
-
-### Local Virtual Machine
-
-Get genome assemblies files and place them under `./setup/data/assemblies`.
-
-Upload the installation package to the VM (this uses `rsync`):
-
-```bash
-$ sync-to-vm.sh -p 7777 -u chunj
-```
-
-Log in to the virtual machine.
-
-Create a directory where Prism will be installed:
-
-```bash
-$ sudo mkdir -p /ifs && sudo chmod a+w /ifs
-```
-
-Install cmo wrapper:
-
-```bash
-$ cd /tmp/prism-setup/scripts
-$ ./install-cmo.sh
-```
-
-Start installation:
-
-```bash
-$ ./install-production.sh -l
-$ ./configure-reference-data.sh -l local
-``` 
-
-Log out and log back in.
-
-### Luna (u36)
-
-If you have `Fabric` on your machine, just run `fab -i [your-private-key] install`, otherwise follow the instructions below.
-
-Upload the installation package to Luna:
-
-```bash
-$ scp prism-v1.0.0.tgz chunj@u36.cbio.mskcc.org:/home/chunj
-```
-
-Log in to `u36.cbio.mskcc.org`.
-
-Uncompress the installation package:
-
-```bash
-$ mkdir prism-setup-v1.0.0
-$ tar xvzf prism-v1.0.0.tgz -C prism-setup-v1.0.0
-```
-
-Start installation:
-
-```bash
-$ cd prism-setup-v1.0.0/setup/scripts
-$ ./install-production.sh -l
-$ ./configure-reference-data.sh -l ifs
-```
-
-Log out and log back in.
-
-### Amazon Web Services
-
-Bring up an AWS EC2 instance (minimum `t2.large` with 50GB disk) using the AMI `ami-2cc4643a`. This AMI is not currently exposed to public. Add Full S3 Access role to EC2 being spawned.
-
-Upload the installation package to AWS EC2.
-
-```bash
-$ ./upload-to-ec2.sh -k ~/mskcc-chunj.pem -h ec2-w-x-y-z.compute-1.amazonaws.com
-```
-
-Log in to EC2:
-
-```bash
-$ ssh -i "~/mskcc-chunj.pem" ubuntu@ec2-w-x-y-z.compute-1.amazonaws.com
-```
-
-Create a directory where Prism will be installed:
-
-```bash
-$ sudo mkdir -p /ifs && sudo chmod a+w /ifs
-```
-
-Uncompress the installation package:
-
-```bash
-$ cd /tmp
-$ tar xvzf prism-v1.0.0.tgz
-```
-
-Install cmo wrapper:
-
-```bash
-$ cd /tmp/setup/scripts/
-$ ./install-cmo.sh
-```
-
-Start installation:
-
-```bash
-$ ./install-production.sh -l
-$ ./configure-reference-data.sh -l s3
-```
-
-Set singularity path in `settings.sh` to `/usr/local/bin/singularity`.
-
-Log out and log back in.
-
-
-## Adding a New Tool
-
-Please refer to [this document](./docs/build/adding-new-tool.md)
+Please refer to [this document](./docs/workspace/setup.md). 
