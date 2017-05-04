@@ -137,6 +137,9 @@
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         }, 
+        "basic-filtering": {
+            "default": "sudo docker run -i basic-filtering:0.1.6"
+        }, 
         "bcftools": {
             "default": "sudo docker run -i bcftools:1.3.1"
         }, 

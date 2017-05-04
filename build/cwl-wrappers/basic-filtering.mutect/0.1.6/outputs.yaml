@@ -1,0 +1,19 @@
+outputs:
+  vcf:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.inputVcf )
+            return inputs.inputVcf.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.vcf/,'') + '_STDfilter.vcf';
+          return null;
+        }
+  txt:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.inputTxt)
+            return inputs.inputTxt.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.vcf/,'') + '_STDfilter.txt';
+          return null;
+        }
