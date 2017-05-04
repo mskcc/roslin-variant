@@ -1,0 +1,8 @@
+inputVcf:
+  class: File
+  path: ../data/from-module-4/PoolTumor2-T_bc52_SomaticIndelDetector_2.3-9.vcf
+inputTxt:
+  class: File
+  path: ../data/from-module-4/PoolTumor2-T_bc52_SomaticIndelDetector_2.3-9.txt
+verbose: true
+tsampleName: 'PoolTumor2-T'

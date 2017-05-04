@@ -78,7 +78,8 @@
         "basic-filtering": [
             "basic-filtering.mutect",
             "basic-filtering.vardict",
-            "basic-filtering.pindel"
+            "basic-filtering.pindel",
+            "basic-filtering.somaticIndelDetector"
         ],
         "bcftools": [
             "cmo_bcftools.norm"
