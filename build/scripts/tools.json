@@ -76,7 +76,8 @@
             "cmo_vardict"
         ],
         "basic-filtering": [
-            "basic-filtering.mutect"
+            "basic-filtering.mutect",
+            "basic-filtering.vardict"
         ],
         "bcftools": [
             "cmo_bcftools.norm"
