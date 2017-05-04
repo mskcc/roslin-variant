@@ -1,0 +1,25 @@
+##fileformat=VCFv4.0
+##fileDate=20160822
+##source=pindel
+##reference=hg19
+##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
+##INFO=<ID=HOMLEN,Number=1,Type=Integer,Description="Length of base pair identical micro-homology at event breakpoints">
+##INFO=<ID=PF,Number=1,Type=Integer,Description="The number of samples carry the variant">
+##INFO=<ID=HOMSEQ,Number=.,Type=String,Description="Sequence of base pair identical micro-homology at event breakpoints">
+##INFO=<ID=SVLEN,Number=1,Type=Integer,Description="Difference in length between REF and ALT alleles">
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
+##INFO=<ID=NTLEN,Number=.,Type=Integer,Description="Number of bases inserted in place of deleted code">
+##FORMAT=<ID=PL,Number=3,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=RD,Number=1,Type=Integer,Description="Reference depth, how many reads support the reference">
+##FORMAT=<ID=AD,Number=2,Type=Integer,Description="Allele depth, how many reads support this allele">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Total coverage at the site">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	PoolNormal-N	PoolTumor2-T
+2	6636086	.	A	AGCTTCGTTAAACTTCACTCGGAAGT	.	PASS	END=6636086;HOMLEN=0;SVLEN=25;SVTYPE=INS	GT:AD	0/0:554,1	0/0:719,10
+2	29451557	.	GAGGCAGGGTGCTGGCTCGAAAGCCAGCACCCTGCCTCTGGCTGGTCC	G	.	PASS	END=29451604;HOMLEN=7;HOMSEQ=AGGCAGG;SVLEN=-47;SVTYPE=DEL	GT:AD	0/0:59,0	0/0:145,5
+5	154505053	.	T	TGTGTGTGTGTGTGTGTGTGTATCACACACACACACATACA	.	PASS	END=154505053;HOMLEN=0;SVLEN=40;SVTYPE=INS	GT:AD	0/0:6,1	0/0:1,6
+6	7516674	.	A	ATATATACATATATATATATATATATG	.	PASS	END=7516674;HOMLEN=6;HOMSEQ=TATATA;SVLEN=26;SVTYPE=INS	GT:AD	0/0:23,0	0/1:22,11
+6	160640109	.	G	GCAGCATCAGCAACAATAACAGCAACAATAGCAGCAGTAACAACAGCAA	.	PASS	END=160640109;HOMLEN=26;HOMSEQ=CAGCATCAGCAACAATAACAGCAACA;SVLEN=48;SVTYPE=INS	GT:AD	0/0:108,0	0/0:96,8
+9	8331574	.	A	AAACTTACCATTCTTGAACTGTAACT	.	PASS	END=8331574;HOMLEN=8;HOMSEQ=AACTTACC;SVLEN=25;SVTYPE=INS	GT:AD	0/0:823,0	0/0:427,63
+10	99804253	.	C	CAGCAGCAGCAACAGCAGCAACAACAGCAGCAAT	.	PASS	END=99804253;HOMLEN=32;HOMSEQ=AGCAGCAGCAACAGCAGCAACAACAGCAGCAA;SVLEN=33;SVTYPE=INS	GT:AD	0/0:127,9	0/1:17,17
+17	77386084	.	CAGCCTCCAGGTCTCCGCAGCCTCCAGGTCTCCGT	C	.	PASS	END=77386118;HOMLEN=21;HOMSEQ=AGCCTCCAGGTCTCCGCAGCC;SVLEN=-34;SVTYPE=DEL	GT:AD	0/0:37,1	0/1:14,32
