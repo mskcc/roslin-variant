@@ -136,6 +136,8 @@ dct:contributor:
 
 ## outputs.yaml
 
+Make sure there are no trailing whitespaces, otherwise YAML complains.
+
 ```yaml
 outputs:
   bam:
