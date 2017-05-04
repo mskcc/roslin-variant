@@ -77,7 +77,8 @@
         ],
         "basic-filtering": [
             "basic-filtering.mutect",
-            "basic-filtering.vardict"
+            "basic-filtering.vardict",
+            "basic-filtering.pindel"
         ],
         "bcftools": [
             "cmo_bcftools.norm"

@@ -1,0 +1,5 @@
+inputVcf:
+  class: File
+  path: ../data/from-module-4/PoolTumor2-T_bc52_PINDEL_0.2.5a7.vcf
+verbose: true
+tsampleName: 'PoolTumor2-T'

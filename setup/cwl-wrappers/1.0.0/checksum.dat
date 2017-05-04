@@ -1,4 +1,5 @@
 108a5e24e052be01a43994d2f0d98e0a  ./basic-filtering.mutect/0.1.6/basic-filtering.mutect.cwl
+7946cdd5c3234a4d320248893d512c66  ./basic-filtering.pindel/0.1.6/basic-filtering.pindel.cwl
 1fae7615a071175ddfa8e2b1d779d2ee  ./basic-filtering.vardict/0.1.6/basic-filtering.vardict.cwl
 d1031c7cd563cf70bbcc9f7b855dd2f2  ./cmo-abra/0.92/cmo-abra.cwl
 1331ea05bfb4998ecaa4a0077c41b631  ./cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
