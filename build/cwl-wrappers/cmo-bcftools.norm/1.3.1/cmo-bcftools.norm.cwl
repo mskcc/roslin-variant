@@ -6,14 +6,14 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-  - http://dublincore.org/2012/06/14/dcterms.rdf
-  - http://xmlns.com/foaf/spec/20140114.rdf
-  - http://usefulinc.com/ns/doap#
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: cmo-bcftools.cwl
+doap:name: cmo-bcftools.norm.cwl
 doap:release:
-  - class: doap:Version
-    doap:revision: '1.3.1'
+- class: doap:Version
+  doap:revision: 1.3.1
 
 dct:creator:
 - class: foaf:Organization
@@ -35,10 +35,10 @@ dct:contributor:
 # To generate again: $ cmo_bcftools norm --generate_cwl_tool
 # Help: $ cmo_bcftools norm --help_arg2cwl
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: ['cmo_bcftools', 'norm']
+baseCommand: [cmo_bcftools, norm]
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -50,117 +50,129 @@ doc: |
   left-align and normalize indels
 
 inputs:
-  
   threads:
-    type: ["null", string]
+    type: ['null', string]
     doc: <int> number of extra output compression threads [0]
     inputBinding:
-      prefix: --threads 
+      prefix: --threads
 
   check_ref:
-    type: ["null", string]
-    doc: <e|w|x|s> check REF alleles and exit (e), warn (w), exclude (x), or set (s) bad sites [e]
+    type: ['null', string]
+    doc: <e|w|x|s> check REF alleles and exit (e), warn (w), exclude (x), or set (s)
+      bad sites [e]
     inputBinding:
-      prefix: --check-ref 
+      prefix: --check-ref
 
   remove_duplicates:
-    type: ["null", boolean]
-    default: False
+    type: ['null', boolean]
+    default: false
     doc: remove duplicate lines of the same type.
     inputBinding:
-      prefix: --remove-duplicates 
+      prefix: --remove-duplicates
 
   output_type:
-    type: ["null", string]
-    doc: <type> 'b' compressed BCF; '' uncompressed BCF; 'z' compressed VCF; 'v' uncompressed VCF [v]
+    type: ['null', string]
+    doc: <type> 'b' compressed BCF; '' uncompressed BCF; 'z' compressed VCF; 'v' uncompressed
+      VCF [v]
     inputBinding:
-      prefix: --output-type 
+      prefix: --output-type
 
   no_version:
-    type: ["null", boolean]
-    default: False
+    type: ['null', boolean]
+    default: false
     doc: do not append version and command line to the header
     inputBinding:
-      prefix: --no-version 
+      prefix: --no-version
 
   site_win:
-    type: ["null", string]
-    doc: <int> buffer for sorting lines which changed position during realignment [1000]
+    type: ['null', string]
+    doc: <int> buffer for sorting lines which changed position during realignment
+      [1000]
     inputBinding:
-      prefix: --site-win 
+      prefix: --site-win
 
   rm_dup:
-    type: ["null", string]
+    type: ['null', string]
     doc: <type> remove duplicate snps|indels|both|any
     inputBinding:
-      prefix: --rm-dup 
+      prefix: --rm-dup
 
   regions:
-    type: ["null", string]
+    type: ['null', string]
     doc: <region> restrict to comma-separated list of regions
     inputBinding:
-      prefix: --regions 
+      prefix: --regions
 
   regions_file:
-    type: ["null", string]
+    type: ['null', string]
     doc: <file> restrict to regions listed in a file
     inputBinding:
-      prefix: --regions-file 
+      prefix: --regions-file
 
   multiallelics:
-    type: ["null", string]
-    doc: <-|+>[type] split multiallelics (-) or join biallelics (+), type - snps|indels|both|any [both]
+    type: ['null', string]
+    doc: <-|+>[type] split multiallelics (-) or join biallelics (+), type - snps|indels|both|any
+      [both]
     inputBinding:
-      prefix: --multiallelics 
+      prefix: --multiallelics
 
   targets:
-    type: ["null", string]
+    type: ['null', string]
     doc: <region> similar to -r but streams rather than index-jumps
     inputBinding:
-      prefix: --targets 
+      prefix: --targets
 
   targets_file:
-    type: ["null", string]
+    type: ['null', string]
     doc: <file> similar to -R but streams rather than index-jumps
     inputBinding:
-      prefix: --targets-file 
+      prefix: --targets-file
 
   output:
-    type: ["null", string]
+    type: ['null', string]
     doc: <file> write output to a file [standard output]
     inputBinding:
-      prefix: --output 
+      prefix: --output
 
   strict_filter:
-    type: ["null", boolean]
-    default: False
+    type: ['null', boolean]
+    default: false
     doc: when merging (-m+), merged site is PASS only if all sites being merged PASS
     inputBinding:
-      prefix: --strict-filter 
+      prefix: --strict-filter
 
   do_not_normalize:
-    type: ["null", boolean]
-    default: False
+    type: ['null', boolean]
+    default: false
     doc: do not normalize indels (with -m or -c s)
     inputBinding:
-      prefix: --do-not-normalize 
+      prefix: --do-not-normalize
 
   fasta_ref:
     type:
-    - "null"
+    - 'null'
     - type: enum
-      symbols: ['GRCm38', 'ncbi36', 'mm9', 'GRCh37', 'GRCh38', 'hg18', 'hg19', 'mm10']
-  
+      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
     inputBinding:
-      prefix: --fasta-ref 
+      prefix: --fasta-ref
 
   vcf:
-    type: string
-  
-  
+    type: 
+
+
+      - string
+      - File
     inputBinding:
       position: 1
 
 
 outputs:
-    []
+  bam:
+    type: File
+    outputBinding:
+      glob: |-
+        ${
+          if (inputs.output)
+            return inputs.output;
+          return null;
+        }
