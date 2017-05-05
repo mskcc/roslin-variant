@@ -106,6 +106,7 @@ $ vagrant ssh
 Now you're inside the virtual machine. Try the following commands to see if everything is correctly installed:
 
 ```bash
+$ sudo su
 $ /vagrant/vm/check-versions.sh
 python : Python 2.7.12
 pip : pip 8.1.1 from /usr/lib/python2.7/dist-packages (python 2.7)

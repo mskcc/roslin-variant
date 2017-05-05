@@ -1,11 +1,4 @@
-#!/bin/bash
-
-# for the time being, sudo su is required
-if [ "`whoami`" != 'root' ]
-then
-    echo "Run sudo su first."
-    exit 1
-fi
+#!/bin/bash -e
 
 version_file="/var/log/prism-software-versions.txt"
 
@@ -26,10 +19,14 @@ sudo rm -rf $version_file
 
 check "python" "python --version"
 check "pip" "pip --version"
+check "aws" "aws --version"
+check "cwltoil" "cwltoil --version"
 check "docker" "docker --version"
+check "node" "node --version"
 check "singularity" "singularity --version"
 
 # cmo works a bit different, so...
 # need cmo_resources.json in order to import cmo.
-cmo_version=`CMO_RESOURCE_CONFIG="/usr/local/bin/cmo-gxargparse/cmo/cmo/data/cmo_resources.json" python -c "import cmo; print cmo.__version__"`
+wget -O /tmp/cmo_resources.json https://raw.githubusercontent.com/mskcc/cmo-configs/master/cmo_resources.json?token=AL4Gzrsr3uYgXgaEUunREQ9b9lcjwnicks5ZEHa-wA%3D%3D
+cmo_version=`CMO_RESOURCE_CONFIG="/tmp/cmo_resources.json" python -c "import cmo; print cmo.__version__"`
 write "cmo : $cmo_version"

@@ -7,7 +7,7 @@ source ./settings-build.sh
 source ./tools-utils.sh
 
 
-# flag for interactive mode
+# for the time being, sudo su is required
 if [ "`whoami`" != 'root' ]
 then
     echo "Run sudo su first."
