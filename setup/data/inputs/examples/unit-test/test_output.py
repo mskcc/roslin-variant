@@ -317,12 +317,12 @@ def test_module_2():
     assert_equals(result['covint_list']['basename'], 'intervals.list')
 
     assert_equals(len(result['bam']), 2)
-    assert_equals(result['bam'][0]['basename'],
+    assert_equals(result['bams'][0]['basename'],
                   'P2_ADDRG_MD.abra.fmi.printreads.bam')
-    assert_equals(result['bam'][1]['basename'],
+    assert_equals(result['bams'][1]['basename'],
                   'P1_ADDRG_MD.abra.fmi.printreads.bam')
-    assert_equals(result['bam'][0]['class'], 'File')
-    assert_equals(result['bam'][1]['class'], 'File')
+    assert_equals(result['bams'][0]['class'], 'File')
+    assert_equals(result['bams'][1]['class'], 'File')
 
 
 def test_module_3():
