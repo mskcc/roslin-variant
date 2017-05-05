@@ -10,7 +10,7 @@ output_dir="`pwd`/outputs"
 mkdir -p ${output_dir}
 
 # by default, test all tools in the examples directory
-tools_list=`find ${tools_dir} -maxdepth 1 -type d -not -path .. -exec bash -c "echo {} | cut -c4-" \;`
+tools_list=`find ${tools_dir} -maxdepth 1 -type d -not -path .. -exec bash -c "echo {} | cut -c4-" \; | grep -P -v "^_" | sort`
 
 usage()
 {
@@ -39,6 +39,12 @@ done
 
 for dir in $tools_list
 do
+
+  # skip if directory name starts with _  
+  if [[ $dir == _* ]]
+  then
+    continue
+  fi
 
   case "$dir" in
 
