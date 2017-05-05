@@ -117,7 +117,7 @@ Output would look something like below:
 }
 ```
 
-Optional: run the following to tag the instance. Note that this only works for a single instance. Also, you need `jq` to run this. And run after an instance shows up.
+Optional: run the following to tag the instance. Note that this only works for a single instance. Also, you need `jq` installed on your machine to run this. Run this after a spot request has been approved.
 
 ```bash
 $ ./tag.sh
@@ -125,7 +125,7 @@ $ ./tag.sh
 
 ### Installation
 
-Prism installation automatically kicks in as the instance is up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3 (will start using EBS once MSKCC AWS account is set up). To check the status, ssh into the instance and run the following command:
+Prism installation automatically kicks in as the instance is being brought up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3 (will start using EBS once MSKCC AWS account is set up). To check the status, ssh into the instance and run the following command:
 
 ```bash
 $ tail -f /var/log/cloud-init-output.log
