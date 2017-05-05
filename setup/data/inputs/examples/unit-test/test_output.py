@@ -123,12 +123,12 @@ def test_picard_MarkDuplicates():
 
     assert_true('bam' in result)
     assert_equals(result['bam']['basename'],
-                  'P-0000377-T02-IM3__ARRDRG_MD.bam')
+                  'P-0000377-T02-IM3_ARRDRG_MD.bam')
     assert_equals(result['bam']['class'], 'File')
 
     assert_true('mdmetrics' in result)
     assert_equals(result['mdmetrics']['basename'],
-                  'P-0000377-T02-IM3__ARRDRG_MD.metrics')
+                  'P-0000377-T02-IM3_ARRDRG_MD.metrics')
     assert_equals(result['mdmetrics']['class'], 'File')
 
     assert_true('bai' in result)
@@ -279,17 +279,17 @@ def test_bcftools_norm_vardict():
 def test_bcftools_norm_sid():
     "bcftools.norm.somaticIndelDetector should generate the correct output"
 
-    result = read_result('./outputs/cmo-bcftools.norm.sid.txt')
+    result = read_result('./outputs/cmo-bcftools.norm.somaticIndelDetector.txt')
 
     assert_equals(result['vcf']['basename'], 'sid-norm.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
 
 def test_env():
-    "env run from singularity container should return only the environment variables requested to preserve"
+    "env should generate env.txt"
 
-    assert_equals(result['output']['checksum'],
-                  'sha1$60a3c50050eb8621dd172e1960abab8cfbc2c112')
+    result = read_result('./outputs/env.txt')
+
     assert_equals(result['output']['basename'], 'env.txt')
     assert_equals(result['output']['class'], 'File')
 
@@ -316,7 +316,7 @@ def test_module_2():
     assert_true('covint_list' in result)
     assert_equals(result['covint_list']['basename'], 'intervals.list')
 
-    assert_equals(len(result['bam']), 2)
+    assert_equals(len(result['bams']), 2)
     assert_equals(result['bams'][0]['basename'],
                   'P2_ADDRG_MD.abra.fmi.printreads.bam')
     assert_equals(result['bams'][1]['basename'],
