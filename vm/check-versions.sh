@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# for the time being, sudo su is required
+if [ "`whoami`" != 'root' ]
+then
+    echo "Run sudo su first."
+    exit 1
+fi
+
 version_file="/var/log/prism-software-versions.txt"
 
 write()
