@@ -237,15 +237,15 @@ def test_basic_filtering_vardict():
     result = read_result('./outputs/basic-filtering.vardict.txt')
 
     assert_equals(result['vcf']['checksum'],
-                  'sha1$7c2e797e60a173502c1957432ea4c333b34702cf')
+                  'sha1$5236ed4eb3c1e5b04b8d2599df6d2dab0675d466')
     assert_equals(result['vcf'][
                   'basename'], 'PoolTumor2-T_bc52_Vardict_2.3-9_STDfilter.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
     assert_equals(result['txt']['checksum'],
-                  'sha1$aef5bc3352f0faac35ee92985424f70e10980e08')
+                  'sha1$5c10fbc3c2054b1ca4a1ebf289ea79a3c5f124f6')
     assert_equals(result['txt'][
-                  'basename'], 'PoolTumor2-T_bc52_Vardict_2.3-9_STDfilter.txt')
+                  'basename'], 'PoolTumor2-T_bc52_VarDict_1.4.6_STDfilter.txt')
     assert_equals(result['txt']['class'], 'File')
 
 
