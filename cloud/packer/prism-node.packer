@@ -1,0 +1,59 @@
+{
+    "variables": {
+        "image_version": "0.5.4",
+        "cwltoil_version": "official"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "region": "us-east-1",
+            "source_ami": "ami-f4cc1de2",
+            "instance_type": "t2.micro",
+            "ssh_username": "ubuntu",
+            "ami_name": "prism-node-image-v{{user `image_version`}}",
+            "ami_description": "MSKCC Prism Pipeline Node Image v{{user `image_version`}}",
+            "tags": {
+                "Name": "prism-node-image-v{{user `image_version`}}",
+                "Owner": "chunj"
+            },
+            "run_tags": {
+                "Name": "prism-node-image-v{{user `image_version`}}",
+                "Owner": "chunj"
+            }
+        },
+        {
+            "type": "digitalocean",
+            "image": "ubuntu-16-04-x64",
+            "region": "nyc3",
+            "size": "512mb",
+            "ssh_username": "root"
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "scripts": [
+                "./scripts/bootstrap.sh",
+                "./scripts/install-python.sh",
+                "./scripts/install-singularity.sh",
+                "./scripts/install-docker.sh",
+                "./scripts/install-cwltoil-{{user `cwltoil_version`}}.sh",
+                "./scripts/install-cmo.sh",
+                "./scripts/install-nodejs.sh",
+                "./scripts/install-awscli.sh",
+                "./scripts/check-versions.sh"
+            ]
+        },
+        {
+            "type": "shell",
+            "scripts": [
+                "./scripts/install-awscli.sh"
+            ],
+            "only": [
+                "amazon-ebs"
+            ]
+        }
+    ]
+    
+}
