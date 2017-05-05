@@ -8,7 +8,7 @@ This document covers Step 4:
 
 There are many ways, but the latest deploymnent script for Luna does rsync on `/setup`, thus no special setup package is required at the moment.
 
-## AWS
+## Amazon Web Services (AWS)
 
 There are many ways, but the latest method uses:
 
@@ -23,6 +23,15 @@ From EC2 Instance:
 ```
 Download Setup Package from S3 --> Install
 ```
+
+### Prerequisites
+
+The versions mentioned here are the ones that are tested. This does not necessarily mean that higher versions would automatically work.
+
+- Amazone Web Services account
+- [AWS Command Line Interface v1.11.56](https://aws.amazon.com/cli/)
+
+For setting up, refer to this document: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-quick-configuration
 
 ### Compress
 
