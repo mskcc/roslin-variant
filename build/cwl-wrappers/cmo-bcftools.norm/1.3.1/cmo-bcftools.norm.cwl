@@ -167,7 +167,7 @@ inputs:
 
 
 outputs:
-  bam:
+  vcf:
     type: File
     outputBinding:
       glob: |-
