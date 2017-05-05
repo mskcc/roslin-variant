@@ -27,7 +27,7 @@ def test_samtools_checksum():
     samtools.sam2bam should return generate the correct output
     """
 
-    result = read_result('results.samtools-sam2bam.txt')
+    result = read_result('./outputs/samtools-sam2bam.txt')
     assert_equals(result['bam']['basename'], 'sample.bam')
     assert_equals(result['bam']['checksum'],
                   'sha1$ff575d96fdad1e1769425687997d155e1775a9d9')
@@ -39,7 +39,7 @@ def test_gatk_FindCoveredIntervals():
     gatk.FindCoveredIntervals should generate the correct output
     """
 
-    result = read_result('results.cmo-gatk.FindCoveredIntervals.txt')
+    result = read_result('./outputs/cmo-gatk.FindCoveredIntervals.txt')
     assert_equals(result['fci_list']['basename'], 'intervals.list')
     assert_equals(result['fci_list']['checksum'],
                   'sha1$bf0fad5c4a0bb7f387eca7f4fea57deb34812a18')
@@ -51,7 +51,7 @@ def test_abra():
     abra should generate the correct output
     """
 
-    result = read_result('results.cmo-abra.txt')
+    result = read_result('./outputs/cmo-abra.txt')
     assert len(result['out']) == 2
     assert_equals(result['out'][0]['checksum'],
                   'sha1$d35d2a2c4251f48cde89cc9c21328ac0360cc142')
@@ -68,7 +68,7 @@ def test_bwa_mem():
     bwa mem should generate the correct output
     """
 
-    result = read_result('results.cmo-bwa-mem.txt')
+    result = read_result('./outputs/cmo-bwa-mem.txt')
     assert_equals(result['bam']['checksum'],
                   'sha1$e775a05c99c5a0fe8b5d864ea3ad1cfc0c7e4fd1')
     assert_equals(result['bam']['basename'], 'P1.bam')
@@ -101,6 +101,24 @@ def test_pindel():
 
 def test_trimgalore():
     pass
+
+
+def test_basic_filtering_mutect():
+    """
+    basic-filtering mutect should generate the correct output
+    """
+
+    result = read_result('./outputs/basic-filtering.mutect.txt')
+
+    assert_equals(result['vcf']['checksum'],
+                  'sha1$1ca8e5fa22988db78f2fdd2cffca154932da6e86')
+    assert_equals(result['vcf']['basename'], 'PoolTumor2-T_bc52_muTect_1.1.4_STDfilter.vcf')
+    assert_equals(result['vcf']['class'], 'File')
+
+    assert_equals(result['txt']['checksum'],
+                  'sha1$8bc71f6ccd9f5c313b2fbecfe38e1fd4bdc569d0')
+    assert_equals(result['txt']['basename'], 'PoolTumor2-T_bc52_muTect_1.1.4_STDfilter.txt')
+    assert_equals(result['txt']['class'], 'File')
 
 
 def test_env():
