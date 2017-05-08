@@ -73,7 +73,8 @@ do
 
       if [ -e "./run-example.sh" ]
       then
-        ./run-example.sh | tee ${output_dir}/$dir.txt
+        # run in background
+        ./run-example.sh | tee ${output_dir}/$dir.txt &
       fi
 
       cd ${cur_dir}
@@ -82,3 +83,6 @@ do
   esac
 
 done
+
+# wait till all the background processes are done
+wait
