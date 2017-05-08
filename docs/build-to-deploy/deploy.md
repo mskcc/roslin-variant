@@ -53,7 +53,7 @@ Log out and log back in.
 
 ## Amazon Web Services
 
-The most up-to-date instructions can be found [here](../cloud/aws/README.md).
+The most up-to-date instructions can be found [here](../../cloud/aws/README.md).
 
 ## ~~Local Virtual Machine~~ (OUTDATED)
 

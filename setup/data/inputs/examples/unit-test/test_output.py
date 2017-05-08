@@ -285,6 +285,15 @@ def test_bcftools_norm_sid():
     assert_equals(result['vcf']['class'], 'File')
 
 
+def test_gatk_CombineVariants():
+    "gatk.combineVariants should generate the correct output"
+
+    result = read_result('./outputs/cmo-gatk.CombineVariants.txt')
+
+    assert_equals(result['out_vcf']['basename'], 'PoolTumor2-T_bc52_combined_variants.vcf')
+    assert_equals(result['out_vcf']['class'], 'File')
+
+
 def test_env():
     "env should generate env.txt"
 

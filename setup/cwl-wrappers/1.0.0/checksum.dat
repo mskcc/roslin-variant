@@ -8,6 +8,7 @@ e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 39a50e01369af1b85d4a37230cfe8640  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 94462d01c111f9e8e5a061b37d127d50  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 0fcea72e3a28144a87e3d5331c78c523  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
+8bfb53902d641dc9e892fc085becd147  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 937812c5db5f7ef8d1834c34b8b182c9  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
 4585769701d4b50515be35dd49785b2f  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
