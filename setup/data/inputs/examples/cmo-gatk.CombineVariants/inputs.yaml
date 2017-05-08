@@ -1,0 +1,17 @@
+variants_vardict:
+    class: File
+    path: ../data/from-module-4/vardict-norm.vcf
+variants_pindel:
+    class: File
+    path: ../data/from-module-4/pindel-norm.vcf
+variants_sid:
+    class: File
+    path: ../data/from-module-4/sid-norm.vcf
+variants_mutect:
+    class: File
+    path: ../data/from-module-4/mutect-norm.vcf
+unsafe: ALLOW_SEQ_DICT_INCOMPATIBILITY
+genotypemergeoption: PRIORITIZE
+rod_priority_list: ['VarDict','Pindel','MuTect','SomaticIndelDetector']
+reference_sequence: GRCh37
+out: PoolTumor2-T_bc52_combined_variants.vcf
