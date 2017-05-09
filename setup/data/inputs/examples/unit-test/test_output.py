@@ -13,7 +13,7 @@ def read_result(filename):
     with open(filename, 'r') as file_in:
         contents = file_in.read()
         match = re.search(
-            "---> PRISM JOB UUID = [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}(.*?)<--- PRISM JOB UUID", contents, re.DOTALL)
+            "---> PRISM JOB UUID = .*?\n(.*?)<--- PRISM JOB UUID", contents, re.DOTALL)
         # print match
         if match:
             result = json.loads(match.group(1))

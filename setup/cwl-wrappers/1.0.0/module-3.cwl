@@ -1,30 +1,70 @@
+#!/usr/bin/env cwl-runner
+
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  doap: http://usefulinc.com/ns/doap#
+
+$schemas:
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
+
+doap:name: module-3.cwl
+doap:release:
+- class: doap:Version
+  doap:revision: 1.0.0
+
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Jaeyoung Chun
+    foaf:mbox: mailto:chunj@mskcc.org
+
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Christopher Harris
+    foaf:mbox: mailto:harrisc2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Ronak H. Shah
+    foaf:mbox: mailto:shahr2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Jaeyoung Chun
+    foaf:mbox: mailto:chunj@mskcc.org
+
 cwlVersion: v1.0
+
 class: Workflow
 requirements:
     MultipleInputFeatureRequirement: {}
-    ScatterFeatureRequirement: {} 
+    ScatterFeatureRequirement: {}
     SubworkflowFeatureRequirement: {}
     InlineJavascriptRequirement: {}
     StepInputExpressionRequirement: {}
 
 inputs:
-    tumor_bam: 
+    tumor_bam:
         type: File
         secondaryFiles: ['.bai']
-    normal_bam: 
+    normal_bam:
         type: File
         secondaryFiles: ['.bai']
     fasta: string
     bed: File
     normal_sample_id: string
     tumor_sample_id: string
-    dbsnp: 
+    dbsnp:
         type: File
         secondaryFiles: ['^.vcf.idx']
-    cosmic: 
+    cosmic:
         type: File
         secondaryFiles: ['^.vcf.idx']
-    rf: string[] 
+    rf: string[]
     sid_rf: string[]
     refseq: File
 
@@ -62,7 +102,7 @@ steps:
         out: [ vardict_vcf, sid_verbose_vcf, sid_vcf, pindel_vcf, mutect_vcf]
         run:
             class: Workflow
-            inputs: 
+            inputs:
                 tumor_bam: File
                 fasta: string
                 normal_bam: File
@@ -96,12 +136,12 @@ steps:
                     in:
                         tumor_sample_id: tumor_sample_id
                         bams: [normal_bam, tumor_bam]
-                        sample_names: [normal_sample_id, tumor_sample_id] 
+                        sample_names: [normal_sample_id, tumor_sample_id]
                         normal_sample_id: normal_sample_id
                         config_name:
-                            valueFrom: $(inputs.tumor_sample_id).pindel.config 
+                            valueFrom: $(inputs.tumor_sample_id).pindel.config
                         vcf:
-                            valueFrom: $(inputs.tumor_sample_id).pindel.vcf 
+                            valueFrom: $(inputs.tumor_sample_id).pindel.vcf
                         f: fasta
                         output_prefix:
                             valueFrom: $(inputs.tumor_sample_id)
