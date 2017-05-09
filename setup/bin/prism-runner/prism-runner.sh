@@ -26,7 +26,7 @@ PIPELINE_VERSION=${PRISM_VERSION}
 #fixme: always enable for now
 DEBUG_OPTIONS="--logDebug --cleanWorkDir never"
 RESTART_OPTIONS=""
-RESTART_JOBSTORE=""
+RESTART_JOBSTORE_ID=""
 BATCH_SYSTEM=""
 OUTPUT_DIRECTORY="./outputs"
 
@@ -45,7 +45,7 @@ OPTIONS:
    -i      Input filename (*.yaml)
    -b      Batch system ("singleMachine", "lsf", "mesos")
    -o      Output directory (default=${OUTPUT_DIRECTORY})
-   -r      Restart the workflow with the given job UUID
+   -r      Restart the workflow with the given job store UUID
    -z      Show list of supported workflows
    -d      Enable debugging (default="enabled")
            fixme: you're not allowed to disable this right now
@@ -67,7 +67,7 @@ do
         i) INPUT_FILENAME=$OPTARG ;;
         b) BATCH_SYSTEM=$OPTARG ;;
         o) OUTPUT_DIRECTORY=$OPTARG ;;
-        r) RESTART_JOBSTORE=$OPTARG; RESTART_OPTIONS="--restart" ;;
+        r) RESTART_JOBSTORE_ID=$OPTARG; RESTART_OPTIONS="--restart" ;;
        	z) cd ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}
            find . -name "*.cwl" -exec bash -c "echo {} | cut -c 3- | sort" \;
            exit 0
@@ -91,6 +91,13 @@ fi
 
 # get absolute path for output directory
 OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
+
+if [ -d ${OUTPUT_DIRECTORY} ]
+then
+    echo "The specified output directory already exists: ${OUTPUT_DIRECTORY}"
+    echo "Aborted."
+    exit 1
+fi
 
 # create output directory
 mkdir -p ${OUTPUT_DIRECTORY}
@@ -124,21 +131,28 @@ esac
 # override CMO_RESOURC_CONFIG only while cwltoil is running
 export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
 
-if [ -z $RESTART_JOBSTORE ]
+# create a new UUID for job
+job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+
+if [ -z "$RESTART_JOBSTORE_ID" ]
 then
-    # create a new UUID for job
-    job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+    # create a new UUID for job store
+    job_store_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 else
-    # we're doing a restart - use the supplied uuid
-    job_uuid=${RESTART_JOBSTORE}
+    # we're doing a restart - use the supplied jobstore uuid
+    job_store_uuid=${RESTART_JOBSTORE_ID}
 fi
 
 # save job uuid
 echo "${job_uuid}" > ${OUTPUT_DIRECTORY}/job-uuid
 
-jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
+# save jobstore uuid
+echo "${job_store_uuid}" > ${OUTPUT_DIRECTORY}/job-store-uuid
 
-printf "\n---> PRISM JOB UUID = ${job_uuid}\n"
+jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+
+# job uuid followed by a colon (:) and then job store uuid
+printf "\n---> PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n"
 
 # run cwltoil
 cwltoil \
@@ -160,4 +174,4 @@ cwltoil \
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
 
-printf "\n<--- PRISM JOB UUID = ${job_uuid}\n\n"
+printf "\n<--- PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n\n"
