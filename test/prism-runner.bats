@@ -8,20 +8,27 @@ load 'helpers/stub/load'
 PRISM_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
 
 setup() {
-  TEST_TEMP_DIR="$(temp_make)"
+  TEST_TEMP_DIR="$(temp_make)"  
 }
 
 teardown() {
   temp_del "$TEST_TEMP_DIR"
+  rm -rf ./outputs
 }
 
-# the second line would look like this:
+# the second line would look like beow
+# job uuid followed by a colon (:), then job store uuid
 #
-# ---> PRISM JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece"
+# ---> PRISM JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece:e5c42a10-34b7-11e7-9db3-645106efb11c"
 #
 get_job_uuid() {
     line=$(echo "$1" | sed -n "2p")
-    echo $(echo $line | cut -c23-)
+    echo $(echo $line | cut -c23-58)
+}
+
+get_job_store_uuid() {
+    line=$(echo "$1" | sed -n "2p")
+    echo $(echo $line | cut -c60-)
 }
 
 # the third line would have all the arguments supplied to prism-runner
@@ -206,6 +213,38 @@ get_args_line() {
     assert_line --index 0 --partial 'Unsupported'
 }
 
+@test "should abort if output directory already exists" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to echo out whatever the parameters supplied
+    stub cwltoil 'echo "$@"'
+
+    # setup different output directory
+    # and put something in there
+    different_output_dir="${TEST_TEMP_DIR}/diff"
+    mkdir -p ${different_output_dir}
+    echo "test" > ${different_output_dir}/hello.txt
+
+    # call prism runner with -o
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
+
+    assert_failure
+    assert_line --partial 'The specified output directory already exists'
+
+    # tear down
+    rm -rf ${different_output_dir}
+
+    unstubs
+}
+
 @test "should output job UUID at the beginning and the end" {
 
     # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
@@ -262,6 +301,9 @@ get_args_line() {
 
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
+    
+    # get job store UUID
+    job_store_uuid=$(get_job_store_uuid "$output")
 
     # parse argument line (each arg separated by a single space character)
     # and then split to make an array
@@ -296,7 +338,7 @@ get_args_line() {
     assert_equal "${args[1]}" "${input_filename}"
 
     # check --jobStore
-    assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid}"
+    assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --preserve-environment
     assert_line --index 1 --partial "--preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH"
@@ -414,26 +456,32 @@ get_args_line() {
     # check --outdir
     assert_line --index 1 --partial "--outdir /vagrant/test/outputs"
 
+    # setup different output directory
+    different_output_dir="${TEST_TEMP_DIR}/diff"
+
     # call prism runner with -o
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${TEST_TEMP_DIR}
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
 
     assert_success
 
     # check whether outputs and outputs/log directories are created
-    assert_file_exist ${TEST_TEMP_DIR}
-    assert_file_exist ${TEST_TEMP_DIR}/log
+    assert_file_exist ${different_output_dir}
+    assert_file_exist ${different_output_dir}/log
 
     # check the job-uuid file is created in the correct location
-    assert_file_exist ${TEST_TEMP_DIR}/job-uuid
+    assert_file_exist ${different_output_dir}/job-uuid
 
     # check --outdir
-    assert_line --index 1 --partial "--outdir ${TEST_TEMP_DIR}"
+    assert_line --index 1 --partial "--outdir ${different_output_dir}"
 
     # check --writeLogs
-    assert_line --index 1 --partial "--writeLogs ${TEST_TEMP_DIR}/log"
+    assert_line --index 1 --partial "--writeLogs ${different_output_dir}/log"
 
     # check --logFile
-    assert_line --index 1 --partial "--logFile ${TEST_TEMP_DIR}/log/cwltoil.log"
+    assert_line --index 1 --partial "--logFile ${different_output_dir}/log/cwltoil.log"
+
+    # tear down
+    rm -rf ${different_output_dir}
 
     unstubs
 }
@@ -507,23 +555,28 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
+    job_store_uuid='some-uuid'
+
     # call prism-runner with -r
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r some-uuid
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r ${job_store_uuid}
 
     assert_success
 
+    # get job store UUID
+    job_uuid=$(get_job_uuid "$output")    
+
     # check uuid at the beginning and the end of the output
-    assert_line --index 0 --partial 'JOB UUID = some-uuid'
-    assert_line --index 2 --partial 'JOB UUID = some-uuid'
+    assert_line --index 0 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
+    assert_line --index 2 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
 
     # check --jobStore
-    assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-some-uuid"
+    assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --restart
     assert_line --index 1 --partial "--restart"
 
     # check the content of job_uuid file
-    assert_equal "some-uuid" `cat ./outputs/job-uuid`
+    assert_equal "${job_store_uuid}" `cat ./outputs/job-store-uuid`
 
     unstubs
 }
