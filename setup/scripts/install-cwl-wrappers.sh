@@ -6,9 +6,6 @@ source ./settings.sh
 # copy cwl wrappers
 cp -R ../cwl-wrappers/* ${PRISM_BIN_PATH}/pipeline/
 
-# give the group write permission
-chmod -R g+w ${PRISM_BIN_PATH}/pipeline/
-
 # copy RDF schemas that are referenced by cwl wrappers
 cp -R ../schemas/* ${PRISM_BIN_PATH}/schemas/
 
