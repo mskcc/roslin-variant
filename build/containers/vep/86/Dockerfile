@@ -14,7 +14,7 @@ ENV PERL_VERSION 5.22.2-r0
 # http://www.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html
 
 RUN apk add --update \
-      && apk add ca-certificates openssl gcc make git curl wget perl=${PERL_VERSION} musl-dev libgcrypt-dev perl-dev zlib-dev \
+      && apk add ca-certificates openssl gcc g++ make git curl wget gzip perl=${PERL_VERSION} musl-dev libgcrypt-dev perl-dev zlib-dev \
       && curl -L https://cpanmin.us | perl - App::cpanminus \
       && cd /tmp && wget https://github.com/Ensembl/ensembl-tools/archive/release/${VEP_VERSION}.zip \
       && unzip ${VEP_VERSION}
@@ -25,10 +25,17 @@ RUN cpanm File::Copy::Recursive \
       Archive::Zip \
       Bio::Root::Version \
       DBI \
-      CGI
+      CGI \
+      # optional
+      JSON \
+      Set::IntervalTree \
+      PerlIO::gzip
 
-RUN cd /tmp/ensembl-tools-release-86/scripts/variant_effect_predictor \
-      ** perl INSTALL.
+      # DBD::mysql
+      # Bio::DB::BigFile
+
+RUN cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
+      && perl INSTALL.pl --AUTO a
 
 ENTRYPOINT ["/usr/bin/vep"]
 CMD ["--help"]
