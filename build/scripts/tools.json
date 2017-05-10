@@ -43,6 +43,9 @@
         ],
         "vep": [
             "86"
+        ],
+        "vcf2maf": [
+            "1.6.12"
         ]
     },
     "containerDependency": {
