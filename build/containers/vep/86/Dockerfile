@@ -4,18 +4,26 @@ MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.container="1.0" \
       version.vep="86" \
+      version.htslib="1.4" \
       version.perl="5.22.2-r0" \
       version.alpine="3.4.x" \
-      source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions"
+      source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
+      source.htslib="https://github.com/samtools/htslib/releases/tag/1.4"
 
 ENV VEP_VERSION 86
 ENV PERL_VERSION 5.22.2-r0
+ENV HTSLIB_VERSION 1.4
 
 # http://www.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html
 
 RUN apk add --update \
-      && apk add ca-certificates openssl gcc g++ make git curl wget gzip perl=${PERL_VERSION} musl-dev libgcrypt-dev perl-dev zlib-dev \
+      && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} musl-dev libgcrypt-dev perl-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       && curl -L https://cpanmin.us | perl - App::cpanminus \
+      && cd /tmp && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
+      && tar xvjf htslib-${HTSLIB_VERSION}.tar.bz2 \
+      && cd /tmp/htslib-${HTSLIB_VERSION} \
+      && ./configure \
+      && make && make install \
       && cd /tmp && wget https://github.com/Ensembl/ensembl-tools/archive/release/${VEP_VERSION}.zip \
       && unzip ${VEP_VERSION}
       # && rm -rf /tmp/*
@@ -26,6 +34,7 @@ RUN cpanm File::Copy::Recursive \
       Bio::Root::Version \
       DBI \
       CGI \
+      Sereal \
       # optional
       JSON \
       Set::IntervalTree \
@@ -33,9 +42,15 @@ RUN cpanm File::Copy::Recursive \
 
       # DBD::mysql
       # Bio::DB::BigFile
+      # LWP::Simple
 
 RUN cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
-      && perl INSTALL.pl --AUTO a
+      && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
+      && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep
 
-ENTRYPOINT ["/usr/bin/vep"]
+# --NO_HTSLIB cause the following warnings:
+# MSG: Switching to using /tmp/ensembl-tools-release-86/scripts/variant_effect_predictor/t/..//t/testdata//vep-cache//homo_sapiens/78_GRCh38/test.fa
+
+
+ENTRYPOINT ["perl", "/usr/bin/vep/variant_effect_predictor.pl"]
 CMD ["--help"]
