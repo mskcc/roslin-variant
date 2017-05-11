@@ -18,6 +18,12 @@ root_dir="${PRISM_BIN_PATH}/pipeline/"
 for file in `find ${root_dir} -name "*.cwl"`
 do
 
+    # skip if the write permission is not granted
+    if [ ! -w $file ]
+    then
+        continue
+    fi
+
     # make backup 
     cp ${file} ${file}.bak
 
