@@ -245,7 +245,7 @@
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
         "perl": {
-            "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
+            "default": "sing-perl.sh"
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
@@ -308,21 +308,12 @@
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
         }, 
         "vcf2maf": {
-            "1.6.10": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.10/", 
-            "1.6.11": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.11/", 
-            "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
-            "1.6.6": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.6/", 
-            "1.6.7": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.7/", 
-            "1.6.8": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.8/", 
-            "1.6.9": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.9/", 
-            "default": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
-            "develop": "/opt/common/CentOS_6-dev/vcf2maf/develop/"
+            "1.6.12": "sing.sh vcf2maf 1.6.12", 
+            "default": "sing.sh vcf2maf 1.6.12"
         }, 
         "vep": {
-            "84": "/opt/common/CentOS_6-dev/vep/v84/", 
-            "85": "/opt/common/CentOS_6-dev/vep/v85/", 
-            "86": "/opt/common/CentOS_6-dev/vep/v86/", 
-            "default": "/opt/common/CentOS_6-dev/vep/v86/"
+            "86": "sing.sh vep 86", 
+            "default": "sing.sh vep 86"
         }, 
         "vt": {
             "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt", 

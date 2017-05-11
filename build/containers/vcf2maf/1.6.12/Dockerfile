@@ -20,6 +20,8 @@ ENV PERL_VERSION 5.22.2-r0
 ENV HTSLIB_VERSION 1.4
 ENV SAMTOOLS_VERSION 1.4.1
 
+COPY run.sh /usr/bin/
+
 # http://www.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html
 
 RUN apk add --update \
@@ -64,9 +66,11 @@ RUN cd /tmp && wget https://github.com/samtools/samtools/releases/download/${SAM
 
 RUN cd /tmp && wget -O vcf2maf-v${VCF2MAF_VERSION} https://github.com/mskcc/vcf2maf/archive/v${VCF2MAF_VERSION}.zip \
       && unzip vcf2maf-v${VCF2MAF_VERSION} \
-      && cp vcf2maf-${VCF2MAF_VERSION}/vcf2maf.pl /usr/bin/
+      && cp vcf2maf-${VCF2MAF_VERSION}/maf2maf.pl /usr/bin/ \
+      && cp vcf2maf-${VCF2MAF_VERSION}/maf2vcf.pl /usr/bin/ \
+      && cp vcf2maf-${VCF2MAF_VERSION}/vcf2maf.pl /usr/bin/ \
+      && cp vcf2maf-${VCF2MAF_VERSION}/vcf2vcf.pl /usr/bin/
 
 RUN rm -rf /tmp/*
 
-ENTRYPOINT ["perl", "/usr/bin/vcf2maf.pl"]
-CMD ["--help"]
+ENTRYPOINT ["sh", "/usr/bin/run.sh"]

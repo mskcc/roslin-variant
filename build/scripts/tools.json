@@ -93,6 +93,9 @@
         ],
         "bcftools": [
             "cmo_bcftools.norm"
+        ],
+        "vcf2maf": [
+            "cmo_vcf2maf"
         ]
     }
 }

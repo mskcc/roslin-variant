@@ -1,0 +1,5 @@
+ncbi_build: GRCh37
+input_vcf:
+    class: File
+    path: ../data/from-module-4/PoolTumor2-T_bc52_combined_variants.vcf
+output_maf: PoolTumor2-T_bc52_combined_variants.vep.maf

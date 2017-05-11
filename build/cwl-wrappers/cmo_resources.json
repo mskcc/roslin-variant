@@ -132,7 +132,7 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
-            "default": "sudo docker run -i abra:0.92"
+            "default": "sudo docker run -i abra:0.92 "
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
@@ -147,7 +147,7 @@
             "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
         }, 
         "bwa": {
-            "default": "sudo docker run -i bwa:0.7.5a"
+            "default": "sudo docker run -i bwa:0.7.5a "
         }, 
         "convertqualityscore": {
             "default": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore"
@@ -190,7 +190,7 @@
         }, 
         "list2bed": {
             "1.0.0": "sudo docker run -i list2bed:1.0.0", 
-            "default": "sudo docker run -i list2bed:1.0.1"
+            "default": "sudo docker run -i list2bed:1.0.1 "
         }, 
         "matlab": {
             "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"
@@ -208,13 +208,13 @@
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
         "perl": {
-            "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
+            "default": "/vagrant/build/scripts/fake-perl.sh"
         }, 
         "picard": {
             "default": "sudo docker run -i picard:1.129"
         }, 
         "pindel": {
-            "default": "sudo docker run -i pindel:0.2.5a7"
+            "default": "sudo docker run -i pindel:0.2.5a7 "
         }, 
         "pindel2vcf": {
             "default": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel2vcf"
@@ -244,19 +244,19 @@
             "default": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR"
         }, 
         "trimgalore": {
-            "default": "sudo docker run -i trimgalore:0.2.5.mod"
+            "default": "sudo docker run -i trimgalore:0.2.5.mod "
         }, 
         "vardict": {
-            "default": "sudo docker run -i vardict:1.4.6"
+            "default": "sudo docker run -i vardict:1.4.6 "
         }, 
         "varscan": {
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
         }, 
         "vcf2maf": {
-            "default": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/"
+            "default": "sudo docker run -i vcf2maf:1.6.12 "
         }, 
         "vep": {
-            "default": "/opt/common/CentOS_6-dev/vep/v86/"
+            "default": "sudo docker run -i vep:86"
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"

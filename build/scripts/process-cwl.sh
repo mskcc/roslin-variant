@@ -54,7 +54,11 @@ then
     cp ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
 else
     # do not use "-t" because docker messes up stdout and stderr
-    tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION"
+    # hack: an extra space at the end helps cases where a container has multiple entry points
+    # e.g. sudo docker run -it --rm vcf2maf:1.6.12maf2vcf.pl
+    #      vs.
+    #      sudo docker run -it --rm vcf2maf:1.6.12 maf2vcf.pl
+    tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION "
 
     # modify cmo_resources.json so that cmo calls a dockerized tool
     python ./update_resource_def.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
@@ -112,6 +116,11 @@ case ${TOOL_NAME} in
         # and we need to make sure it's treated as an argument.
         # e.g. sing.sh vardict 1.4.6 testsomatic.R
         python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vardict_bin ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} "
+        ;;
+    vcf2maf)
+        # an extra space needed at the end because cmo will append "vcf2maf.pl"
+        # e.g. sing.sh vcf2maf 1.6.12 vcf2maf.pl
+        python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vcf2maf ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION} "
         ;;
     *)
         python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${TOOL_NAME} ${TOOL_VERSION} "sing.sh ${TOOL_NAME} ${TOOL_VERSION}"
