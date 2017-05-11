@@ -8,7 +8,7 @@ then
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_EXTRA_BIND_PATH=${PRISM_EXTRA_BIND_PATH}"
-    echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"    
+    echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
     echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
     exit 1
 fi
@@ -92,6 +92,7 @@ fi
 # get absolute path for output directory
 OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
 
+# check if output directory already exists
 if [ -d ${OUTPUT_DIRECTORY} ]
 then
     echo "The specified output directory already exists: ${OUTPUT_DIRECTORY}"
