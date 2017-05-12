@@ -43,7 +43,7 @@
     "genomes": {
         "GRCh37": {
             "bedtools_genome": "/opt/common/CentOS_6-dev/bedtools_genomes/human.b37.genome", 
-            "bwa_fasta": "/ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta", 
+            "bwa_fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta", 
             "cosmic": {
                 "67": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v67_b37_20131024__NDS.vcf", 
                 "74": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v74_b37_20151120.vcf"
@@ -52,9 +52,9 @@
                 "129": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.excluding_sites_after_129.vcf", 
                 "138": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.vcf"
             }, 
-            "exac": "/opt/common/CentOS_6-dev/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
+            "exac": "/ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
-            "fasta": "/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
+            "fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
             "gencode": {
                 "19": "/ifs/depot/annotation/H.sapiens/gencode/v19/gencode.v19.annotation.gtf", 
                 "default": "/ifs/depot/annotation/H.sapiens/gencode/v19/gencode.v19.annotation.gtf"
@@ -65,7 +65,8 @@
             "kallisto_index": "/ifs/res/pwg/data/assemblies/homo_sapiens/gencode.v19/gencode.v19", 
             "omni": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_omni2.5.b37.vcf", 
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_phase1.snps.high_confidence.b37.vcf", 
-            "star_index": "/ifs/depot/assemblies/H.sapiens/hg19/index/star/2.4.1d/withoutJunctions"
+            "star_index": "/ifs/depot/assemblies/H.sapiens/hg19/index/star/2.4.1d/withoutJunctions", 
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
         }, 
         "GRCh38": {
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
@@ -75,10 +76,12 @@
                 "default": "/ifs/res/pwg/data/gencode/gencode.v25.annotation.gtf"
             }, 
             "kallisto_index": "/ifs/res/pwg/data/assemblies/homo_sapiens/gencode.v25/gencode.v25.pc_transcripts", 
-            "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25"
+            "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25", 
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
         }, 
         "GRCm38": {
-            "fasta": "/opt/common/CentOS_6-dev/vep/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz"
+            "fasta": "/opt/common/CentOS_6-dev/vep/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz", 
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
         }, 
         "hg18": {
             "bedtools_genome": "/opt/common/CentOS_6-dev/bedtools_genomes/human.hg18.genome", 
@@ -245,7 +248,7 @@
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
         "perl": {
-            "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
+            "default": "sing-perl.sh"
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
@@ -308,21 +311,12 @@
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
         }, 
         "vcf2maf": {
-            "1.6.10": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.10/", 
-            "1.6.11": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.11/", 
-            "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
-            "1.6.6": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.6/", 
-            "1.6.7": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.7/", 
-            "1.6.8": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.8/", 
-            "1.6.9": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.9/", 
-            "default": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
-            "develop": "/opt/common/CentOS_6-dev/vcf2maf/develop/"
+            "1.6.12": "sing.sh vcf2maf 1.6.12 ", 
+            "default": "sing.sh vcf2maf 1.6.12 "
         }, 
         "vep": {
-            "84": "/opt/common/CentOS_6-dev/vep/v84/", 
-            "85": "/opt/common/CentOS_6-dev/vep/v85/", 
-            "86": "/opt/common/CentOS_6-dev/vep/v86/", 
-            "default": "/opt/common/CentOS_6-dev/vep/v86/"
+            "86": "sing.sh vep 86", 
+            "default": "sing.sh vep 86"
         }, 
         "vt": {
             "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt", 

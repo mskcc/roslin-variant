@@ -1,0 +1,8 @@
+ncbi_build: GRCh37
+input_vcf:
+    class: File
+    path: ../data/from-module-4/PoolTumor2-T_bc52_combined_variants.vcf
+filter_vcf:
+    class: File
+    path: /ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
+output_maf: PoolTumor2-T_bc52_combined_variants.vep.maf

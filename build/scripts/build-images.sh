@@ -9,6 +9,9 @@ source ./tools-utils.sh
 # flag for building docker images only
 BUILD_DOCKER_IMAGE_ONLY=0
 
+# padding size (in megabytes)
+# Singularity requires little more space than what Docker needs
+PADDING_SIZE=20
 
 usage()
 {
@@ -19,8 +22,8 @@ USAGE: $0 [options]
 OPTIONS:
 
    -t      List of tools to build (comma-separated list)
-           All pre-defined tools will be built if -t is not specified.                
-           
+           All pre-defined tools will be built if -t is not specified.
+
            Example: $0 -t bwa:0.7.12,picard:1.129
 
    -d      Build docker images only
@@ -28,15 +31,18 @@ OPTIONS:
 
    -z      Show list of tools that be built
 
+   -s      Override the padding size (default=${PADDING_SIZE} MiB)
+
 EOF
 }
 
-while getopts “t:dzh” OPTION
+while getopts “t:dzs:h” OPTION
 do
     case $OPTION in
         t) SELECTED_TOOLS_TO_BUILD=$OPTARG ;;
         d) BUILD_DOCKER_IMAGE_ONLY=1 ;;
-        z) for tool in $(get_tools_name_version); do echo $tool; done; exit 1 ;;        
+        z) for tool in $(get_tools_name_version); do echo $tool; done; exit 1 ;;
+        s) PADDING_SIZE=$OPTARG ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
@@ -55,7 +61,7 @@ do
 done
 
 if [ -z "$SELECTED_TOOLS_TO_BUILD" ]
-then    
+then
     SELECTED_TOOLS_TO_BUILD=$(get_tools_name_version)
 fi
 
@@ -73,17 +79,17 @@ function convert_to_mib {
         mib=`echo "$1 * 1000" | bc -l`
     fi
     echo $mib
-} 
+}
 
 function get_docker_size_in_mib {
     # get docker image size for a given name $1
     # if there are more than two images found for a given name, we will use the first appearing one
     # returned string would look like '3.98 MB'
     local size_string=`sudo docker images $1 --format "{{.Size}}" | head -1`
-    
-    # split at the space char, take the numeric portion, add extra 20 MiB, and round up
+
+    # split at the space char, take the numeric portion, add extra 20 MiB ($PADDING_SIZE), and round up
     # fixme: round up done using python script
-    local size=`echo ${size_string} | awk -F' ' '{ print $1 }' | python -c "print int(round(float(raw_input()) + 20))"`
+    local size=`echo ${size_string} | awk -F' ' '{ print $1 }' | python -c "print int(round(float(raw_input()) + $2))"`
 
     # split at the space char, take the unit portion (e.g. B, KB, MB, GB)
     local size_unit=`echo ${size_string} | awk -F' ' '{ print $2 }'`
@@ -116,10 +122,18 @@ do
     # sudo docker login
     sudo docker push ${docker_image_full_name}
 
-    size=$(get_docker_size_in_mib ${docker_image_full_name})
+    #fixme: hack
+    padding_size=${PADDING_SIZE}
+    case ${tool_name} in
+        roslin) padding_size=3;;
+        vcf2maf) padding_size=100;
+    esac
+
+    # calculate needed size for singularity image (estimate using docker image size)
+    size=$(get_docker_size_in_mib ${docker_image_full_name} ${padding_size})
 
     # overwrite if already exists
-    sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img 
+    sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
 
     sudo singularity bootstrap \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img \

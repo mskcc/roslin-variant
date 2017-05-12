@@ -1,5 +1,8 @@
 {
     "programs": {
+        "roslin": [
+            "1.0.0"
+        ],
         "bwa": [
             "0.7.15",
             "0.7.12",
@@ -40,6 +43,12 @@
         ],
         "bcftools": [
             "1.3.1"
+        ],
+        "vep": [
+            "86"
+        ],
+        "vcf2maf": [
+            "1.6.12"
         ]
     },
     "containerDependency": {
@@ -84,6 +93,9 @@
         ],
         "bcftools": [
             "cmo_bcftools.norm"
+        ],
+        "vcf2maf": [
+            "cmo_vcf2maf"
         ]
     }
 }

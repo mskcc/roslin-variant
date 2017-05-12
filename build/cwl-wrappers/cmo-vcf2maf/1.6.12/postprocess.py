@@ -2,6 +2,7 @@
 """postprocess"""
 
 import argparse
+import re
 import ruamel.yaml
 
 
@@ -38,23 +39,20 @@ def main():
                            ruamel.yaml.RoundTripLoader)
 
     del cwl['inputs']['version']
-    del cwl['inputs']['java_version']
+    cwl['inputs']['input_vcf']['type'] = ['string', 'File']
+    cwl['inputs']['filter_vcf']['type'] = ['null', 'string', 'File']
 
-    # workaround: remove redudant quotes by programatically resetting the value here
-    cwl['inputs']['filter']['default'] = 'T_COV<10||N_COV<4||T_INDEL_F<0.0001||T_INDEL_CF<0.7'
+    # must be specified in input yaml
+    del cwl['inputs']['filter_vcf']['default']
 
-    #-->
-    # fixme: until we can auto generate cwl for GATK
-    # set outputs using outputs.yaml
-    import os
-    cwl['outputs'] = ruamel.yaml.load(
-        read(os.path.dirname(params.filename_cwl) + "/outputs.yaml"),
-        ruamel.yaml.RoundTripLoader)['outputs']
+    cwl['inputs']['vep_release']['type'] = ['null', 'string']
+    cwl['inputs']['vep_release']['default'] = '86'
+    cwl['inputs']['max_filter_ac']['type'] = ['null', 'int']
+    cwl['inputs']['min_hom_vaf']['type'] = ['null', 'float']
+    cwl['inputs']['vep_forks']['type'] = ['null', 'int']
 
-    # from : ['cmo_gatk']
-    # to   : ['cmo_gatk', '-T', 'SomaticIndelDetector', '--version', '2.3-9']
-    cwl['baseCommand'] = ['cmo_gatk', '-T', 'SomaticIndelDetector', '--version', '2.3-9']
-    #<--
+    # use one inside the container by deafult
+    cwl['inputs']['custom_enst']['default'] = '/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc'
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))

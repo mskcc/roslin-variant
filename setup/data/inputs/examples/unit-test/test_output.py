@@ -74,11 +74,11 @@ def test_bwa_mem():
 def test_gatk_SomaticIndelDetector():
     "gatk.somaticIndelDetector should generate the correct output"
 
-    result = read_result('./outputs/cmo-gatk.FindCoveredIntervals.txt')
+    result = read_result('./outputs/cmo-gatk.SomaticIndelDetector.txt')
 
-    assert_true('fci_list' in result)
-    assert_equals(result['fci_list']['basename'], 'intervals.list')
-    assert_equals(result['fci_list']['class'], 'File')
+    assert_true('output' in result)
+    assert_equals(result['output']['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.sid.vcf')
+    assert_equals(result['output']['class'], 'File')
 
 
 def test_list2bed():

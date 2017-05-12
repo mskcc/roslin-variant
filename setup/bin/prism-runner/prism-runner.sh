@@ -8,16 +8,24 @@ then
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_EXTRA_BIND_PATH=${PRISM_EXTRA_BIND_PATH}"
-    echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"    
+    echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
     echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
     exit 1
 fi
 
-if [ ! -x "`command -v $PRISM_SINGULARITY_PATH`" ]
+# check Singularity existstence only if you're not on leader nodes
+# fixme: this is so MSKCC-specific
+leader_node=(luna selene)
+case "${leader_node[@]}" in  *"`hostname -s`"*) leader_node='yes' ;; esac
+
+if [ "$leader_node" != 'yes' ]
 then
-    echo "Unable to find Singularity."
-    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
-    exit 1
+    if [ ! -x "`command -v $PRISM_SINGULARITY_PATH`" ]
+    then
+        echo "Unable to find Singularity."
+        echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
+        exit 1
+    fi
 fi
 
 # defaults
@@ -92,6 +100,7 @@ fi
 # get absolute path for output directory
 OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
 
+# check if output directory already exists
 if [ -d ${OUTPUT_DIRECTORY} ]
 then
     echo "The specified output directory already exists: ${OUTPUT_DIRECTORY}"

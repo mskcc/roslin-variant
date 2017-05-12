@@ -13,15 +13,15 @@ ENV PINDEL_VERSION 0.2.5b8
 ENV HTSLIB_VERSION 1.4
 
 # required for compiling htslib : zlib-dev bzip2-dev xz-dev ncurses-dev
-RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev \
+RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev curl-dev \
       && apk add ca-certificates openssl \
       && cd /tmp && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
       && tar xvjf htslib-${HTSLIB_VERSION}.tar.bz2 \
       && cd /tmp/htslib-${HTSLIB_VERSION} \
-      && ./configure --disable-lzma \
+      && ./configure \
       && make && make install \
       && cd /tmp && wget https://github.com/genome/pindel/archive/v${PINDEL_VERSION}.zip \
-      && unzip v${PINDEL_VERSION}.zip \      
+      && unzip v${PINDEL_VERSION}.zip \
       && cd /tmp/pindel-${PINDEL_VERSION} \
       && sed -i[.bak] '1i#include <cmath>' ./src/bddata.cpp \
       && ./INSTALL /tmp/htslib-${HTSLIB_VERSION} \

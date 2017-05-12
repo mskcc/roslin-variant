@@ -8,7 +8,7 @@ load 'helpers/stub/load'
 PRISM_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
 
 setup() {
-  TEST_TEMP_DIR="$(temp_make)"  
+  TEST_TEMP_DIR="$(temp_make)"
 }
 
 teardown() {
@@ -137,6 +137,34 @@ get_args_line() {
 
     assert_failure
     assert_line 'Unable to find Singularity.'
+}
+
+# fixme: this is so MSKCC specific
+@test "should skip checking Singularity existence if on one of those leader nodes" {
+
+    export PRISM_BIN_PATH="a"
+    export PRISM_DATA_PATH="b"
+    export PRISM_EXTRA_BIND_PATH="c"
+    export PRISM_INPUT_PATH="d"
+    export PRISM_SINGULARITY_PATH="/usr/no-bin/singularity"
+
+    # stub the 'hostname' command to return 'luna'
+    stub hostname 'echo "luna"'
+
+    run ${PRISM_RUNNER_SCRIPT}
+
+    assert_failure
+    refute_line --index 0 --partial 'Unable to find Singularity.'
+
+    # stub the 'hostname' command to return 'selene'
+    stub hostname 'echo "selene"'
+
+    run ${PRISM_RUNNER_SCRIPT}
+
+    assert_failure
+    refute_line --index 0 --partial 'Unable to find Singularity.'
+
+    unstubs
 }
 
 @test "should abort if workflow or input filename is not supplied" {
@@ -294,14 +322,14 @@ get_args_line() {
     stub cwltoil 'echo "$@"'
 
     workflow_filename='abc.cwl'
-    
+
     run ${PRISM_RUNNER_SCRIPT} -w ${workflow_filename} -i ${input_filename} -b lsf
 
     assert_success
 
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
-    
+
     # get job store UUID
     job_store_uuid=$(get_job_store_uuid "$output")
 
@@ -434,7 +462,7 @@ get_args_line() {
     # clean up previously created
     rm -rf ./outputs
     rm -rf ./outputs/log
-    
+
     # call prism runner without -o
     run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
@@ -502,7 +530,7 @@ get_args_line() {
 
     pipeline_version='2.0.1'
     workflow_filename='abc.cwl'
-    
+
     # call prism-runner with -v
     run ${PRISM_RUNNER_SCRIPT} -v ${pipeline_version} -w ${workflow_filename} -i ${input_filename} -b lsf
 
@@ -532,11 +560,11 @@ get_args_line() {
 
     # stub cwltoil to print the value of CMO_RESOURCE_CONFIG
     stub cwltoil 'printenv CMO_RESOURCE_CONFIG'
-   
+
     run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
-    
+
     assert_line --index 1 "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
 
     assert_equal `printenv CMO_RESOURCE_CONFIG` ''
@@ -563,7 +591,7 @@ get_args_line() {
     assert_success
 
     # get job store UUID
-    job_uuid=$(get_job_uuid "$output")    
+    job_uuid=$(get_job_uuid "$output")
 
     # check uuid at the beginning and the end of the output
     assert_line --index 0 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
