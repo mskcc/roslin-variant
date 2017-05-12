@@ -11,7 +11,7 @@ e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 8bfb53902d641dc9e892fc085becd147  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 937812c5db5f7ef8d1834c34b8b182c9  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
-4585769701d4b50515be35dd49785b2f  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
+c38ca9fcc20fdec4e0fadcabb536a15f  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 9397490df4170fbb1a25ce3c508f9d95  ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
 126949ee37cbf7aefbad9bc19ae9426b  ./cmo-mutect/1.1.4/cmo-mutect.cwl

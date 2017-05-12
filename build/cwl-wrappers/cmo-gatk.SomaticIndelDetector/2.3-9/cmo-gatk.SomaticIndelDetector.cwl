@@ -60,7 +60,7 @@ doc: |
 inputs:
   filter:
     type: string
-    default: "'T_COV<10||N_COV<4||T_INDEL_F<0.0001||T_INDEL_CF<0.7'"
+    default: T_COV<10||N_COV<4||T_INDEL_F<0.0001||T_INDEL_CF<0.7
     inputBinding:
       prefix: -filter
   tumor_bam:
