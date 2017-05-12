@@ -39,12 +39,20 @@ def main():
                            ruamel.yaml.RoundTripLoader)
 
     del cwl['inputs']['version']
-    cwl['inputs']['input_vcf']['type'] = ['null', 'string', 'File']
+    cwl['inputs']['input_vcf']['type'] = ['string', 'File']
+    cwl['inputs']['filter_vcf']['type'] = ['null', 'string', 'File']
+
+    # must be specified in input yaml
+    del cwl['inputs']['filter_vcf']['default']
+
     cwl['inputs']['vep_release']['type'] = ['null', 'string']
     cwl['inputs']['vep_release']['default'] = '86'
     cwl['inputs']['max_filter_ac']['type'] = ['null', 'int']
     cwl['inputs']['min_hom_vaf']['type'] = ['null', 'float']
     cwl['inputs']['vep_forks']['type'] = ['null', 'int']
+
+    # use one inside the container by deafult
+    cwl['inputs']['custom_enst']['default'] = '/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc'
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))

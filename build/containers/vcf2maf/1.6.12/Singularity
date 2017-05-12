@@ -23,15 +23,15 @@ Registry: http://localhost:5000
 
 %runscript
 
-    exec /usr/bin/run.sh "$@"
+    exec /usr/bin/vcf2maf/run.sh "$@"
 
 %test
 
     # get actual output of the tool
-    perl /usr/bin/vcf2vcf.pl --help | head -2 > /tmp/actual.diff.txt
-    perl /usr/bin/vcf2maf.pl --help | head -2 >> /tmp/actual.diff.txt
-    perl /usr/bin/maf2maf.pl --help | head -2 >> /tmp/actual.diff.txt
-    perl /usr/bin/maf2vcf.pl --help | head -2 >> /tmp/actual.diff.txt
+    perl /usr/bin/vcf2maf/vcf2vcf.pl --help | head -2 > /tmp/actual.diff.txt
+    perl /usr/bin/vcf2maf/vcf2maf.pl --help | head -2 >> /tmp/actual.diff.txt
+    perl /usr/bin/vcf2maf/maf2maf.pl --help | head -2 >> /tmp/actual.diff.txt
+    perl /usr/bin/vcf2maf/maf2vcf.pl --help | head -2 >> /tmp/actual.diff.txt
 
 # expected output
 cat > /tmp/expected.diff.txt << EOM

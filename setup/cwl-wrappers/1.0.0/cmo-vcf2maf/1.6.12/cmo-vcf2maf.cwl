@@ -126,7 +126,7 @@ inputs:
 
   custom_enst:
     type: ['null', string]
-    default: sudo docker run -i vcf2maf:1.6.12 data/isoform_overrides_at_mskcc
+    default: /usr/bin/vcf2maf/data/isoform_overrides_at_mskcc
     doc: List of custom ENST IDs that override canonical selection
     inputBinding:
       prefix: --custom-enst
@@ -147,7 +147,6 @@ inputs:
 
   input_vcf:
     type:
-    - 'null'
     - string
     - File
     doc: Path to input file in VCF format
@@ -178,8 +177,10 @@ inputs:
       prefix: --tumor-id
 
   filter_vcf:
-    type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
+    type:
+    - 'null'
+    - string
+    - File
     doc: The non-TCGA VCF from exac.broadinstitute.org
     inputBinding:
       prefix: --filter-vcf

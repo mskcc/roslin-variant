@@ -24,7 +24,7 @@ a602195336d9c9717f93da5d619c40bc  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 128488975093d3224f9431e5ca17720e  ./cmo-vardict/1.4.6/cmo-vardict.cwl
-b1f7436549337e572bbdc8457a5e7e6a  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
+1e0d715b26ee3ef7e34d04cd8ff3cc14  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
 5145a71ff05dc7d6ae693529e4b93fc6  ./module-1.cwl
 99e0564619f8113c6138988316b4861d  ./module-2.cwl
 2d167335283123e25a902645d6cb2cef  ./module-2a.cwl
