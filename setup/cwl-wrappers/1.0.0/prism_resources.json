@@ -43,7 +43,7 @@
     "genomes": {
         "GRCh37": {
             "bedtools_genome": "/opt/common/CentOS_6-dev/bedtools_genomes/human.b37.genome", 
-            "bwa_fasta": "/ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta", 
+            "bwa_fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta", 
             "cosmic": {
                 "67": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v67_b37_20131024__NDS.vcf", 
                 "74": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/CosmicCodingMuts_v74_b37_20151120.vcf"
@@ -54,7 +54,7 @@
             }, 
             "exac": "/ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
-            "fasta": "/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
+            "fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
             "gencode": {
                 "19": "/ifs/depot/annotation/H.sapiens/gencode/v19/gencode.v19.annotation.gtf", 
                 "default": "/ifs/depot/annotation/H.sapiens/gencode/v19/gencode.v19.annotation.gtf"
