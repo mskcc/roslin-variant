@@ -13,11 +13,19 @@ then
     exit 1
 fi
 
-if [ ! -x "`command -v $PRISM_SINGULARITY_PATH`" ]
+# check Singularity existstence only if you're not on leader nodes
+# fixme: this is so MSKCC-specific
+leader_node=(luna selene)
+case "${leader_node[@]}" in  *"`hostname -s`"*) leader_node='yes' ;; esac
+
+if [ "$leader_node" != 'yes' ]
 then
-    echo "Unable to find Singularity."
-    echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
-    exit 1
+    if [ ! -x "`command -v $PRISM_SINGULARITY_PATH`" ]
+    then
+        echo "Unable to find Singularity."
+        echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
+        exit 1
+    fi
 fi
 
 # defaults

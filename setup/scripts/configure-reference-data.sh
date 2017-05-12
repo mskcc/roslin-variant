@@ -79,7 +79,7 @@ case $LOC_GENASSM in
             mkdir -p /ifs/work/prism/chunj/test-data/ref
 
             # sync from s3 (b37)
-            aws s3 sync s3://chunj-ifs/depot/assemblies/H.sapiens/b37 ../data/assemblies            
+            aws s3 sync s3://chunj-ifs/depot/assemblies/H.sapiens/b37 ../data/assemblies
 
             # copy and configure reference data (b37)
             cat ../data/assemblies/b37.tar.gz.part_* > ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
@@ -94,7 +94,7 @@ case $LOC_GENASSM in
             # sync from s3 (vcf, ...)
             aws s3 sync s3://chunj-ref /ifs/work/prism/chunj/test-data/ref/
             cd /ifs/work/prism/chunj/test-data/ref/
-            tar xvzf ref.tgz 
+            tar xvzf ref.tgz
 
             # clean up
             rm -rf /tmp/prism-setup-1.0.0/data/assemblies
@@ -108,6 +108,3 @@ case $LOC_GENASSM in
         exit 1
         ;;
 esac
-
-# adjust ifs paths in CMO_RESOURCE_CONFIG
-sed -i.bak "s|\/ifs|${PRISM_DATA_PATH}|g" "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
