@@ -80,18 +80,22 @@ echo
 
 # get job uuid
 job_uuid=`cat ${OUTPUTS_PATH}/job-uuid`
-printf "Job UUID    : $job_uuid\n"
+printf "Job UUID       : $job_uuid\n"
+
+# get job store uuid
+job_store_uuid=`cat ${OUTPUTS_PATH}/job-store-uuid`
+printf "Job Store UUID : $job_store_uuid\n"
 
 # get workflow id (choose the last one if many)
 workflow_id=`grep -m 1 -P -o "The workflow ID is: '(.*?)'" ${CWLTOIL_LOG} | tail -1 | awk -F':' '{ print $2 }' | sed "s/[' ]//g"`
-printf "Workflow ID : $workflow_id\n"
+printf "Workflow ID    : $workflow_id\n"
 
 # get toil stats
-toil stats ${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid} > ${OUTPUTS_PATH}/toil-stats.log 2>&1
+toil stats ${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid} > ${OUTPUTS_PATH}/toil-stats.log 2>&1
 
 # save file contents
 python ${PRISM_BIN_PATH}/bin/prism-runner/tree.py -f ${OUTPUTS_PATH} > ${OUTPUTS_PATH}/tree.outputs.txt
-python ${PRISM_BIN_PATH}/bin/prism-runner/tree.py -f ${PRISM_BIN_PATH}/tmp/jobstore-${job_uuid} > ${OUTPUTS_PATH}/tree.jobstore.txt
+python ${PRISM_BIN_PATH}/bin/prism-runner/tree.py -f ${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid} > ${OUTPUTS_PATH}/tree.jobstore.txt
 python ${PRISM_BIN_PATH}/bin/prism-runner/tree.py -f ${PRISM_BIN_PATH}/tmp/toil-${workflow_id} > ${OUTPUTS_PATH}/tree.toiltmp.txt
 
 ls -lh ${OUTPUTS_PATH}/* >> ${OUTPUTS_PATH}/tree.outputs.txt
@@ -101,7 +105,7 @@ new_archive_path=$(get_archive_name $ARCHIVES_PATH/$job_uuid)
 mkdir -p ${new_archive_path}
 
 tar czf ${new_archive_path}/outputs.tgz ${OUTPUTS_PATH}/*
-tar czf ${new_archive_path}/jobstore.tgz -C ${PRISM_BIN_PATH}/tmp/ ./jobstore-${job_uuid}
+tar czf ${new_archive_path}/jobstore.tgz -C ${PRISM_BIN_PATH}/tmp/ ./jobstore-${job_store_uuid}
 tar czf ${new_archive_path}/toiltmp.tgz -C ${PRISM_BIN_PATH}/tmp/ ./toil-${workflow_id}
 
-echo "Archived    : ${new_archive_path}"
+echo "Archived         : ${new_archive_path}"
