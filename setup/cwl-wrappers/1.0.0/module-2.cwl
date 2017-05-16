@@ -77,6 +77,7 @@ inputs:
     abra_scratch: string
     recal_file: string
     emit_original_quals: boolean
+    intervals: string
 
 outputs:
     covint_list:
@@ -84,11 +85,11 @@ outputs:
             type: array
             items: File
         outputSource: gatk_find_covered_intervals/fci_list
-#    covint_bed:
-#        type:
-#            type: array
-#            items: File
-#        outputSource: group_process/fci_bed
+    covint_bed:
+        type:
+            type: array
+            items: File
+        outputSource: list2bed/output_file
     bams:
         type:
             type: array
@@ -102,6 +103,7 @@ steps:
             reference_sequence: fasta
             input_file: bams
             out: fci_file
+            intervals: intervals
         out: [fci_list]
 
     list2bed:
@@ -119,14 +121,14 @@ steps:
             ref: fasta
             out:
                 valueFrom: |
-                    ${ return inputs.in.map(function(x){ return x.nameroot + ".abra.bam"; }); }
+                    ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
             working: abra_scratch
             targets: list2bed/output_file
-        out: [out]
+        out: [outbams]
 
     parallel_fixmate:
         in:
-            I: abra/out
+            I: abra/outbams
         out: [out]
         scatter: [I]
         scatterMethod: dotproduct
