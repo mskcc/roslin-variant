@@ -52,7 +52,7 @@
                 "129": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.excluding_sites_after_129.vcf", 
                 "138": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.vcf"
             }, 
-            "exac": "/ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
+            "exac": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
             "gencode": {
