@@ -206,6 +206,10 @@
             "1.4.0": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts", 
             "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
         }, 
+        "getbasecountsmultisample": {
+            "1.1.9": "sing.sh getbasecountsmultisample 1.1.9", 
+            "default": "sing.sh get-base-counts-multi-sample 1.1.9"
+        }, 
         "hotspot3d": {
             "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/", 
             "default": "/opt/common/CentOS_6-dev/hotspot3d/0.4/"

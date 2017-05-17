@@ -179,6 +179,10 @@
         "getbasecounts": {
             "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
         }, 
+        "getbasecountsmultisample": {
+            "1.1.9": "sudo docker run -i get-base-counts-multi-sample:1.1.9", 
+            "default": "sudo docker run -i getbasecountsmultisample:1.1.9 "
+        }, 
         "hotspot3d": {
             "default": "/opt/common/CentOS_6-dev/hotspot3d/0.4/"
         }, 
