@@ -86,7 +86,7 @@ outputs:
 
 steps:
     index:
-        run: cmo_index.cwl
+        run: cmo_index/1.0.0/cmo_index.cwl
         in:
             tumor: tumor_bam
             normal: normal_bam
