@@ -71,12 +71,8 @@ inputs:
         secondaryFiles:
             - .idx    
     rf: string[]
-    fci_file: string
-    num_cpu_threads_per_data_thread: string
     covariates: string[]
     abra_scratch: string
-    recal_file: string
-    emit_original_quals: boolean
     intervals: string
 
 outputs:
@@ -102,7 +98,8 @@ steps:
         in:
             reference_sequence: fasta
             input_file: bams
-            out: fci_file
+            out: 
+                default: "intervals.list"
             intervals: intervals
         out: [fci_list]
 
@@ -162,7 +159,8 @@ steps:
             input_file: parallel_fixmate/out
             knownSites: [dbsnp, hapmap, indels_1000g, snps_1000g]
             covariate: covariates
-            out: recal_file
+            out:
+                default: "recal.matrix"
         out: [recal_matrix]
 
     parallel_printreads:
@@ -170,7 +168,6 @@ steps:
             input_file: parallel_fixmate/out
             reference_sequence: fasta
             BQSR: gatk_base_recalibrator/recal_matrix
-            num_cpu_threads_per_data_thread: num_cpu_threads_per_data_thread
         out: [out]
         scatter: [input_file]
         scatterMethod: dotproduct
@@ -185,8 +182,6 @@ steps:
                     type: string
                 BQSR:
                     type: File
-                num_cpu_threads_per_data_thread:
-                    type: string
             outputs:
                 out:
                     type:
@@ -200,7 +195,8 @@ steps:
                         reference_sequence: reference_sequence
                         BQSR: BQSR
                         input_file: input_file
-                        num_cpu_threads_per_data_thread: num_cpu_threads_per_data_thread
+                        num_cpu_threads_per_data_thread:
+                            default: "6"
                         out:
                             valueFrom: |
                                 ${ return inputs.input_file.basename.replace( ".bam", ".printreads.bam");}

@@ -4,6 +4,7 @@ requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {} 
   SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
 inputs:
   fastq1: string[]
   fastq2: string[]
@@ -16,12 +17,8 @@ inputs:
   add_rg_PU: string[]
   add_rg_SM: string[]
   add_rg_CN: string[]
-  add_rg_output: string[]
-  md_output: string[]
-  md_metrics_output: string[]
   tmp_dir: string[]
   genome: string
-  create_index: boolean
 outputs:
   clstats1:
     type:
@@ -63,12 +60,8 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      add_rg_output: add_rg_output
-      md_output: md_output
-      md_metrics_output: md_metrics_output
       tmp_dir: tmp_dir
-      create_index: create_index
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,add_rg_output,md_output,md_metrics_output,tmp_dir]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,tmp_dir]
     scatterMethod: dotproduct
     out: [clstats1,clstats2,bam,bai,md_metrics]
     run:
@@ -86,11 +79,7 @@ steps:
         add_rg_PU: string
         add_rg_SM: string
         add_rg_CN: string
-        add_rg_output: string
-        md_output: string
-        md_metrics_output: string
         tmp_dir: string
-        create_index: boolean
       outputs:
         clstats1:
           type:
@@ -105,6 +94,7 @@ steps:
         bam:
           type: File 
           outputSource: mark_duplicates/bam
+          secondaryFiles: ['^.bai']
         bai:
           type:
             type: array
@@ -136,7 +126,9 @@ steps:
           run: ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
           in: 
             I: bwa/bam
-            O: add_rg_output
+            O: 
+              valueFrom: |
+                ${ return inputs.I.basename.replace(".bam", ".RG.bam") }
             LB: add_rg_LB
             PL: add_rg_PL
             ID: add_rg_ID
@@ -145,15 +137,22 @@ steps:
             CN: add_rg_CN
             SO:
               default: "coordinate"
+            CREATE_INDEX:
+              default: True
             TMP_DIR: tmp_dir
           out: [bam,bai]
         mark_duplicates:
           run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
           in: 
             I: add_rg_id/bam
-            O: md_output
-            M: md_metrics_output
-            CREATE_INDEX: create_index
+            O: 
+              valueFrom: |
+                ${ return inputs.I.basename.replace(".bam", ".md.bam") } 
+            M:
+              valueFrom: |
+                ${ return inputs.I.basename.replace(".bam", ".md_metrics") }
+            CREATE_INDEX:
+              default: True
             TMP_DIR: tmp_dir
           out: [bam,bai,mdmetrics]
 

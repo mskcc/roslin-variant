@@ -117,15 +117,9 @@ inputs:
     secondaryFiles:
        - .idx    
   genome: string
-  create_index: boolean
   rf: string[]
-  fci_file: string
-  num_cpu_threads_per_data_thread: string
   covariates: string[]
   abra_scratch: string
-  recal_file: string
-  emit_original_quals: boolean
-  num_threads: string
   intervals: string
   sid_rf:
     type:
@@ -175,7 +169,6 @@ steps:
       adapter: adapter
       adapter2: adapter2
       genome: genome
-      create_index: create_index
       bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
@@ -184,11 +177,9 @@ steps:
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
       add_rg_output: add_rg_output
-      md_output: md_output
-      md_metrics_output: md_metrics_output
       tmp_dir: tmp_dir
     out: [clstats1, clstats2, bam, bai, md_metrics]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,add_rg_output,md_output,md_metrics_output,tmp_dir]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,tmp_dir]
     scatterMethod: dotproduct
   flatten_samples:
     #hack to remove array of arrays
@@ -204,13 +195,8 @@ steps:
       dbsnp: dbsnp
       indels_1000g: indels_1000g
       snps_1000g: snps_1000g
-      fci_file: fci_file
-      num_cpu_threads_per_data_thread: num_cpu_threads_per_data_thread
       covariates: covariates
       abra_scratch: abra_scratch
-      recal_file: recal_file
-      emit_original_quals: emit_original_quals
-      num_threads: num_threads
       fasta: fasta
       intervals: intervals
     out: [bams, covint_list, covint_bed]
