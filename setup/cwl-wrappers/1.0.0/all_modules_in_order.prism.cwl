@@ -201,7 +201,7 @@ steps:
       intervals: intervals
     out: [bams, covint_list, covint_bed]
   pairing:
-    run: sort_bams_by_pair_and_index.cwl
+    run: sort_bams_by_pair/1.0.0/sort_bams_by_pair.cwl
     in:
       bams: realignment/bams
       pairs: pairs
