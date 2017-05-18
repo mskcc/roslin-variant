@@ -15,4 +15,8 @@ cd singularity-${SINGULARITY_VERSION}
 make
 make install
 
+# install singularity client that allows to programatically control singularity
+sudo pip install singularity
+
 rm -rf ${SINGULARITY_INSTALL_TEMP_DIR}
+
