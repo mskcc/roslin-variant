@@ -52,6 +52,9 @@
         ],
         "getbasecountsmultisample": [
             "1.1.9"
+        ],
+        "@fillout": [
+            "1.1.9"
         ]
     },
     "containerDependency": {
@@ -100,7 +103,7 @@
         "vcf2maf": [
             "cmo_vcf2maf"
         ],
-        "getbasecountsmultisample": [
+        "@fillout": [
             "cmo_fillout"
         ]
     }

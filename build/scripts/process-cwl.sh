@@ -53,15 +53,21 @@ then
     # cwl manually genereated in the past (*.original.cwl) must be placed in the tool directory
     cp ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.original.cwl ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
 else
-    # do not use "-t" because docker messes up stdout and stderr
-    # hack: an extra space at the end helps cases where a container has multiple entry points
-    # e.g. sudo docker run -it --rm vcf2maf:1.6.12maf2vcf.pl
-    #      vs.
-    #      sudo docker run -it --rm vcf2maf:1.6.12 maf2vcf.pl
-    tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION "
 
-    # modify cmo_resources.json so that cmo calls a dockerized tool
-    python ./update_resource_def.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
+    # don't do this block if tool name starts with @
+    # because the cwl wrapper that we are building doesn't depend on any containers 
+    if [ ! "${TOOL_NAME}" == @* ]
+    then
+        # do not use "-t" because docker messes up stdout and stderr
+        # hack: an extra space at the end helps cases where a container has multiple entry points
+        # e.g. sudo docker run -it --rm vcf2maf:1.6.12maf2vcf.pl
+        #      vs.
+        #      sudo docker run -it --rm vcf2maf:1.6.12 maf2vcf.pl
+        tool_cmd="sudo docker run -i $TOOL_NAME:$TOOL_VERSION "
+
+        # modify cmo_resources.json so that cmo calls a dockerized tool
+        python ./update_resource_def.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
+    fi
 
     # tell cmo to use this json file for calling tools
     export CMO_RESOURCE_CONFIG="../cwl-wrappers/cmo_resources.json"
@@ -71,7 +77,6 @@ else
     python /usr/local/bin/cmo-gxargparse/cmo/bin/${CMO_WRAPPER} --generate_cwl_tool \
         --directory ${TOOL_DIRECTORY} \
         --output_section ${TOOL_DIRECTORY}/outputs.yaml
-        # --basecommand="${CMO_WRAPPER} --version ${TOOL_VERSION}"
 
     # rename _ to -
     mv ${TOOL_DIRECTORY}/${CMO_WRAPPER}.cwl ${TOOL_DIRECTORY}/${CMO_WRAPPER_WITH_DASH}.cwl
