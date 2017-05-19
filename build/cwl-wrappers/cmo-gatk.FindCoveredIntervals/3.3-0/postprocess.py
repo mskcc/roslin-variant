@@ -52,6 +52,7 @@ inputBinding:
 
     cwl['inputs']['num_threads']['type'] = ['null', 'string']
     cwl['inputs']['out']['type'] = 'string'
+    cwl['inputs']['intervals']['type'] = ['null', 'string']
 
     #-->
     # fixme: until we can auto generate cwl for GATK
