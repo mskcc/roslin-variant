@@ -168,6 +168,9 @@ do
             # e.g. sing.sh vcf2maf 1.6.12 vcf2maf.pl
             python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vcf2maf ${tool_version} "sing.sh ${tool_name} ${tool_version} "
             ;;
+        roslin)
+            # do nothing
+            ;;
         *)
             python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${tool_name} ${tool_version} "sing.sh ${tool_name} ${tool_version}"
             ;;
