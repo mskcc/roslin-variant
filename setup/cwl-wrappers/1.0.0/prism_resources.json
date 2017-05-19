@@ -69,20 +69,20 @@
             "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "GRCh38": {
+            "exac": "", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz", 
             "gencode": {
                 "25": "/ifs/res/pwg/data/gencode/gencode.v25.annotation.gtf", 
                 "default": "/ifs/res/pwg/data/gencode/gencode.v25.annotation.gtf"
             }, 
-            "exac": "",
             "kallisto_index": "/ifs/res/pwg/data/assemblies/homo_sapiens/gencode.v25/gencode.v25.pc_transcripts", 
             "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25", 
             "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "GRCm38": {
+            "exac": "", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz", 
-            "exac": "",
             "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "hg18": {
