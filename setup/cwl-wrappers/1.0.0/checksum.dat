@@ -12,7 +12,7 @@ fb7b9e5bb531595f2055b53554dada93  ./cmo-fillout/1.1.9/cmo-fillout.cwl
 8bfb53902d641dc9e892fc085becd147  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 82e55b624d40e3c95f0c5369f950faf6  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
-c38ca9fcc20fdec4e0fadcabb536a15f  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
+732632a5d2e7c9c34570003e319c4476  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 43ca947d62e8ea2383157183a0d087bb  ./cmo-index/1.0.0/cmo-index.cwl
 e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 9397490df4170fbb1a25ce3c508f9d95  ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
@@ -26,9 +26,9 @@ ee8674f5d39242708ae0ef91cdc94aa6  ./cmo-picard.FixMateInformation/1.96/cmo-picar
 235a4c60506723f4af25420b1a99bc57  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 128488975093d3224f9431e5ca17720e  ./cmo-vardict/1.4.6/cmo-vardict.cwl
-1e0d715b26ee3ef7e34d04cd8ff3cc14  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
+bce90eb9f4ba9b64d3c3a01477f1bde3  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
 4a6982154725abbeed1bd4affef4a73c  ./flatten-array/1.0.0/flatten-array.cwl
-8fb1e7cb8de4e77d185dc721cc8c2dda  ./module-1-2-3.cwl
+ecd13ca8ff589982ecef440f66c8d063  ./module-1-2-3.cwl
 611741b1eb1ea662bb37f229fda90d78  ./module-1.cwl
 ae2a8470fd079501b40878ac248bfd8f  ./module-1.scatter.cwl
 14456507ec3396cc80b685476c011126  ./module-2.cwl
