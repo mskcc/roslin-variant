@@ -1,6 +1,7 @@
 outputs:
   bam:
     type: File
+    secondaryFiles: ['^.bai']
     outputBinding:
       glob: |
         ${
