@@ -141,7 +141,7 @@ inputs:
 
   CREATE_INDEX:
     type: ['null', boolean]
-    default: false
+    default: true
 
     inputBinding:
       prefix: --CREATE_INDEX
