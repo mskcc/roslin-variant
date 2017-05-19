@@ -21,6 +21,4 @@ add_rg_output: "P-0000377-T02-IM3_ARRDRG.bam"
 md_output: "P-0000377-T02-IM3_ARRDRG_MD.bam"
 md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
 
-create_index: True
-
-tmp_dir: $TMPDIR
+tmp_dir: /scratch
