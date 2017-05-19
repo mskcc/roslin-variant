@@ -1,11 +1,50 @@
+#!/usr/bin/env cwl-runner
+
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  doap: http://usefulinc.com/ns/doap#
+
+$schemas:
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
+
+doap:name: module-1.scatter.cwl
+doap:release:
+- class: doap:Version
+  doap:revision: 1.0.0
+
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Christopher Harris
+    foaf:mbox: mailto:harrisc2@mskcc.org
+
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Christopher Harris
+    foaf:mbox: mailto:harrisc2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Jaeyoung Chun
+    foaf:mbox: mailto:chunj@mskcc.org
+
 cwlVersion: v1.0
+
 class: Workflow
 requirements:
   MultipleInputFeatureRequirement: {}
-  ScatterFeatureRequirement: {} 
+  ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+
 inputs:
+
   fastq1: string[]
   fastq2: string[]
   adapter: string[]
@@ -19,7 +58,9 @@ inputs:
   add_rg_CN: string[]
   tmp_dir: string[]
   genome: string
+
 outputs:
+
   clstats1:
     type:
       type: array
@@ -31,9 +72,9 @@ outputs:
       items: File
     outputSource: mapping/clstats2
   bam:
-    type: File
-    secondaryFiles: ['^.bai']
-
+    type:
+      type: array
+      items: File
     outputSource: mapping/bam
   bai:
     type:
@@ -45,7 +86,9 @@ outputs:
       type: array
       items: File
     outputSource: mapping/md_metrics
+
 steps:
+
   mapping:
     in:
       fastq1: fastq1
@@ -66,7 +109,7 @@ steps:
     out: [clstats1,clstats2,bam,bai,md_metrics]
     run:
       class: Workflow
-      inputs: 
+      inputs:
         fastq1: string
         fastq2: string
         adapter: string
@@ -92,9 +135,10 @@ steps:
             items: File
           outputSource: trim_galore/clstats2
         bam:
-          type: File 
+          type:
+            type: array
+            items: File
           outputSource: mark_duplicates/bam
-          secondaryFiles: ['^.bai']
         bai:
           type:
             type: array
@@ -116,7 +160,7 @@ steps:
           out: [clfastq1,clfastq2,clstats1,clstats2]
         bwa:
           run: ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
-          in: 
+          in:
             fastq1: trim_galore/clfastq1
             fastq2: trim_galore/clfastq2
             output: bwa_output
@@ -124,9 +168,9 @@ steps:
           out: [bam]
         add_rg_id:
           run: ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
-          in: 
+          in:
             I: bwa/bam
-            O: 
+            O:
               valueFrom: |
                 ${ return inputs.I.basename.replace(".bam", ".RG.bam") }
             LB: add_rg_LB
@@ -137,22 +181,17 @@ steps:
             CN: add_rg_CN
             SO:
               default: "coordinate"
-            CREATE_INDEX:
-              default: True
             TMP_DIR: tmp_dir
           out: [bam,bai]
         mark_duplicates:
           run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-          in: 
+          in:
             I: add_rg_id/bam
-            O: 
+            O:
               valueFrom: |
-                ${ return inputs.I.basename.replace(".bam", ".md.bam") } 
+                ${ return inputs.I.basename.replace(".bam", ".md.bam") }
             M:
               valueFrom: |
                 ${ return inputs.I.basename.replace(".bam", ".md_metrics") }
-            CREATE_INDEX:
-              default: True
             TMP_DIR: tmp_dir
           out: [bam,bai,mdmetrics]
-

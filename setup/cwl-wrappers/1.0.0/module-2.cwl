@@ -52,7 +52,7 @@ inputs:
             type: array
             items: File
         secondaryFiles:
-            - .bai
+            - ^.bai
     fasta: string
     hapmap:
         type: File

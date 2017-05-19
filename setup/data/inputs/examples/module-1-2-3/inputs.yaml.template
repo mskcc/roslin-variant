@@ -1,3 +1,5 @@
+# DO NOT use double quotes, use single quotes
+
 adapter:
 - [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
 - [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
@@ -29,11 +31,11 @@ bwa_output:
 - [s_C_000269_T001_d.bam]
 - [s_C_000269_N001_d.bam]
 fastq1:
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/charris/examples/data/fastq/P1_R1.fastq.gz}]
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/charris/examples/data/fastq/P2_R1.fastq.gz}]
+- [{class: File, path: ../data/fastq/P1_R1.fastq.gz}]
+- [{class: File, path: ../data/fastq/P2_R1.fastq.gz}]
 fastq2:
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/charris/examples/data/fastq/P1_R2.fastq.gz}]
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/charris/examples/data/fastq/P2_R2.fastq.gz}]
+- [{class: File, path: ../data/fastq/P1_R2.fastq.gz}]
+- [{class: File, path: ../data/fastq/P2_R2.fastq.gz}]
 md_metrics_output:
 - [s_C_000269_T001_d.MD.metrics]
 - [s_C_000269_N001_d.MD.metrics]
@@ -58,23 +60,18 @@ indels_1000g:
 snps_1000g:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/1000G_phase1.snps.high_confidence.b37.vcf
-rf: ["BadCigar"]
+rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
-covariates: [ 'CycleCovariate','ContextCovariate','ReadGroupCovariate','QualityScoreCovariate']
-abra_scratch: "/scratch/charris_abra_scratch/"
+covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
+abra_scratch: ${tmpdir}
 emit_original_quals: true
-create_index: True 
-num_threads: "10"
-genome: "GRCh37"
+num_threads: '10'
+genome: 'GRCh37'
 cosmic:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
-sid_rf: ["BadCigar", "DuplicateRead", "FailsVendorQualityCheck", "NotPrimaryAlignment", "BadMate", "MappingQualityUnavailable", "UnmappedRead", "MappingQuality"]
+sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlignment', 'BadMate', 'MappingQualityUnavailable', 'UnmappedRead', 'MappingQuality']
 refseq:
     class: File
-    path: "/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt"
-intervals: "1"
-bams:
-- {class: File, path: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/charris/examples/sort-by-pair/s_C_000269_N001_d.RG.MD.bam"}
-- {class: File, path: "/ifs/work/chunj/prism-proto/ifs/prism/inputs/charris/examples/sort-by-pair/s_C_000269_T001_d.RG.MD.bam"}
-
+    path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'
+intervals: '1'
