@@ -38,6 +38,7 @@ def main():
                            ruamel.yaml.RoundTripLoader)
 
     cwl['inputs']['I']['type'].insert(1, 'File')
+    cwl['inputs']['CREATE_INDEX']['default'] = True
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 
