@@ -79,6 +79,13 @@ inputs:
     inputBinding:
       prefix: --ncbi-build
 
+  ref_fasta:
+    type: ['null', string]
+    default: /ifs/depot/assemblies/H.sapiens/b37/b37.fasta
+    doc: Reference FASTA file
+    inputBinding:
+      prefix: --ref-fasta
+
   maf_center:
     type: ['null', string]
     default: mskcc.org
@@ -138,6 +145,20 @@ inputs:
     inputBinding:
       prefix: --vcf-normal-id
 
+  vep_path:
+    type: ['null', string]
+    default: /usr/bin/vep/
+    doc: Folder containing variant_effect_predictor.pl
+    inputBinding:
+      prefix: --vep-path
+
+  vep_data:
+    type: ['null', string]
+    default: /opt/common/CentOS_6-dev/vep/v86/
+    doc: VEP's base cache/plugin directory
+    inputBinding:
+      prefix: --vep-data
+
   tmp_dir:
     type: ['null', string]
     default: /scratch/<username>/...
@@ -185,6 +206,8 @@ inputs:
     inputBinding:
       prefix: --filter-vcf
 
+    secondaryFiles:
+    - .tbi
   retain_info:
     type: ['null', string]
     doc: Comma-delimited names of INFO fields to retain as extra columns in MAF
@@ -198,7 +221,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.vcf)
-            return inputs.vcf;
+          if (inputs.output_maf)
+            return inputs.output_maf;
           return null;
         }
