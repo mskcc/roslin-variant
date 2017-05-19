@@ -9,6 +9,5 @@ I:
   path: ../data/bam/sample1.bam
 O: "P-0000377-T02-IM3_ARRDRG.bam"
 SO: "coordinate"
-TMP_DIR: $TMPDIR
-CREATE_INDEX: true 
+TMP_DIR: /scratch
 VALIDATION_STRINGENCY: "LENIENT"
