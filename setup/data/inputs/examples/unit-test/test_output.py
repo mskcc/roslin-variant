@@ -86,6 +86,11 @@ def test_gatk_SomaticIndelDetector():
                   'P1_ADDRG_MD.abra.fmi.printreads.sid.vcf')
     assert_equals(result['output']['class'], 'File')
 
+    assert_true('verbose_output' in result)
+    assert_equals(result['verbose_output']['basename'],
+                  'P1_ADDRG_MD.abra.fmi.printreads.sid.verbose.vcf')
+    assert_equals(result['verbose_output']['class'], 'File')
+
 
 def test_list2bed():
     "list2bed should generate the correct output"

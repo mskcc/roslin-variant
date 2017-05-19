@@ -13,4 +13,4 @@ refseq:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt
 out: 'P1_ADDRG_MD.abra.fmi.printreads.sid.vcf'
-verboseOutput: ['P1_ADDRG_MD.abra.fmi.printreads.sid.verbose.vcf']
+verboseOutput: 'P1_ADDRG_MD.abra.fmi.printreads.sid.verbose.vcf'
