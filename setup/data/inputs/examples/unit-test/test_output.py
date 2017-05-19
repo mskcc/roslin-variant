@@ -438,6 +438,11 @@ def test_module_1_2_3():
     assert_equals(result['md_metrics'][1][0]['basename'],
                   's_C_000269_N001_d.RG.md_metrics')
 
+    assert_equals(result['somaticindeldetector_vcf'][0]['basename'], 's_C_000269_T001_d.RG.md.abra.fmi.printreads.sid.vcf')
+    assert_equals(result['pindel_vcf'][0]['basename'], 's_C_000269_T001_d.pindel.vcf')
+    assert_equals(result['vardict_vcf'][0]['basename'], 's_C_000269_T001_d.RG.md.abra.fmi.printreads.vardict.vcf')
+    assert_equals(result['mutect_vcf'][0]['basename'], 's_C_000269_T001_d.RG.md.abra.fmi.printreads.mutect.vcf')
+
 
 def test_sort_bams_by_pair():
     "sort-bams-by-pair should generate the correct output"
@@ -446,9 +451,11 @@ def test_sort_bams_by_pair():
 
     # absolute minimum test
     assert_equals(len(result['tumor_bams']), 1)
-    assert_equals(result['tumor_bams'][0]['basename'], 's_C_000269_T001_d.RG.MD.bam')
+    assert_equals(result['tumor_bams'][0]['basename'],
+                  's_C_000269_T001_d.RG.MD.bam')
     assert_equals(len(result['normal_bams']), 1)
-    assert_equals(result['normal_bams'][0]['basename'], 's_C_000269_N001_d.RG.MD.bam')
+    assert_equals(result['normal_bams'][0]['basename'],
+                  's_C_000269_N001_d.RG.MD.bam')
     assert_equals(len(result['tumor_sample_ids']), 1)
     assert_equals(result['tumor_sample_ids'][0], 's_C_000269_T001_d')
     assert_equals(len(result['normal_sample_ids']), 1)
