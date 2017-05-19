@@ -1,5 +1,5 @@
 outputs:
-  out:
+  outbams:
     type: File[]
     outputBinding:
       glob: "*.abra.bam"

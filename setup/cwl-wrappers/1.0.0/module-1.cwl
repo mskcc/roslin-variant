@@ -64,8 +64,6 @@ inputs:
     md_output: string
     md_metrics_output: string
 
-    create_index: boolean
-
     tmp_dir: string
 
 steps:
@@ -101,7 +99,6 @@ steps:
             CN: add_rg_CN
             SO:
               default: "coordinate"
-            CREATE_INDEX: create_index
             TMP_DIR: tmp_dir
         out: [bam, bai]
 
@@ -111,7 +108,6 @@ steps:
             I: cmo-picard.AddOrReplaceReadGroups/bam
             O: md_output
             M: md_metrics_output
-            CREATE_INDEX: create_index
             TMP_DIR: tmp_dir
         out: [bam,bai,mdmetrics]
 

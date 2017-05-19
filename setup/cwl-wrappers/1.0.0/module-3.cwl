@@ -50,10 +50,8 @@ requirements:
 inputs:
     tumor_bam:
         type: File
-        secondaryFiles: ['.bai']
     normal_bam:
         type: File
-        secondaryFiles: ['.bai']
     fasta: string
     bed: File
     normal_sample_id: string
@@ -69,6 +67,7 @@ inputs:
     refseq: File
 
 outputs:
+
     somaticindeldetector_vcf:
         type: File
         outputSource: call_variants/sid_vcf
@@ -86,10 +85,16 @@ outputs:
         outputSource: call_variants/pindel_vcf
 
 steps:
+    index:
+        run: cmo-index/1.0.0/cmo-index.cwl
+        in:
+            tumor: tumor_bam
+            normal: normal_bam
+        out: [tumor_bam, normal_bam]
     call_variants:
         in:
-            tumor_bam: tumor_bam
-            normal_bam: normal_bam
+            tumor_bam: index/tumor_bam
+            normal_bam: index/normal_bam
             fasta: fasta
             normal_sample_id: normal_sample_id
             tumor_sample_id: tumor_sample_id

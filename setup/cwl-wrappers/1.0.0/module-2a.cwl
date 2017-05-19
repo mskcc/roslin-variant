@@ -71,7 +71,7 @@ inputs:
     recal_file: string
     emit_original_quals: boolean
 
-    intervals:
+    intervals_bed:
         type: File
 
 outputs:
@@ -91,12 +91,12 @@ steps:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.nameroot + ".abra.bam"; }); }
             working: abra_scratch
-            targets: intervals
-        out: [out]
+            targets: intervals_bed
+        out: [outbams]
 
     parallel_fixmate:
         in:
-            I: abra/out
+            I: abra/outbams
         out: [out]
         scatter: [I]
         scatterMethod: dotproduct

@@ -139,9 +139,7 @@ inputs:
   intervals:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - string
     doc: One or more genomic intervals over which to operate
     inputBinding:
       prefix: --intervals

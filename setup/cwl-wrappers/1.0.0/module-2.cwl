@@ -52,7 +52,7 @@ inputs:
             type: array
             items: File
         secondaryFiles:
-            - .bai
+            - ^.bai
     fasta: string
     hapmap:
         type: File
@@ -71,12 +71,9 @@ inputs:
         secondaryFiles:
             - .idx    
     rf: string[]
-    fci_file: string
-    num_cpu_threads_per_data_thread: string
     covariates: string[]
     abra_scratch: string
-    recal_file: string
-    emit_original_quals: boolean
+    intervals: string
 
 outputs:
     covint_list:
@@ -84,11 +81,11 @@ outputs:
             type: array
             items: File
         outputSource: gatk_find_covered_intervals/fci_list
-#    covint_bed:
-#        type:
-#            type: array
-#            items: File
-#        outputSource: group_process/fci_bed
+    covint_bed:
+        type:
+            type: array
+            items: File
+        outputSource: list2bed/output_file
     bams:
         type:
             type: array
@@ -101,7 +98,9 @@ steps:
         in:
             reference_sequence: fasta
             input_file: bams
-            out: fci_file
+            out: 
+                default: "intervals.list"
+            intervals: intervals
         out: [fci_list]
 
     list2bed:
@@ -119,14 +118,14 @@ steps:
             ref: fasta
             out:
                 valueFrom: |
-                    ${ return inputs.in.map(function(x){ return x.nameroot + ".abra.bam"; }); }
+                    ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
             working: abra_scratch
             targets: list2bed/output_file
-        out: [out]
+        out: [outbams]
 
     parallel_fixmate:
         in:
-            I: abra/out
+            I: abra/outbams
         out: [out]
         scatter: [I]
         scatterMethod: dotproduct
@@ -160,7 +159,8 @@ steps:
             input_file: parallel_fixmate/out
             knownSites: [dbsnp, hapmap, indels_1000g, snps_1000g]
             covariate: covariates
-            out: recal_file
+            out:
+                default: "recal.matrix"
         out: [recal_matrix]
 
     parallel_printreads:
@@ -168,7 +168,6 @@ steps:
             input_file: parallel_fixmate/out
             reference_sequence: fasta
             BQSR: gatk_base_recalibrator/recal_matrix
-            num_cpu_threads_per_data_thread: num_cpu_threads_per_data_thread
         out: [out]
         scatter: [input_file]
         scatterMethod: dotproduct
@@ -183,8 +182,6 @@ steps:
                     type: string
                 BQSR:
                     type: File
-                num_cpu_threads_per_data_thread:
-                    type: string
             outputs:
                 out:
                     type:
@@ -198,7 +195,8 @@ steps:
                         reference_sequence: reference_sequence
                         BQSR: BQSR
                         input_file: input_file
-                        num_cpu_threads_per_data_thread: num_cpu_threads_per_data_thread
+                        num_cpu_threads_per_data_thread:
+                            default: "6"
                         out:
                             valueFrom: |
                                 ${ return inputs.input_file.basename.replace( ".bam", ".printreads.bam");}

@@ -52,7 +52,7 @@
                 "129": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.excluding_sites_after_129.vcf", 
                 "138": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.vcf"
             }, 
-            "exac": "/ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
+            "exac": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
             "gencode": {
@@ -206,6 +206,10 @@
             "1.4.0": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts", 
             "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
         }, 
+        "getbasecountsmultisample": {
+            "1.1.9": "sing.sh getbasecountsmultisample 1.1.9", 
+            "default": "sing.sh get-base-counts-multi-sample 1.1.9"
+        }, 
         "hotspot3d": {
             "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/", 
             "default": "/opt/common/CentOS_6-dev/hotspot3d/0.4/"
@@ -256,10 +260,12 @@
             "default": "sing.sh picard 1.96"
         }, 
         "pindel": {
-            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel"
+            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel", 
+            "0.2.5b8": "sing.sh pindel 0.2.5b8 pindel"
         }, 
         "pindel2vcf": {
-            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel2vcf"
+            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel2vcf", 
+            "0.2.5b8": "sing.sh pindel 0.2.5b8 pindel2vcf"
         }, 
         "postprocess": {
             "1.3.1": "/opt/common/CentOS_6-dev/postprocess/1.3.1", 

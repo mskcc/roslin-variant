@@ -3,4 +3,4 @@ I:
   path: ../data/bam/sample1.bam
 O: "P-0000377-T02-IM3_ARRDRG_MD.bam"
 M: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
-TMP_DIR: $TMPDIR
+TMP_DIR: /scratch
