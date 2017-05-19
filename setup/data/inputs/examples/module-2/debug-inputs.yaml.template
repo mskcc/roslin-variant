@@ -25,9 +25,10 @@ abra_scratch: ${tmpdir}
 recal_file: 'recal.matrix'
 emit_original_quals: true
 fci_file:  'intervals.list'
+intervals: '1'
 
 ############################### debug
-intervals:
+intervals_bed:
   class: File
   path: ../data/from-module-2/intervals.bed
 parallel_fixmate:

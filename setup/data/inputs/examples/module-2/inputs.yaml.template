@@ -25,3 +25,4 @@ abra_scratch: ${tmpdir}
 recal_file: 'recal.matrix'
 emit_original_quals: true
 fci_file:  'intervals.list'
+intervals: '1'
