@@ -47,9 +47,13 @@ items: File
 """
     cwl['inputs']['in']['type'] = ruamel.yaml.load(input_file_type, ruamel.yaml.RoundTripLoader)
     cwl['inputs']['in']['inputBinding'].insert(0, 'itemSeparator', ',')
-    cwl['inputs']['in']['secondaryFiles'] = ['.bai']
+    cwl['inputs']['in']['secondaryFiles'] = ['^.bai']
     cwl['inputs']['targets']['type'].insert(1, 'File')
-    cwl['inputs']['out']['type'] = 'string[]'
+    input_out_type = """
+type: array
+items: string
+"""
+    cwl['inputs']['out']['type'] = ruamel.yaml.load(input_out_type, ruamel.yaml.RoundTripLoader)
     cwl['inputs']['out']['inputBinding'].insert(0, 'itemSeparator', ',')
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']

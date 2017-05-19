@@ -141,7 +141,7 @@ inputs:
       prefix: --in
 
     secondaryFiles:
-    - .bai
+    - ^.bai
   rcf:
     type: ['null', string]
     doc: Minimum read candidate fraction for triggering assembly (default - 0.01)
@@ -168,8 +168,10 @@ inputs:
       prefix: --adc
 
   out:
-    type: string[]
+    type: 
 
+      type: array
+      items: string
     doc: Required list of output sam or bam file (s) separated by comma
     inputBinding:
       itemSeparator: ','
@@ -242,7 +244,7 @@ inputs:
 
 
 outputs:
-  out:
+  outbams:
     type: File[]
     outputBinding:
       glob: '*.abra.bam'
