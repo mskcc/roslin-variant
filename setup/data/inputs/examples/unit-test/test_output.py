@@ -496,3 +496,13 @@ def test_flatten_array():
                   's_C_000269_T001_d.RG.MD.bam')
     assert_equals(result['bams'][1]['secondaryFiles'][0]['basename'],
                   's_C_000269_T001_d.RG.MD.bai')
+
+
+def test_vcf2maf():
+    "vcf2maf should generate the correct output"
+
+    result = read_result('./outputs/cmo-vcf2maf.txt')
+
+    # absolute minimum test
+    assert_equals(result['output']['basename'], 'PoolTumor2-T_bc52_combined_variants.vep.maf')
+    assert_true(result['output']['size'] > 0)
