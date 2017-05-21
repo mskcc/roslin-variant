@@ -50,7 +50,7 @@ RUN apk add --update \
             && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
             && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
       # clean up
-            && rm -rf /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/*
             
 ENTRYPOINT ["perl", "/usr/bin/vep/variant_effect_predictor.pl"]
 CMD ["--help"]

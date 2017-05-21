@@ -21,7 +21,7 @@ RUN apk add --update \
       && cd /tmp/GetBaseCountsMultiSample-${GET_BASE_COUNTS_MULTI_SAMPLE_VERSION} \
       && make \
       && cp GetBaseCountsMultiSample /usr/bin/ \
-      && rm -rf /tmp/*
+      && rm -rf /var/cache/apk/* /tmp/*
 
 ENTRYPOINT ["/usr/bin/GetBaseCountsMultiSample"]
 CMD ["--help"]

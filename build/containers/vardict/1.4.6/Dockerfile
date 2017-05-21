@@ -22,7 +22,7 @@ RUN apk add --update \
       && cd /tmp && wget https://github.com/AstraZeneca-NGS/VarDictJava/releases/download/v${VARDICT_VERSION}/VarDict-${VARDICT_VERSION}.zip \
       && unzip VarDict-${VARDICT_VERSION}.zip \
       && mv /tmp/VarDict-${VARDICT_VERSION} /usr/bin/vardict \
-      && rm -rf /tmp/*
+      && rm -rf /var/cache/apk/* /tmp/*
 
 COPY testsomatic.R /usr/bin/vardict/
 COPY var2vcf_paired.pl /usr/bin/vardict/

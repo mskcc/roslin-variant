@@ -71,6 +71,6 @@ RUN apk add --update \
             && unzip vcf2maf-v${VCF2MAF_VERSION} \
             && cp -r vcf2maf-${VCF2MAF_VERSION}/* /usr/bin/vcf2maf/ \
       # clean up
-            && rm -rf /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/*
 
 ENTRYPOINT ["sh", "/usr/bin/vcf2maf/run.sh"]

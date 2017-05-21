@@ -14,6 +14,6 @@ RUN apk add --update \
       && cd /tmp && wget https://github.com/broadinstitute/picard/releases/download/${TOOL_VERSION}/picard-tools-${TOOL_VERSION}.zip \
       && unzip picard-tools-${TOOL_VERSION}.zip \
       && mv /tmp/picard-tools-${TOOL_VERSION} /usr/bin/picard-tools \
-      && rm -rf /tmp/*
+      && rm -rf /var/cache/apk/* /tmp/*
 
 ENTRYPOINT ["java", "-jar", "/usr/bin/picard-tools/picard.jar"]
