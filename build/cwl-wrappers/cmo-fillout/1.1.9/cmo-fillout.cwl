@@ -6,14 +6,14 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-  - http://dublincore.org/2012/06/14/dcterms.rdf
-  - http://xmlns.com/foaf/spec/20140114.rdf
-  - http://usefulinc.com/ns/doap#
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:name: cmo-fillout.cwl
 doap:release:
-  - class: doap:Version
-    doap:revision: '1.1.9'
+- class: doap:Version
+  doap:revision: 1.1.9
 
 dct:creator:
 - class: foaf:Organization
@@ -35,10 +35,10 @@ dct:contributor:
 # To generate again: $ cmo_fillout -o FILENAME --generate_cwl_tool
 # Help: $ cmo_fillout  --help_arg2cwl
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: ['cmo_fillout']
+baseCommand: [cmo_fillout]
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -50,54 +50,53 @@ doc: |
   Perform fillout operation on MAF file using GetBaseCountsMultiSample
 
 inputs:
-  
   maf:
-    type: string
-  
+    type: File
+
     doc: MAF file on which to filllout
     inputBinding:
-      prefix: --maf 
+      prefix: --maf
 
   bams:
     type:
       type: array
-      items: string
-  
+      items: File
     doc: BAM files to fillout with
     inputBinding:
-      prefix: --bams 
+      prefix: --bams
 
   genome:
     type:
       type: enum
-      symbols: ['GRCm38', 'hg19', 'ncbi36', 'mm9', 'GRCh37', 'mm10', 'hg18', 'GRCh38']
+      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
     doc: Reference assembly of BAM files, e.g. hg19/grch37/b37
     inputBinding:
-      prefix: --genome 
+      prefix: --genome
 
   output:
-    type: ["null", string]
+    type: ['null', string]
     doc: Prefix for output file
     inputBinding:
-      prefix: --output 
+      prefix: --output
 
   n_threads:
-    type: ["null", string]
+    type:
+    - 'null'
+    - int
     default: 10
     doc: Multithread
     inputBinding:
-      prefix: --n_threads 
+      prefix: --n_threads
 
   version:
     type:
-    - "null"
-    - type: enum
-      symbols: ['1.1.9', 'default']
+    - string
     doc: version of GBCMS to use to count with...
     inputBinding:
-      prefix: --version 
+      prefix: --version
 
 
+    default: 1.1.9
 outputs:
   recal_matrix:
     type: File
