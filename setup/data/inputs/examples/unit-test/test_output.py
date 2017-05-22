@@ -516,3 +516,13 @@ def test_remove_variants():
     # absolute minimum test
     assert_equals(result['maf']['basename'], 'PoolTumor2-T_bc52_combined_variants.vep.rmv.maf')
     assert_true(result['maf']['size'] > 0)
+
+
+def test_replace_allele_counts():
+    "replace-allele-counts should generate the correct output"
+
+    result = read_result('./outputs/remove-variants.txt')
+
+    # absolute minimum test
+    assert_equals(result['maf']['basename'], 'sample_output.maf')
+    assert_true(result['maf']['size'] > 0)
