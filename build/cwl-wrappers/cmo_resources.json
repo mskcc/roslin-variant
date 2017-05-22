@@ -270,6 +270,9 @@
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"
+        },
+        "replace-allele-counts": {
+            "default": "sudo docker run -i replace-allele-counts:0.1.0 "
         }
     }, 
     "targets": {

@@ -58,6 +58,9 @@
         ],
         "remove-variants": [
             "0.1.1"
+        ],
+        "replace-allele-counts": [
+            "0.1.0"
         ]
     },
     "containerDependency": {
@@ -111,6 +114,9 @@
         ],
         "remove-variants": [
             "remove-variants"
+        ],
+        "replace-allele-counts": [
+            "replace-allele-counts"
         ]
     }
 }

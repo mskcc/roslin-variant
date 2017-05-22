@@ -36,5 +36,6 @@ ae2a8470fd079501b40878ac248bfd8f  ./module-1.scatter.cwl
 d2ebfd34f12dc69ad5a592126c3a8126  ./module-2b.cwl
 34f0fa33a4834b09e70eacbd9cac35c1  ./module-3.cwl
 d7a8a3bcb7679cde94f46bdc0797883a  ./remove-variants/0.1.1/remove-variants.cwl
+bbffef6f3e2efc85bde4fabe7146c000  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 7a1dfe1cdc09749d77e3c8333b250fb6  ./samtools/1.3.1/samtools-sam2bam.cwl
 e6ef6a3a4cabbc73aa8961e4af2bb266  ./sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl

@@ -1,0 +1,8 @@
+inputMaf:
+  class: File
+  path: ./sample_input.maf
+fillout:
+  class: File
+  path: ./sample_input_fill.txt
+verbose: true
+outputMaf: 'sample_output.maf'
