@@ -55,6 +55,9 @@
         ],
         "@fillout": [
             "1.1.9"
+        ],
+        "remove-variants": [
+            "0.1.1"
         ]
     },
     "containerDependency": {
@@ -105,6 +108,9 @@
         ],
         "@fillout": [
             "cmo_fillout"
+        ],
+        "remove-variants": [
+            "remove-variants"
         ]
     }
 }

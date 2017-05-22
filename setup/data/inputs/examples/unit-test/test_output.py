@@ -506,3 +506,13 @@ def test_vcf2maf():
     # absolute minimum test
     assert_equals(result['output']['basename'], 'PoolTumor2-T_bc52_combined_variants.vep.maf')
     assert_true(result['output']['size'] > 0)
+
+
+def test_remove_variants():
+    "remove-variants should generate the correct output"
+
+    result = read_result('./outputs/remove-variants.txt')
+
+    # absolute minimum test
+    assert_equals(result['maf']['basename'], 'PoolTumor2-T_bc52_combined_variants.vep.rmv.maf')
+    assert_true(result['maf']['size'] > 0)

@@ -238,6 +238,9 @@
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"
         }, 
+        "remove-variants": {
+            "default": "sudo docker run -i remove-variants:0.1.1 "
+        }, 
         "samstat": {
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
         }, 

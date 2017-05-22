@@ -282,6 +282,10 @@
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"
         }, 
+        "remove-variants": {
+            "0.1.1": "sing.sh remove-variants 0.1.1", 
+            "default": "sing.sh remove-variants 0.1.1"
+        }, 
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
