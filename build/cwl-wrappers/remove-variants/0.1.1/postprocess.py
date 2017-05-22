@@ -41,7 +41,7 @@ def main():
     cwl['inputs']['inputMaf']['type'] = ['string', 'File']
 
     #-->
-    # fixme: until we can auto generate cwl for basic-filtering
+    # fixme: until we can auto generate cwl for remove-variants
     # set outputs using outputs.yaml
     import os
     cwl['outputs'] = ruamel.yaml.load(
