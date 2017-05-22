@@ -126,7 +126,7 @@ def deploy_s3_to_aws(skip_ref=False):
 
 
 @task
-def rsync_luna(skip_ref=False):
+def rsync_luna(skip_install=False, skip_ref=False):
     """
     fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
     """
@@ -136,12 +136,15 @@ def rsync_luna(skip_ref=False):
     local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
         env.key_filename[0], env.user, env.host, work_dir))
 
-    with cd("{}/scripts".format(work_dir)):
+    if skip_install:
+        print('installation skipped.')
+    else:
+        return
+        with cd("{}/scripts".format(work_dir)):
 
-        run('./install-production.sh -l')
+            run('./install-production.sh -l')
 
-        pass_envs = ''
-        if skip_ref:
-            pass_envs = 'export SKIP_B3=yes && '
-        run(pass_envs + './configure-reference-data.sh -l ifs')
-
+            pass_envs = ''
+            if skip_ref:
+                pass_envs = 'export SKIP_B3=yes && '
+            run(pass_envs + './configure-reference-data.sh -l ifs')
