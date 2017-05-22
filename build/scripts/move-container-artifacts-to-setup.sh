@@ -23,6 +23,12 @@ do
     tool_version=$(get_tool_version $tool_info)
     tool_output_dir="${OUTPUT_ROOT_DIR}/${tool_name}/${tool_version}"
 
+    # don't copy if tool name starts with @
+    if [ ${tool_name:0:1} == "@" ]
+    then
+        continue
+    fi
+
     mkdir -p ${tool_output_dir}
 
     cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img ${tool_output_dir}
