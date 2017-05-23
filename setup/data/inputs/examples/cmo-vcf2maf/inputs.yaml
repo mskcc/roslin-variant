@@ -16,4 +16,4 @@ filter_vcf:
 vep_data: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86
 ref_fasta: /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta
 
-retain_info: set,TYPE
+retain_info: set,TYPE,FAILURE_REASON
