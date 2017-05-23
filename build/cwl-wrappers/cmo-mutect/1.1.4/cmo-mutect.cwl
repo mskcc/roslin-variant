@@ -793,9 +793,8 @@ inputs:
   out:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - string
+    - File
     doc: Call-stats output
     inputBinding:
       prefix: --out
@@ -897,5 +896,14 @@ outputs:
         ${
           if (inputs.vcf)
             return inputs.vcf;
+          return null;
+        }
+  callstats_output:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.out)
+            return inputs.out;
           return null;
         }

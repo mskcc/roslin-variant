@@ -16,7 +16,7 @@ c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintRead
 43ca947d62e8ea2383157183a0d087bb  ./cmo-index/1.0.0/cmo-index.cwl
 e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 9397490df4170fbb1a25ce3c508f9d95  ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
-126949ee37cbf7aefbad9bc19ae9426b  ./cmo-mutect/1.1.4/cmo-mutect.cwl
+fbc81baf7708d678b17c7961c15eae7f  ./cmo-mutect/1.1.4/cmo-mutect.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 1cb470c260cdfa283d21ada6ceff9003  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
 ee8674f5d39242708ae0ef91cdc94aa6  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl

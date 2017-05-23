@@ -8,3 +8,12 @@ outputs:
                 return inputs.vcf;
               return null;
             }
+    callstats_output:
+        type: File?
+        outputBinding:
+          glob: |
+            ${
+              if (inputs.out)
+                return inputs.out;
+              return null;
+            }
