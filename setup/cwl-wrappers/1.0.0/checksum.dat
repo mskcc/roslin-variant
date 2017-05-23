@@ -7,7 +7,7 @@ fc84337ad43576f8a9834f7a7c871208  ./basic-filtering.somaticIndelDetector/0.1.6/b
 e62ebe8851dd55f1cc85aac984bc2e98  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 39a50e01369af1b85d4a37230cfe8640  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 94462d01c111f9e8e5a061b37d127d50  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
-eecc1eff598ad00e4e764d3322cf2918  ./cmo-fillout/1.1.9/cmo-fillout.cwl
+f495989bacabd3bd01b836d7b6c8c656  ./cmo-fillout/1.1.9/cmo-fillout.cwl
 0fcea72e3a28144a87e3d5331c78c523  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 8bfb53902d641dc9e892fc085becd147  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 82e55b624d40e3c95f0c5369f950faf6  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
@@ -16,7 +16,7 @@ c748bb7cec67c5438274166123d3d2fe  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintRead
 43ca947d62e8ea2383157183a0d087bb  ./cmo-index/1.0.0/cmo-index.cwl
 e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 9397490df4170fbb1a25ce3c508f9d95  ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
-fbc81baf7708d678b17c7961c15eae7f  ./cmo-mutect/1.1.4/cmo-mutect.cwl
+c7cc01fc0ef3626f10c19e9f56316fee  ./cmo-mutect/1.1.4/cmo-mutect.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 1cb470c260cdfa283d21ada6ceff9003  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
 ee8674f5d39242708ae0ef91cdc94aa6  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
