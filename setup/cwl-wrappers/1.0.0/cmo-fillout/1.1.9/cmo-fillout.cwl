@@ -98,12 +98,12 @@ inputs:
 
     default: 1.1.9
 outputs:
-  recal_matrix:
+  output:
     type: File
     outputBinding:
       glob: |
         ${
-          if (inputs.out)
-            return inputs.out;
+          if (inputs.output)
+            return inputs.output;
           return null;
         }
