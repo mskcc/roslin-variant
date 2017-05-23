@@ -77,6 +77,9 @@ outputs:
     mutect_vcf:
         type: File
         outputSource: call_variants/mutect_vcf
+    mutect_callstats:
+        type: File
+        outputSource: call_variants/mutect_callstats
     vardict_vcf:
         type: File
         outputSource: call_variants/vardict_vcf
@@ -104,7 +107,7 @@ steps:
             sid_rf: sid_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, sid_verbose_vcf, sid_vcf, pindel_vcf, mutect_vcf]
+        out: [ vardict_vcf, sid_verbose_vcf, sid_vcf, pindel_vcf, mutect_vcf, mutect_callstats]
         run:
             class: Workflow
             inputs:
@@ -129,6 +132,9 @@ steps:
                 mutect_vcf:
                     type: File
                     outputSource: mutect/output
+                mutect_callstats:
+                    type: File
+                    outputSource: mutect/callstats_output
                 vardict_vcf:
                     type: File
                     outputSource: vardict/output
@@ -162,7 +168,6 @@ steps:
                         bedfile: bed
                         vcf:
                             valueFrom: ${ return inputs.b.basename.replace(".bam",".vardict.vcf") }
-
                     out: [output]
                 somaticindeldetector:
                     run: cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
@@ -176,8 +181,7 @@ steps:
                         out:
                             valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.vcf") }
                         verbose:
-                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.verbose.vcf") }
-
+                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.txt") }
                     out: [output, verbose_output]
                 mutect:
                     run: cmo-mutect/1.1.4/cmo-mutect.cwl
@@ -190,5 +194,7 @@ steps:
                         rf: rf
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.vcf") }
-                    out: [output]
+                        out:
+                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.txt") }
+                    out: [output, callstats_output]
 
