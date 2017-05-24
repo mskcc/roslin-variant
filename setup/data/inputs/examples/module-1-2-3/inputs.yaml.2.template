@@ -60,7 +60,7 @@ indels_1000g:
 snps_1000g:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/1000G_phase1.snps.high_confidence.b37.vcf
-rf: ['BadCigar']
+mutect_rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
 abra_scratch: ${tmpdir}

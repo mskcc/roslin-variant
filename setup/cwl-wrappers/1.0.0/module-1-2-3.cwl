@@ -156,7 +156,7 @@ inputs:
     secondaryFiles:
        - .idx
   genome: string
-  rf: string[]
+  mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
   intervals: string
@@ -283,7 +283,7 @@ steps:
       tumor_sample_id: pairing/tumor_sample_ids
       dbsnp: dbsnp
       cosmic: cosmic
-      rf: rf
+      mutect_rf: mutect_rf
       sid_rf: sid_rf
       refseq: refseq
     out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]

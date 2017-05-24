@@ -62,7 +62,7 @@ inputs:
     cosmic:
         type: File
         secondaryFiles: ['^.vcf.idx']
-    rf: string[]
+    mutect_rf: string[]
     sid_rf: string[]
     refseq: File
 
@@ -103,7 +103,7 @@ steps:
             tumor_sample_id: tumor_sample_id
             dbsnp: dbsnp
             cosmic: cosmic
-            rf: rf
+            mutect_rf: mutect_rf
             sid_rf: sid_rf
             bed: bed
             refseq: refseq
@@ -118,7 +118,7 @@ steps:
                 tumor_sample_id: string
                 dbsnp: File
                 cosmic: File
-                rf: string[]
+                mutect_rf: string[]
                 bed: File
                 sid_rf: string[]
                 refseq: File #file of refseq genes...
@@ -191,7 +191,7 @@ steps:
                         cosmic: cosmic
                         input_file_normal: normal_bam
                         input_file_tumor: tumor_bam
-                        rf: rf
+                        read_filter: mutect_rf
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.vcf") }
                         out:
