@@ -139,7 +139,6 @@ def rsync_luna(skip_install=False, skip_ref=False):
     if skip_install:
         print('installation skipped.')
     else:
-        return
         with cd("{}/scripts".format(work_dir)):
 
             run('./install-production.sh -l')
