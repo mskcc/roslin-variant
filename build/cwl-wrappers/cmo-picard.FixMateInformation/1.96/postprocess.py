@@ -38,6 +38,17 @@ def main():
                            ruamel.yaml.RoundTripLoader)
 
     cwl['inputs']['I']['type'] = ['null', 'File']
+    cwl['inputs']['CREATE_INDEX']['default'] = True
+
+# we're doing this way to preserve the order
+# can't figure out other ways.
+    input_sort_order = """
+type: ['null', string]
+doc: Optional sort order if the OUTPUT file should be sorted differently than the INPUT file. Possible values - {unsorted, queryname, coordinate}
+inputBinding:
+  prefix: --SO
+"""
+    cwl['inputs']['SO'] = ruamel.yaml.load(input_sort_order, ruamel.yaml.RoundTripLoader)
 
     #-->
     # fixme: until we can auto generate cwl for picard

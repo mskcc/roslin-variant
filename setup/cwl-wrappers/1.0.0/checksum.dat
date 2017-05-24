@@ -19,7 +19,7 @@ e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 c7cc01fc0ef3626f10c19e9f56316fee  ./cmo-mutect/1.1.4/cmo-mutect.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 1cb470c260cdfa283d21ada6ceff9003  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
-ee8674f5d39242708ae0ef91cdc94aa6  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
+41dc62006029f1fd75919dd8a767c0e8  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 1ea49f6ef77497dbe0bc104dae5af362  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 657674151c0e5afbd70c6db96ea21211  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
 0b1e82983816c54a81c7bf9f42f9d737  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
@@ -28,13 +28,13 @@ ee8674f5d39242708ae0ef91cdc94aa6  ./cmo-picard.FixMateInformation/1.96/cmo-picar
 128488975093d3224f9431e5ca17720e  ./cmo-vardict/1.4.6/cmo-vardict.cwl
 bce90eb9f4ba9b64d3c3a01477f1bde3  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
 4a6982154725abbeed1bd4affef4a73c  ./flatten-array/1.0.0/flatten-array.cwl
-ecd13ca8ff589982ecef440f66c8d063  ./module-1-2-3.cwl
+eb20a9ee565d141baee9b466d97e72c4  ./module-1-2-3.cwl
 611741b1eb1ea662bb37f229fda90d78  ./module-1.cwl
 ae2a8470fd079501b40878ac248bfd8f  ./module-1.scatter.cwl
-14456507ec3396cc80b685476c011126  ./module-2.cwl
+d682e15c603c885d3dec41ac38c73cd5  ./module-2.cwl
 240d4c286782accbb3480488edeee4cd  ./module-2a.cwl
 d2ebfd34f12dc69ad5a592126c3a8126  ./module-2b.cwl
-34f0fa33a4834b09e70eacbd9cac35c1  ./module-3.cwl
+8bdc6aa9693417a548049dc85b58c4ea  ./module-3.cwl
 d7a8a3bcb7679cde94f46bdc0797883a  ./remove-variants/0.1.1/remove-variants.cwl
 bbffef6f3e2efc85bde4fabe7146c000  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 7a1dfe1cdc09749d77e3c8333b250fb6  ./samtools/1.3.1/samtools-sam2bam.cwl
