@@ -180,7 +180,7 @@ steps:
                         refseq: refseq
                         out:
                             valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.vcf") }
-                        verbose:
+                        verboseOutput:
                             valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.txt") }
                     out: [output, verbose_output]
                 mutect:
