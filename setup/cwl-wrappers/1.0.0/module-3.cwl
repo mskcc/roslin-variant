@@ -62,6 +62,7 @@ inputs:
     cosmic:
         type: File
         secondaryFiles: ['^.vcf.idx']
+    mutect_dcov: int
     mutect_rf: string[]
     sid_rf: string[]
     refseq: File
@@ -103,6 +104,7 @@ steps:
             tumor_sample_id: tumor_sample_id
             dbsnp: dbsnp
             cosmic: cosmic
+            mutect_dcov: mutect_dcov
             mutect_rf: mutect_rf
             sid_rf: sid_rf
             bed: bed
@@ -118,6 +120,7 @@ steps:
                 tumor_sample_id: string
                 dbsnp: File
                 cosmic: File
+                mutect_dcov: int
                 mutect_rf: string[]
                 bed: File
                 sid_rf: string[]
@@ -192,9 +195,9 @@ steps:
                         input_file_normal: normal_bam
                         input_file_tumor: tumor_bam
                         read_filter: mutect_rf
+                        downsample_to_coverage: mutect_dcov
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.vcf") }
                         out:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.txt") }
                     out: [output, callstats_output]
-

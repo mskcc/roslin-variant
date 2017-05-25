@@ -888,6 +888,12 @@ inputs:
 
 
 
+  downsample_to_coverage:
+    type: ['null', int]
+    doc: Target coverage threshold for downsampling to coverage
+    inputBinding:
+      prefix: --downsample_to_coverage
+
 outputs:
   output:
     type: File

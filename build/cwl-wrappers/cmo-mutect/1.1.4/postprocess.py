@@ -43,6 +43,17 @@ def main():
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 
+    # gxargparse didn't generate -dcov (--downsample_to_coverage)
+    # so manually add
+    input_dcov = """
+type: ['null', int]
+doc: Target coverage threshold for downsampling to coverage
+inputBinding:
+  prefix: --downsample_to_coverage
+
+"""
+    cwl['inputs']['downsample_to_coverage'] = ruamel.yaml.load(input_dcov, ruamel.yaml.RoundTripLoader)
+
     #-->
     # fixme: until we can auto generate cwl for MuTect
     # set outputs using outputs.yaml
