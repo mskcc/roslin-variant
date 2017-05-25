@@ -241,6 +241,9 @@
         "remove-variants": {
             "default": "sudo docker run -i remove-variants:0.1.1 "
         }, 
+        "replace-allele-counts": {
+            "default": "sudo docker run -i replace-allele-counts:0.1.0 "
+        }, 
         "samstat": {
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
         }, 
@@ -270,9 +273,6 @@
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"
-        },
-        "replace-allele-counts": {
-            "default": "sudo docker run -i replace-allele-counts:0.1.0 "
         }
     }, 
     "targets": {
