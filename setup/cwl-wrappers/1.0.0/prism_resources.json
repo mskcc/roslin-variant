@@ -247,7 +247,8 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "1.1.4": "sing.sh mutect 1.1.4"
+            "1.1.4": "sing.sh mutect 1.1.4", 
+            "1.1.5": "sing.sh mutect 1.1.5"
         }, 
         "mutsig-cv": {
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
