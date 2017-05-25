@@ -13,7 +13,7 @@ $schemas:
 doap:name: cmo-mutect.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: 1.1-4
+  doap:revision: 1.1.4
 
 dct:creator:
 - class: foaf:Organization
