@@ -62,7 +62,8 @@ inputs:
     cosmic:
         type: File
         secondaryFiles: ['^.vcf.idx']
-    rf: string[]
+    mutect_dcov: int
+    mutect_rf: string[]
     sid_rf: string[]
     refseq: File
 
@@ -77,6 +78,9 @@ outputs:
     mutect_vcf:
         type: File
         outputSource: call_variants/mutect_vcf
+    mutect_callstats:
+        type: File
+        outputSource: call_variants/mutect_callstats
     vardict_vcf:
         type: File
         outputSource: call_variants/vardict_vcf
@@ -100,11 +104,12 @@ steps:
             tumor_sample_id: tumor_sample_id
             dbsnp: dbsnp
             cosmic: cosmic
-            rf: rf
+            mutect_dcov: mutect_dcov
+            mutect_rf: mutect_rf
             sid_rf: sid_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, sid_verbose_vcf, sid_vcf, pindel_vcf, mutect_vcf]
+        out: [ vardict_vcf, sid_verbose_vcf, sid_vcf, pindel_vcf, mutect_vcf, mutect_callstats]
         run:
             class: Workflow
             inputs:
@@ -115,7 +120,8 @@ steps:
                 tumor_sample_id: string
                 dbsnp: File
                 cosmic: File
-                rf: string[]
+                mutect_dcov: int
+                mutect_rf: string[]
                 bed: File
                 sid_rf: string[]
                 refseq: File #file of refseq genes...
@@ -129,6 +135,9 @@ steps:
                 mutect_vcf:
                     type: File
                     outputSource: mutect/output
+                mutect_callstats:
+                    type: File
+                    outputSource: mutect/callstats_output
                 vardict_vcf:
                     type: File
                     outputSource: vardict/output
@@ -162,7 +171,6 @@ steps:
                         bedfile: bed
                         vcf:
                             valueFrom: ${ return inputs.b.basename.replace(".bam",".vardict.vcf") }
-
                     out: [output]
                 somaticindeldetector:
                     run: cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
@@ -175,9 +183,8 @@ steps:
                         refseq: refseq
                         out:
                             valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.vcf") }
-                        verbose:
-                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.verbose.vcf") }
-
+                        verboseOutput:
+                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.txt") }
                     out: [output, verbose_output]
                 mutect:
                     run: cmo-mutect/1.1.4/cmo-mutect.cwl
@@ -187,8 +194,10 @@ steps:
                         cosmic: cosmic
                         input_file_normal: normal_bam
                         input_file_tumor: tumor_bam
-                        rf: rf
+                        read_filter: mutect_rf
+                        downsample_to_coverage: mutect_dcov
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.vcf") }
-                    out: [output]
-
+                        out:
+                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.txt") }
+                    out: [output, callstats_output]

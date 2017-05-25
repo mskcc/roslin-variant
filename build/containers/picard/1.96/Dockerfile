@@ -13,6 +13,6 @@ COPY picard-${TOOL_VERSION}.tgz /tmp/
 
 RUN mkdir -p /usr/bin/picard-tools \
       && tar xvzf /tmp/picard-${TOOL_VERSION}.tgz -C /usr/bin/picard-tools \
-      && rm -rf /tmp/*
+      && rm -rf /var/cache/apk/* /tmp/*
 
 CMD ["java", "-jar", "/usr/bin/picard-tools/AddOrReplaceReadGroups.jar", "--version"]

@@ -50,6 +50,8 @@ def main():
     cwl['inputs']['max_filter_ac']['type'] = ['null', 'int']
     cwl['inputs']['min_hom_vaf']['type'] = ['null', 'float']
     cwl['inputs']['vep_forks']['type'] = ['null', 'int']
+    cwl['inputs']['vep_path']['default'] = '/usr/bin/vep/'
+    cwl['inputs']['filter_vcf']['secondaryFiles'] = ['.tbi']
 
     # use one inside the container by deafult
     cwl['inputs']['custom_enst']['default'] = '/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc'

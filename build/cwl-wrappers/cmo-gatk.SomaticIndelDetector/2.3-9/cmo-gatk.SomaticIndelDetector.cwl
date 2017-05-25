@@ -587,9 +587,7 @@ inputs:
   verboseOutput:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - string
     doc: Verbose output file in text format
     inputBinding:
       prefix: --verboseOutput
@@ -679,7 +677,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.verbose)
-            return inputs.verbose;
+          if (inputs.verboseOutput)
+            return inputs.verboseOutput;
           return null;
         }

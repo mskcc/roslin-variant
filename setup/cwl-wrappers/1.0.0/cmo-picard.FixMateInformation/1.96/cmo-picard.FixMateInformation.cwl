@@ -85,7 +85,7 @@ inputs:
 
   CREATE_INDEX:
     type: ['null', boolean]
-    default: false
+    default: true
 
     inputBinding:
       prefix: --CREATE_INDEX
@@ -133,9 +133,16 @@ inputs:
       prefix: --stdout
 
 
+  SO:
+    type: ['null', string]
+    doc: Optional sort order if the OUTPUT file should be sorted differently than
+      the INPUT file. Possible values - {unsorted, queryname, coordinate}
+    inputBinding:
+      prefix: --SO
 outputs:
   out_bam:
     type: File
+    secondaryFiles: [^.bai]
     outputBinding:
       glob: |
         ${

@@ -1,0 +1,5 @@
+inputMaf:
+  class: File
+  path: ../data/from-module-4/PoolTumor2-T_bc52_combined_variants.vep.maf
+verbose: true
+outputMaf: 'PoolTumor2-T_bc52_combined_variants.vep.rmv.maf'

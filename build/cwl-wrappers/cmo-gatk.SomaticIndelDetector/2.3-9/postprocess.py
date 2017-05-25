@@ -37,6 +37,7 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
+    cwl['inputs']['verboseOutput']['type'] = ['null', 'string']
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 

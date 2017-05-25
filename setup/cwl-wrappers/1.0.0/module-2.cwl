@@ -147,6 +147,10 @@ steps:
                     run: ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
                     in:
                         I: I
+                        SO:
+                            default: "coordinate"
+                        VALIDATION_STRINGENCY:
+                            default: "LENIENT"
                         O:
                             valueFrom: |
                                   ${ return inputs.I.basename.replace(".bam",".fmi.bam") }

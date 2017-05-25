@@ -156,7 +156,8 @@ inputs:
     secondaryFiles:
        - .idx
   genome: string
-  rf: string[]
+  mutect_dcov: int
+  mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
   intervals: string
@@ -199,6 +200,11 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/mutect_vcf
+  mutect_callstats:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/mutect_callstats
   somaticindeldetector_vcf:
     type:
       type: array
@@ -278,10 +284,10 @@ steps:
       tumor_sample_id: pairing/tumor_sample_ids
       dbsnp: dbsnp
       cosmic: cosmic
-      rf: rf
+      mutect_dcov: mutect_dcov
+      mutect_rf: mutect_rf
       sid_rf: sid_rf
       refseq: refseq
-    out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, vardict_vcf, pindel_vcf]
+    out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id]
     scatterMethod: dotproduct
-

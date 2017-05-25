@@ -13,7 +13,7 @@ $schemas:
 doap:name: cmo-mutect.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: 1.1-4
+  doap:revision: 1.1.4
 
 dct:creator:
 - class: foaf:Organization
@@ -793,9 +793,8 @@ inputs:
   out:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - string
+    - File
     doc: Call-stats output
     inputBinding:
       prefix: --out
@@ -889,6 +888,12 @@ inputs:
 
 
 
+  downsample_to_coverage:
+    type: ['null', int]
+    doc: Target coverage threshold for downsampling to coverage
+    inputBinding:
+      prefix: --downsample_to_coverage
+
 outputs:
   output:
     type: File
@@ -897,5 +902,14 @@ outputs:
         ${
           if (inputs.vcf)
             return inputs.vcf;
+          return null;
+        }
+  callstats_output:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.out)
+            return inputs.out;
           return null;
         }

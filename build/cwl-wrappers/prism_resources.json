@@ -66,9 +66,10 @@
             "omni": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_omni2.5.b37.vcf", 
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_phase1.snps.high_confidence.b37.vcf", 
             "star_index": "/ifs/depot/assemblies/H.sapiens/hg19/index/star/2.4.1d/withoutJunctions", 
-            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
+            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "GRCh38": {
+            "exac": "", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz", 
             "gencode": {
@@ -77,11 +78,12 @@
             }, 
             "kallisto_index": "/ifs/res/pwg/data/assemblies/homo_sapiens/gencode.v25/gencode.v25.pc_transcripts", 
             "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25", 
-            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
+            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "GRCm38": {
+            "exac": "", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz", 
-            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
+            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "hg18": {
             "bedtools_genome": "/opt/common/CentOS_6-dev/bedtools_genomes/human.hg18.genome", 
@@ -245,7 +247,8 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "1.1.4": "sing.sh mutect 1.1.4"
+            "1.1.4": "sing.sh mutect 1.1.4", 
+            "1.1.5": "sing.sh mutect 1.1.5"
         }, 
         "mutsig-cv": {
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
@@ -279,6 +282,14 @@
         }, 
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"
+        }, 
+        "remove-variants": {
+            "0.1.1": "sing.sh remove-variants 0.1.1", 
+            "default": "sing.sh remove-variants 0.1.1"
+        }, 
+        "replace-allele-counts": {
+            "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
+            "default": "sing.sh replace-allele-counts 0.1.0"
         }, 
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 

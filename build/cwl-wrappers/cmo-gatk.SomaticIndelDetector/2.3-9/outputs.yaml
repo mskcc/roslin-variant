@@ -13,7 +13,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.verbose)
-            return inputs.verbose;
+          if (inputs.verboseOutput)
+            return inputs.verboseOutput;
           return null;
         }

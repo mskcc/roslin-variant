@@ -1,0 +1,6 @@
+requirements:
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 30
+    coresMin: 5
+   

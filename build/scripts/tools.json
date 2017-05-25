@@ -26,7 +26,8 @@
             "0.92"
         ],
         "mutect": [
-            "1.1.4"
+            "1.1.4",
+            "1.1.5"
         ],
         "vardict": [
             "1.4.6"
@@ -55,6 +56,12 @@
         ],
         "@fillout": [
             "1.1.9"
+        ],
+        "remove-variants": [
+            "0.1.1"
+        ],
+        "replace-allele-counts": [
+            "0.1.0"
         ]
     },
     "containerDependency": {
@@ -105,6 +112,12 @@
         ],
         "@fillout": [
             "cmo_fillout"
+        ],
+        "remove-variants": [
+            "remove-variants"
+        ],
+        "replace-allele-counts": [
+            "replace-allele-counts"
         ]
     }
 }

@@ -133,7 +133,8 @@ do
     padding_size=${PADDING_SIZE}
     case ${tool_name} in
         roslin) padding_size=3;;
-        vcf2maf) padding_size=100;
+        vcf2maf) padding_size=90;;
+        vep) padding_size=90;;
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)
