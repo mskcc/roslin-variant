@@ -12,6 +12,7 @@ input_file_tumor:
     class: File
     path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
 read_filter: ['BadCigar']
+downsample_to_coverage: 50000
 vcf: 'P1_ADDRG_MD.abra.fmi.printreads.mutect.vcf'
 out: 'P1_ADDRG_MD.abra.fmi.printreads.mutect.txt'
 intervals: ['1']
