@@ -336,6 +336,12 @@ def test_module_2():
     assert_equals(result['bams'][1]['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.bam')
     assert_equals(result['bams'][0]['class'], 'File')
     assert_equals(result['bams'][1]['class'], 'File')
+    assert_true(result['bams'][0]['size'] > 0)
+    assert_true(result['bams'][1]['size'] > 0)
+    assert_equals(result['bams'][0]['secondaryFiles'][0]['basename'], 'P2_ADDRG_MD.abra.fmi.printreads.bai')
+    assert_equals(result['bams'][1]['secondaryFiles'][0]['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.bai')
+    assert_true(result['bams'][0]['secondaryFiles'][0]['size'] > 0)
+    assert_true(result['bams'][1]['secondaryFiles'][0]['size'] > 0)
 
 
 def test_module_3():
