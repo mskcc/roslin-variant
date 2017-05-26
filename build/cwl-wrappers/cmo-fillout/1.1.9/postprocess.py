@@ -42,7 +42,7 @@ type: array
 items: File
 """
     cwl['inputs']['bams']['type'] = ruamel.yaml.load(input_bams_type, ruamel.yaml.RoundTripLoader)
-    cwl['inputs']['bams']['secondaryFiles'] = ['.bai']
+    cwl['inputs']['bams']['secondaryFiles'] = ['^.bai']
     cwl['inputs']['maf']['type'] = 'File'
     cwl['inputs']['n_threads']['type'] = ['null', 'int']
     cwl['inputs']['version']['type'] = ['string']

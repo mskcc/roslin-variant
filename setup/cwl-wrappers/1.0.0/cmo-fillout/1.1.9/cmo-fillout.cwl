@@ -66,7 +66,7 @@ inputs:
       prefix: --bams
 
     secondaryFiles:
-    - .bai
+    - ^.bai
   genome:
     type:
       type: enum
