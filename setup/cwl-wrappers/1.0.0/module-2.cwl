@@ -91,7 +91,7 @@ outputs:
             type: array
             items: File
         secondaryFiles:
-            - [^.bai]
+            - ^.bai
         outputSource: parallel_printreads/out
 
 steps:
