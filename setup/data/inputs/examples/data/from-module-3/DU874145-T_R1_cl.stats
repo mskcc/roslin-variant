@@ -1,0 +1,50 @@
+
+SUMMARISING RUN PARAMETERS
+==========================
+Input filename: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmpvHnOHy/stg3ec2198c-6dbb-42b7-bc55-84a5d8272eff/DU874145-T_R1.fastq.gz
+Quality Phred score cutoff: 1
+Quality encoding type selected: ASCII+33
+Adapter sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG'
+Maximum trimming error rate: 0.1 (default)
+Optional adapter 2 sequence (only used for read 2 of paired-end files): 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
+Minimum required adapter overlap (stringency): 1 bp
+Minimum required sequence length for both reads before a sequence pair gets removed: 25 bp
+Output file will be GZIP compressed
+
+
+cutadapt version 1.1
+Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmpvHnOHy/stg3ec2198c-6dbb-42b7-bc55-84a5d8272eff/DU874145-T_R1.fastq.gz
+Maximum error rate: 10.00%
+   Processed reads: 451873
+     Trimmed reads: 225539 ( 49.9%)
+   Total basepairs:     43132836 (43.1 Mbp)
+ Trimmed basepairs:       292587 (0.3 Mbp) (0.68% of total)
+   Too short reads: 0 (  0.0% of processed reads)
+    Too long reads: 0 (  0.0% of processed reads)
+        Total time:     14.10 s
+     Time per read:      0.03 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG', length 64, was trimmed 225539 times.
+
+Lengths of removed sequences
+length	count	expected
+1	177745	112968.2
+2	28966	28242.1
+3	18744	7060.5
+4	36	1765.1
+8	1	6.9
+9	13	1.7
+10	26	0.4
+11	4	0.1
+20	2	0.0
+30	1	0.0
+35	1	0.0
+
+
+RUN STATISTICS FOR INPUT FILE: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmpvHnOHy/stg3ec2198c-6dbb-42b7-bc55-84a5d8272eff/DU874145-T_R1.fastq.gz
+=============================================
+451873 sequences processed in total
+Sequences removed because they became shorter than the length cutoff of 25 bp:	0 (0.0%)
+

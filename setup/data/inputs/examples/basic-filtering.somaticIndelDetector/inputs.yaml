@@ -1,8 +1,8 @@
 inputVcf:
   class: File
-  path: ../data/from-module-4/PoolTumor2-T_bc52_SomaticIndelDetector_2.3-9.vcf
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.sid.vcf
 inputTxt:
   class: File
-  path: ../data/from-module-4/PoolTumor2-T_bc52_SomaticIndelDetector_2.3-9.txt
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.sid.txt
 verbose: true
-tsampleName: 'PoolTumor2-T'
+tsampleName: 'DU874145-T'
