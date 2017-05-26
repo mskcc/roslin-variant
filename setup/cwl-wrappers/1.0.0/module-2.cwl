@@ -90,6 +90,8 @@ outputs:
         type:
             type: array
             items: File
+        secondaryFiles:
+            - [^.bai]
         outputSource: parallel_printreads/out
 
 steps:
@@ -191,6 +193,8 @@ steps:
                     type:
                         type: array
                         items: File
+                    secondaryFiles:
+                        - ^.bai
                     outputSource: gatk_print_reads/out_bam
             steps:
                 gatk_print_reads:
