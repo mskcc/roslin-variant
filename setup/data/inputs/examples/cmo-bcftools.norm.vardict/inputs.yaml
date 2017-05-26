@@ -1,6 +1,6 @@
 vcf:
   class: File
-  path: ../data/from-module-4/PoolTumor2-T_bc52_VarDict_1.4.6_STDfilter.vcf
+  path: ../data/from-module-4/DU874145-T.RG.md.abra.fmi.printreads.vardict_STDfilter.vcf
 output: vardict-norm.vcf
 output_type: 'v'
 fasta_ref: 'GRCh37'

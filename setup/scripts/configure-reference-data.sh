@@ -92,13 +92,17 @@ case $LOC_GENASSM in
             cp ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.dict ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
 
             # sync from s3 (vcf, ...)
-            aws s3 sync s3://chunj-ref /ifs/work/prism/chunj/test-data/ref/
-            cd /ifs/work/prism/chunj/test-data/ref/
-            tar xvzf ref.tgz
+            aws s3 sync s3://chunj-ref /ifs/work/prism/chunj/test-data/
+            mkdir -p /ifs/work/prism/chunj/test-data/ref/
+            mkdir -p /ifs/work/prism/chunj/test-data/vep/86
+
+            tar xvzf ref.tgz -C /ifs/work/prism/chunj/test-data/ref/
+            tar xvzf vep86.tgz -C /ifs/work/prism/chunj/test-data/vep/86/
 
             # clean up
-            rm -rf /tmp/prism-setup-1.0.0/data/assemblies
-            rm -rf ref.tgz
+            rm -rf /tmp/prism-v1.0.0/setup/data/assemblies/
+            rm -rf /ifs/work/prism/chunj/test-data/ref.tgz
+            rm -rf /ifs/work/prism/chunj/test-data/vep86.tgz
         fi
         ;;
 

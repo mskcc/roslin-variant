@@ -1,5 +1,5 @@
 inputVcf:
   class: File
-  path: ../data/from-module-4/PoolTumor2-T_bc52_VarDict_1.4.6.vcf
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.vardict.vcf
 verbose: true
-tsampleName: 'PoolTumor2-T'
+tsampleName: 'DU874145-T'

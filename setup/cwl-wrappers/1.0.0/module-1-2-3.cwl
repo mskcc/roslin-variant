@@ -179,6 +179,8 @@ outputs:
     type:
       type: array
       items: File
+    secondaryFiles:
+      - ^.bai
     outputSource: realignment/bams
   clstats1:
     type:

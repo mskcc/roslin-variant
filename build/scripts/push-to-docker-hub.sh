@@ -15,8 +15,8 @@ USAGE: $0 [options]
 OPTIONS:
 
    -t      List of tools to push to Docker Hub (comma-separated list)
-           All tools will be pushed to Docker Hub if -t is not specified.                
-           
+           All tools will be pushed to Docker Hub if -t is not specified.
+
            Example: $0 -t bwa:0.7.12,picard:1.129
 
    -z      Show list of tools that be built
@@ -28,7 +28,7 @@ while getopts “t:zh” OPTION
 do
     case $OPTION in
         t) SELECTED_TOOLS_TO_BUILD=$OPTARG ;;
-        z) for tool in $(get_tools_name_version); do echo $tool; done; exit 1 ;;        
+        z) for tool in $(get_tools_name_version); do echo $tool; done; exit 1 ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
@@ -66,7 +66,7 @@ do
 done
 
 if [ -z "$SELECTED_TOOLS_TO_BUILD" ]
-then    
+then
     SELECTED_TOOLS_TO_BUILD=$(get_tools_name_version)
 fi
 
@@ -75,6 +75,13 @@ for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
 do
     tool_name=$(get_tool_name $tool_info)
     tool_version=$(get_tool_version $tool_info)
+
+    # don't push if tool name starts with @
+    if [ ${tool_name:0:1} == "@" ]
+    then
+        continue
+    fi
+
     echo "Pushing to Docker Hub: ${tool_name} (version ${tool_version})"
 
     docker_image_full_name=${DOCKER_REPO_NAME}/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}

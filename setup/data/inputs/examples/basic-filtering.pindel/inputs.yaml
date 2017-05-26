@@ -1,5 +1,5 @@
 inputVcf:
   class: File
-  path: ../data/from-module-4/PoolTumor2-T_bc52_PINDEL_0.2.5a7.vcf
+  path: ../data/from-module-3/DU874145-T.pindel.vcf
 verbose: true
-tsampleName: 'PoolTumor2-T'
+tsampleName: 'DU874145-T'

@@ -27,6 +27,5 @@ check "singularity" "singularity --version"
 
 # cmo works a bit different, so...
 # need cmo_resources.json in order to import cmo.
-wget -O /tmp/cmo_resources.json https://raw.githubusercontent.com/mskcc/cmo-configs/master/cmo_resources.json?token=AL4Gzrsr3uYgXgaEUunREQ9b9lcjwnicks5ZEHa-wA%3D%3D
-cmo_version=`CMO_RESOURCE_CONFIG="/tmp/cmo_resources.json" python -c "import cmo; print cmo.__version__"`
+cmo_version=`CMO_RESOURCE_CONFIG="/usr/local/bin/cmo_resources.json" python -c "import cmo; print cmo.__version__"`
 write "cmo : $cmo_version"

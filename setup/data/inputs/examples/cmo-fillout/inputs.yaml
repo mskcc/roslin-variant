@@ -1,11 +1,13 @@
 maf:
   class: File
-  path: ../data/from-module-4/PoolTumor2-T_bc52_combined_variants.vep.rmv.maf
+  path: ../data/from-module-4/DU874145-T.combined_variants.vep.rmv.maf
 
 bams:
   - class: File
-    path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
+    path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.bam
   - class: File
-    path: ../data/from-module-1/P2_ADDRG_MD.abra.fmi.printreads.bam
+    path: ../data/from-module-3/DU874145-N.RG.md.abra.fmi.printreads.bam
 
 genome: 'GRCh37'
+
+#output: DU874145-T.combined_variants.vep.rmv.fillout

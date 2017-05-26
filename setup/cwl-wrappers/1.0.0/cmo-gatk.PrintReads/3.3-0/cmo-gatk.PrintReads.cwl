@@ -681,6 +681,7 @@ inputs:
 outputs:
   out_bam:
     type: File
+    secondaryFiles: [^.bai]
     outputBinding:
       glob: |
         ${

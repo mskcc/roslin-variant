@@ -6,5 +6,6 @@ outputs:
         ${
           if (inputs.output)
             return inputs.output;
-          return null;
+          else
+            return inputs.maf.basename.replace(".maf", ".fillout");
         }
