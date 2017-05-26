@@ -31,11 +31,11 @@ bwa_output:
 - [DU874145-T.bam]
 - [DU874145-N.bam]
 fastq1:
-- [{class: File, path: ../DU874145-T_R1.fastq.gz}]
-- [{class: File, path: ../DU874145-N_R1.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-T_R1.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-N_R1.fastq.gz}]
 fastq2:
-- [{class: File, path: ../DU874145-T_R2.fastq.gz}]
-- [{class: File, path: ../DU874145-N_R2.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-T_R2.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-N_R2.fastq.gz}]
 md_metrics_output:
 - [DU874145-T.MD.metrics]
 - [DU874145-N.MD.metrics]
