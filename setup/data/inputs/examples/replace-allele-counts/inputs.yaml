@@ -1,8 +1,9 @@
 inputMaf:
   class: File
-  path: ./sample_input.maf
+  path: ../data/from-module-4/DU874145-T.combined_variants.vep.rmv.maf
 fillout:
   class: File
-  path: ./sample_input_fill.txt
+  path: ../data/from-module-4/DU874145-T.combined_variants.vep.rmv.fillout
 verbose: true
-outputMaf: 'sample_output.maf'
+outputMaf: DU874145-T.combined_variants.vep.rmv.fillout.maf
+
