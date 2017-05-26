@@ -13,3 +13,7 @@ sudo mkdir -p /ifs && sudo chmod a+w /ifs
 
 cd /ifs/work/chunj/prism-proto/prism/bin/setup
 sed -i "s|/usr/bin/singularity|/usr/local/bin/singularity|g" settings.sh
+
+# clean up
+rm -rf /tmp/prism-v$version.tgz
+rm -rf /tmp/prism-v$version
