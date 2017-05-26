@@ -65,6 +65,8 @@ inputs:
     inputBinding:
       prefix: --bams
 
+    secondaryFiles:
+    - .bai
   genome:
     type:
       type: enum
@@ -105,5 +107,6 @@ outputs:
         ${
           if (inputs.output)
             return inputs.output;
-          return null;
+          else
+            return inputs.maf.basename.replace(".maf", ".fillout");
         }
