@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-VERSION="1.0.5"
+VERSION="1.3.1"
 
 cd /tmp
 
@@ -9,7 +9,8 @@ tar xvzf cmo-${VERSION}.tar.gz
 
 cd cmo-${VERSION}
 
-# sudo pip install python-daemon
 sudo python setup.py install
+
+sudo cp ./cmo/data/cmo_resources.json /usr/local/bin/
 
 sudo rm -rf /tmp/cmo-*
