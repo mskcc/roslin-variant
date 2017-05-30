@@ -1,5 +1,5 @@
 inputVcf:
   class: File
-  path: ../data/from-module-3/DU874145-T.pindel.vcf
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.pindel.vcf
 verbose: true
 tsampleName: 'DU874145-T'

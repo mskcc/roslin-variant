@@ -152,11 +152,9 @@ steps:
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_id, tumor_sample_id]
                         normal_sample_id: normal_sample_id
-                        config_name:
-                            valueFrom: $(inputs.tumor_sample_id).pindel.config
                         vcf:
-                            valueFrom: $(inputs.tumor_sample_id).pindel.vcf
-                        f: fasta
+                            valueFrom: ${ return inputs.bams[1].basename.replace(".bam",".pindel.vcf") }
+                        fasta: fasta
                         output_prefix:
                             valueFrom: $(inputs.tumor_sample_id)
                     out: [output]

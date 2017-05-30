@@ -150,7 +150,7 @@ def test_pindel():
 
     # absolute minimum test
     assert_true('output' in result)
-    assert_equals(result['output']['basename'], 'Tumor.pindel.vcf')
+    assert_equals(result['output']['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.pindel.vcf')
     assert_equals(result['output']['class'], 'File')
 
 
@@ -356,7 +356,7 @@ def test_module_3():
     assert_true('somaticindeldetector_verbose_vcf' in result)
     assert_true('vardict_vcf' in result)
 
-    assert_equals(result['pindel_vcf']['basename'], 'Tumor.pindel.vcf')
+    assert_equals(result['pindel_vcf']['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.pindel.vcf')
     assert_true(result['pindel_vcf']['size'] > 0)
     assert_equals(result['mutect_vcf']['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.mutect.vcf')
     assert_true(result['mutect_vcf']['size'] > 0)
