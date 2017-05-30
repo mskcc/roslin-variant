@@ -9,7 +9,7 @@ uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 tmpdir="/scratch/prism-abra-$uuid"
 
 # populate the template
-eval "echo \"$(cat inputs.yaml.template)\"" > inputs.yaml
+eval "echo \"$(cat inputs.yaml.2.template)\"" > inputs.yaml
 
 prism-runner.sh \
     -w module-1-2-3.cwl \
