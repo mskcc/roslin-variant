@@ -135,6 +135,7 @@ do
         roslin) padding_size=3;;
         vcf2maf) padding_size=90;;
         vep) padding_size=90;;
+        wes-filters) padding_size=80;;
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)

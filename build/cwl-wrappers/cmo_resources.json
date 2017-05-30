@@ -273,6 +273,9 @@
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"
+        },
+        "wes-filters": {
+            "default": "sudo docker run -i wes-filters:1.1.3"
         }
     }, 
     "targets": {
