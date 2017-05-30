@@ -23,7 +23,10 @@ Registry: http://localhost:5000
 
 %runscript
 
-    /bin/bash
+    # disable per-user site-packages
+    export PYTHONNOUSERSITE="set"
+
+    exec /bin/bash
 
 %test
 

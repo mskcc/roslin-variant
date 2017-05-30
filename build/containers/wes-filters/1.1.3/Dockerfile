@@ -38,4 +38,7 @@ RUN apk add --update \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 
+# disable per-user site-packages
+ENV PYTHONNOUSERSITE set
+
 ENTRYPOINT ["/bin/bash"]
