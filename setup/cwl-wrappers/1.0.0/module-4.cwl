@@ -64,6 +64,8 @@ inputs:
 
     exac_filter:
         type: File
+        secondaryFiles:
+            - .tbi
     vep_data: string
 
 outputs:
