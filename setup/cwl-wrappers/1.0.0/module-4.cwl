@@ -60,18 +60,21 @@ inputs:
 
 outputs:
 
-    sid_vcf:
+#    sid_vcf:
+#        type: File
+#        outputSource: normalization/sid_vcf
+#    mutect_vcf:
+#        type: File
+#        outputSource: normalization/mutect_vcf
+#   vardict_vcf:
+#        type: File
+#        outputSource: normalization/vardict_vcf
+#    pindel_vcf:
+#        type: File
+#        outputSource: normalization/pindel_vcf
+    combined_vcf:
         type: File
-        outputSource: normalization/sid_vcf
-    mutect_vcf:
-        type: File
-        outputSource: normalization/mutect_vcf
-    vardict_vcf:
-        type: File
-        outputSource: normalization/vardict_vcf
-    pindel_vcf:
-        type: File
-        outputSource: normalization/pindel_vcf
+        outputSource: combine/out_vcf
 
 steps:
 
@@ -206,3 +209,21 @@ steps:
                             default: "v"
                         fasta_ref: genome
                     out: [vcf]
+
+    combine:
+        run: cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
+        in:
+            variants_mutect: normalization/mutect_vcf
+            variants_vardict: normalization/vardict_vcf
+            variants_sid: normalization/sid_vcf
+            variants_pindel: normalization/pindel_vcf
+            unsafe:
+                default: "ALLOW_SEQ_DICT_INCOMPATIBILITY"
+            genotypemergeoption:
+                default: "PRIORITIZE"
+            rod_priority_list:
+                default: ["VarDict", "MuTect", "SomaticIndelDetector", "Pindel"]
+            reference_sequence: genome
+            out:
+                valueFrom: ${ return inputs.tumor_sample_name + ".combined_variants.vcf" }
+        out: [out_vcf]
