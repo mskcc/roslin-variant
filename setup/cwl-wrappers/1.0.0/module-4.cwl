@@ -55,8 +55,16 @@ inputs:
         type: File
     pindel_vcf:
         type: File
+
     tumor_sample_name: string
+    normal_sample_name: string
+
     genome: string
+    ref_fasta: string
+
+    exac_filter:
+        type: File
+    vep_data: string
 
 outputs:
 
@@ -72,9 +80,14 @@ outputs:
 #    pindel_vcf:
 #        type: File
 #        outputSource: normalization/pindel_vcf
-    combined_vcf:
+
+#    combined_vcf:
+#        type: File
+#        outputSource: combine/out_vcf
+
+    vcf2maf:
         type: File
-        outputSource: combine/out_vcf
+        outputSource: vcf2maf/output
 
 steps:
 
@@ -224,6 +237,25 @@ steps:
             rod_priority_list:
                 default: ["VarDict", "MuTect", "SomaticIndelDetector", "Pindel"]
             reference_sequence: genome
+            tumor_sample_name: tumor_sample_name
             out:
                 valueFrom: ${ return inputs.tumor_sample_name + ".combined_variants.vcf" }
         out: [out_vcf]
+
+    vcf2maf:
+        run: cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
+        in:
+            input_vcf: combine/out_vcf
+            tumor_id: tumor_sample_name
+            vcf_tumor_id: tumor_sample_name
+            normal_id: normal_sample_name
+            vcf_normal_id: normal_sample_name
+            ncbi_build: genome
+            filter_vcf: exac_filter
+            vep_data: vep_data
+            ref_fasta: ref_fasta
+            retain_info:
+                default: "set,TYPE,FAILURE_REASON"
+            output_maf:
+                valueFrom: ${ return inputs.tumor_id + ".combined_variants.vep.maf" }
+        out: [output]

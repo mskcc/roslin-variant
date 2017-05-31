@@ -18,4 +18,12 @@ vardict_vcf:
   path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.vardict.vcf
 
 tumor_sample_name: "DU874145-T"
+normal_sample_name: "DU874145-N"
+
 genome: "GRCh37"
+ref_fasta: "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta"
+
+exac_filter:
+  class: File
+  path: /ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
+vep_data: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86
