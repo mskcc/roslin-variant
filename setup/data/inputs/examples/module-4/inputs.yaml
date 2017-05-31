@@ -1,0 +1,20 @@
+mutect_vcf:
+  class: File
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.vcf
+mutect_callstats:
+  class: File
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.txt
+pindel_vcf:
+  class: File
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.pindel.vcf
+sid_vcf:
+  class: File
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.sid.vcf
+sid_verbose:
+  class: File
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.sid.txt
+vardict_vcf:
+  class: File
+  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.vardict.vcf
+
+tumor_sample_name: "DU874145-T"

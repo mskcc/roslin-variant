@@ -48,6 +48,7 @@ requirements:
     StepInputExpressionRequirement: {}
 
 inputs:
+
     tumor_bam:
         type: File
     normal_bam:
@@ -89,6 +90,7 @@ outputs:
         outputSource: call_variants/pindel_vcf
 
 steps:
+
     index:
         run: cmo-index/1.0.0/cmo-index.cwl
         in:
