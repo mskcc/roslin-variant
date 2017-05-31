@@ -56,21 +56,22 @@ inputs:
     pindel_vcf:
         type: File
     tumor_sample_name: string
+    genome: string
 
 outputs:
 
     sid_vcf:
         type: File
-        outputSource: filtering/sid_vcf
+        outputSource: normalization/sid_vcf
     mutect_vcf:
         type: File
-        outputSource: filtering/mutect_vcf
+        outputSource: normalization/mutect_vcf
     vardict_vcf:
         type: File
-        outputSource: filtering/vardict_vcf
+        outputSource: normalization/vardict_vcf
     pindel_vcf:
         type: File
-        outputSource: filtering/pindel_vcf
+        outputSource: normalization/pindel_vcf
 
 steps:
 
@@ -133,4 +134,75 @@ steps:
                     in:
                         inputVcf: vardict_vcf
                         tsampleName: tumor_sample_name
+                    out: [vcf]
+
+    normalization:
+        in:
+            mutect_vcf: filtering/mutect_vcf
+            vardict_vcf: filtering/vardict_vcf
+            sid_vcf: filtering/sid_vcf
+            pindel_vcf: filtering/pindel_vcf
+            genome: genome
+        out: [vardict_vcf, sid_vcf, pindel_vcf, mutect_vcf]
+        run:
+            class: Workflow
+            inputs:
+                mutect_vcf: File
+                vardict_vcf: File
+                sid_vcf: File
+                pindel_vcf: File
+                genome: string
+            outputs:
+                sid_vcf:
+                    type: File
+                    outputSource: sid/vcf
+                mutect_vcf:
+                    type: File
+                    outputSource: mutect/vcf
+                vardict_vcf:
+                    type: File
+                    outputSource: vardict/vcf
+                pindel_vcf:
+                    type: File
+                    outputSource: pindel/vcf
+            steps:
+                mutect:
+                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
+                    in:
+                        vcf: mutect_vcf
+                        output:
+                            default: "mutect-norm.vcf"
+                        output_type:
+                            default: "v"
+                        fasta_ref: genome
+                    out: [vcf]
+                pindel:
+                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
+                    in:
+                        vcf: pindel_vcf
+                        output:
+                            default: "pindel-norm.vcf"
+                        output_type:
+                            default: "v"
+                        fasta_ref: genome
+                    out: [vcf]
+                sid:
+                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
+                    in:
+                        vcf: sid_vcf
+                        output:
+                            default: "sid-norm.vcf"
+                        output_type:
+                            default: "v"
+                        fasta_ref: genome
+                    out: [vcf]
+                vardict:
+                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
+                    in:
+                        vcf: vardict_vcf
+                        output:
+                            default: "vardict-norm.vcf"
+                        output_type:
+                            default: "v"
+                        fasta_ref: genome
                     out: [vcf]

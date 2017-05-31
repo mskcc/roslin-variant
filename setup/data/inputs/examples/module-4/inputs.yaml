@@ -18,3 +18,4 @@ vardict_vcf:
   path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.vardict.vcf
 
 tumor_sample_name: "DU874145-T"
+genome: "GRCh37"
