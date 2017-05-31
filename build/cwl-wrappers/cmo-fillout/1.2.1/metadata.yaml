@@ -11,7 +11,7 @@ $schemas:
 doap:name: cmo-fillout.cwl
 doap:release:
   - class: doap:Version
-    doap:revision: '1.1.9'
+    doap:revision: '1.2.1'
 
 dct:creator:
 - class: foaf:Organization

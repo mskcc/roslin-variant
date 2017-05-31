@@ -34,8 +34,9 @@ def main():
 
     params = parser.parse_args()
 
-    cwl = ruamel.yaml.load(read(params.filename_cwl),
-                           ruamel.yaml.RoundTripLoader)
+    cwl = ruamel.yaml.load(read(params.filename_cwl), ruamel.yaml.RoundTripLoader)
+
+    cwl['baseCommand'] = ['cmo_fillout', '--version', '1.2.1']
 
     input_bams_type = """
 type: array
@@ -45,11 +46,20 @@ items: File
     cwl['inputs']['bams']['secondaryFiles'] = ['^.bai']
     cwl['inputs']['maf']['type'] = 'File'
     cwl['inputs']['n_threads']['type'] = ['null', 'int']
-    cwl['inputs']['version']['type'] = ['string']
-    cwl['inputs']['version']['default'] = '1.1.9'
+    del cwl['inputs']['version']
 
-    write(params.filename_cwl, ruamel.yaml.dump(
-        cwl, Dumper=ruamel.yaml.RoundTripDumper))
+    # workaround: cwl doesn't allow "--format"" as an input parameter name
+    del cwl['inputs']['format']
+    input_output_format = """
+type: string
+doc: Output format MAF(1) or tab-delimited with VCF based coordinates(2)
+inputBinding:
+  prefix: --format
+
+"""
+    cwl['inputs']['output_format'] = ruamel.yaml.load(input_output_format, ruamel.yaml.RoundTripLoader)
+
+    write(params.filename_cwl, ruamel.yaml.dump(cwl, Dumper=ruamel.yaml.RoundTripDumper))
 
 
 if __name__ == "__main__":

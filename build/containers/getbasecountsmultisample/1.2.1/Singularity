@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: /pipeline-getbasecountsmultisample:1.1.9
+From: /pipeline-getbasecountsmultisample:1.2.1
 Registry: http://localhost:5000
 
 %setup
@@ -33,7 +33,7 @@ Registry: http://localhost:5000
     # expected output
 cat > /tmp/expected.diff.txt << EOM
 
-GetBaseCountsMultiSample 1.1.9
+GetBaseCountsMultiSample 1.2.1
 EOM
 
     # diff

@@ -13,7 +13,7 @@ $schemas:
 doap:name: cmo-fillout.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: 1.1.9
+  doap:revision: 1.2.1
 
 dct:creator:
 - class: foaf:Organization
@@ -38,7 +38,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_fillout]
+baseCommand:
+- cmo_fillout
+- --version
+- 1.2.1
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -90,15 +93,12 @@ inputs:
     inputBinding:
       prefix: --n_threads
 
-  version:
-    type:
-    - string
-    doc: version of GBCMS to use to count with...
+  output_format:
+    type: string
+    doc: Output format MAF(1) or tab-delimited with VCF based coordinates(2)
     inputBinding:
-      prefix: --version
+      prefix: --format
 
-
-    default: 1.1.9
 outputs:
   output:
     type: File
