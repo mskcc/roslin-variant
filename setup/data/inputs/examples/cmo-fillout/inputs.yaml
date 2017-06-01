@@ -4,10 +4,10 @@ maf:
 
 bams:
   - class: File
-    path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.bam
+    path: ../data/from-module-2/DU874145-T.RG.md.abra.fmi.printreads.bam
   - class: File
-    path: ../data/from-module-3/DU874145-N.RG.md.abra.fmi.printreads.bam
+    path: ../data/from-module-2/DU874145-N.RG.md.abra.fmi.printreads.bam
 
 genome: 'GRCh37'
 
-#output: DU874145-T.combined_variants.vep.rmv.fillout
+output_format: '1'

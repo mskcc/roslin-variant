@@ -6,7 +6,6 @@ bams:
     path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam
   - class: File
     path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
-config_name: 'Turmor.pindel.config'
-vcf: 'Tumor.pindel.vcf'
-f: 'GRCh37'
+vcf: 'P1_ADDRG_MD.abra.fmi.printreads.pindel.vcf'
+fasta: 'GRCh37'
 output_prefix: 'Tumor'
