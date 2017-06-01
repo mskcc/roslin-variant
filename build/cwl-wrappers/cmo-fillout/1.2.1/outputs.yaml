@@ -1,5 +1,5 @@
 outputs:
-  output:
+  fillout:
     type: File
     outputBinding:
       glob: |
