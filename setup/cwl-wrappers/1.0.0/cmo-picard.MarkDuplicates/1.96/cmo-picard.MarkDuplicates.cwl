@@ -96,8 +96,6 @@ inputs:
     - File
     - type: array
       items: File
-
-
       inputBinding:
         prefix: --I
 

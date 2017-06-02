@@ -84,8 +84,8 @@ steps:
       ResourceRequirement:
         ramMin: 8
         coresMin: 2
-    run: cmo_split_reads.cwl
-    in: 
+    run: cmo-split-reads/1.0.0/cmo-split-reads.cwl
+    in:
       fastq1: fastq1
       fastq2: fastq2
     out: [chunks1, chunks2]
@@ -93,7 +93,7 @@ steps:
     scatterMethod: dotproduct
   flatten:
     run: flatten-array/1.0.0/flatten-array-fastq.cwl
-    in: 
+    in:
       fastq1: chunking/chunks1
       fastq2: chunking/chunks2
     out:
@@ -118,7 +118,7 @@ steps:
     out: [clstats1,clstats2, bam]
     run:
       class: Workflow
-      inputs: 
+      inputs:
         chunkfastq1: File
         chunkfastq2: File
         adapter: string
@@ -163,7 +163,7 @@ steps:
             fastq1: trim_galore/clfastq1
             fastq2: trim_galore/clfastq2
             basebamname: bwa_output
-            output: 
+            output:
               valueFrom: |
                 ${ return inputs.basebamname.replace(".bam", "." + inputs.fastq1.basename.match(/chunk\d\d\d/)[0] + ".bam");}
             genome: genome

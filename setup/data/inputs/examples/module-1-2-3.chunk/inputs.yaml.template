@@ -24,6 +24,9 @@ add_rg_PU:
 add_rg_SM:
 - s_C_000269_T001_d
 - s_C_000269_N001_d
+bwa_output:
+- s_C_000269_T001_d.bam
+- s_C_000269_N001_d.bam
 fastq1:
 - [{class: File, path: ../data/fastq/P1_R1.fastq.gz}]
 - [{class: File, path: ../data/fastq/P2_R1.fastq.gz}]

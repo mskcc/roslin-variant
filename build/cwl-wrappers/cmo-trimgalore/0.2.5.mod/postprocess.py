@@ -39,11 +39,11 @@ def main():
 
     cwl['inputs']['paired']['default'] = True
     cwl['inputs']['quality']['default'] = '1'
-    cwl['inputs']['gzip']['default'] = True
+    cwl['inputs']['gzip']['default'] = False
     cwl['inputs']['length']['default'] = '25'
     cwl['inputs']['suppress_warn']['default'] = True
-    cwl['inputs']['fastq1']['type'] = ['string', 'File']
-    cwl['inputs']['fastq2']['type'] = ['string', 'File']
+    cwl['inputs']['fastq1']['type'] = 'File'
+    cwl['inputs']['fastq2']['type'] = 'File'
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))

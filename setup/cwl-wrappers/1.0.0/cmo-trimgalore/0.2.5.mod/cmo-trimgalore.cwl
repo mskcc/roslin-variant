@@ -43,10 +43,11 @@ baseCommand: [cmo_trimgalore]
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
-  - var getBaseName = function(inputFile) { return inputFile.basename;};
+  - var getBaseName = function(inputFile) { return inputFile.basename; };
 - class: ResourceRequirement
   ramMin: 10
   coresMin: 2 
+
 
 doc: |
   None
@@ -259,14 +260,14 @@ inputs:
       prefix: --length_2
 
   fastq1:
-    type: 
-      - File
+    type: File
+
+
     inputBinding:
       position: 1
 
   fastq2:
-    type:
-    - File
+    type: File
     inputBinding:
       position: 2
 
