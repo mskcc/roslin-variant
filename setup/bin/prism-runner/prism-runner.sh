@@ -169,6 +169,7 @@ cwltoil \
     ${INPUT_FILENAME} \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
+    --defaultMem 12G \
     --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
