@@ -43,9 +43,7 @@ baseCommand: [cmo_trimgalore]
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
-  - var getBaseName = function(inputFile) { var path; if (typeof inputFile.path ===
-    'undefined') path = inputFile; else path = inputFile.path; return path.replace(/^.*[\\\/]/,
-    '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,''); };
+  - var getBaseName = function(inputFile) { return inputFile.basename;};
 - class: ResourceRequirement
   ramMin: 10
   coresMin: 2 
@@ -129,7 +127,7 @@ inputs:
 
   gzip:
     type: ['null', boolean]
-    default: true
+    default: false
     doc: Compress the output file with gzip. If the input files are gzip-compressed
       the output files will be automatically gzip compressed as well.
     inputBinding:
@@ -262,16 +260,12 @@ inputs:
 
   fastq1:
     type: 
-
-
-      - string
       - File
     inputBinding:
       position: 1
 
   fastq2:
     type:
-    - string
     - File
     inputBinding:
       position: 2
@@ -296,7 +290,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return getBaseName(inputs.fastq1) + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq1).replace(".fastq.gz", "_cl.fastq.gz");
           return null;
         }
   clfastq2:
@@ -305,7 +299,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return getBaseName(inputs.fastq2) + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq2).replace(".fastq.gz", "_cl.fastq.gz");
           return null;
         }
   clstats1:
@@ -314,7 +308,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return getBaseName(inputs.fastq1) + '_cl.stats';
+            return getBaseName(inputs.fastq1).replace(".fastq.gz", "_cl.stats");
           return null;
         }
 
@@ -324,6 +318,6 @@ outputs:
       glob: |-
         ${
           if (inputs.paired && inputs.fastq2)
-            return getBaseName(inputs.fastq2) + '_cl.stats';
+            return getBaseName(inputs.fastq2).replace(".fastq.gz", "_cl.stats");
           return null;
         }
