@@ -83,7 +83,7 @@ outputs:
 #    mutect_vcf:
 #        type: File
 #        outputSource: normalize/mutect_vcf
-#   vardict_vcf:
+#    vardict_vcf:
 #        type: File
 #        outputSource: normalize/vardict_vcf
 #    pindel_vcf:
@@ -94,17 +94,21 @@ outputs:
 #        type: File
 #        outputSource: combine/out_vcf
 
-    vcf2maf:
-        type: File
-        outputSource: vcf2maf/output
+#    vcf2maf:
+#        type: File
+#        outputSource: vcf2maf/output
 
-    remove_variants:
-        type: File
-        outputSource: remove_variants/maf
+#    remove_variants:
+#        type: File
+#        outputSource: remove_variants/maf
 
-    fillout:
+#    fillout:
+#        type: File
+#        outputSoruce: fillout/fillout
+
+    replace_allele_counts:
         type: File
-        outputSoruce: fillout/fillout
+        outputSource: replace_allele_counts/maf
 
 steps:
 
@@ -292,5 +296,14 @@ steps:
             bams: bams
             genome: genome
             output_format:
-                default: "1"
+                default: "2"
         out: [fillout]
+
+    replace_allele_counts:
+        run: replace-allele-counts/0.1.0/replace-allele-counts.cwl
+        in:
+            inputMaf: remove_variants/maf
+            fillout: fillout/fillout
+            outputMaf:
+                valueFrom: ${ return inputs.inputMaf.basename.replace(".maf", ".fillout.maf") }
+        out: [maf]
