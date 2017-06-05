@@ -1,13 +1,25 @@
-Sample	NormalUsed	Chrom	Start	Ref	Alt	VariantClass	Gene	Exon	Call_Confidence	Comments	TranscriptID	cDNAchange	AAchange	dbSNP_ID	Cosmic_ID	1000G_MAF	FailureReason	N_TotalDepth	N_RefCount	N_AltCount	N_AltFreq	T_TotalDepth	T_RefCount	T_AltCount	T_AltFreq	T_Ref+	T_Ref-	T_Alt+	T_Alt-	All_N_Aggregate_AlleleDepth	All_N_Median_AlleleFreq	T_freq/All_N_Freq	Occurence_in_Normals	DU874145-T.RG.md.abra.fmi.printreads	DU874145-N.RG.md.abra.fmi.printreads
-DU874145-T	DU874145-N	1	8075398	A	G	Missense_Mutation	ERRFI1												239	0			157	10										DP=167;RD=157;AD=10;VF=0.0598802;DPP=82;RDP=76;ADP=6	DP=239;RD=239;AD=0;VF=0;DPP=136;RDP=136;ADP=0
-DU874145-T	DU874145-N	3	47125811	A	G	Missense_Mutation	SETD2												224	0			138	66										DP=295;RD=199;AD=96;VF=0.325424;DPP=119;RDP=82;ADP=37	DP=298;RD=298;AD=0;VF=0;DPP=114;RDP=114;ADP=0
-DU874145-T	DU874145-N	4	187557833	T	C	Missense_Mutation	FAT1												344	0			247	85										DP=417;RD=315;AD=102;VF=0.244604;DPP=211;RDP=160;ADP=51	DP=473;RD=472;AD=0;VF=0;DPP=253;RDP=252;ADP=0
-DU874145-T	DU874145-N	6	150001182	A	G	Missense_Mutation	LATS1												390	0			167	79										DP=363;RD=252;AD=111;VF=0.305785;DPP=183;RDP=125;ADP=58	DP=542;RD=542;AD=0;VF=0;DPP=296;RDP=296;ADP=0
-DU874145-T	DU874145-N	8	38272308	T	C	Missense_Mutation	FGFR1												436	0			340	37										DP=553;RD=495;AD=58;VF=0.104882;DPP=287;RDP=259;ADP=28	DP=604;RD=604;AD=0;VF=0;DPP=324;RDP=324;ADP=0
-DU874145-T	DU874145-N	8	128750686	C	T	Missense_Mutation	MYC												395	0			345	32										DP=549;RD=506;AD=43;VF=0.0783242;DPP=269;RDP=249;ADP=20	DP=553;RD=553;AD=0;VF=0;DPP=277;RDP=277;ADP=0
-DU874145-T	DU874145-N	9	110249830	A	G	Missense_Mutation	KLF4												468	0			309	135										DP=657;RD=454;AD=203;VF=0.30898;DPP=335;RDP=233;ADP=102	DP=628;RD=627;AD=0;VF=0;DPP=313;RDP=313;ADP=0
-DU874145-T	DU874145-N	9	139410435	T	C	Missense_Mutation	NOTCH1												432	1			310	90										DP=616;RD=474;AD=142;VF=0.230519;DPP=341;RDP=259;ADP=82	DP=579;RD=578;AD=1;VF=0.00172712;DPP=346;RDP=346;ADP=0
-DU874145-T	DU874145-N	12	57858974	A	G	Missense_Mutation	GLI1												447	1			384	108										DP=709;RD=553;AD=154;VF=0.217207;DPP=339;RDP=264;ADP=74	DP=613;RD=612;AD=1;VF=0.00163132;DPP=289;RDP=288;ADP=1
-DU874145-T	DU874145-N	15	88610406	A	G	Intron	NTRK3												164	0			170	10										DP=262;RD=243;AD=18;VF=0.0687023;DPP=160;RDP=150;ADP=9	DP=215;RD=215;AD=0;VF=0;DPP=119;RDP=119;ADP=0
-DU874145-T	DU874145-N	16	14021962	C	T	Missense_Mutation	ERCC4												425	1			192	81										DP=406;RD=285;AD=121;VF=0.29803;DPP=221;RDP=155;ADP=66	DP=569;RD=567;AD=2;VF=0.00351494;DPP=295;RDP=294;ADP=1
-DU874145-T	DU874145-N	19	42794641	C	T	Missense_Mutation	CIC												439	0			401	37										DP=653;RD=601;AD=52;VF=0.0796325;DPP=331;RDP=305;ADP=26	DP=577;RD=576;AD=0;VF=0;DPP=267;RDP=267;ADP=0
+Hugo_Symbol	Entrez_Gene_Id	Center	NCBI_Build	Chromosome	Start_Position	End_Position	Strand	Variant_Classification	Variant_Type	Reference_Allele	Tumor_Seq_Allele1	Tumor_Seq_Allele2	dbSNP_RS	dbSNP_Val_Status	Tumor_Sample_Barcode	Matched_Norm_Sample_Barcode	Match_Norm_Seq_Allele1	Match_Norm_Seq_Allele2	Tumor_Validation_Allele1	Tumor_Validation_Allele2	Match_Norm_Validation_Allele1	Match_Norm_Validation_Allele2	Verification_Status	Validation_Status	Mutation_Status	Sequencing_Phase	Sequence_Source	Validation_Method	Score	BAM_File	Sequencer	t_ref_count	t_alt_count	n_ref_count	n_alt_count	Caller	t_total_count	t_variant_frequency	t_total_count_forward	t_ref_count_forward	t_alt_count_forward
+ERRFI1		mskcc.org	GRCh37	1	8075398	8075398	+	Missense_Mutation	SNP	A	G				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							157	10				167	0.0598802	82	76	6
+ERRFI1		mskcc.org	GRCh37	1	8075398	8075398	+	Missense_Mutation	SNP	A	G				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							239	0				239	0	136	136	0
+SETD2		mskcc.org	GRCh37	3	47125811	47125811	+	Missense_Mutation	SNP	A	G				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							199	96				295	0.325424	119	82	37
+SETD2		mskcc.org	GRCh37	3	47125811	47125811	+	Missense_Mutation	SNP	A	G				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							298	0				298	0	114	114	0
+FAT1		mskcc.org	GRCh37	4	187557833	187557833	+	Missense_Mutation	SNP	T	C				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							315	102				417	0.244604	211	160	51
+FAT1		mskcc.org	GRCh37	4	187557833	187557833	+	Missense_Mutation	SNP	T	C				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							472	0				473	0	253	252	0
+LATS1		mskcc.org	GRCh37	6	150001182	150001182	+	Missense_Mutation	SNP	A	G				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							252	111				363	0.305785	183	125	58
+LATS1		mskcc.org	GRCh37	6	150001182	150001182	+	Missense_Mutation	SNP	A	G				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							542	0				542	0	296	296	0
+FGFR1		mskcc.org	GRCh37	8	38272308	38272308	+	Missense_Mutation	SNP	T	C				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							495	58				553	0.104882	287	259	28
+FGFR1		mskcc.org	GRCh37	8	38272308	38272308	+	Missense_Mutation	SNP	T	C				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							604	0				604	0	324	324	0
+MYC		mskcc.org	GRCh37	8	128750686	128750686	+	Missense_Mutation	SNP	C	T				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							506	43				549	0.0783242	269	249	20
+MYC		mskcc.org	GRCh37	8	128750686	128750686	+	Missense_Mutation	SNP	C	T				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							553	0				553	0	277	277	0
+KLF4		mskcc.org	GRCh37	9	110249830	110249830	+	Missense_Mutation	SNP	A	G				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							454	203				657	0.30898	335	233	102
+KLF4		mskcc.org	GRCh37	9	110249830	110249830	+	Missense_Mutation	SNP	A	G				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							627	0				628	0	313	313	0
+NOTCH1		mskcc.org	GRCh37	9	139410435	139410435	+	Missense_Mutation	SNP	T	C				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							474	142				616	0.230519	341	259	82
+NOTCH1		mskcc.org	GRCh37	9	139410435	139410435	+	Missense_Mutation	SNP	T	C				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							578	1				579	0.00172712	346	346	0
+GLI1		mskcc.org	GRCh37	12	57858974	57858974	+	Missense_Mutation	SNP	A	G				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							553	154				709	0.217207	339	264	74
+GLI1		mskcc.org	GRCh37	12	57858974	57858974	+	Missense_Mutation	SNP	A	G				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							612	1				613	0.00163132	289	288	1
+NTRK3		mskcc.org	GRCh37	15	88610406	88610406	+	Intron	SNP	A	G				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							243	18				262	0.0687023	160	150	9
+NTRK3		mskcc.org	GRCh37	15	88610406	88610406	+	Intron	SNP	A	G				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							215	0				215	0	119	119	0
+ERCC4		mskcc.org	GRCh37	16	14021962	14021962	+	Missense_Mutation	SNP	C	T				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							285	121				406	0.29803	221	155	66
+ERCC4		mskcc.org	GRCh37	16	14021962	14021962	+	Missense_Mutation	SNP	C	T				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							567	2				569	0.00351494	295	294	1
+CIC		mskcc.org	GRCh37	19	42794641	42794641	+	Missense_Mutation	SNP	C	T				DU874145-T.RG.md.abra.fmi.printreads	Normal									UNPAIRED							601	52				653	0.0796325	331	305	26
+CIC		mskcc.org	GRCh37	19	42794641	42794641	+	Missense_Mutation	SNP	C	T				DU874145-N.RG.md.abra.fmi.printreads	Normal									UNPAIRED							576	0				577	0	267	267	0

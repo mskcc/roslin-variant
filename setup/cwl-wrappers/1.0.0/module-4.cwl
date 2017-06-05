@@ -296,11 +296,11 @@ steps:
             bams: bams
             genome: genome
             output_format:
-                default: "2"
+                default: "1"
         out: [fillout]
 
     replace_allele_counts:
-        run: replace-allele-counts/0.1.0/replace-allele-counts.cwl
+        run: replace-allele-counts/0.1.1/replace-allele-counts.cwl
         in:
             inputMaf: remove_variants/maf
             fillout: fillout/fillout
