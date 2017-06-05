@@ -289,6 +289,7 @@
         }, 
         "replace-allele-counts": {
             "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
+            "0.1.1": "sing.sh replace-allele-counts 0.1.1", 
             "default": "sing.sh replace-allele-counts 0.1.0"
         }, 
         "samstat": {
@@ -304,6 +305,9 @@
         }, 
         "snp-pileup": {
             "default": "/opt/common/CentOS_6-dev/snp-pileup/snp-pileup"
+        }, 
+        "split-reads": {
+            "1.0.0": "sing.sh split-reads 1.0.0"
         }, 
         "star": {
             "2.4.1d": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR", 
@@ -343,9 +347,6 @@
         }, 
         "wes-filters": {
             "1.1.3": "sing.sh wes-filters 1.1.3"
-        },
-        "split-reads": {
-            "1.0.0": "sing.sh split-reads 1.0.0"
         }
     }, 
     "targets": {
