@@ -5,7 +5,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return getBaseName(inputs.fastq1) + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq1).replace(".fastq.gz", "_cl.fastq.gz");
           return null;
         }
   clfastq2:
@@ -14,7 +14,7 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq2)
-            return getBaseName(inputs.fastq2) + '_cl.fastq.gz';
+            return getBaseName(inputs.fastq2).replace(".fastq.gz", "_cl.fastq.gz");
           return null;
         }
   clstats1:
@@ -23,16 +23,16 @@ outputs:
       glob: |
         ${
           if (inputs.paired && inputs.fastq1)
-            return getBaseName(inputs.fastq1) + '_cl.stats';
+            return getBaseName(inputs.fastq1).replace(".fastq.gz", "_cl.stats");
           return null;
         }
 
   clstats2:
     type: File?
     outputBinding:
-      glob: |
+      glob: |-
         ${
           if (inputs.paired && inputs.fastq2)
-            return getBaseName(inputs.fastq2) + '_cl.stats';
+            return getBaseName(inputs.fastq2).replace(".fastq.gz", "_cl.stats");
           return null;
         }

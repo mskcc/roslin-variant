@@ -252,7 +252,7 @@ steps:
     scatterMethod: dotproduct
   flatten_samples:
     #hack to remove array of arrays
-    run: flatten-array/1.0.0/flatten-array.cwl
+    run: flatten-array/1.0.0/flatten-array-bam.cwl
     in:
       bams: mapping/bam
     out: [bams]

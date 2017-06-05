@@ -37,33 +37,8 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['I'] = ruamel.yaml.load("""
-type:
-  - 'null'
-  - File
-  - type: array
-    items: File
-    inputBinding:
-        prefix: --I
-
-""", ruamel.yaml.RoundTripLoader)
-
-    cwl['inputs']['CREATE_INDEX']['default'] = True
-    del cwl['inputs']['version']
-    del cwl['inputs']['java_version']
-
-    #-->
-    # fixme: until we can auto generate cwl for picard
-    # set outputs using outputs.yaml
-    import os
-    cwl['outputs'] = ruamel.yaml.load(
-        read(os.path.dirname(params.filename_cwl) + "/outputs.yaml"),
-        ruamel.yaml.RoundTripLoader)['outputs']
-
-    # from : [cmo_picard, --cmd MarkDuplicates]
-    # to   : [cmo_picard, --cmd, MarkDuplicates]
-    cwl['baseCommand'] = ['cmo_picard', '--cmd', 'MarkDuplicates']
-    #<--
+    cwl['inputs']['fastq1']['type'] = 'File'
+    cwl['inputs']['fastq2']['type'] = 'File'
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))
