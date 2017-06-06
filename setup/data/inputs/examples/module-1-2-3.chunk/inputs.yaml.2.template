@@ -37,7 +37,7 @@ fastq2:
 - [{class: File, path: ../data/fastq/DU874145-T_R2.fastq.gz}]
 - [{class: File, path: ../data/fastq/DU874145-N_R2.fastq.gz}]
 pairs:
-- [s_C_000269_T001_d, s_C_000269_N001_d]
+- [DU874145-T, DU874145-N]
 tmp_dir:
 - /scratch
 - /scratch
