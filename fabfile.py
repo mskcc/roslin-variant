@@ -1,18 +1,6 @@
 from fabric.api import *
 
-# env.user = 'chunj'
-# env.key_filename = ["~/.ssh/id_rsa"]
-# env.hosts = ['u36.cbio.mskcc.org']
-
-version = '1.0.0'
-
-@task
-@hosts('u36.cbio.mskcc.org')
-def test():
-    """
-    test
-    """
-    run('ls -l')
+VERSION = '1.0.0'
 
 
 @task
@@ -54,13 +42,13 @@ def install(skip_ref=False, skip_compress=False, skip_upload=False):
         with cd('prism-setups'):
 
             if not skip_upload:
-                put('prism-v{}.tgz'.format(version), ".")
+                put('prism-v{}.tgz'.format(VERSION), ".")
 
-            run('rm -rf {}'.format(version))
-            run('mkdir -p {}'.format(version))
-            run('tar xvzf prism-v{0}.tgz -C {0}'.format(version))
+            run('rm -rf {}'.format(VERSION))
+            run('mkdir -p {}'.format(VERSION))
+            run('tar xvzf prism-v{0}.tgz -C {0}'.format(VERSION))
 
-            with cd('{}/setup/scripts'.format(version)):
+            with cd('{}/setup/scripts'.format(VERSION)):
 
                 run('./install-production.sh -l')
 
@@ -79,7 +67,7 @@ def rsync_aws(skip_ref=False):
     # make /ifs directory
     run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
 
-    work_dir = '/tmp/prism-setup-{}'.format(version)
+    work_dir = '/tmp/prism-setup-{}'.format(VERSION)
 
     local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
         env.key_filename[0], env.user, env.host, work_dir))
@@ -100,16 +88,16 @@ def deploy_s3_to_aws(skip_ref=False):
     """
 
     # get from s3
-    run('aws s3 cp s3://prism-installer/prism-v{}.tgz /tmp/'.format(version))
+    run('aws s3 cp s3://prism-installer/prism-v{}.tgz /tmp/'.format(VERSION))
 
     # uncompress
-    run('mkdir -p /tmp/prism-v{}/'.format(version))
-    run('tar xvzf /tmp/prism-v{0}.tgz -C /tmp/prism-v{0}/'.format(version))
+    run('mkdir -p /tmp/prism-v{}/'.format(VERSION))
+    run('tar xvzf /tmp/prism-v{0}.tgz -C /tmp/prism-v{0}/'.format(VERSION))
 
     # /ifs required
     run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
 
-    with cd('/tmp/prism-v{}/setup/scripts/'.format(version)):
+    with cd('/tmp/prism-v{}/setup/scripts/'.format(VERSION)):
 
         # install
         run('./install-production.sh -l')
@@ -131,13 +119,20 @@ def rsync_luna(skip_install=False, skip_ref=False):
     fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
     """
 
-    work_dir = '/tmp/prism-setup-{}'.format(version)
+    # use /scratch/prism/ to use the bigger disk
+    work_dir = '/scratch/prism//prism-setup-{}'.format(VERSION)
 
-    local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
-        env.key_filename[0], env.user, env.host, work_dir))
+    # rsync
+    local(
+        'rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
+            env.key_filename[0],
+            env.user, env.host,
+            work_dir
+        )
+    )
 
     if skip_install:
-        print('installation skipped.')
+        print "installation skipped."
     else:
         with cd("{}/scripts".format(work_dir)):
 
