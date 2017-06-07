@@ -1,3 +1,9 @@
+bams:
+  - class: File
+    path: ../data/from-module-2/DU874145-T.RG.md.abra.fmi.printreads.bam
+  - class: File
+    path: ../data/from-module-2/DU874145-N.RG.md.abra.fmi.printreads.bam
+
 mutect_vcf:
   class: File
   path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.vcf

@@ -16,10 +16,20 @@ def read_result(filename):
             "---> PRISM JOB UUID = .*?\n(.*?)<--- PRISM JOB UUID", contents, re.DOTALL)
         # print match
         if match:
-            result = json.loads(match.group(1))
+            output_metadata = match.group(1).strip()
+            if not output_metadata:
+                return None
+            result = json.loads(output_metadata)
             return result
         else:
             return None
+
+
+def assert_result_exists(result):
+    "the result should exists"
+
+    assert_true(result is not None)
+    assert_true(len(result) != 0)
 
 
 def test_samtools_checksum():
@@ -210,11 +220,11 @@ def test_basic_filtering_pindel():
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
-    assert_equals(result['vcf']['basename'], 'DU874145-T.pindel_STDfilter.vcf')
+    assert_equals(result['vcf']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.pindel_STDfilter.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
     # assert_true(result['txt']['size'] > 0)
-    assert_equals(result['txt']['basename'], 'DU874145-T.pindel_STDfilter.txt')
+    assert_equals(result['txt']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.pindel_STDfilter.txt')
     assert_equals(result['txt']['class'], 'File')
 
 

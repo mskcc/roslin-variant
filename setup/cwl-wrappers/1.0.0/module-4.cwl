@@ -43,6 +43,13 @@ requirements:
 
 inputs:
 
+    bams:
+        type:
+            type: array
+            items: File
+        secondaryFiles:
+            - ^.bai
+
     mutect_vcf:
         type: File
     mutect_callstats:
@@ -72,24 +79,36 @@ outputs:
 
 #    sid_vcf:
 #        type: File
-#        outputSource: normalization/sid_vcf
+#        outputSource: normalize/sid_vcf
 #    mutect_vcf:
 #        type: File
-#        outputSource: normalization/mutect_vcf
-#   vardict_vcf:
+#        outputSource: normalize/mutect_vcf
+#    vardict_vcf:
 #        type: File
-#        outputSource: normalization/vardict_vcf
+#        outputSource: normalize/vardict_vcf
 #    pindel_vcf:
 #        type: File
-#        outputSource: normalization/pindel_vcf
+#        outputSource: normalize/pindel_vcf
 
 #    combined_vcf:
 #        type: File
 #        outputSource: combine/out_vcf
 
-    vcf2maf:
+#    vcf2maf:
+#        type: File
+#        outputSource: vcf2maf/output
+
+#    remove_variants:
+#        type: File
+#        outputSource: remove_variants/maf
+
+#    fillout:
+#        type: File
+#        outputSoruce: fillout/fillout
+
+    replace_allele_counts:
         type: File
-        outputSource: vcf2maf/output
+        outputSource: replace_allele_counts/maf
 
 steps:
 
@@ -154,7 +173,7 @@ steps:
                         tsampleName: tumor_sample_name
                     out: [vcf]
 
-    normalization:
+    normalize:
         in:
             mutect_vcf: filtering/mutect_vcf
             vardict_vcf: filtering/vardict_vcf
@@ -228,10 +247,10 @@ steps:
     combine:
         run: cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
         in:
-            variants_mutect: normalization/mutect_vcf
-            variants_vardict: normalization/vardict_vcf
-            variants_sid: normalization/sid_vcf
-            variants_pindel: normalization/pindel_vcf
+            variants_mutect: normalize/mutect_vcf
+            variants_vardict: normalize/vardict_vcf
+            variants_sid: normalize/sid_vcf
+            variants_pindel: normalize/pindel_vcf
             unsafe:
                 default: "ALLOW_SEQ_DICT_INCOMPATIBILITY"
             genotypemergeoption:
@@ -261,3 +280,30 @@ steps:
             output_maf:
                 valueFrom: ${ return inputs.tumor_id + ".combined_variants.vep.maf" }
         out: [output]
+
+    remove_variants:
+        run: remove-variants/0.1.1/remove-variants.cwl
+        in:
+            inputMaf: vcf2maf/output
+            outputMaf:
+                valueFrom: ${ return inputs.inputMaf.basename.replace(".vep.maf", ".vep.rmv.maf") }
+        out: [maf]
+
+    fillout:
+        run: cmo-fillout/1.2.1/cmo-fillout.cwl
+        in:
+            maf: remove_variants/maf
+            bams: bams
+            genome: genome
+            output_format:
+                default: "1"
+        out: [fillout]
+
+    replace_allele_counts:
+        run: replace-allele-counts/0.1.1/replace-allele-counts.cwl
+        in:
+            inputMaf: remove_variants/maf
+            fillout: fillout/fillout
+            outputMaf:
+                valueFrom: ${ return inputs.inputMaf.basename.replace(".maf", ".fillout.maf") }
+        out: [maf]

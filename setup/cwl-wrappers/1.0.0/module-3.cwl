@@ -155,7 +155,7 @@ steps:
                         sample_names: [normal_sample_id, tumor_sample_id]
                         normal_sample_id: normal_sample_id
                         vcf:
-                            valueFrom: ${ return inputs.bams[1].basename.replace(".bam",".pindel.vcf") }
+                            valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".pindel.vcf") }
                         fasta: fasta
                         output_prefix:
                             valueFrom: $(inputs.tumor_sample_id)
@@ -170,7 +170,7 @@ steps:
                         N2: normal_sample_id
                         bedfile: bed
                         vcf:
-                            valueFrom: ${ return inputs.b.basename.replace(".bam",".vardict.vcf") }
+                            valueFrom: ${ return inputs.b.basename.replace(".bam", ".vardict.vcf") }
                     out: [output]
                 somaticindeldetector:
                     run: cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
@@ -182,9 +182,9 @@ steps:
                         intervals: bed
                         refseq: refseq
                         out:
-                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.vcf") }
+                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam", ".sid.vcf") }
                         verboseOutput:
-                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam",".sid.txt") }
+                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam", ".sid.txt") }
                     out: [output, verbose_output]
                 mutect:
                     run: cmo-mutect/1.1.4/cmo-mutect.cwl
@@ -197,7 +197,7 @@ steps:
                         read_filter: mutect_rf
                         downsample_to_coverage: mutect_dcov
                         vcf:
-                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.vcf") }
+                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam", ".mutect.vcf") }
                         out:
-                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".mutect.txt") }
+                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam", ".mutect.txt") }
                     out: [output, callstats_output]

@@ -1,14 +1,7 @@
 requirements:
   - class: InlineJavascriptRequirement
     expressionLib:
-    - var getBaseName = function(inputFile) {
-        var path;
-        if (typeof inputFile.path === 'undefined')
-          path = inputFile;
-        else
-          path = inputFile.path;
-        return path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, '').replace(/\.fastq/,'');
-      };
+    - var getBaseName = function(inputFile) { return inputFile.basename; };
   - class: ResourceRequirement
     ramMin: 10
     coresMin: 2

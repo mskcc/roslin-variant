@@ -100,7 +100,7 @@ inputs:
       prefix: --format
 
 outputs:
-  output:
+  fillout:
     type: File
     outputBinding:
       glob: |

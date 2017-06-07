@@ -37,32 +37,17 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['I'] = ruamel.yaml.load("""
-type:
-  - 'null'
-  - File
-  - type: array
-    items: File
-    inputBinding:
-        prefix: --I
-
-""", ruamel.yaml.RoundTripLoader)
-
-    cwl['inputs']['CREATE_INDEX']['default'] = True
-    del cwl['inputs']['version']
-    del cwl['inputs']['java_version']
+    cwl['baseCommand'] = ['sing.sh', 'replace-allele-counts', '0.1.1']
+    cwl['inputs']['inputMaf']['type'] = ['string', 'File']
+    cwl['inputs']['fillout']['type'] = ['string', 'File']
 
     #-->
-    # fixme: until we can auto generate cwl for picard
+    # fixme: until we can auto generate cwl for replace-allele-counts
     # set outputs using outputs.yaml
     import os
     cwl['outputs'] = ruamel.yaml.load(
         read(os.path.dirname(params.filename_cwl) + "/outputs.yaml"),
         ruamel.yaml.RoundTripLoader)['outputs']
-
-    # from : [cmo_picard, --cmd MarkDuplicates]
-    # to   : [cmo_picard, --cmd, MarkDuplicates]
-    cwl['baseCommand'] = ['cmo_picard', '--cmd', 'MarkDuplicates']
     #<--
 
     write(params.filename_cwl, ruamel.yaml.dump(

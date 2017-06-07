@@ -95,11 +95,9 @@ inputs:
     - 'null'
     - File
     - type: array
-      items: string
-
-
-    inputBinding:
-      prefix: --I
+      items: File
+      inputBinding:
+        prefix: --I
 
   M:
     type: string

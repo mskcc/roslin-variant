@@ -59,81 +59,43 @@ inputs:
   adapter:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   adapter2:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   bwa_output:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   add_rg_LB:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   add_rg_PL:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   add_rg_ID:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   add_rg_PU:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   add_rg_SM:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   add_rg_CN:
     type:
       type: array
-      items:
-        type: array
-        items: string
-  add_rg_output:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
-  md_output:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
-  md_metrics_output:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
+      items: string
   tmp_dir:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   fasta: string
   hapmap:
     type: File
@@ -231,35 +193,28 @@ outputs:
 steps:
 
   mapping:
-    run:  module-1.scatter.cwl
+    run:  module-1.scatter.chunk.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
       adapter: adapter
       adapter2: adapter2
-      genome: genome
       bwa_output: bwa_output
+      genome: genome
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
       add_rg_ID: add_rg_ID
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      add_rg_output: add_rg_output
       tmp_dir: tmp_dir
-    out: [clstats1, clstats2, bam, bai, md_metrics]
+    out: [clstats1, clstats2, bam, md_metrics]
     scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,tmp_dir]
     scatterMethod: dotproduct
-  flatten_samples:
-    #hack to remove array of arrays
-    run: flatten-array/1.0.0/flatten-array-bam.cwl
-    in:
-      bams: mapping/bam
-    out: [bams]
   realignment:
     run: module-2.cwl
     in:
-      bams: flatten_samples/bams
+      bams: mapping/bam
       hapmap: hapmap
       dbsnp: dbsnp
       indels_1000g: indels_1000g
