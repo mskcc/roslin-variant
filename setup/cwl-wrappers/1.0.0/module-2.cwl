@@ -155,7 +155,7 @@ steps:
                             default: "LENIENT"
                         O:
                             valueFrom: |
-                                  ${ return inputs.I.basename.replace(".bam",".fmi.bam") }
+                                  ${ return inputs.I.basename.replace(".bam", ".fmi.bam") }
                     out: [out_bam]
 
     gatk_base_recalibrator:
