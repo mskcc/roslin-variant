@@ -191,9 +191,9 @@ steps:
       I: align/bam
       O:
         valueFrom: |
-          ${ return inputs.I[0].basename.replace(/.chunk\d\d\d/, ".MD") }
+          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d/, ".MD") }
       M:
         valueFrom: |
-          ${ return inputs.I[0].basename.replace(/chunk\d\d\d/, "") }
+          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.RG\.bam/, ".RG.md_metrics") }
       TMP_DIR: tmp_dir
     out: [bam,bai,mdmetrics]
