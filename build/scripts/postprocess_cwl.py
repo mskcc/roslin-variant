@@ -3,8 +3,6 @@
 
 import os.path
 import argparse
-import datetime
-import yaml
 
 
 def get_requirements(filename):
@@ -25,7 +23,7 @@ def get_requirements(filename):
     return requirements
 
 
-def get_metadata(filename, params=None):
+def get_metadata(filename):
     """read metadata from file and process it"""
 
     metadata = ""
@@ -36,7 +34,6 @@ def get_metadata(filename, params=None):
 
     with open(filename, "r") as file_in:
         metadata = "\n" + file_in.read() + "\n"
-        # datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
     return metadata
 
@@ -97,7 +94,7 @@ def main():
     cwl_contents = get_cwl(params.filename_cwl)
 
     # get metada
-    metadata = get_metadata(params.filename_metadata, params)
+    metadata = get_metadata(params.filename_metadata)
 
     # add metadata
     cwl_contents.insert(1, metadata)
