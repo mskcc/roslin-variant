@@ -66,4 +66,4 @@ sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlig
 refseq:
     class: File
     path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'
-intervals: '1'
+intervals: null
