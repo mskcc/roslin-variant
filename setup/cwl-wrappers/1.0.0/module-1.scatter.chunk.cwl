@@ -115,7 +115,7 @@ steps:
       tmp_dir: tmp_dir
     scatter: [chunkfastq1, chunkfastq2]
     scatterMethod: dotproduct
-    out: [clstats1,clstats2, bam]
+    out: [clstats1, clstats2, bam]
     run:
       class: Workflow
       inputs:
@@ -156,7 +156,7 @@ steps:
             fastq2: chunkfastq2
             adapter: adapter
             adapter2: adapter2
-          out: [clfastq1,clfastq2,clstats1,clstats2]
+          out: [clfastq1, clfastq2, clstats1, clstats2]
         bwa:
           run: ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
           in:
@@ -184,7 +184,7 @@ steps:
             SO:
               default: "coordinate"
             TMP_DIR: tmp_dir
-          out: [bam,bai]
+          out: [bam, bai]
   mark_duplicates:
     run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
     in:
@@ -196,4 +196,4 @@ steps:
         valueFrom: |
           ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.RG\.bam/, ".RG.md_metrics") }
       TMP_DIR: tmp_dir
-    out: [bam,bai,mdmetrics]
+    out: [bam, bai, mdmetrics]
