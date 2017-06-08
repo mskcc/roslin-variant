@@ -122,7 +122,10 @@ inputs:
   mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
-  intervals: string
+  intervals:
+    type:
+      - 'null'
+      - string
   sid_rf:
     type:
       type: array
