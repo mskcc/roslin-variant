@@ -6,3 +6,5 @@ input_file:
 reference_sequence: GRCh37
 java_args: '-Xmx48g -Xms256m -XX:-UseGCOverheadLimit'
 out: intervals.list
+read_filter: ['BadCigar']
+intervals: null
