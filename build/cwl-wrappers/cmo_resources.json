@@ -213,6 +213,9 @@
         "mutsig-cv": {
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
+        "ngs-filters": {
+            "default": "sudo docker run -i ngs-filters:1.1.4 "
+        }, 
         "perl": {
             "default": "/vagrant/build/scripts/fake-perl.sh"
         }, 
@@ -272,9 +275,6 @@
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"
-        }, 
-        "ngs-filters": {
-            "default": "sudo docker run -i ngs-filters:1.1.4"
         }
     }, 
     "targets": {
