@@ -254,6 +254,9 @@
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
+        "ngs-filters": {
+            "1.1.4": "sing.sh ngs-filters 1.1.4"
+        }, 
         "perl": {
             "default": "sing-perl.sh"
         }, 
@@ -344,9 +347,6 @@
             "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
-        }, 
-        "wes-filters": {
-            "1.1.3": "sing.sh wes-filters 1.1.3"
         }
     }, 
     "targets": {
