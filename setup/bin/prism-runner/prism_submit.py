@@ -37,10 +37,8 @@ def submit(cmo_project_id, job_uuid, work_dir):
 
     mem = 1
     cpu = 1
-    # leader_node = "w01"
-    # queue_name = "control"
-    leader_node = "luna"
-    queue_name = "sol"
+    leader_node = "w01"
+    queue_name = "control"
 
     lsf_proj_name = "{}:{}".format(cmo_project_id, job_uuid)
     job_name = "leader:{}:{}".format(cmo_project_id, job_uuid)
@@ -49,7 +47,7 @@ def submit(cmo_project_id, job_uuid, work_dir):
     workflow_name = "module-1-2-3.chunk.cwl"
     input_yaml = "inputs.yaml"
 
-    job_command = "roslin-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
+    job_command = "prism-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
         workflow_name,
         input_yaml,
         cmo_project_id,
@@ -234,7 +232,7 @@ def main():
     # create a new unique job uuid
     job_uuid = str(uuid.uuid1())
 
-    work_base_dir = "/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/_tracking_test/"
+    work_base_dir = "/ifs/work/prism/outputs/"
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
     if not os.path.exists(work_dir):
