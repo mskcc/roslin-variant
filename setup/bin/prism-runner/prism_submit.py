@@ -232,7 +232,8 @@ def main():
     # create a new unique job uuid
     job_uuid = str(uuid.uuid1())
 
-    work_base_dir = "/ifs/work/prism/outputs/"
+    # must be one of the singularity binding points
+    work_base_dir = "/ifs/work/chunj/prism-proto/ifs/prism/outputs"
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
     if not os.path.exists(work_dir):
