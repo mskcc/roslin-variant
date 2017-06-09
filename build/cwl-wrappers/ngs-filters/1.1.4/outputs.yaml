@@ -4,7 +4,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.output_maf)
-            return inputs.output_maf;
+          if (inputs.outputMaf)
+            return inputs.outputMaf;
           return null;
         }

@@ -39,7 +39,7 @@ ae2a8470fd079501b40878ac248bfd8f  ./module-1.scatter.cwl
 c1281bebee117f8cf9bb5c863e2f9624  ./module-2.cwl
 b3633e4d28214342ed86a80b621f50c1  ./module-3.cwl
 b01fd24dcb0eb98c898bc731fffa04ae  ./module-4.cwl
-c1ce93568ed0b8ebb615bc99a73587ac  ./ngs-filters/1.1.4/ngs-filters.cwl
+192e487d5c0ac7bb6bcab9e145da8e94  ./ngs-filters/1.1.4/ngs-filters.cwl
 d7a8a3bcb7679cde94f46bdc0797883a  ./remove-variants/0.1.1/remove-variants.cwl
 bbffef6f3e2efc85bde4fabe7146c000  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 86f94b1f4d9a47d6f86d2eda0271f3fc  ./replace-allele-counts/0.1.1/replace-allele-counts.cwl

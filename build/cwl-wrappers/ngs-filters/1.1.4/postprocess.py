@@ -42,6 +42,7 @@ def main():
     cwl['inputs']['NormalPanelMaf']['type'] = ['null', 'string', 'File']
     cwl['inputs']['FFPEPoolMaf']['type'] = ['null', 'string', 'File']
     cwl['inputs']['NormalCohortMaf']['type'] = ['null', 'string', 'File']
+    cwl['inputs']['inputHSP']['type'] = ['null', 'string', 'File']
 
     #-->
     # fixme: until we can auto generate cwl for replace-allele-counts

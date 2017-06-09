@@ -115,7 +115,10 @@ inputs:
       prefix: --normalSamplesFile
 
   inputHSP:
-    type: ['null', string]
+    type:
+    - 'null'
+    - string
+    - File
     doc: Input txt file which has hotspots
     inputBinding:
       prefix: --input-hotspot
@@ -127,7 +130,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.output_maf)
-            return inputs.output_maf;
+          if (inputs.outputMaf)
+            return inputs.outputMaf;
           return null;
         }
