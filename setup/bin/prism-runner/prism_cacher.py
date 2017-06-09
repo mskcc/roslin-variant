@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 import time
 import subprocess
 import redis
 import zlib
 import base64
+from datetime import datetime
 
 def poll():
 
@@ -21,16 +24,18 @@ def poll():
     process = subprocess.Popen(bjobs, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     data = process.stdout.read()
 
-    # 10mb to 88K
-
+    # compress and base64
     msg = base64.b64encode(zlib.compress(data))
 
     redis_client.set('bjobs', msg)
-    print "sent: {} bytes".format(len(msg))
+    print "sent: {0:,} bytes ({1})".format(len(msg), datetime.now().strftime("%H:%M:%S"))
 
 
 if __name__ == "__main__":
 
+    # in seconds
+    polling_interval = 30
+
     while True:
         poll()
-        time.sleep(30)
+        time.sleep(polling_interval)

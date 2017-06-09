@@ -330,10 +330,11 @@ def main():
                 for lsf_job_id in prj["batchSystemJobs"]:
                     lsf_job = prj["batchSystemJobs"][lsf_job_id]
                     if lsf_job["status"] != "DONE":
-                        print "  - {} ({})".format(lsf_job["name"], lsf_job["status"])
+                        print "  - {} {} ({})".format(lsf_job_id, lsf_job["name"], lsf_job["status"])
 
                 redis_client.publish('roslin-run-results', json.dumps(prj))
 
+                # no more reporting if statu is DONE or EXIT
                 if prj["status"] in ["DONE", "EXIT"]:
                     already_reported_projs.add(job_uuid)
 
