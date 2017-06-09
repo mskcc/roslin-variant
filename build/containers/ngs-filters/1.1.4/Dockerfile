@@ -25,8 +25,9 @@ RUN apk add --update \
             && apk add build-base musl-dev \
       # install R (only avail in Alpine 3.5 community)
             && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} --update-cache --repository http://dl-5.alpinelinux.org/alpine/v3.5/community --allow-untrusted \
-      # install coloredlogs, pandas
+      # install ngs-filters dependencies (coloredlogs, pandas, uuidgen from util-linux, git
             && pip install -r /tmp/requirements.txt \
+            && apk add --update util-linux \
       # download, unzip, install ngs-filters
             && cd /tmp && wget https://github.com/mskcc/ngs-filters/archive/v${NGS_FILTERS_VERSION}.zip \
             && unzip v${NGS_FILTERS_VERSION}.zip \
