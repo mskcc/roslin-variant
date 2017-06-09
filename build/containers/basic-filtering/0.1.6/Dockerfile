@@ -9,22 +9,25 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
 
 ENV BASICFILTERING_VERSION 0.1.6
 
-# to build pybedtools : build-base musl-dev zlib-dev cython
-
 RUN apk add --update \
-      && apk add ca-certificates openssl \
-      && apk add build-base musl-dev \
-      # Fix numpy compilation
-      && ln -s /usr/include/locale.h /usr/include/xlocale.h \
-      && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
-      && unzip ${BASICFILTERING_VERSION}.zip \
-      && cd /tmp/basicfiltering-${BASICFILTERING_VERSION} \
-      && python setup.py install \
-      && cp ./pindel/filter_pindel.py /usr/bin/ \
-      && cp ./mutect/filter_mutect.py /usr/bin/ \
-      && cp ./vardict/filter_vardict.py /usr/bin/ \
-      && cp ./somaticindeldetector/filter_sid.py /usr/bin \
-      && rm -rf /var/cache/apk/* /tmp/*
+      # for wget
+            && apk add ca-certificates openssl \
+      # for compilation
+            && apk add build-base musl-dev \
+      # fix numpy compilation issue
+            && ln -s /usr/include/locale.h /usr/include/xlocale.h \
+      # download, unzip, install basic-filtering
+            && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
+            && unzip ${BASICFILTERING_VERSION}.zip \
+            && cd /tmp/basicfiltering-${BASICFILTERING_VERSION} \
+            && python setup.py install \
+      # copy to /usr/bin
+            && cp ./pindel/filter_pindel.py /usr/bin/ \
+            && cp ./mutect/filter_mutect.py /usr/bin/ \
+            && cp ./vardict/filter_vardict.py /usr/bin/ \
+            && cp ./somaticindeldetector/filter_sid.py /usr/bin \
+      # clean up
+            && rm -rf /var/cache/apk/* /tmp/*
 
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
