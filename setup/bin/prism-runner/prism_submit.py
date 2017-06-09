@@ -25,6 +25,8 @@ def bsub(bsubline):
 
     process = subprocess.Popen(bsubline, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     output = process.stdout.readline()
+
+    # fixme: need better exception handling
     lsf_job_id = int(output.strip().split()[1].strip('<>'))
 
     return lsf_job_id
@@ -35,6 +37,10 @@ def submit(cmo_project_id, job_uuid, work_dir):
 
     mem = 1
     cpu = 1
+    # leader_node = "w01"
+    # queue_name = "control"
+    leader_node = "luna"
+    queue_name = "sol"
 
     lsf_proj_name = "{}:{}".format(cmo_project_id, job_uuid)
     job_name = "leader:{}:{}".format(cmo_project_id, job_uuid)
@@ -43,7 +49,7 @@ def submit(cmo_project_id, job_uuid, work_dir):
     workflow_name = "module-1-2-3.chunk.cwl"
     input_yaml = "inputs.yaml"
 
-    job = "roslin-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
+    job_command = "roslin-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
         workflow_name,
         input_yaml,
         cmo_project_id,
@@ -53,16 +59,17 @@ def submit(cmo_project_id, job_uuid, work_dir):
 
     bsubline = [
         "bsub",
-        "-R", "[mem={}]".format(mem),
+        "-R", "select[hname={}]".format(leader_node),
+        "-q", queue_name,
+        "-R", "rusage[mem={}]".format(mem),
         "-n", str(cpu),
         "-P", lsf_proj_name,
-        # "-R", "select[hname==w01]",
         "-J", job_name,
         "-Jd", job_desc,
         "-cwd", work_dir,
         "-oo", "stdout.txt",
         "-eo", "stderr.txt",
-        job
+        job_command
     ]
 
     lsf_job_id = bsub(bsubline)
