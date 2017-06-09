@@ -1,4 +1,5 @@
 .vagrant
+.vscode/ftp-sync.json
 *.log
 /build/containers/**/*.img
 /build/cwl-wrappers/**/*.bak
