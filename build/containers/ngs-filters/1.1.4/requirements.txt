@@ -1,2 +1,0 @@
-pandas==0.16.2
-coloredlogs==5.2
