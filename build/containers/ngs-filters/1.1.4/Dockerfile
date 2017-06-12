@@ -6,10 +6,10 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.ngsfilters="1.1.4" \
       version.r="3.3.2-r0" \
       version.alpine="3.4.6" \
-      source.ngsfilters="https://github.com/mskcc/ngs-filters/releases/tag/v1.1.4-beta.4" \
+      source.ngsfilters="https://github.com/mskcc/ngs-filters/releases/tag/v1.1.4-beta.5" \
       source.r="https://pkgs.alpinelinux.org/package/v3.5/community/x86_64/R"
 
-ENV NGS_FILTERS_VERSION 1.1.4-beta.4
+ENV NGS_FILTERS_VERSION 1.1.4-beta.5
 ENV R_VERSION 3.3.2-r0
 
 RUN apk add --update \
