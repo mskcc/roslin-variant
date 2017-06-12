@@ -70,7 +70,7 @@ fi
 mkdir -p ${PRISM_INPUT_PATH}/${USER_ID}
 
 # copy jumpstart exampels
-tar xzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz -C ${PRISM_INPUT_PATH}/${USER_ID} --strip-components 2
+tar xzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz -C ${PRISM_INPUT_PATH}/${USER_ID} --strip-components 1
 
 if [ "$USE_SINGLE_MACHINE_EXAMPLE" -eq 1 ]
 then
