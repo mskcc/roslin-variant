@@ -23,7 +23,7 @@ e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 41dc62006029f1fd75919dd8a767c0e8  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 1ea49f6ef77497dbe0bc104dae5af362  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 0d902a5d73c256fa33f77630f03ade6d  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-0b1e82983816c54a81c7bf9f42f9d737  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
+a855c64cb354f6771895384646111501  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 8b03315d998ee7de0d2aa73fec2ac115  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
 71b8a4f9e1e69b0fd0663127938fc5ab  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 80017ccc738c3979655b43db4a5ef1b6  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
@@ -34,7 +34,7 @@ bce90eb9f4ba9b64d3c3a01477f1bde3  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
 2e8afa462b269e5335632e73879d45ba  ./module-1-2-3.chunk.cwl
 0955619d3524982c58bac17fc41d1287  ./module-1-2-3.cwl
 611741b1eb1ea662bb37f229fda90d78  ./module-1.cwl
-1d97d783a568277ee4412f67ce9ead91  ./module-1.scatter.chunk.cwl
+a682116078920f7810f62068d9ff4248  ./module-1.scatter.chunk.cwl
 ae2a8470fd079501b40878ac248bfd8f  ./module-1.scatter.cwl
 c1281bebee117f8cf9bb5c863e2f9624  ./module-2.cwl
 b3633e4d28214342ed86a80b621f50c1  ./module-3.cwl
