@@ -103,5 +103,5 @@
 ##contig=<ID=NC_007605,length=171823>
 ##contig=<ID=hs37d5,length=35477943>
 ##bcftools_normVersion=1.3.1+htslib-1.3.1
-##bcftools_normCommand=norm --output sid-norm.vcf --output-type v --fasta-ref /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/cmo-bcftools.norm.somaticIndelDetector/outputs/tmp6FfDwz/stg057be258-d327-4996-b52b-625c30cb4b9c/DU874145-T.RG.md.abra.fmi.printreads.sid_STDfilter.vcf
+##bcftools_normCommand=norm --output sid-norm.vcf --output-type v --fasta-ref /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/cmo-bcftools.norm.somaticIndelDetector/outputs/tmp7xVqGI/stg00652178-6e71-4fff-8e16-d91c4dae391f/DU874145-T.rg.md.abra.fmi.printreads.sid_STDfilter.vcf
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	DU874145-N	DU874145-T

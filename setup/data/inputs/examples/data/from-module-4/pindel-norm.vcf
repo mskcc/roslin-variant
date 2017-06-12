@@ -16,5 +16,5 @@
 ##FORMAT=<ID=AD,Number=2,Type=Integer,Description="Allele depth, how many reads support this allele">
 ##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Total coverage at the site">
 ##bcftools_normVersion=1.3.1+htslib-1.3.1
-##bcftools_normCommand=norm --output pindel-norm.vcf --output-type v --fasta-ref /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/cmo-bcftools.norm.pindel/outputs/tmpFGUtu9/stg2b6878fc-7db9-4659-9dab-e1a675d432a3/DU874145-T.pindel_STDfilter.vcf
+##bcftools_normCommand=norm --output pindel-norm.vcf --output-type v --fasta-ref /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/cmo-bcftools.norm.pindel/outputs/tmpaHOBxK/stge30a4c89-ab95-46ab-afc2-d5cfed27b414/DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.vcf
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	DU874145-N	DU874145-T
