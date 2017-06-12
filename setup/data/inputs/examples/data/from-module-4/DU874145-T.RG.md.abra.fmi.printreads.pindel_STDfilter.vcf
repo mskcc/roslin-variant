@@ -1,5 +1,5 @@
 ##fileformat=VCFv4.0
-##fileDate=2017-05-25
+##fileDate=2017-06-12
 ##source=pindel
 ##reference=GRCh37
 ##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant described in this record">
