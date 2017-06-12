@@ -4,6 +4,7 @@ maf:
   path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf
 output: 'DU874145-T.combined-variants.vep.rmv.maf.fillout-curated-bams'
 output_format: '1'
+n_threads: 20
 genome: GRCh37
 bams:
   - class: File

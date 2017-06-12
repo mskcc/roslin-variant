@@ -25,8 +25,8 @@ add_rg_SM:
 - [DU874145-T]
 - [DU874145-N]
 add_rg_output:
-- [DU874145-T.RG.bam]
-- [DU874145-N.RG.bam]
+- [DU874145-T.rg.bam]
+- [DU874145-N.rg.bam]
 bwa_output:
 - [DU874145-T.bam]
 - [DU874145-N.bam]
@@ -37,11 +37,11 @@ fastq2:
 - [{class: File, path: ../data/fastq/DU874145-T_R2.fastq.gz}]
 - [{class: File, path: ../data/fastq/DU874145-N_R2.fastq.gz}]
 md_metrics_output:
-- [DU874145-T.MD.metrics]
-- [DU874145-N.MD.metrics]
+- [DU874145-T.md.metrics]
+- [DU874145-N.md.metrics]
 md_output:
-- [DU874145-T.RG.MD.bam]
-- [DU874145-N.RG.MD.bam]
+- [DU874145-T.rg.md.bam]
+- [DU874145-N.rg.md.bam]
 pairs:
 - [DU874145-T, DU874145-N]
 tmp_dir:

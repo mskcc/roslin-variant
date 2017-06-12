@@ -26,8 +26,8 @@ add_rg_SM:
 - [s_C_000269_T001_d]
 - [s_C_000269_N001_d]
 add_rg_output:
-- [s_C_000269_T001_d.RG.bam]
-- [s_C_000269_N001_d.RG.bam]
+- [s_C_000269_T001_d.rg.bam]
+- [s_C_000269_N001_d.rg.bam]
 bwa_output:
 - [s_C_000269_T001_d.bam]
 - [s_C_000269_N001_d.bam]
@@ -38,11 +38,11 @@ fastq2:
 - [{class: File, path: ../DS-blorg-006-T_IGO_06048_P_7_S33_L004_R2_001.fastq.gz}]
 - [{class: File, path: ../DS-blorg-006-N_IGO_06048_P_9_S34_L004_R2_001.fastq.gz}]
 md_metrics_output:
-- [s_C_000269_T001_d.MD.metrics]
-- [s_C_000269_N001_d.MD.metrics]
+- [s_C_000269_T001_d.md.metrics]
+- [s_C_000269_N001_d.md.metrics]
 md_output:
-- [s_C_000269_T001_d.RG.MD.bam]
-- [s_C_000269_N001_d.RG.MD.bam]
+- [s_C_000269_T001_d.rg.md.bam]
+- [s_C_000269_N001_d.rg.md.bam]
 pairs:
 - [s_C_000269_T001_d, s_C_000269_N001_d]
 tmp_dir:

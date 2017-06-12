@@ -205,11 +205,11 @@ def test_basic_filtering_mutect():
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
-    assert_equals(result['vcf']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.mutect_STDfilter.vcf')
+    assert_equals(result['vcf']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.mutect_STDfilter.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
     assert_true(result['txt']['size'] > 0)
-    assert_equals(result['txt']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.mutect_STDfilter.txt')
+    assert_equals(result['txt']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.mutect_STDfilter.txt')
     assert_equals(result['txt']['class'], 'File')
 
 
@@ -220,11 +220,11 @@ def test_basic_filtering_pindel():
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
-    assert_equals(result['vcf']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.pindel_STDfilter.vcf')
+    assert_equals(result['vcf']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
     # assert_true(result['txt']['size'] > 0)
-    assert_equals(result['txt']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.pindel_STDfilter.txt')
+    assert_equals(result['txt']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.txt')
     assert_equals(result['txt']['class'], 'File')
 
 
@@ -235,11 +235,11 @@ def test_basic_filtering_sid():
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
-    assert_equals(result['vcf']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.sid_STDfilter.vcf')
+    assert_equals(result['vcf']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.sid_STDfilter.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
     # assert_true(result['txt']['size'] > 0)
-    assert_equals(result['txt']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.sid_STDfilter.txt')
+    assert_equals(result['txt']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.sid_STDfilter.txt')
     assert_equals(result['txt']['class'], 'File')
 
 
@@ -251,11 +251,11 @@ def test_basic_filtering_vardict():
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
-    assert_equals(result['vcf']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.vardict_STDfilter.vcf')
+    assert_equals(result['vcf']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.vardict_STDfilter.vcf')
     assert_equals(result['vcf']['class'], 'File')
 
     assert_true(result['txt']['size'] > 0)
-    assert_equals(result['txt']['basename'], 'DU874145-T.RG.md.abra.fmi.printreads.vardict_STDfilter.txt')
+    assert_equals(result['txt']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.vardict_STDfilter.txt')
     assert_equals(result['txt']['class'], 'File')
 
 
@@ -395,16 +395,16 @@ def test_module_1_scatter():
     assert_equals(result['clstats2'][1]['basename'], 'P2_R2_cl.stats')
 
     assert_equals(len(result['bam']), 2)
-    assert_equals(result['bam'][0]['basename'], 's_C_000269_T001_d.RG.md.bam')
+    assert_equals(result['bam'][0]['basename'], 's_C_000269_T001_d.rg.md.bam')
     assert_equals(len(result['bam'][0]['secondaryFiles']), 1)
-    assert_equals(result['bam'][0]['secondaryFiles'][0]['basename'], 's_C_000269_T001_d.RG.md.bai')
-    assert_equals(result['bam'][1]['basename'], 's_C_000269_N001_d.RG.md.bam')
+    assert_equals(result['bam'][0]['secondaryFiles'][0]['basename'], 's_C_000269_T001_d.rg.md.bai')
+    assert_equals(result['bam'][1]['basename'], 's_C_000269_N001_d.rg.md.bam')
     assert_equals(len(result['bam'][1]['secondaryFiles']), 1)
-    assert_equals(result['bam'][1]['secondaryFiles'][0]['basename'], 's_C_000269_N001_d.RG.md.bai')
+    assert_equals(result['bam'][1]['secondaryFiles'][0]['basename'], 's_C_000269_N001_d.rg.md.bai')
 
     assert_equals(len(result['md_metrics']), 2)
-    assert_equals(result['md_metrics'][0]['basename'], 's_C_000269_T001_d.RG.md_metrics')
-    assert_equals(result['md_metrics'][1]['basename'], 's_C_000269_N001_d.RG.md_metrics')
+    assert_equals(result['md_metrics'][0]['basename'], 's_C_000269_T001_d.rg.md_metrics')
+    assert_equals(result['md_metrics'][1]['basename'], 's_C_000269_N001_d.rg.md_metrics')
 
 
 def test_module_1_2_3():
@@ -425,19 +425,19 @@ def test_module_1_2_3():
     assert_equals(result['clstats2'][1][0]['basename'], normal + '_R2_cl.stats')
 
     assert_equals(len(result['bams']), 2)
-    assert_equals(result['bams'][0]['basename'], normal + '.RG.md.abra.fmi.printreads.bam')
-    assert_equals(result['bams'][1]['basename'], tumor + '.RG.md.abra.fmi.printreads.bam')
+    assert_equals(result['bams'][0]['basename'], normal + '.rg.md.abra.fmi.printreads.bam')
+    assert_equals(result['bams'][1]['basename'], tumor + '.rg.md.abra.fmi.printreads.bam')
 
     assert_equals(len(result['md_metrics']), 2)
-    assert_equals(result['md_metrics'][0][0]['basename'], tumor + '.RG.md_metrics')
-    assert_equals(result['md_metrics'][1][0]['basename'], normal + '.RG.md_metrics')
+    assert_equals(result['md_metrics'][0][0]['basename'], tumor + '.rg.md_metrics')
+    assert_equals(result['md_metrics'][1][0]['basename'], normal + '.rg.md_metrics')
 
-    assert_equals(result['somaticindeldetector_vcf'][0]['basename'], tumor + '.RG.md.abra.fmi.printreads.sid.vcf')
-    assert_equals(result['somaticindeldetector_verbose_vcf'][0]['basename'], tumor + '.RG.md.abra.fmi.printreads.sid.txt')
+    assert_equals(result['somaticindeldetector_vcf'][0]['basename'], tumor + '.rg.md.abra.fmi.printreads.sid.vcf')
+    assert_equals(result['somaticindeldetector_verbose_vcf'][0]['basename'], tumor + '.rg.md.abra.fmi.printreads.sid.txt')
     assert_equals(result['pindel_vcf'][0]['basename'], tumor + '.pindel.vcf')
-    assert_equals(result['vardict_vcf'][0]['basename'], tumor + '.RG.md.abra.fmi.printreads.vardict.vcf')
-    assert_equals(result['mutect_vcf'][0]['basename'], tumor + '.RG.md.abra.fmi.printreads.mutect.vcf')
-    assert_equals(result['mutect_callstats'][0]['basename'], tumor + '.RG.md.abra.fmi.printreads.mutect.txt')
+    assert_equals(result['vardict_vcf'][0]['basename'], tumor + '.rg.md.abra.fmi.printreads.vardict.vcf')
+    assert_equals(result['mutect_vcf'][0]['basename'], tumor + '.rg.md.abra.fmi.printreads.mutect.vcf')
+    assert_equals(result['mutect_callstats'][0]['basename'], tumor + '.rg.md.abra.fmi.printreads.mutect.txt')
 
 
 def test_sort_bams_by_pair():
@@ -447,9 +447,9 @@ def test_sort_bams_by_pair():
 
     # absolute minimum test
     assert_equals(len(result['tumor_bams']), 1)
-    assert_equals(result['tumor_bams'][0]['basename'], 's_C_000269_T001_d.RG.MD.bam')
+    assert_equals(result['tumor_bams'][0]['basename'], 's_C_000269_T001_d.rg.md.bam')
     assert_equals(len(result['normal_bams']), 1)
-    assert_equals(result['normal_bams'][0]['basename'], 's_C_000269_N001_d.RG.MD.bam')
+    assert_equals(result['normal_bams'][0]['basename'], 's_C_000269_N001_d.rg.md.bam')
     assert_equals(len(result['tumor_sample_ids']), 1)
     assert_equals(result['tumor_sample_ids'][0], 's_C_000269_T001_d')
     assert_equals(len(result['normal_sample_ids']), 1)
@@ -462,8 +462,8 @@ def test_cmo_index():
     result = read_result('./outputs/cmo-index.txt')
 
     # absolute minimum test
-    assert_equals(result['tumor_bam']['basename'], 's_C_000269_N001_d.RG.MD.bam')
-    assert_equals(result['normal_bam']['basename'], 's_C_000269_T001_d.RG.MD.bam')
+    assert_equals(result['tumor_bam']['basename'], 's_C_000269_N001_d.rg.md.bam')
+    assert_equals(result['normal_bam']['basename'], 's_C_000269_T001_d.rg.md.bam')
 
     # fixme: add secondaryFiles check
 
@@ -475,10 +475,10 @@ def test_flatten_array():
 
     # absolute minimum test
     assert_equals(len(result['bams']), 2)
-    assert_equals(result['bams'][0]['basename'], 's_C_000269_N001_d.RG.MD.bam')
-    assert_equals(result['bams'][0]['secondaryFiles'][0]['basename'], 's_C_000269_N001_d.RG.MD.bai')
-    assert_equals(result['bams'][1]['basename'], 's_C_000269_T001_d.RG.MD.bam')
-    assert_equals(result['bams'][1]['secondaryFiles'][0]['basename'], 's_C_000269_T001_d.RG.MD.bai')
+    assert_equals(result['bams'][0]['basename'], 's_C_000269_N001_d.rg.md.bam')
+    assert_equals(result['bams'][0]['secondaryFiles'][0]['basename'], 's_C_000269_N001_d.rg.md.bai')
+    assert_equals(result['bams'][1]['basename'], 's_C_000269_T001_d.rg.md.bam')
+    assert_equals(result['bams'][1]['secondaryFiles'][0]['basename'], 's_C_000269_T001_d.rg.md.bai')
 
 
 def test_vcf2maf():
