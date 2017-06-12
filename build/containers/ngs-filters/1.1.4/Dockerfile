@@ -26,11 +26,14 @@ RUN apk add --update \
             && cd /tmp/ngs-filters-${NGS_FILTERS_VERSION} \
             && Rscript --vanilla install-packages.R \
             && pip install -r requirements.txt \
-            && apk add --update util-linux git \
-      # copy to /usr/bin
+            && apk add --update util-linux \
+      # copy to /usr/bin/...
             && cp -r /tmp/ngs-filters-${NGS_FILTERS_VERSION} /usr/bin/ngs-filters/ \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
+
+# copy .git-commit-hash to the ngs-filters directory
+COPY .git-commit-hash /usr/bin/ngs-filters/
 
 # disable per-user site-packages
 ENV PYTHONNOUSERSITE set
