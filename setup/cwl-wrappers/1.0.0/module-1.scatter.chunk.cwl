@@ -174,7 +174,7 @@ steps:
             I: bwa/bam
             O:
               valueFrom: |
-                ${ return inputs.I.basename.replace(".bam", ".RG.bam") }
+                ${ return inputs.I.basename.replace(".bam", ".rg.bam") }
             LB: add_rg_LB
             PL: add_rg_PL
             ID: add_rg_ID
@@ -191,9 +191,9 @@ steps:
       I: align/bam
       O:
         valueFrom: |
-          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d/, ".MD") }
+          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.rg\.bam/, ".rg.md.bam") }
       M:
         valueFrom: |
-          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.RG\.bam/, ".RG.md_metrics") }
+          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.rg\.bam/, ".rg.md_metrics") }
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]

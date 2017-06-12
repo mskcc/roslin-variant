@@ -14,4 +14,4 @@ unsafe: ALLOW_SEQ_DICT_INCOMPATIBILITY
 genotypemergeoption: PRIORITIZE
 rod_priority_list: ['VarDict', 'MuTect', 'SomaticIndelDetector', 'Pindel']
 reference_sequence: GRCh37
-out: DU874145-T.combined_variants.vcf
+out: DU874145-T.combined-variants.vcf

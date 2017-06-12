@@ -1,7 +1,7 @@
 input_vcf:
     class: File
-    path: ../data/from-module-4/DU874145-T.combined_variants.vcf
-output_maf: DU874145-T.combined_variants.vep.maf
+    path: ../data/from-module-4/DU874145-T.combined-variants.vcf
+output_maf: DU874145-T.combined-variants.vep.maf
 
 tumor_id: DU874145-T
 vcf_tumor_id: DU874145-T

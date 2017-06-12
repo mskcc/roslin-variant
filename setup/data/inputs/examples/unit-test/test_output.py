@@ -305,7 +305,7 @@ def test_gatk_CombineVariants():
     result = read_result('./outputs/cmo-gatk.CombineVariants.txt')
 
     # absolute minimum test
-    assert_equals(result['out_vcf']['basename'], 'DU874145-T.combined_variants.vcf')
+    assert_equals(result['out_vcf']['basename'], 'DU874145-T.combined-variants.vcf')
     assert_equals(result['out_vcf']['class'], 'File')
 
 
@@ -487,7 +487,7 @@ def test_vcf2maf():
     result = read_result('./outputs/cmo-vcf2maf.txt')
 
     # absolute minimum test
-    assert_equals(result['output']['basename'], 'DU874145-T.combined_variants.vep.maf')
+    assert_equals(result['output']['basename'], 'DU874145-T.combined-variants.vep.maf')
     assert_true(result['output']['size'] > 0)
 
 
@@ -497,7 +497,7 @@ def test_remove_variants():
     result = read_result('./outputs/remove-variants.txt')
 
     # absolute minimum test
-    assert_equals(result['maf']['basename'], 'DU874145-T.combined_variants.vep.rmv.maf')
+    assert_equals(result['maf']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf')
     assert_true(result['maf']['size'] > 0)
 
 
@@ -507,5 +507,5 @@ def test_replace_allele_counts():
     result = read_result('./outputs/remove-variants.txt')
 
     # absolute minimum test
-    assert_equals(result['maf']['basename'], 'DU874145-T.combined_variants.vep.rmv.maf')
+    assert_equals(result['maf']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf')
     assert_true(result['maf']['size'] > 0)

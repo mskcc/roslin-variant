@@ -1,0 +1,10 @@
+
+maf:
+  class: File
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf
+output: 'DU874145-T.combined-variants.vep.rmv.maf.fillout-ffpe-normal'
+output_format: '1'
+genome: GRCh37
+bams:
+  - class: File
+    path: /ifs/res/share/soccin/Case_201601/Proj_06049_Pool/r_001/alignments/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam

@@ -1,9 +1,9 @@
 inputMaf:
   class: File
-  path: ../data/from-module-4/DU874145-T.combined_variants.vep.rmv.maf
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf
 fillout:
   class: File
-  path: ../data/from-module-4/DU874145-T.combined_variants.vep.rmv.fillout
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.fillout
 verbose: true
-outputMaf: DU874145-T.combined_variants.vep.rmv.fillout.maf
+outputMaf: DU874145-T.combined-variants.vep.rmv.fillout.maf
 

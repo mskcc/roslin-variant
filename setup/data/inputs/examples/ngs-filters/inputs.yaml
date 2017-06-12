@@ -10,5 +10,5 @@ FFPEPoolMaf:
   path: ./sample_input_FFPE.maf
 inputHSP:
   class: File
-  path: ./hotspot-list-union-v1-v2.txt
+  path: ../data/from-module-4/hotspot-list-union-v1-v2.txt
 verbose: true

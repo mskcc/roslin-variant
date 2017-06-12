@@ -1,8 +1,8 @@
 inputVcf:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.vcf
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.mutect.vcf
 inputTxt:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.txt
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.mutect.txt
 verbose: true
 tsampleName: 'DU874145-T'

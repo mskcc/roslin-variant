@@ -1,7 +1,7 @@
 
 SUMMARISING RUN PARAMETERS
 ==========================
-Input filename: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmpvHnOHy/stg3ec2198c-6dbb-42b7-bc55-84a5d8272eff/DU874145-T_R1.fastq.gz
+Input filename: /ifs/work/chunj/prism-proto/ifs/prism/outputs/2c6c7fb8/2c6c7fb8-4f74-11e7-bc7d-8cdcd4013cd4/outputs/tmpcLdhOk/stg939a8edd-95f3-4db4-9702-79cde1796839/DU874145-T_R1.chunk000.fastq.gz
 Quality Phred score cutoff: 1
 Quality encoding type selected: ASCII+33
 Adapter sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG'
@@ -13,7 +13,7 @@ Output file will be GZIP compressed
 
 
 cutadapt version 1.1
-Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmpvHnOHy/stg3ec2198c-6dbb-42b7-bc55-84a5d8272eff/DU874145-T_R1.fastq.gz
+Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG /ifs/work/chunj/prism-proto/ifs/prism/outputs/2c6c7fb8/2c6c7fb8-4f74-11e7-bc7d-8cdcd4013cd4/outputs/tmpcLdhOk/stg939a8edd-95f3-4db4-9702-79cde1796839/DU874145-T_R1.chunk000.fastq.gz
 Maximum error rate: 10.00%
    Processed reads: 451873
      Trimmed reads: 225539 ( 49.9%)
@@ -21,7 +21,7 @@ Maximum error rate: 10.00%
  Trimmed basepairs:       292587 (0.3 Mbp) (0.68% of total)
    Too short reads: 0 (  0.0% of processed reads)
     Too long reads: 0 (  0.0% of processed reads)
-        Total time:     14.10 s
+        Total time:     13.05 s
      Time per read:      0.03 ms
 
 === Adapter 1 ===
@@ -43,7 +43,7 @@ length	count	expected
 35	1	0.0
 
 
-RUN STATISTICS FOR INPUT FILE: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmpvHnOHy/stg3ec2198c-6dbb-42b7-bc55-84a5d8272eff/DU874145-T_R1.fastq.gz
+RUN STATISTICS FOR INPUT FILE: /ifs/work/chunj/prism-proto/ifs/prism/outputs/2c6c7fb8/2c6c7fb8-4f74-11e7-bc7d-8cdcd4013cd4/outputs/tmpcLdhOk/stg939a8edd-95f3-4db4-9702-79cde1796839/DU874145-T_R1.chunk000.fastq.gz
 =============================================
 451873 sequences processed in total
 Sequences removed because they became shorter than the length cutoff of 25 bp:	0 (0.0%)
