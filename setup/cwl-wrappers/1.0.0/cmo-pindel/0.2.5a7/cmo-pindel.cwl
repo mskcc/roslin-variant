@@ -238,14 +238,20 @@ inputs:
       prefix: --breakdancer
 
   include:
-    type: ['null', string]
+    type:
+    - 'null'
+    - string
+    - File
     doc: If you want Pindel to process a set of regions, please provide a bed file
       here - chr start end
     inputBinding:
       prefix: --include
 
   exclude:
-    type: ['null', string]
+    type:
+    - 'null'
+    - string
+    - File
     doc: If you want Pindel to skip a set of regions, please provide a bed file here
       - chr start end
     inputBinding:
