@@ -1,27 +1,27 @@
 bams:
   - class: File
-    path: ../data/from-module-2/DU874145-T.RG.md.abra.fmi.printreads.bam
+    path: ../data/from-module-2/DU874145-T.rg.md.abra.fmi.printreads.bam
   - class: File
-    path: ../data/from-module-2/DU874145-N.RG.md.abra.fmi.printreads.bam
+    path: ../data/from-module-2/DU874145-N.rg.md.abra.fmi.printreads.bam
 
 mutect_vcf:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.vcf
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.mutect.vcf
 mutect_callstats:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.mutect.txt
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.mutect.txt
 pindel_vcf:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.pindel.vcf
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.pindel.vcf
 sid_vcf:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.sid.vcf
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.sid.vcf
 sid_verbose:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.sid.txt
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.sid.txt
 vardict_vcf:
   class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.vardict.vcf
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.vardict.vcf
 
 tumor_sample_name: "DU874145-T"
 normal_sample_name: "DU874145-N"
@@ -33,3 +33,59 @@ exac_filter:
   class: File
   path: /ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
 vep_data: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86
+
+curated_bams:
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M12-1892-N_bc10_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-44042-1-N_bc24_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-44503-N_bc39_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-43532-1-N_bc16_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M12-2615-N_bc12_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-44056-1-N_bc23_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-44315-1-N_bc30_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M11-3639-N_bc03_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-44538-N_bc36_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-43646-1-N_bc29_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-40685-N_bc34_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M12-0399-N_bc08_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-43697-1-N_bc33_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M14-8322-2-N_bc14_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-41382-1-N_bc17_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M14-7594-1-N_bc21_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M11-1637-N_bc11_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M13-1083-N_bc06_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M11-1089-N_bc04_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/M12-0994-N_bc05_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S12-18799-N_bc38_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-43894-1-N_bc32_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+  - class: File
+    path: /ifs/work/zeng/dmp/resources/StdNormal/Impact410/20161202/Bam/S14-44576-1-N_bc27_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_BR.bam
+
+ffpe_normal_bams:
+  - class: File
+    path: /ifs/res/share/soccin/Case_201601/Proj_06049_Pool/r_001/alignments/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam
+
+hotspot_list:
+  class: File
+  path: ../data/from-module-4/hotspot-list-union-v1-v2.txt

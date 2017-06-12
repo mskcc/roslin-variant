@@ -75,6 +75,23 @@ inputs:
             - .tbi
     vep_data: string
 
+    curated_bams:
+        type:
+            type: array
+            items: File
+        secondaryFiles:
+            - ^.bai
+
+    ffpe_normal_bams:
+        type:
+            type: array
+            items: File
+        secondaryFiles:
+            - ^.bai
+
+    hotspot_list:
+        type: File
+
 outputs:
 
 #    sid_vcf:
@@ -102,13 +119,25 @@ outputs:
 #        type: File
 #        outputSource: remove_variants/maf
 
-#    fillout:
+#    fillout_tumor_normal:
 #        type: File
-#        outputSoruce: fillout/fillout
+#        outputSoruce: fillout_tumor_normal/fillout
 
-    replace_allele_counts:
+#    replace_allele_counts:
+#        type: File
+#        outputSource: replace_allele_counts/maf
+
+#    fillout_curated_bams:
+#        type: File
+#        outputSource: fillout_2/fillout
+
+#    fillout_ffpe_normal:
+#        type: File
+#        outputSource: fillout_2/fillout
+
+    maf:
         type: File
-        outputSource: replace_allele_counts/maf
+        outputSource: ngs_filters/output
 
 steps:
 
@@ -260,7 +289,7 @@ steps:
             reference_sequence: genome
             tumor_sample_name: tumor_sample_name
             out:
-                valueFrom: ${ return inputs.tumor_sample_name + ".combined_variants.vcf" }
+                valueFrom: ${ return inputs.tumor_sample_name + ".combined-variants.vcf" }
         out: [out_vcf]
 
     vcf2maf:
@@ -278,7 +307,7 @@ steps:
             retain_info:
                 default: "set,TYPE,FAILURE_REASON"
             output_maf:
-                valueFrom: ${ return inputs.tumor_id + ".combined_variants.vep.maf" }
+                valueFrom: ${ return inputs.tumor_id + ".combined-variants.vep.maf" }
         out: [output]
 
     remove_variants:
@@ -289,7 +318,7 @@ steps:
                 valueFrom: ${ return inputs.inputMaf.basename.replace(".vep.maf", ".vep.rmv.maf") }
         out: [maf]
 
-    fillout:
+    fillout_tumor_normal:
         run: cmo-fillout/1.2.1/cmo-fillout.cwl
         in:
             maf: remove_variants/maf
@@ -303,7 +332,55 @@ steps:
         run: replace-allele-counts/0.1.1/replace-allele-counts.cwl
         in:
             inputMaf: remove_variants/maf
-            fillout: fillout/fillout
+            fillout: fillout_tumor_normal/fillout
             outputMaf:
                 valueFrom: ${ return inputs.inputMaf.basename.replace(".maf", ".fillout.maf") }
         out: [maf]
+
+    fillout_2:
+        in:
+            maf: replace_allele_counts/maf
+            genome: genome
+        out: [fillout_curated_bams, fillout_ffpe_normal]
+        run:
+            class: Workflow
+            inputs:
+                maf: File
+                genome: string
+            outputs:
+                fillout_curated_bams:
+                    type: File
+                    outputSource: fillout_curated_bams/fillout
+                fillout_ffpe_normal:
+                    type: File
+                    outputSource: fillout_ffpe_normal/fillout
+            steps:
+                fillout_curated_bams:
+                    run: cmo-fillout/1.2.1/cmo-fillout.cwl
+                    in:
+                        maf: maf
+                        bams: curated_bams
+                        genome: genome
+                        output_format:
+                            default: "1"
+                    out: [fillout]
+                fillout_ffpe_normal:
+                    run: cmo-fillout/1.2.1/cmo-fillout.cwl
+                    in:
+                        maf: maf
+                        bams: ffpe_normal_bams
+                        genome: genome
+                        output_format:
+                            default: "1"
+                    out: [fillout]
+
+    ngs_filters:
+        run: ngs-filters/1.1.4/ngs-filters.cwl
+        in:
+            inputMaf: replace_allele_counts/maf
+            outputMaf:
+                valueFrom: ${ return inputs.tumor_sample_name + ".maf" }
+            NormalPanelMaf: fillout_2/fillout_curated_bams
+            FFPEPoolMaf: fillout_2/fillout_ffpe_normal
+            inputHSP: hotspot_list
+        out: [output]
