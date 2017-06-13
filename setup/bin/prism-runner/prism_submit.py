@@ -15,10 +15,12 @@ import json
 import tarfile
 import base64
 import time
+import re
 
 
 DOC_VERSION = "0.0.1"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
+
 
 def bsub(bsubline):
     "execute lsf bsub"
@@ -32,7 +34,7 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit(cmo_project_id, job_uuid, work_dir):
+def submit(cmo_project_id, job_uuid, work_dir, workflow_name):
     "submit roslin-runner to the w node"
 
     mem = 1
@@ -44,7 +46,6 @@ def submit(cmo_project_id, job_uuid, work_dir):
     job_name = "leader:{}:{}".format(cmo_project_id, job_uuid)
     job_desc = job_name
     output_dir = os.path.join(work_dir, "outputs")
-    workflow_name = "module-1-2-3.chunk.cwl"
     input_yaml = "inputs.yaml"
 
     job_command = "prism-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
@@ -89,7 +90,7 @@ def write(filename, cwl):
         file_out.write(cwl)
 
 
-def set_abra_scratch_directory(input_yaml_template_filename, job_uuid, output_dir):
+def set_abra_scratch_directory(input_yaml_template_filename, job_uuid, work_dir):
     "set abra scratch directory"
 
     # read e.g. input.yaml.template
@@ -103,9 +104,10 @@ def set_abra_scratch_directory(input_yaml_template_filename, job_uuid, output_di
 
     # write back to disk
     write(
-        os.path.join(output_dir, "inputs.yaml"),
+        os.path.join(work_dir, "inputs.yaml"),
         ruamel.yaml.dump(input_yaml, Dumper=ruamel.yaml.RoundTripDumper)
     )
+
 
 # fixme: move to common
 def get_current_utc_datetime():
@@ -149,13 +151,39 @@ def targzip_project_files(cmo_project_id, cmo_project_path):
         return base64.b64encode(tgz_file.read())
 
 
+def convert_examples_to_use_abs_path(inputs_yaml_path):
+    "convert example inputs.yaml to use absolute path"
+
+    output = []
+
+    # fixme: best way is to look for:
+    #   class: File
+    #   path: ../abc/def/123.fastq
+    with open(inputs_yaml_path, "r") as yaml_file:
+        lines = yaml_file.readlines()
+        prev_line = ""
+        for line in lines:
+            line = line.rstrip("\n")
+            if "class: File" in prev_line:
+                pattern = r"path: (\.\./data/from-module-.*)"
+                match = re.search(pattern, line)
+                if match:
+                    path = os.path.abspath(match.group(1))
+                    line = re.sub(pattern, "path: {}".format(path), line)
+            output.append(line)
+            prev_line = line
+
+    with open(inputs_yaml_path, "w") as yaml_file:
+        yaml_file.write("\n".join(output))
+
+
 def construct_project_metadata(cmo_project_id, cmo_project_path):
 
     request_file = os.path.abspath(
         os.path.join(cmo_project_path, cmo_project_id + "_request.txt")
     )
     mapping_file = os.path.abspath(
-        os.path.join(cmo_project_path, cmo_project_id +"_sample_mapping.txt")
+        os.path.join(cmo_project_path, cmo_project_id + "_sample_mapping.txt")
     )
     grouping_file = os.path.abspath(
         os.path.join(cmo_project_path, cmo_project_id + "_sample_grouping.txt")
@@ -163,6 +191,10 @@ def construct_project_metadata(cmo_project_id, cmo_project_path):
     pairing_file = os.path.abspath(
         os.path.join(cmo_project_path, cmo_project_id + "_sample_pairing.txt")
     )
+
+    if not os.path.isfile(request_file) or not os.path.isfile(mapping_file) \
+            or not os.path.isfile(grouping_file) or not os.path.isfile(pairing_file):
+        return None
 
     tgz_blob = targzip_project_files(cmo_project_id, cmo_project_path)
 
@@ -199,6 +231,9 @@ def publish_to_redis(cmo_project_id, cmo_project_path, lsf_proj_name):
     # fixme: wait until leader job shows up in LSF
     data = construct_project_metadata(cmo_project_id, cmo_project_path)
 
+    if not data:
+        return
+
     # connect to redis
     # fixme: configurable host, port, credentials
     redis_client = redis.StrictRedis(host='pitchfork', port=9006, db=0)
@@ -212,7 +247,7 @@ def main():
     parser = argparse.ArgumentParser(description='submit')
 
     parser.add_argument(
-        "--cmo_project_id",
+        "--id",
         action="store",
         dest="cmo_project_id",
         help="CMO Project ID (e.g. Proj_5088_B)",
@@ -220,10 +255,18 @@ def main():
     )
 
     parser.add_argument(
-        "--cmo_project_path",
+        "--path",
         action="store",
         dest="cmo_project_path",
-        help="Path to CMO Project (e.g. /ifs/projects/CMO/Proj_5088_B)",
+        help="Path to CMO Project (e.g. /ifs/projects/CMO/Proj_5088_B",
+        required=True
+    )
+
+    parser.add_argument(
+        "--workflow",
+        action="store",
+        dest="workflow_name",
+        help="CWL Workflow name (e.g. module-1-2-3.chunk.cwl)",
         required=True
     )
 
@@ -239,13 +282,28 @@ def main():
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    set_abra_scratch_directory(
-        os.path.join(params.cmo_project_path, "inputs.yaml.template"),
-        job_uuid,
-        work_dir
+    if params.workflow_name in ["module-1-2-3.chunk.cwl"]:
+        set_abra_scratch_directory(
+            os.path.join(params.cmo_project_path, "inputs.yaml.template"),
+            job_uuid,
+            work_dir
+        )
+    else:
+        copyfile(
+            os.path.join(params.cmo_project_path, "inputs.yaml"),
+            os.path.join(work_dir, "inputs.yaml")
+        )
+
+    convert_examples_to_use_abs_path(
+        os.path.join(work_dir, "inputs.yaml")
     )
 
-    lsf_proj_name, lsf_job_id = submit(params.cmo_project_id, job_uuid, work_dir)
+    lsf_proj_name, lsf_job_id = submit(
+        params.cmo_project_id,
+        job_uuid,
+        work_dir,
+        params.workflow_name
+    )
 
     print lsf_proj_name
     print lsf_job_id
