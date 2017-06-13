@@ -312,6 +312,7 @@ def main():
 
     print lsf_proj_name
     print lsf_job_id
+    print work_dir
 
     # fixme: wait till leader job shows up
     time.sleep(5)

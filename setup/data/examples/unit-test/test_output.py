@@ -639,7 +639,7 @@ def test_module_4():
 
     with open(result["maf"]["path"], "r") as maf_file:
         lines = [line.rstrip("\n") for line in maf_file.readlines()]
-        git_commit_hash="fdf2287bfde870e847a788045eb1f316c76a055b"
+        git_commit_hash = "3c5a9ddc4068dad28a894275167978bae80a286d"
         assert_equals(lines[1], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_blacklist_regions.R")
         assert_equals(lines[2], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_low_conf.R")
         assert_equals(lines[3], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_ffpe.R")
