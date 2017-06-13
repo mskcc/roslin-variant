@@ -8,7 +8,6 @@ import json
 import datetime
 from dateutil.parser import parse
 import pytz
-import argparse
 import redis
 import zlib
 import base64
@@ -186,6 +185,18 @@ def get_final_output_metadata(stdout_log_path):
         pass
 
 
+def call_make_runprofile(job_uuid, inputs_yaml_path):
+
+    cmd = [
+        "prism_make_runprofile",
+        "--job_uuid", job_uuid,
+        "--inputs_yaml_path", inputs_yaml_path
+    ]
+
+    # fixme: error handling
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell)
+
+
 def construct_run_results(bjobs_info, already_reported_projs):
 
     # bjobs = [
@@ -351,4 +362,3 @@ def main():
 if __name__ == "__main__":
 
     main()
-
