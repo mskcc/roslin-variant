@@ -28,14 +28,16 @@ def read_result(filename):
 def assert_result_exists(result):
     "the result should exists"
 
-    assert_true(result is not None)
-    assert_true(len(result) != 0)
+    assert_true(result is not None, "The result is not found, or perhaps work is still in progress?")
+    assert_true(len(result) != 0, "The result is empty")
 
 
 def test_samtools_checksum():
     "samtools.sam2bam should return generate the correct output"
 
     result = read_result('./outputs/samtools-sam2bam.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_equals(result['bam']['basename'], 'sample.bam')
@@ -48,6 +50,8 @@ def test_gatk_FindCoveredIntervals():
 
     result = read_result('./outputs/cmo-gatk.FindCoveredIntervals.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['fci_list']['basename'], 'intervals.list')
     assert_equals(result['fci_list']['checksum'], 'sha1$bf0fad5c4a0bb7f387eca7f4fea57deb34812a18')
@@ -58,6 +62,8 @@ def test_abra():
     "abra should generate the correct output"
 
     result = read_result('./outputs/cmo-abra.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_equals(len(result['outbams']), 2)
@@ -74,6 +80,8 @@ def test_bwa_mem():
 
     result = read_result('./outputs/cmo-bwa-mem.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['bam']['checksum'], 'sha1$e775a05c99c5a0fe8b5d864ea3ad1cfc0c7e4fd1')
     assert_equals(result['bam']['basename'], 'P1.bam')
@@ -84,6 +92,8 @@ def test_gatk_SomaticIndelDetector():
     "gatk.somaticIndelDetector should generate the correct output"
 
     result = read_result('./outputs/cmo-gatk.SomaticIndelDetector.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('output' in result)
@@ -100,6 +110,8 @@ def test_list2bed():
 
     result = read_result('./outputs/cmo-list2bed.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_true('output_file' in result)
     assert_equals(result['output_file']['basename'], 'intervals.bed')
@@ -110,6 +122,8 @@ def test_mutect():
     "mutect should generate the correct output"
 
     result = read_result('./outputs/cmo-mutect.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('output' in result)
@@ -126,6 +140,8 @@ def test_picard_AddOrReplaceReadGroups():
 
     result = read_result('./outputs/cmo-picard.AddOrReplaceReadGroups.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_true('bam' in result)
     assert_equals(result['bam']['basename'], 'P-0000377-T02-IM3_ARRDRG.bam')
@@ -140,6 +156,8 @@ def test_picard_MarkDuplicates():
     "picard.markDuplicates should generate the correct output"
 
     result = read_result('./outputs/cmo-picard.MarkDuplicates.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('bam' in result)
@@ -158,6 +176,8 @@ def test_pindel():
 
     result = read_result('./outputs/cmo-pindel.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_true('output' in result)
     assert_equals(result['output']['basename'], 'P1_ADDRG_MD.abra.fmi.printreads.pindel.vcf')
@@ -168,6 +188,8 @@ def test_trimgalore():
     "trimgalore should generate the correct output"
 
     result = read_result('./outputs/cmo-trimgalore.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('clfastq1' in result)
@@ -192,6 +214,8 @@ def test_bsub_of_prism_runner():
 
     result = read_result('./outputs/bsub-of-prism-runner.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_true('bam' in result)
     assert_equals(result['bam']['basename'], 'sample.bam')
@@ -202,6 +226,8 @@ def test_basic_filtering_mutect():
     "basic-filtering.mutect should generate the correct output"
 
     result = read_result('./outputs/basic-filtering.mutect.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
@@ -218,6 +244,8 @@ def test_basic_filtering_pindel():
 
     result = read_result('./outputs/basic-filtering.pindel.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
     assert_equals(result['vcf']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.vcf')
@@ -232,6 +260,8 @@ def test_basic_filtering_sid():
     "basic-filtering.somaticIndelDetector should generate the correct output"
 
     result = read_result('./outputs/basic-filtering.somaticIndelDetector.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
@@ -249,6 +279,8 @@ def test_basic_filtering_vardict():
 
     result = read_result('./outputs/basic-filtering.vardict.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_true(result['vcf']['size'] > 0)
     assert_equals(result['vcf']['basename'], 'DU874145-T.rg.md.abra.fmi.printreads.vardict_STDfilter.vcf')
@@ -264,6 +296,8 @@ def test_bcftools_norm_mutect():
 
     result = read_result('./outputs/cmo-bcftools.norm.mutect.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['vcf']['basename'], 'mutect-norm.vcf')
     assert_equals(result['vcf']['class'], 'File')
@@ -273,6 +307,8 @@ def test_bcftools_norm_pindel():
     "bcftools.norm.pindel should generate the correct output"
 
     result = read_result('./outputs/cmo-bcftools.norm.pindel.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_equals(result['vcf']['basename'], 'pindel-norm.vcf')
@@ -284,6 +320,8 @@ def test_bcftools_norm_vardict():
 
     result = read_result('./outputs/cmo-bcftools.norm.vardict.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['vcf']['basename'], 'vardict-norm.vcf')
     assert_equals(result['vcf']['class'], 'File')
@@ -293,6 +331,8 @@ def test_bcftools_norm_sid():
     "bcftools.norm.somaticIndelDetector should generate the correct output"
 
     result = read_result('./outputs/cmo-bcftools.norm.somaticIndelDetector.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_equals(result['vcf']['basename'], 'sid-norm.vcf')
@@ -304,6 +344,8 @@ def test_gatk_CombineVariants():
 
     result = read_result('./outputs/cmo-gatk.CombineVariants.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['out_vcf']['basename'], 'DU874145-T.combined-variants.vcf')
     assert_equals(result['out_vcf']['class'], 'File')
@@ -314,6 +356,8 @@ def test_env():
 
     result = read_result('./outputs/env.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['output']['basename'], 'env.txt')
     assert_equals(result['output']['class'], 'File')
@@ -323,6 +367,8 @@ def test_module_1():
     "module 1 should generate the correct output"
 
     result = read_result('./outputs/module-1.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('clstats1' in result)
@@ -336,6 +382,8 @@ def test_module_2():
     "module 2 should generate the correct output"
 
     result = read_result('./outputs/module-2.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('covint_list' in result)
@@ -358,6 +406,8 @@ def test_module_3():
     "module 3 should generate the correct output"
 
     result = read_result('./outputs/module-3.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_true('mutect_vcf' in result)
@@ -385,6 +435,8 @@ def test_module_1_scatter():
 
     result = read_result('./outputs/module-1.scatter.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(len(result['clstats1']), 2)
     assert_equals(result['clstats1'][0]['basename'], 'P1_R1_cl.stats')
@@ -411,6 +463,8 @@ def test_module_1_2_3():
     "module 1-2-3 should generate the correct output"
 
     result = read_result('./outputs/module-1-2-3.txt')
+
+    assert_result_exists(result)
 
     tumor = 'DU874145-T'
     normal = 'DU874145-N'
@@ -445,6 +499,8 @@ def test_sort_bams_by_pair():
 
     result = read_result('./outputs/sort-bams-by-pair.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(len(result['tumor_bams']), 1)
     assert_equals(result['tumor_bams'][0]['basename'], 's_C_000269_T001_d.rg.md.bam')
@@ -461,6 +517,8 @@ def test_cmo_index():
 
     result = read_result('./outputs/cmo-index.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['tumor_bam']['basename'], 's_C_000269_N001_d.rg.md.bam')
     assert_equals(result['normal_bam']['basename'], 's_C_000269_T001_d.rg.md.bam')
@@ -472,6 +530,8 @@ def test_flatten_array():
     "flatten-array should generate the correct output"
 
     result = read_result('./outputs/flatten-array.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_equals(len(result['bams']), 2)
@@ -486,6 +546,8 @@ def test_vcf2maf():
 
     result = read_result('./outputs/cmo-vcf2maf.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['output']['basename'], 'DU874145-T.combined-variants.vep.maf')
     assert_true(result['output']['size'] > 0)
@@ -495,6 +557,8 @@ def test_remove_variants():
     "remove-variants should generate the correct output"
 
     result = read_result('./outputs/remove-variants.txt')
+
+    assert_result_exists(result)
 
     # absolute minimum test
     assert_equals(result['maf']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf')
@@ -506,6 +570,56 @@ def test_replace_allele_counts():
 
     result = read_result('./outputs/remove-variants.txt')
 
+    assert_result_exists(result)
+
     # absolute minimum test
     assert_equals(result['maf']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf')
     assert_true(result['maf']['size'] > 0)
+
+
+def test_fillout_tumor_normal():
+    "fillout_tumor_normal should generate the correct output"
+
+    result = read_result('./outputs/cmo-fillout.tumor-normal.txt')
+
+    assert_result_exists(result)
+
+    # absolute minimum test
+    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.fillout-tumor-normal')
+    assert_true(result['fillout']['size'] > 0)
+
+
+def test_fillout_curated_bams():
+    "fillout_curated_bams should generate the correct output"
+
+    result = read_result('./outputs/cmo-fillout.curated-bams.txt')
+
+    assert_result_exists(result)
+
+    # absolute minimum test
+    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.fillout-tumor-normal')
+    assert_true(result['fillout']['size'] > 0)
+
+
+def test_fillout_ffpe_normal():
+    "fillout_ffpe_normal should generate the correct output"
+
+    result = read_result('./outputs/cmo-fillout.ffpe-normal.txt')
+
+    assert_result_exists(result)
+
+    # absolute minimum test
+    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.fillout-ffpe-normal')
+    assert_true(result['fillout']['size'] > 0)
+
+
+def test_ngs_filters():
+    "ngs_filters should generate the collect output"
+
+    result = read_result('./outputs/ngs-filters.txt')
+
+    assert_result_exists(result)
+
+    # absolute minimum test
+    assert_equals(result['output']['basename'], 'output.maf')
+    assert_true(result['output']['size'] > 0)
