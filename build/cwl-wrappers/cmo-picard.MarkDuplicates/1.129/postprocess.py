@@ -37,7 +37,16 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['I']['type'].insert(1, 'File')
+    cwl['inputs']['I'] = ruamel.yaml.load("""
+type:
+  - 'null'
+  - type: array
+    items: File
+    inputBinding:
+        prefix: --I
+
+""", ruamel.yaml.RoundTripLoader)
+
     cwl['inputs']['CREATE_INDEX']['default'] = True
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']

@@ -40,7 +40,6 @@ def main():
     cwl['inputs']['I'] = ruamel.yaml.load("""
 type:
   - 'null'
-  - File
   - type: array
     items: File
     inputBinding:
