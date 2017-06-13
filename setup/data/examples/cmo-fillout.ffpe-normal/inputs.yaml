@@ -2,7 +2,7 @@
 maf:
   class: File
   path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf
-output: 'DU874145-T.combined-variants.vep.rmv.maf.fillout-ffpe-normal'
+output: 'DU874145-T.combined-variants.vep.rmv.maf.ffpe-normal.fillout'
 output_format: '1'
 n_threads: 10
 genome: GRCh37

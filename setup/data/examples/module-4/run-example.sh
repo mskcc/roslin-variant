@@ -2,5 +2,5 @@
 
 prism-runner.sh \
     -w module-4.cwl \
-    -i inputs.yaml \
+    -i inputs.1.yaml \
     -b lsf

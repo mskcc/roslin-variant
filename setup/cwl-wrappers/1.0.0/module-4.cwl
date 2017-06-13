@@ -374,7 +374,7 @@ steps:
                         output_format:
                             default: "1"
                         output:
-                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", '.curated.fillout'; }                            
+                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", ".curated.fillout"); }
                         n_threads:
                             default: 10
                     out: [fillout]
@@ -387,7 +387,7 @@ steps:
                         output_format:
                             default: "1"
                         output:
-                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", '.ffpe-normal.fillout'; }
+                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", ".ffpe-normal.fillout"); }
                         n_threads:
                             default: 10
                     out: [fillout]
