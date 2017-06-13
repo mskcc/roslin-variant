@@ -129,11 +129,11 @@ outputs:
 
 #    fillout_curated_bams:
 #        type: File
-#        outputSource: fillout_2/fillout
+#        outputSource: fillout_second/fillout
 
 #    fillout_ffpe_normal:
 #        type: File
-#        outputSource: fillout_2/fillout
+#        outputSource: fillout_second/fillout
 
     maf:
         type: File
@@ -337,16 +337,26 @@ steps:
                 valueFrom: ${ return inputs.inputMaf.basename.replace(".maf", ".fillout.maf") }
         out: [maf]
 
-    fillout_2:
+    fillout_second:
         in:
             maf: replace_allele_counts/maf
             genome: genome
+            curated_bams: curated_bams
+            ffpe_normal_bams: ffpe_normal_bams
         out: [fillout_curated_bams, fillout_ffpe_normal]
         run:
             class: Workflow
             inputs:
                 maf: File
                 genome: string
+                curated_bams:
+                    type:
+                        type: array
+                        items: File
+                ffpe_normal_bams:
+                    type:
+                        type: array
+                        items: File
             outputs:
                 fillout_curated_bams:
                     type: File
@@ -363,6 +373,10 @@ steps:
                         genome: genome
                         output_format:
                             default: "1"
+                        output:
+                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", '.curated.fillout'; }                            
+                        n_threads:
+                            default: 10
                     out: [fillout]
                 fillout_ffpe_normal:
                     run: cmo-fillout/1.2.1/cmo-fillout.cwl
@@ -372,15 +386,20 @@ steps:
                         genome: genome
                         output_format:
                             default: "1"
+                        output:
+                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", '.ffpe-normal.fillout'; }
+                        n_threads:
+                            default: 10
                     out: [fillout]
 
     ngs_filters:
         run: ngs-filters/1.1.4/ngs-filters.cwl
         in:
+            tumor_sample_name: tumor_sample_name
             inputMaf: replace_allele_counts/maf
             outputMaf:
                 valueFrom: ${ return inputs.tumor_sample_name + ".maf" }
-            NormalPanelMaf: fillout_2/fillout_curated_bams
-            FFPEPoolMaf: fillout_2/fillout_ffpe_normal
+            NormalPanelMaf: fillout_second/fillout_curated_bams
+            FFPEPoolMaf: fillout_second/fillout_ffpe_normal
             inputHSP: hotspot_list
         out: [output]

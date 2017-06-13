@@ -614,7 +614,7 @@ def test_fillout_ffpe_normal():
 
 
 def test_ngs_filters():
-    "ngs_filters should generate the collect output"
+    "ngs_filters should generate the correct output"
 
     result = read_result('./outputs/ngs-filters.txt')
 
@@ -623,3 +623,15 @@ def test_ngs_filters():
     # absolute minimum test
     assert_equals(result['output']['basename'], 'output.maf')
     assert_true(result['output']['size'] > 0)
+
+
+def test_module_4():
+    "module 4 should generate the correct output"
+
+    result = read_result('./outputs/module-4.txt')
+
+    assert_result_exists(result)
+
+    # absolute minimum test
+    assert_equals(result['maf']['basename'], 'DU874145-T.maf')
+    assert_true(result['maf']['size'] > 0)
