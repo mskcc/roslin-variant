@@ -2,6 +2,7 @@
 
 import json
 import re
+import os
 from nose.tools import assert_equals
 from nose.tools import assert_true
 from nose.tools import nottest
@@ -585,7 +586,7 @@ def test_fillout_tumor_normal():
     assert_result_exists(result)
 
     # absolute minimum test
-    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.fillout-tumor-normal')
+    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.tumor-normal.fillout')
     assert_true(result['fillout']['size'] > 0)
 
 
@@ -597,7 +598,7 @@ def test_fillout_curated_bams():
     assert_result_exists(result)
 
     # absolute minimum test
-    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.fillout-tumor-normal')
+    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.curated.fillout')
     assert_true(result['fillout']['size'] > 0)
 
 
@@ -609,7 +610,7 @@ def test_fillout_ffpe_normal():
     assert_result_exists(result)
 
     # absolute minimum test
-    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.fillout-ffpe-normal')
+    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.ffpe-normal.fillout')
     assert_true(result['fillout']['size'] > 0)
 
 
@@ -621,7 +622,7 @@ def test_ngs_filters():
     assert_result_exists(result)
 
     # absolute minimum test
-    assert_equals(result['output']['basename'], 'output.maf')
+    assert_equals(result['output']['basename'], "DU874145-T.maf")
     assert_true(result['output']['size'] > 0)
 
 
@@ -633,5 +634,14 @@ def test_module_4():
     assert_result_exists(result)
 
     # absolute minimum test
-    assert_equals(result['maf']['basename'], 'DU874145-T.maf')
+    assert_equals(result['maf']['basename'], "DU874145-T.maf")
     assert_true(result['maf']['size'] > 0)
+
+    with open(result["maf"]["path"], "r") as maf_file:
+        lines = [line.rstrip("\n") for line in maf_file.readlines()]
+        git_commit_hash="fdf2287bfde870e847a788045eb1f316c76a055b"
+        assert_equals(lines[1], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_blacklist_regions.R")
+        assert_equals(lines[2], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_low_conf.R")
+        assert_equals(lines[3], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_ffpe.R")
+        assert_equals(lines[4], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_dmp.R")
+        assert_equals(lines[5], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_ffpe_pool.R")
