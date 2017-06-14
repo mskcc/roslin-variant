@@ -185,16 +185,17 @@ def get_final_output_metadata(stdout_log_path):
         pass
 
 
-def call_make_runprofile(job_uuid, inputs_yaml_path):
+def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
 
     cmd = [
         "prism_runprofile.py",
         "--job_uuid", job_uuid,
-        "--inputs_yaml_path", inputs_yaml_path
+        "--inputs_yaml", inputs_yaml_path,
+        "--cwltoil_log", cwltoil_log_path
     ]
 
     # fixme: error handling
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell)
+    subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell)
 
 
 def construct_run_results(bjobs_info, already_reported_projs):
@@ -276,6 +277,8 @@ def construct_run_results(bjobs_info, already_reported_projs):
                 stdout_log_path, _ = get_stdouterr_log_path(lsf_job_id)
 
                 projects[job_uuid]["outputs"] = get_final_output_metadata(stdout_log_path)
+
+                # call_make_runprofile(job_uuid, None, projects[job_uuid]["logFile"])
 
             # find if logFile and jobstore id have not been found
             if projects[job_uuid]["logFile"] is None or projects[job_uuid]["pipelineJobStoreId"] is None:

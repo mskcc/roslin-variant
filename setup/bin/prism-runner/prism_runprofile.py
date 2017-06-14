@@ -7,6 +7,7 @@ import json
 import ruamel.yaml
 import argparse
 import redis
+import re
 
 
 DOC_VERSION = "0.0.1"
@@ -218,7 +219,47 @@ def get_node_info():
     )
 
 
-def make_runprofile(job_uuid, inputs_yaml_path):
+def get_bioinformatics_software_info(cwltoil_log):
+
+    sw_list = {}
+
+    with open(cwltoil_log, "r") as log_file:
+        log = log_file.read()
+
+    matches = re.finditer(r"INFO:cwltool:(\[job .*?\].*?\w    )[\w\[]", log, re.DOTALL)
+
+    for match1 in matches:
+        raw_cmd = match1.group(1)
+        if "completed success" in raw_cmd:
+            continue
+
+        # command constructor
+        match2 = re.search(r"\[job (.*?)\].*?\$\s(.*)", raw_cmd)
+        if match2:
+            software_name = match2.group(1)
+            cmd = match2.group(2).rstrip("\\")
+            match3 = re.finditer(r"$.*?\s{2,}(.*?)$", raw_cmd, re.DOTALL | re.MULTILINE)
+            args = [arg.group(1).rstrip(" \\") for arg in match3]
+            final_command = cmd + " ".join(args)
+            if software_name in sw_list:
+                sw_list[software_name].append(final_command)
+            else:
+                sw_list[software_name] = [final_command]
+
+        # matches = re.finditer(r"'(.*?)'.*?call_cmd.*?:\s+(.*)", log, re.MULTILINE)
+
+        # for match in matches:
+        #     software_name = match.group(1)
+        #     command = match.group(2)
+        #     if software_name in sw_list:
+        #         sw_list[software_name].append(command)
+        #     else:
+        #         sw_list[software_name] = [command]
+
+    return sw_list
+
+
+def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     "make run profile"
 
     run_profile = {
@@ -228,16 +269,12 @@ def make_runprofile(job_uuid, inputs_yaml_path):
         "pipelineJobId": job_uuid,
 
         "softwareUsed": {
-
             "roslin": get_roslin_info(),
             "cmo": get_cmo_pkg_info(),
             "singularity": get_singularity_info(),
             "cwltoil": get_cwltoil_info(),
             "node": get_node_info(),
-
-            "bioinformatics": [
-
-            ]
+            "bioinformatics": get_bioinformatics_software_info(cwltoil_log_path)
         },
 
         "references": get_references(inputs_yaml_path)
@@ -272,16 +309,24 @@ def main():
     )
 
     parser.add_argument(
-        "--inputs_yaml_path",
+        "--inputs_yaml",
         action="store",
         dest="inputs_yaml_path",
         help="Path to inputs.yaml",
         required=True
     )
 
+    parser.add_argument(
+        "--cwltoil_log",
+        action="store",
+        dest="cwltoil_log_path",
+        help="Path to cwltoil.log",
+        required=True
+    )
+
     params = parser.parse_args()
 
-    run_profile = make_runprofile(params.job_uuid, params.inputs_yaml_path)
+    run_profile = make_runprofile(params.job_uuid, params.inputs_yaml_path, params.cwltoil_log_path)
 
     print json.dumps(run_profile, indent=2)
 
