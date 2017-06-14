@@ -38,7 +38,7 @@ a682116078920f7810f62068d9ff4248  ./module-1.scatter.chunk.cwl
 94cfa8d7b723afccd210324877cde979  ./module-1.scatter.cwl
 c1281bebee117f8cf9bb5c863e2f9624  ./module-2.cwl
 b3633e4d28214342ed86a80b621f50c1  ./module-3.cwl
-33147063131398250bf57139631ffa90  ./module-4.cwl
+9d028adfaadae0fdb90c84227e4779c8  ./module-4.cwl
 a693333b4372b66108e0d4e3c72cafeb  ./module-4.vcf.cwl
 192e487d5c0ac7bb6bcab9e145da8e94  ./ngs-filters/1.1.4/ngs-filters.cwl
 d7a8a3bcb7679cde94f46bdc0797883a  ./remove-variants/0.1.1/remove-variants.cwl
