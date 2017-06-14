@@ -2,49 +2,50 @@
 
 import os
 import re
-import uuid
 import subprocess
 import json
 import datetime
+import base64
+import zlib
+import time
 from dateutil.parser import parse
 import pytz
 import redis
-import zlib
-import base64
-import time
 
 
 DOC_VERSION = "0.0.1"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
 
 
-def parse_effective_resource_requirement_string(input):
+def parse_effective_resource_requirement_string(input_str):
+    "parse LSF effective resource requirement string"
 
     # fixme: pre-compile regex
 
     memory = None
-    match = re.search(r'mem=(.*?)[,\]]', input)
+    match = re.search(r'mem=(.*?)[,\]]', input_str)
     if match:
         memory = match.group(1)
 
     cores = None
-    match = re.search(r'iounits=(.*?)\]', input)
+    match = re.search(r'iounits=(.*?)\]', input_str)
     if match:
         cores = match.group(1)
 
     return memory, cores
 
 
-def parse_execution_host_string(input):
+def parse_execution_host_string(input_str):
+    "parse LSF execution host string"
 
-    if input == '-':
+    if input_str == '-':
         return 1, "Unknown"
 
     # fixme: pre-compile regex
 
     num = None
     host = None
-    match = re.search(r'^((\d+)\*)?(.*)$', input)
+    match = re.search(r'^((\d+)\*)?(.*)$', input_str)
     if match:
         num = 1 if match.group(2) is None else match.group(2)
         host = match.group(3)
@@ -55,13 +56,14 @@ def parse_execution_host_string(input):
     return int(num), host
 
 
-def parse_lsf_project_name_string(input):
+def parse_lsf_project_name_string(input_str):
+    "parse LSF project name string"
 
     # fixme: pre-compile regex
 
     cmo_project_id = None
     job_uuid = None
-    match = re.search(r'^(Proj_.*?):([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})$', input)
+    match = re.search(r'^(Proj_.*?):([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})$', input_str)
     if match:
         cmo_project_id = match.group(1)
         job_uuid = match.group(2)
@@ -69,13 +71,14 @@ def parse_lsf_project_name_string(input):
     return cmo_project_id, job_uuid
 
 
-def parse_date_to_utc(input):
+def parse_date_to_utc(input_str):
+    "parse US/Easter date/time to UTC"
 
-    if input == '-':
+    if input_str == '-':
         return None
 
     # datetime without timezone info
-    naive_dt = parse(input)
+    naive_dt = parse(input_str)
 
     local = pytz.timezone("US/Eastern")
     local_dt = local.localize(naive_dt, is_dst=None)
@@ -85,10 +88,11 @@ def parse_date_to_utc(input):
     return utc_dt.strftime(DATETIME_FORMAT)
 
 
-def parse_run_time_string(input):
+def parse_run_time_string(input_str):
+    "parse LSF runtime string"
 
     # fixme: pre-compile regex
-    match = re.search(r'^(\d+) second\(s\)$', input)
+    match = re.search(r'^(\d+) second\(s\)$', input_str)
     if match:
         return match.group(1)
     else:
@@ -105,7 +109,8 @@ def get_current_utc_datetime():
     return utc_dt.strftime(DATETIME_FORMAT)
 
 
-def get_stdouterr_log_path(lsf_job_id):
+def get_workdir_stdouterr_log_path(lsf_job_id):
+    "get working directory and path to stdout/stderr log of LSF leader job"
 
     bjobs = [
         "bjobs",
@@ -121,12 +126,13 @@ def get_stdouterr_log_path(lsf_job_id):
         work_dir, stdout_log, stderr_log = line.split('\t')
         if work_dir == "-":
             return None
-        return os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
+        return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
     else:
         return None
 
 
 def get_cwltoil_log_path_jobstore_id(stderr_log_path):
+    "get path to cwltoil log and jobstore id"
 
     cwltoil_log_path = None
     jobstore_id = None
@@ -165,6 +171,7 @@ def get_cwltoil_log_path_jobstore_id(stderr_log_path):
 
 
 def get_final_output_metadata(stdout_log_path):
+    "get final output metadata"
 
     try:
         with open(stdout_log_path, "rt") as fstdout:
@@ -186,6 +193,7 @@ def get_final_output_metadata(stdout_log_path):
 
 
 def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
+    "call make_runprofile program"
 
     cmd = [
         "prism_runprofile.py",
@@ -194,26 +202,12 @@ def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
         "--cwltoil_log", cwltoil_log_path
     ]
 
-    # fixme: error handling
-    subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell)
+    # non-blocking call
+    subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
 def construct_run_results(bjobs_info, already_reported_projs):
-
-    # bjobs = [
-    #     "bjobs",
-    #     "-P", lsf_project_name,
-    #     "-a",
-    #     "-o", "jobid proj_name job_name stat submit_time start_time finish_time run_time effective_resreq exec_host delimiter='\t'",
-    #     "-noheader"
-    # ]
-
-    # process = subprocess.Popen(bjobs, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    # rows = process.stdout.readlines()
-
-    # fff = open('bjobs.txt', "r")
-    # rows = fff.readlines()
-    # fff.close()
+    "construct run results"
 
     projects = {}
 
@@ -224,12 +218,12 @@ def construct_run_results(bjobs_info, already_reported_projs):
 
     for row in rows:
 
-        p = row.strip().split('\t')
+        lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = row.strip().split('\t')
 
-        lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = p
-
-        # only care about roslin launched jobs (i.e. lsf_proj_name = Proj_5088_B:eec50a98-4c5f-11e7-af25-8cdcd4013cd4)
-        if lsf_proj_name.startswith == "default":
+        # only care about roslin launched jobs
+        # lsf_proj_name = Proj_5088_B:eec50a98-4c5f-11e7-af25-8cdcd4013cd4
+        # lsf_proj_name = default:55130a48-5075-11e7-b325-645106efb11c
+        if lsf_proj_name == "default":
             continue
 
         # probably we want to not report these?
@@ -256,8 +250,13 @@ def construct_run_results(bjobs_info, already_reported_projs):
                 "labels": [],
                 "timestamp": {},
                 "status": {},
-                "logFile": {},
+                "logFiles": {
+                    "cwltoil": None,
+                    "stdout": None,
+                    "stderr": None
+                },
                 "batchSystemJobs": {},
+                "workingDirectory": None,
                 "outputs": {}
             }
 
@@ -272,23 +271,31 @@ def construct_run_results(bjobs_info, already_reported_projs):
             }
             projects[job_uuid]["status"] = status
 
-            # if leader job is done, collect output
-            if status == "DONE":
-                stdout_log_path, _ = get_stdouterr_log_path(lsf_job_id)
-
-                projects[job_uuid]["outputs"] = get_final_output_metadata(stdout_log_path)
-
-                # call_make_runprofile(job_uuid, None, projects[job_uuid]["logFile"])
-
             # find if logFile and jobstore id have not been found
-            if projects[job_uuid]["logFile"] is None or projects[job_uuid]["pipelineJobStoreId"] is None:
+            # this must be done before checking status=DONE
+            if projects[job_uuid]["logFiles"]["cwltoil"] is None or projects[job_uuid]["pipelineJobStoreId"] is None:
 
-                _, stderr_log_path = get_stdouterr_log_path(lsf_job_id)
+                work_dir, stdout_log_path, stderr_log_path = get_workdir_stdouterr_log_path(lsf_job_id)
 
                 if stderr_log_path:
                     cwltoil_log_path, jobstore_id = get_cwltoil_log_path_jobstore_id(stderr_log_path)
-                    projects[job_uuid]["logFile"] = cwltoil_log_path
+                    projects[job_uuid]["logFiles"]["cwltoil"] = cwltoil_log_path
+                    projects[job_uuid]["logFiles"]["stdout"] = stdout_log_path
+                    projects[job_uuid]["logFiles"]["stderr"] = stderr_log_path
                     projects[job_uuid]["pipelineJobStoreId"] = jobstore_id
+                    projects[job_uuid]["workingDirectory"] = work_dir
+
+            # if leader job is done
+            if status == "DONE":
+                # collect output
+                projects[job_uuid]["outputs"] = get_final_output_metadata(projects[job_uuid]["logFiles"]["stdout"])
+
+                # call make_runprofile program
+                call_make_runprofile(
+                    job_uuid,
+                    os.path.join(projects[job_uuid]["workingDirectory"], "inputs.yaml"),
+                    projects[job_uuid]["logFiles"]["cwltoil"]
+                )
 
         # parse effective resource requirement string
         memory, cores = parse_effective_resource_requirement_string(effective_resreq)
@@ -323,7 +330,7 @@ def main():
 
     while True:
 
-        print "-----"
+        print "-----> {}".format(datetime.datetime.now().strftime("%H:%M:%S"))
 
         # this is essentialy the same as subprocess.Popen("bjobs -u all ...", ...)
         data = redis_client.get('bjobs')
@@ -355,9 +362,8 @@ def main():
             except Exception:
                 pass
 
-        # project_pretty_json = json.dumps(projects, indent=4)
-
-        # print project_pretty_json
+        print "<----- {}".format(datetime.datetime.now().strftime("%H:%M:%S"))
+        print
 
         time.sleep(30)
 
