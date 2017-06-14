@@ -182,9 +182,18 @@ Add a command that invokes the tool being containerized (without any tool-specif
 - Add a tool-specific parameter that will be called with when a user runs the container without specifying any parameters.
 - If user does specify parameters at runtime, whatever parameters you specify here will be overriden.
 
+### Others
+
+Include the following in `Dockerfile` when containerizing Python-based tools.
+
+```
+# disable per-user site-packages before run
+ENV PYTHONNOUSERSITE set
+```
+
 ## .dockerignore
 
-Create a file named `.dockerignore`. 
+Create a file named `.dockerignore`.
 
 - Usually, you do not want to transfer context to Docker daemon, so add `*` to the file.
 - However, if you are copying files from the host to the container image, you must make sure that the files are mentioned in the `.dockerignore` as an exception.
@@ -220,7 +229,7 @@ Registry: http://localhost:5000
 
     # load the settings-container.sh which was copied in the %setup step
     source /tmp/settings-container.sh
-    
+
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
     do
@@ -270,6 +279,19 @@ Specify the tool's docker image name and version. Note that the prefix `pipeline
 
 - Add unit test code to verify that the tool is correctly containerized.
 - In general, you'd want to call the tool and check the version or help message.
+
+### Others
+
+Include the following in the `%runscript` section of the `Singularity` file when containerizing Python-based tools:
+
+```
+%runscript
+
+    # disable per-user site-packages before run
+    export PYTHONNOUSERSITE="set"
+```
+
+For R-based tools, make sure to run `Rscript` with `--vanilla`.
 
 ## Build and Verify
 

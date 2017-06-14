@@ -1,0 +1,12 @@
+maf:
+  class: File
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf
+output: 'DU874145-T.combined-variants.vep.rmv.maf.tumor-normal.fillout'
+output_format: '1'
+n_threads: 10
+genome: GRCh37
+bams:
+  - class: File
+    path: ../data/from-module-2/DU874145-T.rg.md.abra.fmi.printreads.bam
+  - class: File
+    path: ../data/from-module-2/DU874145-N.rg.md.abra.fmi.printreads.bam

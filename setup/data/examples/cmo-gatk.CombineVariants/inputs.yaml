@@ -1,0 +1,17 @@
+variants_vardict:
+    class: File
+    path: ../data/from-module-4/vardict-norm.vcf
+variants_pindel:
+    class: File
+    path: ../data/from-module-4/pindel-norm.vcf
+variants_sid:
+    class: File
+    path: ../data/from-module-4/sid-norm.vcf
+variants_mutect:
+    class: File
+    path: ../data/from-module-4/mutect-norm.vcf
+unsafe: ALLOW_SEQ_DICT_INCOMPATIBILITY
+genotypemergeoption: PRIORITIZE
+rod_priority_list: ['VarDict', 'MuTect', 'SomaticIndelDetector', 'Pindel']
+reference_sequence: GRCh37
+out: DU874145-T.combined-variants.vcf

@@ -172,7 +172,7 @@ steps:
             I: bwa/bam
             O:
               valueFrom: |
-                ${ return inputs.I.basename.replace(".bam", ".RG.bam") }
+                ${ return inputs.I.basename.replace(".bam", ".rg.bam") }
             LB: add_rg_LB
             PL: add_rg_PL
             ID: add_rg_ID

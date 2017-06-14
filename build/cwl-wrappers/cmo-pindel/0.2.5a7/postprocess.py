@@ -45,8 +45,11 @@ def main():
     del cwl['inputs']['config_file']
     del cwl['inputs']['config_line']
 
+    cwl['inputs']['include']['type'] = ['null', 'string', 'File']
+    cwl['inputs']['exclude']['type'] = ['null', 'string', 'File']
+
     cwl['inputs']['sample_names'] = ruamel.yaml.load("""
-type: 
+type:
   - "null"
   - type: array
     items: string
@@ -58,7 +61,7 @@ doc: one line of config file per specification will autogenerate config on fly.
 """, ruamel.yaml.RoundTripLoader)
 
     cwl['inputs']['bams'] = ruamel.yaml.load("""
-type: 
+type:
   - "null"
   - type: array
     items: File

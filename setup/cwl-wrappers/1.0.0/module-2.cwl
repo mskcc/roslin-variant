@@ -73,7 +73,10 @@ inputs:
     rf: string[]
     covariates: string[]
     abra_scratch: string
-    intervals: string
+    intervals:
+        type:
+            - 'null'
+            - string
 
 outputs:
     covint_list:

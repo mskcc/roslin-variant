@@ -1,11 +1,11 @@
 .vagrant
+.vscode/ftp-sync.json
 *.log
 /build/containers/**/*.img
 /build/cwl-wrappers/**/*.bak
 /build/tmp/**
 /build/scripts/error.*.txt
 /setup/data/assemblies
-/setup/data/inputs/P-*.fastq.gz
 /setup/tools/**
 /*.tgz
 *.pyc

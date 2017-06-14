@@ -1,0 +1,119 @@
+##fileformat=VCFv4.1
+##FILTER=<ID=PASS,Description="All filters passed">
+##MuTect="analysis_type=MuTect input_file=[/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmp2zsQYM/stg55061fcf-1357-41e8-83c3-97fad321a95e/DU874145-T.RG.md.abra.fmi.printreads.bam, /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmp2zsQYM/stgff42e62b-87b6-40d4-bb7b-7200837e6fb6/DU874145-N.RG.md.abra.fmi.printreads.bam] read_buffer_size=null phone_home=STANDARD gatk_key=null tag=NA read_filter=[BadCigar] intervals=null excludeIntervals=null interval_set_rule=UNION interval_merging=ALL interval_padding=0 reference_sequence=/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta nonDeterministicRandomSeed=false disableRandomization=false maxRuntime=-1 maxRuntimeUnits=MINUTES downsampling_type=NONE downsample_to_fraction=null downsample_to_coverage=50000 enable_experimental_downsampling=false baq=OFF baqGapOpenPenalty=40.0 performanceLog=null useOriginalQualities=false BQSR=null quantize_quals=0 disable_indel_quals=false emit_original_quals=false preserve_qscores_less_than=6 defaultBaseQualities=-1 validation_strictness=SILENT remove_program_records=false keep_program_records=false unsafe=null num_threads=1 num_cpu_threads_per_data_thread=1 num_io_threads=0 monitorThreadEfficiency=false num_bam_file_handles=null read_group_black_list=null pedigree=[] pedigreeString=[] pedigreeValidationType=STRICT allow_intervals_with_unindexed_bam=false generateShadowBCF=false logging_level=INFO log_to_file=null help=false noop=false enable_extended_output=true artifact_detection_mode=false tumor_sample_name=DU874145-T bam_tumor_sample_name=null normal_sample_name=DU874145-N force_output=false force_alleles=false only_passing_calls=false initial_tumor_lod=4.0 tumor_lod=6.3 fraction_contamination=0.02 minimum_mutation_cell_fraction=0.0 normal_lod=2.2 normal_artifact_lod=1.0 strand_artifact_lod=2.0 strand_artifact_power_threshold=0.9 dbsnp_normal_lod=5.5 somatic_classification_normal_power_threshold=0.95 minimum_normal_allele_fraction=0.0 tumor_f_pretest=0.005 min_qscore=5 gap_events_threshold=3 heavily_clipped_read_fraction=0.3 clipping_bias_pvalue_threshold=0.05 fraction_mapq0_threshold=0.5 pir_median_threshold=10.0 pir_mad_threshold=3.0 required_maximum_alt_allele_mapping_quality_score=20 max_alt_alleles_in_normal_count=2 max_alt_alleles_in_normal_qscore_sum=20 max_alt_allele_in_normal_fraction=0.03 power_constant_qscore=30 absolute_copy_number_data=null power_constant_af=0.30000001192092896 vcf=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub no_cmdline_in_header=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub sites_only=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub bcf=org.broadinstitute.sting.gatk.io.stubs.VariantContextWriterStub dbsnp=[(RodBinding name=dbsnp source=/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmp2zsQYM/stgca640241-ae7c-44ed-888b-d0805b1e1baa/dbsnp_138.b37.excluding_sites_after_129.vcf)] cosmic=[(RodBinding name=cosmic source=/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/module-1-2-3/outputs/tmp2zsQYM/stg2148b0bd-6eec-4ae8-86b0-3052d477176e/CosmicCodingMuts_v67_b37_20131024__NDS.vcf)] normal_panel=[] coverage_file=null coverage_20_q20_file=null power_file=null tumor_depth_file=null normal_depth_file=null filter_mismatching_base_and_quals=false"
+##reference=file:///ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta
+##INFO=<ID=DB,Number=0,Type=Flag,Description="dbSNP Membership">
+##INFO=<ID=MQ0,Number=1,Type=Integer,Description="Total Mapping Quality Zero Reads">
+##INFO=<ID=SOMATIC,Number=0,Type=Flag,Description="Somatic event">
+##INFO=<ID=VT,Number=1,Type=String,Description="Variant type, can be SNP, INS or DEL">
+##INFO=<ID=FAILURE_REASON,Number=1,Type=String,Description="Failure Reason from MuTect text File">
+##FORMAT=<ID=AD,Number=.,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=BQ,Number=A,Type=Float,Description="Average base quality for reads supporting alleles">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+##FORMAT=<ID=FA,Number=A,Type=Float,Description="Allele fraction of the alternate allele with regard to reference">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Normalized, Phred-scaled likelihoods for genotypes as defined in the VCF specification">
+##FORMAT=<ID=SS,Number=1,Type=Integer,Description="Variant status relative to non-adjacent Normal,0=wildtype,1=germline,2=somatic,3=LOH,4=post-transcriptional modification,5=unknown">
+##FILTER=<ID=REJECT,Description="Rejected as a confident somatic mutation">
+##contig=<ID=1,length=249250621>
+##contig=<ID=2,length=243199373>
+##contig=<ID=3,length=198022430>
+##contig=<ID=4,length=191154276>
+##contig=<ID=5,length=180915260>
+##contig=<ID=6,length=171115067>
+##contig=<ID=7,length=159138663>
+##contig=<ID=8,length=146364022>
+##contig=<ID=9,length=141213431>
+##contig=<ID=10,length=135534747>
+##contig=<ID=11,length=135006516>
+##contig=<ID=12,length=133851895>
+##contig=<ID=13,length=115169878>
+##contig=<ID=14,length=107349540>
+##contig=<ID=15,length=102531392>
+##contig=<ID=16,length=90354753>
+##contig=<ID=17,length=81195210>
+##contig=<ID=18,length=78077248>
+##contig=<ID=19,length=59128983>
+##contig=<ID=20,length=63025520>
+##contig=<ID=21,length=48129895>
+##contig=<ID=22,length=51304566>
+##contig=<ID=X,length=155270560>
+##contig=<ID=Y,length=59373566>
+##contig=<ID=MT,length=16569>
+##contig=<ID=GL000207.1,length=4262>
+##contig=<ID=GL000226.1,length=15008>
+##contig=<ID=GL000229.1,length=19913>
+##contig=<ID=GL000231.1,length=27386>
+##contig=<ID=GL000210.1,length=27682>
+##contig=<ID=GL000239.1,length=33824>
+##contig=<ID=GL000235.1,length=34474>
+##contig=<ID=GL000201.1,length=36148>
+##contig=<ID=GL000247.1,length=36422>
+##contig=<ID=GL000245.1,length=36651>
+##contig=<ID=GL000197.1,length=37175>
+##contig=<ID=GL000203.1,length=37498>
+##contig=<ID=GL000246.1,length=38154>
+##contig=<ID=GL000249.1,length=38502>
+##contig=<ID=GL000196.1,length=38914>
+##contig=<ID=GL000248.1,length=39786>
+##contig=<ID=GL000244.1,length=39929>
+##contig=<ID=GL000238.1,length=39939>
+##contig=<ID=GL000202.1,length=40103>
+##contig=<ID=GL000234.1,length=40531>
+##contig=<ID=GL000232.1,length=40652>
+##contig=<ID=GL000206.1,length=41001>
+##contig=<ID=GL000240.1,length=41933>
+##contig=<ID=GL000236.1,length=41934>
+##contig=<ID=GL000241.1,length=42152>
+##contig=<ID=GL000243.1,length=43341>
+##contig=<ID=GL000242.1,length=43523>
+##contig=<ID=GL000230.1,length=43691>
+##contig=<ID=GL000237.1,length=45867>
+##contig=<ID=GL000233.1,length=45941>
+##contig=<ID=GL000204.1,length=81310>
+##contig=<ID=GL000198.1,length=90085>
+##contig=<ID=GL000208.1,length=92689>
+##contig=<ID=GL000191.1,length=106433>
+##contig=<ID=GL000227.1,length=128374>
+##contig=<ID=GL000228.1,length=129120>
+##contig=<ID=GL000214.1,length=137718>
+##contig=<ID=GL000221.1,length=155397>
+##contig=<ID=GL000209.1,length=159169>
+##contig=<ID=GL000218.1,length=161147>
+##contig=<ID=GL000220.1,length=161802>
+##contig=<ID=GL000213.1,length=164239>
+##contig=<ID=GL000211.1,length=166566>
+##contig=<ID=GL000199.1,length=169874>
+##contig=<ID=GL000217.1,length=172149>
+##contig=<ID=GL000216.1,length=172294>
+##contig=<ID=GL000215.1,length=172545>
+##contig=<ID=GL000205.1,length=174588>
+##contig=<ID=GL000219.1,length=179198>
+##contig=<ID=GL000224.1,length=179693>
+##contig=<ID=GL000223.1,length=180455>
+##contig=<ID=GL000195.1,length=182896>
+##contig=<ID=GL000212.1,length=186858>
+##contig=<ID=GL000222.1,length=186861>
+##contig=<ID=GL000200.1,length=187035>
+##contig=<ID=GL000193.1,length=189789>
+##contig=<ID=GL000194.1,length=191469>
+##contig=<ID=GL000225.1,length=211173>
+##contig=<ID=GL000192.1,length=547496>
+##contig=<ID=NC_007605,length=171823>
+##contig=<ID=hs37d5,length=35477943>
+##bcftools_normVersion=1.3.1+htslib-1.3.1
+##bcftools_normCommand=norm --output mutect-norm.vcf --output-type v --fasta-ref /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/cmo-bcftools.norm.mutect/outputs/tmpFAgK8b/stg0e003130-42df-4cf8-a33c-0788d12df5fb/DU874145-T.rg.md.abra.fmi.printreads.mutect_STDfilter.vcf
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	DU874145-T	DU874145-N
+1	8075398	.	A	G	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:138,9:29:147:0.061:2	0:179,0:.:179:0:0
+3	47125811	.	A	G	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:138,66:30:204:0.324:2	0:224,0:.:223:0:0
+4	187557833	.	T	C	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:247,85:29:332:0.256:2	0:344,0:.:345:0:0
+6	150001182	.	A	G	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:167,79:30:246:0.321:2	0:390,0:.:389:0:0
+8	38272308	.	T	C	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:340,37:29:377:0.098:2	0:436,0:.:436:0:0
+8	128750686	.	C	T	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:345,32:27:377:0.085:2	0:395,0:.:395:0:0
+9	110249830	.	A	G	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:309,135:29:444:0.304:2	0:468,0:.:469:0:0
+9	139410435	.	T	C	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:310,90:29:400:0.225:2	0:432,1:.:433:0.002309:0
+12	57858974	.	A	G	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:384,108:29:493:0.22:2	0:447,1:.:446:0.002232:0
+15	88610406	.	A	G	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:170,10:28:180:0.056:2	0:164,0:.:164:0:0
+16	14021962	.	C	T	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:192,81:28:273:0.297:2	0:425,1:.:426:0.002347:0
+19	42794641	.	C	T	.	PASS	SOMATIC;VT=SNP;FAILURE_REASON=None	GT:AD:BQ:DP:FA:SS	0/1:401,37:29:438:0.084:2	0:439,0:.:438:0:0

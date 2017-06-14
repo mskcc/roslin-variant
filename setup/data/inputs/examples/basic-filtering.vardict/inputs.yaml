@@ -1,5 +1,0 @@
-inputVcf:
-  class: File
-  path: ../data/from-module-3/DU874145-T.RG.md.abra.fmi.printreads.vardict.vcf
-verbose: true
-tsampleName: 'DU874145-T'

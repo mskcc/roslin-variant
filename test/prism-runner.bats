@@ -608,3 +608,84 @@ get_args_line() {
 
     unstubs
 }
+
+@test "should set TOIL_LSF_PROJECT correctly before run, unset after run" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to print the value of TOIL_LSF_PROJECT
+    stub cwltoil 'printenv TOIL_LSF_PROJECT'
+
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+
+    assert_success
+
+    # get job UUID
+    job_uuid=$(get_job_uuid "$output")
+
+    assert_line --index 1 "default:${job_uuid}"
+
+    assert_equal `printenv TOIL_LSF_PROJECT` ''
+}
+
+@test "should correctly handle -p (CMO project ID) parameter" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to print the value of TOIL_LSF_PROJECT
+    stub cwltoil 'printenv TOIL_LSF_PROJECT'
+
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -p Proj_5678_F_2
+
+    assert_success
+
+    # get job UUID
+    job_uuid=$(get_job_uuid "$output")
+
+    assert_line --index 1 "Proj_5678_F_2:${job_uuid}"
+}
+
+@test "should correctly handle -j (job UUID) parameter" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, and PRISM_INPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to print the value of TOIL_LSF_PROJECT
+    stub cwltoil 'printenv TOIL_LSF_PROJECT'
+
+    pre_generated_job_uuid='836260e0-4af0-11e7-ab78-645106efb11c'
+
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -p Proj_5000_B -j ${pre_generated_job_uuid}
+
+    assert_success
+
+    # get job UUID
+    job_uuid=$(get_job_uuid "$output")
+
+    # check the content of job_uuid file
+    assert_equal "${job_uuid}" `cat ./outputs/job-uuid`
+
+    assert_equal "${pre_generated_job_uuid}" "${job_uuid}"
+
+    assert_line --index 1 "Proj_5000_B:${pre_generated_job_uuid}"
+}

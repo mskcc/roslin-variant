@@ -1,0 +1,14 @@
+inputMaf:
+  class: File
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.fillout.maf
+outputMaf: 'DU874145-T.maf'
+NormalPanelMaf:
+  class: File
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf.curated.fillout
+FFPEPoolMaf:
+  class: File
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.rmv.maf.ffpe-normal.fillout
+inputHSP:
+  class: File
+  path: ../data/from-module-4/hotspot-list-union-v1-v2.txt
+verbose: true

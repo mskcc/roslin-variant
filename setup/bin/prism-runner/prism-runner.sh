@@ -58,6 +58,11 @@ OPTIONS:
    -d      Enable debugging (default="enabled")
            fixme: you're not allowed to disable this right now
 
+OPTIONS for MSKCC LSF+TOIL:
+
+   -p      CMO Project ID (e.g. Proj_5088_B)
+   -j      Pre-generated job UUID
+
 EXAMPLE:
 
    `basename $0` -w module-1.cwl -i inputs-module-1.yaml -b lsf
@@ -67,7 +72,7 @@ EOF
 }
 
 
-while getopts “v:w:i:b:o:r:zd” OPTION
+while getopts “v:w:i:b:o:r:zdp:j:” OPTION
 do
     case $OPTION in
         v) PIPELINE_VERSION=$OPTARG ;;
@@ -81,6 +86,8 @@ do
            exit 0
            ;;
         d) DEBUG_OPTIONS="--logDebug --cleanWorkDir never" ;;
+        p) CMO_PROJECT_ID=$OPTARG ;;
+        j) JOB_UUID=$OPTARG ;;
         *) usage; exit 1 ;;
     esac
 done
@@ -140,8 +147,24 @@ esac
 # override CMO_RESOURC_CONFIG only while cwltoil is running
 export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
 
-# create a new UUID for job
-job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+if [ -z "${JOB_UUID}" ]
+then
+    # create a new UUID for job
+    job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
+else
+    # use the supplied one
+    job_uuid=${JOB_UUID}
+fi
+
+if [ -z "${CMO_PROJECT_ID}" ]
+then
+    cmo_project_id="default"
+else
+    cmo_project_id="${CMO_PROJECT_ID}"
+fi
+
+# MSKCC LSF+TOIL
+export TOIL_LSF_PROJECT="${cmo_project_id}:${job_uuid}"
 
 if [ -z "$RESTART_JOBSTORE_ID" ]
 then
@@ -183,5 +206,8 @@ cwltoil \
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
+
+# revert TOIL_LSF_PROJECT
+unset TOIL_LSF_PROJECT
 
 printf "\n<--- PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n\n"

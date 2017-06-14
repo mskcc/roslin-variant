@@ -1,0 +1,8 @@
+inputVcf:
+  class: File
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.sid.vcf
+inputTxt:
+  class: File
+  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.sid.txt
+verbose: true
+tsampleName: 'DU874145-T'

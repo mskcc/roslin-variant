@@ -1,0 +1,12 @@
+tumor_sample_id: 'Tumor'
+normal_sample_id: 'Normal'
+sample_names: ['Normal', 'Tumor']
+bams:
+  - class: File
+    path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam
+  - class: File
+    path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
+vcf: 'P1_ADDRG_MD.abra.fmi.printreads.pindel.vcf'
+fasta: 'GRCh37'
+output_prefix: 'Tumor'
+include: '/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/from-module-2/intervals.bed'

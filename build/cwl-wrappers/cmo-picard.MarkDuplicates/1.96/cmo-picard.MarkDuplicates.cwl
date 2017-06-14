@@ -93,7 +93,6 @@ inputs:
   I:
     type:
     - 'null'
-    - File
     - type: array
       items: File
       inputBinding:

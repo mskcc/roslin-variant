@@ -1,6 +1,0 @@
-vcf:
-  class: File
-  path: ../data/from-module-4/DU874145-T.RG.md.abra.fmi.printreads.sid_STDfilter.vcf
-output: sid-norm.vcf
-output_type: 'v'
-fasta_ref: 'GRCh37'

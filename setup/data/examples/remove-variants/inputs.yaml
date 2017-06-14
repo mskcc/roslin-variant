@@ -1,0 +1,5 @@
+inputMaf:
+  class: File
+  path: ../data/from-module-4/DU874145-T.combined-variants.vep.maf
+verbose: true
+outputMaf: 'DU874145-T.combined-variants.vep.rmv.maf'

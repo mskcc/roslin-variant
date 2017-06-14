@@ -1,0 +1,3 @@
+bams:
+- [{class: File, path: "../data/sort-by-pair/s_C_000269_N001_d.rg.md.bam"}]
+- [{class: File, path: "../data/sort-by-pair/s_C_000269_T001_d.rg.md.bam"}]

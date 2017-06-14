@@ -17,7 +17,7 @@ cp ../bin/setup/prism-init.sh ${PRISM_BIN_PATH}/bin/setup/prism-init.sh
 cp ../bin/setup/remove-settings.sh ${PRISM_BIN_PATH}/bin/setup/remove-settings.sh
 
 # copy and configure jumpstart example
-tar cvzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz ../data/inputs/*
+tar cvzf ${PRISM_BIN_PATH}/bin/setup/examples.tgz ../data/examples/*
 
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
