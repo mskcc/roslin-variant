@@ -49,7 +49,8 @@ shift
 # run singularity
 # echo "${PRISM_SINGULARITY_PATH} run --bind ${bind_bin} --bind ${bind_data} ${bind_extra} ${container_image_path}/${tool_name}/${tool_version}/${tool_name}.img $*"
 
-${PRISM_SINGULARITY_PATH} run \
+# start container with an empty environment by runnning with env -i
+env -i ${PRISM_SINGULARITY_PATH} run \
   --bind ${bind_bin} \
   --bind ${bind_data} \
   ${bind_extra} \

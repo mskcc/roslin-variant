@@ -132,3 +132,25 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     done
     assert_output "run --bind ${PRISM_BIN_PATH}:${PRISM_BIN_PATH} --bind ${PRISM_DATA_PATH}:${PRISM_DATA_PATH}${bind_extra} ${PWD}/mock/bin/tools/fake-tool/1.0.0/fake-tool.img"
 }
+
+@test "should call singularity with env -i" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_EXTRA_BIND_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    export UNIT_TEST_DONT_PASS_THIS_ENV="Hello, World!"
+
+    run bash -c "${SING_SCRIPT} env-tool 1.0.0 | grep UNIT_TEST_DONT_PASS_THIS_ENV"
+
+    # because grep should fail
+    assert_failure
+
+    # because of the way env-tool is built,
+    # if it runs correctly, it will print out the environment being seen from inside the container
+    # because of env -i, we should not see the environment variable we set prior to call sing.sh
+    assert_output ""
+
+    unset UNIT_TEST_DONT_PASS_THIS_ENV
+}
