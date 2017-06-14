@@ -4,10 +4,10 @@ import os
 import subprocess
 import hashlib
 import json
-import ruamel.yaml
 import argparse
-import redis
 import re
+import ruamel.yaml
+import redis
 
 
 DOC_VERSION = "0.0.1"
@@ -119,6 +119,7 @@ def run(cmd, shell=False, strip_newline=True):
 
 # fixme: common
 def generate_sha1(filename):
+    "generate SHA1 hash out of file"
 
     # 64kb chunks
     buf_size = 65536
@@ -220,6 +221,7 @@ def get_node_info():
 
 
 def get_bioinformatics_software_info(cwltoil_log):
+    "get bioinformatics software info"
 
     sw_list = {}
 
