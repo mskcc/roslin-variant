@@ -1,6 +1,16 @@
 #!/bin/bash
 
-prism-runner.sh \
-    -w module-4.cwl \
-    -i inputs.1.yaml \
-    -b lsf
+workflow="module-4.cwl"
+
+if [ "$1" = "-s" ]
+then
+    prism_submit.py \
+        --id Proj_DEV_`whoami` \
+        --path . \
+        --workflow ${workflow}
+else
+    prism-runner.sh \
+        -w ${workflow} \
+        -i inputs.yaml \
+        -b lsf
+fi
