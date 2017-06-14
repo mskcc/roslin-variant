@@ -309,7 +309,8 @@ def get_bioinformatics_software_info(cwltoil_log):
             if not software_name in sw_list:
                 sw_list[software_name] = {
                     "cmdline": [],
-                    "version": "unknown"
+                    "version": "unknown",
+                    "checksum": "unknown"
                 }
 
             # this is the very first arg
