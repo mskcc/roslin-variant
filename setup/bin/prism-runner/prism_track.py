@@ -188,7 +188,7 @@ def get_final_output_metadata(stdout_log_path):
 def call_make_runprofile(job_uuid, inputs_yaml_path):
 
     cmd = [
-        "prism_make_runprofile",
+        "prism_runprofile.py",
         "--job_uuid", job_uuid,
         "--inputs_yaml_path", inputs_yaml_path
     ]

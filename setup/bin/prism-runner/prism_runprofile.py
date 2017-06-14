@@ -1,4 +1,4 @@
-#!/usr/env python
+#!/usr/bin/env python
 
 import os
 import subprocess
@@ -43,65 +43,66 @@ def write(filename, cwl):
 def get_references(inputs_yaml_path):
     "get references"
 
-    # read e.g. input.yaml.template
+    references = {}
+
+    # read inputs.yaml
     yaml = ruamel.yaml.load(
         read(inputs_yaml_path),
         ruamel.yaml.RoundTripLoader
     )
 
-    genome = yaml["genome"]
+    if "genome" in yaml:
+        references["genome"] = yaml["genome"]
 
-    hapmap = item(
-        path=yaml["hapmap"]["path"],
-        version="x.y.z",
-        checksum_method="sha1",
-        checksum_value=generate_sha1(yaml["hapmap"]["path"])
-    )
+    if "hapmap" in yaml:
+        references["hapmap"] = item(
+            path=yaml["hapmap"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(yaml["hapmap"]["path"])
+        )
 
-    dbsnp = item(
-        path=yaml["dbsnp"]["path"],
-        version="x.y.z",
-        checksum_method="sha1",
-        checksum_value=generate_sha1(yaml["dbsnp"]["path"])
-    )
+    if "dbsnp" in yaml:
+        references["dbsnp"] = item(
+            path=yaml["dbsnp"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(yaml["dbsnp"]["path"])
+        )
 
-    indels_1000g = item(
-        path=yaml["indels_1000g"]["path"],
-        version="x.y.z",
-        checksum_method="sha1",
-        checksum_value=generate_sha1(yaml["indels_1000g"]["path"])
-    )
+    if "indels_1000g" in yaml:
+        references["indels_1000g"] = item(
+            path=yaml["indels_1000g"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(yaml["indels_1000g"]["path"])
+        )
 
-    snps_1000g = item(
-        path=yaml["snps_1000g"]["path"],
-        version="x.y.z",
-        checksum_method="sha1",
-        checksum_value=generate_sha1(yaml["snps_1000g"]["path"])
-    )
+    if "snps_1000g" in yaml:
+        references["snps_1000g"] = item(
+            path=yaml["snps_1000g"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(yaml["snps_1000g"]["path"])
+        )
 
-    cosmic = item(
-        path=yaml["cosmic"]["path"],
-        version="x.y.z",
-        checksum_method="sha1",
-        checksum_value=generate_sha1(yaml["cosmic"]["path"])
-    )
+    if "cosmic" in yaml:
+        references["cosmic"] = item(
+            path=yaml["cosmic"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(yaml["cosmic"]["path"])
+        )
 
-    refseq = item(
-        path=yaml["refseq"]["path"],
-        version="x.y.z",
-        checksum_method="sha1",
-        checksum_value=generate_sha1(yaml["refseq"]["path"])
-    )
+    if "refseq" in yaml:
+        references["refseq"] = item(
+            path=yaml["refseq"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(yaml["refseq"]["path"])
+        )
 
-    return {
-        "genome": genome,
-        "hapmap": hapmap,
-        "dbsnp": dbsnp,
-        "indels_1000g": indels_1000g,
-        "snps_1000g": snps_1000g,
-        "cosmic": cosmic,
-        "refseq": refseq
-    }
+    return references
 
 
 # fixme: common
@@ -245,14 +246,17 @@ def make_runprofile(job_uuid, inputs_yaml_path):
     return run_profile
 
 
-def publish_to_redis(run_profile):
+def publish_to_redis(job_uuid, run_profile):
     "publish to redis"
 
     # connect to redis
     # fixme: configurable host, port, credentials
     redis_client = redis.StrictRedis(host='pitchfork', port=9006, db=0)
 
-    redis_client.publish('roslin-run-profiles', json.dumps(run_profile))
+    json_results = json.dumps(run_profile)
+
+    redis_client.publish('roslin-run-profiles', json_results)
+    redis_client.setex(job_uuid, 86400, json_results)
 
 
 def main():
@@ -281,7 +285,7 @@ def main():
 
     print json.dumps(run_profile, indent=2)
 
-    publish_to_redis(run_profile)
+    publish_to_redis(params.job_uuid, run_profile)
 
 
 if __name__ == "__main__":

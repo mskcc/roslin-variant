@@ -165,6 +165,7 @@ def convert_examples_to_use_abs_path(inputs_yaml_path):
         for line in lines:
             line = line.rstrip("\n")
             if "class: File" in prev_line:
+                # fixme: pre-compile
                 pattern = r"path: (\.\./data/from-module-.*)"
                 match = re.search(pattern, line)
                 if match:
@@ -192,6 +193,7 @@ def construct_project_metadata(cmo_project_id, cmo_project_path):
         os.path.join(cmo_project_path, cmo_project_id + "_sample_pairing.txt")
     )
 
+    # skip if any of this file is missing
     if not os.path.isfile(request_file) or not os.path.isfile(mapping_file) \
             or not os.path.isfile(grouping_file) or not os.path.isfile(pairing_file):
         return None
