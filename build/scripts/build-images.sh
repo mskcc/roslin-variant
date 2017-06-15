@@ -152,13 +152,13 @@ do
     # retrieve labels from docker image and save to labels.json
     sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
 
-    # create ./singularity.d/
-    sudo singularity exec --writable ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img mkdir /.singularity.d/
+    # create /.roslin/ directory
+    sudo singularity exec --writable ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img mkdir /.roslin/
 
-    # copy labels.json to the image
-    sudo singularity copy ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img /tmp/labels.json /.singularity.d/
+    # copy labels.json to /.roslin/ inside the image
+    sudo singularity copy ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img /tmp/labels.json /.roslin/
 
-    # delete labels.json
+    # delete /tmp/labels.json
     rm -rf /tmp/labels.json
 
     # modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)

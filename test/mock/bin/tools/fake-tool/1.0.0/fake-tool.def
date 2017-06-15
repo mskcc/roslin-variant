@@ -13,7 +13,7 @@ From: alpine:3.5
 
     # load the settings-container.sh which was copied in the %setup step
     source /tmp/settings.sh
-    
+
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
     do
@@ -21,8 +21,8 @@ From: alpine:3.5
     done
 
     # add some labels
-    mkdir /.singularity.d
-    cat > /.singularity.d/labels.json <<EOF
+    mkdir /.roslin
+    cat > /.roslin/labels.json <<EOF
 {
   "maintainer": "Jaeyoung Chun (chunj@mskcc.org)",
   "source.trimgalore": "http://mskcc.org/",
