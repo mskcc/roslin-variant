@@ -108,13 +108,17 @@ def get_references(inputs_yaml_path):
 
 # fixme: common
 def run(cmd, shell=False, strip_newline=True):
-    "run a command"
+    "run a command and return (stdout, exit code)"
 
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell)
-    stdout = process.stdout.read()
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+
+    # only care about stdout, not stderr
+    stdout, _ = process.communicate()
+
     if strip_newline:
         stdout = stdout.rstrip("\n")
-    return stdout
+
+    return stdout, process.returncode
 
 
 # fixme: common
@@ -141,7 +145,7 @@ def get_singularity_info():
 
     path = os.environ.get("PRISM_SINGULARITY_PATH")
 
-    version = run([path, "--version"])
+    version, exitcode = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -171,11 +175,11 @@ def get_roslin_info():
 def get_cmo_pkg_info():
     "get cmo package info"
 
-    path = run(["which", "cmo_bwa_mem"])
+    path, exitcode = run(["which", "cmo_bwa_mem"])
     bin_path = os.environ.get("PRISM_BIN_PATH")
     res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
     cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
-    version = run(cmd, True)
+    version, exitcode = run(cmd, True)
 
     return item(
         path=path,
@@ -188,9 +192,9 @@ def get_cmo_pkg_info():
 def get_cwltoil_info():
     "get cwltoil info"
 
-    path = run(["which", "cwltoil"])
+    path, exitcode = run(["which", "cwltoil"])
 
-    version = run([path, "--version"])
+    version, exitcode = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -205,9 +209,9 @@ def get_cwltoil_info():
 def get_node_info():
     "get node info"
 
-    path = run(["which", "node"])
+    path, exitcode = run(["which", "node"])
 
-    version = run([path, "--version"])
+    version, exitcode = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -227,6 +231,7 @@ def get_bioinformatics_software_version(cmdline):
     # fixme: pre-compile regex
 
     if cmdline.startswith("cmo_"):
+        # e.g.
         # cmo_fillout --version 1.2.1 --bams /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpS6aqu1/stg29923382-4f57-4c0c-8d60-4535ba29df76/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam --genome GRCh37 --maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpS6aqu1/stg9817baee-e905-46be-8786-2ee268ac4744/DU874145-T.combined-variants.vep.rmv.fillout.maf
         # cmo_gatk -T CombineVariants --version 3.3-0 --genotypemergeoption PRIORITIZE --java_args '-Xmx48g -Xms256m -XX:-UseGCOverheadLimit' --out DU874145-T.combined-variants.vcf --reference_sequence GRCh37 --rod_priority_list VarDict,MuTect,SomaticIndelDetector,Pindel --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY --variant:MuTect /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg5ab3984b-e1b5-4f0b-b674-bed9751ff5c4/mutect-norm.vcf --variant:Pindel /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg78805a6c-ca48-4fd2-acbd-e9c1d688201a/pindel-norm.vcf --variant:SomaticIndelDetector /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg880a5b93-61f6-4d4d-8aae-def851518761/sid-norm.vcf --variant:VarDict /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg0e559e5f-ae73-48e7-b6ae-2f2ecaaa1c69/vardict-norm.vcf
         # cmo_vcf2maf --custom-enst /usr/bin/vcf2maf/data/isoform_overrides_at_mskcc --filter-vcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpjAYWb9/stg044c2363-364d-4a64-a8ab-c17b43fd8051/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz --input-vcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpjAYWb9/stg6f3ecae7-3ae5-4e71-9c12-cb0098e06db9/DU874145-T.combined-variants.vcf --maf-center mskcc.org --max-filter-ac 10 --min-hom-vaf 0.7 --ncbi-build GRCh37 --normal-id DU874145-N --output-maf DU874145-T.combined-variants.vep.maf --ref-fasta /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta --retain-info set,TYPE,FAILURE_REASON --species homo_sapiens --tmp-dir '/scratch/<username>/...' --tumor-id DU874145-T --vcf-normal-id DU874145-N --vcf-tumor-id DU874145-T --vep-data /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86 --vep-forks 4 --vep-path /usr/bin/vep/ --vep-release 86
@@ -237,6 +242,7 @@ def get_bioinformatics_software_version(cmdline):
         if match:
             version = match.group(1)
     elif cmdline.startswith("sing.sh"):
+        # e.g.
         # sing.sh basic-filtering 0.1.6 vardict --alleledepth 5 --totaldepth 0 --inputVcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmptk5s_V/stg40644b70-9d21-47c8-a09e-52e827acf0b4/DU874145-T.rg.md.abra.fmi.printreads.vardict.vcf --tnRatio 5 --tsampleName DU874145-T --variantfrequency 0.01
         # sing.sh replace-allele-counts 0.1.1 --fillout /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmp1hUWm4/stg6ad9f673-22ee-4d07-ae5a-b2517cc74004/DU874145-T.combined-variants.vep.rmv.fillout --input-maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmp1hUWm4/stg1bc79f0d-4930-4d5f-ab59-feebd63cc605/DU874145-T.combined-variants.vep.rmv.maf --output-maf DU874145-T.combined-variants.vep.rmv.fillout.maf
         # sing.sh ngs-filters 1.1.4 --ffpe_pool_maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stg5e734d22-dae1-4854-908b-ba69d4a4bb65/DU874145-T.combined-variants.vep.rmv.ffpe-normal.fillout --normal-panel-maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stg58b57686-d51d-4d8a-a47c-664b911b7753/DU874145-T.combined-variants.vep.rmv.curated.fillout --input-hotspot /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stg28775ebc-b4e7-4d37-810b-4aa8b9fb0f62/hotspot-list-union-v1-v2.txt --input-maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stgf99ef4b3-5a10-44c6-ad1f-23b039fff9b4/DU874145-T.combined-variants.vep.rmv.fillout.maf --output-maf DU874145-T.maf
@@ -255,7 +261,13 @@ def get_image_metadata(sing_cmdline):
 
     # add -i to run in inspection mode
     sing_cmdline = sing_cmdline.replace("sing.sh", "sing.sh -i")
-    metadata = run(sing_cmdline, shell=True)
+
+    metadata, exitcode = run(sing_cmdline, shell=True)
+
+    if exitcode != 0:
+        return {
+            "error": "not found"
+        }
 
     # convert to json
     metadata = json.loads(metadata)
@@ -263,7 +275,12 @@ def get_image_metadata(sing_cmdline):
     # remove maintainer
     del metadata["maintainer"]
 
-    return metadata
+    # MongoDB doesn't like dots in the field name
+    mongo_friendly = {}
+    for key, value in metadata.iteritems():
+        mongo_friendly[key.replace(".", "-")] = value
+
+    return mongo_friendly
 
 
 def lookup_cmo_sing_cmdline(cmd0, version):
@@ -299,35 +316,59 @@ def get_bioinformatics_software_info(cwltoil_log):
     log = read_file(cwltoil_log)
 
     # this method can cover non-cmo-pkg tools
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] completed success
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] completed success
+    # e.g.
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] completed success
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] completed success
+
+    already_processed = {}
 
     matches = re.finditer(r"INFO:cwltool:(\[job .*?\].*?\w    )[\w\[]", log, re.DOTALL)
 
     for match1 in matches:
         raw_cmd = match1.group(1)
+
+        # fixme: toil has a logging bug that repeats the same log message over and over again
+        # in general module-1-2-3.chunk.cwl generates 2MB, but we experienced 412MB log file.
+        # this causes profiling forever
+        # so, extract unique temp dir assigned to each job
+        # and use this to not repeat already processed job
+        # e.g.
+        # x/z/job9Tx8l_ in 'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job
+        # cmo-bwa-mem.cwl]
+        # /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$
+        # cmo_bwa_mem \
+
+        match_job_tmp_dir = re.search(r"(\w\/\w\/job\w{6})", raw_cmd)
+        job_tmp_dir = match_job_tmp_dir.group(1) if match_job_tmp_dir else None
+
+        # skip if already processed,
+        # otherwise mark as processed so that we don't reprocess again next round
+        if job_tmp_dir in already_processed:
+            continue
+        else:
+            already_processed[job_tmp_dir] = "1"
 
         # the regex captures extra that contains "completed success". ignore.
         if "completed success" in raw_cmd:
@@ -394,6 +435,8 @@ def get_bioinformatics_software_info(cwltoil_log):
 
 def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     "make run profile"
+
+    return get_bioinformatics_software_info(cwltoil_log_path)
 
     run_profile = {
 
