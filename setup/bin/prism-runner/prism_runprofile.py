@@ -27,18 +27,18 @@ def item(path, version, checksum_method, checksum_value):
     }
 
 
-def read(filename):
+def read_file(filename):
     """return file contents"""
 
     with open(filename, 'r') as file_in:
         return file_in.read()
 
 
-def write(filename, cwl):
+def write_file(filename, data):
     """write to file"""
 
     with open(filename, 'w') as file_out:
-        file_out.write(cwl)
+        file_out.write(data)
 
 
 def get_references(inputs_yaml_path):
@@ -48,7 +48,7 @@ def get_references(inputs_yaml_path):
 
     # read inputs.yaml
     yaml = ruamel.yaml.load(
-        read(inputs_yaml_path),
+        read_file(inputs_yaml_path),
         ruamel.yaml.RoundTripLoader
     )
 
@@ -174,7 +174,6 @@ def get_cmo_pkg_info():
     path = run(["which", "cmo_bwa_mem"])
     bin_path = os.environ.get("PRISM_BIN_PATH")
     res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
-
     cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
     version = run(cmd, True)
 
@@ -251,13 +250,53 @@ def get_bioinformatics_software_version(cmdline):
     return version
 
 
+def get_image_metadata(sing_cmdline):
+    "get singularity image metadata by running sing.sh with -i"
+
+    # add -i to run in inspection mode
+    sing_cmdline = sing_cmdline.replace("sing.sh", "sing.sh -i")
+    metadata = run(sing_cmdline, shell=True)
+
+    # convert to json
+    metadata = json.loads(metadata)
+
+    # remove maintainer
+    del metadata["maintainer"]
+
+    return metadata
+
+
+def lookup_cmo_sing_cmdline(cmd0, version):
+    """
+    for a given cmo command and version, get sing command-line by looking up prism_resources.json
+    e.g. cmo0 = cmo_trimgalore
+         version = 0.2.5.mod
+    """
+
+    try:
+        # read prism_resources.json
+        bin_path = os.environ.get("PRISM_BIN_PATH")
+        res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
+        resources = json.loads(read_file(res_json_path))
+
+        # remove the cmo_ prefix and remove trailing whitespaces
+        cmd0 = cmd0.rstrip().replace("cmo_", "")
+
+        # add -i to run in inspection mode
+        sing_cmdline = resources["programs"][cmd0][version]
+
+        return sing_cmdline
+
+    except Exception:
+        return None
+
+
 def get_bioinformatics_software_info(cwltoil_log):
     "get bioinformatics software info"
 
     sw_list = {}
 
-    with open(cwltoil_log, "r") as log_file:
-        log = log_file.read()
+    log = read_file(cwltoil_log)
 
     # this method can cover non-cmo-pkg tools
 #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
@@ -310,18 +349,20 @@ def get_bioinformatics_software_info(cwltoil_log):
                 sw_list[software_name] = {
                     "cmdline": [],
                     "version": "unknown",
-                    "checksum": "unknown"
+                    "checksum": "unknown",
+                    "metadata": "unknown"
                 }
 
             # this is the very first arg
-            cmd = match2.group(2).rstrip("\\")
+            # either "sing.sh" or "cmo_*"
+            cmd0 = match2.group(2).rstrip("\\")
 
             # extract only the arguments
             match3 = re.finditer(r"$.*?\s{2,}(.*?)$", raw_cmd, re.DOTALL | re.MULTILINE)
             args = [arg.group(1).rstrip(" \\") for arg in match3]
 
             # construct the finall command line
-            final_command_line = (cmd + " ".join(args)).rstrip()
+            final_command_line = (cmd0 + " ".join(args)).rstrip()
 
             # there could be multiple command-lines under the same software
             # e.g. running bwa-mem two times
@@ -329,6 +370,13 @@ def get_bioinformatics_software_info(cwltoil_log):
 
             # extract version from command-line args
             sw_list[software_name]["version"] = get_bioinformatics_software_version(final_command_line)
+
+            if cmd0.startswith("sing.sh"):
+                sw_list[software_name]["metadata"] = get_image_metadata(final_command_line)
+            elif cmd0.startswith("cmo_"):
+                sing_cmdline = lookup_cmo_sing_cmdline(cmd0, sw_list[software_name]["version"])
+                if sing_cmdline:
+                    sw_list[software_name]["metadata"] = get_image_metadata(sing_cmdline)
 
     # this only works for cmo-pkg tools
     # matches = re.finditer(r"'(.*?)'.*?call_cmd.*?:\s+(.*)", log, re.MULTILINE)

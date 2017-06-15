@@ -154,3 +154,23 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
     unset UNIT_TEST_DONT_PASS_THIS_ENV
 }
+
+@test "should return metadata (labels) if -i (inspect) option is supplied" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_EXTRA_BIND_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    run ${SING_SCRIPT} -i fake-tool 1.0.0 "Hello, World!"
+
+    assert_success
+
+    assert_output '{
+  "maintainer": "Jaeyoung Chun (chunj@mskcc.org)",
+  "source.trimgalore": "http://mskcc.org/",
+  "version.alpine": "3.5.x",
+  "version.container": "1.0.0",
+  "version.fake-tool": "1.0.1"
+}'
+}

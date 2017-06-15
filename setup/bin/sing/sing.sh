@@ -36,20 +36,34 @@ done
 # path to container images
 container_image_path="${PRISM_BIN_PATH}/tools"
 
-if [ -z $1 ] || [ -z $2 ];
+while getopts “i” OPTION
+do
+    case $OPTION in
+        i) inspect="set" ;;
+    esac
+done
+
+tool_name=${@:$OPTIND:1}
+tool_version=${@:$OPTIND+1:1}
+
+if [ -z "$tool_name" ] || [ -z "$tool_version" ];
 then
   usage; exit 1;
 fi
 
-tool_name=$1
 shift
-tool_version=$1
 shift
 
-# run singularity
-# echo "${PRISM_SINGULARITY_PATH} run --bind ${bind_bin} --bind ${bind_data} ${bind_extra} ${container_image_path}/${tool_name}/${tool_version}/${tool_name}.img $*"
+# output metadata (labels) if the inspect option (-i) is supplied
+if [ "$inspect" = "set" ]
+then
+  env -i ${PRISM_SINGULARITY_PATH} exec \
+    ${container_image_path}/${tool_name}/${tool_version}/${tool_name}.img \
+    cat /.singularity.d/labels.json
+  exit 0
+fi
 
-# start container with an empty environment by runnning with env -i
+# start a singularity container with an empty environment by runnning with env -i
 env -i ${PRISM_SINGULARITY_PATH} run \
   --bind ${bind_bin} \
   --bind ${bind_data} \

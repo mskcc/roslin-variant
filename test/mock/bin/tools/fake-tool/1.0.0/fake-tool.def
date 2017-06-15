@@ -20,6 +20,18 @@ From: alpine:3.5
         mkdir -p $dir
     done
 
+    # add some labels
+    mkdir /.singularity.d
+    cat > /.singularity.d/labels.json <<EOF
+{
+  "maintainer": "Jaeyoung Chun (chunj@mskcc.org)",
+  "source.trimgalore": "http://mskcc.org/",
+  "version.alpine": "3.5.x",
+  "version.container": "1.0.0",
+  "version.fake-tool": "1.0.1"
+}
+EOF
+
 %runscript
 
     echo "$@"

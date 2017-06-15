@@ -149,6 +149,18 @@ do
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
 
+    # retrieve labels from docker image and save to labels.json
+    sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
+
+    # create ./singularity.d/
+    sudo singularity exec --writable ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img mkdir /.singularity.d/
+
+    # copy labels.json to the image
+    sudo singularity copy ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img /tmp/labels.json /.singularity.d/
+
+    # delete labels.json
+    rm -rf /tmp/labels.json
+
     # modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)
     case ${tool_name} in
         pindel)
