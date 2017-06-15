@@ -144,7 +144,7 @@ do
     # overwrite if already exists
     sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
 
-    # bootstrap the the image
+    # bootstrap the image
     sudo singularity bootstrap \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
