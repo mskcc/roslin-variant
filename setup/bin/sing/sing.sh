@@ -59,8 +59,8 @@ if [ "$inspect" = "set" ]
 then
   env -i ${PRISM_SINGULARITY_PATH} exec \
     ${container_image_path}/${tool_name}/${tool_version}/${tool_name}.img \
-    cat /.singularity.d/labels.json
-  exit 0
+    cat /.roslin/labels.json
+  exit $?
 fi
 
 # start a singularity container with an empty environment by runnning with env -i

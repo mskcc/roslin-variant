@@ -162,6 +162,7 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
     export PRISM_SINGULARITY_PATH=`which singularity`
 
+    # fake-tool has metadata
     run ${SING_SCRIPT} -i fake-tool 1.0.0 "Hello, World!"
 
     assert_success
@@ -173,4 +174,17 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
   "version.container": "1.0.0",
   "version.fake-tool": "1.0.1"
 }'
+}
+
+@test "should return non-zero exit code if metadata is not found" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, and PRISM_EXTRA_BIND_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # env-tool does not have metadata
+    run ${SING_SCRIPT} -i env-tool 1.0.0 "Hello, World!"
+
+    assert_failure
 }
