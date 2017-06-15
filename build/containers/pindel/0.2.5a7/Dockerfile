@@ -2,7 +2,7 @@ FROM alpine:3.5
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.pindel="0.2.5a7" \
       version.samtools="0.1.19" \
       version.alpine="3.5.x" \

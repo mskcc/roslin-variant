@@ -2,7 +2,7 @@ FROM alpine:3.4
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.getBaseCountsMultiSample="1.2.1" \
       version.alpine="3.4.x" \
       source.getBaseCountsMultiSample="https://github.com/zengzheng123/GetBaseCountsMultiSample/releases/tag/v1.2.1"
