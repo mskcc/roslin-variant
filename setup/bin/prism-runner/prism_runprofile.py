@@ -307,12 +307,17 @@ def lookup_cmo_sing_cmdline(cmd0, version):
         res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
         resources = json.loads(read_file(res_json_path))
 
+        # may or may not be trailing whitespaces
+        cmd0 = cmd0.rstrip()
+
         # mapping between cmo_* and key in prism_resources.json
         # fixme: handle some special cases
         if cmd0 == "cmo_split_reads":
             cmd0 = "split-reads"
+        elif cmd0 == "cmo_fillout":
+            cmd0 = "getbasecountsmultisample"
         else:
-            cmd0 = cmd0.rstrip().split("_")[1]
+            cmd0 = cmd0.split("_")[1]
 
         sing_cmdline = resources["programs"][cmd0][version]
 
@@ -473,6 +478,10 @@ def get_bioinformatics_software_info(cwltoil_log):
                 version = "0.7.5a"
             elif cmd0.startswith("cmo_trimgalore"):
                 version = "0.2.5.mod"
+            elif cmd0.startswith("cmo_vcf2maf"):
+                version = "1.6.12"
+            elif cmd0.startswith("cmo_bcftools"):
+                version = "1.3.1"
             elif final_command_line.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
                 version = "1.96"
             elif final_command_line.startswith("cmo_picard --cmd MarkDuplicates"):
