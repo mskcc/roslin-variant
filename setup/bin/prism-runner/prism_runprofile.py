@@ -12,6 +12,9 @@ import redis
 
 DOC_VERSION = "0.0.1"
 
+IMG_METADATA_CACHE = {}
+CWL_METADATA_CACHE = {}
+
 
 def item(path, version, checksum_method, checksum_value):
 
@@ -175,9 +178,11 @@ def get_roslin_info():
 def get_cmo_pkg_info():
     "get cmo package info"
 
+    # pick one tool to find cmo pkg location
     path, exitcode = run(["which", "cmo_bwa_mem"])
     bin_path = os.environ.get("PRISM_BIN_PATH")
     res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
+
     cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
     version, exitcode = run(cmd, True)
 
@@ -256,8 +261,12 @@ def get_bioinformatics_software_version(cmdline):
     return version
 
 
-def get_image_metadata(sing_cmdline):
+def get_img_metadata(sing_cmdline):
     "get singularity image metadata by running sing.sh with -i"
+
+    cache_key = " ".join(sing_cmdline.split(" ")[:3])
+    if cache_key in IMG_METADATA_CACHE:
+        return IMG_METADATA_CACHE[cache_key]
 
     # add -i to run in inspection mode
     sing_cmdline = sing_cmdline.replace("sing.sh", "sing.sh -i")
@@ -265,22 +274,24 @@ def get_image_metadata(sing_cmdline):
     metadata, exitcode = run(sing_cmdline, shell=True)
 
     if exitcode != 0:
-        return {
+        out = {
             "error": "not found"
         }
+    else:
+        # convert to json
+        metadata = json.loads(metadata)
 
-    # convert to json
-    metadata = json.loads(metadata)
+        # remove maintainer
+        del metadata["maintainer"]
 
-    # remove maintainer
-    del metadata["maintainer"]
+        # MongoDB doesn't like dots in the field name
+        out = {}
+        for key, value in metadata.iteritems():
+            out[key.replace(".", "-")] = value
 
-    # MongoDB doesn't like dots in the field name
-    mongo_friendly = {}
-    for key, value in metadata.iteritems():
-        mongo_friendly[key.replace(".", "-")] = value
+    IMG_METADATA_CACHE[cache_key] = out
 
-    return mongo_friendly
+    return out
 
 
 def lookup_cmo_sing_cmdline(cmd0, version):
@@ -296,16 +307,60 @@ def lookup_cmo_sing_cmdline(cmd0, version):
         res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
         resources = json.loads(read_file(res_json_path))
 
-        # remove the cmo_ prefix and remove trailing whitespaces
-        cmd0 = cmd0.rstrip().replace("cmo_", "")
+        # mapping between cmo_* and key in prism_resources.json
+        # fixme: handle some special cases
+        if cmd0 == "cmo_split_reads":
+            cmd0 = "split-reads"
+        else:
+            cmd0 = cmd0.rstrip().split("_")[1]
 
-        # add -i to run in inspection mode
         sing_cmdline = resources["programs"][cmd0][version]
 
         return sing_cmdline
 
     except Exception:
         return None
+
+
+def get_cwl_metadata(cwl_filename, version):
+    "get cwl metadata"
+
+    cache_key = cwl_filename + ":" + version
+    if cache_key in CWL_METADATA_CACHE:
+        return CWL_METADATA_CACHE[cache_key]
+
+    # fixme: this will fail if different users work on different bin base
+    bin_path = os.environ.get("PRISM_BIN_PATH")
+    cwl_path = os.path.join(
+        bin_path, "pipeline/1.0.0/",
+        cwl_filename.replace(".cwl", ""), version, cwl_filename
+    )
+
+    try:
+        cwl_str = read_file(cwl_path)
+        yaml = ruamel.yaml.load(
+            cwl_str,
+            ruamel.yaml.RoundTripLoader
+        )
+
+        out = {
+            "path": cwl_path,
+        }
+
+        try:
+            for ver in yaml["doap:release"]:
+                out["version-" + ver["doap:name"]] = ver["doap:revision"]
+        except Exception:
+            pass
+
+    except Exception:
+        out = {
+            "error": "not found"
+        }
+
+    CWL_METADATA_CACHE[cache_key] = out
+
+    return out
 
 
 def get_bioinformatics_software_info(cwltoil_log):
@@ -379,20 +434,21 @@ def get_bioinformatics_software_info(cwltoil_log):
         if match2:
 
             # get software name (e.g. cmo-bwa-mem.cwl)
-            software_name = match2.group(1)
+            cwl_filename = match2.group(1)
 
             # remove .cwl
             # replace . with - (MongoDB doesn't allow . in the field name)
-            software_name = software_name.replace(".cwl", "").replace(".", "-")
+            software_name = cwl_filename.replace(".cwl", "").replace(".", "-")
 
             # if this is the first time this software appears
             if not software_name in sw_list:
-                sw_list[software_name] = {
-                    "cmdline": [],
-                    "version": "unknown",
-                    "checksum": "unknown",
-                    "metadata": "unknown"
-                }
+                sw_list[software_name] = []
+
+            entry = {
+                "cmdline": None,
+                "img": None,
+                "cwl": None
+            }
 
             # this is the very first arg
             # either "sing.sh" or "cmo_*"
@@ -404,20 +460,40 @@ def get_bioinformatics_software_info(cwltoil_log):
 
             # construct the finall command line
             final_command_line = (cmd0 + " ".join(args)).rstrip()
-
-            # there could be multiple command-lines under the same software
-            # e.g. running bwa-mem two times
-            sw_list[software_name]["cmdline"].append(final_command_line)
+            entry["cmdline"] = final_command_line
 
             # extract version from command-line args
-            sw_list[software_name]["version"] = get_bioinformatics_software_version(final_command_line)
+            version = get_bioinformatics_software_version(final_command_line)
+            # fixme: revise cwl so that baseCommand has something like --version
+            if cmd0.startswith("cmo_split_reads"):
+                version = "1.0.0"
+            elif cmd0.startswith("cmo_index"):
+                version = "1.0.0"
+            elif cmd0.startswith("cmo_bwa_mem"):
+                version = "0.7.5a"
+            elif cmd0.startswith("cmo_trimgalore"):
+                version = "0.2.5.mod"
+            elif final_command_line.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
+                version = "1.96"
+            elif final_command_line.startswith("cmo_picard --cmd MarkDuplicates"):
+                version = "1.96"
+            elif final_command_line.startswith("cmo_picard --cmd FixMateInformation"):
+                version = "1.96"
 
+            # if this is the first time this version appears for this software
             if cmd0.startswith("sing.sh"):
-                sw_list[software_name]["metadata"] = get_image_metadata(final_command_line)
+                entry["img"] = get_img_metadata(final_command_line)
             elif cmd0.startswith("cmo_"):
-                sing_cmdline = lookup_cmo_sing_cmdline(cmd0, sw_list[software_name]["version"])
+                sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
                 if sing_cmdline:
-                    sw_list[software_name]["metadata"] = get_image_metadata(sing_cmdline)
+                    entry["img"] = get_img_metadata(sing_cmdline)
+
+            if cwl_filename + version in CWL_METADATA_CACHE:
+                entry["cwl"] = CWL_METADATA_CACHE[cwl_filename + version]
+            else:
+                entry["cwl"] = get_cwl_metadata(cwl_filename, version)
+
+            sw_list[software_name].append(entry)
 
     # this only works for cmo-pkg tools
     # matches = re.finditer(r"'(.*?)'.*?call_cmd.*?:\s+(.*)", log, re.MULTILINE)
@@ -435,8 +511,6 @@ def get_bioinformatics_software_info(cwltoil_log):
 
 def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     "make run profile"
-
-    return get_bioinformatics_software_info(cwltoil_log_path)
 
     run_profile = {
 
