@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-vardict.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-vardict
   doap:revision: 1.4.6
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization

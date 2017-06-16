@@ -10,10 +10,14 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: basic-filtering.somaticIndelDetector.cwl
+
 doap:release:
 - class: doap:Version
+  doap:name: basic-filtering.somaticIndelDetector
   doap:revision: 0.1.6
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
