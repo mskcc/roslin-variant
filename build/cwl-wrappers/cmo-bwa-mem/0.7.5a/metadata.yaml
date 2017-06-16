@@ -10,7 +10,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-bwa-mem.cwl
+  doap:name: cmo-bwa-mem
   doap:revision: 0.7.5a
 - class: doap:Version
   doap:name: cwl-wrapper

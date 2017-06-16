@@ -10,7 +10,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-gatk.BaseRecalibrator.cwl
+  doap:name: cmo-gatk.BaseRecalibrator
   doap:revision: 3.3-0
 - class: doap:Version
   doap:name: cwl-wrapper

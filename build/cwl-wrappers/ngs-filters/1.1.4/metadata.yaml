@@ -10,7 +10,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: ngs-filters.cwl
+  doap:name: ngs-filters
   doap:revision: 1.1.4
 - class: doap:Version
   doap:name: cwl-wrapper

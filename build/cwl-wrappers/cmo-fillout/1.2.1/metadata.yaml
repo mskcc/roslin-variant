@@ -10,7 +10,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-fillout.cwl
+  doap:name: cmo-fillout
   doap:revision: 1.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
