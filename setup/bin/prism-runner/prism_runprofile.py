@@ -111,17 +111,17 @@ def get_references(inputs_yaml_path):
 
 # fixme: common
 def run(cmd, shell=False, strip_newline=True):
-    "run a command and return (stdout, exit code)"
+    "run a command and return (stdout, stderr, exit code)"
 
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
 
-    # only care about stdout, not stderr
-    stdout, _ = process.communicate()
+    stdout, stderr = process.communicate()
 
     if strip_newline:
         stdout = stdout.rstrip("\n")
+        stderr = stderr.rstrip("\n")
 
-    return stdout, process.returncode
+    return stdout, stderr, process.returncode
 
 
 # fixme: common
@@ -148,7 +148,7 @@ def get_singularity_info():
 
     path = os.environ.get("PRISM_SINGULARITY_PATH")
 
-    version, exitcode = run([path, "--version"])
+    version, _, _ = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -178,16 +178,14 @@ def get_roslin_info():
 def get_cmo_pkg_info():
     "get cmo package info"
 
-    # pick one tool to find cmo pkg location
-    # path, exitcode = run(["which", "cmo_bwa_mem"])
-    # bin_path = os.environ.get("PRISM_BIN_PATH")
-    # res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
-
-    # cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
-
+    # __version__
+    # __file__
+    # __path__
     cmd = 'python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
-    stdout, exitcode = run(cmd, shell=True)
+    stdout, _, _ = run(cmd, shell=True)
     version, init_pyc, path = stdout.split()
+
+    # checksum on __init__.pyc
     sha1 = generate_sha1(init_pyc)
 
     return item(
@@ -201,9 +199,10 @@ def get_cmo_pkg_info():
 def get_cwltoil_info():
     "get cwltoil info"
 
-    path, exitcode = run(["which", "cwltoil"])
+    path, _, _ = run(["which", "cwltoil"])
 
-    version, exitcode = run([path, "--version"])
+    # version is returned to stderr
+    _, version, _ = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -218,9 +217,9 @@ def get_cwltoil_info():
 def get_node_info():
     "get node info"
 
-    path, exitcode = run(["which", "node"])
+    path, _, _ = run(["which", "node"])
 
-    version, exitcode = run([path, "--version"])
+    version, _, _ = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -275,7 +274,7 @@ def get_img_metadata(sing_cmdline):
     # add -i to run in inspection mode
     sing_cmdline = sing_cmdline.replace("sing.sh", "sing.sh -i")
 
-    metadata, exitcode = run(sing_cmdline, shell=True)
+    metadata, _, exitcode = run(sing_cmdline, shell=True)
 
     if exitcode != 0:
         out = {
