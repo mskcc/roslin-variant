@@ -346,12 +346,13 @@ def main():
 
             try:
 
-                print "{}:{} ({} secs) ({})".format(prj["projectId"], job_uuid, prj["timestamp"]["duration"], prj["status"])
+                print "  {}:{} ({} secs) ({})".format(prj["projectId"], job_uuid, prj["timestamp"]["duration"], prj["status"])
 
                 for lsf_job_id in prj["batchSystemJobs"]:
                     lsf_job = prj["batchSystemJobs"][lsf_job_id]
                     if lsf_job["status"] != "DONE":
-                        print "  - {} {} ({})".format(lsf_job_id, lsf_job["name"], lsf_job["status"])
+                        job_name = lsf_job["name"] if not lsf_job["name"].startswith("leader") else "leader"
+                        print "    - {} {} ({})".format(lsf_job_id, job_name, lsf_job["status"])
 
                 redis_client.publish('roslin-run-results', json.dumps(prj))
 
