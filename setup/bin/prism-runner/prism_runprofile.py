@@ -179,18 +179,22 @@ def get_cmo_pkg_info():
     "get cmo package info"
 
     # pick one tool to find cmo pkg location
-    path, exitcode = run(["which", "cmo_bwa_mem"])
-    bin_path = os.environ.get("PRISM_BIN_PATH")
-    res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
+    # path, exitcode = run(["which", "cmo_bwa_mem"])
+    # bin_path = os.environ.get("PRISM_BIN_PATH")
+    # res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
 
-    cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
-    version, exitcode = run(cmd, True)
+    # cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
+
+    cmd = 'python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
+    stdout, exitcode = run(cmd, shell=True)
+    version, init_pyc, path = stdout.split()
+    sha1 = generate_sha1(init_pyc)
 
     return item(
         path=path,
         version=version,
-        checksum_method=None,
-        checksum_value=None
+        checksum_method="sha1",
+        checksum_value=sha1
     )
 
 
