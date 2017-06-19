@@ -24,7 +24,7 @@ Registry: http://localhost:5000
 %runscript
 
     # just run java so that caller can pass java options
-    # exec java -jar /usr/bin/picard-tools/"$@"
+    # exec java -jar /usr/bin/abra.jar "$@"
     exec java "$@"
 
 %test
