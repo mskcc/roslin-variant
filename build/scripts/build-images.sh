@@ -136,6 +136,7 @@ do
         vcf2maf) padding_size=90;;
         vep) padding_size=90;;
         ngs-filters) padding_size=80;;
+        abra) padding_size=100; # fixme: because no longer alpine
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)
