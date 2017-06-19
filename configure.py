@@ -19,6 +19,8 @@ def write_to_disk(filename, content):
     with open(filename, 'w') as file_out:
         file_out.write(content)
 
+    print "Modified: {}".format(filename)
+
 
 def get_template(filename):
     "read template from file and return jinja template object"
