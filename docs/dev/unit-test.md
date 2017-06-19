@@ -144,3 +144,27 @@ $ bats sing-java.bats
 
 7 tests, 0 failures
 ```
+
+## Container Image Test
+
+### Purpose
+
+This checks two things:
+
+- Whether all the images built contain metadata.
+- Whether all the images built have correct binding points.
+
+### How
+
+On your local workstation, go to the directory where you git cloned prism-pipeline, and SSH into the Vagrant build box:
+
+```bash
+$ vagrant ssh
+```
+
+Once you get into the Vagrant box, execute the following command to run the test:
+
+```bash
+$ cd /vagrant/test
+$ nosetests
+```
