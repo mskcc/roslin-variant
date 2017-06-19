@@ -1,0 +1,8 @@
+version: 1.0.0
+root: /ifs/work/chunj/prism-proto
+binding:  
+  bin: prism
+  data: ifs
+  extra:
+    - /scratch
+examples: ifs/prism/inputs

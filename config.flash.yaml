@@ -1,0 +1,8 @@
+version: 1.0.0
+root: /ifs/flash/pi
+binding:  
+  bin: roslin
+  data: resources
+  extra:
+    - /scratch
+examples: test
