@@ -40,8 +40,8 @@ def configure_setup_settings(settings):
         root=settings["root"],
         binding_bin=settings["binding"]["bin"],
         binding_data=settings["binding"]["data"],
+        binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
-        examples=settings["examples"]
     )
 
     write_to_disk("/vagrant/setup/scripts/settings.sh", content)
@@ -63,7 +63,8 @@ def configure_build_settings(settings):
 
     binding_points = [
         os.path.join(settings["root"], settings["binding"]["bin"]),
-        os.path.join(settings["root"], settings["binding"]["data"])
+        os.path.join(settings["root"], settings["binding"]["data"]),
+        os.path.join(settings["root"], settings["binding"]["workspace"])
     ]
 
     for extra in settings["binding"]["extra"]:

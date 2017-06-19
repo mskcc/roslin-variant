@@ -3,6 +3,6 @@ root: /ifs/flash/pi
 binding:  
   bin: roslin
   data: resources
+  workspace: workspace
   extra:
     - /scratch
-examples: test

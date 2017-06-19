@@ -3,6 +3,7 @@ root: /ifs/work/chunj/prism-proto
 binding:  
   bin: prism
   data: ifs
+  workspace: ifs/prism/inputs
   extra:
     - /scratch
-examples: ifs/prism/inputs
+
