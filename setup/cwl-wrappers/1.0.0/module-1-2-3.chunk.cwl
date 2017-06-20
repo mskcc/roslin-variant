@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
 
 doap:name: module-1-2-3.cwl
 doap:release:
@@ -92,11 +92,8 @@ inputs:
     type:
       type: array
       items: string
-  tmp_dir:
-    type:
-      type: array
-      items: string
-  fasta: string
+  tmp_dir: string[]
+  genome: string[]
   hapmap:
     type: File
     secondaryFiles:
@@ -117,15 +114,11 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
-  genome: string
   mutect_dcov: int
   mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
-  intervals:
-    type:
-      - 'null'
-      - string
+  intervals: string
   sid_rf:
     type:
       type: array
@@ -146,7 +139,7 @@ outputs:
       items: File
     secondaryFiles:
       - ^.bai
-    outputSource: realignment/bams
+    outputSource: realignment/outbams
   clstats1:
     type:
       type: array
@@ -212,7 +205,7 @@ steps:
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
     out: [clstats1, clstats2, bam, md_metrics]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,tmp_dir]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN]
     scatterMethod: dotproduct
   realignment:
     run: module-2.cwl
@@ -224,13 +217,13 @@ steps:
       snps_1000g: snps_1000g
       covariates: covariates
       abra_scratch: abra_scratch
-      fasta: fasta
+      genome: genome
       intervals: intervals
-    out: [bams, covint_list, covint_bed]
+    out: [outbams, covint_list, covint_bed]
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
     in:
-      bams: realignment/bams
+      bams: realignment/outbams
       pairs: pairs
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids]
   variant_calling:
@@ -238,7 +231,7 @@ steps:
     in:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
-      fasta: fasta
+      genome: genome
       bed: realignment/covint_bed
       normal_sample_id: pairing/normal_sample_ids
       tumor_sample_id: pairing/tumor_sample_ids
