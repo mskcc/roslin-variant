@@ -260,6 +260,7 @@ inputs:
     inputBinding:
       prefix: -t
 
+    default: '5'
   w:
     type: ['null', string]
     doc: INT band width for banded alignment [100]
