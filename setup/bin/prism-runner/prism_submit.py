@@ -90,6 +90,7 @@ def write(filename, cwl):
         file_out.write(cwl)
 
 
+# fixme: deprecate
 def set_abra_scratch_directory(input_yaml_template_filename, job_uuid, work_dir):
     "set abra scratch directory"
 
@@ -284,19 +285,11 @@ def main():
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    if params.workflow_name in ["module-2.cwl", "module-1-2-3.cwl", "module-1-2-3.chunk.cwl"]:
-        # populate the 'abra_scratch' field and copy to work directory
-        set_abra_scratch_directory(
-            os.path.join(params.cmo_project_path, "inputs.yaml.template"),
-            job_uuid,
-            work_dir
-        )
-    else:
-        # copy to work directory
-        copyfile(
-            os.path.join(params.cmo_project_path, "inputs.yaml"),
-            os.path.join(work_dir, "inputs.yaml")
-        )
+    # copy to work directory
+    copyfile(
+        os.path.join(params.cmo_project_path, "inputs.yaml"),
+        os.path.join(work_dir, "inputs.yaml")
+    )
 
     # convert any relative path in inputs.yaml (e.g. path: ../abc)
     # to absolute path (e.g. path: /ifs/abc)
