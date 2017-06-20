@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -175,6 +175,7 @@ inputs:
   t:
     type: ['null', string]
     doc: INT number of threads [1]
+    default: "5"
     inputBinding:
       prefix: -t
 

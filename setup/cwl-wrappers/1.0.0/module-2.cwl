@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
 
 doap:name: module-2.cwl
 doap:release:
@@ -53,7 +53,7 @@ inputs:
             items: File
         secondaryFiles:
             - ^.bai
-    fasta: string
+    genome: string
     hapmap:
         type: File
         secondaryFiles:
@@ -73,10 +73,7 @@ inputs:
     rf: string[]
     covariates: string[]
     abra_scratch: string
-    intervals:
-        type:
-            - 'null'
-            - string
+    intervals: string
 
 outputs:
     covint_list:
@@ -89,7 +86,7 @@ outputs:
             type: array
             items: File
         outputSource: list2bed/output_file
-    bams:
+    outbams:
         type:
             type: array
             items: File
@@ -101,7 +98,7 @@ steps:
     gatk_find_covered_intervals:
         run: ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
         in:
-            reference_sequence: fasta
+            reference_sequence: genome
             input_file: bams
             out: 
                 default: "intervals.list"
@@ -112,7 +109,7 @@ steps:
         run: ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
         in:
             input_file: gatk_find_covered_intervals/fci_list
-            output_file:
+            output_filename:
                 valueFrom: |
                     ${ return inputs.input_file.basename.replace( ".list", ".bed"); }
         out: [output_file]
@@ -120,7 +117,7 @@ steps:
         run: ./cmo-abra/0.92/cmo-abra.cwl
         in:
             in: bams
-            ref: fasta
+            ref: genome
             out:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
@@ -158,13 +155,13 @@ steps:
                             default: "LENIENT"
                         O:
                             valueFrom: |
-                                  ${ return inputs.I.basename.replace(".bam", ".fmi.bam") }
+                                  ${ return inputs.I.basename.replace(".bam",".fmi.bam") }
                     out: [out_bam]
 
     gatk_base_recalibrator:
         run: ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
         in:
-            reference_sequence: fasta
+            reference_sequence: genome
             input_file: parallel_fixmate/out
             knownSites: [dbsnp, hapmap, indels_1000g, snps_1000g]
             covariate: covariates
@@ -175,7 +172,7 @@ steps:
     parallel_printreads:
         in:
             input_file: parallel_fixmate/out
-            reference_sequence: fasta
+            reference_sequence: genome
             BQSR: gatk_base_recalibrator/recal_matrix
         out: [out]
         scatter: [input_file]

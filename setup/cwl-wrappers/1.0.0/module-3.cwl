@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
 
 doap:name: module-3.cwl
 doap:release:
@@ -53,7 +53,7 @@ inputs:
         type: File
     normal_bam:
         type: File
-    fasta: string
+    genome: string
     bed: File
     normal_sample_id: string
     tumor_sample_id: string
@@ -101,7 +101,7 @@ steps:
         in:
             tumor_bam: index/tumor_bam
             normal_bam: index/normal_bam
-            fasta: fasta
+            genome: genome
             normal_sample_id: normal_sample_id
             tumor_sample_id: tumor_sample_id
             dbsnp: dbsnp
@@ -116,7 +116,7 @@ steps:
             class: Workflow
             inputs:
                 tumor_bam: File
-                fasta: string
+                genome: string
                 normal_bam: File
                 normal_sample_id: string
                 tumor_sample_id: string
@@ -156,14 +156,14 @@ steps:
                         normal_sample_id: normal_sample_id
                         vcf:
                             valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".pindel.vcf") }
-                        fasta: fasta
+                        fasta: genome
                         output_prefix:
                             valueFrom: $(inputs.tumor_sample_id)
                     out: [output]
                 vardict:
                     run: cmo-vardict/1.4.6/cmo-vardict.cwl
                     in:
-                        G: fasta
+                        G: genome
                         b: tumor_bam
                         b2: normal_bam
                         N: tumor_sample_id
@@ -175,7 +175,7 @@ steps:
                 somaticindeldetector:
                     run: cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
                     in:
-                        reference_sequence: fasta
+                        reference_sequence: genome
                         tumor_bam: tumor_bam
                         normal_bam: normal_bam
                         read_filter: sid_rf
@@ -189,7 +189,7 @@ steps:
                 mutect:
                     run: cmo-mutect/1.1.4/cmo-mutect.cwl
                     in:
-                        reference_sequence: fasta
+                        reference_sequence: genome
                         dbsnp: dbsnp
                         cosmic: cosmic
                         input_file_normal: normal_bam
