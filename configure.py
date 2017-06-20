@@ -2,7 +2,6 @@
 
 import os
 import ruamel.yaml
-import argparse
 from jinja2 import Template
 
 
@@ -83,18 +82,8 @@ def configure_build_settings(settings):
 def main():
     "main function"
 
-    parser = argparse.ArgumentParser(description='configure')
-
-    parser.add_argument(
-        action='store',
-        dest='config_yaml',
-        help='YAML configuration file to be used',
-    )
-
-    params = parser.parse_args()
-
     settings = ruamel.yaml.load(
-        read_from_disk(params.config_yaml),
+        read_from_disk("config.yaml"),
         ruamel.yaml.RoundTripLoader
     )
 
