@@ -1,6 +1,5 @@
 export PRISM_VERSION="1.0.0"
 
-# fixme: use / in the production
 PRISM_ROOT="/ifs/work/chunj/prism-proto"
 
 #--> the following paths will be supplied to singularity as bind points
@@ -14,10 +13,10 @@ export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
 # other paths that we'd like to bind (space separated)
 export PRISM_EXTRA_BIND_PATH="/scratch"
 
-#<--
-
-# input files to pipeline (e.g. fastq files)
+# workspace
 export PRISM_INPUT_PATH="${PRISM_ROOT}/ifs/prism/inputs"
+
+#<--
 
 # path to singularity executable
 # singularity is expected to be found at the same location regardless of the nodes you're on
