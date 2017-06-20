@@ -7,11 +7,11 @@ request_to_yaml.py \
 	-o . \
 	-f inputs.yaml
 
-prism-runner.sh \
+nohup prism-runner.sh \
 	-v test2 \
 	-w project-workflow.cwl \
 	-i inputs.yaml \
-	-b lsf
+	-b lsf &
 
 # prism_submit.py \
 #     --id Proj_UTest02_s16 \
