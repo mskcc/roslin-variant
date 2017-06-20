@@ -198,6 +198,7 @@ cwltoil \
     --not-strict \
     --disableCaching \
     --realTimeLogging \
+    --maxLogFileSize 0 \
     --writeLogs	${OUTPUT_DIRECTORY}/log \
     --logFile ${OUTPUT_DIRECTORY}/log/cwltoil.log \
     --workDir ${PRISM_BIN_PATH}/tmp \

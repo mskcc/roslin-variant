@@ -349,6 +349,7 @@ get_args_line() {
     # --not-strcit
     # --disableCaching
     # --realTimeLogging
+    # --maxLogFileSize 0
     # --writeLogs /vagrant/test/outputs/log
     # --logFile /vagrant/test/outputs/log/cwltoil.log
     # --workDir /vagrant/test/mock/bin/tmp
@@ -376,6 +377,9 @@ get_args_line() {
 
     # check --disableCaching
     assert_line --index 1 --partial "--disableCaching"
+
+    # check --maxLogFileSize
+    assert_line --index 1 --partial "--maxLogFileSize 0"
 
     # check --realTimeLogging
     assert_line --index 1 --partial "--realTimeLogging"
