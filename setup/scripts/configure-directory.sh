@@ -30,6 +30,9 @@ fi
 #fixme: 777 really?
 chmod 777 ${PRISM_BIN_PATH}/tmp
 
+# data path (e.g. resources such as genome assemblies)
+mkdir -p ${PRISM_DATA_PATH}
+
 # directories for pipeline inputs
 mkdir -p ${PRISM_INPUT_PATH}
 
