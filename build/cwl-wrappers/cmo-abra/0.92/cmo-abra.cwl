@@ -47,7 +47,8 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 30
-    coresMin: 5
+    coresMin: 15
+
 
 doc: |
   None
@@ -164,6 +165,7 @@ inputs:
     inputBinding:
       prefix: --threads
 
+    default: '15'
   adc:
     type: ['null', string]
     doc: Skip regions with average depth greater than this value (default - 100000)
