@@ -122,13 +122,15 @@ def get_workdir_stdouterr_log_path(lsf_job_id):
     process = subprocess.Popen(bjobs, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     line = process.stdout.read().rstrip("\n")
 
-    if line:
-        work_dir, stdout_log, stderr_log = line.split('\t')
-        if work_dir == "-":
-            return None
-        return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
-    else:
-        return None
+    try:
+        if line:
+            work_dir, stdout_log, stderr_log = line.split('\t')
+            if work_dir != "-" and stdout_log != "-" and stderr_log != "_":
+                return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
+    except Exception:
+        pass
+
+    return None
 
 
 def get_cwltoil_log_path_jobstore_id(stderr_log_path):
