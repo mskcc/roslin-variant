@@ -5,4 +5,4 @@ export PRISM_EXTRA_BIND_PATH="/vagrant/test/mock/scratch1 /vagrant/test/mock/scr
 export PRISM_INPUT_PATH="/vagrant/test/mock/inputs"
 
 # space-separated
-export SINGULARITY_BIND_POINTS="$PRISM_BIN_PATH $PRISM_DATA_PATH $PRISM_EXTRA_BIND_PATH"
+export SINGULARITY_BIND_POINTS="$PRISM_BIN_PATH $PRISM_DATA_PATH $PRISM_INPUT_PATH $PRISM_EXTRA_BIND_PATH"
