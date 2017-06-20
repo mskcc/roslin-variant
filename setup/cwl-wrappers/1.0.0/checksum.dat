@@ -12,7 +12,7 @@ fb3cb4f6eed6c1edefafe8ca883de5af  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.Bas
 a0b8828d39f96bb01bde963756d5569b  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 af104261c58765fcb2f1432e5ab75bf3  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 72b400dfbcc4447b35aa1a8ec796a5d1  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
-9bcfc3e2d68875729d01b0ca2e740b3c  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
+439141c80888f3f0536ea96e535d797b  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
 43ca947d62e8ea2383157183a0d087bb  ./cmo-index/1.0.0/cmo-index.cwl
 e2b0fd33ed04dbe709a6017d6a72c5e7  ./cmo-list2bed/1.0.0/cmo-list2bed.cwl
 a2a2cf3c3b89d7a7e648c9a91800572f  ./cmo-list2bed/1.0.1/cmo-list2bed.cwl
@@ -41,8 +41,8 @@ aee847f845b1a471a5e5ad33de537438  ./module-3.cwl
 9d028adfaadae0fdb90c84227e4779c8  ./module-4.cwl
 a693333b4372b66108e0d4e3c72cafeb  ./module-4.vcf.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
-94307c209f0e80b5c67e9700aa6da442  ./parse-project-yaml/1.0.0/parse-project-yaml-input.cwl
-247a73756d019e0b4d5fea14994c85bb  ./project-workflow.cwl
+94307c209f0e80b5c67e9700aa6da442  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
+356ac8d0b4ab07864d375a17143dc5e3  ./project-workflow.cwl
 acbf3454941f81831232452299fdcd75  ./remove-variants/0.1.1/remove-variants.cwl
 00371afb5a6b8d4884bb2c258a7366b9  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 fac1573f49f84bd881f606248b87b997  ./replace-allele-counts/0.1.1/replace-allele-counts.cwl
