@@ -81,12 +81,12 @@ inputs:
 
 
 outputs:
-  output_file:
+  output_filename:
     type: File
     outputBinding:
       glob: |
         ${
-          if (inputs.output_file)
-            return inputs.output_file;
+          if (inputs.output_filename)
+            return inputs.output_filename;
           return null;
         }
