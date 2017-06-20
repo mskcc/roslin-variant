@@ -31,9 +31,6 @@ done
 # build cwl wrappers
 ./build-cwl.sh
 
-# check bind points
-./test-bind-points.sh
-
 if [ $? -eq 0 ]
 then
     if [ "$push_to_dockerhub" = 'yes' ]
