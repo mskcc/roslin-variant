@@ -172,7 +172,7 @@ outputs:
 
 steps:
   projparse:
-    run: parse-project-yaml-input.cwl
+    run: parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
     in:
       db_files: db_files
       groups: groups
