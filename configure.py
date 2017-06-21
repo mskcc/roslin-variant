@@ -37,7 +37,7 @@ def configure_setup_settings(settings):
     content = template.render(
         version=settings["version"],
         root=settings["root"],
-        binding_bin=settings["binding"]["core"],
+        binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
         binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],

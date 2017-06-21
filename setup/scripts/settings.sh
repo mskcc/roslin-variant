@@ -5,7 +5,7 @@ PRISM_ROOT="/ifs/work/chunj/prism-proto"
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
-export PRISM_BIN_PATH="${PRISM_ROOT}/"
+export PRISM_BIN_PATH="${PRISM_ROOT}/prism"
 
 # reference data (e.g. genome assemblies)
 export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
