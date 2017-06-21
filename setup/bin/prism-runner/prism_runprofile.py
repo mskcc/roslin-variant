@@ -183,6 +183,11 @@ def get_cmo_pkg_info():
     # __path__
     cmd = 'python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
     stdout, _, _ = run(cmd, shell=True)
+
+    # fixme: command return nothing in other user's env
+    if stdout.strip() == "":
+        return None
+
     version, init_pyc, path = stdout.split()
 
     # checksum on __init__.pyc
