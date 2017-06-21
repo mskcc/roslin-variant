@@ -42,8 +42,9 @@ def get_binding_points():
     )
 
     binding_points = [
-        os.path.join(settings["root"], settings["binding"]["bin"]),
-        os.path.join(settings["root"], settings["binding"]["data"])
+        os.path.join(settings["root"], settings["binding"]["core"]),
+        os.path.join(settings["root"], settings["binding"]["data"]),
+        os.path.join(settings["root"], settings["binding"]["output"])
     ]
 
     for extra in settings["binding"]["extra"]:
