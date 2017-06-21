@@ -65,13 +65,6 @@ inputs:
     inputBinding:
       prefix: --input_file
 
-  output_file:
-    type: string
-
-    doc: output bed file
-    inputBinding:
-      prefix: --output_file
-
   no_sort:
     type: ['null', boolean]
     default: true
@@ -80,8 +73,13 @@ inputs:
       prefix: --no_sort
 
 
-outputs:
   output_filename:
+    type: string
+    doc: output bed file
+    inputBinding:
+      prefix: --output_file
+outputs:
+  output_file:
     type: File
     outputBinding:
       glob: |

@@ -1,5 +1,5 @@
 outputs:
-  output_filename:
+  output_file:
     type: File
     outputBinding:
       glob: |

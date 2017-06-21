@@ -84,7 +84,7 @@ outputs:
         type:
             type: array
             items: File
-        outputSource: list2bed/output_filename
+        outputSource: list2bed/output_file
     outbams:
         type:
             type: array
@@ -110,7 +110,7 @@ steps:
             output_filename:
                 valueFrom: |
                     ${ return inputs.input_file.basename.replace( ".list", ".bed"); }
-        out: [output_filename]
+        out: [output_file]
     abra:
         run: ./cmo-abra/0.92/cmo-abra.cwl
         in:
@@ -120,7 +120,7 @@ steps:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
             working: abra_scratch
-            targets: list2bed/output_filename
+            targets: list2bed/output_file
         out: [outbams]
 
     parallel_fixmate:

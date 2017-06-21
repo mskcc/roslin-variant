@@ -47,6 +47,15 @@ def main():
 """
     cwl['inputs']['input_file']['type'] = ruamel.yaml.load(input_file_type, ruamel.yaml.RoundTripLoader)
 
+    del cwl['inputs']['output_file']
+    output_filename = """
+type: string
+doc: output bed file
+inputBinding:
+    prefix: --output_file
+"""
+    cwl['inputs']['output_filename'] = ruamel.yaml.load(output_filename, ruamel.yaml.RoundTripLoader)
+
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))
 
