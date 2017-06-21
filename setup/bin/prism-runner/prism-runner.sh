@@ -1,14 +1,15 @@
 #!/bin/bash
 
 if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || \
-   [ -z $PRISM_INPUT_PATH ] || [ -z "$PRISM_EXTRA_BIND_PATH" ] || \
-   [ -z $PRISM_SINGULARITY_PATH ]
+   [ -z $PRISM_INPUT_PATH ] || [ -z $PRISM_OUTPUT_PATH ] || \
+   [ -z "$PRISM_EXTRA_BIND_PATH" ] || [ -z $PRISM_SINGULARITY_PATH ]
 then
-    echo "Some necessary paths are not correctly configured."
+    echo "Some of the necessary paths are not correctly configured!"
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_EXTRA_BIND_PATH=${PRISM_EXTRA_BIND_PATH}"
     echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
+    echo "PRISM_OUTPUT_PATH=${PRISM_OUTPUT_PATH}"
     echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
     exit 1
 fi
@@ -193,7 +194,7 @@ cwltoil \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --defaultMem 12G \
-    --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
+    --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
     --disableCaching \

@@ -37,8 +37,9 @@ def configure_setup_settings(settings):
     content = template.render(
         version=settings["version"],
         root=settings["root"],
-        binding_bin=settings["binding"]["bin"],
+        binding_bin=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
+        binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
     )
@@ -61,8 +62,9 @@ def configure_build_settings(settings):
     # ------------2
 
     binding_points = [
-        os.path.join(settings["root"], settings["binding"]["bin"]),
+        os.path.join(settings["root"], settings["binding"]["core"]),
         os.path.join(settings["root"], settings["binding"]["data"]),
+        os.path.join(settings["root"], settings["binding"]["output"]),
         os.path.join(settings["root"], settings["binding"]["workspace"])
     ]
 

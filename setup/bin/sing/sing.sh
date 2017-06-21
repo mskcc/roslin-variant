@@ -4,14 +4,15 @@
 # otherwise sing.sh ... | sing.sh ... won't work
 
 if [ -z $PRISM_BIN_PATH ] || [ -z $PRISM_DATA_PATH ] || \
-   [ -z $PRISM_INPUT_PATH ] || [ -z "$PRISM_EXTRA_BIND_PATH" ] || \
-   [ -z $PRISM_SINGULARITY_PATH ]
+   [ -z $PRISM_INPUT_PATH ] || [ -z $PRISM_OUTPUT_PATH ] || \
+   [ -z "$PRISM_EXTRA_BIND_PATH" ] || [ -z $PRISM_SINGULARITY_PATH ]
 then
     echo "Some of the necessary paths are not correctly configured!"
     echo "PRISM_BIN_PATH=${PRISM_BIN_PATH}"
     echo "PRISM_DATA_PATH=${PRISM_DATA_PATH}"
     echo "PRISM_EXTRA_BIND_PATH=${PRISM_EXTRA_BIND_PATH}"
     echo "PRISM_INPUT_PATH=${PRISM_INPUT_PATH}"
+    echo "PRISM_OUTPUT_PATH=${PRISM_OUTPUT_PATH}"
     echo "PRISM_SINGULARITY_PATH=${PRISM_SINGULARITY_PATH}"
     exit 1
 fi
@@ -31,6 +32,7 @@ EOF
 bind_bin="${PRISM_BIN_PATH}:${PRISM_BIN_PATH}"
 bind_data="${PRISM_DATA_PATH}:${PRISM_DATA_PATH}"
 bind_input="${PRISM_INPUT_PATH}:${PRISM_INPUT_PATH}"
+bind_output="${PRISM_OUTPUT_PATH}:${PRISM_OUTPUT_PATH}"
 bind_extra=""
 for extra_path in ${PRISM_EXTRA_BIND_PATH}
 do
@@ -72,5 +74,6 @@ env -i ${PRISM_SINGULARITY_PATH} run \
   --bind ${bind_bin} \
   --bind ${bind_data} \
   --bind ${bind_input} \
+  --bind ${bind_output} \
   ${bind_extra} \
   ${container_image_path}/${tool_name}/${tool_version}/${tool_name}.img $*

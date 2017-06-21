@@ -167,7 +167,8 @@ def convert_examples_to_use_abs_path(inputs_yaml_path):
             line = line.rstrip("\n")
             if "class: File" in prev_line:
                 # fixme: pre-compile
-                pattern = r"path: (\.\./data/from-module-.*)"
+                # path: ../ or path: ./
+                pattern = r"path: (\.\.?/.*)"
                 match = re.search(pattern, line)
                 if match:
                     path = os.path.abspath(match.group(1))
@@ -279,7 +280,7 @@ def main():
     job_uuid = str(uuid.uuid1())
 
     # must be one of the singularity binding points
-    work_base_dir = "/ifs/work/chunj/prism-proto/ifs/prism/outputs"
+    work_base_dir = os.environ.get("PRISM_OUTPUT_PATH")
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
     if not os.path.exists(work_dir):

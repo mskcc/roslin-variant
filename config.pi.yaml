@@ -1,8 +1,9 @@
 version: 1.0.0
 root: /ifs/work/pi
-binding:  
-  bin: roslin
+binding:
+  core: roslin
   data: resources
-  workspace: workspace  
+  output: roslin/outputs
+  workspace: workspace
   extra:
     - /scratch
