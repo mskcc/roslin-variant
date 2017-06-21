@@ -1,9 +1,9 @@
 #!/bin/bash
 
 request_to_yaml.py \
-	-m Proj_DEV_0003_sample_mapping.txt \
-	-p Proj_DEV_0003_sample_pairing.txt \
-	-g Proj_DEV_0003_sample_grouping.txt \
+	-m Proj_6048_B_sample_mapping.txt \
+	-p Proj_6048_B_sample_pairing.txt \
+	-g Proj_6048_B_sample_grouping.txt \
 	-o . \
 	-f inputs.yaml
 
@@ -14,6 +14,6 @@ nohup prism-runner.sh \
 	-b lsf &
 
 # prism_submit.py \
-#     --id Proj_DEV_0003 \
+#     --id Proj_6048_B \
 #     --path . \
 #     --workflow project-workflow.cwl
