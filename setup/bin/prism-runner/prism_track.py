@@ -10,8 +10,23 @@ import zlib
 import time
 from dateutil.parser import parse
 import pytz
+import logging
 import redis
 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# create a file handler
+handler = logging.FileHandler('prism_track.log')
+handler.setLevel(logging.INFO)
+
+# create a logging format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(handler)
 
 DOC_VERSION = "0.0.1"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
@@ -165,9 +180,8 @@ def get_cwltoil_log_path_jobstore_id(stderr_log_path):
                 if (jobstore_id and cwltoil_log_path) or line_num > 20:
                     break
 
-    except Exception:
-        # file not found if already deleted
-        pass
+    except Exception as e:
+        logger.info(e)
 
     return cwltoil_log_path, jobstore_id
 
@@ -189,8 +203,8 @@ def get_final_output_metadata(stdout_log_path):
             else:
                 return None
 
-    except Exception:
-        # file not found if already deleted
+    except Exception as e:
+        logger.info(e)
         pass
 
 
@@ -287,8 +301,9 @@ def construct_run_results(bjobs_info, already_reported_projs):
                     projects[job_uuid]["pipelineJobStoreId"] = jobstore_id
                     projects[job_uuid]["workingDirectory"] = work_dir
 
-            # if leader job is done
-            elif status == "DONE":
+            # if leader job is done and we have cwltoil.log
+            if status == "DONE" and projects[job_uuid]["logFiles"]["cwltoil"]:
+
                 # collect output
                 projects[job_uuid]["outputs"] = get_final_output_metadata(projects[job_uuid]["logFiles"]["stdout"])
 
