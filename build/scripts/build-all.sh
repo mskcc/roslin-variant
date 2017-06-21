@@ -14,7 +14,7 @@ OPTIONS:
 EOF
 }
 
-push_to_dockerhub='yes'
+push_to_dockerhub='no'
 
 while getopts “ph” OPTION
 do
