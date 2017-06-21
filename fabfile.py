@@ -15,7 +15,7 @@ def get_config():
 def get_settings_sh_path(config):
     "get path to settings.sh from yaml config obj"
 
-    return os.path.join(config["root"], config["binding"]["bin"], "bin/setup/settings.sh")
+    return os.path.join(config["root"], config["binding"]["core"], "bin/setup/settings.sh")
 
 
 @task
