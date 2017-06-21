@@ -209,11 +209,29 @@ def get_final_output_metadata(stdout_log_path):
         pass
 
 
+# fixme: common
+def run(cmd, shell=False, strip_newline=True):
+    "run a command and return (stdout, stderr, exit code)"
+
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+
+    stdout, stderr = process.communicate()
+
+    if strip_newline:
+        stdout = stdout.rstrip("\n")
+        stderr = stderr.rstrip("\n")
+
+    return stdout, stderr, process.returncode
+
+
 def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     "call make_runprofile program"
 
+    bin_path = os.environ.get("PRISM_BIN_PATH")
+
     cmd = [
-        "prism_runprofile.py",
+        "python",
+        os.path.join(bin_path, "bin/prism-runner/prism_runprofile.py"),
         "--job_uuid", job_uuid,
         "--inputs_yaml", inputs_yaml_path,
         "--cwltoil_log", cwltoil_log_path
