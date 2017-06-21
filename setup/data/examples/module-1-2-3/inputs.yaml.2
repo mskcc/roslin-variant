@@ -1,43 +1,52 @@
 # DO NOT use double quotes, use single quotes
 
 adapter:
-- AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
-- AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+- [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
+- [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
 adapter2:
-- AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
-- AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+- [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT]
+- [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT]
 add_rg_CN:
-- MSKCC
-- MSKCC
+- [MSKCC]
+- [MSKCC]
 add_rg_ID:
-- s_C_000269_T001_d_1JAX_0065_BHFTF2BBXXPE
-- s_C_000269_N001_d_1JAX_0065_BHFTF2BBXXPE
+- [DU874145-T_47224109421]
+- [DU874145-N_47224109421]
 add_rg_LB:
-- s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX_1
-- s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX_1
+- [DU874145-T_47224109421]
+- [DU874145-N_47224109421]
 add_rg_PL:
-- Illumina
-- Illumina
+- [Illumina]
+- [Illumina]
 add_rg_PU:
-- s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX
-- s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX
+- [DU874145-T_47224109421]
+- [DU874145-N_47224109421]
 add_rg_SM:
-- s_C_000269_T001_d
-- s_C_000269_N001_d
+- [DU874145-T]
+- [DU874145-N]
+add_rg_output:
+- [DU874145-T.rg.bam]
+- [DU874145-N.rg.bam]
 bwa_output:
-- s_C_000269_T001_d.bam
-- s_C_000269_N001_d.bam
+- [DU874145-T.bam]
+- [DU874145-N.bam]
 fastq1:
-- [{class: File, path: ../data/fastq/P1_R1.fastq.gz}]
-- [{class: File, path: ../data/fastq/P2_R1.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R1_001.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R1_001.fastq.gz}]
 fastq2:
-- [{class: File, path: ../data/fastq/P1_R2.fastq.gz}]
-- [{class: File, path: ../data/fastq/P2_R2.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+md_metrics_output:
+- [DU874145-T.md.metrics]
+- [DU874145-N.md.metrics]
+md_output:
+- [DU874145-T.rg.md.bam]
+- [DU874145-N.rg.md.bam]
 pairs:
-- [s_C_000269_T001_d, s_C_000269_N001_d]
+- [DU874145-T, DU874145-N]
 tmp_dir:
-- /scratch
-- /scratch
+- [/scratch]
+- [/scratch]
 fasta: 'GRCh37'
 hapmap:
     class: File
@@ -55,7 +64,7 @@ mutect_dcov: 50000
 mutect_rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
-abra_scratch: ${tmpdir}
+abra_scratch: /scratch
 emit_original_quals: true
 num_threads: '10'
 genome: 'GRCh37'
@@ -66,4 +75,4 @@ sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlig
 refseq:
     class: File
     path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'
-intervals: null
+intervals: '1'

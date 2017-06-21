@@ -31,11 +31,11 @@ bwa_output:
 - DU874145-T.bam
 - DU874145-N.bam
 fastq1:
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R1_001.fastq.gz}]
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R1_001.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R1_001.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R1_001.fastq.gz}]
 fastq2:
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R2_001.fastq.gz}]
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+- [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R2_001.fastq.gz}]
 pairs:
 - [DU874145-T, DU874145-N]
 tmp_dir:
@@ -58,7 +58,7 @@ mutect_dcov: 50000
 mutect_rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
-abra_scratch: ${tmpdir}
+abra_scratch: /scratch
 emit_original_quals: true
 num_threads: '10'
 genome: 'GRCh37'

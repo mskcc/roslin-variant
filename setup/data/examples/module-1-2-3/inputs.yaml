@@ -64,7 +64,7 @@ mutect_dcov: 50000
 mutect_rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
-abra_scratch: ${tmpdir}
+abra_scratch: /scratch
 emit_original_quals: true
 num_threads: '10'
 genome: 'GRCh37'

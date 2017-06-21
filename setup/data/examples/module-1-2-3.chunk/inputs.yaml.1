@@ -1,53 +1,43 @@
 # DO NOT use double quotes, use single quotes
-# Xenograft
 
 adapter:
-- [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
-- [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
+- AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+- AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
 adapter2:
-- [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT]
-- [AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT]
+- AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+- AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
 add_rg_CN:
-- [MSKCC]
-- [MSKCC]
+- MSKCC
+- MSKCC
 add_rg_ID:
-- [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXXPE]
-- [s_C_000269_N001_d_1JAX_0065_BHFTF2BBXXPE]
+- s_C_000269_T001_d_1JAX_0065_BHFTF2BBXXPE
+- s_C_000269_N001_d_1JAX_0065_BHFTF2BBXXPE
 add_rg_LB:
-- [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX_1]
-- [s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX_1]
+- s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX_1
+- s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX_1
 add_rg_PL:
-- [Illumina]
-- [Illumina]
+- Illumina
+- Illumina
 add_rg_PU:
-- [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX]
-- [s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX]
+- s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX
+- s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX
 add_rg_SM:
-- [s_C_000269_T001_d]
-- [s_C_000269_N001_d]
-add_rg_output:
-- [s_C_000269_T001_d.rg.bam]
-- [s_C_000269_N001_d.rg.bam]
+- s_C_000269_T001_d
+- s_C_000269_N001_d
 bwa_output:
-- [s_C_000269_T001_d.bam]
-- [s_C_000269_N001_d.bam]
+- s_C_000269_T001_d.bam
+- s_C_000269_N001_d.bam
 fastq1:
 - [{class: File, path: ../DS-blorg-006-T_IGO_06048_P_7_S33_L004_R1_001.fastq.gz}]
 - [{class: File, path: ../DS-blorg-006-N_IGO_06048_P_9_S34_L004_R1_001.fastq.gz}]
 fastq2:
 - [{class: File, path: ../DS-blorg-006-T_IGO_06048_P_7_S33_L004_R2_001.fastq.gz}]
 - [{class: File, path: ../DS-blorg-006-N_IGO_06048_P_9_S34_L004_R2_001.fastq.gz}]
-md_metrics_output:
-- [s_C_000269_T001_d.md.metrics]
-- [s_C_000269_N001_d.md.metrics]
-md_output:
-- [s_C_000269_T001_d.rg.md.bam]
-- [s_C_000269_N001_d.rg.md.bam]
 pairs:
 - [s_C_000269_T001_d, s_C_000269_N001_d]
 tmp_dir:
-- [/scratch]
-- [/scratch]
+- /scratch
+- /scratch
 fasta: 'GRCh37'
 hapmap:
     class: File
@@ -65,7 +55,7 @@ mutect_dcov: 50000
 mutect_rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
-abra_scratch: ${tmpdir}
+abra_scratch: /scratch
 emit_original_quals: true
 num_threads: '10'
 genome: 'GRCh37'
@@ -76,4 +66,4 @@ sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlig
 refseq:
     class: File
     path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'
-intervals: '1'
+intervals: null

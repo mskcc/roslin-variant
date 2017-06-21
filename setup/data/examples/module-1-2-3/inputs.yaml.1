@@ -1,4 +1,5 @@
 # DO NOT use double quotes, use single quotes
+# Xenograft
 
 adapter:
 - [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
@@ -10,40 +11,40 @@ add_rg_CN:
 - [MSKCC]
 - [MSKCC]
 add_rg_ID:
-- [DU874145-T_47224109421]
-- [DU874145-N_47224109421]
+- [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXXPE]
+- [s_C_000269_N001_d_1JAX_0065_BHFTF2BBXXPE]
 add_rg_LB:
-- [DU874145-T_47224109421]
-- [DU874145-N_47224109421]
+- [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX_1]
+- [s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX_1]
 add_rg_PL:
 - [Illumina]
 - [Illumina]
 add_rg_PU:
-- [DU874145-T_47224109421]
-- [DU874145-N_47224109421]
+- [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX]
+- [s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX]
 add_rg_SM:
-- [DU874145-T]
-- [DU874145-N]
+- [s_C_000269_T001_d]
+- [s_C_000269_N001_d]
 add_rg_output:
-- [DU874145-T.rg.bam]
-- [DU874145-N.rg.bam]
+- [s_C_000269_T001_d.rg.bam]
+- [s_C_000269_N001_d.rg.bam]
 bwa_output:
-- [DU874145-T.bam]
-- [DU874145-N.bam]
+- [s_C_000269_T001_d.bam]
+- [s_C_000269_N001_d.bam]
 fastq1:
-- [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R1_001.fastq.gz}]
-- [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R1_001.fastq.gz}]
+- [{class: File, path: ../DS-blorg-006-T_IGO_06048_P_7_S33_L004_R1_001.fastq.gz}]
+- [{class: File, path: ../DS-blorg-006-N_IGO_06048_P_9_S34_L004_R1_001.fastq.gz}]
 fastq2:
-- [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R2_001.fastq.gz}]
-- [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+- [{class: File, path: ../DS-blorg-006-T_IGO_06048_P_7_S33_L004_R2_001.fastq.gz}]
+- [{class: File, path: ../DS-blorg-006-N_IGO_06048_P_9_S34_L004_R2_001.fastq.gz}]
 md_metrics_output:
-- [DU874145-T.md.metrics]
-- [DU874145-N.md.metrics]
+- [s_C_000269_T001_d.md.metrics]
+- [s_C_000269_N001_d.md.metrics]
 md_output:
-- [DU874145-T.rg.md.bam]
-- [DU874145-N.rg.md.bam]
+- [s_C_000269_T001_d.rg.md.bam]
+- [s_C_000269_N001_d.rg.md.bam]
 pairs:
-- [DU874145-T, DU874145-N]
+- [s_C_000269_T001_d, s_C_000269_N001_d]
 tmp_dir:
 - [/scratch]
 - [/scratch]
@@ -64,7 +65,7 @@ mutect_dcov: 50000
 mutect_rf: ['BadCigar']
 num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
-abra_scratch: ${tmpdir}
+abra_scratch: /scratch
 emit_original_quals: true
 num_threads: '10'
 genome: 'GRCh37'
