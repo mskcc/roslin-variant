@@ -218,7 +218,6 @@ steps:
       covariates: covariates
       abra_scratch: abra_scratch
       genome: genome
-      intervals: intervals
     out: [outbams, covint_list, covint_bed]
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
