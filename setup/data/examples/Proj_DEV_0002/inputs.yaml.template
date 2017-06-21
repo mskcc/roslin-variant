@@ -31,11 +31,11 @@ bwa_output:
 - DU874145-T.bam
 - DU874145-N.bam
 fastq1:
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-T_R1.fastq.gz}]
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-N_R1.fastq.gz}]
+- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R1_001.fastq.gz}]
+- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R1_001.fastq.gz}]
 fastq2:
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-T_R2.fastq.gz}]
-- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-N_R2.fastq.gz}]
+- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+- [{class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R2_001.fastq.gz}]
 pairs:
 - [DU874145-T, DU874145-N]
 tmp_dir:

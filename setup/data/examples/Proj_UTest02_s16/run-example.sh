@@ -1,6 +1,6 @@
 #!/bin/bash
 
-request_to_yaml.py \
+prism_request_to_yaml.py \
 	-m Proj_UTest02_s16_sample_mapping.txt \
 	-p Proj_UTest02_s16_sample_pairing.txt \
 	-g Proj_UTest02_s16_sample_grouping.txt \
