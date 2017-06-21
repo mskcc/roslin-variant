@@ -219,6 +219,8 @@ def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
         "--cwltoil_log", cwltoil_log_path
     ]
 
+    logger.info("Calling: " + " ".join(cmd))
+
     # non-blocking call
     subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
