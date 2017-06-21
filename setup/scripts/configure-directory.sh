@@ -38,3 +38,6 @@ mkdir -p ${PRISM_INPUT_PATH}
 
 #fixme: needed for now because other users need to create their own directories (workspace) under this
 chmod 777 ${PRISM_INPUT_PATH}
+
+# create output directory
+mkdir -p ${PRISM_OUTPUT_PATH}
