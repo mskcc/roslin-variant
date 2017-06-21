@@ -73,7 +73,6 @@ inputs:
     rf: string[]
     covariates: string[]
     abra_scratch: string
-    intervals: string
 
 outputs:
     covint_list:
@@ -102,7 +101,6 @@ steps:
             input_file: bams
             out: 
                 default: "intervals.list"
-            intervals: intervals
         out: [fci_list]
 
     list2bed:
