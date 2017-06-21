@@ -73,7 +73,6 @@ inputs:
             items: string
         emit_original_quals: boolean
         genome: string
-        intervals: string
         mutect_dcov: int
         mutect_rf:
           type:

@@ -57,7 +57,7 @@ inputs:
     hapmap:
         type: File
         secondaryFiles:
-            - .idx    
+            - .idx
     dbsnp:
         type: File
         secondaryFiles:
@@ -65,15 +65,14 @@ inputs:
     indels_1000g:
         type: File
         secondaryFiles:
-            - .idx    
+            - .idx
     snps_1000g:
         type: File
         secondaryFiles:
-            - .idx    
+            - .idx
     rf: string[]
     covariates: string[]
     abra_scratch: string
-    intervals: string
 
 outputs:
     covint_list:
@@ -100,9 +99,8 @@ steps:
         in:
             reference_sequence: genome
             input_file: bams
-            out: 
+            out:
                 default: "intervals.list"
-            intervals: intervals
         out: [fci_list]
 
     list2bed:
