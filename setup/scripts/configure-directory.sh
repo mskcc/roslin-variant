@@ -41,3 +41,6 @@ chmod 777 ${PRISM_INPUT_PATH}
 
 # create output directory
 mkdir -p ${PRISM_OUTPUT_PATH}
+
+#fixe: needed to now because outputs from other users will be placed here
+chmod 777 ${PRISM_OUTPUT_PATH}
