@@ -130,7 +130,7 @@ def get_workdir_stdouterr_log_path(lsf_job_id):
     except Exception:
         pass
 
-    return None
+    return None, None, None
 
 
 def get_cwltoil_log_path_jobstore_id(stderr_log_path):
@@ -288,7 +288,7 @@ def construct_run_results(bjobs_info, already_reported_projs):
                     projects[job_uuid]["workingDirectory"] = work_dir
 
             # if leader job is done
-            if status == "DONE":
+            elif status == "DONE":
                 # collect output
                 projects[job_uuid]["outputs"] = get_final_output_metadata(projects[job_uuid]["logFiles"]["stdout"])
 
