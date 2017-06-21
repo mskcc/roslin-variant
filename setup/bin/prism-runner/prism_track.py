@@ -10,6 +10,7 @@ import zlib
 import time
 from dateutil.parser import parse
 import pytz
+import argparse
 import logging
 import redis
 
@@ -338,6 +339,19 @@ def construct_run_results(bjobs_info, already_reported_projs):
 def main():
     "main function"
 
+    parser = argparse.ArgumentParser(description='submit')
+
+    parser.add_argument(
+        "--interval",
+        action="store",
+        dest="polling_interval",
+        help="Polling interval in seconds",
+        type=float,
+        default=30
+    )
+
+    params = parser.parse_args()
+
     # connect to redis
     # fixme: configurable host, port, credentials
     redis_client = redis.StrictRedis(host='pitchfork', port=9006, db=0)
@@ -383,7 +397,7 @@ def main():
         print "<----- {}".format(datetime.datetime.now().strftime("%H:%M:%S"))
         print
 
-        time.sleep(30)
+        time.sleep(params.polling_interval)
 
 
 if __name__ == "__main__":
