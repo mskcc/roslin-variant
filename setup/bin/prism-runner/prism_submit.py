@@ -165,14 +165,24 @@ def convert_examples_to_use_abs_path(inputs_yaml_path):
         prev_line = ""
         for line in lines:
             line = line.rstrip("\n")
-            if "class: File" in prev_line:
-                # fixme: pre-compile
-                # path: ../ or path: ./
-                pattern = r"path: (\.\.?/.*)"
-                match = re.search(pattern, line)
-                if match:
-                    path = os.path.abspath(match.group(1))
-                    line = re.sub(pattern, "path: {}".format(path), line)
+
+            # if "class: File" in prev_line:
+            #     # fixme: pre-compile
+            #     # path: ../ or path: ./
+            #     pattern = r"path: (\.\.?/.*)"
+            #     match = re.search(pattern, line)
+            #     if match:
+            #         path = os.path.abspath(match.group(1))
+            #         line = re.sub(pattern, "path: {}".format(path), line)
+
+            # fixme: pre-compile
+            # path: ../ or path: ./
+            pattern = r"path: (\.\.?/.*)"
+            match = re.search(pattern, line)
+            if match:
+                path = os.path.abspath(match.group(1))
+                line = re.sub(pattern, "path: {}".format(path), line)            
+
             output.append(line)
             prev_line = line
 
