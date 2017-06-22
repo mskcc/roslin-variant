@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-gatk.SomaticIndelDetector.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-gatk.SomaticIndelDetector
   doap:revision: 2.3-9
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -48,8 +51,9 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
+    ramMin: 25
     coresMin: 5
+
 
 doc: |
   None

@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-bwa-mem.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-bwa-mem
   doap:revision: 0.7.12
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -264,6 +267,7 @@ inputs:
     inputBinding:
       prefix: -t
 
+    default: '5'
   w:
     type: ['null', string]
     doc: INT band width for banded alignment [100]

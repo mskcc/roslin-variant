@@ -210,7 +210,7 @@
         }, 
         "getbasecountsmultisample": {
             "1.2.1": "sing.sh getbasecountsmultisample 1.2.1", 
-            "default": "sing.sh get-base-counts-multi-sample 1.2.1"
+            "default": "sing.sh getbasecountsmultisample 1.2.1"
         }, 
         "hotspot3d": {
             "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/", 

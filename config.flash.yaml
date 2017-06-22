@@ -1,0 +1,9 @@
+version: 1.0.0
+root: /ifs/flash/pi
+binding:
+  core: roslin
+  data: resources
+  output: roslin/outputs
+  workspace: workspace
+  extra:
+    - /scratch

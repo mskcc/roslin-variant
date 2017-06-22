@@ -6,14 +6,17 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: cmo-bwa-mem.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-bwa-mem
   doap:revision: 0.7.5a
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -172,10 +175,10 @@ inputs:
   t:
     type: ['null', string]
     doc: INT number of threads [1]
-    default: "5"
     inputBinding:
       prefix: -t
 
+    default: '5'
   w:
     type: ['null', string]
     doc: INT band width for banded alignment [100]

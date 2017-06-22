@@ -2,7 +2,7 @@ FROM alpine:3.4
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.vcf2maf="1.6.12" \
       version.vep="86" \
       version.htslib="1.4" \
