@@ -1,0 +1,10 @@
+version: 1.0.0
+root: /ifs/work/chunj/prism-proto
+binding:  
+  core: prism
+  data: ifs
+  output: ifs/prism/outputs
+  workspace: ifs/prism/inputs
+  extra:
+    - /scratch
+

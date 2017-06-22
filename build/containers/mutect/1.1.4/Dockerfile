@@ -2,7 +2,7 @@ FROM openjdk:6-jre
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.mutect="1.1.4" \
       source.mutect="https://github.com/broadinstitute/mutect/releases/tag/1.1.4"
 

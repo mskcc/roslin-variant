@@ -4,19 +4,17 @@ import glob
 import subprocess
 import argparse
 import uuid
-import ruamel.yaml
 import os
 from shutil import copyfile
-import redis
 import hashlib
 import datetime
-import pytz
 import json
 import tarfile
 import base64
 import time
 import re
-
+import pytz
+import redis
 
 DOC_VERSION = "0.0.1"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
@@ -90,25 +88,6 @@ def write(filename, cwl):
         file_out.write(cwl)
 
 
-def set_abra_scratch_directory(input_yaml_template_filename, job_uuid, work_dir):
-    "set abra scratch directory"
-
-    # read e.g. input.yaml.template
-    input_yaml = ruamel.yaml.load(
-        read(input_yaml_template_filename),
-        ruamel.yaml.RoundTripLoader
-    )
-
-    # set the abra_scratch directory
-    input_yaml["abra_scratch"] = "/scratch/prism-abra-{}".format(job_uuid)
-
-    # write back to disk
-    write(
-        os.path.join(work_dir, "inputs.yaml"),
-        ruamel.yaml.dump(input_yaml, Dumper=ruamel.yaml.RoundTripDumper)
-    )
-
-
 # fixme: move to common
 def get_current_utc_datetime():
     "return the current UTC date/time"
@@ -164,13 +143,24 @@ def convert_examples_to_use_abs_path(inputs_yaml_path):
         prev_line = ""
         for line in lines:
             line = line.rstrip("\n")
-            if "class: File" in prev_line:
-                # fixme: pre-compile
-                pattern = r"path: (\.\./data/from-module-.*)"
-                match = re.search(pattern, line)
-                if match:
-                    path = os.path.abspath(match.group(1))
-                    line = re.sub(pattern, "path: {}".format(path), line)
+
+            # if "class: File" in prev_line:
+            #     # fixme: pre-compile
+            #     # path: ../ or path: ./
+            #     pattern = r"path: (\.\.?/.*)"
+            #     match = re.search(pattern, line)
+            #     if match:
+            #         path = os.path.abspath(match.group(1))
+            #         line = re.sub(pattern, "path: {}".format(path), line)
+
+            # fixme: pre-compile
+            # path: ../ or path: ./
+            pattern = r"path: (\.\.?/.*)"
+            match = re.search(pattern, line)
+            if match:
+                path = os.path.abspath(match.group(1))
+                line = re.sub(pattern, "path: {}".format(path), line)
+
             output.append(line)
             prev_line = line
 
@@ -278,25 +268,17 @@ def main():
     job_uuid = str(uuid.uuid1())
 
     # must be one of the singularity binding points
-    work_base_dir = "/ifs/work/chunj/prism-proto/ifs/prism/outputs"
+    work_base_dir = os.environ.get("PRISM_OUTPUT_PATH")
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    if params.workflow_name in ["module-2.cwl", "module-1-2-3.cwl", "module-1-2-3.chunk.cwl"]:
-        # populate the 'abra_scratch' field and copy to work directory
-        set_abra_scratch_directory(
-            os.path.join(params.cmo_project_path, "inputs.yaml.template"),
-            job_uuid,
-            work_dir
-        )
-    else:
-        # copy to work directory
-        copyfile(
-            os.path.join(params.cmo_project_path, "inputs.yaml"),
-            os.path.join(work_dir, "inputs.yaml")
-        )
+    # copy to work directory
+    copyfile(
+        os.path.join(params.cmo_project_path, "inputs.yaml"),
+        os.path.join(work_dir, "inputs.yaml")
+    )
 
     # convert any relative path in inputs.yaml (e.g. path: ../abc)
     # to absolute path (e.g. path: /ifs/abc)

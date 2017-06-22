@@ -14,13 +14,19 @@
 On Selene:
 
 ```bash
-$ cd $PRISM_INPUT_PATH/chunj/examples/unit-test
+$ cd $PRISM_INPUT_PATH/$USER/examples/unit-test
 ```
 
 The following command will run all the examples in your workspace directory, collect the metadata about outputs, and place them under the `./outputs/` directory.
 
 ```bash
 $ ./collect-outputs.sh
+```
+
+Outputs will be placed under `./outputs/` of each tool's example directory. If this directory is not empty, you might want to clean up. The following command will delete `examples/**/outputs`.
+
+```bash
+$ ./clean-outputs.sh
 ```
 
 If you want to run a specific example, you can supply the example directory name with `-t`:
@@ -51,7 +57,7 @@ $ nosetests
 
 ### Purpose
 
-- Test the following bash scripts function correctly
+- Test if the following bash scripts function correctly
   - `prism-runner.sh`
   - `sing.sh`
   - `sing-java.sh`
@@ -137,4 +143,28 @@ $ bats sing-java.bats
  ✓ should properly construct the sing call for mutect 1.1.4
 
 7 tests, 0 failures
+```
+
+## Container Image Test
+
+### Purpose
+
+This checks two things:
+
+- Whether all the images built contain metadata.
+- Whether all the images built have correct binding points.
+
+### How
+
+On your local workstation, go to the directory where you git cloned prism-pipeline, and SSH into the Vagrant build box:
+
+```bash
+$ vagrant ssh
+```
+
+Once you get into the Vagrant box, execute the following command to run the test:
+
+```bash
+$ cd /vagrant/test
+$ nosetests
 ```

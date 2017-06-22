@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-abra.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: '0.92'
+  doap:name: cmo-abra
+  doap:revision: 0.92
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -44,7 +47,8 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 30
-    coresMin: 5
+    coresMin: 15
+
 
 doc: |
   None
@@ -161,6 +165,7 @@ inputs:
     inputBinding:
       prefix: --threads
 
+    default: '15'
   adc:
     type: ['null', string]
     doc: Skip regions with average depth greater than this value (default - 100000)

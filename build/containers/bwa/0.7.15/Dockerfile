@@ -2,7 +2,7 @@ FROM alpine:3.5
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.bwa="0.7.15" \
       version.alpine="3.5.x" \
       source.bwa="https://github.com/lh3/bwa/releases/tag/v0.7.15"

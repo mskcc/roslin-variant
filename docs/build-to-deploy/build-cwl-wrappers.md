@@ -101,13 +101,18 @@ cmo-bcftools.norm/
 
 Add metadata about the CWL wrapper, creator, and contributor.
 
-### Tool Name and Version
+### Tool Name/Version, CWL Wrapper Version
+
+In the example below, cmo-bcftools.norm has the version tag 1.3.1 whereas cwl wrapper has 1.0.0. The tool's version stays the same, but cwl-wrapper version can still change (e.g. default value changed)
 
 ```yaml
-doap:name: cmo-bcftools.norm.cwl
 doap:release:
-  - class: doap:Version
-    doap:revision: '1.3.1'
+- class: doap:Version
+  doap:name: cmo-bcftools.norm
+  doap:revision: 1.3.1
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 ```    
 
 ### Creator

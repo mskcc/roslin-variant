@@ -10,9 +10,12 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-split-reads.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-split-reads
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
