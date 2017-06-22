@@ -8,10 +8,10 @@ import datetime
 import base64
 import zlib
 import time
-from dateutil.parser import parse
-import pytz
 import argparse
 import logging
+from dateutil.parser import parse
+import pytz
 import redis
 
 
