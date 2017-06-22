@@ -31,7 +31,7 @@ ref_fasta: "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.f
 
 exac_filter:
   class: File
-  path: /ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
+  path: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
 vep_data: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86
 
 curated_bams:

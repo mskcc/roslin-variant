@@ -11,7 +11,7 @@ vcf_normal_id: DU874145-N
 ncbi_build: GRCh37
 filter_vcf:
     class: File
-    path: /ifs/work/prism/chunj/test-data/vep/86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
+    path: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz
 vep_data: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86
 ref_fasta: /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta
 
