@@ -170,7 +170,7 @@ inputs:
 
 
 outputs:
-  vcf:
+  vcf_output_file:
     type: File
     outputBinding:
       glob: |-
