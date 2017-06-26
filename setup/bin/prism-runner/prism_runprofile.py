@@ -12,6 +12,9 @@ import redis
 
 DOC_VERSION = "0.0.1"
 
+IMG_METADATA_CACHE = {}
+CWL_METADATA_CACHE = {}
+
 
 def item(path, version, checksum_method, checksum_value):
 
@@ -27,18 +30,18 @@ def item(path, version, checksum_method, checksum_value):
     }
 
 
-def read(filename):
+def read_file(filename):
     """return file contents"""
 
     with open(filename, 'r') as file_in:
         return file_in.read()
 
 
-def write(filename, cwl):
+def write_file(filename, data):
     """write to file"""
 
     with open(filename, 'w') as file_out:
-        file_out.write(cwl)
+        file_out.write(data)
 
 
 def get_references(inputs_yaml_path):
@@ -48,7 +51,7 @@ def get_references(inputs_yaml_path):
 
     # read inputs.yaml
     yaml = ruamel.yaml.load(
-        read(inputs_yaml_path),
+        read_file(inputs_yaml_path),
         ruamel.yaml.RoundTripLoader
     )
 
@@ -108,13 +111,17 @@ def get_references(inputs_yaml_path):
 
 # fixme: common
 def run(cmd, shell=False, strip_newline=True):
-    "run a command"
+    "run a command and return (stdout, stderr, exit code)"
 
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=shell)
-    stdout = process.stdout.read()
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+
+    stdout, stderr = process.communicate()
+
     if strip_newline:
         stdout = stdout.rstrip("\n")
-    return stdout
+        stderr = stderr.rstrip("\n")
+
+    return stdout, stderr, process.returncode
 
 
 # fixme: common
@@ -141,7 +148,7 @@ def get_singularity_info():
 
     path = os.environ.get("PRISM_SINGULARITY_PATH")
 
-    version = run([path, "--version"])
+    version, _, _ = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -171,27 +178,36 @@ def get_roslin_info():
 def get_cmo_pkg_info():
     "get cmo package info"
 
-    path = run(["which", "cmo_bwa_mem"])
-    bin_path = os.environ.get("PRISM_BIN_PATH")
-    res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
+    # __version__
+    # __file__
+    # __path__
+    cmd = 'python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
+    stdout, _, _ = run(cmd, shell=True)
 
-    cmd = 'CMO_RESOURCE_CONFIG="{}" python -c "import cmo; print cmo.__version__"'.format(res_json_path)
-    version = run(cmd, True)
+    # fixme: command return nothing in other user's env
+    if stdout.strip() == "":
+        return None
+
+    version, init_pyc, path = stdout.split()
+
+    # checksum on __init__.pyc
+    sha1 = generate_sha1(init_pyc)
 
     return item(
         path=path,
         version=version,
-        checksum_method=None,
-        checksum_value=None
+        checksum_method="sha1",
+        checksum_value=sha1
     )
 
 
 def get_cwltoil_info():
     "get cwltoil info"
 
-    path = run(["which", "cwltoil"])
+    path, _, _ = run(["which", "cwltoil"])
 
-    version = run([path, "--version"])
+    # version is returned to stderr
+    _, version, _ = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -206,9 +222,9 @@ def get_cwltoil_info():
 def get_node_info():
     "get node info"
 
-    path = run(["which", "node"])
+    path, _, _ = run(["which", "node"])
 
-    version = run([path, "--version"])
+    version, _, _ = run([path, "--version"])
 
     sha1 = generate_sha1(path)
 
@@ -228,6 +244,7 @@ def get_bioinformatics_software_version(cmdline):
     # fixme: pre-compile regex
 
     if cmdline.startswith("cmo_"):
+        # e.g.
         # cmo_fillout --version 1.2.1 --bams /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpS6aqu1/stg29923382-4f57-4c0c-8d60-4535ba29df76/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam --genome GRCh37 --maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpS6aqu1/stg9817baee-e905-46be-8786-2ee268ac4744/DU874145-T.combined-variants.vep.rmv.fillout.maf
         # cmo_gatk -T CombineVariants --version 3.3-0 --genotypemergeoption PRIORITIZE --java_args '-Xmx48g -Xms256m -XX:-UseGCOverheadLimit' --out DU874145-T.combined-variants.vcf --reference_sequence GRCh37 --rod_priority_list VarDict,MuTect,SomaticIndelDetector,Pindel --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY --variant:MuTect /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg5ab3984b-e1b5-4f0b-b674-bed9751ff5c4/mutect-norm.vcf --variant:Pindel /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg78805a6c-ca48-4fd2-acbd-e9c1d688201a/pindel-norm.vcf --variant:SomaticIndelDetector /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg880a5b93-61f6-4d4d-8aae-def851518761/sid-norm.vcf --variant:VarDict /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpcLzgrB/stg0e559e5f-ae73-48e7-b6ae-2f2ecaaa1c69/vardict-norm.vcf
         # cmo_vcf2maf --custom-enst /usr/bin/vcf2maf/data/isoform_overrides_at_mskcc --filter-vcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpjAYWb9/stg044c2363-364d-4a64-a8ab-c17b43fd8051/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz --input-vcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpjAYWb9/stg6f3ecae7-3ae5-4e71-9c12-cb0098e06db9/DU874145-T.combined-variants.vcf --maf-center mskcc.org --max-filter-ac 10 --min-hom-vaf 0.7 --ncbi-build GRCh37 --normal-id DU874145-N --output-maf DU874145-T.combined-variants.vep.maf --ref-fasta /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta --retain-info set,TYPE,FAILURE_REASON --species homo_sapiens --tmp-dir '/scratch/<username>/...' --tumor-id DU874145-T --vcf-normal-id DU874145-N --vcf-tumor-id DU874145-T --vep-data /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86 --vep-forks 4 --vep-path /usr/bin/vep/ --vep-release 86
@@ -238,6 +255,7 @@ def get_bioinformatics_software_version(cmdline):
         if match:
             version = match.group(1)
     elif cmdline.startswith("sing.sh"):
+        # e.g.
         # sing.sh basic-filtering 0.1.6 vardict --alleledepth 5 --totaldepth 0 --inputVcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmptk5s_V/stg40644b70-9d21-47c8-a09e-52e827acf0b4/DU874145-T.rg.md.abra.fmi.printreads.vardict.vcf --tnRatio 5 --tsampleName DU874145-T --variantfrequency 0.01
         # sing.sh replace-allele-counts 0.1.1 --fillout /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmp1hUWm4/stg6ad9f673-22ee-4d07-ae5a-b2517cc74004/DU874145-T.combined-variants.vep.rmv.fillout --input-maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmp1hUWm4/stg1bc79f0d-4930-4d5f-ab59-feebd63cc605/DU874145-T.combined-variants.vep.rmv.maf --output-maf DU874145-T.combined-variants.vep.rmv.fillout.maf
         # sing.sh ngs-filters 1.1.4 --ffpe_pool_maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stg5e734d22-dae1-4854-908b-ba69d4a4bb65/DU874145-T.combined-variants.vep.rmv.ffpe-normal.fillout --normal-panel-maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stg58b57686-d51d-4d8a-a47c-664b911b7753/DU874145-T.combined-variants.vep.rmv.curated.fillout --input-hotspot /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stg28775ebc-b4e7-4d37-810b-4aa8b9fb0f62/hotspot-list-union-v1-v2.txt --input-maf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpTpF0kC/stgf99ef4b3-5a10-44c6-ad1f-23b039fff9b4/DU874145-T.combined-variants.vep.rmv.fillout.maf --output-maf DU874145-T.maf
@@ -251,44 +269,174 @@ def get_bioinformatics_software_version(cmdline):
     return version
 
 
+def get_img_metadata(sing_cmdline):
+    "get singularity image metadata by running sing.sh with -i"
+
+    cache_key = " ".join(sing_cmdline.split(" ")[:3])
+    if cache_key in IMG_METADATA_CACHE:
+        return IMG_METADATA_CACHE[cache_key]
+
+    # add -i to run in inspection mode
+    sing_cmdline = sing_cmdline.replace("sing.sh", "sing.sh -i")
+
+    metadata, _, exitcode = run(sing_cmdline, shell=True)
+
+    if exitcode != 0:
+        out = {
+            "error": "not found"
+        }
+    else:
+        # convert to json
+        metadata = json.loads(metadata)
+
+        # remove maintainer
+        del metadata["maintainer"]
+
+        # MongoDB doesn't like dots in the field name
+        out = {}
+        for key, value in metadata.iteritems():
+            out[key.replace(".", "-")] = value
+
+    IMG_METADATA_CACHE[cache_key] = out
+
+    return out
+
+
+def lookup_cmo_sing_cmdline(cmd0, version):
+    """
+    for a given cmo command and version, get sing command-line by looking up prism_resources.json
+    e.g. cmo0 = cmo_trimgalore
+         version = 0.2.5.mod
+    """
+
+    try:
+        # read prism_resources.json
+        bin_path = os.environ.get("PRISM_BIN_PATH")
+        res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
+        resources = json.loads(read_file(res_json_path))
+
+        # may or may not be trailing whitespaces
+        cmd0 = cmd0.rstrip()
+
+        # mapping between cmo_* and key in prism_resources.json
+        # fixme: handle some special cases
+        if cmd0 == "cmo_split_reads":
+            cmd0 = "split-reads"
+        elif cmd0 == "cmo_fillout":
+            cmd0 = "getbasecountsmultisample"
+        else:
+            cmd0 = cmd0.split("_")[1]
+
+        sing_cmdline = resources["programs"][cmd0][version]
+
+        return sing_cmdline
+
+    except Exception:
+        return None
+
+
+def get_cwl_metadata(cwl_filename, version):
+    "get cwl metadata"
+
+    cache_key = cwl_filename + ":" + version
+    if cache_key in CWL_METADATA_CACHE:
+        return CWL_METADATA_CACHE[cache_key]
+
+    # fixme: this will fail if different users work on different bin base
+    bin_path = os.environ.get("PRISM_BIN_PATH")
+    cwl_path = os.path.join(
+        bin_path, "pipeline/1.0.0/",
+        cwl_filename.replace(".cwl", ""), version, cwl_filename
+    )
+
+    try:
+        cwl_str = read_file(cwl_path)
+        yaml = ruamel.yaml.load(
+            cwl_str,
+            ruamel.yaml.RoundTripLoader
+        )
+
+        out = {
+            "path": cwl_path,
+        }
+
+        try:
+            for ver in yaml["doap:release"]:
+                out["version-" + ver["doap:name"]] = ver["doap:revision"]
+        except Exception:
+            pass
+
+    except Exception:
+        out = {
+            "error": "not found"
+        }
+
+    CWL_METADATA_CACHE[cache_key] = out
+
+    return out
+
+
 def get_bioinformatics_software_info(cwltoil_log):
     "get bioinformatics software info"
 
     sw_list = {}
 
-    with open(cwltoil_log, "r") as log_file:
-        log = log_file.read()
+    log = read_file(cwltoil_log)
 
     # this method can cover non-cmo-pkg tools
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] completed success
-#'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] completed success
+    # e.g.
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$ cmo_bwa_mem \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq1 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stgcfbf51cd-dc37-4e11-a7df-96c8f96facc1/DU874145-T_R1.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --fastq2 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpDv9yQE/stg0f06777c-eeae-4dd4-89e1-99bdbb2dd844/DU874145-T_R2.chunk000_cl.fastq.gz \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --genome \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        GRCh37 \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --output \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        DU874145-T.chunk000.bam \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        --version \
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_        default
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] completed success
+    #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] completed success
+
+    already_processed = {}
 
     matches = re.finditer(r"INFO:cwltool:(\[job .*?\].*?\w    )[\w\[]", log, re.DOTALL)
 
     for match1 in matches:
         raw_cmd = match1.group(1)
+
+        # fixme: toil has a logging bug that repeats the same log message over and over again
+        # in general module-1-2-3.chunk.cwl generates 2MB, but we experienced 412MB log file.
+        # this causes profiling forever
+        # so, extract unique temp dir assigned to each job
+        # and use this to not repeat already processed job
+        # e.g.
+        # x/z/job9Tx8l_ in 'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job
+        # cmo-bwa-mem.cwl]
+        # /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$
+        # cmo_bwa_mem \
+
+        match_job_tmp_dir = re.search(r"(\w\/\w\/job\w{6})", raw_cmd)
+        job_tmp_dir = match_job_tmp_dir.group(1) if match_job_tmp_dir else None
+
+        # skip if already processed,
+        # otherwise mark as processed so that we don't reprocess again next round
+        if job_tmp_dir in already_processed:
+            continue
+        else:
+            already_processed[job_tmp_dir] = "1"
 
         # the regex captures extra that contains "completed success". ignore.
         if "completed success" in raw_cmd:
@@ -299,36 +447,70 @@ def get_bioinformatics_software_info(cwltoil_log):
         if match2:
 
             # get software name (e.g. cmo-bwa-mem.cwl)
-            software_name = match2.group(1)
+            cwl_filename = match2.group(1)
 
             # remove .cwl
             # replace . with - (MongoDB doesn't allow . in the field name)
-            software_name = software_name.replace(".cwl", "").replace(".", "-")
+            software_name = cwl_filename.replace(".cwl", "").replace(".", "-")
 
             # if this is the first time this software appears
             if not software_name in sw_list:
-                sw_list[software_name] = {
-                    "cmdline": [],
-                    "version": "unknown",
-                    "checksum": "unknown"
-                }
+                sw_list[software_name] = []
+
+            entry = {
+                "cmdline": None,
+                "img": None,
+                "cwl": None
+            }
 
             # this is the very first arg
-            cmd = match2.group(2).rstrip("\\")
+            # either "sing.sh" or "cmo_*"
+            cmd0 = match2.group(2).rstrip("\\")
 
             # extract only the arguments
             match3 = re.finditer(r"$.*?\s{2,}(.*?)$", raw_cmd, re.DOTALL | re.MULTILINE)
             args = [arg.group(1).rstrip(" \\") for arg in match3]
 
             # construct the finall command line
-            final_command_line = (cmd + " ".join(args)).rstrip()
-
-            # there could be multiple command-lines under the same software
-            # e.g. running bwa-mem two times
-            sw_list[software_name]["cmdline"].append(final_command_line)
+            final_command_line = (cmd0 + " ".join(args)).rstrip()
+            entry["cmdline"] = final_command_line
 
             # extract version from command-line args
-            sw_list[software_name]["version"] = get_bioinformatics_software_version(final_command_line)
+            version = get_bioinformatics_software_version(final_command_line)
+            # fixme: revise cwl so that baseCommand has something like --version
+            if cmd0.startswith("cmo_split_reads"):
+                version = "1.0.0"
+            elif cmd0.startswith("cmo_index"):
+                version = "1.0.0"
+            elif cmd0.startswith("cmo_bwa_mem"):
+                version = "0.7.5a"
+            elif cmd0.startswith("cmo_trimgalore"):
+                version = "0.2.5.mod"
+            elif cmd0.startswith("cmo_vcf2maf"):
+                version = "1.6.12"
+            elif cmd0.startswith("cmo_bcftools"):
+                version = "1.3.1"
+            elif final_command_line.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
+                version = "1.96"
+            elif final_command_line.startswith("cmo_picard --cmd MarkDuplicates"):
+                version = "1.96"
+            elif final_command_line.startswith("cmo_picard --cmd FixMateInformation"):
+                version = "1.96"
+
+            # if this is the first time this version appears for this software
+            if cmd0.startswith("sing.sh"):
+                entry["img"] = get_img_metadata(final_command_line)
+            elif cmd0.startswith("cmo_"):
+                sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
+                if sing_cmdline:
+                    entry["img"] = get_img_metadata(sing_cmdline)
+
+            if cwl_filename + version in CWL_METADATA_CACHE:
+                entry["cwl"] = CWL_METADATA_CACHE[cwl_filename + version]
+            else:
+                entry["cwl"] = get_cwl_metadata(cwl_filename, version)
+
+            sw_list[software_name].append(entry)
 
     # this only works for cmo-pkg tools
     # matches = re.finditer(r"'(.*?)'.*?call_cmd.*?:\s+(.*)", log, re.MULTILINE)

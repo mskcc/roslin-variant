@@ -8,10 +8,26 @@ import datetime
 import base64
 import zlib
 import time
+import argparse
+import logging
 from dateutil.parser import parse
 import pytz
 import redis
 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+# create a file handler
+handler = logging.FileHandler('prism_track.log')
+handler.setLevel(logging.INFO)
+
+# create a logging format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+
+# add the handlers to the logger
+logger.addHandler(handler)
 
 DOC_VERSION = "0.0.1"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
@@ -122,13 +138,15 @@ def get_workdir_stdouterr_log_path(lsf_job_id):
     process = subprocess.Popen(bjobs, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     line = process.stdout.read().rstrip("\n")
 
-    if line:
-        work_dir, stdout_log, stderr_log = line.split('\t')
-        if work_dir == "-":
-            return None
-        return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
-    else:
-        return None
+    try:
+        if line:
+            work_dir, stdout_log, stderr_log = line.split('\t')
+            if work_dir != "-" and stdout_log != "-" and stderr_log != "_":
+                return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
+    except Exception:
+        pass
+
+    return None, None, None
 
 
 def get_cwltoil_log_path_jobstore_id(stderr_log_path):
@@ -163,9 +181,8 @@ def get_cwltoil_log_path_jobstore_id(stderr_log_path):
                 if (jobstore_id and cwltoil_log_path) or line_num > 20:
                     break
 
-    except Exception:
-        # file not found if already deleted
-        pass
+    except Exception as e:
+        logger.info(e)
 
     return cwltoil_log_path, jobstore_id
 
@@ -187,20 +204,40 @@ def get_final_output_metadata(stdout_log_path):
             else:
                 return None
 
-    except Exception:
-        # file not found if already deleted
+    except Exception as e:
+        logger.info(e)
         pass
+
+
+# fixme: common
+def run(cmd, shell=False, strip_newline=True):
+    "run a command and return (stdout, stderr, exit code)"
+
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+
+    stdout, stderr = process.communicate()
+
+    if strip_newline:
+        stdout = stdout.rstrip("\n")
+        stderr = stderr.rstrip("\n")
+
+    return stdout, stderr, process.returncode
 
 
 def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     "call make_runprofile program"
 
+    bin_path = os.environ.get("PRISM_BIN_PATH")
+
     cmd = [
-        "prism_runprofile.py",
+        "python",
+        os.path.join(bin_path, "bin/prism-runner/prism_runprofile.py"),
         "--job_uuid", job_uuid,
         "--inputs_yaml", inputs_yaml_path,
         "--cwltoil_log", cwltoil_log_path
     ]
+
+    logger.info("Calling: " + " ".join(cmd))
 
     # non-blocking call
     subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -285,8 +322,9 @@ def construct_run_results(bjobs_info, already_reported_projs):
                     projects[job_uuid]["pipelineJobStoreId"] = jobstore_id
                     projects[job_uuid]["workingDirectory"] = work_dir
 
-            # if leader job is done
-            if status == "DONE":
+            # if leader job is done and we have cwltoil.log
+            if status == "DONE" and projects[job_uuid]["logFiles"]["cwltoil"]:
+
                 # collect output
                 projects[job_uuid]["outputs"] = get_final_output_metadata(projects[job_uuid]["logFiles"]["stdout"])
 
@@ -321,6 +359,19 @@ def construct_run_results(bjobs_info, already_reported_projs):
 def main():
     "main function"
 
+    parser = argparse.ArgumentParser(description='submit')
+
+    parser.add_argument(
+        "--interval",
+        action="store",
+        dest="polling_interval",
+        help="Polling interval in seconds",
+        type=float,
+        default=30
+    )
+
+    params = parser.parse_args()
+
     # connect to redis
     # fixme: configurable host, port, credentials
     redis_client = redis.StrictRedis(host='pitchfork', port=9006, db=0)
@@ -346,12 +397,13 @@ def main():
 
             try:
 
-                print "{}:{} ({} secs) ({})".format(prj["projectId"], job_uuid, prj["timestamp"]["duration"], prj["status"])
+                print "  {}:{} ({} secs) ({})".format(prj["projectId"], job_uuid, prj["timestamp"]["duration"], prj["status"])
 
                 for lsf_job_id in prj["batchSystemJobs"]:
                     lsf_job = prj["batchSystemJobs"][lsf_job_id]
                     if lsf_job["status"] != "DONE":
-                        print "  - {} {} ({})".format(lsf_job_id, lsf_job["name"], lsf_job["status"])
+                        job_name = lsf_job["name"] if not lsf_job["name"].startswith("leader") else "leader"
+                        print "    - {} {} ({})".format(lsf_job_id, job_name, lsf_job["status"])
 
                 redis_client.publish('roslin-run-results', json.dumps(prj))
 
@@ -365,7 +417,7 @@ def main():
         print "<----- {}".format(datetime.datetime.now().strftime("%H:%M:%S"))
         print
 
-        time.sleep(30)
+        time.sleep(params.polling_interval)
 
 
 if __name__ == "__main__":

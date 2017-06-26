@@ -2,7 +2,7 @@ FROM python:2.7.13-alpine
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.ngsfilters="1.1.4" \
       version.r="3.3.2-r0" \
       version.alpine="3.4.6" \

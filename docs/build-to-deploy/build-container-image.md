@@ -88,7 +88,7 @@ MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 #3
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0" \
       version.pindel="0.2.5a7" \
       version.samtools="0.1.19" \
       version.alpine="3.5.x" \
@@ -143,7 +143,7 @@ Specify the maintainer's full name and email address.
 Include metadata:
 
 - `maintainer` : Same as #2
-- `version.container` : Version of this container
+- `version.image` : Version of this container image. The tool version stays the same same, but the container image can still be upgraded (e.g. default value for one of the tool's parameters changed)
 - `version.???`
     - Version of the tool being containerized.
     - Replace `???` with the tool name (e.g. `version.bcftools`)

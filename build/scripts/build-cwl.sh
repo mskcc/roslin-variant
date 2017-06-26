@@ -24,7 +24,7 @@ OPTIONS:
 
    -t      List of tools to build (comma-separated list)
            All pre-defined tools will be built if -t is not specified.
-           
+
            Example: $0 -t bwa:0.7.12:cmo_bwa_mem,trimgalore:0.4.3:cmo_trimgalore
 
    -z      Show list of tools that be built
@@ -46,7 +46,7 @@ done
 
 # comma-separated list of [tool-name]:[tool-version]:[corresponding-cmo-wrapper]
 if [ -z "$SELECTED_TOOLS_TO_BUILD" ]
-then    
+then
     SELECTED_TOOLS_TO_BUILD=$(get_tools_name_version_cmo)
 fi
 
@@ -58,16 +58,6 @@ do
     tool_name=$(get_tool_name $tool_info)
     tool_version=$(get_tool_version $tool_info)
     cmo_wrapper=$(get_cmo_wrapper_name $tool_info)
-
-    # fixme: not supported yet
-    # if [ "$tool_name" == "gatk" ]
-    # then
-    #     if [ "$cmo_wrapper" != "cmo_gatk.FindCoveredIntervals" ]
-    #     then
-    #         echo "${tool_name} ${tool_version} ${cmo_wrapper}: not supported"
-    #         continue
-    #     fi
-    # fi
 
     echo "Generating CWL: ${cmo_wrapper} (${tool_name} version ${tool_version})"
 

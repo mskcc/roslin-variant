@@ -4,7 +4,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.output_file)
-            return inputs.output_file;
+          if (inputs.output_filename)
+            return inputs.output_filename;
           return null;
         }

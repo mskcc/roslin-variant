@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-bcftools.norm.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-bcftools.norm
   doap:revision: 1.3.1
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -167,7 +170,7 @@ inputs:
 
 
 outputs:
-  vcf:
+  vcf_output_file:
     type: File
     outputBinding:
       glob: |-

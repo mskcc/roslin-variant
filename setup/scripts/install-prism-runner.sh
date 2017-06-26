@@ -13,6 +13,9 @@ cp ../bin/prism-runner/tree.py ${PRISM_BIN_PATH}/bin/prism-runner/tree.py
 
 cp ../bin/prism-runner/prism_submit.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_submit.py
 cp ../bin/prism-runner/prism_runprofile.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_runprofile.py
+cp ../bin/prism-runner/prism_cacher.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_cacher.py
+
+cp ../bin/prism-runner/prism_request_to_yaml.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_request_to_yaml.py
 
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then

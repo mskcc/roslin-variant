@@ -1,6 +1,21 @@
+#!/usr/bin/env python
+
+import os
+import yaml
 from fabric.api import *
 
-VERSION = '1.0.0'
+
+def get_config():
+    "read config.yaml into the yaml object and return it"
+
+    with open("config.yaml", "r") as file_handle:
+        return yaml.load(file_handle.read())
+
+
+def get_settings_sh_path(config):
+    "get path to settings.sh from yaml config obj"
+
+    return os.path.join(config["root"], config["binding"]["core"], "bin/setup/settings.sh")
 
 
 @task
@@ -24,108 +39,28 @@ def half_delete_prism_input():
 
 
 @task
-@hosts('chunj@u36.cbio.mskcc.org')
-def install(skip_ref=False, skip_compress=False, skip_upload=False):
-    """
-    install on u36.cbio.mskcc.org
-    """
-
-    if not skip_compress:
-        local('./compress.sh')
-
-    work_dir = '/home/chunj'
-
-    with cd(work_dir):
-
-        run('mkdir -p prism-setups')
-
-        with cd('prism-setups'):
-
-            if not skip_upload:
-                put('prism-v{}.tgz'.format(VERSION), ".")
-
-            run('rm -rf {}'.format(VERSION))
-            run('mkdir -p {}'.format(VERSION))
-            run('tar xvzf prism-v{0}.tgz -C {0}'.format(VERSION))
-
-            with cd('{}/setup/scripts'.format(VERSION)):
-
-                run('./install-production.sh -l')
-
-                pass_envs = ''
-                if skip_ref:
-                    pass_envs = 'export SKIP_B3=yes && '
-                run(pass_envs + './configure-reference-data.sh -l ifs')
-
-
-@task
-def rsync_aws(skip_ref=False):
-    """
-    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com rsync_aws
-    """
-
-    # make /ifs directory
-    run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
-
-    work_dir = '/tmp/prism-setup-{}'.format(VERSION)
-
-    local('rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
-        env.key_filename[0], env.user, env.host, work_dir))
-
-    with cd("{}/scripts".format(work_dir)):
-
-        run('./install-production.sh -l')
-
-        pass_envs = ''
-        if skip_ref:
-            pass_envs = 'export SKIP_B3=yes && '
-        run(pass_envs + './configure-reference-data.sh -l s3')
-
-@task
-def deploy_s3_to_aws(skip_ref=False):
-    """
-    fab -i ~/mskcc-chunj.pem -u ubuntu -H ec2-52-90-179-143.compute-1.amazonaws.com deploy_s3_to_aws
-    """
-
-    # get from s3
-    run('aws s3 cp s3://prism-installer/prism-v{}.tgz /tmp/'.format(VERSION))
-
-    # uncompress
-    run('mkdir -p /tmp/prism-v{}/'.format(VERSION))
-    run('tar xvzf /tmp/prism-v{0}.tgz -C /tmp/prism-v{0}/'.format(VERSION))
-
-    # /ifs required
-    run('sudo mkdir -p /ifs && sudo chmod a+w /ifs')
-
-    with cd('/tmp/prism-v{}/setup/scripts/'.format(VERSION)):
-
-        # install
-        run('./install-production.sh -l')
-
-        # install reference files
-        pass_envs = ''
-        if skip_ref:
-            pass_envs = 'export SKIP_B3=yes && '
-        run(pass_envs + './configure-reference-data.sh -l s3')
-
-    # adjust singularity location
-    with cd('/ifs/work/chunj/prism-proto/prism/bin/setup'):
-        run('sed -i "s|/usr/bin/singularity|/usr/local/bin/singularity|g" settings.sh')
-
-
-@task
-def rsync_luna(skip_install=False, skip_ref=False):
+def rsync_luna(skip_install=False, skip_ref=False, local_bin_singularity=False):
     """
     fab -i ~/.ssh/id_rsa -u chunj -H u36.cbio.mskcc.org rsync_luna
+    fab -i ~/.ssh/id_rsa -u chunj -H 127.0.0.1:7777 rsync_luna:skip_ref=True,local_bin_singularity=True
     """
 
+    # get configuration from config.yaml
+    config = get_config()
+
+    # get pipeline version from configuration
+    pipeline_version = config["version"]
+
     # use /scratch/prism/ to use the bigger disk
-    work_dir = '/scratch/prism//prism-setup-{}'.format(VERSION)
+    work_dir = '/scratch/prism//prism-setup-{}'.format(pipeline_version)
+
+    run("mkdir -p {}".format(work_dir))
 
     # rsync
     local(
-        'rsync -rave "ssh -i {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
+        'rsync -rave "ssh -i {} -p {}" --delete --exclude=".DS_Store" ./setup/ {}@{}:{}'.format(
             env.key_filename[0],
+            env.port,
             env.user, env.host,
             work_dir
         )
@@ -142,3 +77,8 @@ def rsync_luna(skip_install=False, skip_ref=False):
             if skip_ref:
                 pass_envs = 'export SKIP_B3=yes && '
             run(pass_envs + './configure-reference-data.sh -l ifs')
+
+    # use /usr/local/bin/singularity instead if necessary
+    if local_bin_singularity:
+        settings_sh_path = get_settings_sh_path(config)
+        run('sed -i "s#/usr/bin/singularity#/usr/local/bin/singularity#g" {}'.format(settings_sh_path))

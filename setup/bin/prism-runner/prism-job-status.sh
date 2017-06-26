@@ -48,7 +48,7 @@ fi
 
 # get job id, name, final status, resources requeted and/or used
 # https://www.ibm.com/support/knowledgecenter/en/SSETD4_9.1.2/lsf_command_ref/bjobs.1.html
-csv=`bjobs -o 'jobid stat job_name max_mem avg_mem memlimit max_req_proc exec_host delimiter=","' ${JOB_IDS}`
+csv=`bjobs -o 'jobid stat job_name max_mem avg_mem memlimit exec_host delimiter=","' ${JOB_IDS}`
 
 if [ -x "$(command -v tabulate)" ]
 then

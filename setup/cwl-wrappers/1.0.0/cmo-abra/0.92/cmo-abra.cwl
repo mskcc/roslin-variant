@@ -6,14 +6,17 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: cmo-abra.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: '0.92'
+  doap:name: cmo-abra
+  doap:revision: 0.92
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -43,8 +46,9 @@ baseCommand: [cmo_abra]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30 
+    ramMin: 30
     coresMin: 15
+
 
 doc: |
   None
@@ -158,10 +162,10 @@ inputs:
   threads:
     type: ['null', string]
     doc: Number of threads (default - 4)
-    default: "15"
     inputBinding:
       prefix: --threads
 
+    default: '15'
   adc:
     type: ['null', string]
     doc: Skip regions with average depth greater than this value (default - 100000)

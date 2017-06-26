@@ -44,7 +44,43 @@ $ tree prism-pipeline -L 2 -d
 └── vm
 ```
 
+## Create Build Envrionment
+
+Everything related to building container images and generating CWL wrappers will be done inside a virtual machine. Thus, you need to spawn a virtual machine first using Vagrant.
+
+The following command will spawn a virtual machine and automatically install everything that is needed to build container images and generate CWL wrappers (such as Docker, Singularity, cmo, gxargparse, and etc)
+
+```bash
+$ vagrant up
+```
+
+SSH into the vagrant box:
+
+```bash
+$ vagrant ssh
+```
+
+Now you're inside the virtual machine. Try the following commands to see if everything is correctly installed:
+
+```bash
+$ sudo su
+$ /vagrant/vm/check-versions.sh
+python : Python 2.7.12
+pip : pip 8.1.1 from /usr/lib/python2.7/dist-packages (python 2.7)
+docker : Docker version 1.13.1, build 092cba3
+singularity : 2.2.1
+cmo : 1.0.5
+```
+
 ## Settings
+
+This will take care of what's described in below:
+
+```bash
+$ vagrant ssh
+$ cd /vagrant
+$ ./configure.py config.dev.yaml
+```
 
 ### /setup/settings.sh
 
@@ -86,31 +122,3 @@ export SINGULARITY_BIND_POINTS="/ifs/work/chunj/prism-proto/ifs /ifs/work/chunj/
 Note that each path is separated by a single space character. The directories specified in this file will be automatically created inside the container duruing the image creation process. This is necessary to make the images compatible with runtime environments where Overlay FS is not supported.
 
 For more information about this, please refer to the [Bind Paths / File Sharing](http://singularity.lbl.gov/docs-mount) section of the Singularity's User Guide.
-
-## Create Build Envrionment
-
-Everything related to building container images and generating CWL wrappers will be done inside a virtual machine. Thus, you need to spawn a virtual machine first using Vagrant.
-
-The following command will spawn a virtual machine and automatically install everything that is needed to build container images and generate CWL wrappers (such as Docker, Singularity, cmo, gxargparse, and etc)
-
-```bash
-$ vagrant up
-```
-
-SSH into the vagrant box:
-
-```bash
-$ vagrant ssh
-```
-
-Now you're inside the virtual machine. Try the following commands to see if everything is correctly installed:
-
-```bash
-$ sudo su
-$ /vagrant/vm/check-versions.sh
-python : Python 2.7.12
-pip : pip 8.1.1 from /usr/lib/python2.7/dist-packages (python 2.7)
-docker : Docker version 1.13.1, build 092cba3
-singularity : 2.2.1
-cmo : 1.0.5
-```
