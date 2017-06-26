@@ -1,8 +1,8 @@
-FROM alpine:3.5
+FROM ubuntu:14.04
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
-      version.container="1.0" \
+      version.image="1.0.0" \
       version.pindel="0.2.5a7" \
       version.samtools="0.1.19" \
       version.alpine="3.5.x" \
@@ -13,8 +13,10 @@ ENV PINDEL_VERSION 0.2.5a7
 ENV SAMTOOLS_VERSION 0.1.19
 
 # required for compiling samtools : make g++ zlib-dev bzip2-dev xz-dev ncurses-dev
-RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev \
-      && apk add ca-certificates openssl \
+RUN apt-get -qq update \
+      && apt-get -qq -y install curl wget unzip\
+      && apt-get install -y make g++ zlib1g-dev bzip2 xzip libncurses-dev \
+      && apt-get install -y ca-certificates openssl \
       && cd /tmp && wget https://github.com/samtools/samtools/archive/${SAMTOOLS_VERSION}.zip \
       && unzip ${SAMTOOLS_VERSION}.zip \
       && cd /tmp/samtools-${SAMTOOLS_VERSION} \
