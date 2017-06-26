@@ -57,7 +57,7 @@ inputs:
     hapmap:
         type: File
         secondaryFiles:
-            - .idx
+            - .idx    
     dbsnp:
         type: File
         secondaryFiles:
@@ -65,11 +65,11 @@ inputs:
     indels_1000g:
         type: File
         secondaryFiles:
-            - .idx
+            - .idx    
     snps_1000g:
         type: File
         secondaryFiles:
-            - .idx
+            - .idx    
     rf: string[]
     covariates: string[]
     abra_scratch: string
@@ -99,7 +99,7 @@ steps:
         in:
             reference_sequence: genome
             input_file: bams
-            out:
+            out: 
                 default: "intervals.list"
         out: [fci_list]
 
@@ -159,9 +159,14 @@ steps:
     gatk_base_recalibrator:
         run: ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
         in:
+            dbsnp: dbsnp
+            hapmap: hapmap
+            indels_1000g: indels_1000g
+            snps_1000g: snps_1000g
             reference_sequence: genome
             input_file: parallel_fixmate/out
-            knownSites: [dbsnp, hapmap, indels_1000g, snps_1000g]
+            knownSites: 
+                valueFrom: ${return [inputs.dbsnp,inputs.hapmap[0], inputs.indels_1000g, inputs.snps_1000g]}
             covariate: covariates
             out:
                 default: "recal.matrix"
