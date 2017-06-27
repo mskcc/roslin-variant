@@ -128,7 +128,7 @@ $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
 $ prism-job-archive.sh
 ```
 
-## Running Module 1 with Your Own Data
+## Running Project-level workflows with Your Own Data
 
 Make a new directory.
 
@@ -185,7 +185,7 @@ Run the following command:
 
 ```bash
 $ prism-runner.sh \
-    -w module-1.cwl \
+    -w project-workflow.cwl \
     -i inputs.yaml \
     -b lsf
 ```
