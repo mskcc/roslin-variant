@@ -135,32 +135,50 @@ Make a new directory.
 Create a new `inputs.yaml` something like below and make necessary changes such as setting paths to your fastq files and etc.
 
 ```yaml
-adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
-adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
-fastq1:
-  class: File
-  path: .../data/fastq/P1_R1.fastq.gz
-fastq2:
-  class: File
-  path: .../data/fastq/P1_R2.fastq.gz
-
-genome: "GRCh37"
-bwa_output: P1.bam
-
-add_rg_LB: "5"
-add_rg_PL: "Illumina"
-add_rg_ID: "P-0000377"
-add_rg_PU: "bc26"
-add_rg_SM: "P-0000377-T02-IM3"
-add_rg_CN: "MSKCC"
-add_rg_output: "P-0000377-T02-IM3_ARRDRG.bam"
-
-md_output: "P-0000377-T02-IM3_ARRDRG_MD.bam"
-md_metrics_output: "P-0000377-T02-IM3_ARRDRG_MD.metrics"
-
-create_index: True
-
-tmp_dir: $TMPDIR
+db_files:
+  cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
+  dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+  hapmap: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf}
+  indels_1000g: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
+  refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
+  snps_1000g: {class: File, path: /ifs/work/prism/chunj/test-data/ref/1000G_phase1.snps.high_confidence.b37.vcf}
+groups:
+- [s_C_000269_X001_d, s_C_000269_N001_d, s_SuB2_Pellet_6048D, s_C_000269_T001_d,
+    s_SuB2_Org_P9_06048I]
+- [s_JuB3_P6_Pellet_6048D, s_C_000271_X002_d, s_JuB3_P10_Pellet_6048D,
+    s_C_000271_X001_d, s_JuB3_P1_Pellet_6048D, s_C_000271_T001_d, s_C_000271_N001_d]
+...
+pairs:
+- [s_C_000269_T001_d, s_C_000269_N001_d]
+- [s_C_000269_X001_d, s_C_000269_N001_d]
+- [s_C_000271_T001_d, s_C_000271_N001_d]
+- [s_C_000271_X001_d, s_C_000271_N001_d]
+...
+runparams:
+  abra_scratch: ${tmpdir}
+  covariates: [CycleCovariate, ContextCovariate, ReadGroupCovariate, QualityScoreCovariate]
+  emit_original_quals: true
+  genome: GRCh37
+  intervals: '1'
+  mutect_dcov: 50000
+  mutect_rf: [BadCigar]
+  num_cpu_threads_per_data_thread: 6
+  num_threads: 10
+  sid_rf: [BadCigar, DuplicateRead, FailsVendorQualityCheck, NotPrimaryAlignment,
+    BadMate, MappingQualityUnavailable, UnmappedRead, MappingQuality]
+samples:
+- CN: MSKCC
+  ID: s_C_000269_T001_d
+  LB: s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX_1
+  PL: Illumina
+  PU: s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX
+  R1: [/ifs/archive/GCL/hiseq/FASTQ/JAX_0065_BHFTF2BBXX/Project_06048_P/Sample_DS-blorg-006-T_IGO_06048_P_7/DS-blorg-006-T_IGO_06048_P_7_S33_L004_R1_001.fastq.gz]
+  R2: [/ifs/archive/GCL/hiseq/FASTQ/JAX_0065_BHFTF2BBXX/Project_06048_P/Sample_DS-blorg-006-T_IGO_06048_P_7/DS-blorg-006-T_IGO_06048_P_7_S33_L004_R2_001.fastq.gz]
+  RG_ID: s_C_000269_T001_d_1JAX_0065_BHFTF2BBXXPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: s_C_000269_T001_d.bam
+...
 ```
 
 Run the following command:
