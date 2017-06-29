@@ -166,7 +166,7 @@ steps:
             reference_sequence: genome
             input_file: parallel_fixmate/out
             knownSites: 
-                valueFrom: ${return [inputs.dbsnp,inputs.hapmap[0], inputs.indels_1000g, inputs.snps_1000g]}
+                valueFrom: ${return [inputs.dbsnp,inputs.hapmap, inputs.indels_1000g, inputs.snps_1000g]}
             covariate: covariates
             out:
                 default: "recal.matrix"
