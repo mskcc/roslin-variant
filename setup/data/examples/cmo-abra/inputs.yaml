@@ -7,7 +7,7 @@ in:
 targets:
   class: File
   path: ./sample.bed
-working: ${tmpdir}
+working: /scratch
 
 # filename must end with .abra.bam
 out: ['sample1.abra.bam', 'sample2.abra.bam']
