@@ -10,9 +10,9 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: flatten-array.cwl
 doap:release:
 - class: doap:Version
+  doap:name: flatten-array-bam.cwl
   doap:revision: 1.0.0
 
 dct:creator:
@@ -52,7 +52,7 @@ inputs:
 
 outputs:
 
-  bams:
+  output_bams:
     type:
       type: array
       items: File

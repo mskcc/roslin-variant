@@ -10,9 +10,9 @@ $schemas:
 - file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
 - file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
 
-doap:name: flatten-array.cwl
 doap:release:
 - class: doap:Version
+  doap:name: flatten-array-fastq.cwl
   doap:revision: 1.0.0
 
 dct:creator:
