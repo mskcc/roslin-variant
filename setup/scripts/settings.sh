@@ -11,7 +11,7 @@ export PRISM_BIN_PATH="${PRISM_ROOT}/prism"
 export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
 
 # other paths that we'd like to bind (space separated)
-export PRISM_EXTRA_BIND_PATH="/scratch"
+export PRISM_EXTRA_BIND_PATH="/scratch /ifs"
 
 # output path
 export PRISM_OUTPUT_PATH="${PRISM_ROOT}/ifs/prism/outputs"
