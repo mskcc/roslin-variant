@@ -5,7 +5,7 @@ bams:
     path: ../data/from-module-1/P1_ADDRG_MD.bam
   - class: File
     path: ../data/from-module-1/P2_ADDRG_MD.bam
-fasta: 'GRCh37'
+genome: 'GRCh37'
 hapmap:
   class: File
   path: /ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf
