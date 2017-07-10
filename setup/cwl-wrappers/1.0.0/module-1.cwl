@@ -42,73 +42,76 @@ cwlVersion: v1.0
 class: Workflow
 requirements:
   MultipleInputFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
 
 inputs:
 
-    adapter: string
-    adapter2: string
-    fastq1: File
-    fastq2: File
+  adapter: string
+  adapter2: string
+  fastq1: File
+  fastq2: File
 
-    genome: string
-    bwa_output: string
+  genome: string
+  bwa_output: string
 
-    add_rg_LB: string
-    add_rg_PL: string
-    add_rg_ID: string
-    add_rg_PU: string
-    add_rg_SM: string
-    add_rg_CN: string
-    add_rg_output: string
+  add_rg_LB: string
+  add_rg_PL: string
+  add_rg_ID: string
+  add_rg_PU: string
+  add_rg_SM: string
+  add_rg_CN: string
+  add_rg_output: string
 
-    md_output: string
-    md_metrics_output: string
+  md_output: string
+  md_metrics_output: string
 
-    tmp_dir: string
+  tmp_dir: string
 
 steps:
 
     cmo-trimgalore:
         run: ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
         in:
-            adapter: adapter
-            adapter2: adapter2
-            fastq1: fastq1
-            fastq2: fastq2
+          adapter: adapter
+          adapter2: adapter2
+          fastq1: fastq1
+          fastq2: fastq2
         out: [clfastq1,clfastq2,clstats1,clstats2]
 
     cmo-bwa-mem:
         run: ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
         in:
-            fastq1: cmo-trimgalore/clfastq1
-            fastq2: cmo-trimgalore/clfastq2
-            genome: genome
-            output: bwa_output
+          fastq1: cmo-trimgalore/clfastq1
+          fastq2: cmo-trimgalore/clfastq2
+          genome: genome
+          output: bwa_output
         out: [bam]
 
     cmo-picard.AddOrReplaceReadGroups:
         run: ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
         in:
-            I: cmo-bwa-mem/bam
-            O: add_rg_output
-            LB: add_rg_LB
-            PL: add_rg_PL
-            ID: add_rg_ID
-            PU: add_rg_PU
-            SM: add_rg_SM
-            CN: add_rg_CN
-            SO:
-              default: "coordinate"
-            TMP_DIR: tmp_dir
+          I: cmo-bwa-mem/bam
+          O: add_rg_output
+          LB: add_rg_LB
+          PL: add_rg_PL
+          ID: add_rg_ID
+          PU: add_rg_PU
+          SM: add_rg_SM
+          CN: add_rg_CN
+          SO:
+            default: "coordinate"
+          TMP_DIR: tmp_dir
         out: [bam, bai]
 
     cmo-picard.MarkDuplicates:
         run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
         in:
-            I: cmo-picard.AddOrReplaceReadGroups/bam
-            O: md_output
-            M: md_metrics_output
-            TMP_DIR: tmp_dir
+          I:
+            source: cmo-picard.AddOrReplaceReadGroups/bam
+            valueFrom: ${ return [self]; }
+          O: md_output
+          M: md_metrics_output
+          TMP_DIR: tmp_dir
         out: [bam,bai,mdmetrics]
 
 outputs:
