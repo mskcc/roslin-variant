@@ -125,12 +125,12 @@ def get_current_utc_datetime():
     return utc_dt.strftime(DATETIME_FORMAT)
 
 
-def get_workdir_stdouterr_log_path(lsf_job_id):
-    "get working directory and path to stdout/stderr log of LSF leader job"
+def get_lsf_job_info(lsf_job_id):
+    "get working directory, path to stdout/stderr log, and cmd of LSF leader job"
 
     bjobs = [
         "bjobs",
-        "-o", "exec_cwd output_file error_file delimiter='\t'",
+        "-o", "exec_cwd output_file error_file cmd delimiter='\t'",
         "-noheader",
         lsf_job_id
     ]
@@ -140,20 +140,19 @@ def get_workdir_stdouterr_log_path(lsf_job_id):
 
     try:
         if line:
-            work_dir, stdout_log, stderr_log = line.split('\t')
+            work_dir, stdout_log, stderr_log, cmd = line.split('\t')
             if work_dir != "-" and stdout_log != "-" and stderr_log != "_":
-                return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log)
+                return work_dir, os.path.join(work_dir, stdout_log), os.path.join(work_dir, stderr_log), cmd
     except Exception:
         pass
 
-    return None, None, None
+    return None, None, None, None
 
 
-def get_cwltoil_log_path_jobstore_id(stderr_log_path):
+def get_cwltoil_log_path(stderr_log_path):
     "get path to cwltoil log and jobstore id"
 
     cwltoil_log_path = None
-    jobstore_id = None
 
     # 1-indexed
     line_num = 0
@@ -166,25 +165,20 @@ def get_cwltoil_log_path_jobstore_id(stderr_log_path):
 
                 # fixme: pre-compile regex
 
-                # DEBUG:toil.jobStores.fileJobStore:Path to job store directory is '/ifs/work/chunj/prism-proto/prism/tmp/jobstore-6f22c374-4b93-11e7-a203-fc15b424eb90'.
-                match = re.search(r"^DEBUG:toil.jobStores.fileJobStore:Path to job store directory is '.*?/jobstore-([a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12})'.$", line)
-                if match:
-                    jobstore_id = match.group(1)
-
                 # INFO:toil.lib.bioio:Logging to file
                 # '/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/_tracking_test/5dff7de4/5dff7de4-4b93-11e7-8c71-8cdcd4013cd4/outputs/log/cwltoil.log'.
                 match = re.search(r"INFO:toil.lib.bioio:Logging to file '(.*?)'.", line)
                 if match:
                     cwltoil_log_path = match.group(1)
 
-                # exit if both path found or line number > 20
-                if (jobstore_id and cwltoil_log_path) or line_num > 20:
+                # exit if found or line number > 20
+                if (cwltoil_log_path) or line_num > 20:
                     break
 
     except Exception as e:
         logger.info(e)
 
-    return cwltoil_log_path, jobstore_id
+    return cwltoil_log_path
 
 
 def get_final_output_metadata(stdout_log_path):
@@ -243,6 +237,50 @@ def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
+def parse_workflow_filename(runner_cmd):
+    "parse runner's arguments"
+
+    # e.g.
+    # prism-runner.sh -w
+    # cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl -i
+    # inputs.yaml -b lsf -p Proj_DEV_chunj -j
+    # d06e0364-6664-11e7-a766-645106efb11c -o
+    # /ifs/work/chunj/prism-proto/ifs/prism/outputs/d06e0364/d06e0364-6664-11e7-a766-645106efb11c/outputs
+    match = re.search(r"-w (.*?)(\s|$)", runner_cmd)
+    if match:
+        return match.group(1)
+    else:
+        return None
+
+
+def parse_job_output_path(runner_cmd):
+    "parse runner's arguments"
+
+    # e.g.
+    # prism-runner.sh -w
+    # cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl -i
+    # inputs.yaml -b lsf -p Proj_DEV_chunj -j
+    # d06e0364-6664-11e7-a766-645106efb11c -o
+    # /ifs/work/chunj/prism-proto/ifs/prism/outputs/d06e0364/d06e0364-6664-11e7-a766-645106efb11c/outputs
+    match = re.search(r"-o (.*?)(\s|$)", runner_cmd)
+    if match:
+        return match.group(1)
+    else:
+        return None
+
+
+def get_job_store_id(output_dir):
+    "get job store id"
+
+    try:
+        with open(os.path.join(output_dir, "job-store-uuid"), "rt") as ffile:
+            return ffile.read().rstrip()
+
+    except Exception as e:
+        logger.info(e)
+        return None
+
+
 def construct_run_results(bjobs_info, already_reported_projs):
     "construct run results"
 
@@ -283,6 +321,7 @@ def construct_run_results(bjobs_info, already_reported_projs):
                 "version": DOC_VERSION,
                 "pipelineJobId": job_uuid,
                 "pipelineJobStoreId": None,
+                "workflow": None,
                 "projectId": cmo_project_id,
                 "labels": [],
                 "timestamp": {},
@@ -312,10 +351,14 @@ def construct_run_results(bjobs_info, already_reported_projs):
             # this must be done before checking status=DONE
             if projects[job_uuid]["logFiles"]["cwltoil"] is None or projects[job_uuid]["pipelineJobStoreId"] is None:
 
-                work_dir, stdout_log_path, stderr_log_path = get_workdir_stdouterr_log_path(lsf_job_id)
+                work_dir, stdout_log_path, stderr_log_path, runner_cmd = get_lsf_job_info(lsf_job_id)
 
                 if stderr_log_path:
-                    cwltoil_log_path, jobstore_id = get_cwltoil_log_path_jobstore_id(stderr_log_path)
+                    cwltoil_log_path = get_cwltoil_log_path(stderr_log_path)
+                    workflow_filename = parse_workflow_filename(runner_cmd)
+                    output_dir = parse_job_output_path(runner_cmd)
+                    jobstore_id = get_job_store_id(output_dir)
+                    projects[job_uuid]["workflow"] = workflow_filename
                     projects[job_uuid]["logFiles"]["cwltoil"] = cwltoil_log_path
                     projects[job_uuid]["logFiles"]["stdout"] = stdout_log_path
                     projects[job_uuid]["logFiles"]["stderr"] = stderr_log_path
