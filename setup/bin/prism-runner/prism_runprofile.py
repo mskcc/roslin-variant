@@ -236,7 +236,7 @@ def get_node_info():
     )
 
 
-def get_bioinformatics_software_version(cmdline):
+def get_bioinformatics_software_version(cmd0, cmdline):
     "get bioinformatics software version from command-line"
 
     version = "unknown"
@@ -251,7 +251,7 @@ def get_bioinformatics_software_version(cmdline):
         # cmo_bcftools norm --fasta-ref GRCh37 --output pindel-norm.vcf
         # --output-type v
         # /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpQqLuI7/stg236751d5-5a29-4760-9d43-68b380bbbbe3/DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.vcf
-        match = re.search(r"--version (.*?)\s", cmdline)
+        match = re.search(r"--version (.*?)(\s|$)", cmdline)
         if match:
             version = match.group(1)
     elif cmdline.startswith("sing.sh"):
@@ -265,6 +265,26 @@ def get_bioinformatics_software_version(cmdline):
         match = re.search(r"sing.sh .*? (.*?)\s", cmdline)
         if match:
             version = match.group(1)
+
+    # fixme: revise cwl so that baseCommand has something like --version
+    if cmd0.startswith("cmo_split_reads"):
+        version = "1.0.0"
+    elif cmd0.startswith("cmo_index"):
+        version = "1.0.0"
+    elif cmd0.startswith("cmo_bwa_mem"):
+        version = "0.7.5a"
+    elif cmd0.startswith("cmo_trimgalore"):
+        version = "0.2.5.mod"
+    elif cmd0.startswith("cmo_vcf2maf"):
+        version = "1.6.12"
+    elif cmd0.startswith("cmo_bcftools"):
+        version = "1.3.1"
+    elif cmdline.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
+        version = "1.96"
+    elif cmdline.startswith("cmo_picard --cmd MarkDuplicates"):
+        version = "1.96"
+    elif cmdline.startswith("cmo_picard --cmd FixMateInformation"):
+        version = "1.96"
 
     return version
 
@@ -362,7 +382,8 @@ def get_cwl_metadata(cwl_filename, version):
 
         try:
             for ver in yaml["doap:release"]:
-                out["version-" + ver["doap:name"]] = ver["doap:revision"]
+                key = ("version-" + ver["doap:name"]).replace(".", "-")
+                out[key] = ver["doap:revision"]
         except Exception:
             pass
 
@@ -376,12 +397,86 @@ def get_cwl_metadata(cwl_filename, version):
     return out
 
 
-def get_bioinformatics_software_info(cwltoil_log):
-    "get bioinformatics software info"
+def get_toil_log_level(log):
+    "get toil log level"
+
+    match = re.search(r"'toil' logger at level '(.*?)'", log)
+
+    if match:
+        return match.group(1)
+    else:
+        return None
+
+
+def get_bioinformatics_software_info_loglevel_INFO(log):
+    "get bioinformatics software info when log level is set to INFO"
 
     sw_list = {}
 
-    log = read_file(cwltoil_log)
+    already_processed = {}
+
+    matches = re.finditer(r"Issued job '(.*?)'.*(\w\/\w\/job\w{6})", log)
+
+    for match1 in matches:
+
+        base_cmd = match1.group(1)
+
+        # skip if already processed,
+        # otherwise mark as processed so that we don't reprocess again next round
+        if base_cmd in already_processed:
+            continue
+        else:
+            already_processed[base_cmd] = "1"
+
+        # replace . with - (MongoDB doesn't allow . in the field name)
+        if base_cmd.startswith("sing.sh"):
+            software_name = base_cmd.split()[1]
+        elif base_cmd.startswith("cmo_"):
+            if base_cmd.startswith("cmo_gatk"):
+                software_name = base_cmd.replace(" -T ", "-")
+            elif base_cmd.startswith("cmo_picard"):
+                software_name = base_cmd.replace(" --cmd ", "-")
+            else:
+                software_name = base_cmd
+            software_name = re.sub(r"--version .*[\s]?", "", software_name).rstrip()
+        software_name = software_name.replace(".", "-").replace(" ", "-").replace("_", "-")
+
+        # if this is the first time this software appears
+        if not software_name in sw_list:
+            sw_list[software_name] = []
+
+        entry = {
+            "cmdline": None,
+            "img": None,
+            "cwl": None
+        }
+
+        # this is the very first arg
+        # either "sing.sh" or "cmo_*"
+        cmd0 = base_cmd.split()[0]
+
+        entry["cmdline"] = base_cmd
+
+        # extract version from command-line args
+        version = get_bioinformatics_software_version(cmd0, base_cmd)
+
+        # if this is the first time this version appears for this software
+        if cmd0.startswith("sing.sh"):
+            entry["img"] = get_img_metadata(base_cmd)
+        elif cmd0.startswith("cmo_"):
+            sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
+            if sing_cmdline:
+                entry["img"] = get_img_metadata(sing_cmdline)
+
+        sw_list[software_name].append(entry)
+
+    return sw_list
+
+
+def get_bioinformatics_software_info_loglevel_DEBUG(log):
+    "get bioinformatics software info when log level is set to DEBUG"
+
+    sw_list = {}
 
     # this method can cover non-cmo-pkg tools
     # e.g.
@@ -476,26 +571,7 @@ def get_bioinformatics_software_info(cwltoil_log):
             entry["cmdline"] = final_command_line
 
             # extract version from command-line args
-            version = get_bioinformatics_software_version(final_command_line)
-            # fixme: revise cwl so that baseCommand has something like --version
-            if cmd0.startswith("cmo_split_reads"):
-                version = "1.0.0"
-            elif cmd0.startswith("cmo_index"):
-                version = "1.0.0"
-            elif cmd0.startswith("cmo_bwa_mem"):
-                version = "0.7.5a"
-            elif cmd0.startswith("cmo_trimgalore"):
-                version = "0.2.5.mod"
-            elif cmd0.startswith("cmo_vcf2maf"):
-                version = "1.6.12"
-            elif cmd0.startswith("cmo_bcftools"):
-                version = "1.3.1"
-            elif final_command_line.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
-                version = "1.96"
-            elif final_command_line.startswith("cmo_picard --cmd MarkDuplicates"):
-                version = "1.96"
-            elif final_command_line.startswith("cmo_picard --cmd FixMateInformation"):
-                version = "1.96"
+            version = get_bioinformatics_software_version(cmd0, final_command_line)
 
             # if this is the first time this version appears for this software
             if cmd0.startswith("sing.sh"):
@@ -524,6 +600,21 @@ def get_bioinformatics_software_info(cwltoil_log):
     #         sw_list[software_name] = [command]
 
     return sw_list
+
+
+def get_bioinformatics_software_info(cwltoil_log):
+    "get bioinformatics software info"
+
+    log = read_file(cwltoil_log)
+
+    log_level = get_toil_log_level(log)
+
+    if log_level == "INFO":
+        return get_bioinformatics_software_info_loglevel_INFO(log)
+    elif log_level == "DEBUG":
+        return get_bioinformatics_software_info_loglevel_DEBUG(log)
+    else:
+        return {}
 
 
 def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
