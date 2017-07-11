@@ -58,4 +58,4 @@ outputs:
       items: File
     secondaryFiles: ['^.bai']
 
-expression: ${var samples = []; for (var i = 0; i < inputs.bams.length; i++) { for (var j =0; j < inputs.bams[i].length; j++) { samples.push(inputs.bams[i][j]) } } return {"bams":samples};}
+expression: ${ var samples = []; for (var i = 0; i < inputs.bams.length; i++) { for (var j = 0; j < inputs.bams[i].length; j++) { samples.push(inputs.bams[i][j]) } } return { "output_bams":samples }; }
