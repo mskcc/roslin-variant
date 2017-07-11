@@ -150,15 +150,12 @@ steps:
                 pindel:
                     run: cmo-pindel/0.2.5a7/cmo-pindel.cwl
                     in:
-                        tumor_sample_id: tumor_sample_id
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_id, tumor_sample_id]
-                        normal_sample_id: normal_sample_id
                         vcf:
                             valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".pindel.vcf") }
                         fasta: genome
-                        output_prefix:
-                            valueFrom: $(inputs.tumor_sample_id)
+                        output_prefix: tumor_sample_id
                     out: [output]
                 vardict:
                     run: cmo-vardict/1.4.6/cmo-vardict.cwl

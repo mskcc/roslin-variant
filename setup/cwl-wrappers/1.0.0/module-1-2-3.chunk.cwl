@@ -92,8 +92,8 @@ inputs:
     type:
       type: array
       items: string
-  tmp_dir: string[]
-  genome: string[]
+  tmp_dir: string
+  genome: string
   hapmap:
     type: File
     secondaryFiles:
@@ -118,7 +118,7 @@ inputs:
   mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
-  intervals: string
+  intervals: ['null', string]
   sid_rf:
     type:
       type: array
@@ -189,7 +189,7 @@ outputs:
 steps:
 
   mapping:
-    run:  module-1.scatter.chunk.cwl
+    run: module-1.scatter.chunk.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
