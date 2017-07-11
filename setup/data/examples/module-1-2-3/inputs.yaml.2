@@ -1,5 +1,3 @@
-# DO NOT use double quotes, use single quotes
-
 adapter:
 - [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
 - [AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG]
@@ -24,9 +22,6 @@ add_rg_PU:
 add_rg_SM:
 - [DU874145-T]
 - [DU874145-N]
-add_rg_output:
-- [DU874145-T.rg.bam]
-- [DU874145-N.rg.bam]
 bwa_output:
 - [DU874145-T.bam]
 - [DU874145-N.bam]
@@ -47,7 +42,6 @@ pairs:
 tmp_dir:
 - [/scratch]
 - [/scratch]
-fasta: 'GRCh37'
 hapmap:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf
@@ -75,4 +69,3 @@ sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlig
 refseq:
     class: File
     path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'
-intervals: '1'

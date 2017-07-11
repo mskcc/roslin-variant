@@ -1,5 +1,3 @@
-tumor_sample_id: 'Tumor'
-normal_sample_id: 'Normal'
 sample_names: ['Normal', 'Tumor']
 bams:
   - class: File
