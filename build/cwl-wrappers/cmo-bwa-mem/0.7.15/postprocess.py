@@ -37,9 +37,11 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
+    cwl['baseCommand'] = ['cmo_bwa_mem', '--version', '0.7.15']
+    del cwl['inputs']['version']
+
     cwl['inputs']['fastq1']['type'] = ['string', 'File']
     cwl['inputs']['fastq2']['type'] = ['string', 'File']
-    cwl['inputs']['version']['default'] = 'default'
     cwl['inputs']['t']['default'] = '5'
 
     write(params.filename_cwl, ruamel.yaml.dump(

@@ -41,7 +41,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_bwa_mem]
+baseCommand:
+- cmo_bwa_mem
+- --version
+- 0.7.15
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -90,14 +93,6 @@ inputs:
     inputBinding:
       prefix: --sam
 
-  version:
-    type:
-      type: enum
-      symbols: [default]
-    inputBinding:
-      prefix: --version
-
-    default: default
   E:
     type: ['null', string]
     doc: INT[,INT] gap extension penalty; a gap of size k cost '{-O} + {-E}*k' [1,1]
