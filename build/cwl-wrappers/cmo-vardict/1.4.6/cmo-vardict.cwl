@@ -325,6 +325,7 @@ inputs:
 
   th:
     type: ['null', string]
+    default: '5'
     doc: Threads count.
     inputBinding:
       prefix: -th
