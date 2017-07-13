@@ -161,6 +161,8 @@
             "0.7.12": "sing.sh bwa 0.7.12", 
             "0.7.15": "sing.sh bwa 0.7.15", 
             "0.7.5a": "sing.sh bwa 0.7.5a", 
+            "0.7.5a.test": "sing.sh bwa 0.7.5a.test", 
+            "0.7.5a.ubuntu": "sing.sh bwa 0.7.5a.ubuntu", 
             "default": "sing.sh bwa 0.7.5a"
         }, 
         "convertqualityscore": {
