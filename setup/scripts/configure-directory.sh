@@ -30,7 +30,7 @@ mkdir -p ${PRISM_INPUT_PATH}
 mkdir -p ${PRISM_OUTPUT_PATH}
 
 # group should have read/write/execute permission
-chmod -R 775 ${PRISM_BIN_PATH}/pipeline
+chmod -R 775 ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}
 chmod -R 775 ${PRISM_BIN_PATH}/schemas
 chmod -R 775 ${PRISM_BIN_PATH}/tools
 chmod -R 775 ${PRISM_BIN_PATH}/bin/setup
