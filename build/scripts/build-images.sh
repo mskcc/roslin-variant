@@ -117,6 +117,7 @@ do
     docker_image_full_name="localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
 
     # add --quite to make it less verbose
+    # sudo docker build --no-cache=true -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
     sudo docker build -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
 
     if [ $BUILD_DOCKER_IMAGE_ONLY -eq 1 ]
