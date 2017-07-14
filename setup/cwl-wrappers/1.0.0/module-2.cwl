@@ -159,9 +159,14 @@ steps:
     gatk_base_recalibrator:
         run: ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
         in:
+            dbsnp: dbsnp
+            hapmap: hapmap
+            indels_1000g: indels_1000g
+            snps_1000g: snps_1000g
             reference_sequence: genome
             input_file: parallel_fixmate/out
-            knownSites: [dbsnp, hapmap, indels_1000g, snps_1000g]
+            knownSites: 
+                valueFrom: ${return [inputs.dbsnp,inputs.hapmap, inputs.indels_1000g, inputs.snps_1000g]}
             covariate: covariates
             out:
                 default: "recal.matrix"

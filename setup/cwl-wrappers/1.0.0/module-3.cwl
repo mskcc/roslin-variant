@@ -148,7 +148,7 @@ steps:
                     outputSource: pindel/output
             steps:
                 pindel:
-                    run: cmo-pindel/0.2.5a7/cmo-pindel.cwl
+                    run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
                     in:
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_id, tumor_sample_id]

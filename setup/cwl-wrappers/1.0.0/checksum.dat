@@ -35,12 +35,12 @@ f477d6fc4b23c1c102e963e6407c98f2  ./flatten-array/1.0.0/flatten-array-bam.cwl
 f62102d5c544a09a9be7dc2c7771ffc6  ./module-1.cwl
 188b89f991b47d3e8052015b5355f7a7  ./module-1.scatter.chunk.cwl
 7f5f8ff2e818ad752701dbbe414c2a2a  ./module-1.scatter.cwl
-fbcfcce1e8eaad762f309e73c752e825  ./module-2.cwl
-2add933af436263b678d817b482ba11d  ./module-3.cwl
+fda21e3a91128dca6e750e020e906936  ./module-2.cwl
+0241e091565f544a2ffe791c14f1c997  ./module-3.cwl
 141c433677167adb9211255c9907cec9  ./module-4.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
 b1177af2ef6597aedff7be8c674e32e8  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
-5c061b7ea235b953bdfbdbbfa14d7ea3  ./project-workflow.cwl
+7f200e8794d02d4bd1f4165b64073be0  ./project-workflow.cwl
 acbf3454941f81831232452299fdcd75  ./remove-variants/0.1.1/remove-variants.cwl
 00371afb5a6b8d4884bb2c258a7366b9  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 fac1573f49f84bd881f606248b87b997  ./replace-allele-counts/0.1.1/replace-allele-counts.cwl

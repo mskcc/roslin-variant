@@ -47,15 +47,30 @@ requirements:
 
 inputs:
   db_files:
-    type:
+    type: 
       type: record
       fields:
-        cosmic: File
-        dbsnp: File
-        hapmap: File
-        indels_1000g: File
+        hapmap:
+          type: File
+          secondaryFiles:
+            - .idx
+        dbsnp:
+          type: File
+          secondaryFiles:
+            - .idx
+        indels_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        snps_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        cosmic:
+          type: File
+          secondaryFiles:
+            - .idx
         refseq: File
-        snps_1000g: File
   groups:
     type:
       type: array
@@ -208,6 +223,6 @@ steps:
       sid_rf: projparse/sid_rf
       refseq: projparse/refseq
     out: [clstats1, clstats2, bams, md_metrics, mutect_vcf, mutect_callstats, somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, vardict_vcf, pindel_vcf]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, pairs, tmp_dir, genome, abra_scratch, dbsnp, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, sid_rf, refseq, covariates]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, pairs, tmp_dir, genome, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, sid_rf, refseq, covariates]
     scatterMethod: dotproduct
 
