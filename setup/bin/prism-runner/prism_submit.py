@@ -32,7 +32,7 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name):
+def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, debug_mode):
     "submit roslin-runner to the w node"
 
     mem = 1
@@ -53,6 +53,10 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name):
         job_uuid,
         output_dir
     )
+
+    # add "-d" if debug_mode is turned on
+    if debug_mode:
+        job_command = job_command + " -d"
 
     bsubline = [
         "bsub",
@@ -262,6 +266,13 @@ def main():
         required=True
     )
 
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        dest="debug_mode",
+        help="Run the runner in debug mode"
+    )
+
     params = parser.parse_args()
 
     # create a new unique job uuid
@@ -291,7 +302,8 @@ def main():
         params.cmo_project_id,
         job_uuid,
         work_dir,
-        params.workflow_name
+        params.workflow_name,
+        params.debug_mode
     )
 
     print lsf_proj_name
