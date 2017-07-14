@@ -6,15 +6,13 @@ add_rg_LB: [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX_1, s_C_000269_N001_d_1JAX_006
 add_rg_PL: [Illumina, Illumina]
 add_rg_PU: [s_C_000269_T001_d_1JAX_0065_BHFTF2BBXX, s_C_000269_N001_d_1JAX_0065_BHFTF2BBXX]
 add_rg_SM: [s_C_000269_T001_d, s_C_000269_N001_d]
-add_rg_output: [s_C_000269_T001_d.rg.bam, s_C_000269_N001_d.rg.bam]
 bwa_output: [s_C_000269_T001_d.bam, s_C_000269_N001_d.bam]
 
-# fastq1: [{class: File, path: ../data/fastq/P1_R1.fastq.gz}, {class: File, path: ../data/fastq/P2_R1.fastq.gz}]
-# fastq2: [{class: File, path: ../data/fastq/P1_R2.fastq.gz}, {class: File, path: ../data/fastq/P2_R2.fastq.gz}]
-fastq1: ['/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/P1_R1.fastq.gz', '/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/P2_R1.fastq.gz']
-fastq2: ['/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/P1_R2.fastq.gz', '/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/data/fastq/P2_R2.fastq.gz']
+fastq1: [{class: File, path: ../data/fastq/P1_R1.fastq.gz}, {class: File, path: ../data/fastq/P2_R1.fastq.gz}]
+fastq2: [{class: File, path: ../data/fastq/P1_R2.fastq.gz}, {class: File, path: ../data/fastq/P2_R2.fastq.gz}]
 
-md_metrics_output: [s_C_000269_T001_d.md.metrics, s_C_000269_N001_d.md.metrics]
-md_output: [s_C_000269_T001_d.rg.md.bam, s_C_000269_N001_d.rg.md.bam]
+# fastq1: [{class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R1_001.fastq.gz}, {class: File, path: ../data/fastq/DU874145-T/DU874145-T_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+# fastq2: [{class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R1_001.fastq.gz}, {class: File, path: ../data/fastq/DU874145-N/DU874145-N_IGO_00000_TEST_L001_R2_001.fastq.gz}]
+
 genome: 'GRCh37'
 tmp_dir: [/scratch, /scratch]

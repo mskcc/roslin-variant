@@ -2,25 +2,25 @@
     "SpotInstanceRequests": [
         {
             "Status": {
-                "UpdateTime": "2017-05-01T16:10:30.000Z", 
+                "UpdateTime": "2017-07-12T16:55:30.000Z", 
                 "Code": "pending-evaluation", 
                 "Message": "Your Spot request has been submitted for review, and is pending evaluation."
             }, 
             "ProductDescription": "Linux/UNIX", 
-            "SpotInstanceRequestId": "sir-pbwg52mk", 
+            "SpotInstanceRequestId": "sir-d8s85v6k", 
             "State": "open", 
             "LaunchSpecification": {
                 "Placement": {
-                    "AvailabilityZone": "us-east-1c"
+                    "AvailabilityZone": "us-east-1f"
                 }, 
-                "ImageId": "ami-f493f0e2", 
+                "ImageId": "ami-1ccbc70a", 
                 "KeyName": "mskcc-chunj", 
                 "BlockDeviceMappings": [
                     {
                         "DeviceName": "/dev/sda1", 
                         "Ebs": {
                             "DeleteOnTermination": true, 
-                            "SnapshotId": "snap-0604b4eeec7df2487", 
+                            "SnapshotId": "snap-0662a585a3b109dcd", 
                             "VolumeSize": 60, 
                             "VolumeType": "gp2"
                         }
@@ -32,18 +32,18 @@
                         "GroupId": "sg-19c52d66"
                     }
                 ], 
-                "SubnetId": "subnet-d4fe67b1", 
+                "SubnetId": "subnet-cadc53c6", 
                 "Monitoring": {
                     "Enabled": false
                 }, 
                 "IamInstanceProfile": {
                     "Arn": "arn:aws:iam::273241104452:instance-profile/prism-node-role"
                 }, 
-                "InstanceType": "r4.8xlarge"
+                "InstanceType": "r4.2xlarge"
             }, 
             "Type": "one-time", 
-            "CreateTime": "2017-05-01T16:10:30.000Z", 
-            "SpotPrice": "0.420000"
+            "CreateTime": "2017-07-12T16:55:30.000Z", 
+            "SpotPrice": "0.062000"
         }
     ]
 }

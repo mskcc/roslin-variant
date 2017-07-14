@@ -14,13 +14,22 @@ root_dir="${PRISM_BIN_PATH}/pipeline/"
 for file in `find ${root_dir} -name "*.cwl"`
 do
 
-    # skip if the write permission is not granted
-    if [ ! -w $file ]
+    parent_dir=$(python -c "import os; print os.path.abspath(os.path.join('${file}', '..'))")
+    basename=$(python -c "import os; print os.path.basename('${parent_dir}')")
+
+    # skip if the write permission is not granted on the parent directory or dirname starts with "dev-"
+    if [ ! -w $parent_dir ] || [ $basename == dev-* ]
     then
         continue
     fi
 
-    # make backup 
+    # skip if the write permission is not granted
+    if [ ! -w "$file" ] || [ ! -w "$file.bak" ]
+    then
+        continue
+    fi
+
+    # make backup
     cp ${file} ${file}.bak
 
     # replace http: to file: (already fetched in /schemas directory)

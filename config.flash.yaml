@@ -7,3 +7,4 @@ binding:
   workspace: workspace
   extra:
     - /scratch
+    - /ifs

@@ -1,10 +1,10 @@
 {
-    "UserData": "IyEvYmluL2Jhc2gKCnZlcnNpb249JzEuMC4wJwoKYXdzIHMzIGNwIHMzOi8vcHJpc20taW5zdGFsbGVyL3ByaXNtLXYkdmVyc2lvbi50Z3ogL3RtcC8KbWtkaXIgLXAgL3RtcC9wcmlzbS12JHZlcnNpb24vCnRhciB4dnpmIC90bXAvcHJpc20tdiR2ZXJzaW9uLnRneiAtQyAvdG1wL3ByaXNtLXYkdmVyc2lvbi8KY2QgL3RtcC9wcmlzbS12JHZlcnNpb24vc2V0dXAvc2NyaXB0cy8KCnN1ZG8gbWtkaXIgLXAgL2lmcyAmJiBzdWRvIGNobW9kIGErdyAvaWZzCi4vaW5zdGFsbC1wcm9kdWN0aW9uLnNoIC1sCi4vY29uZmlndXJlLXJlZmVyZW5jZS1kYXRhLnNoIC1sIHMzCgpjZCAvaWZzL3dvcmsvY2h1bmovcHJpc20tcHJvdG8vcHJpc20vYmluL3NldHVwCnNlZCAtaSAic3wvdXNyL2Jpbi9zaW5ndWxhcml0eXwvdXNyL2xvY2FsL2Jpbi9zaW5ndWxhcml0eXxnIiBzZXR0aW5ncy5zaAo=", 
+    "UserData": "IyEvYmluL2Jhc2gKCnZlcnNpb249JzEuMC4wJwoKYXdzIHMzIGNwIHMzOi8vcm9zbGluLWluc3RhbGxlci9yb3NsaW4tdiR2ZXJzaW9uLnRneiAvdG1wLwpta2RpciAtcCAvdG1wL3Jvc2xpbi12JHZlcnNpb24vCnRhciB4dnpmIC90bXAvcm9zbGluLXYkdmVyc2lvbi50Z3ogLUMgL3RtcC9yb3NsaW4tdiR2ZXJzaW9uLwpjZCAvdG1wL3Jvc2xpbi12JHZlcnNpb24vc2V0dXAvc2NyaXB0cy8KCnN1ZG8gbWtkaXIgLXAgL2lmcyAmJiBzdWRvIGNobW9kIGErdyAvaWZzCi4vaW5zdGFsbC1wcm9kdWN0aW9uLnNoIC1sCi4vY29uZmlndXJlLXJlZmVyZW5jZS1kYXRhLnNoIC1sIHMzCgpjZCAvaWZzL3dvcmsvY2h1bmovcHJpc20tcHJvdG8vcHJpc20vYmluL3NldHVwCnNlZCAtaSAic3wvdXNyL2Jpbi9zaW5ndWxhcml0eXwvdXNyL2xvY2FsL2Jpbi9zaW5ndWxhcml0eXxnIiBzZXR0aW5ncy5zaAoKIyBjbGVhbiB1cApybSAtcmYgL3RtcC9yb3NsaW4tdiR2ZXJzaW9uLnRnegpybSAtcmYgL3RtcC9yb3NsaW4tdiR2ZXJzaW9uCg==", 
     "IamInstanceProfile": {
         "Arn": "arn:aws:iam::273241104452:instance-profile/prism-node-role"
     }, 
     "Placement": {
-        "AvailabilityZone": "us-east-1c"
+        "AvailabilityZone": "us-east-1f"
     }, 
     "SecurityGroupIds": [
         "sg-19c52d66"
@@ -13,7 +13,7 @@
         {
             "DeviceName": "/dev/sda1", 
             "Ebs": {
-                "SnapshotId": "snap-0604b4eeec7df2487", 
+                "SnapshotId": "snap-0662a585a3b109dcd", 
                 "DeleteOnTermination": true, 
                 "VolumeType": "gp2", 
                 "VolumeSize": 60
@@ -21,6 +21,6 @@
         }
     ], 
     "KeyName": "mskcc-chunj", 
-    "ImageId": "ami-f493f0e2", 
-    "InstanceType": "r4.8xlarge"
+    "ImageId": "ami-1ccbc70a", 
+    "InstanceType": "r4.2xlarge"
 }

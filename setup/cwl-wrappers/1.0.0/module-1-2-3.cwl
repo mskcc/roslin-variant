@@ -10,9 +10,12 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: module-1-2-3.cwl
 doap:release:
 - class: doap:Version
+  doap:name: module-1-2-3
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -110,12 +113,6 @@ inputs:
       items:
         type: array
         items: string
-  add_rg_output:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
   md_output:
     type:
       type: array
@@ -134,7 +131,6 @@ inputs:
       items:
         type: array
         items: string
-  fasta: string
   hapmap:
     type: File
     secondaryFiles:
@@ -160,7 +156,6 @@ inputs:
   mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
-  intervals: string
   sid_rf:
     type:
       type: array
@@ -181,7 +176,7 @@ outputs:
       items: File
     secondaryFiles:
       - ^.bai
-    outputSource: realignment/bams
+    outputSource: realignment/outbams
   clstats1:
     type:
       type: array
@@ -231,7 +226,8 @@ outputs:
 steps:
 
   mapping:
-    run:  module-1.scatter.cwl
+
+    run: module-1.scatter.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
@@ -245,42 +241,47 @@ steps:
       add_rg_PU: add_rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
-      add_rg_output: add_rg_output
       tmp_dir: tmp_dir
     out: [clstats1, clstats2, bam, bai, md_metrics]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN,tmp_dir]
+    scatter: [fastq1, fastq2, adapter, adapter2, bwa_output, add_rg_LB, add_rg_PL, add_rg_ID, add_rg_PU, add_rg_SM, add_rg_CN, tmp_dir]
     scatterMethod: dotproduct
+
   flatten_samples:
-    #hack to remove array of arrays
+
     run: flatten-array/1.0.0/flatten-array-bam.cwl
     in:
       bams: mapping/bam
-    out: [bams]
+    out: [output_bams]
+
   realignment:
+
     run: module-2.cwl
     in:
-      bams: flatten_samples/bams
+      bams: flatten_samples/output_bams
       hapmap: hapmap
       dbsnp: dbsnp
       indels_1000g: indels_1000g
       snps_1000g: snps_1000g
       covariates: covariates
       abra_scratch: abra_scratch
-      fasta: fasta
-      intervals: intervals
-    out: [bams, covint_list, covint_bed]
+      genome: genome
+    out: [outbams, covint_list, covint_bed]
+
   pairing:
+
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
     in:
-      bams: realignment/bams
+      bams: realignment/outbams
       pairs: pairs
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids]
+
   variant_calling:
+
     run: module-3.cwl
     in:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
-      fasta: fasta
+      genome: genome
       bed: realignment/covint_bed
       normal_sample_id: pairing/normal_sample_ids
       tumor_sample_id: pairing/tumor_sample_ids

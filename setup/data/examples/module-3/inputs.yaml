@@ -1,4 +1,4 @@
-fasta: 'GRCh37'
+genome: 'GRCh37'
 dbsnp:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf

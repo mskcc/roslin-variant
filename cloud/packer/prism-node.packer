@@ -1,6 +1,6 @@
 {
     "variables": {
-        "image_version": "0.5.7",
+        "image_version": "0.5.8",
         "cwltoil_version": "official"
     },
     "builders": [

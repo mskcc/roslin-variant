@@ -6,13 +6,16 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: module-1-2-3.cwl
 doap:release:
 - class: doap:Version
+  doap:name: module-1-2-3.chunk
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -92,8 +95,8 @@ inputs:
     type:
       type: array
       items: string
-  tmp_dir: string[]
-  genome: string[]
+  tmp_dir: string
+  genome: string
   hapmap:
     type: File
     secondaryFiles:
@@ -118,7 +121,7 @@ inputs:
   mutect_rf: string[]
   covariates: string[]
   abra_scratch: string
-  intervals: string
+  intervals: ['null', string]
   sid_rf:
     type:
       type: array
@@ -189,7 +192,7 @@ outputs:
 steps:
 
   mapping:
-    run:  module-1.scatter.chunk.cwl
+    run: module-1.scatter.chunk.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2

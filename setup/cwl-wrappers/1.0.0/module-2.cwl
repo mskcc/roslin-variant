@@ -6,13 +6,16 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: module-2.cwl
 doap:release:
 - class: doap:Version
+  doap:name: module-2
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -57,7 +60,7 @@ inputs:
     hapmap:
         type: File
         secondaryFiles:
-            - .idx    
+            - .idx
     dbsnp:
         type: File
         secondaryFiles:
@@ -65,11 +68,11 @@ inputs:
     indels_1000g:
         type: File
         secondaryFiles:
-            - .idx    
+            - .idx
     snps_1000g:
         type: File
         secondaryFiles:
-            - .idx    
+            - .idx
     rf: string[]
     covariates: string[]
     abra_scratch: string
@@ -99,7 +102,7 @@ steps:
         in:
             reference_sequence: genome
             input_file: bams
-            out: 
+            out:
                 default: "intervals.list"
         out: [fci_list]
 
@@ -165,7 +168,7 @@ steps:
             snps_1000g: snps_1000g
             reference_sequence: genome
             input_file: parallel_fixmate/out
-            knownSites: 
+            knownSites:
                 valueFrom: ${return [inputs.dbsnp,inputs.hapmap, inputs.indels_1000g, inputs.snps_1000g]}
             covariate: covariates
             out:

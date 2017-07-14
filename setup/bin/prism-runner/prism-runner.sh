@@ -32,8 +32,7 @@ fi
 # defaults
 PIPELINE_VERSION=${PRISM_VERSION}
 
-#fixme: always enable for now
-DEBUG_OPTIONS="--logDebug --cleanWorkDir never"
+DEBUG_OPTIONS=""
 RESTART_OPTIONS=""
 RESTART_JOBSTORE_ID=""
 BATCH_SYSTEM=""
@@ -188,6 +187,7 @@ jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 printf "\n---> PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n"
 
 # run cwltoil
+set -o pipefail
 cwltoil \
     ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
     ${INPUT_FILENAME} \
@@ -205,6 +205,7 @@ cwltoil \
     --workDir ${PRISM_BIN_PATH}/tmp \
     --outdir ${OUTPUT_DIRECTORY} ${RESTART_OPTIONS} ${BATCH_SYS_OPTIONS} ${DEBUG_OPTIONS} \
     | tee ${OUTPUT_DIRECTORY}/output-meta.json
+exit_code=$?
 
 # revert CMO_RESOURCE_CONFIG
 unset CMO_RESOURCE_CONFIG
@@ -213,3 +214,5 @@ unset CMO_RESOURCE_CONFIG
 unset TOIL_LSF_PROJECT
 
 printf "\n<--- PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n\n"
+
+exit ${exit_code}

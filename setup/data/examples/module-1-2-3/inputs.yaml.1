@@ -1,4 +1,3 @@
-# DO NOT use double quotes, use single quotes
 # Xenograft
 
 adapter:
@@ -25,9 +24,6 @@ add_rg_PU:
 add_rg_SM:
 - [s_C_000269_T001_d]
 - [s_C_000269_N001_d]
-add_rg_output:
-- [s_C_000269_T001_d.rg.bam]
-- [s_C_000269_N001_d.rg.bam]
 bwa_output:
 - [s_C_000269_T001_d.bam]
 - [s_C_000269_N001_d.bam]
@@ -48,7 +44,6 @@ pairs:
 tmp_dir:
 - [/scratch]
 - [/scratch]
-fasta: 'GRCh37'
 hapmap:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf
@@ -63,11 +58,8 @@ snps_1000g:
     path: /ifs/work/prism/chunj/test-data/ref/1000G_phase1.snps.high_confidence.b37.vcf
 mutect_dcov: 50000
 mutect_rf: ['BadCigar']
-num_cpu_threads_per_data_thread: '6'
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
 abra_scratch: /scratch
-emit_original_quals: true
-num_threads: '10'
 genome: 'GRCh37'
 cosmic:
     class: File
@@ -76,4 +68,3 @@ sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlig
 refseq:
     class: File
     path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'
-intervals: '1'

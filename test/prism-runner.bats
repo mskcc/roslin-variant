@@ -414,11 +414,36 @@ get_args_line() {
     # check --workDir
     assert_line --index 1 --partial "--workDir ${PRISM_BIN_PATH}/tmp"
 
-    # check debug-related
-    assert_line --index 1 --partial "--logDebug --cleanWorkDir never"
+    # by default, debug-related parameters should not be added
+    refute_line --index 1 --partial "--logDebug --cleanWorkDir never"
 
     # check --not-strcit
     assert_line --index 1 --partial "--not-strict"
+
+    unstubs
+}
+
+@test "should correctly handle -d (debug mode) parameter when calling cwltoil" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to echo out whatever the parameters supplied
+    stub cwltoil 'echo "$@"'
+
+    # call prism-runner with -b lsf -d
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -d
+
+    assert_success
+
+    # check lsf-related
+    assert_line --index 1 --partial "--logDebug --cleanWorkDir never"
 
     unstubs
 }
@@ -716,4 +741,48 @@ get_args_line() {
     assert_equal "${pre_generated_job_uuid}" "${job_uuid}"
 
     assert_line --index 1 "Proj_5000_B:${pre_generated_job_uuid}"
+}
+
+@test "should exit with the correct exit code 0" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to exit with code 0
+    stub cwltoil 'exit 0'
+
+    # call prism-runner
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+
+    assert_success
+
+    unstubs
+}
+
+@test "should exit with the correct exit code 1" {
+
+    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    source ./settings.sh
+
+    export PRISM_SINGULARITY_PATH=`which singularity`
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to exit with code 1
+    stub cwltoil 'exit 1'
+
+    # call prism-runner
+    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+
+    assert_failure
+
+    unstubs
 }

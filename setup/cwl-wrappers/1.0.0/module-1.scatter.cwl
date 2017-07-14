@@ -10,9 +10,12 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: module-1.scatter.cwl
 doap:release:
 - class: doap:Version
+  doap:name: module-1.scatter
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -45,8 +48,8 @@ requirements:
 
 inputs:
 
-  fastq1: string[]
-  fastq2: string[]
+  fastq1: File[]
+  fastq2: File[]
   adapter: string[]
   adapter2: string[]
   bwa_output: string[]
@@ -110,11 +113,11 @@ steps:
     run:
       class: Workflow
       inputs:
-        fastq1: string
-        fastq2: string
+        fastq1: File
+        fastq2: File
         adapter: string
-        genome: string
         adapter2: string
+        genome: string
         bwa_output: string
         add_rg_LB: string
         add_rg_PL: string
@@ -186,7 +189,9 @@ steps:
         mark_duplicates:
           run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
           in:
-            I: add_rg_id/bam
+            I:
+              source: add_rg_id/bam
+              valueFrom: ${ return [self]; }
             O:
               valueFrom: |
                 ${ return inputs.I.basename.replace(".bam", ".md.bam") }

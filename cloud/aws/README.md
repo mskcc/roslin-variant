@@ -15,8 +15,8 @@ tbd
 ### Deploy Setup Files
 
 ```
-$ ./compress.sh
-$ aws s3 cp prism-v1.0.0.tgz s3://prism-installer/
+$ python compress.py
+$ aws s3 cp roslin-v1.0.0.tgz s3://roslin-installer/
 ```
 
 ## Single Machine Test
@@ -31,16 +31,16 @@ Here are some choices:
 
 Only sufficient for checking the installation process, whether software is correctly installed and configured, and verifying cwltoil/singularity can run against a very tiny dataset. Can't run module 1 through 3 as a whole.
 
-#### r4.2xlarge (us-east-1c):
+#### r4.2xlarge (us-east-1f):
 
 Able to run module 1 and 2. Module 3 cannot be run due to parallelism, but individual steps in module 3 can run separately.
 
 - 8 vCPU
 - 61 GB RAM
 - EBS-Only (no need to mount so easy to set up)
-- Price (as of 2017-04-28)
+- Price (as of 2017-07-12)
     - $0.5320 per hour (on-demand)
-    - Avg $0.06 per hour during business hours (spot; us-east-1c)
+    - Avg $0.06 per hour during business hours (spot; us-east-1f)
 
 #### r4.8xlarge (us-east-1c)
 
@@ -125,7 +125,7 @@ $ ./tag.sh
 
 ### Installation
 
-Prism installation automatically kicks in as the instance is being brought up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3 (will start using EBS once MSKCC AWS account is set up). To check the status, ssh into the instance and run the following command:
+Prism installation automatically kicks in as the instance is being brought up. Though, the installation takes quite long right now because it needs to copy genome reference and other files from S3 (will start using EFS once MSKCC AWS account is set up). To check the status, ssh into the instance and run the following command:
 
 ```bash
 $ tail -f /var/log/cloud-init-output.log

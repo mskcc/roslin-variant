@@ -6,13 +6,16 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: module-3.cwl
 doap:release:
 - class: doap:Version
+  doap:name: module-3
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -150,15 +153,12 @@ steps:
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
                     in:
-                        tumor_sample_id: tumor_sample_id
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_id, tumor_sample_id]
-                        normal_sample_id: normal_sample_id
                         vcf:
                             valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".pindel.vcf") }
                         fasta: genome
-                        output_prefix:
-                            valueFrom: $(inputs.tumor_sample_id)
+                        output_prefix: tumor_sample_id
                     out: [output]
                 vardict:
                     run: cmo-vardict/1.4.6/cmo-vardict.cwl

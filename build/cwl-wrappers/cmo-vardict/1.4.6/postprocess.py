@@ -82,6 +82,8 @@ def main():
 
     cwl['inputs']['vcf']['type'] = ['null', 'string']
 
+    cwl['inputs']['th'].insert(1, 'default', '5')
+
     #-->
     # fixme: until we can auto generate cwl for VarDict
     # set outputs using outputs.yaml
