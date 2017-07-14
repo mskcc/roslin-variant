@@ -6,16 +6,13 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
+- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
 
+doap:name: module-1-2-3.cwl
 doap:release:
 - class: doap:Version
-  doap:name: project-workflow
-  doap:revision: 1.0.0
-- class: doap:Version
-  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -47,35 +44,50 @@ requirements:
 
 inputs:
   db_files:
-    type:
+    type: 
       type: record
       fields:
-        cosmic: File
-        dbsnp: File
-        hapmap: File
-        indels_1000g: File
+        hapmap:
+          type: File
+          secondaryFiles:
+            - .idx
+        dbsnp:
+          type: File
+          secondaryFiles:
+            - .idx
+        indels_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        snps_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        cosmic:
+          type: File
+          secondaryFiles:
+            - .idx
         refseq: File
-        snps_1000g: File
   groups:
     type:
       type: array
-      items:
+      items: 
         type: array
         items: string
   runparams:
-    type:
+    type: 
       type: record
-      fields:
+      fields: 
         abra_scratch: string
         covariates:
-          type:
+          type: 
             type: array
             items: string
         emit_original_quals: boolean
         genome: string
         mutect_dcov: int
         mutect_rf:
-          type:
+          type:  
             type: array
             items: string
         num_cpu_threads_per_data_thread: int
@@ -96,24 +108,24 @@ inputs:
           ID: string
           PL: string
           PU: string
-          R1:
-            type:
+          R1: 
+            type: 
               type: array
               items: File
           R2:
-            type:
+            type: 
               type: array
               items: File
           RG_ID: string
           adapter: string
           adapter2: string
           bwa_output: string
-  pairs:
+  pairs: 
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: 
+        type: array 
+        items: string 
 
 outputs:
   bams:
@@ -193,21 +205,21 @@ steps:
       add_rg_PU: projparse/PU
       add_rg_SM: projparse/ID
       add_rg_CN: projparse/CN
-      tmp_dir: projparse/tmp_dir
+      tmp_dir: projparse/tmp_dir 
       pairs: projparse/grouppairs
-      hapmap: projparse/hapmap
-      dbsnp: projparse/dbsnp
+      hapmap: projparse/hapmap 
+      dbsnp: projparse/dbsnp 
       indels_1000g: projparse/indels_1000g
       cosmic: projparse/cosmic
       snps_1000g: projparse/snps_1000g
       genome: projparse/genome
       mutect_dcov: projparse/mutect_dcov
-      mutect_rf: projparse/mutect_rf
-      covariates: projparse/covariates
+      mutect_rf: projparse/mutect_rf 
+      covariates: projparse/covariates 
       abra_scratch: projparse/abra_scratch
       sid_rf: projparse/sid_rf
       refseq: projparse/refseq
     out: [clstats1, clstats2, bams, md_metrics, mutect_vcf, mutect_callstats, somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, vardict_vcf, pindel_vcf]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, pairs, tmp_dir, genome, abra_scratch, dbsnp, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, sid_rf, refseq, covariates]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, pairs, tmp_dir, genome, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, sid_rf, refseq, covariates]
     scatterMethod: dotproduct
 
