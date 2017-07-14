@@ -15,19 +15,20 @@ import pytz
 import redis
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("prism_track")
+logger.propagate = False
 logger.setLevel(logging.INFO)
 
-# create a file handler
-handler = logging.FileHandler('prism_track.log')
-handler.setLevel(logging.INFO)
+# create a file log handler
+log_file_handler = logging.FileHandler('prism_track.log')
+log_file_handler.setLevel(logging.INFO)
 
 # create a logging format
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
+log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_file_handler.setFormatter(log_formatter)
 
 # add the handlers to the logger
-logger.addHandler(handler)
+logger.addHandler(log_file_handler)
 
 DOC_VERSION = "0.0.1"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
@@ -293,7 +294,10 @@ def construct_run_results(bjobs_info, already_reported_projs):
 
     for row in rows:
 
-        lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = row.strip().split('\t')
+        try:
+            lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = row.strip().split('\t')
+        except ValueError as e:
+            logger.error("Invalid bjob info:" + ",".join(row.strip().split('\t')))
 
         # only care about roslin launched jobs
         # lsf_proj_name = Proj_5088_B:eec50a98-4c5f-11e7-af25-8cdcd4013cd4
