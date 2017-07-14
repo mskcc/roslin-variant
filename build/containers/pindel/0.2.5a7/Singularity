@@ -10,7 +10,7 @@ Registry: http://localhost:5000
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    . /tmp/settings-container.sh
+    source /tmp/settings-container.sh
     
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
