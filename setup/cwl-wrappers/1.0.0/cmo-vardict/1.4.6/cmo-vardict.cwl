@@ -6,14 +6,17 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/chunj/prism-proto/prism/schemas/dcterms.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/foaf.rdf
-- file:///ifs/work/chunj/prism-proto/prism/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
-doap:name: cmo-vardict.cwl
 doap:release:
 - class: doap:Version
+  doap:name: cmo-vardict
   doap:revision: 1.4.6
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -324,7 +327,6 @@ inputs:
     type: ['null', string]
     default: '5'
     doc: Threads count.
-    default: "5"
     inputBinding:
       prefix: -th
 
