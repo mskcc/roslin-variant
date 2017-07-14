@@ -8,7 +8,6 @@ prism_request_to_yaml.py \
 	-f inputs.yaml
 
 nohup prism-runner.sh \
-	-v test2 \
 	-w project-workflow.cwl \
 	-i inputs.yaml \
 	-b lsf &
