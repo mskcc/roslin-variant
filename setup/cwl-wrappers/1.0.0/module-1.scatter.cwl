@@ -10,9 +10,12 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: module-1.scatter.cwl
 doap:release:
 - class: doap:Version
+  doap:name: module-1.scatter
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
@@ -114,7 +117,7 @@ steps:
         fastq2: File
         adapter: string
         adapter2: string
-        genome: string        
+        genome: string
         bwa_output: string
         add_rg_LB: string
         add_rg_PL: string
@@ -188,7 +191,7 @@ steps:
           in:
             I:
               source: add_rg_id/bam
-              valueFrom: ${ return [self]; }            
+              valueFrom: ${ return [self]; }
             O:
               valueFrom: |
                 ${ return inputs.I.basename.replace(".bam", ".md.bam") }

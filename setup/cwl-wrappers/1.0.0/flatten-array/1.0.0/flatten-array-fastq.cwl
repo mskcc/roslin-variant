@@ -12,7 +12,10 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: flatten-array-fastq.cwl
+  doap:name: flatten-array-fastq
+  doap:revision: 1.0.0
+- class: doap:Version
+  doap:name: cwl-wrapper
   doap:revision: 1.0.0
 
 dct:creator:
