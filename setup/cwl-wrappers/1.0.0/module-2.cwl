@@ -103,7 +103,7 @@ steps:
             reference_sequence: genome
             input_file: bams
             out:
-                default: "intervals.list"
+                valueFrom: ${ var basenames = inputs.input_file.map(function(x) { return x.basename.replace(".bam", "") }); basenames.push(["fci.list"]); return basenames.join("."); } 
         out: [fci_list]
 
     list2bed:

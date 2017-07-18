@@ -44,6 +44,7 @@ requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
+  InlineJavascriptRequirement: {}
 
 inputs:
   db_files:
@@ -157,32 +158,32 @@ outputs:
     type:
       type: array
       items: File
-    outputSource: group_process/mutect_vcf
+    outputSource: variant_calling/mutect_vcf
   mutect_callstats:
     type:
       type: array
       items: File
-    outputSource: group_process/mutect_callstats
+    outputSource: variant_calling/mutect_callstats
   somaticindeldetector_vcf:
     type:
       type: array
       items: File
-    outputSource: group_process/somaticindeldetector_vcf
+    outputSource: variant_calling/somaticindeldetector_vcf
   somaticindeldetector_verbose_vcf:
     type:
       type: array
       items: File
-    outputSource: group_process/somaticindeldetector_verbose_vcf
+    outputSource: variant_calling/somaticindeldetector_verbose_vcf
   vardict_vcf:
     type:
       type: array
       items: File
-    outputSource: group_process/vardict_vcf
+    outputSource: variant_calling/vardict_vcf
   pindel_vcf:
     type:
       type: array
       items: File
-    outputSource: group_process/pindel_vcf
+    outputSource: variant_calling/pindel_vcf
 
 steps:
   projparse:
@@ -222,7 +223,35 @@ steps:
       abra_scratch: projparse/abra_scratch
       sid_rf: projparse/sid_rf
       refseq: projparse/refseq
-    out: [clstats1, clstats2, bams, md_metrics, mutect_vcf, mutect_callstats, somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, vardict_vcf, pindel_vcf]
+    out: [clstats1, clstats2, bams, md_metrics, covint_bed, covint_list]
     scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, pairs, tmp_dir, genome, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, sid_rf, refseq, covariates]
     scatterMethod: dotproduct
+  pairing:
+    run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
+    in:
+      bams: group_process/bams
+      pairs: pairs
+      db_files: db_files
+      runparams: runparams
+      beds: group_process/covint_bed
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, sid_rf, refseq, genome, covint_bed]
+  variant_calling:
+    run: module-3.cwl
+    in:
+      tumor_bam: pairing/tumor_bams
+      normal_bam: pairing/normal_bams
+      genome: pairing/genome 
+      bed: pairing/covint_bed
+      normal_sample_id: pairing/normal_sample_ids
+      tumor_sample_id: pairing/tumor_sample_ids
+      dbsnp: pairing/dbsnp
+      cosmic: pairing/cosmic 
+      mutect_dcov: pairing/mutect_dcov
+      mutect_rf: pairing/mutect_rf
+      sid_rf: pairing/sid_rf
+      refseq: pairing/refseq
+    out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, sid_rf, mutect_rf, mutect_dcov, bed]
+    scatterMethod: dotproduct
+
 
