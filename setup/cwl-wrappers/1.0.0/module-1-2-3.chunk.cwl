@@ -127,12 +127,6 @@ inputs:
       type: array
       items: string
   refseq: File
-  pairs:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
 
 outputs:
 
