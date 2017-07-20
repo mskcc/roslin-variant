@@ -82,4 +82,4 @@ ffpe_normal_bams:
 
 hotspot_list:
   class: File
-  path: ../data/from-module-4/hotspot-list-union-v1-v2.txt
+  path: /ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt
