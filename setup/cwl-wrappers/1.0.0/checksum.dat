@@ -1,5 +1,5 @@
 b8a9563f6beb40f13f84aab8cd9aac0f  ./basic-filtering.mutect/0.1.6/basic-filtering.mutect.cwl
-7922c9973689d6bc398feaef21024eae  ./basic-filtering.pindel/0.1.6/basic-filtering.pindel.cwl
+8b0dc63bc16210eb8b2c805fcba57deb  ./basic-filtering.pindel/0.1.6/basic-filtering.pindel.cwl
 607c9fbff88c99537baa8dcc75bd0d69  ./basic-filtering.somaticIndelDetector/0.1.6/basic-filtering.somaticIndelDetector.cwl
 e1ccff8c8302d1650aec39c560059ee5  ./basic-filtering.vardict/0.1.6/basic-filtering.vardict.cwl
 807fe456388c9aecd167e4b057f1b9c8  ./cmo-abra/0.92/cmo-abra.cwl
