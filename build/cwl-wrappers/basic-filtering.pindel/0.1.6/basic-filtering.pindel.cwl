@@ -120,7 +120,7 @@ inputs:
 
   min:
     type: ['null', int]
-    default: 25
+    default: 0
     doc: Minimum length of the indels
     inputBinding:
       prefix: --min_var_len

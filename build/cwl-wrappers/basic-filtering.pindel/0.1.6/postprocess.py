@@ -40,6 +40,7 @@ def main():
     cwl['baseCommand'] = ['sing.sh', 'basic-filtering', '0.1.6', 'pindel']
     cwl['inputs']['inputVcf']['type'] = ['string', 'File']
     cwl['inputs']['hotspotVcf']['type'] = ['null', 'string', 'File']
+    cwl['inputs']['min']['default'] = 0
 
     #-->
     # fixme: until we can auto generate cwl for basic-filtering
