@@ -74,7 +74,7 @@ inputs:
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter: 
+        exac_filter:
           type: File
           secondaryFiles:
             - .tbi
@@ -216,7 +216,7 @@ steps:
       runparams: runparams
     out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, sid_rf, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list]
   group_process:
-    run:  module-1-2-3.chunk.cwl
+    run:  module-1-2.chunk.cwl
     in:
       fastq1: projparse/R1
       fastq2: projparse/R2
@@ -259,12 +259,12 @@ steps:
     in:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
-      genome: pairing/genome 
+      genome: pairing/genome
       bed: pairing/covint_bed
       normal_sample_id: pairing/normal_sample_ids
       tumor_sample_id: pairing/tumor_sample_ids
       dbsnp: pairing/dbsnp
-      cosmic: pairing/cosmic 
+      cosmic: pairing/cosmic
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       sid_rf: pairing/sid_rf
@@ -273,7 +273,7 @@ steps:
     scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, sid_rf, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
   parse_pairs:
-    run: ../parse_pairs_and_vcfs/1.0.0/parse_pairs_and_vcfs.cwl
+    run: parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
     in:
       bams: group_process/bams
       pairs: pairs
@@ -314,4 +314,3 @@ steps:
     out: [maf]
     scatter: [mutect_vcf, mutect_callstats, sid_vcf, sid_verbose, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, genome]
     scatterMethod: dotproduct
-
