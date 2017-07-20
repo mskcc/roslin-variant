@@ -54,6 +54,9 @@ inputs:
         indels_1000g: File
         refseq: File
         snps_1000g: File
+        ref_fasta: string
+        exac_filter: File
+        vep_data: string
   groups:
     type:
       type: array
@@ -251,6 +254,35 @@ outputs:
     type:
       type: array
       items: File
+  exac_filter:
+    type:
+      type: array
+      items: File
+  ref_fasta:
+    type:
+      type: array
+      items: string
+  vep_data:
+    type:
+      type: array
+      items: string
+  curated_bams:
+    type: 
+      type: array
+      items: 
+        type: array
+        items: File
+  ffpe_normal_bams:
+    type: 
+      type: array
+      items: 
+        type: array
+        items: File
+  hotspot_list:
+    type:
+      type: array
+      items: File
+
 
 
 expression: "${var groups = inputs.groups;
