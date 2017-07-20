@@ -54,6 +54,9 @@ inputs:
         indels_1000g: File
         refseq: File
         snps_1000g: File
+        ref_fasta: string
+        exac_filter: File
+        vep_data: string
   groups:
     type:
       type: array
@@ -251,15 +254,70 @@ outputs:
     type:
       type: array
       items: File
-  grouppairs:
+  exac_filter:
     type:
       type: array
-      items:
+      items: File
+  ref_fasta:
+    type:
+      type: array
+      items: string
+  vep_data:
+    type:
+      type: array
+      items: string
+  curated_bams:
+    type: 
+      type: array
+      items: 
         type: array
-        items:
-          type: array
-          items: string
+        items: File
+  ffpe_normal_bams:
+    type: 
+      type: array
+      items: 
+        type: array
+        items: File
+  hotspot_list:
+    type:
+      type: array
+      items: File
 
 
-expression: "${var groups = inputs.groups; var samples = inputs.samples; var pairs = inputs.pairs; var project_object  = {}; for (var i =0; i < groups.length; i++) { var group_object = {}; for (var j =0; j < groups[i].length; j++) { for (var k=0; k < inputs.samples.length; k++) { if (groups[i][j]==samples[k]['ID']) { for (var key in samples[k]) { if ( key in group_object) { group_object[key].push(samples[k][key]) } else { group_object[key]=[samples[k][key]] } } } } } for (key in inputs.runparams) { group_object[key] = inputs.runparams[key] } for (key in inputs.db_files) { group_object[key] = inputs.db_files[key] } for (var p=0; p < pairs.length; p++) { if (groups[i].indexOf(pairs[p][0]) > -1 && groups[i].indexOf(pairs[p][1]) > -1) { if ('grouppairs' in group_object) { group_object['grouppairs'].push(pairs[p]) } else { group_object['grouppairs']=[pairs[p]] } } else { if (groups[i].indexOf(pairs[p][0]) > -1 || groups[i].indexOf(pairs[p][1]) > -1) {  return; } } } for (key in group_object) { if (key in project_object) { project_object[key].push(group_object[key]) } else { project_object[key]=[group_object[key]] } } } return project_object;}"
+
+expression: "${var groups = inputs.groups;
+                var samples = inputs.samples;
+                var pairs = inputs.pairs;
+                var project_object  = {};
+ for (var i =0; i < groups.length; i++) { 
+     var group_object = {};
+     for (var j =0; j < groups[i].length; j++) {
+         for (var k=0; k < inputs.samples.length; k++) { 
+             if (groups[i][j]==samples[k]['ID']) { 
+                 for (var key in samples[k]) { 
+                     if ( key in group_object) { 
+                         group_object[key].push(samples[k][key]) 
+                     } else { 
+                         group_object[key]=[samples[k][key]] 
+                     } 
+                 } 
+             } 
+         } 
+     }
+     for (key in inputs.runparams) { 
+         group_object[key] = inputs.runparams[key] 
+     } for (key in inputs.db_files) {
+         group_object[key] = inputs.db_files[key] 
+     }  
+     for (key in group_object) { 
+         if (key in project_object) { 
+             project_object[key].push(group_object[key])
+         }
+         else { 
+             project_object[key]=[group_object[key]]
+         }
+     }
+ }
+return project_object;
+}"
 
