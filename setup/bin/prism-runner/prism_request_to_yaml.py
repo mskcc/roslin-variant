@@ -159,7 +159,7 @@ if __name__ == "__main__":
         'ffpe_normal_bams': [
             {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ffpe/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam'}
         ],
-        'hotspot_list': {'class': 'File', 'path': '../data/from-module-4/hotspot-list-union-v1-v2.txt'},
+        'hotspot_list': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt'},
         'ref_fasta': "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta"
     }
 
