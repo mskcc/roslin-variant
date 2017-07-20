@@ -1,0 +1,28 @@
+Run_Pipeline: dmp
+PI: deangell
+PI_Name: Lisa DeAngelis
+Investigator: phillipr
+Investigator_Name: Richard Phillips
+Data_Analyst: Richard Phillips
+Data_Analyst_E-mail: phillipr@mskcc.org
+ProjectID: Proj_06565_B
+ProjectName: RP-gli
+ProjectTitle: Glioma Cell Line Sequencing
+ProjectDesc: The goal of the project is to sequence 3 glioma cell lines using the IMPACT panel to determinemutational spectrum.
+Project_Manager: Caitlin Bourque
+Project_Manager_Email: bourquec@mskcc.org
+Institution: cmo
+Species: Human
+RunID: PITT_0049_AH7VNGBBXX
+NumberOfSamples: 3
+TumorType: DIFG
+Assay: IMPACT410
+DesignFile: /ifs/projects/CMO/targets/designs/IMPACT410/IMPACT410__DESIGN___THIS_IS_A_FAKE_FILE.berger
+Pipelines: dmp
+Note: No pipeline run needed.
+RunNumber: 1
+DeliverTo: NA
+DateOfLastUpdate: 2016-04-11
+AmplificationTypes: NA
+LibraryTypes: NA
+Strand: NA

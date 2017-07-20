@@ -1,0 +1,29 @@
+Run_Pipeline: dmp
+PI: iacobuzc
+PI_Name: Christine Iacobuzio-Donahue
+Investigator: mcmahonb
+Investigator_Name: Breanna Mcmahon
+Data_Analyst: Wendy Yang
+Data_Analyst_E-mail: yangw2@mskcc.org
+ProjectID: Proj_06648
+ProjectName: CI-sbrt
+ProjectTitle: Genetic Correlates of Exceptional Therapeutic Responses to Stereotactic Body Radiation Therapy (SBRT) in Stage III Pancreatic Cancer
+ProjectDesc: Characterization of FNA samples from primary pancreatic tumors prior to SBRT.
+Project_Manager: Caitlin Bourque
+Project_Manager_Email: bourquec@mskcc.org
+Institution: cmo
+Species: Human
+RunID: PITT_0049_AH7VNGBBXX
+NumberOfSamples: 86
+TumorType: PAAD
+Assay: IMPACT410
+DesignFile: /ifs/projects/CMO/targets/designs/IMPACT410/IMPACT410__DESIGN___THIS_IS_A_FAKE_FILE.berger
+Pipelines: dmp
+RunNumber: 2
+Reason_for_rerun: QC-swap (CI-sbrt-010-N and CI-sbrt-030-N) ; unmatch (CI-sbrt-008-T and CI-sbrt-035-T) ; Redact (CI-sbrt-025-T and CI-sbrt-028-T)
+DeliverTo: NA
+Comments: Send results to TRIAGE
+DateOfLastUpdate: 2016-05-03
+AmplificationTypes: NA
+LibraryTypes: NA
+Strand: NA
