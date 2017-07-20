@@ -7,5 +7,4 @@ output_format: '1'
 n_threads: 10
 genome: GRCh37
 bams:
-  - class: File
-    path: /ifs/res/share/soccin/Case_201601/Proj_06049_Pool/r_001/alignments/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam
+  - {class: File, path: /ifs/work/prism/chunj/test-data/ffpe/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam}
