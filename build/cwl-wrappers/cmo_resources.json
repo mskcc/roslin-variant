@@ -223,7 +223,7 @@
             "default": "sudo docker run -i picard:1.129"
         }, 
         "pindel": {
-            "default": "sudo docker run -i pindel:0.2.5b8 "
+            "default": "sudo docker run -i pindel:0.2.5a7 "
         }, 
         "pindel2vcf": {
             "default": "/opt/common/CentOS_6-dev/pindel/v0.2.5b4/pindel2vcf"

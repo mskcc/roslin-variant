@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-1-2-3.chunk
+  doap:name: module-1-2.chunk
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -123,12 +123,6 @@ inputs:
   abra_scratch: string
   intervals: ['null', string]
   refseq: File
-  pairs:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
 
 outputs:
 
@@ -154,29 +148,18 @@ outputs:
       type: array
       items: File
     outputSource: mapping/md_metrics
-  mutect_vcf:
+  covint_list:
     type:
       type: array
       items: File
-    outputSource: variant_calling/mutect_vcf
-  mutect_callstats:
+    outputSource: realignment/covint_list
+  covint_bed:
     type:
       type: array
       items: File
-    outputSource: variant_calling/mutect_callstats
-  vardict_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/vardict_vcf
-  pindel_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/pindel_vcf
+    outputSource: realignment/covint_bed
 
 steps:
-
   mapping:
     run: module-1.scatter.chunk.cwl
     in:
@@ -208,26 +191,3 @@ steps:
       abra_scratch: abra_scratch
       genome: genome
     out: [outbams, covint_list, covint_bed]
-  pairing:
-    run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
-    in:
-      bams: realignment/outbams
-      pairs: pairs
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids]
-  variant_calling:
-    run: module-3.cwl
-    in:
-      tumor_bam: pairing/tumor_bams
-      normal_bam: pairing/normal_bams
-      genome: genome
-      bed: realignment/covint_bed
-      normal_sample_id: pairing/normal_sample_ids
-      tumor_sample_id: pairing/tumor_sample_ids
-      dbsnp: dbsnp
-      cosmic: cosmic
-      mutect_dcov: mutect_dcov
-      mutect_rf: mutect_rf
-      refseq: refseq
-    out: [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
-    scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id]
-    scatterMethod: dotproduct

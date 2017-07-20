@@ -74,7 +74,7 @@ inputs:
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter: 
+        exac_filter:
           type: File
           secondaryFiles:
             - .tbi
@@ -116,10 +116,6 @@ inputs:
             items: string
         num_cpu_threads_per_data_thread: int
         num_threads: int
-        sid_rf:
-          type:
-            type: array
-            items: string
         tmp_dir: string
   samples:
     type:
@@ -184,16 +180,6 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/mutect_callstats
-  somaticindeldetector_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/somaticindeldetector_vcf
-  somaticindeldetector_verbose_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/somaticindeldetector_verbose_vcf
   vardict_vcf:
     type:
       type: array
@@ -214,9 +200,9 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, sid_rf, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list]
   group_process:
-    run:  module-1-2-3.chunk.cwl
+    run:  module-1-2.chunk.cwl
     in:
       fastq1: projparse/R1
       fastq2: projparse/R2
@@ -240,10 +226,9 @@ steps:
       mutect_rf: projparse/mutect_rf
       covariates: projparse/covariates
       abra_scratch: projparse/abra_scratch
-      sid_rf: projparse/sid_rf
       refseq: projparse/refseq
     out: [clstats1, clstats2, bams, md_metrics, covint_bed, covint_list]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, genome, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, sid_rf, refseq, covariates]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, genome, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, refseq, covariates]
     scatterMethod: dotproduct
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
@@ -253,34 +238,31 @@ steps:
       db_files: db_files
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, sid_rf, refseq, genome, covint_bed]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed]
   variant_calling:
     run: module-3.cwl
     in:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
-      genome: pairing/genome 
+      genome: pairing/genome
       bed: pairing/covint_bed
       normal_sample_id: pairing/normal_sample_ids
       tumor_sample_id: pairing/tumor_sample_ids
       dbsnp: pairing/dbsnp
-      cosmic: pairing/cosmic 
+      cosmic: pairing/cosmic
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
-      sid_rf: pairing/sid_rf
       refseq: pairing/refseq
-    out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
-    scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, sid_rf, mutect_rf, mutect_dcov, bed]
+    out: [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
   parse_pairs:
-    run: ../parse_pairs_and_vcfs/1.0.0/parse_pairs_and_vcfs.cwl
+    run: parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
     in:
       bams: group_process/bams
       pairs: pairs
       mutect_vcf: variant_calling/mutect_vcf
       mutect_callstats: variant_calling/mutect_callstats
-      sid_vcf: variant_calling/somaticindeldetector_vcf
-      sid_verbose: variant_calling/somaticindeldetector_verbose_vcf
       pindel_vcf: variant_calling/pindel_vcf
       vardict_vcf: variant_calling/vardict_vcf
       genome: projparse/genome
@@ -291,15 +273,13 @@ steps:
       ffpe_normal_bams: projparse/ffpe_normal_bams
       hotspot_list: projparse/hotspot_list
 
-    out: [tumor_id, normal_id, srt_mutect_vcf, srt_mutect_callstats, srt_sid_vcf, srt_sid_verbose, srt_pindel_vcf, srt_vardict_vcf, srt_genome, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_ffpe_normal_bams, srt_hotspot_list]
+    out: [tumor_id, normal_id, srt_mutect_vcf, srt_mutect_callstats, srt_pindel_vcf, srt_vardict_vcf, srt_genome, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_ffpe_normal_bams, srt_hotspot_list]
   filter:
     run: module-4.cwl
     in:
       bams: parse_pairs/srt_bams
       mutect_vcf: parse_pairs/srt_mutect_vcf
       mutect_callstats: parse_pairs/srt_mutect_callstats
-      sid_vcf: parse_pairs/srt_sid_vcf
-      sid_verbose: parse_pairs/srt_sid_verbose
       pindel_vcf: parse_pairs/srt_pindel_vcf
       vardict_vcf: parse_pairs/srt_vardict_vcf
       genome: parse_pairs/srt_genome
@@ -312,6 +292,5 @@ steps:
       ffpe_normal_bams: parse_pairs/srt_ffpe_normal_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [mutect_vcf, mutect_callstats, sid_vcf, sid_verbose, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, genome]
+    scatter: [mutect_vcf, mutect_callstats, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, genome]
     scatterMethod: dotproduct
-

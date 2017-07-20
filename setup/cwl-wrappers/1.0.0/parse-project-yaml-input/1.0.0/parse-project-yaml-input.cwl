@@ -81,10 +81,6 @@ inputs:
             items: string
         num_cpu_threads_per_data_thread: int
         num_threads: int
-        sid_rf:
-          type:
-            type: array
-            items: string
         tmp_dir: string
   samples:
     type:
@@ -187,12 +183,6 @@ outputs:
         type: array
         items: string
   tmp_dir:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
-  sid_rf:
     type:
       type: array
       items:
