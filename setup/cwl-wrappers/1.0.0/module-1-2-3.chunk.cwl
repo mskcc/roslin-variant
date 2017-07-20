@@ -127,6 +127,12 @@ inputs:
       type: array
       items: string
   refseq: File
+  pairs:
+    type:
+      type: array
+      items:
+        type: array
+        items: string
 
 outputs:
 
@@ -152,18 +158,39 @@ outputs:
       type: array
       items: File
     outputSource: mapping/md_metrics
-  covint_list:
+  mutect_vcf:
     type:
       type: array
       items: File
-    outputSource: realignment/covint_list
-  covint_bed:
+    outputSource: variant_calling/mutect_vcf
+  mutect_callstats:
     type:
       type: array
       items: File
-    outputSource: realignment/covint_bed
+    outputSource: variant_calling/mutect_callstats
+  somaticindeldetector_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/somaticindeldetector_vcf
+  somaticindeldetector_verbose_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/somaticindeldetector_verbose_vcf
+  vardict_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/vardict_vcf
+  pindel_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/pindel_vcf
 
 steps:
+
   mapping:
     run: module-1.scatter.chunk.cwl
     in:
@@ -195,3 +222,27 @@ steps:
       abra_scratch: abra_scratch
       genome: genome
     out: [outbams, covint_list, covint_bed]
+  pairing:
+    run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
+    in:
+      bams: realignment/outbams
+      pairs: pairs
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids]
+  variant_calling:
+    run: module-3.cwl
+    in:
+      tumor_bam: pairing/tumor_bams
+      normal_bam: pairing/normal_bams
+      genome: genome
+      bed: realignment/covint_bed
+      normal_sample_id: pairing/normal_sample_ids
+      tumor_sample_id: pairing/tumor_sample_ids
+      dbsnp: dbsnp
+      cosmic: cosmic
+      mutect_dcov: mutect_dcov
+      mutect_rf: mutect_rf
+      sid_rf: sid_rf
+      refseq: refseq
+    out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id]
+    scatterMethod: dotproduct
