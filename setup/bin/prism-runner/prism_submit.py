@@ -262,7 +262,7 @@ def main():
         "--workflow",
         action="store",
         dest="workflow_name",
-        help="CWL Workflow name (e.g. module-1-2-3.chunk.cwl)",
+        help="CWL Workflow name (e.g. project-workflow.cwl)",
         required=True
     )
 
