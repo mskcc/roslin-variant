@@ -273,7 +273,7 @@ steps:
     scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, sid_rf, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
   parse_pairs:
-    run: parse_pairs_and_vcfs.cwl
+    run: ../parse_pairs_and_vcfs/1.0.0/parse_pairs_and_vcfs.cwl
     in:
       bams: group_process/bams
       pairs: pairs
