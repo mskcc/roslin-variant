@@ -62,7 +62,6 @@ genome: 'GRCh37'
 cosmic:
     class: File
     path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
-sid_rf: ['BadCigar', 'DuplicateRead', 'FailsVendorQualityCheck', 'NotPrimaryAlignment', 'BadMate', 'MappingQualityUnavailable', 'UnmappedRead', 'MappingQuality']
 refseq:
     class: File
     path: '/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt'

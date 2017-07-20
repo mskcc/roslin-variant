@@ -13,12 +13,6 @@ mutect_callstats:
 pindel_vcf:
   class: File
   path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.pindel.vcf
-sid_vcf:
-  class: File
-  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.sid.vcf
-sid_verbose:
-  class: File
-  path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.sid.txt
 vardict_vcf:
   class: File
   path: ../data/from-module-3/DU874145-T.rg.md.abra.fmi.printreads.vardict.vcf

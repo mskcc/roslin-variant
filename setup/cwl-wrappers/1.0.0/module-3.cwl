@@ -68,17 +68,10 @@ inputs:
         secondaryFiles: ['^.vcf.idx']
     mutect_dcov: int
     mutect_rf: string[]
-    sid_rf: string[]
     refseq: File
 
 outputs:
 
-    somaticindeldetector_vcf:
-        type: File
-        outputSource: call_variants/sid_vcf
-    somaticindeldetector_verbose_vcf:
-        type: File
-        outputSource: call_variants/sid_verbose_vcf
     mutect_vcf:
         type: File
         outputSource: call_variants/mutect_vcf
@@ -111,10 +104,9 @@ steps:
             cosmic: cosmic
             mutect_dcov: mutect_dcov
             mutect_rf: mutect_rf
-            sid_rf: sid_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, sid_verbose_vcf, sid_vcf, pindel_vcf, mutect_vcf, mutect_callstats]
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats]
         run:
             class: Workflow
             inputs:
@@ -128,15 +120,8 @@ steps:
                 mutect_dcov: int
                 mutect_rf: string[]
                 bed: File
-                sid_rf: string[]
                 refseq: File #file of refseq genes...
             outputs:
-                sid_verbose_vcf:
-                    type: File
-                    outputSource: somaticindeldetector/verbose_output
-                sid_vcf:
-                    type: File
-                    outputSource: somaticindeldetector/output
                 mutect_vcf:
                     type: File
                     outputSource: mutect/output
@@ -172,20 +157,6 @@ steps:
                         vcf:
                             valueFrom: ${ return inputs.b.basename.replace(".bam", ".vardict.vcf") }
                     out: [output]
-                somaticindeldetector:
-                    run: cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
-                    in:
-                        reference_sequence: genome
-                        tumor_bam: tumor_bam
-                        normal_bam: normal_bam
-                        read_filter: sid_rf
-                        intervals: bed
-                        refseq: refseq
-                        out:
-                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam", ".sid.vcf") }
-                        verboseOutput:
-                            valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam", ".sid.txt") }
-                    out: [output, verbose_output]
                 mutect:
                     run: cmo-mutect/1.1.4/cmo-mutect.cwl
                     in:

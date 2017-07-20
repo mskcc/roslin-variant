@@ -122,10 +122,6 @@ inputs:
   covariates: string[]
   abra_scratch: string
   intervals: ['null', string]
-  sid_rf:
-    type:
-      type: array
-      items: string
   refseq: File
   pairs:
     type:
@@ -168,16 +164,6 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/mutect_callstats
-  somaticindeldetector_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/somaticindeldetector_vcf
-  somaticindeldetector_verbose_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/somaticindeldetector_verbose_vcf
   vardict_vcf:
     type:
       type: array
@@ -241,8 +227,7 @@ steps:
       cosmic: cosmic
       mutect_dcov: mutect_dcov
       mutect_rf: mutect_rf
-      sid_rf: sid_rf
       refseq: refseq
-    out: [somaticindeldetector_vcf, somaticindeldetector_verbose_vcf, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    out: [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id]
     scatterMethod: dotproduct

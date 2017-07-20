@@ -119,7 +119,6 @@ if __name__ == "__main__":
     tmp_dir = list()
     tmp_dir_constant = "/ifs/work/scratch"
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
-    sid_rf = ["BadCigar", "DuplicateRead", "FailsVendorQualityCheck", "NotPrimaryAlignment", "BadMate", "MappingQualityUnavailable", "UnmappedRead", "MappingQuality"]
     rf = ["BadCigar"]
     genome = "GRCh37"
     files = {
@@ -186,7 +185,6 @@ if __name__ == "__main__":
     params = {
         "abra_scratch": "/scratch/",
         "genome": genome,
-        "sid_rf": sid_rf,
         "mutect_dcov": 50000,
         "mutect_rf": rf,
         "num_cpu_threads_per_data_thread": 6,

@@ -59,10 +59,6 @@ inputs:
         type: File
     vardict_vcf:
         type: File
-    sid_vcf:
-        type: File
-    sid_verbose:
-        type: File
     pindel_vcf:
         type: File
 
@@ -108,25 +104,18 @@ steps:
             mutect_vcf: mutect_vcf
             mutect_callstats: mutect_callstats
             vardict_vcf: vardict_vcf
-            sid_vcf: sid_vcf
-            sid_verbose: sid_verbose
             pindel_vcf: pindel_vcf
             tumor_sample_name: tumor_sample_name
-        out: [vardict_vcf_filtering_output, sid_vcf_filtering_output, pindel_vcf_filtering_output, mutect_vcf_filtering_output]
+        out: [vardict_vcf_filtering_output, pindel_vcf_filtering_output, mutect_vcf_filtering_output]
         run:
             class: Workflow
             inputs:
                 mutect_vcf: File
                 mutect_callstats: File
                 vardict_vcf: File
-                sid_vcf: File
-                sid_verbose: File
                 pindel_vcf: File
                 tumor_sample_name: string
-            outputs:
-                sid_vcf_filtering_output:
-                    type: File
-                    outputSource: sid_filtering_step/vcf
+            outputs:                
                 mutect_vcf_filtering_output:
                     type: File
                     outputSource: mutect_filtering_step/vcf
@@ -150,13 +139,6 @@ steps:
                         inputVcf: pindel_vcf
                         tsampleName: tumor_sample_name
                     out: [vcf]
-                sid_filtering_step:
-                    run: basic-filtering.somaticIndelDetector/0.1.6/basic-filtering.somaticIndelDetector.cwl
-                    in:
-                        inputVcf: sid_vcf
-                        inputTxt: sid_verbose
-                        tsampleName: tumor_sample_name
-                    out: [vcf]
                 vardict_filtering_step:
                     run: basic-filtering.vardict/0.1.6/basic-filtering.vardict.cwl
                     in:
@@ -168,22 +150,17 @@ steps:
         in:
             mutect_vcf: filtering/mutect_vcf_filtering_output
             vardict_vcf: filtering/vardict_vcf_filtering_output
-            sid_vcf: filtering/sid_vcf_filtering_output
             pindel_vcf: filtering/pindel_vcf_filtering_output
             genome: genome
-        out: [vardict_vcf_norm_output, sid_vcf_norm_output, pindel_vcf_norm_output, mutect_vcf_norm_output]
+        out: [vardict_vcf_norm_output, pindel_vcf_norm_output, mutect_vcf_norm_output]
         run:
             class: Workflow
             inputs:
                 mutect_vcf: File
                 vardict_vcf: File
-                sid_vcf: File
                 pindel_vcf: File
                 genome: string
             outputs:
-                sid_vcf_norm_output:
-                    type: File
-                    outputSource: sid_norm_step/vcf_output_file
                 mutect_vcf_norm_output:
                     type: File
                     outputSource: mutect_norm_step/vcf_output_file
@@ -214,16 +191,6 @@ steps:
                             default: "v"
                         fasta_ref: genome
                     out: [vcf_output_file]
-                sid_norm_step:
-                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
-                    in:
-                        vcf: sid_vcf
-                        output:
-                            default: "sid-norm.vcf"
-                        output_type:
-                            default: "v"
-                        fasta_ref: genome
-                    out: [vcf_output_file]
                 vardict_norm_step:
                     run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
                     in:
@@ -240,14 +207,13 @@ steps:
         in:
             variants_mutect: normalize/mutect_vcf_norm_output
             variants_vardict: normalize/vardict_vcf_norm_output
-            variants_sid: normalize/sid_vcf_norm_output
             variants_pindel: normalize/pindel_vcf_norm_output
             unsafe:
                 default: "ALLOW_SEQ_DICT_INCOMPATIBILITY"
             genotypemergeoption:
                 default: "PRIORITIZE"
             rod_priority_list:
-                default: ["VarDict", "MuTect", "SomaticIndelDetector", "Pindel"]
+                default: ["VarDict", "MuTect", "Pindel"]
             reference_sequence: genome
             tumor_sample_name: tumor_sample_name
             out:

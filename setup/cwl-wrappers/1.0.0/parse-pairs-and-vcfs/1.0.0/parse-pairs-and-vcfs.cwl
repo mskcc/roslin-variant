@@ -77,14 +77,6 @@ inputs:
     type:
       type: array
       items: File
-  sid_vcf:
-    type:
-      type: array
-      items: File
-  sid_verbose:
-    type:
-      type: array
-      items: File
   vardict_vcf:
     type:
       type: array
@@ -129,14 +121,6 @@ outputs:
        type: array
        items: File
   srt_mutect_callstats:
-     type:
-       type: array
-       items: File
-  srt_sid_vcf:
-     type:
-       type: array
-       items: File
-  srt_sid_verbose:
      type:
        type: array
        items: File
@@ -186,11 +170,9 @@ expression: '${var bams= [];
  var mutect_vcf = inputs.mutect_vcf;
  var mutect_callstats = inputs.mutect_callstats;
  var vardict_vcf = inputs.vardict_vcf;
- var sid_vcf = inputs.sid_vcf;
- var sid_verbose = inputs.sid_verbose;
  var pindel_vcf = inputs.pindel_vcf;
  var pairs = inputs.pairs;
- var arrays = [mutect_vcf, mutect_callstats, vardict_vcf, sid_vcf, sid_verbose, pindel_vcf];
+ var arrays = [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf];
  var final_answers = [];
  for (var m=0; m < arrays.length+7; m++) {
      final_answers[m]=new Array();
@@ -217,9 +199,7 @@ return {"tumor_id" : final_answers[arrays.length+1],
     "srt_mutect_vcf" : final_answers[0],
     "srt_mutect_callstats" : final_answers[1],
     "srt_vardict_vcf": final_answers[2],
-    "srt_sid_vcf": final_answers[3],
-    "srt_sid_verbose": final_answers[4],
-    "srt_pindel_vcf" : final_answers[5],
+    "srt_pindel_vcf" : final_answers[3],
     "srt_genome": final_answers[arrays.length+4],
     "srt_ref_fasta":final_answers[arrays.length+6],
     "srt_exac_filter": final_answers[arrays.length+5],

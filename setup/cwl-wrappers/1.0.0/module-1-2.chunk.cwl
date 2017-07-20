@@ -122,10 +122,6 @@ inputs:
   covariates: string[]
   abra_scratch: string
   intervals: ['null', string]
-  sid_rf:
-    type:
-      type: array
-      items: string
   refseq: File
 
 outputs:

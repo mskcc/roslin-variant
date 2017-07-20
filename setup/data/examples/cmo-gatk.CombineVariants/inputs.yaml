@@ -4,9 +4,6 @@ variants_vardict:
 variants_pindel:
     class: File
     path: ../data/from-module-4/pindel-norm.vcf
-variants_sid:
-    class: File
-    path: ../data/from-module-4/sid-norm.vcf
 variants_mutect:
     class: File
     path: ../data/from-module-4/mutect-norm.vcf
