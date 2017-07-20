@@ -122,6 +122,8 @@ if __name__ == "__main__":
     sid_rf = ["BadCigar", "DuplicateRead", "FailsVendorQualityCheck", "NotPrimaryAlignment", "BadMate", "MappingQualityUnavailable", "UnmappedRead", "MappingQuality"]
     rf = ["BadCigar"]
     genome = "GRCh37"
+
+
     files = {
         'hapmap': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf'},
         'dbsnp': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf'},
@@ -154,8 +156,9 @@ if __name__ == "__main__":
    {'class': 'File', 'path': '/ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S12-18799-N_bc38_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam'},
    {'class': 'File', 'path': '/ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-43894-1-N_bc32_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam'},
    {'class': 'File', 'path': '/ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44576-1-N_bc27_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam'}],
- 'ffpe_normal_bams':{ 'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ffpe/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam'},
-  'hotspot_list': {'class': 'File', 'path': '../data/from-module-4/hotspot-list-union-v1-v2.txt'}
+ 'ffpe_normal_bams':[{ 'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ffpe/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam'}],
+  'hotspot_list': {'class': 'File', 'path': '../data/from-module-4/hotspot-list-union-v1-v2.txt'},
+  'ref_fasta': "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta"
 
 
 
