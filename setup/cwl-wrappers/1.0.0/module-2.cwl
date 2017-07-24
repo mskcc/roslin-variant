@@ -105,7 +105,7 @@ steps:
             reference_sequence: genome
             input_file: bams
             out:
-                valueFrom: ${ return inputs.group + ".fci.list"; } 
+                valueFrom: ${ return inputs.group + ".fci.list"; }
         out: [fci_list]
 
     list2bed:
