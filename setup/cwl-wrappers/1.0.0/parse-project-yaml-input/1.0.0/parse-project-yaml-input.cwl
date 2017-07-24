@@ -272,7 +272,10 @@ outputs:
     type:
       type: array
       items: File
-
+  group_ids:
+    type:
+      type: array
+      items: string
 
 
 expression: "${var groups = inputs.groups;
@@ -298,7 +301,8 @@ expression: "${var groups = inputs.groups;
          group_object[key] = inputs.runparams[key] 
      } for (key in inputs.db_files) {
          group_object[key] = inputs.db_files[key] 
-     }  
+     }
+     group_object['group_ids']='Group' + i.toString();
      for (key in group_object) { 
          if (key in project_object) { 
              project_object[key].push(group_object[key])

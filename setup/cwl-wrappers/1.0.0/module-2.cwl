@@ -76,6 +76,7 @@ inputs:
     rf: string[]
     covariates: string[]
     abra_scratch: string
+    group: string
 
 outputs:
     covint_list:
@@ -100,10 +101,11 @@ steps:
     gatk_find_covered_intervals:
         run: ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
         in:
+            group: group
             reference_sequence: genome
             input_file: bams
             out:
-                valueFrom: ${ var basenames = inputs.input_file.map(function(x) { return x.basename.replace(".bam", "") }); basenames.push(["fci.list"]); return basenames.join("."); } 
+                valueFrom: ${ return inputs.group + ".fci.list"; } 
         out: [fci_list]
 
     list2bed:
