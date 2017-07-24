@@ -117,6 +117,7 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
+  group: string[]
   mutect_dcov: int
   mutect_rf: string[]
   covariates: string[]
@@ -176,6 +177,7 @@ steps:
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
+      group: group
     out: [clstats1, clstats2, bam, md_metrics]
     scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN]
     scatterMethod: dotproduct
@@ -189,5 +191,6 @@ steps:
       snps_1000g: snps_1000g
       covariates: covariates
       abra_scratch: abra_scratch
+      group: group
       genome: genome
     out: [outbams, covint_list, covint_bed]

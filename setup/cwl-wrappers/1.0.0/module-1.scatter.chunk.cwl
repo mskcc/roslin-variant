@@ -61,6 +61,7 @@ inputs:
   add_rg_CN: string
   tmp_dir: string
   genome: string
+  group: string
 
 outputs:
 
@@ -191,10 +192,11 @@ steps:
   mark_duplicates:
     run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
     in:
+      group: group
       I: align/bam
       O:
         valueFrom: |
-          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.rg\.bam/, ".rg.md.bam") }
+          ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.rg\.bam/, "."+ inputs.group+".rg.md.bam") }
       M:
         valueFrom: |
           ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.rg\.bam/, ".rg.md_metrics") }
