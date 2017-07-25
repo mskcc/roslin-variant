@@ -175,6 +175,8 @@ steps:
             covariate: covariates
             out:
                 default: "recal.matrix"
+            read_filter:
+              valueFrom: ${return ["BadCigar"];}
         out: [recal_matrix]
 
     parallel_printreads:
@@ -182,6 +184,8 @@ steps:
             input_file: parallel_fixmate/out
             reference_sequence: genome
             BQSR: gatk_base_recalibrator/recal_matrix
+            read_filter:
+              valueFrom: ${return ["BadCigar"];}
         out: [out]
         scatter: [input_file]
         scatterMethod: dotproduct
