@@ -1,3 +1,4 @@
+group: "Group001"
 bams:
   - class: File
     path: ../data/from-module-1/P1_ADDRG_MD.bam
