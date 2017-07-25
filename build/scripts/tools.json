@@ -73,6 +73,9 @@
         ],
         "@split-reads": [
             "1.0.0"
+        ],
+        "seq-cna": [
+            "1.0.0"
         ]
     },
     "containerDependency": {
