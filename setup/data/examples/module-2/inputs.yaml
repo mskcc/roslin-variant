@@ -19,3 +19,4 @@ snps_1000g:
 rf: ['BadCigar']
 covariates: ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
 abra_scratch: /scratch
+group: 'test'
