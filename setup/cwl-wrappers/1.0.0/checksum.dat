@@ -41,7 +41,7 @@ be635e74251457d5a19771cc70c9a000  ./module-1-2.chunk.cwl
 ecee8522746fbefeb418791bdb8c574d  ./module-1.cwl
 f075b0d0ab4e1b14cf189367c8440d05  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
-2fdce95bed37cc76244fe6337b744b51  ./module-2.cwl
+c3f4785e1d7e813abe05c1b62fa470f9  ./module-2.cwl
 53d98766350450af55a3160700290bc3  ./module-3.cwl
 452bdba3a0bf652b90e8a97e2c626dc7  ./module-4.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
