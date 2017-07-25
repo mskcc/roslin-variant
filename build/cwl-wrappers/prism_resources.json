@@ -147,6 +147,7 @@
         }, 
         "basic-filtering": {
             "0.1.6": "sing.sh basic-filtering 0.1.6", 
+            "0.1.7": "sing.sh basic-filtering 0.1.7", 
             "default": "sing.sh basic-filtering 0.1.6"
         }, 
         "bcftools": {
