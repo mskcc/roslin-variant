@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
       v.name = "prism"
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      v.memory = "1024"
+      v.memory = "2048"
 	end
 
   config.vm.hostname = "prism"
