@@ -55,11 +55,9 @@ RUN sed -i "s|/opt/common/CentOS_6-dev/R/R-3.2.2/bin/Rscript|Rscript|g" /usr/bin
 RUN sed -i "s|/opt/common/CentOS_6-dev/R/R-3.2.2/bin/Rscript|Rscript|g" /usr/bin/seqCNA/seqSegment
 RUN sed -i "s|/opt/common/CentOS_6-dev/R/R-3.2.2/bin/Rscript|Rscript|g" /usr/bin/seqCNA/testR
 
-RUN ["Rscript", "--vanilla", "-e", "devtools::install_github('mskcc/pctGCdata')"]
+# RUN ["Rscript", "--vanilla", "-e", "devtools::install_github('mskcc/pctGCdata')"]
 
-RUN ["Rscript", "--vanilla", "-e", "source('https://bioconductor.org/biocLite.R'); biocLite(c('IRanges', 'DNAcopy'));"]
-
-RUN ["Rscript", "--vanilla", "-e", "source('https://bioconductor.org/biocLite.R'); biocLite(c('Rsamtools'));"]
+# RUN ["Rscript", "--vanilla", "-e", "source('https://bioconductor.org/biocLite.R'); biocLite(c('IRanges', 'DNAcopy', 'Rsamtools'));"]
 
 ENTRYPOINT ["/usr/bin/seqCNA/seqCNA.sh"]
 CMD ["--help"]
