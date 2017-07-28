@@ -2,5 +2,5 @@ genome: 'GRCh37'
 bams: 
     - { class: File, path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam }
     - { class: File, path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam }
-bait_intervals: {class: File, path: ../data/ilists/AgilentExon_51MB_b37_v3_baits.ilist}
-target_intervals: {class: File, path: ../data/ilists/AgilentExon_51MB_b37_v3_targets.ilist}
+bait_intervals: {class: File, path: ./AgilentExon_51MB_b37_v3_baits.100sites.intervals}
+target_intervals: {class: File, path: ./AgilentExon_51MB_b37_v3_targets.100sites.intervals}
