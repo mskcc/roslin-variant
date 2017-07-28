@@ -51,6 +51,7 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
+
   bams:
     type:
       type: array
@@ -62,7 +63,8 @@ inputs:
   fp_intervals: File
 
 outputs:
-  as_metrics: 
+
+  as_metrics:
     type: File
     outputSource: scatter_metrics/as_metrics_files
   hs_metrics:
@@ -87,9 +89,8 @@ outputs:
     type: File
     outputSource: scatter_metrics/doc_basecounts
 
-
-
 steps:
+
   scatter_metrics:
     in:
       bam: bams
@@ -109,19 +110,19 @@ steps:
         target_intervals: File
         fp_intervals: File
       outputs:
-        as_metrics_files: 
+        as_metrics_files:
           type: File
-          outputSource: as_metrics/out_file 
-        hs_metrics_files: 
+          outputSource: as_metrics/out_file
+        hs_metrics_files:
           type: File
           outputSource: hs_metrics/out_file
-        per_target_coverage: 
+        per_target_coverage:
           type: File
           outputSource: hs_metrics/per_target_out
-        is_metrics: 
+        is_metrics:
           type: File
           outputSource: insert_metrics/is_file
-        is_hist: 
+        is_hist:
           type: File
           outputSource: insert_metrics/is_hist
         qual_metrics:
@@ -137,11 +138,11 @@ steps:
       steps:
         as_metrics:
           run: cmo-picard.CollectAlignmentSummaryMetrics/1.96/cmo-picard.CollectAlignmentSummaryMetrics.cwl
-          in: 
+          in:
             I: bam
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".asmetrics")}
-            LEVEL: 
+            LEVEL:
               valueFrom: ${return ["null", "SAMPLE"]}
           out: [out_file]
 
@@ -154,19 +155,17 @@ steps:
             R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
-            PER_TARGET_COVERAGE: 
+            PER_TARGET_COVERAGE:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
           out: [out_file, per_target_out]
         insert_metrics:
           run: cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
           in:
             I: bam
-            PROGRAM: 
+            PROGRAM:
               valueFrom: ${return ["null", "CollectInsertSizeMetrics"]}
-            O: 
+            O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
-            LEVEL: 
-              valueFrom: ${return ["null", "SAMPLE"]}
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
@@ -174,10 +173,8 @@ steps:
             I: bam
             PROGRAM:
               valueFrom: ${return ["null","MeanQualityByCycle"]}
-            O: 
+            O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
-            LEVEL: 
-              valueFrom: ${return ["null", "SAMPLE"]}
           out: [qual_file, qual_hist]
         doc:
           run: cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
@@ -200,5 +197,3 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
-
-

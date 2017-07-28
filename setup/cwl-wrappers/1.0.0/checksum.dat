@@ -14,6 +14,7 @@ f478627b09b4f3b35380ffd7c5bfb54d  ./cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cw
 88d9f01b44d2215e144a6d2a5457fdbf  ./cmo-fillout/1.2.1/cmo-fillout.cwl
 fb3cb4f6eed6c1edefafe8ca883de5af  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 a0b8828d39f96bb01bde963756d5569b  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
+1910607d4bed3287524bc3d7c6ab03f5  ./cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
 af104261c58765fcb2f1432e5ab75bf3  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
 72b400dfbcc4447b35aa1a8ec796a5d1  ./cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
 439141c80888f3f0536ea96e535d797b  ./cmo-gatk.SomaticIndelDetector/2.3-9/cmo-gatk.SomaticIndelDetector.cwl
@@ -23,6 +24,9 @@ af104261c58765fcb2f1432e5ab75bf3  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk
 215869493d07b858ebe8534408f22a26  ./cmo-mutect/1.1.5/cmo-mutect.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 f1a13b21abac4c756ef9341c43722c8b  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
+38aad1ca817f4a9360cf09013926a794  ./cmo-picard.CalculateHsMetrics/1.96/cmo-picard.CalculateHsMetrics.cwl
+e63931da1d6aaa184c9a669d13c8e865  ./cmo-picard.CollectAlignmentSummaryMetrics/1.96/cmo-picard.CollectAlignmentSummaryMetrics.cwl
+62a827300db725d182d7ad61034ac890  ./cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
 59b7d283b2cf09bfcecbb72036cf6a26  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 1ea49f6ef77497dbe0bc104dae5af362  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
@@ -44,6 +48,7 @@ d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c3f4785e1d7e813abe05c1b62fa470f9  ./module-2.cwl
 53d98766350450af55a3160700290bc3  ./module-3.cwl
 452bdba3a0bf652b90e8a97e2c626dc7  ./module-4.cwl
+21969bcf2a34f623ed8eca3ee3449d6f  ./module-5.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
 937ef16c20a2c62d5f8dd5f4cc1b0e65  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
 c8c24614a7c9a4db30670f607aea7f59  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
