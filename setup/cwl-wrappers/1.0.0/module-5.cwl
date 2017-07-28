@@ -62,6 +62,9 @@ inputs:
   fp_intervals: File
 
 outputs:
+  as_metrics: 
+    type: File
+    outputSource: scatter_metrics/as_metrics_files
   hs_metrics:
     type: File
     outputSource: scatter_metrics/hs_metrics_files
@@ -94,7 +97,7 @@ steps:
       bait_intervals: bait_intervals
       target_intervals: target_intervals
       fp_intervals: fp_intervals
-    out: [hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts]
+    out: [as_metrics_files, hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts]
     scatter: [bam]
     scatterMethod: dotproduct
     run:
@@ -105,7 +108,10 @@ steps:
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
-      outputs: 
+      outputs:
+        as_metrics_files: 
+          type: File
+          outputSource: as_metrics/out_file 
         hs_metrics_files: 
           type: File
           outputSource: hs_metrics/out_file
@@ -129,6 +135,16 @@ steps:
           outputSource: doc/out_file
 
       steps:
+        as_metrics:
+          run: cmo-picard.CollectAlignmentSummaryMetrics/1.96/cmo-picard.CollectAlignmentSummaryMetrics.cwl
+          in: 
+            I: bam
+            O:
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".asmetrics")}
+            LEVEL: 
+              valueFrom: ${return ["null", "SAMPLE"]}
+          out: [out_file]
+
         hs_metrics:
           run: cmo-picard.CalculateHsMetrics/1.96/cmo-picard.CalculateHsMetrics.cwl
           in:
