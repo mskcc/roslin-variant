@@ -1,168 +1,215 @@
 #!/usr/bin/env cwl-runner
+
+$namespaces:
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  doap: http://usefulinc.com/ns/doap#
+
+$schemas:
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
+
+doap:release:
+- class: doap:Version
+  doap:name: cmo-picard.CollectMultipleMetrics
+  doap:revision: 1.96
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
+
+dct:creator:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Jaeyoung Chun
+    foaf:mbox: mailto:chunj@mskcc.org
+
+dct:contributor:
+- class: foaf:Organization
+  foaf:name: Memorial Sloan Kettering Cancer Center
+  foaf:member:
+  - class: foaf:Person
+    foaf:name: Christopher Harris
+    foaf:mbox: mailto:harrisc2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Ronak H. Shah
+    foaf:mbox: mailto:shahr2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
+  - class: foaf:Person
+    foaf:name: Jaeyoung Chun
+    foaf:mbox: mailto:chunj@mskcc.org
+
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
 # To generate again: $ cmo_picard --generate_cwl_tool
 # Help: $ cmo_picard --help_arg2cwl
 
-cwlVersion: "cwl:v1.0"
-requirements:
-  InlineJavascriptRequirement: {}
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: ['cmo_picard','--cmd','CollectMultipleMetrics']
+baseCommand:
+- cmo_picard
+- --cmd
+- CollectMultipleMetrics
+
+requirements:
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 10
+    coresMin: 1
+
 
 doc: |
   None
 
 inputs:
-  
   version:
     type:
-    - "null"
+    - 'null'
     - type: enum
-      symbols: ['default', '1.124', '1.129', '1.96']
+      symbols: [default, '1.124', '1.129', '1.96']
     default: default
-  
+
     inputBinding:
-      prefix: --version 
+      prefix: --version
 
   java_version:
     type:
-    - "null"
+    - 'null'
     - type: enum
-      symbols: ['default', 'jdk1.8.0_25', 'jdk1.7.0_75', 'jdk1.8.0_31', 'jre1.7.0_75']
+      symbols: [default, jdk1.8.0_25, jdk1.7.0_75, jdk1.8.0_31, jre1.7.0_75]
     default: default
-  
+
     inputBinding:
-      prefix: --java-version 
+      prefix: --java-version
 
   cmd:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --cmd 
-  H:
-    type: ["null", string]
-    inputBinding:
-      prefix: --H
+      prefix: --cmd
 
   I:
     type:
     - File
     - type: array
       items: string
-  
-  
     inputBinding:
-      prefix: --I 
+      prefix: --I
 
   O:
     type: string
-  
-    doc: Base name of output files. Required. 
+
+    doc: Base name of output files. Required.
     inputBinding:
-      prefix: --O 
+      prefix: --O
 
   AS:
-    type: ["null", string]
-    doc: If true (default), then the sort order in the header file will be ignored. Default value - true. This option can be set to 'null' to clear the default value. Possible values - {true, false} 
+    type: ['null', string]
+    doc: If true (default), then the sort order in the header file will be ignored.
+      Default value - true. This option can be set to 'null' to clear the default
+      value. Possible values - {true, false}
     inputBinding:
-      prefix: --AS 
+      prefix: --AS
 
   R:
     type:
-      - "null"
-      - type: enum
-        symbols: ['','GRCm38', 'ncbi36', 'mm9', 'GRCh37', 'GRCh38', 'hg18', 'hg19', 'mm10']
-  
+    - 'null'
+    - type: enum
+      symbols: ['', GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
     inputBinding:
-      prefix: --genome 
+      prefix: --genome
 
   PROGRAM:
     type:
-      - "null"
-      - type: array
-        items: string
-        inputBinding:
-          prefix: --PROGRAM
+    - 'null'
+    - type: array
+      items: string
+      inputBinding:
+        prefix: --PROGRAM
     inputBinding:
-      prefix: null
-    
+      prefix:
+    doc: List of metrics programs to apply during the pass through the SAM file. Possible
+      values - {CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution,
+      MeanQualityByCycle} This option may be specified 0 or more times. This option
+      can be set to 'null' to clear the default list.
   STOP_AFTER:
-    type: ["null", string]
-    doc: Stop after processing N reads, mainly for debugging. Default value - 0. This option can be set to 'null' to clear the default value. OUTPUT=String
+    type: ['null', string]
+    doc: Stop after processing N reads, mainly for debugging. Default value - 0. This
+      option can be set to 'null' to clear the default value. OUTPUT=String
     inputBinding:
-      prefix: --STOP_AFTER 
+      prefix: --STOP_AFTER
 
   QUIET:
-    type: ["null", boolean]
-    default: False
-  
+    type: ['null', boolean]
+    default: false
+
     inputBinding:
-      prefix: --QUIET 
+      prefix: --QUIET
 
   CREATE_MD5_FILE:
-    type: ["null", boolean]
-    default: False
-  
+    type: ['null', boolean]
+    default: false
+
     inputBinding:
-      prefix: --CREATE_MD5_FILE 
+      prefix: --CREATE_MD5_FILE
 
   CREATE_INDEX:
-    type: ["null", boolean]
-    default: False
-  
+    type: ['null', boolean]
+    default: false
+
     inputBinding:
-      prefix: --CREATE_INDEX 
+      prefix: --CREATE_INDEX
 
   TMP_DIR:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --TMP_DIR 
+      prefix: --TMP_DIR
 
   VERBOSITY:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY 
+      prefix: --VERBOSITY
 
   VALIDATION_STRINGENCY:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --VALIDATION_STRINGENCY 
+      prefix: --VALIDATION_STRINGENCY
 
   COMPRESSION_LEVEL:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL 
+      prefix: --COMPRESSION_LEVEL
 
   MAX_RECORDS_IN_RAM:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM 
+      prefix: --MAX_RECORDS_IN_RAM
 
   REFERENCE_SEQUENCE:
-    type: ["null", string]
-  
+    type: ['null', string]
     inputBinding:
-      prefix: --REFERENCE_SEQUENCE 
+      prefix: --REFERENCE_SEQUENCE
 
   stderr:
-    type: ["null", string]
+    type: ['null', string]
     doc: log stderr to file
     inputBinding:
-      prefix: --stderr 
+      prefix: --stderr
 
   stdout:
-    type: ["null", string]
+    type: ['null', string]
     doc: log stdout to file
     inputBinding:
-      prefix: --stdout 
+      prefix: --stdout
 
 
+  H:
+    type: ['null', string]
+    inputBinding:
+      prefix: --H
 outputs:
   qual_file:
     type: File?
@@ -177,9 +224,10 @@ outputs:
     type: File?
     outputBinding:
       glob: |
-        ${ if (inputs.O)
-             return inputs.O.concat('.quality_by_cycle.pdf');
-           return null;
+        ${
+          if (inputs.O)
+            return inputs.O.concat('.quality_by_cycle.pdf');
+          return null;
         }
   is_file:
     type: File?
@@ -194,7 +242,8 @@ outputs:
     type: File?
     outputBinding:
       glob: |
-        ${ if (inputs.O)
-             return inputs.O.concat('.insert_size_histogram.pdf');
-           return null;
+        ${
+          if (inputs.O)
+            return inputs.O.concat('.insert_size_histogram.pdf');
+          return null;
         }
