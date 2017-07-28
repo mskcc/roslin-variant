@@ -299,7 +299,9 @@ inputs:
       prefix: --read_filter 
 
   intervals:
-    type: string
+    type: 
+    - string
+    - File
   
     doc: One or more genomic intervals over which to operate
     inputBinding:
