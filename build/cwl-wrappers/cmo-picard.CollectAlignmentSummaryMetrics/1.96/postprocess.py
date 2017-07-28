@@ -39,6 +39,18 @@ def main():
 
     cwl['inputs']['I']['type'] = ['null', 'File']
 
+    del cwl['inputs']['LEVEL']['inputBinding']
+    cwl['inputs']['LEVEL']['type'] = ruamel.yaml.load("""
+- 'null'
+- type: array
+  items: string
+  inputBinding:
+    prefix: --LEVEL
+""", ruamel.yaml.RoundTripLoader)
+
+    del cwl['inputs']['version']
+    del cwl['inputs']['java_version']
+
     #-->
     # fixme: until we can auto generate cwl for picard
     # set outputs using outputs.yaml

@@ -166,8 +166,6 @@ steps:
               valueFrom: ${return ["null", "CollectInsertSizeMetrics"]}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
-            LEVEL:
-              valueFrom: ${return ["null", "SAMPLE"]}
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
@@ -177,8 +175,6 @@ steps:
               valueFrom: ${return ["null","MeanQualityByCycle"]}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
-            LEVEL:
-              valueFrom: ${return ["null", "SAMPLE"]}
           out: [qual_file, qual_hist]
         doc:
           run: cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl

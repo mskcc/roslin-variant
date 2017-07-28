@@ -37,6 +37,12 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
+    cwl['inputs']['input_file']['type'] = ruamel.yaml.load("""
+- File
+- type: array
+  items: string
+""", ruamel.yaml.RoundTripLoader)
+
     cwl['inputs']['out']['type'] = ruamel.yaml.load("""
 - string
 - type: array
@@ -55,9 +61,9 @@ def main():
         read(os.path.dirname(params.filename_cwl) + "/outputs.yaml"),
         ruamel.yaml.RoundTripLoader)['outputs']
 
-    # from : ['cmo_gatk', '-T cmo-gatk.DepthOfCoverage', '--version 3.3-0']
-    # to   : ['cmo_gatk', '-T', 'cmo-gatk.DepthOfCoverage', '--version', '3.3-0']
-    cwl['baseCommand'] = ['cmo_gatk', '-T', 'cmo-gatk.DepthOfCoverage', '--version', '3.3-0']
+    # from : ['cmo_gatk', '-T DepthOfCoverage', '--version 3.3-0']
+    # to   : ['cmo_gatk', '-T', 'DepthOfCoverage', '--version', '3.3-0']
+    cwl['baseCommand'] = ['cmo_gatk', '-T', 'DepthOfCoverage', '--version', '3.3-0']
     #<--
 
     write(params.filename_cwl, ruamel.yaml.dump(

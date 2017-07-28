@@ -45,6 +45,12 @@ def main():
 
     cwl['inputs']['R']['inputBinding']['prefix'] = '--R'
 
+    cwl['inputs']['BI']['type'] = 'File'
+    cwl['inputs']['TI']['type'] = 'File'
+
+    del cwl['inputs']['version']
+    del cwl['inputs']['java_version']
+
     #-->
     # fixme: until we can auto generate cwl for picard
     # set outputs using outputs.yaml

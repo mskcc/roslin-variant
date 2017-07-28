@@ -66,26 +66,6 @@ doc: |
   None
 
 inputs:
-  version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default, '1.124', '1.129', '1.96']
-    default: 1.96
-
-    inputBinding:
-      prefix: --version
-
-  java_version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default, jdk1.8.0_25, jdk1.7.0_75, jdk1.8.0_31, jre1.7.0_75]
-    default: default
-
-    inputBinding:
-      prefix: --java-version
-
   cmd:
     type: ['null', string]
     default: CollectAlignmentSummaryMetrics
@@ -98,11 +78,8 @@ inputs:
     - 'null'
     - type: array
       items: string
-
-
-    inputBinding:
-      prefix: --LEVEL
-
+      inputBinding:
+        prefix: --LEVEL
   I:
     type:
     - 'null'

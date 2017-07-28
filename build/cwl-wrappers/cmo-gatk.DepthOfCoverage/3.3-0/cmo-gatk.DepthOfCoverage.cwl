@@ -53,7 +53,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_gatk
 - -T
-- cmo-gatk.DepthOfCoverage
+- DepthOfCoverage
 - --version
 - 3.3-0
 
@@ -292,10 +292,9 @@ inputs:
 
   input_file:
     type:
-    - 'null'
+    - File
     - type: array
       items: string
-
     doc: Input file containing sequence data (SAM or BAM)
     inputBinding:
       prefix: --input_file

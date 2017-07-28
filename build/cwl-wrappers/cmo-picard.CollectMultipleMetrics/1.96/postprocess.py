@@ -70,6 +70,9 @@ inputBinding:
   prefix: --H
 """, ruamel.yaml.RoundTripLoader)
 
+    del cwl['inputs']['version']
+    del cwl['inputs']['java_version']
+
     #-->
     # fixme: until we can auto generate cwl for picard
     # set outputs using outputs.yaml
