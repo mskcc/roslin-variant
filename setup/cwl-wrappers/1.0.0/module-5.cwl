@@ -79,6 +79,10 @@ outputs:
   qual_pdf:
     type: File
     outputSource: scatter_metrics/qual_pdf
+  doc_basecounts:
+    type: File
+    outputSource: scatter_metrics/doc_basecounts
+
 
 
 steps:
@@ -88,7 +92,7 @@ steps:
       genome: genome
       bait_intervals: bait_intervals
       target_intervals: target_intervals
-    out: [hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist]
+    out: [hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts]
     scatter: [bam]
     scatterMethod: dotproduct
     run:
@@ -117,6 +121,9 @@ steps:
         qual_pdf:
           type: File
           outputSource: quality_metrics/qual_hist
+        doc_basecounts:
+          type: File
+          outputSource: doc/out_file
 
       steps:
         hs_metrics:
@@ -153,6 +160,26 @@ steps:
             LEVEL: 
               valueFrom: ${return ["null", "SAMPLE"]}
           out: [qual_file, qual_hist]
-#      doc:
-#        run: cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
+        doc:
+          run: cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
+          in:
+            input_file: bam
+            intervals: target_intervals
+            reference_sequence: genome
+            out:
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_FP_base_counts.txt") }
+            omitLocustable:
+              valueFrom: ${ return true; }
+            omitPerSampleStats:
+              valueFrom: ${ return true; }
+            minMappingQuality:
+              valueFrom: ${ return "10"; }
+            minBaseQuality:
+              valueFrom: ${ return "3"; }
+            omitIntervals:
+              valueFrom: ${ return true; }
+            printBaseCounts:
+              valueFrom: ${ return true; }
+          out: [out_file]
+
 
