@@ -141,13 +141,13 @@ def get_references(inputs_yaml_path):
 def run(cmd, shell=False, strip_newline=True):
     "run a command and return (stdout, stderr, exit code)"
 
-    process=subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
 
-    stdout, stderr=process.communicate()
+    stdout, stderr = process.communicate()
 
     if strip_newline:
-        stdout=stdout.rstrip("\n")
-        stderr=stderr.rstrip("\n")
+        stdout = stdout.rstrip("\n")
+        stderr = stderr.rstrip("\n")
 
     return stdout, stderr, process.returncode
 
@@ -157,13 +157,13 @@ def generate_sha1(filename):
     "generate SHA1 hash out of file"
 
     # 64kb chunks
-    buf_size=65536
+    buf_size = 65536
 
-    sha1=hashlib.sha1()
+    sha1 = hashlib.sha1()
 
     with open(filename, 'rb') as f:
         while True:
-            data=f.read(buf_size)
+            data = f.read(buf_size)
             if not data:
                 break
             sha1.update(data)
@@ -174,11 +174,11 @@ def generate_sha1(filename):
 def get_singularity_info():
     "get singularity info"
 
-    path=os.environ.get("PRISM_SINGULARITY_PATH")
+    path = os.environ.get("PRISM_SINGULARITY_PATH")
 
-    version, _, _=run([path, "--version"])
+    version, _, _ = run([path, "--version"])
 
-    sha1=generate_sha1(path)
+    sha1 = generate_sha1(path)
 
     return item(
         path=path,
@@ -192,8 +192,8 @@ def get_roslin_info():
     "get roslin info"
 
     # fixme: roslin
-    version=os.environ.get("PRISM_VERSION")
-    path=os.environ.get("PRISM_BIN_PATH")
+    version = os.environ.get("PRISM_VERSION")
+    path = os.environ.get("PRISM_BIN_PATH")
 
     return item(
         path=path,
@@ -209,17 +209,17 @@ def get_cmo_pkg_info():
     # __version__
     # __file__
     # __path__
-    cmd='python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
-    stdout, _, _=run(cmd, shell=True)
+    cmd = 'python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
+    stdout, _, _ = run(cmd, shell=True)
 
     # fixme: command return nothing in other user's env
     if stdout.strip() == "":
         return None
 
-    version, init_pyc, path=stdout.split()
+    version, init_pyc, path = stdout.split()
 
     # checksum on __init__.pyc
-    sha1=generate_sha1(init_pyc)
+    sha1 = generate_sha1(init_pyc)
 
     return item(
         path=path,
@@ -232,12 +232,12 @@ def get_cmo_pkg_info():
 def get_cwltoil_info():
     "get cwltoil info"
 
-    path, _, _=run(["which", "cwltoil"])
+    path, _, _ = run(["which", "cwltoil"])
 
     # version is returned to stderr
-    _, version, _=run([path, "--version"])
+    _, version, _ = run([path, "--version"])
 
-    sha1=generate_sha1(path)
+    sha1 = generate_sha1(path)
 
     return item(
         path=path,
@@ -250,11 +250,11 @@ def get_cwltoil_info():
 def get_node_info():
     "get node info"
 
-    path, _, _=run(["which", "node"])
+    path, _, _ = run(["which", "node"])
 
-    version, _, _=run([path, "--version"])
+    version, _, _ = run([path, "--version"])
 
-    sha1=generate_sha1(path)
+    sha1 = generate_sha1(path)
 
     return item(
         path=path,
@@ -267,7 +267,7 @@ def get_node_info():
 def get_bioinformatics_software_version(cmd0, cmdline):
     "get bioinformatics software version from command-line"
 
-    version="unknown"
+    version = "unknown"
 
     # fixme: pre-compile regex
 
@@ -279,9 +279,9 @@ def get_bioinformatics_software_version(cmd0, cmdline):
         # cmo_bcftools norm --fasta-ref GRCh37 --output pindel-norm.vcf
         # --output-type v
         # /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpQqLuI7/stg236751d5-5a29-4760-9d43-68b380bbbbe3/DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.vcf
-        match=re.search(r"--version (.*?)(\s|$)", cmdline)
+        match = re.search(r"--version (.*?)(\s|$)", cmdline)
         if match:
-            version=match.group(1)
+            version = match.group(1)
     elif cmdline.startswith("sing.sh"):
         # e.g.
         # sing.sh basic-filtering 0.1.6 vardict --alleledepth 5 --totaldepth 0 --inputVcf /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmptk5s_V/stg40644b70-9d21-47c8-a09e-52e827acf0b4/DU874145-T.rg.md.abra.fmi.printreads.vardict.vcf --tnRatio 5 --tsampleName DU874145-T --variantfrequency 0.01
@@ -290,27 +290,27 @@ def get_bioinformatics_software_version(cmd0, cmdline):
         # sing.sh remove-variants 0.1.1 --input-maf
         # /ifs/work/chunj/prism-proto/ifs/prism/outputs/995fa9a4/995fa9a4-5089-11e7-a370-645106efb11c/outputs/tmpGkmuhb/stg7866a0f7-41d4-4731-ab80-c686de2dc2c8/DU874145-T.combined-variants.vep.maf
         # --output-maf DU874145-T.combined-variants.vep.rmv.maf
-        match=re.search(r"sing.sh .*? (.*?)\s", cmdline)
+        match = re.search(r"sing.sh .*? (.*?)\s", cmdline)
         if match:
-            version=match.group(1)
+            version = match.group(1)
 
     # fixme: revise cwl so that baseCommand has something like --version
     if cmd0.startswith("cmo_split_reads"):
-        version="1.0.0"
+        version = "1.0.0"
     elif cmd0.startswith("cmo_index"):
-        version="1.0.0"
+        version = "1.0.0"
     elif cmd0.startswith("cmo_trimgalore"):
-        version="0.2.5.mod"
+        version = "0.2.5.mod"
     elif cmd0.startswith("cmo_vcf2maf"):
-        version="1.6.12"
+        version = "1.6.12"
     elif cmd0.startswith("cmo_bcftools"):
-        version="1.3.1"
+        version = "1.3.1"
     elif cmdline.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
-        version="1.96"
+        version = "1.96"
     elif cmdline.startswith("cmo_picard --cmd MarkDuplicates"):
-        version="1.96"
+        version = "1.96"
     elif cmdline.startswith("cmo_picard --cmd FixMateInformation"):
-        version="1.96"
+        version = "1.96"
 
     return version
 
@@ -318,32 +318,32 @@ def get_bioinformatics_software_version(cmd0, cmdline):
 def get_img_metadata(sing_cmdline):
     "get singularity image metadata by running sing.sh with -i"
 
-    cache_key=" ".join(sing_cmdline.split(" ")[:3])
+    cache_key = " ".join(sing_cmdline.split(" ")[:3])
     if cache_key in IMG_METADATA_CACHE:
         return IMG_METADATA_CACHE[cache_key]
 
     # add -i to run in inspection mode
-    sing_cmdline=sing_cmdline.replace("sing.sh", "sing.sh -i")
+    sing_cmdline = sing_cmdline.replace("sing.sh", "sing.sh -i")
 
-    metadata, _, exitcode=run(sing_cmdline, shell=True)
+    metadata, _, exitcode = run(sing_cmdline, shell=True)
 
     if exitcode != 0:
-        out={
+        out = {
             "error": "not found"
         }
     else:
         # convert to json
-        metadata=json.loads(metadata)
+        metadata = json.loads(metadata)
 
         # remove maintainer
         del metadata["maintainer"]
 
         # MongoDB doesn't like dots in the field name
-        out={}
+        out = {}
         for key, value in metadata.iteritems():
-            out[key.replace(".", "-")]=value
+            out[key.replace(".", "-")] = value
 
-    IMG_METADATA_CACHE[cache_key]=out
+    IMG_METADATA_CACHE[cache_key] = out
 
     return out
 
@@ -357,23 +357,23 @@ def lookup_cmo_sing_cmdline(cmd0, version):
 
     try:
         # read prism_resources.json
-        bin_path=os.environ.get("PRISM_BIN_PATH")
-        res_json_path=os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
-        resources=json.loads(read_file(res_json_path))
+        bin_path = os.environ.get("PRISM_BIN_PATH")
+        res_json_path = os.path.join(bin_path, "pipeline/1.0.0/prism_resources.json")
+        resources = json.loads(read_file(res_json_path))
 
         # may or may not be trailing whitespaces
-        cmd0=cmd0.rstrip()
+        cmd0 = cmd0.rstrip()
 
         # mapping between cmo_* and key in prism_resources.json
         # fixme: handle some special cases
         if cmd0 == "cmo_split_reads":
-            cmd0="split-reads"
+            cmd0 = "split-reads"
         elif cmd0 == "cmo_fillout":
-            cmd0="getbasecountsmultisample"
+            cmd0 = "getbasecountsmultisample"
         else:
-            cmd0=cmd0.split("_")[1]
+            cmd0 = cmd0.split("_")[1]
 
-        sing_cmdline=resources["programs"][cmd0][version]
+        sing_cmdline = resources["programs"][cmd0][version]
 
         return sing_cmdline
 
@@ -384,41 +384,41 @@ def lookup_cmo_sing_cmdline(cmd0, version):
 def get_cwl_metadata(cwl_filename, version):
     "get cwl metadata"
 
-    cache_key=cwl_filename + ":" + version
+    cache_key = cwl_filename + ":" + version
     if cache_key in CWL_METADATA_CACHE:
         return CWL_METADATA_CACHE[cache_key]
 
     # fixme: this will fail if different users work on different bin base
-    bin_path=os.environ.get("PRISM_BIN_PATH")
-    cwl_path=os.path.join(
+    bin_path = os.environ.get("PRISM_BIN_PATH")
+    cwl_path = os.path.join(
         bin_path, "pipeline/1.0.0/",
         cwl_filename.replace(".cwl", ""), version, cwl_filename
     )
 
     try:
-        cwl_str=read_file(cwl_path)
-        yaml=ruamel.yaml.load(
+        cwl_str = read_file(cwl_path)
+        yaml = ruamel.yaml.load(
             cwl_str,
             ruamel.yaml.RoundTripLoader
         )
 
-        out={
+        out = {
             "path": cwl_path,
         }
 
         try:
             for ver in yaml["doap:release"]:
-                key=("version-" + ver["doap:name"]).replace(".", "-")
-                out[key]=ver["doap:revision"]
+                key = ("version-" + ver["doap:name"]).replace(".", "-")
+                out[key] = ver["doap:revision"]
         except Exception:
             pass
 
     except Exception:
-        out={
+        out = {
             "error": "not found"
         }
 
-    CWL_METADATA_CACHE[cache_key]=out
+    CWL_METADATA_CACHE[cache_key] = out
 
     return out
 
@@ -426,7 +426,7 @@ def get_cwl_metadata(cwl_filename, version):
 def get_toil_log_level(log):
     "get toil log level"
 
-    match=re.search(r"'toil' logger at level '(.*?)'", log)
+    match = re.search(r"'toil' logger at level '(.*?)'", log)
 
     if match:
         return match.group(1)
@@ -437,41 +437,41 @@ def get_toil_log_level(log):
 def get_bioinformatics_software_info_loglevel_INFO(log):
     "get bioinformatics software info when log level is set to INFO"
 
-    sw_list={}
+    sw_list = {}
 
-    already_processed={}
+    already_processed = {}
 
-    matches=re.finditer(r"Issued job '(.*?)'.*(\w\/\w\/job\w{6})", log)
+    matches = re.finditer(r"Issued job '(.*?)'.*(\w\/\w\/job\w{6})", log)
 
     for match1 in matches:
 
-        base_cmd=match1.group(1)
+        base_cmd = match1.group(1)
 
         # skip if already processed,
         # otherwise mark as processed so that we don't reprocess again next round
         if base_cmd in already_processed:
             continue
         else:
-            already_processed[base_cmd]="1"
+            already_processed[base_cmd] = "1"
 
         # replace . with - (MongoDB doesn't allow . in the field name)
         if base_cmd.startswith("sing.sh"):
-            software_name=base_cmd.split()[1]
+            software_name = base_cmd.split()[1]
         elif base_cmd.startswith("cmo_"):
             if base_cmd.startswith("cmo_gatk"):
-                software_name=base_cmd.replace(" -T ", "-")
+                software_name = base_cmd.replace(" -T ", "-")
             elif base_cmd.startswith("cmo_picard"):
-                software_name=base_cmd.replace(" --cmd ", "-")
+                software_name = base_cmd.replace(" --cmd ", "-")
             else:
-                software_name=base_cmd
-            software_name=re.sub(r"--version .*[\s]?", "", software_name).rstrip()
-        software_name=software_name.replace(".", "-").replace(" ", "-").replace("_", "-")
+                software_name = base_cmd
+            software_name = re.sub(r"--version .*[\s]?", "", software_name).rstrip()
+        software_name = software_name.replace(".", "-").replace(" ", "-").replace("_", "-")
 
         # if this is the first time this software appears
         if not software_name in sw_list:
-            sw_list[software_name]=[]
+            sw_list[software_name] = []
 
-        entry={
+        entry = {
             "cmdline": None,
             "img": None,
             "cwl": None
@@ -479,20 +479,20 @@ def get_bioinformatics_software_info_loglevel_INFO(log):
 
         # this is the very first arg
         # either "sing.sh" or "cmo_*"
-        cmd0=base_cmd.split()[0]
+        cmd0 = base_cmd.split()[0]
 
-        entry["cmdline"]=base_cmd
+        entry["cmdline"] = base_cmd
 
         # extract version from command-line args
-        version=get_bioinformatics_software_version(cmd0, base_cmd)
+        version = get_bioinformatics_software_version(cmd0, base_cmd)
 
         # if this is the first time this version appears for this software
         if cmd0.startswith("sing.sh"):
-            entry["img"]=get_img_metadata(base_cmd)
+            entry["img"] = get_img_metadata(base_cmd)
         elif cmd0.startswith("cmo_"):
-            sing_cmdline=lookup_cmo_sing_cmdline(cmd0, version)
+            sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
             if sing_cmdline:
-                entry["img"]=get_img_metadata(sing_cmdline)
+                entry["img"] = get_img_metadata(sing_cmdline)
 
         sw_list[software_name].append(entry)
 
@@ -502,7 +502,7 @@ def get_bioinformatics_software_info_loglevel_INFO(log):
 def get_bioinformatics_software_info_loglevel_DEBUG(log):
     "get bioinformatics software info when log level is set to DEBUG"
 
-    sw_list={}
+    sw_list = {}
 
     # this method can cover non-cmo-pkg tools
     # e.g.
@@ -531,12 +531,12 @@ def get_bioinformatics_software_info_loglevel_DEBUG(log):
     #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    [job cmo-bwa-mem.cwl] completed success
     #'cmo_bwa_mem' cmo_bwa_mem x/z/job9Tx8l_    INFO:cwltool:[job cmo-bwa-mem.cwl] completed success
 
-    already_processed={}
+    already_processed = {}
 
-    matches=re.finditer(r"INFO:cwltool:(\[job .*?\].*?\w    )[\w\[]", log, re.DOTALL)
+    matches = re.finditer(r"INFO:cwltool:(\[job .*?\].*?\w    )[\w\[]", log, re.DOTALL)
 
     for match1 in matches:
-        raw_cmd=match1.group(1)
+        raw_cmd = match1.group(1)
 
         # fixme: toil has a logging bug that repeats the same log message over and over again
         # in general module-1-2-3.chunk.cwl generates 2MB, but we experienced 412MB log file.
@@ -549,36 +549,36 @@ def get_bioinformatics_software_info_loglevel_DEBUG(log):
         # /ifs/work/chunj/prism-proto/ifs/prism/outputs/35cd528a/35cd528a-50a0-11e7-817f-645106efb11c/outputs/tmpje5c7F$
         # cmo_bwa_mem \
 
-        match_job_tmp_dir=re.search(r"(\w\/\w\/job\w{6})", raw_cmd)
-        job_tmp_dir=match_job_tmp_dir.group(1) if match_job_tmp_dir else None
+        match_job_tmp_dir = re.search(r"(\w\/\w\/job\w{6})", raw_cmd)
+        job_tmp_dir = match_job_tmp_dir.group(1) if match_job_tmp_dir else None
 
         # skip if already processed,
         # otherwise mark as processed so that we don't reprocess again next round
         if job_tmp_dir in already_processed:
             continue
         else:
-            already_processed[job_tmp_dir]="1"
+            already_processed[job_tmp_dir] = "1"
 
         # the regex captures extra that contains "completed success". ignore.
         if "completed success" in raw_cmd:
             continue
 
         # command constructor
-        match2=re.search(r"\[job (.*?)\].*?\$\s(.*)", raw_cmd)
+        match2 = re.search(r"\[job (.*?)\].*?\$\s(.*)", raw_cmd)
         if match2:
 
             # get software name (e.g. cmo-bwa-mem.cwl)
-            cwl_filename=match2.group(1)
+            cwl_filename = match2.group(1)
 
             # remove .cwl
             # replace . with - (MongoDB doesn't allow . in the field name)
-            software_name=cwl_filename.replace(".cwl", "").replace(".", "-")
+            software_name = cwl_filename.replace(".cwl", "").replace(".", "-")
 
             # if this is the first time this software appears
             if not software_name in sw_list:
-                sw_list[software_name]=[]
+                sw_list[software_name] = []
 
-            entry={
+            entry = {
                 "cmdline": None,
                 "img": None,
                 "cwl": None
@@ -586,31 +586,31 @@ def get_bioinformatics_software_info_loglevel_DEBUG(log):
 
             # this is the very first arg
             # either "sing.sh" or "cmo_*"
-            cmd0=match2.group(2).rstrip("\\")
+            cmd0 = match2.group(2).rstrip("\\")
 
             # extract only the arguments
-            match3=re.finditer(r"$.*?\s{2,}(.*?)$", raw_cmd, re.DOTALL | re.MULTILINE)
-            args=[arg.group(1).rstrip(" \\") for arg in match3]
+            match3 = re.finditer(r"$.*?\s{2,}(.*?)$", raw_cmd, re.DOTALL | re.MULTILINE)
+            args = [arg.group(1).rstrip(" \\") for arg in match3]
 
             # construct the finall command line
-            final_command_line=(cmd0 + " ".join(args)).rstrip()
-            entry["cmdline"]=final_command_line
+            final_command_line = (cmd0 + " ".join(args)).rstrip()
+            entry["cmdline"] = final_command_line
 
             # extract version from command-line args
-            version=get_bioinformatics_software_version(cmd0, final_command_line)
+            version = get_bioinformatics_software_version(cmd0, final_command_line)
 
             # if this is the first time this version appears for this software
             if cmd0.startswith("sing.sh"):
-                entry["img"]=get_img_metadata(final_command_line)
+                entry["img"] = get_img_metadata(final_command_line)
             elif cmd0.startswith("cmo_"):
-                sing_cmdline=lookup_cmo_sing_cmdline(cmd0, version)
+                sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
                 if sing_cmdline:
-                    entry["img"]=get_img_metadata(sing_cmdline)
+                    entry["img"] = get_img_metadata(sing_cmdline)
 
             if cwl_filename + version in CWL_METADATA_CACHE:
-                entry["cwl"]=CWL_METADATA_CACHE[cwl_filename + version]
+                entry["cwl"] = CWL_METADATA_CACHE[cwl_filename + version]
             else:
-                entry["cwl"]=get_cwl_metadata(cwl_filename, version)
+                entry["cwl"] = get_cwl_metadata(cwl_filename, version)
 
             sw_list[software_name].append(entry)
 
@@ -631,9 +631,9 @@ def get_bioinformatics_software_info_loglevel_DEBUG(log):
 def get_bioinformatics_software_info(cwltoil_log):
     "get bioinformatics software info"
 
-    log=read_file(cwltoil_log)
+    log = read_file(cwltoil_log)
 
-    log_level=get_toil_log_level(log)
+    log_level = get_toil_log_level(log)
 
     if log_level == "INFO":
         return get_bioinformatics_software_info_loglevel_INFO(log)
@@ -646,7 +646,7 @@ def get_bioinformatics_software_info(cwltoil_log):
 def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     "make run profile"
 
-    run_profile={
+    run_profile = {
 
         "version": DOC_VERSION,
 
@@ -672,9 +672,9 @@ def publish_to_redis(job_uuid, run_profile):
 
     # connect to redis
     # fixme: configurable host, port, credentials
-    redis_client=redis.StrictRedis(host='pitchfork', port=9006, db=0)
+    redis_client = redis.StrictRedis(host='pitchfork', port=9006, db=0)
 
-    json_results=json.dumps(run_profile)
+    json_results = json.dumps(run_profile)
 
     redis_client.publish('roslin-run-profiles', json_results)
     redis_client.setex(job_uuid, 86400, json_results)
@@ -683,7 +683,7 @@ def publish_to_redis(job_uuid, run_profile):
 def main():
     "main function"
 
-    parser=argparse.ArgumentParser(description='make_runprofile')
+    parser = argparse.ArgumentParser(description='make_runprofile')
 
     parser.add_argument(
         "--job_uuid",
@@ -708,9 +708,9 @@ def main():
         required=True
     )
 
-    params=parser.parse_args()
+    params = parser.parse_args()
 
-    run_profile=make_runprofile(params.job_uuid, params.inputs_yaml_path, params.cwltoil_log_path)
+    run_profile = make_runprofile(params.job_uuid, params.inputs_yaml_path, params.cwltoil_log_path)
 
     print json.dumps(run_profile, indent=2)
 
