@@ -76,6 +76,9 @@
         ],
         "seq-cna": [
             "1.0.0"
+        ],
+        "htstools": [
+            "0.1"
         ]
     },
     "containerDependency": {
