@@ -271,8 +271,6 @@ def get_bioinformatics_software_version(cmd0, cmdline):
         version = "1.0.0"
     elif cmd0.startswith("cmo_index"):
         version = "1.0.0"
-    elif cmd0.startswith("cmo_bwa_mem"):
-        version = "0.7.5a"
     elif cmd0.startswith("cmo_trimgalore"):
         version = "0.2.5.mod"
     elif cmd0.startswith("cmo_vcf2maf"):

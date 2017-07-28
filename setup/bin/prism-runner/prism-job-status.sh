@@ -43,7 +43,8 @@ job_ids=`grep -o -P "Got the job id: \d+" ${cwltoil_log} | awk -F':' '{ print $2
 if [ -z "$job_ids" ]
 then
   proj_name=`cat ${outputs_path}/job-uuid`
-  job_ids=`bjobs -P "default:${proj_name}" -a -o jobid -noheader`
+  proj_name=`bjobs -a -o proj_name | grep ${proj_name} | sort | uniq`
+  job_ids=`bjobs -P "${proj_name}" -a -o jobid -noheader`
   if [ -z "$job_ids" ]
   then
     echo "No jobs found."

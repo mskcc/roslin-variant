@@ -13,6 +13,9 @@ BUILD_DOCKER_IMAGE_ONLY=0
 # Singularity requires little more space than what Docker needs
 PADDING_SIZE=20
 
+# by default, we will utilize docker cache to build images, which runs faster
+BUILD_NO_CACHE="false"
+
 usage()
 {
 cat << EOF
@@ -33,16 +36,19 @@ OPTIONS:
 
    -s      Override the padding size (default=${PADDING_SIZE} MiB)
 
+   -n      No cache: images will be built from scratch
+
 EOF
 }
 
-while getopts “t:dzs:h” OPTION
+while getopts “t:dzs:nh” OPTION
 do
     case $OPTION in
         t) SELECTED_TOOLS_TO_BUILD=$OPTARG ;;
         d) BUILD_DOCKER_IMAGE_ONLY=1 ;;
         z) for tool in $(get_tools_name_version); do echo $tool; done; exit 1 ;;
         s) PADDING_SIZE=$OPTARG ;;
+        n) BUILD_NO_CACHE="true" ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
@@ -117,8 +123,7 @@ do
     docker_image_full_name="localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
 
     # add --quite to make it less verbose
-    # sudo docker build --no-cache=true -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
-    sudo docker build -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+    sudo docker build --no-cache=${BUILD_NO_CACHE} -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
 
     if [ $BUILD_DOCKER_IMAGE_ONLY -eq 1 ]
     then
@@ -137,7 +142,8 @@ do
         vcf2maf) padding_size=90;;
         vep) padding_size=90;;
         ngs-filters) padding_size=80;;
-        abra) padding_size=100; # fixme: because no longer alpine
+        abra) padding_size=100;; # fixme: because no longer alpine
+        seq-cna) padding_size=50;;
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)
