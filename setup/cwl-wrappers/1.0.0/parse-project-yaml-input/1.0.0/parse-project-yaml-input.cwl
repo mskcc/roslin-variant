@@ -257,53 +257,57 @@ outputs:
       type: array
       items: string
   curated_bams:
-    type: 
+    type:
       type: array
-      items: 
+      items:
         type: array
         items: File
   ffpe_normal_bams:
-    type: 
+    type:
       type: array
-      items: 
+      items:
         type: array
         items: File
   hotspot_list:
     type:
       type: array
       items: File
-
+  group_ids:
+    type:
+      type: array
+      items: string
 
 
 expression: "${var groups = inputs.groups;
                 var samples = inputs.samples;
                 var pairs = inputs.pairs;
                 var project_object  = {};
- for (var i =0; i < groups.length; i++) { 
+ for (var i =0; i < groups.length; i++) {
      var group_object = {};
      for (var j =0; j < groups[i].length; j++) {
-         for (var k=0; k < inputs.samples.length; k++) { 
-             if (groups[i][j]==samples[k]['ID']) { 
-                 for (var key in samples[k]) { 
-                     if ( key in group_object) { 
-                         group_object[key].push(samples[k][key]) 
-                     } else { 
-                         group_object[key]=[samples[k][key]] 
-                     } 
-                 } 
-             } 
-         } 
+         for (var k=0; k < inputs.samples.length; k++) {
+             if (groups[i][j]==samples[k]['ID']) {
+                 for (var key in samples[k]) {
+                     if ( key in group_object) {
+                         group_object[key].push(samples[k][key])
+                     } else {
+                         group_object[key]=[samples[k][key]]
+                     }
+                 }
+             }
+         }
      }
-     for (key in inputs.runparams) { 
-         group_object[key] = inputs.runparams[key] 
+     for (key in inputs.runparams) {
+         group_object[key] = inputs.runparams[key]
      } for (key in inputs.db_files) {
-         group_object[key] = inputs.db_files[key] 
-     }  
-     for (key in group_object) { 
-         if (key in project_object) { 
+         group_object[key] = inputs.db_files[key]
+     }
+     group_object['group_ids']='Group' + i.toString();
+     for (key in group_object) {
+         if (key in project_object) {
              project_object[key].push(group_object[key])
          }
-         else { 
+         else {
              project_object[key]=[group_object[key]]
          }
      }

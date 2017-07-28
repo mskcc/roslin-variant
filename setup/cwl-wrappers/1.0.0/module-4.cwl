@@ -127,20 +127,20 @@ steps:
                     outputSource: pindel_filtering_step/vcf
             steps:
                 mutect_filtering_step:
-                    run: basic-filtering.mutect/0.1.6/basic-filtering.mutect.cwl
+                    run: basic-filtering.mutect/0.1.7/basic-filtering.mutect.cwl
                     in:
                         inputVcf: mutect_vcf
                         inputTxt: mutect_callstats
                         tsampleName: tumor_sample_name
                     out: [vcf]
                 pindel_filtering_step:
-                    run: basic-filtering.pindel/0.1.6/basic-filtering.pindel.cwl
+                    run: basic-filtering.pindel/0.1.7/basic-filtering.pindel.cwl
                     in:
                         inputVcf: pindel_vcf
                         tsampleName: tumor_sample_name
                     out: [vcf]
                 vardict_filtering_step:
-                    run: basic-filtering.vardict/0.1.6/basic-filtering.vardict.cwl
+                    run: basic-filtering.vardict/0.1.7/basic-filtering.vardict.cwl
                     in:
                         inputVcf: vardict_vcf
                         tsampleName: tumor_sample_name

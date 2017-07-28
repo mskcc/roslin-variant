@@ -76,6 +76,7 @@ inputs:
     rf: string[]
     covariates: string[]
     abra_scratch: string
+    group: string
 
 outputs:
     covint_list:
@@ -100,10 +101,11 @@ steps:
     gatk_find_covered_intervals:
         run: ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
         in:
+            group: group
             reference_sequence: genome
             input_file: bams
             out:
-                valueFrom: ${ var basenames = inputs.input_file.map(function(x) { return x.basename.replace(".bam", "") }); basenames.push(["fci.list"]); return basenames.join("."); } 
+                valueFrom: ${ return inputs.group + ".fci.list"; }
         out: [fci_list]
 
     list2bed:
@@ -112,7 +114,7 @@ steps:
             input_file: gatk_find_covered_intervals/fci_list
             output_filename:
                 valueFrom: |
-                    ${ return inputs.input_file.basename.replace( ".list", ".bed"); }
+                    ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
         run: ./cmo-abra/0.92/cmo-abra.cwl
@@ -156,7 +158,7 @@ steps:
                             default: "LENIENT"
                         O:
                             valueFrom: |
-                                  ${ return inputs.I.basename.replace(".bam",".fmi.bam") }
+                                  ${ return inputs.I.basename.replace(".bam", ".fmi.bam"); }
                     out: [out_bam]
 
     gatk_base_recalibrator:
@@ -173,6 +175,8 @@ steps:
             covariate: covariates
             out:
                 default: "recal.matrix"
+            read_filter:
+              valueFrom: ${ return ["BadCigar"]; }
         out: [recal_matrix]
 
     parallel_printreads:
@@ -211,8 +215,9 @@ steps:
                         input_file: input_file
                         num_cpu_threads_per_data_thread:
                             default: "6"
+                        read_filter:
+                            valueFrom: ${ return ["BadCigar"]; }
                         out:
                             valueFrom: |
-                                ${ return inputs.input_file.basename.replace( ".bam", ".printreads.bam");}
-
+                                ${ return inputs.input_file.basename.replace(".bam", ".printreads.bam"); }
                     out: [out_bam]
