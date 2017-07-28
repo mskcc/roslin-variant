@@ -305,6 +305,8 @@ def get_bioinformatics_software_version(cmd0, cmdline):
         version = "1.6.12"
     elif cmd0.startswith("cmo_bcftools"):
         version = "1.3.1"
+    elif cmd0.startswith("cmo_abra"):
+        version = "0.92"
     elif cmdline.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
         version = "1.96"
     elif cmdline.startswith("cmo_picard --cmd MarkDuplicates"):
