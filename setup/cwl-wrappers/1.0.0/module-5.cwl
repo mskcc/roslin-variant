@@ -59,6 +59,7 @@ inputs:
   genome: string
   bait_intervals: File
   target_intervals: File
+  fp_intervals: File
 
 outputs:
   hs_metrics:
@@ -92,6 +93,7 @@ steps:
       genome: genome
       bait_intervals: bait_intervals
       target_intervals: target_intervals
+      fp_intervals: fp_intervals
     out: [hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts]
     scatter: [bam]
     scatterMethod: dotproduct
@@ -102,6 +104,7 @@ steps:
         genome: string
         bait_intervals: File
         target_intervals: File
+        fp_intervals: File
       outputs: 
         hs_metrics_files: 
           type: File
@@ -164,7 +167,7 @@ steps:
           run: cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
           in:
             input_file: bam
-            intervals: target_intervals
+            intervals: fp_intervals
             reference_sequence: genome
             out:
               valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_FP_base_counts.txt") }
