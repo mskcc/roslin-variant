@@ -56,7 +56,7 @@ inputs:
     type:
       type: array
       items: File
-    secondaryFiles: .bai
+    secondaryFiles: ^.bai
   genome: string
   bait_intervals: File
   target_intervals: File
@@ -222,6 +222,8 @@ steps:
               valueFrom: ${ return true; }
             omitPerSampleStats:
               valueFrom: ${ return true; }
+            read_filter:
+              valueFrom: ${ return ["BadCigar"];}
             minMappingQuality:
               valueFrom: ${ return "10"; }
             minBaseQuality:
