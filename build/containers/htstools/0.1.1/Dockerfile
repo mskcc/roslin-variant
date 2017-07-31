@@ -38,8 +38,8 @@ RUN   apt-get -y update \
 #move executables into bin
       && cp /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION}/snp-pileup /usr/bin \
       && cp /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION}/ppflag-fixer /usr/bin \
-# remove tmp files
-      && rm -rf /tmp
+# clean up
+      && rm -rf /var/cache/apk/* /tmp/*
 
 ENV PYTHONNOUSERSITE set
 

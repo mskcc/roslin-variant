@@ -52,7 +52,7 @@ RUN apk add --update \
       && Rscript --vanilla install-packages.R \
       # install Facets-Suite
       && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin \
-      # remove tmp files
-      && rm -rf /tmp
+      # clean up
+      && rm -rf /var/cache/apk/* /tmp/*
 
 ENTRYPOINT ["sh"]
