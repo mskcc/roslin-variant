@@ -184,6 +184,7 @@ inputs:
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
+    default: "SILENT"
     inputBinding:
       prefix: --VALIDATION_STRINGENCY
 
