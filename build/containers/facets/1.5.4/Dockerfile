@@ -55,4 +55,6 @@ RUN apk add --update \
       # clean up
       && rm -rf /var/cache/apk/* /tmp/*
 
+ENV PYTHONNOUSERSITE set
+
 ENTRYPOINT ["sh"]
