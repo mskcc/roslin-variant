@@ -185,6 +185,7 @@
         "facets": {
             "0.9.5": "/opt/common/CentOS_6-dev/FACETS/0.9.5/", 
             "1.0.1": "/opt/common/CentOS_6-dev/FACETS/1.0.1/", 
+            "1.5.4": "sing.sh facets 1.5.4", 
             "default": "/opt/common/CentOS_6-dev/FACETS/development/", 
             "development": "/opt/common/CentOS_6-dev/FACETS/development/"
         }, 
@@ -223,6 +224,10 @@
         "hotspots": {
             "0.6.1": "/opt/common/CentOS_6-dev/hotspots/0.6.1/", 
             "default": "/opt/common/CentOS_6-dev/hotspots/0.6.1/"
+        }, 
+        "htstools": {
+            "0.1.1": "sing.sh htstools 0.1.1", 
+            "default": "sing.sh htstools 0.1.1"
         }, 
         "java": {
             "default": "sing-java.sh", 
