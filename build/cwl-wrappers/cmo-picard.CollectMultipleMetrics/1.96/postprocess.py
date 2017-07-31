@@ -70,6 +70,8 @@ inputBinding:
   prefix: --H
 """, ruamel.yaml.RoundTripLoader)
 
+    cwl['inputs']['VALIDATION_STRINGENCY']['default'] = 'SILENT'
+
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 
