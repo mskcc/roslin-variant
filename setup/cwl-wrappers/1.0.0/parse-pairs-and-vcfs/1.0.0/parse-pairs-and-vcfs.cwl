@@ -190,7 +190,7 @@ expression: '${var bams= [];
  final_answers[arrays.length+1].push(tumor_id);
  final_answers[arrays.length+2].push(normal_id);
  final_answers[arrays.length+3].push(inputs.vep_data[0]);
- final_answers[arrays.length+4].push(inputs.genome[0]);
+ final_answers[arrays.length+4].push(inputs.genome);
  final_answers[arrays.length+5].push(inputs.exac_filter[0]);
  final_answers[arrays.length+6].push(inputs.ref_fasta[0]);
 }
