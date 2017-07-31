@@ -23,7 +23,15 @@ Registry: http://localhost:5000
 
 %runscript
 
-    python /usr/bin/facets doFacets "$@"
+    export PYTHONNOUSERSITE="set"
+    case $1 in
+        doFacets) shift; exec python /usr/bin/facets doFacets "$@" ;;
+        mafAnno) shift; exec python /usr/bin/facets mafAnno "$@" ;;
+        normDepth) shift; exec python /usr/bin/facets normDepth "$@" ;;
+        geneLevel) shift; exec python /usr/bin/facets geneLevel "$@" ;;
+        mergeTN) shift; exec python /usr/bin/facets mergeTN "$@" ;;
+        *) echo "Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN"; exit 1 ;;
+    esac
 
 %test
 
