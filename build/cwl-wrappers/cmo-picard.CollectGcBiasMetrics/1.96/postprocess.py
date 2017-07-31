@@ -37,16 +37,7 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['I']['type'] = ruamel.yaml.load("""
-- File
-- type: array
-  items: string
-""", ruamel.yaml.RoundTripLoader)
-
-    cwl['inputs']['R']['inputBinding']['prefix'] = '--R'
-
-    cwl['inputs']['BI']['type'] = 'File'
-    cwl['inputs']['TI']['type'] = 'File'
+    cwl['inputs']['I']['type'] = ['null', 'File']
 
     cwl['inputs']['VALIDATION_STRINGENCY']['default'] = 'SILENT'
 
@@ -61,9 +52,9 @@ def main():
         read(os.path.dirname(params.filename_cwl) + "/outputs.yaml"),
         ruamel.yaml.RoundTripLoader)['outputs']
 
-    # from : [cmo_picard, --cmd CalculateHsMetrics]
-    # to   : [cmo_picard, --cmd, CalculateHsMetrics]
-    cwl['baseCommand'] = ['cmo_picard', '--cmd', 'CalculateHsMetrics']
+    # from : [cmo_picard, --cmd CollectGcBiasMetrics]
+    # to   : [cmo_picard, --cmd, CollectGcBiasMetrics]
+    cwl['baseCommand'] = ['cmo_picard', '--cmd', 'CollectGcBiasMetrics']
     #<--
 
     write(params.filename_cwl, ruamel.yaml.dump(

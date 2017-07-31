@@ -39,6 +39,8 @@ def main():
 
     cwl['inputs']['I']['type'] = ['null', 'File']
 
+    cwl['inputs']['VALIDATION_STRINGENCY']['default'] = 'SILENT'
+
     del cwl['inputs']['LEVEL']['inputBinding']
     cwl['inputs']['LEVEL']['type'] = ruamel.yaml.load("""
 - 'null'

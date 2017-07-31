@@ -73,6 +73,8 @@ secondaryFiles: ['.bai']
 doc: cwltool doesn't copy file inputs if thy dont have input binding it seems...idk.
 """, ruamel.yaml.RoundTripLoader)
 
+    cwl['inputs']['number_of_threads']['default'] = '5'
+
     #-->
     # fixme: until we can auto generate cwl for GATK
     # set outputs using outputs.yaml

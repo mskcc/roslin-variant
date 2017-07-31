@@ -130,7 +130,7 @@ steps:
         gcbias_summary:
           type: File
           outputSource: gcbias_metrics/summary
-   
+
         as_metrics_files:
           type: File
           outputSource: as_metrics/out_file
@@ -206,7 +206,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbiasmetrics") }
             CHART:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.pdf")}
-            S: 
+            S:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
           out: [pdf, out_file, summary]
 

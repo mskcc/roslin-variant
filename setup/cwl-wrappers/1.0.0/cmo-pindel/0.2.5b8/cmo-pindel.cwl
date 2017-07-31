@@ -105,10 +105,10 @@ inputs:
   number_of_threads:
     type: ['null', string]
     doc: the number of threads Pindel will use (default 1).
-    default: "5"
     inputBinding:
       prefix: --number_of_threads
 
+    default: '5'
   max_range_index:
     type: ['null', string]
     doc: the maximum size of structural variations to be detected; the higher this
