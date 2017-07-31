@@ -32,11 +32,5 @@ dct:contributor:
     foaf:name: Christopher Harris
     foaf:mbox: mailto:harrisc2@mskcc.org
   - class: foaf:Person
-    foaf:name: Ronak H. Shah
-    foaf:mbox: mailto:shahr2@mskcc.org
-  - class: foaf:Person
-    foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org
-  - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org

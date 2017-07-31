@@ -91,7 +91,8 @@
             "cmo_picard.FixMateInformation",
             "cmo_picard.CollectMultipleMetrics",
             "cmo_picard.CalculateHsMetrics",
-            "cmo_picard.CollectAlignmentSummaryMetrics"
+            "cmo_picard.CollectAlignmentSummaryMetrics",
+            "cmo_picard.CollectGcBiasMetrics"
         ],
         "gatk": [
             "cmo_gatk.FindCoveredIntervals",

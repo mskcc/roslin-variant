@@ -1,10 +1,28 @@
 outputs:
-  out_file:
-    type: File
-    outputBinding:
-      glob: |
-        ${
-            if (inputs.O)
+    pdf:
+      type: File?
+      outputBinding:
+        glob: |
+            ${
+              if (inputs.CHART)
+                return inputs.CHART;
+              return null;
+            }
+    out_file:
+      type: File?
+      outputBinding:
+        glob: |
+            ${
+              if (inputs.O)
                 return inputs.O;
-            return null;
-        }
+              return null;
+            }
+    summary:
+      type: File?
+      outputBinding:
+        glob: |
+            ${
+              if (inputs.S)
+                return inputs.S;
+              return null;
+            }
