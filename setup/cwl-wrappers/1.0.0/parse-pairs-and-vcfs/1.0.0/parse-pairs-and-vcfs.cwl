@@ -50,10 +50,7 @@ inputs:
       items:
         type: array
         items: File
-  genome:
-    type:
-      type: array
-      items: string
+  genome: string
   vep_data:
     type:
       type: array
