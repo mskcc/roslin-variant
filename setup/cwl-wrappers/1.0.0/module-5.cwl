@@ -56,7 +56,7 @@ inputs:
     type:
       type: array
       items: File
-    secondaryFiles: .bai
+    secondaryFiles: ^.bai
   genome: string
   bait_intervals: File
   target_intervals: File
@@ -88,6 +88,17 @@ outputs:
   doc_basecounts:
     type: File
     outputSource: scatter_metrics/doc_basecounts
+  gcbias_pdf:
+    type: File
+    outputSource: scatter_metrics/gcbias_pdf
+  gcbias_metrics:
+    type: File
+    outputSource: scatter_metrics/gcbias_metrics_files
+  gcbias_summary:
+    type: File
+    outputSource: scatter_metrics/gcbias_summary
+
+
 
 steps:
 
@@ -98,7 +109,7 @@ steps:
       bait_intervals: bait_intervals
       target_intervals: target_intervals
       fp_intervals: fp_intervals
-    out: [as_metrics_files, hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts]
+    out: [as_metrics_files, hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts, gcbias_pdf, gcbias_metrics_files, gcbias_summary]
     scatter: [bam]
     scatterMethod: dotproduct
     run:
@@ -110,6 +121,16 @@ steps:
         target_intervals: File
         fp_intervals: File
       outputs:
+        gcbias_pdf:
+          type: File
+          outputSource: gcbias_metrics/pdf
+        gcbias_metrics_files:
+          type: File
+          outputSource: gcbias_metrics/out_file
+        gcbias_summary:
+          type: File
+          outputSource: gcbias_metrics/summary
+   
         as_metrics_files:
           type: File
           outputSource: as_metrics/out_file
@@ -176,6 +197,19 @@ steps:
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
           out: [qual_file, qual_hist]
+        gcbias_metrics:
+          run: cmo-picard.CollectGcBiasMetrics/1.96/cmo-picard.CollectGcBiasMetrics.cwl
+          in:
+            I: bam
+            R: genome
+            O:
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbiasmetrics") }
+            CHART:
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.pdf")}
+            S: 
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
+          out: [pdf, out_file, summary]
+
         doc:
           run: cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
           in:
@@ -188,6 +222,8 @@ steps:
               valueFrom: ${ return true; }
             omitPerSampleStats:
               valueFrom: ${ return true; }
+            read_filter:
+              valueFrom: ${ return ["BadCigar"];}
             minMappingQuality:
               valueFrom: ${ return "10"; }
             minBaseQuality:

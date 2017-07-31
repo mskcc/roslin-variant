@@ -91,6 +91,9 @@ inputs:
             items: File
           secondaryFiles:
               - ^.bai
+        bait_intervals: File
+        target_intervals: File
+        fp_intervals: File
 
   groups:
     type:
@@ -190,6 +193,40 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/pindel_vcf
+  as_metrics:
+    type: File
+    outputSource: gather_metrics/as_metrics
+  hs_metrics:
+    type: File
+    outputSource: gather_metrics/hs_metrics
+  insert_metrics:
+    type: File
+    outputSource: gather_metrics/insert_metrics
+  insert_pdf:
+    type: File
+    outputSource: gather_metrics/insert_pdf
+  per_target_coverage:
+    type: File
+    outputSource: gather_metrics/per_target_coverage
+  qual_metrics:
+    type: File
+    outputSource: gather_metrics/qual_metrics
+  qual_pdf:
+    type: File
+    outputSource: gather_metrics/qual_pdf
+  doc_basecounts:
+    type: File
+    outputSource: gather_metrics/doc_basecounts
+  gcbias_pdf:
+    type: File
+    outputSource: gather_metrics/gcbias_pdf
+  gcbias_metrics:
+    type: File
+    outputSource: gather_metrics/gcbias_metrics
+  gcbias_summary:
+    type: File
+    outputSource: gather_metrics/gcbias_summary
+
 
 steps:
   projparse:
@@ -200,7 +237,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list, group_ids]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list, group_ids, target_intervals, bait_intervals, fp_intervals]
   group_process:
     run:  module-1-2.chunk.cwl
     in:
@@ -229,7 +266,7 @@ steps:
       refseq: projparse/refseq
       group: projparse/group_ids
     out: [clstats1, clstats2, bams, md_metrics, covint_bed, covint_list]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, genome, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, refseq, covariates, group]
+    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, refseq, covariates, group]
     scatterMethod: dotproduct
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
@@ -293,5 +330,22 @@ steps:
       ffpe_normal_bams: parse_pairs/srt_ffpe_normal_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [mutect_vcf, mutect_callstats, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, genome]
+    scatter: [mutect_vcf, mutect_callstats, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
+  gather_metrics:
+    run: module-5.cwl
+    in:
+      runparams: runparams
+      db_files: db_files
+      bams: group_process/bams
+      genome: projparse/genome
+      bait_intervals: projparse/bait_intervals
+      target_intervals: projparse/target_intervals
+      fp_intervals: projparse/fp_intervals
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary] 
+    scatter: [bams]
+    scatterMethod: dotproduct
+
+
+
+
