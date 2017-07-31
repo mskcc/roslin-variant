@@ -48,6 +48,8 @@ def main():
     cwl['inputs']['BI']['type'] = 'File'
     cwl['inputs']['TI']['type'] = 'File'
 
+    cwl['inputs']['VALIDATION_STRINGENCY']['default'] = 'SILENT'
+
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 
