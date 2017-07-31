@@ -198,7 +198,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
           out: [qual_file, qual_hist]
         gcbias_metrics:
-          run: cmo-picard.CollectGcBiasMetrics.cwl
+          run: cmo-picard.CollectGcBiasMetrics/1.96/cmo-picard.CollectGcBiasMetrics.cwl
           in:
             I: bam
             R: genome
