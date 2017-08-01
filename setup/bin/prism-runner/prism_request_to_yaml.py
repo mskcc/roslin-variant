@@ -53,8 +53,8 @@ def parse_grouping_file(gfile):
 
 def parse_request_file(rfile):
     stream = open(rfile, "r")
-    #this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser. 
-    #thumbs up
+    # this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser.
+    # thumbs up
     while(1):
         line = stream.readline()
         if not line:
@@ -65,16 +65,15 @@ def parse_request_file(rfile):
     return None
 
 
-
 def get_baits_and_targets(assay):
     if assay.find("IMPACT410") > -1:
-        assay="IMPACT410_b37"
+        assay = "IMPACT410_b37"
     if assay in cmo.util.targets:
         return {"bait_intervals": str(cmo.util.targets[assay]['baits_bed']),
                 "target_intervals": str(cmo.util.targets[assay]['targets_bed']),
                 "fp_intervals": str(cmo.util.targets[assay]['FP_intervals'])}
     else:
-        print >>sys.stderr,"Assay field in Request file not found in cmo_resources.json targets: %s" % assay
+        print >>sys.stderr, "Assay field in Request file not found in cmo_resources.json targets: %s" % assay
         sys.exit(1)
 
 
