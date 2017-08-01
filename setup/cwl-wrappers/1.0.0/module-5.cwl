@@ -56,7 +56,7 @@ inputs:
     type:
       type: array
       items: File
-    secondaryFiles: ^.bai
+    secondaryFiles: .bai
   genome: string
   bait_intervals: File
   target_intervals: File
@@ -180,13 +180,15 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
           out: [out_file, per_target_out]
         insert_metrics:
-          run: cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
+          run: cmo-picard.CollectInsertSizeMetrics/1.96/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
             I: bam
-            PROGRAM:
-              valueFrom: ${return ["null", "CollectInsertSizeMetrics"]}
+            H: 
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics.pdf")}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
+            LEVEL:
+              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
