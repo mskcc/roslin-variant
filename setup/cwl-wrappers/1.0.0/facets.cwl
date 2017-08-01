@@ -48,11 +48,17 @@ inputs:
 
     normal_bam: File
     tumor_bam: File
-    #fixme: add something
+    vcf: File
+    pseudo_snps: string
+    genome: string
+    purity_cval: string
+    cval: string
 
 outputs:
 
-    #fixme: add something
+    facets:
+      type: File
+      outputSource: facets/
 
 steps:
 
@@ -65,38 +71,56 @@ steps:
       class: Workflow
       inputs:
         normal_bam: File
-        normal_bam: File
+        tumor_bam: File
       outputs:
         normal_ppfixed_bam:
           type: File
-          outputSource: normal_ppflag_fixer/outputBam
+          outputSource: normal_ppflag_fixer/out_bam_file
         tumor_ppfixed_bam:
           type: File
-          outputSource: tumor_ppflag_fixer/outputBam
+          outputSource: tumor_ppflag_fixer/out_bam_file
       steps:
         normal_ppflag_fixer:
           run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
-            inputBam: normal_bam
-          out: [outputBam]
+            input_file: normal_bam
+            output_file:
+              valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", ".ppfixed.bam"); }
+          out: [out_bam_file]
         tumor_ppflag_fixer:
           run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
-            inputBam: tumor_bam
-          out: [outputBam]
+            input_file: tumor_bam
+            output_file:
+              valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam", ".ppfixed.bam"); }
+          out: [out_bam_file]
 
   snp_pileup:
     in:
-      normal_ppfixed_bam: ppflag_fixer/normal_ppfixed_bam
-      tumor_ppfiex_bam: ppflag_fixer/tumor_ppfixed_bam
-      #fixme: add something
-    out:
-      #fixme: add something
+      vcf: vcf
+      output_file:
+        valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", "") + ".dat.gz"; }
+      normal_bam: ppflag_fixer/normal_ppfixed_bam
+      tumor_bam: ppflag_fixer/tumor_ppfixed_bam
+      count_orphans:
+        default: true
+      gzip:
+        default: true
+      pseudo_snps: pseudo_snps
+    out: [pileup_counts_filename]
     run: cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 
   facets:
     in:
-      #fixme: add something
-    out:
-      #fixme: add something
+      genome: genome
+      counts_file: snp_pileup/pileup_counts_filename
+      TAG:
+        ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", ""); }
+      directory:
+        default: "."
+      purity_cval: purity_cval
+      cval: cval
+      R_lib:
+        default: "0.5.6"
+    out: []
     run: facets/0.5.6/facets.cwl

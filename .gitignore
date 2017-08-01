@@ -12,3 +12,4 @@
 /test/outputs
 /test/mock/stub
 /test/helpers/bats*
+**/.DS_Store
