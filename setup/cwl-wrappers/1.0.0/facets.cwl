@@ -75,12 +75,12 @@ steps:
           outputSource: tumor_ppflag_fixer/outputBam
       steps:
         normal_ppflag_fixer:
-          run: htstools.ppflag-fixer/0.1.1/htstools.ppflag-fixer.cwl
+          run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
             inputBam: normal_bam
           out: [outputBam]
         tumor_ppflag_fixer:
-          run: htstools.ppflag-fixer/0.1.1/htstools.ppflag-fixer.cwl
+          run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
             inputBam: tumor_bam
           out: [outputBam]
@@ -92,7 +92,7 @@ steps:
       #fixme: add something
     out:
       #fixme: add something
-    run: htstools.snp-pileup/0.1.1/htstools.snp-pileup.cwl
+    run: cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 
   facets:
     in:

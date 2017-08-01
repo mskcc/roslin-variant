@@ -144,6 +144,9 @@
         ],
         "ngs-filters": [
             "ngs-filters"
+        ],
+        "htstools": [
+            "cmo_snp-pileup"
         ]
     }
 }
