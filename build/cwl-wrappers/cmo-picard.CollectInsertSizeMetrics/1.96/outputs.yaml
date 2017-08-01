@@ -1,0 +1,19 @@
+outputs:
+  is_file:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O;
+          return null;
+        }
+  is_hist:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.H)
+            return inputs.H;
+          return null;
+        }
