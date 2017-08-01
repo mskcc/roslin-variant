@@ -1,0 +1,7 @@
+genome: 'hg19'
+counts_file: snp_pileup/out_file
+TAG: 'test'
+directory: 'test'
+purity_cval: '100'
+cval: '50'
+R_lib: '0.5.6'
