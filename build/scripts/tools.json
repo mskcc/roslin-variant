@@ -146,7 +146,8 @@
             "ngs-filters"
         ],
         "htstools": [
-            "cmo_snp-pileup"
+            "cmo_snp-pileup",
+            "cmo_ppflag-fixer"
         ]
     }
 }
