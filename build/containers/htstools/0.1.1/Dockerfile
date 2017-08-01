@@ -34,7 +34,7 @@ RUN   apt-get -y update \
 # install snp-pileup and ppflag-fixer
       && cd /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION} \
       && g++ -std=c++11 snp-pileup.cpp -lhts -o snp-pileup \
-      && g++ -std=c++11 snp-pileup.cpp -lhts -o ppflag-fixer \
+      && g++ -std=c++11 ppflag-fixer.cpp -lhts -o ppflag-fixer \
 #move executables into bin
       && cp /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION}/snp-pileup /usr/bin \
       && cp /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION}/ppflag-fixer /usr/bin \
