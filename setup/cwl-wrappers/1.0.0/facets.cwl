@@ -107,9 +107,9 @@ steps:
       normal_bam: ppflag_fixer/normal_ppfixed_bam
       tumor_bam: ppflag_fixer/tumor_ppfixed_bam
       count_orphans:
-        default: true
+        valueFrom: ${ return true; }
       gzip:
-        default: true
+        valueFrom: ${ return true; }
       pseudo_snps: pseudo_snps
     out: [out_file]
     run: cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
@@ -121,7 +121,7 @@ steps:
       TAG:
         valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
       directory:
-        default: "."
+        default: "test"
       purity_cval: purity_cval
       cval: cval
       R_lib:
