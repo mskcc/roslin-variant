@@ -3,4 +3,4 @@
 prism-runner.sh \
     -w facets/1.5.4/facets.cwl \
     -i inputs.yaml \
-    -b lsf
+    -b lsf -d

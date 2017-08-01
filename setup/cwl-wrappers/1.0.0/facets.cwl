@@ -56,17 +56,21 @@ inputs:
 
 outputs:
 
-    facets:
-      type: File
-      outputSource: facets/
+  ppflag_fixer_output:
+    type: File
+    outputSource: ppflag_fixer/normal_ppfixed_bam
+
+#  facets_output:
+#    type: File
+#    outputSource: facets/
 
 steps:
 
   ppflag_fixer:
     in:
-      normal_bam: File
-      tumor_bam: File
-    out:
+      normal_bam: normal_bam
+      tumor_bam: tumor_bam
+    out: [normal_ppfixed_bam, tumor_ppfixed_bam]
     run:
       class: Workflow
       inputs:
@@ -75,52 +79,52 @@ steps:
       outputs:
         normal_ppfixed_bam:
           type: File
-          outputSource: normal_ppflag_fixer/out_bam_file
+          outputSource: normal_ppflag_fixer/out_file
         tumor_ppfixed_bam:
           type: File
-          outputSource: tumor_ppflag_fixer/out_bam_file
+          outputSource: tumor_ppflag_fixer/out_file
       steps:
         normal_ppflag_fixer:
           run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
             input_file: normal_bam
             output_file:
-              valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", ".ppfixed.bam"); }
-          out: [out_bam_file]
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".ppfixed.bam"); }
+          out: [out_file]
         tumor_ppflag_fixer:
           run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
             input_file: tumor_bam
             output_file:
-              valueFrom: ${ return inputs.tumor_bam.basename.replace(".bam", ".ppfixed.bam"); }
-          out: [out_bam_file]
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".ppfixed.bam"); }
+          out: [out_file]
 
   snp_pileup:
     in:
       vcf: vcf
       output_file:
-        valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", "") + ".dat.gz"; }
+        valueFrom: ${ return inputs.normal_bam.basename.replace(".ppfixed.bam", "") + "__" + inputs.tumor_bam.basename.replace(".ppfixed.bam", "") + ".dat.gz"; }
       normal_bam: ppflag_fixer/normal_ppfixed_bam
       tumor_bam: ppflag_fixer/tumor_ppfixed_bam
       count_orphans:
-        default: true
+        valueFrom: ${ return true; }
       gzip:
-        default: true
+        valueFrom: ${ return true; }
       pseudo_snps: pseudo_snps
-    out: [pileup_counts_filename]
+    out: [out_file]
     run: cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 
   facets:
     in:
       genome: genome
-      counts_file: snp_pileup/pileup_counts_filename
+      counts_file: snp_pileup/out_file
       TAG:
-        ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", ""); }
+        valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
       directory:
-        default: "."
+        default: "test"
       purity_cval: purity_cval
       cval: cval
       R_lib:
         default: "0.5.6"
     out: []
-    run: facets/0.5.6/facets.cwl
+    run: cmo-facets.doFacets/1.5.4/cmo-facets.doFacets.cwl
