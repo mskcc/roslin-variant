@@ -1,0 +1,13 @@
+normal_bam:
+  class: File
+  path: 
+tumor_bam:
+  class: File
+  path:
+vcf:
+  class: File
+  path: /ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz
+pseudo_snps: '50'
+genome: 'hg19'
+purity_cval: '100'
+cval: '50'
