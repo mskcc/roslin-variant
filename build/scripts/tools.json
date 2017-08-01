@@ -92,7 +92,8 @@
             "cmo_picard.CollectMultipleMetrics",
             "cmo_picard.CalculateHsMetrics",
             "cmo_picard.CollectAlignmentSummaryMetrics",
-            "cmo_picard.CollectGcBiasMetrics"
+            "cmo_picard.CollectGcBiasMetrics",
+            "cmo_picard.CollectInsertSizeMetrics"
         ],
         "gatk": [
             "cmo_gatk.FindCoveredIntervals",
