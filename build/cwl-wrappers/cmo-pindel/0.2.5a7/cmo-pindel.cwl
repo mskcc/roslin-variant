@@ -108,6 +108,7 @@ inputs:
     inputBinding:
       prefix: --number_of_threads
 
+    default: '5'
   max_range_index:
     type: ['null', string]
     doc: the maximum size of structural variations to be detected; the higher this

@@ -342,7 +342,7 @@ steps:
       bait_intervals: projparse/bait_intervals
       target_intervals: projparse/target_intervals
       fp_intervals: projparse/fp_intervals
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary] 
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary]
     scatter: [bams]
     scatterMethod: dotproduct
 

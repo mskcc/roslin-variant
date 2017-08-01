@@ -187,6 +187,7 @@ inputs:
     inputBinding:
       prefix: --VALIDATION_STRINGENCY
 
+    default: SILENT
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
