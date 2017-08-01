@@ -144,6 +144,10 @@
         ],
         "ngs-filters":[
             "ngs-filters"
+        ],
+        "htstools": [
+            "htstools.ppflag-fixer",
+            "htstools.snp-pileup"
         ]
     }
 }
