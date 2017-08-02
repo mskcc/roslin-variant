@@ -25,18 +25,18 @@ Registry: http://localhost:5000
 
     export PYTHONNOUSERSITE="set"
     case $1 in
-        doFacets) shift; exec python /usr/bin/facets doFacets "$@" ;;
-        mafAnno) shift; exec python /usr/bin/facets mafAnno "$@" ;;
-        normDepth) shift; exec python /usr/bin/facets normDepth "$@" ;;
-        geneLevel) shift; exec python /usr/bin/facets geneLevel "$@" ;;
-        mergeTN) shift; exec python /usr/bin/facets mergeTN "$@" ;;
+        doFacets) shift; exec python /usr/bin/facets-suite/facets doFacets "$@" ;;
+        mafAnno) shift; exec python /usr/bin/facets-suite/facets mafAnno "$@" ;;
+        normDepth) shift; exec python /usr/bin/facets-suite/facets normDepth "$@" ;;
+        geneLevel) shift; exec python /usr/bin/facets-suite/facets geneLevel "$@" ;;
+        mergeTN) shift; exec python /usr/bin/facets-suite/facets mergeTN "$@" ;;
         *) echo "Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN"; exit 1 ;;
     esac
 
 %test
 
     # get actual output from facets doFacets
-    python /usr/bin/facets doFacets 2>&1 | head -1 > /tmp/actual_doFacets.diff.txt
+    python /usr/bin/facets-suite/facets doFacets 2>&1 | head -1 > /tmp/actual_doFacets.diff.txt
 
     # expected facets output
     cat > /tmp/expected_doFacets.diff.txt << EOM
