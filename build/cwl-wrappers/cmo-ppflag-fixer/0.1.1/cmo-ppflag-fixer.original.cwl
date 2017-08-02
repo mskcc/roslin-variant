@@ -29,7 +29,7 @@ inputs:
   input_file:
     type: str
   
-    doc: vcf file
+    doc: Bam file
     inputBinding:
       position: 1
 

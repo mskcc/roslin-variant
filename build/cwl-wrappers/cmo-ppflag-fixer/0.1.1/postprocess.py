@@ -38,6 +38,7 @@ def main():
                            ruamel.yaml.RoundTripLoader)
 
     cwl['baseCommand'] = ['sing.sh', 'htstools', '0.1.1', 'ppflag-fixer']
+    cwl['inputs']['input_file']['type'] = 'File'
 
     #-->
     # fixme: until we can auto generate cwl for cmo-ppflag-fixer

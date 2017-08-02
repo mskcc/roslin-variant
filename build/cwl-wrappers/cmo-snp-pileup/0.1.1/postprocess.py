@@ -38,6 +38,9 @@ def main():
                            ruamel.yaml.RoundTripLoader)
 
     cwl['baseCommand'] = ['sing.sh', 'htstools', '0.1.1', 'snp-pileup']
+    cwl['inputs']['normal_bam']['type'] = 'File'
+    cwl['inputs']['tumor_bam']['type'] = 'File'
+    cwl['inputs']['vcf']['type'] = 'File'
 
     #-->
     # fixme: until we can auto generate cwl for cmo-snp-pileup
