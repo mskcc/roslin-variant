@@ -311,10 +311,6 @@ steps:
       samples: samples
       runparams: runparams
     out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list, group_ids, target_intervals, bait_intervals, fp_intervals]
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
   group_process:
     run:  module-1-2.chunk.cwl
     in:
@@ -397,7 +393,7 @@ steps:
     in:
       bams: parse_pairs/srt_bams
       mutect_vcf: parse_pairs/srt_mutect_vcf
-      mutect_callstats: parse_pairs/srt_mutect_callstats
+      mutect_callstats: parse_pairs/srt_mutect_callstat s
       pindel_vcf: parse_pairs/srt_pindel_vcf
       vardict_vcf: parse_pairs/srt_vardict_vcf
       genome: parse_pairs/srt_genome
@@ -412,10 +408,6 @@ steps:
     out: [maf]
     scatter: [mutect_vcf, mutect_callstats, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
   gather_metrics:
     run: module-5.cwl
     in:
