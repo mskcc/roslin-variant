@@ -39,6 +39,16 @@ def main():
 
     cwl['baseCommand'] = ['sing.sh', 'facets', '1.5.4', 'doFacets']
 
+    cwl['inputs']['cval']['type'] = ['null', 'int']
+    cwl['inputs']['snp_nbhd']['type'] = ['null', 'int']
+    cwl['inputs']['ndepth']['type'] = ['null', 'int']
+    cwl['inputs']['min_nhet']['type'] = ['null', 'int']
+    cwl['inputs']['purity_cval']['type'] = ['null', 'int']
+    cwl['inputs']['purity_snp_nbhd']['type'] = ['null', 'int']
+    cwl['inputs']['purity_ndepth']['type'] = ['null', 'int']
+    cwl['inputs']['purity_min_nhet']['type'] = ['null', 'int']
+    cwl['inputs']['counts_file']['type'] = 'File'
+
     #-->
     # fixme: until we can auto generate cwl for cmo-facets.doFacets
     # set outputs using outputs.yaml

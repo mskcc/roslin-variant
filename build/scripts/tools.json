@@ -148,6 +148,9 @@
         "htstools": [
             "cmo_snp-pileup",
             "cmo_ppflag-fixer"
+        ],
+        "facets": [
+            "cmo_facets.doFacets"
         ]
     }
 }

@@ -10,8 +10,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-snp-pileup
-  doap:revision: 0.1.1
+  doap:name: cmo-facets.doFacets
+  doap:revision: 1.5.4
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
