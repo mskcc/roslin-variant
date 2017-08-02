@@ -48,11 +48,7 @@ inputs:
 
     normal_bam: File
     tumor_bam: File
-    vcf: File
-    pseudo_snps: string
     genome: string
-    purity_cval: int
-    cval: int
 
 outputs:
 
@@ -113,7 +109,8 @@ steps:
 
   snp_pileup:
     in:
-      vcf: vcf
+      vcf:
+        default: "/ifs/work/pi/resources/facets/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
       output_file:
         valueFrom: ${ return inputs.normal_bam.basename.replace(".ppfixed.bam", "") + "__" + inputs.tumor_bam.basename.replace(".ppfixed.bam", "") + ".dat.gz"; }
       normal_bam: ppflag_fixer/normal_ppfixed_bam
@@ -122,19 +119,23 @@ steps:
         valueFrom: ${ return true; }
       gzip:
         valueFrom: ${ return true; }
-      pseudo_snps: pseudo_snps
+      pseudo_snps:
+        default: "50"
     out: [out_file]
     run: cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 
   facets:
     in:
-      genome: genome
+      genome:
+        default: "hg19"
       counts_file: snp_pileup/out_file
       TAG:
         valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
       directory:
         default: "."
-      purity_cval: purity_cval
-      cval: cval
+      purity_cval:
+        default: 100
+      cval:
+        default: 50
     out: [png_files, txt_files, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.4/cmo-facets.doFacets.cwl
