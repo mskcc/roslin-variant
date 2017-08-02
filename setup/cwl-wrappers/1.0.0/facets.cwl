@@ -48,55 +48,95 @@ inputs:
 
     normal_bam: File
     tumor_bam: File
-    #fixme: add something
+    vcf: File
+    pseudo_snps: string
+    genome: string
+    purity_cval: int
+    cval: int
 
 outputs:
 
-    #fixme: add something
+  facets_png_output:
+    type: File[]
+    outputSource: facets/png_files
+
+  facets_txt_output:
+    type: File[]
+    outputSource: facets/txt_files
+
+  facets_out_output:
+    type: File[]
+    outputSource: facets/out_files
+
+  facets_rdata_output:
+    type: File[]
+    outputSource: facets/rdata_files
+
+  facets_seg_output:
+    type: File[]
+    outputSource: facets/seg_files
 
 steps:
 
   ppflag_fixer:
     in:
-      normal_bam: File
-      tumor_bam: File
-    out:
+      normal_bam: normal_bam
+      tumor_bam: tumor_bam
+    out: [normal_ppfixed_bam, tumor_ppfixed_bam]
     run:
       class: Workflow
       inputs:
         normal_bam: File
-        normal_bam: File
+        tumor_bam: File
       outputs:
         normal_ppfixed_bam:
           type: File
-          outputSource: normal_ppflag_fixer/outputBam
+          outputSource: normal_ppflag_fixer/out_file
         tumor_ppfixed_bam:
           type: File
-          outputSource: tumor_ppflag_fixer/outputBam
+          outputSource: tumor_ppflag_fixer/out_file
       steps:
         normal_ppflag_fixer:
           run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
-            inputBam: normal_bam
-          out: [outputBam]
+            input_file: normal_bam
+            output_file:
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".ppfixed.bam"); }
+          out: [out_file]
         tumor_ppflag_fixer:
           run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
           in:
-            inputBam: tumor_bam
-          out: [outputBam]
+            input_file: tumor_bam
+            output_file:
+              valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".ppfixed.bam"); }
+          out: [out_file]
 
   snp_pileup:
     in:
-      normal_ppfixed_bam: ppflag_fixer/normal_ppfixed_bam
-      tumor_ppfiex_bam: ppflag_fixer/tumor_ppfixed_bam
-      #fixme: add something
-    out:
-      #fixme: add something
+      vcf: vcf
+      output_file:
+        valueFrom: ${ return inputs.normal_bam.basename.replace(".ppfixed.bam", "") + "__" + inputs.tumor_bam.basename.replace(".ppfixed.bam", "") + ".dat.gz"; }
+      normal_bam: ppflag_fixer/normal_ppfixed_bam
+      tumor_bam: ppflag_fixer/tumor_ppfixed_bam
+      count_orphans:
+        valueFrom: ${ return true; }
+      gzip:
+        valueFrom: ${ return true; }
+      pseudo_snps: pseudo_snps
+    out: [out_file]
     run: cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 
   facets:
     in:
-      #fixme: add something
-    out:
-      #fixme: add something
-    run: facets/0.5.6/facets.cwl
+      genome: genome
+      counts_file: snp_pileup/out_file
+      TAG:
+        valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
+      directory:
+        default: "test"
+      purity_cval: purity_cval
+      cval: cval
+      R_lib:
+        default: "0.5.6"
+    out: [png_files, txt_files, out_files, rdata_files, seg_files]
+    run: cmo-facets.doFacets/1.5.4/cmo-facets.doFacets.cwl

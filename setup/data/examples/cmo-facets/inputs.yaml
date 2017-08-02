@@ -1,0 +1,9 @@
+genome: 'hg19'
+counts_file:
+  class: File
+  path: /ifs/res/taylorlab/donoghum/UTUC/matched_pairs/s_DS_uttcc_028_P2__s_DS_uttcc_028_N/countsMerged____s_DS_uttcc_028_P2__s_DS_uttcc_028_N.dat.gz
+TAG: 'test'
+directory: 'test'
+purity_cval: 100
+cval: 50
+R_lib: '0.5.6'
