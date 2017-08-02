@@ -21,39 +21,42 @@ COPY facets-suite-1.5.4.tar.gz /tmp/facets-suite-1.5.4.tar.gz
 COPY install-packages.R /tmp/install-packages.R
 
 RUN apk add --update \
-      # for wget
-      && apk add ca-certificates openssl \
-      # for compilation
-      && apk add build-base musl-dev \
-      # install cairo and R package system dependencies
-      && apk add cairo cairo-dev libxt-dev libxml2-dev \
-      # download and install R
-      && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
-      # download, unzip, install
-      && cd /tmp \
-      # download Facets
-      && wget https://github.com/mskcc/facets/archive/v${FACETS_VERSION}.tar.gz \
-      # download pctGCdata
-      && wget https://github.com/mskcc/pctGCdata/archive/v${PCTGCDATA}.tar.gz \
-      # unpack Facets
-      && tar xvzf v${FACETS_VERSION}.tar.gz \
-      # unpack pctGCdata
-      && tar xvzf v${PCTGCDATA}.tar.gz \
-      # unpack Facets_Suite
-      && tar xvzf facets-suite-${FACETS_SUITE_VERSION}.tar.gz \
-      # install pctGCdata
-      && cd /tmp/pctGCdata-${PCTGCDATA} \
-      && R CMD INSTALL . \
-      # install Facets
-      && cd /tmp/facets-${FACETS_VERSION} \
-      && R CMD INSTALL . \
-      # install Facets-Suite R dependencies
-      && cd /tmp \
-      && Rscript --vanilla install-packages.R \
-      # install Facets-Suite
-      && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin \
-      # clean up
-      && rm -rf /var/cache/apk/* /tmp/*
+    # for wget
+    && apk add ca-certificates openssl \
+    # for compilation
+    && apk add build-base musl-dev \
+    # install cairo and R package system dependencies
+    && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 \
+    # download and install R
+    && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
+    # download, unzip, install
+    && cd /tmp \
+    # download Facets
+    && wget https://github.com/mskcc/facets/archive/v${FACETS_VERSION}.tar.gz \
+    # download pctGCdata
+    && wget https://github.com/mskcc/pctGCdata/archive/v${PCTGCDATA}.tar.gz \
+    # unpack Facets
+    && tar xvzf v${FACETS_VERSION}.tar.gz \
+    # unpack pctGCdata
+    && tar xvzf v${PCTGCDATA}.tar.gz \
+    # unpack Facets_Suite
+    && tar xvzf facets-suite-${FACETS_SUITE_VERSION}.tar.gz \
+    # install pctGCdata
+    && cd /tmp/pctGCdata-${PCTGCDATA} \
+    && R CMD INSTALL . \
+    # install Facets
+    && cd /tmp/facets-${FACETS_VERSION} \
+    && R CMD INSTALL . \
+    # install Facets-Suite R dependencies
+    && cd /tmp \
+    && Rscript --vanilla install-packages.R \
+    # install Facets-Suite
+    && cd /tmp/facets-suite-${FACETS_SUITE_VERSION} \
+    # correct shebang line
+    && sed -i[.bak] "s/opt\/common\/CentOS_6-dev\/R\/R-3.2.2\//usr\//g" *.R \
+    && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin \
+    # clean up
+    && rm -rf /var/cache/apk/* /tmp/*
 
 ENV PYTHONNOUSERSITE set
 
