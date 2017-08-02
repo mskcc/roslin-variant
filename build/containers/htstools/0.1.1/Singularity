@@ -37,9 +37,8 @@ Registry: http://localhost:5000
     # get actual output from ppflag-fixer
     /usr/bin/ppflag-fixer --help > /tmp/actual_ppflag_fixer.diff.txt
 
-# expected snp-pileup output
-
-cat > /tmp/expected_snp_pileup.diff.txt << EOM
+    # expected snp-pileup output
+    cat > /tmp/expected_snp_pileup.diff.txt << EOM
 Usage: snp-pileup [OPTION...] <vcf file> <output file> <sequence files...>
 
   -A, --count-orphans        Do not discard anomalous read pairs.
@@ -66,9 +65,8 @@ Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 EOM
 
-# expected ppflag-fixer output
-
-cat > /tmp/expected_ppflag_fixer.diff.txt << EOM
+    # expected ppflag-fixer output
+    cat > /tmp/expected_ppflag_fixer.diff.txt << EOM
 Usage: ppflag-fixer [OPTION...] <input file> <output file>
 
   -m, --max-tlen=LENGTH      Sets a maximum bound of LENGTH on all fragments;
@@ -83,11 +81,12 @@ Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 EOM
 
-# diff snp-pileup
-diff /tmp/actual_snp_pileup.diff.txt /tmp/expected_snp_pileup.diff.txt
+    # diff snp-pileup
+    diff /tmp/actual_snp_pileup.diff.txt /tmp/expected_snp_pileup.diff.txt
 
-# diff ppflag-fixer
-diff /tmp/actual_ppflag_fixer.diff.txt /tmp/expected_ppflag_fixer.diff.txt
+    # diff ppflag-fixer
+    diff /tmp/actual_ppflag_fixer.diff.txt /tmp/expected_ppflag_fixer.diff.txt
 
-# delete tmp
-rm -rf /tmp
+    # delete tmp files
+    rm -rf /tmp/*.diff.txt
+
