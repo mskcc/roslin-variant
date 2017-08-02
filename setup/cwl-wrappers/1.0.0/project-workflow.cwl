@@ -393,7 +393,7 @@ steps:
     in:
       bams: parse_pairs/srt_bams
       mutect_vcf: parse_pairs/srt_mutect_vcf
-      mutect_callstats: parse_pairs/srt_mutect_callstat s
+      mutect_callstats: parse_pairs/srt_mutect_callstats
       pindel_vcf: parse_pairs/srt_pindel_vcf
       vardict_vcf: parse_pairs/srt_vardict_vcf
       genome: parse_pairs/srt_genome
