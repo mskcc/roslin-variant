@@ -51,18 +51,30 @@ inputs:
     vcf: File
     pseudo_snps: string
     genome: string
-    purity_cval: string
-    cval: string
+    purity_cval: int
+    cval: int
 
 outputs:
 
-  ppflag_fixer_output:
-    type: File
-    outputSource: ppflag_fixer/normal_ppfixed_bam
+  facets_png_output:
+    type: File[]
+    outputSource: facets/png_files
 
-#  facets_output:
-#    type: File
-#    outputSource: facets/
+  facets_txt_output:
+    type: File[]
+    outputSource: facets/txt_files
+
+  facets_out_output:
+    type: File[]
+    outputSource: facets/out_files
+
+  facets_rdata_output:
+    type: File[]
+    outputSource: facets/rdata_files
+
+  facets_seg_output:
+    type: File[]
+    outputSource: facets/seg_files
 
 steps:
 
@@ -126,5 +138,5 @@ steps:
       cval: cval
       R_lib:
         default: "0.5.6"
-    out: []
+    out: [png_files, txt_files, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.4/cmo-facets.doFacets.cwl
