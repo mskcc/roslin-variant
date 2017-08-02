@@ -26,7 +26,7 @@ RUN apk add --update \
       # for compilation
       && apk add build-base musl-dev \
       # install cairo and R package system dependencies
-      && apk add cairo cairo-dev libxt-dev libxml2-dev \
+      && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 \
       # download and install R
       && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
       # download, unzip, install
@@ -51,6 +51,8 @@ RUN apk add --update \
       && cd /tmp \
       && Rscript --vanilla install-packages.R \
       # install Facets-Suite
+      && cd /tmp/facets-suite-${FACETS_SUITE_VERSION} \
+      && sed -i[.bak] "s/opt\/common\/CentOS_6-dev\/R\/R-3.2.2\//usr\//g" *.R \
       && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin \
       # clean up
       && rm -rf /var/cache/apk/* /tmp/*
