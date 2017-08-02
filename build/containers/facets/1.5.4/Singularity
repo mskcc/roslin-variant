@@ -38,14 +38,13 @@ Registry: http://localhost:5000
     # get actual output from facets doFacets
     python /usr/bin/facets doFacets 2>&1 | head -1 > /tmp/actual_doFacets.diff.txt
 
-# expected facets output
-
-cat > /tmp/expected_doFacets.diff.txt << EOM
+    # expected facets output
+    cat > /tmp/expected_doFacets.diff.txt << EOM
 usage: facets doFacets [-h] [-c CVAL] [-s SNP_NBHD] [-n NDEPTH] [-m MIN_NHET]
 EOM
 
-# diff facets
-diff /tmp/actual_doFacets.diff.txt /tmp/expected_doFacets.diff.txt
+    # diff facets
+    diff /tmp/actual_doFacets.diff.txt /tmp/expected_doFacets.diff.txt
 
-# delete tmp
-rm -rf /tmp
+    # delete tmp files
+    rm -rf /tmp/*.diff.txt
