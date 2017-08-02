@@ -53,6 +53,7 @@ requirements:
     ramMin: 5
     coresMin: 1
 
+
 doc: |
   run snp-pileup
 
@@ -171,7 +172,7 @@ outputs:
   out_file:
     type: File
     outputBinding:
-      glob: |-
+      glob: |
         ${
           if (inputs.output_file)
             return inputs.output_file;

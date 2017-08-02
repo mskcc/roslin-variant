@@ -133,10 +133,8 @@ steps:
       TAG:
         valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
       directory:
-        default: "test"
+        default: "."
       purity_cval: purity_cval
       cval: cval
-      R_lib:
-        default: "0.5.6"
     out: [png_files, txt_files, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.4/cmo-facets.doFacets.cwl
