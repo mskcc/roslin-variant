@@ -1,0 +1,50 @@
+Bootstrap: docker
+From: /pipeline-facets:1.5.4
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    source /tmp/settings-container.sh
+
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    export PYTHONNOUSERSITE="set"
+    case $1 in
+        doFacets) shift; exec python /usr/bin/facets-suite/facets doFacets "$@" ;;
+        mafAnno) shift; exec python /usr/bin/facets-suite/facets mafAnno "$@" ;;
+        normDepth) shift; exec python /usr/bin/facets-suite/facets normDepth "$@" ;;
+        geneLevel) shift; exec python /usr/bin/facets-suite/facets geneLevel "$@" ;;
+        mergeTN) shift; exec python /usr/bin/facets-suite/facets mergeTN "$@" ;;
+        *) echo "Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN"; exit 1 ;;
+    esac
+
+%test
+
+    # get actual output from facets doFacets
+    python /usr/bin/facets-suite/facets doFacets 2>&1 | head -1 > /tmp/actual_doFacets.diff.txt
+
+    # expected facets output
+    cat > /tmp/expected_doFacets.diff.txt << EOM
+usage: facets doFacets [-h] [-c CVAL] [-s SNP_NBHD] [-n NDEPTH] [-m MIN_NHET]
+EOM
+
+    # diff facets
+    diff /tmp/actual_doFacets.diff.txt /tmp/expected_doFacets.diff.txt
+
+    # delete tmp files
+    rm -rf /tmp/*.diff.txt
