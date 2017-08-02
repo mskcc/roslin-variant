@@ -197,40 +197,6 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/pindel_vcf
-  as_metrics:
-    type: File
-    outputSource: gather_metrics/as_metrics
-  hs_metrics:
-    type: File
-    outputSource: gather_metrics/hs_metrics
-  insert_metrics:
-    type: File
-    outputSource: gather_metrics/insert_metrics
-  insert_pdf:
-    type: File
-    outputSource: gather_metrics/insert_pdf
-  per_target_coverage:
-    type: File
-    outputSource: gather_metrics/per_target_coverage
-  qual_metrics:
-    type: File
-    outputSource: gather_metrics/qual_metrics
-  qual_pdf:
-    type: File
-    outputSource: gather_metrics/qual_pdf
-  doc_basecounts:
-    type: File
-    outputSource: gather_metrics/doc_basecounts
-  gcbias_pdf:
-    type: File
-    outputSource: gather_metrics/gcbias_pdf
-  gcbias_metrics:
-    type: File
-    outputSource: gather_metrics/gcbias_metrics
-  gcbias_summary:
-    type: File
-    outputSource: gather_metrics/gcbias_summary
-
 
   # facets
   facets_png:
