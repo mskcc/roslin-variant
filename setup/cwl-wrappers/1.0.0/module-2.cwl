@@ -217,6 +217,10 @@ steps:
                             default: "6"
                         read_filter:
                             valueFrom: ${ return ["BadCigar"]; }
+                        emit_original_quals:
+                            valueFrom: ${ return true; }
+                        baq:
+                            valueFrom: ${ return ['RECALCULATE'];}
                         out:
                             valueFrom: |
                                 ${ return inputs.input_file.basename.replace(".bam", ".printreads.bam"); }
