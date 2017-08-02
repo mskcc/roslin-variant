@@ -57,6 +57,10 @@ inputs:
         ref_fasta: string
         exac_filter: File
         vep_data: string
+        bait_intervals: File
+        target_intervals: File
+        fp_intervals: File
+
   groups:
     type:
       type: array
@@ -276,6 +280,10 @@ outputs:
     type:
       type: array
       items: string
+  fp_intervals: File
+  genome: string
+  bait_intervals: File
+  target_intervals: File
 
 
 expression: "${var groups = inputs.groups;
@@ -312,6 +320,10 @@ expression: "${var groups = inputs.groups;
          }
      }
  }
+project_object['bait_intervals']=inputs.db_files.bait_intervals;
+project_object['target_intervals']=inputs.db_files.target_intervals;
+project_object['fp_intervals']=inputs.db_files.fp_intervals;
+project_object['genome']=inputs.runparams.genome;
 return project_object;
 }"
 

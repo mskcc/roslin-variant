@@ -9,6 +9,7 @@ import copy
 import csv
 import glob
 import uuid
+import cmo
 from collections import defaultdict
 
 mapping_headers = ["library_suffix", "sample_id", "run_id", "fastq_directory", "runtype"]
@@ -50,6 +51,32 @@ def parse_grouping_file(gfile):
     return grouping_dict
 
 
+def parse_request_file(rfile):
+    stream = open(rfile, "r")
+    # this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser.
+    # thumbs up
+    while(1):
+        line = stream.readline()
+        if not line:
+            break
+        if line.find("Assay") > -1:
+            (key, value) = line.strip().split(": ")
+            return value
+    return None
+
+
+def get_baits_and_targets(assay):
+    if assay.find("IMPACT410") > -1:
+        assay = "IMPACT410_b37"
+    if assay in cmo.util.targets:
+        return {"bait_intervals": str(cmo.util.targets[assay]['baits_bed']),
+                "target_intervals": str(cmo.util.targets[assay]['targets_bed']),
+                "fp_intervals": str(cmo.util.targets[assay]['FP_intervals'])}
+    else:
+        print >>sys.stderr, "Assay field in Request file not found in cmo_resources.json targets: %s" % assay
+        sys.exit(1)
+
+
 def sort_fastqs_into_dict(files):
     sorted = dict()
     readgroup_tags = dict()
@@ -88,9 +115,12 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--mapping", help="the mapping file", required=True)
     parser.add_argument("-p", "--pairing", help="the pairing file", required=True)
     parser.add_argument("-g", "--grouping", help="the grouping file", required=True)
+    parser.add_argument("-r", "--request", help="the request file", required=True)
     parser.add_argument("-o", "--output-directory", help="output_directory for pipeline (NOT CONFIG FILE)", required=True)
     parser.add_argument("-f", "--yaml-output-file", help="file to write yaml to", required=True)
     args = parser.parse_args()
+    assay = parse_request_file(args.request)
+    intervals = get_baits_and_targets(assay)
     mapping_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
     grouping_dict = parse_grouping_file(args.grouping)
@@ -162,6 +192,7 @@ if __name__ == "__main__":
         'hotspot_list': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt'},
         'ref_fasta': "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta"
     }
+    files.update(intervals)
 
     ofh = open(args.yaml_output_file, "wb")
     sample_list = list()

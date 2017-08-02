@@ -1,0 +1,37 @@
+outputs:
+  qual_file:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O.concat('.quality_by_cycle_metrics');
+          return null;
+        }
+  qual_hist:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O.concat('.quality_by_cycle.pdf');
+          return null;
+        }
+  is_file:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O.concat('.insert_size_metrics');
+          return null;
+        }
+  is_hist:
+    type: File?
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.O)
+            return inputs.O.concat('.insert_size_histogram.pdf');
+          return null;
+        }
