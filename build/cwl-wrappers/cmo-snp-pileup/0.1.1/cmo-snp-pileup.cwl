@@ -33,6 +33,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Nikhil Kumar
     foaf:mbox: mailto:kumarn1@mskcc.org
+  - class: foaf:Person
+    foaf:name: Jaeyoung Chun
+    foaf:mbox: mailto:chunj@mskcc.org
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
 # To generate again: $ cmo_snp-pileup --generate_cwl_tool
@@ -128,7 +131,7 @@ inputs:
       prefix: --ignore-overlaps
 
   vcf:
-    type: File
+    type: string
 
     doc: vcf file
     inputBinding:

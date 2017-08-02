@@ -40,7 +40,10 @@ def main():
     cwl['baseCommand'] = ['sing.sh', 'htstools', '0.1.1', 'snp-pileup']
     cwl['inputs']['normal_bam']['type'] = 'File'
     cwl['inputs']['tumor_bam']['type'] = 'File'
-    cwl['inputs']['vcf']['type'] = 'File'
+
+    # we want to set the default value for this field, but toil doesn't support
+    # so for now, we switch back to string type
+    cwl['inputs']['vcf']['type'] = 'string'
 
     #-->
     # fixme: until we can auto generate cwl for cmo-snp-pileup

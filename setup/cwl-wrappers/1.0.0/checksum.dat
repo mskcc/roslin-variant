@@ -29,14 +29,14 @@ f1a13b21abac4c756ef9341c43722c8b  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-p
 c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
 878fbd63771a59cb5b12dfbb5eb23f7b  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 bada5eb9737229e56b0f5fc7719f4fdb  ./cmo-pindel/0.2.5b8/cmo-pindel.cwl
-47169725cd7ad6b4ce2d57a1ce2d95f4  ./cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
-dce275779cc97c77db4b5af8dcf4f7e0  ./cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
+fe440a6dcf504ef812d0be0803dd157e  ./cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
+8da5aada0759f71f156bcf18a3af6d50  ./cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 04b9c0d2d551e67505f782e56b52f4d5  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
 2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 c00b039441f41fcbd4d8fd802f630aa5  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 892cac8ef0ab60e57d639727c1b5d5a9  ./cmo-vardict/1.4.6/cmo-vardict.cwl
 7a7dc0a786240b05c98795c98782ed84  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
-641eaceb27b50449cdcc591d2930c6ff  ./facets.cwl
+336ff2372050cb4dc79ebfdd3c10fa72  ./facets.cwl
 4b22e7f03dfe2e865aa6492dc3e30658  ./flatten-array/1.0.0/flatten-array-bam.cwl
 8f34434e269a3bedd0f52f4f2f7869a5  ./flatten-array/1.0.0/flatten-array-fastq.cwl
 25b1d2347d08a37936c292fdc31b16ba  ./module-1-2-3.chunk.cwl
