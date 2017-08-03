@@ -203,27 +203,27 @@ outputs:
     type:
       type: array
       items: File
-      outputSource: variant_calling/facets_png
+    outputSource: variant_calling/facets_png
   facets_txt:
     type:
       type: array
       items: File
-      outputSource: variant_calling/facets_txt
+    outputSource: variant_calling/facets_txt
   facets_out:
     type:
       type: array
       items: File
-      outputSource: variant_calling/facets_out
+    outputSource: variant_calling/facets_out
   facets_rdata:
     type:
       type: array
       items: File
-      outputSource: variant_calling/facets_rdata
+    outputSource: variant_calling/facets_rdata
   facets_seg:
     type:
       type: array
       items: File
-      outputSource: variant_calling/facets_seg
+    outputSource: variant_calling/facets_seg
 
   # maf
   maf:
