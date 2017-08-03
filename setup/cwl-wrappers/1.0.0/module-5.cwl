@@ -56,7 +56,7 @@ inputs:
     type:
       type: array
       items: File
-    secondaryFiles: .bai
+    secondaryFiles: ^.bai
   genome: string
   bait_intervals: File
   target_intervals: File
@@ -176,8 +176,10 @@ steps:
             R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
-            PER_TARGET_COVERAGE:
-              valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
+#            PER_TARGET_COVERAGE:
+#              valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
+            LEVEL:
+              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [out_file, per_target_out]
         insert_metrics:
           run: cmo-picard.CollectInsertSizeMetrics/1.96/cmo-picard.CollectInsertSizeMetrics.cwl

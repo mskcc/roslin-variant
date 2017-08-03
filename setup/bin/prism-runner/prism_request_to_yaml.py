@@ -202,7 +202,7 @@ if __name__ == "__main__":
         new_sample_object['adapter2'] = adapter_two_string
         new_sample_object['R1'] = sample['fastqs']['R1']
         new_sample_object['R2'] = sample['fastqs']['R2']
-        new_sample_object['LB'] = sample['rg_id'] + sample['library_suffix']
+        new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = sample['rg_id'] + sample['runtype']
         new_sample_object['PU'] = sample['rg_id']
         new_sample_object['ID'] = sample_id
