@@ -76,11 +76,8 @@ inputs:
     - 'null'
     - type: array
       items: string
-
-
       inputBinding:
         prefix: --LEVEL
-
   I:
     type:
     - File
@@ -209,7 +206,7 @@ outputs:
           return null;
         }
   per_target_out:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

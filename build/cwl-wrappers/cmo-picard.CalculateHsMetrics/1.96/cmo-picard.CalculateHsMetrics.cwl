@@ -76,11 +76,8 @@ inputs:
     - 'null'
     - type: array
       items: string
-
-
-    inputBinding:
-      prefix: --LEVEL
-
+      inputBinding:
+        prefix: --LEVEL
   I:
     type:
     - File
