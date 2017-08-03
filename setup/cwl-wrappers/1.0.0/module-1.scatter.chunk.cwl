@@ -92,6 +92,7 @@ steps:
     in:
       fastq1: fastq1
       fastq2: fastq2
+      sample: add_rg_SM
     out: [chunks1, chunks2]
     scatter: [fastq1, fastq2]
     scatterMethod: dotproduct
