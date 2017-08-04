@@ -55,55 +55,83 @@ def get_references(inputs_yaml_path):
         ruamel.yaml.RoundTripLoader
     )
 
-    if "genome" in yaml:
-        references["genome"] = yaml["genome"]
+    runparams = yaml["runparams"]
+    db_files = yaml["db_files"]
 
-    if "hapmap" in yaml:
+    if "genome" in runparams:
+        references["genome"] = runparams["genome"]
+
+    if "hapmap" in db_files:
         references["hapmap"] = item(
-            path=yaml["hapmap"]["path"],
+            path=db_files["hapmap"]["path"],
             version="x.y.z",
             checksum_method="sha1",
-            checksum_value=generate_sha1(yaml["hapmap"]["path"])
+            checksum_value=generate_sha1(db_files["hapmap"]["path"])
         )
 
-    if "dbsnp" in yaml:
+    if "dbsnp" in db_files:
         references["dbsnp"] = item(
-            path=yaml["dbsnp"]["path"],
+            path=db_files["dbsnp"]["path"],
             version="x.y.z",
             checksum_method="sha1",
-            checksum_value=generate_sha1(yaml["dbsnp"]["path"])
+            checksum_value=generate_sha1(db_files["dbsnp"]["path"])
         )
 
-    if "indels_1000g" in yaml:
+    if "indels_1000g" in db_files:
         references["indels_1000g"] = item(
-            path=yaml["indels_1000g"]["path"],
+            path=db_files["indels_1000g"]["path"],
             version="x.y.z",
             checksum_method="sha1",
-            checksum_value=generate_sha1(yaml["indels_1000g"]["path"])
+            checksum_value=generate_sha1(db_files["indels_1000g"]["path"])
         )
 
-    if "snps_1000g" in yaml:
+    if "snps_1000g" in db_files:
         references["snps_1000g"] = item(
-            path=yaml["snps_1000g"]["path"],
+            path=db_files["snps_1000g"]["path"],
             version="x.y.z",
             checksum_method="sha1",
-            checksum_value=generate_sha1(yaml["snps_1000g"]["path"])
+            checksum_value=generate_sha1(db_files["snps_1000g"]["path"])
         )
 
-    if "cosmic" in yaml:
+    if "cosmic" in db_files:
         references["cosmic"] = item(
-            path=yaml["cosmic"]["path"],
+            path=db_files["cosmic"]["path"],
             version="x.y.z",
             checksum_method="sha1",
-            checksum_value=generate_sha1(yaml["cosmic"]["path"])
+            checksum_value=generate_sha1(db_files["cosmic"]["path"])
         )
 
-    if "refseq" in yaml:
+    if "refseq" in db_files:
         references["refseq"] = item(
-            path=yaml["refseq"]["path"],
+            path=db_files["refseq"]["path"],
             version="x.y.z",
             checksum_method="sha1",
-            checksum_value=generate_sha1(yaml["refseq"]["path"])
+            checksum_value=generate_sha1(db_files["refseq"]["path"])
+        )
+
+##
+    if "hotspot_list" in db_files:
+        references["hotspot_list"] = item(
+            path=db_files["hotspot_list"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(db_files["hotspot_list"]["path"])
+        )
+
+    if "exac_filter" in db_files:
+        references["exac_filter"] = item(
+            path=db_files["exac_filter"]["path"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=generate_sha1(db_files["exac_filter"]["path"])
+        )
+
+    if "vep_data" in db_files:
+        references["vep_data"] = item(
+            path=db_files["vep_data"],
+            version="x.y.z",
+            checksum_method="sha1",
+            checksum_value=None
         )
 
     return references
@@ -277,6 +305,8 @@ def get_bioinformatics_software_version(cmd0, cmdline):
         version = "1.6.12"
     elif cmd0.startswith("cmo_bcftools"):
         version = "1.3.1"
+    elif cmd0.startswith("cmo_abra"):
+        version = "0.92"
     elif cmdline.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
         version = "1.96"
     elif cmdline.startswith("cmo_picard --cmd MarkDuplicates"):

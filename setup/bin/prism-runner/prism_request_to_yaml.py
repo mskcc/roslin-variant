@@ -9,6 +9,7 @@ import copy
 import csv
 import glob
 import uuid
+import cmo
 from collections import defaultdict
 
 mapping_headers = ["library_suffix", "sample_id", "run_id", "fastq_directory", "runtype"]
@@ -50,6 +51,41 @@ def parse_grouping_file(gfile):
     return grouping_dict
 
 
+def parse_request_file(rfile):
+    stream = open(rfile, "r")
+    #this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser. 
+    #thumbs up
+    assay=None
+    project=None
+
+    while(1):
+        line = stream.readline()
+        if not line:
+            break
+        if line.find("Assay") > -1:
+            (key, value) = line.strip().split(": ")
+            assay=value
+        if line.find("ProjectID") > -1:
+            (key, value) = line.strip().split(": ")
+            project=value
+    return (assay, project)
+
+
+def get_baits_and_targets(assay):
+    #probably need similar rules for whatever "Exome" string is in rquest
+    if assay.find("IMPACT410") > -1:
+        assay = "IMPACT410_b37"
+    if assay in cmo.util.targets:
+        return {"bait_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['baits_list'])},
+            "target_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['targets_list'])},
+            "fp_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['FP_intervals'])},
+            "fp_genotypes": {"class":"File", "path":str(cmo.util.targets[assay]['FP_genotypes'])}}
+
+    else:
+        print >>sys.stderr, "Assay field in Request file not found in cmo_resources.json targets: %s" % assay
+        sys.exit(1)
+
+
 def sort_fastqs_into_dict(files):
     sorted = dict()
     readgroup_tags = dict()
@@ -88,9 +124,12 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--mapping", help="the mapping file", required=True)
     parser.add_argument("-p", "--pairing", help="the pairing file", required=True)
     parser.add_argument("-g", "--grouping", help="the grouping file", required=True)
+    parser.add_argument("-r", "--request", help="the request file", required=True)
     parser.add_argument("-o", "--output-directory", help="output_directory for pipeline (NOT CONFIG FILE)", required=True)
     parser.add_argument("-f", "--yaml-output-file", help="file to write yaml to", required=True)
     args = parser.parse_args()
+    (assay, project_id) = parse_request_file(args.request)
+    intervals = get_baits_and_targets(assay)
     mapping_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
     grouping_dict = parse_grouping_file(args.grouping)
@@ -123,6 +162,10 @@ if __name__ == "__main__":
     genome = "GRCh37"
 
     files = {
+        'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
+        'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
+        'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
+        'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
         'hapmap': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf'},
         'dbsnp': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf'},
         'indels_1000g': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf'},
@@ -162,6 +205,7 @@ if __name__ == "__main__":
         'hotspot_list': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt'},
         'ref_fasta': "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta"
     }
+    files.update(intervals)
 
     ofh = open(args.yaml_output_file, "wb")
     sample_list = list()
@@ -171,7 +215,7 @@ if __name__ == "__main__":
         new_sample_object['adapter2'] = adapter_two_string
         new_sample_object['R1'] = sample['fastqs']['R1']
         new_sample_object['R2'] = sample['fastqs']['R2']
-        new_sample_object['LB'] = sample['rg_id'] + sample['library_suffix']
+        new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = sample['rg_id'] + sample['runtype']
         new_sample_object['PU'] = sample['rg_id']
         new_sample_object['ID'] = sample_id
@@ -194,7 +238,8 @@ if __name__ == "__main__":
         "covariates": covariates,
         "emit_original_quals": True,
         "num_threads": 10,
-        "tmp_dir": "/scratch"
+        "tmp_dir": "/scratch",
+        "project_prefix": project_id
     }
     out_dict.update({"runparams": params})
     ofh.write(yaml.dump(out_dict))
