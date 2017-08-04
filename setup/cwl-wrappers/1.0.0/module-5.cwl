@@ -66,8 +66,19 @@ inputs:
   pairing_file: File
   request_file: File
   project_prefix: string
-  md_metrics_files: File[]
-  trim_metrics_files: File[]
+  md_metrics_files:
+    type: 
+      type: array
+      items:
+        type: array
+        items: File
+  trim_metrics_files:
+    type: 
+      type: array
+      items:
+        type: array
+        items: File
+
 
 outputs:
 

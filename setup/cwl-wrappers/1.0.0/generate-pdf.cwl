@@ -6,7 +6,7 @@
 cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
-baseCommand: ['/home/charris/code/qc/generate_pdf.py']
+baseCommand: ['cmo_qcpdf']
 
 doc: |
   None
@@ -23,7 +23,9 @@ inputs:
   mdmetrics_files:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
   
     inputBinding:
       prefix: --mdmetrics-files 
@@ -64,7 +66,9 @@ inputs:
   trimgalore_files:
     type:
       type: array
-      items: File
+      items: 
+        type: array
+        items: File
     inputBinding:
       prefix: --trimgalore-files 
 
