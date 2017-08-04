@@ -217,9 +217,9 @@ steps:
                             default: "6"
                         read_filter:
                             valueFrom: ${ return ["BadCigar"]; }
-                        emit_original_quals: 
+                        emit_original_quals:
                             valueFrom: ${ return true; }
-                        baq: 
+                        baq:
                             valueFrom: ${ return ['RECALCULATE'];}
                         out:
                             valueFrom: |

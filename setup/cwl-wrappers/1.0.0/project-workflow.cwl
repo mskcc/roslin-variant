@@ -156,6 +156,8 @@ inputs:
         items: string
 
 outputs:
+
+  # bams & metrics
   bams:
     type:
       type: array
@@ -178,6 +180,8 @@ outputs:
       type: array
       items: File
     outputSource: group_process/md_metrics
+
+  # vcf
   mutect_vcf:
     type:
       type: array
@@ -198,6 +202,40 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/pindel_vcf
+
+  # facets
+  facets_png:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_png
+  facets_txt:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_txt
+  facets_out:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_out
+  facets_rdata:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_rdata
+  facets_seg:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_seg
+
+  # maf
+  maf:
+    type: File
+    outputSource: filter/maf
+
+  # qc
   as_metrics:
     type: File
     outputSource: gather_metrics/as_metrics
@@ -232,8 +270,8 @@ outputs:
     type: File
     outputSource: gather_metrics/gcbias_summary
 
-
 steps:
+
   projparse:
     run: parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
     in:
@@ -273,6 +311,7 @@ steps:
     out: [clstats1, clstats2, bams, md_metrics, covint_bed, covint_list]
     scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, refseq, covariates, group]
     scatterMethod: dotproduct
+
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
     in:
@@ -282,6 +321,7 @@ steps:
       runparams: runparams
       beds: group_process/covint_bed
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed]
+
   variant_calling:
     run: module-3.cwl
     in:
@@ -296,9 +336,10 @@ steps:
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
-    out: [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    out: [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg]
     scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
+
   parse_pairs:
     run: parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
     in:
@@ -315,8 +356,8 @@ steps:
       curated_bams: projparse/curated_bams
       ffpe_normal_bams: projparse/ffpe_normal_bams
       hotspot_list: projparse/hotspot_list
-
     out: [tumor_id, normal_id, srt_mutect_vcf, srt_mutect_callstats, srt_pindel_vcf, srt_vardict_vcf, srt_genome, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_ffpe_normal_bams, srt_hotspot_list]
+
   filter:
     run: module-4.cwl
     in:
@@ -337,6 +378,7 @@ steps:
     out: [maf]
     scatter: [mutect_vcf, mutect_callstats, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
+
   gather_metrics:
     run: module-5.cwl
     in:

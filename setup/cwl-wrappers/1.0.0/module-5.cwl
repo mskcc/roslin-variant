@@ -206,7 +206,7 @@ steps:
           run: cmo-picard.CollectInsertSizeMetrics/1.96/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
             I: bam
-            H: 
+            H:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics.pdf")}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}

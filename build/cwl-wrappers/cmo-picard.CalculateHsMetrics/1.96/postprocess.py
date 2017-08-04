@@ -43,6 +43,16 @@ def main():
   items: string
 """, ruamel.yaml.RoundTripLoader)
 
+    # indentation matters here
+    cwl['inputs']['LEVEL'] = ruamel.yaml.load("""
+type:
+- 'null'
+- type: array
+  items: string
+  inputBinding:
+    prefix: --LEVEL
+""", ruamel.yaml.RoundTripLoader)
+
     cwl['inputs']['R']['inputBinding']['prefix'] = '--R'
 
     cwl['inputs']['BI']['type'] = 'File'

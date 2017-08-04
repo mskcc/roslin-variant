@@ -84,6 +84,21 @@ outputs:
     pindel_vcf:
         type: File
         outputSource: call_variants/pindel_vcf
+    facets_png:
+        type: File
+        outputSource: call_variants/facets_png
+    facets_txt:
+        type: File
+        outputSource: call_variants/facets_txt
+    facets_out:
+        type: File
+        outputSource: call_variants/facets_out
+    facets_rdata:
+        type: File
+        outputSource: call_variants/facets_rdata
+    facets_seg:
+        type: File
+        outputSource: call_variants/facets_seg
 
 steps:
 
@@ -106,7 +121,7 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats]
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt, facets_out, facets_rdata, facets_seg]
         run:
             class: Workflow
             inputs:
@@ -134,7 +149,29 @@ steps:
                 pindel_vcf:
                     type: File
                     outputSource: pindel/output
+                facets_png:
+                    type: File
+                    outputSource: facets/facets_png_output
+                facets_txt:
+                    type: File
+                    outputSource: facets/facets_txt_output
+                facets_out:
+                    type: File
+                    outputSource: facets/facets_out_output
+                facets_rdata:
+                    type: File
+                    outputSource: facets/facets_rdata_output
+                facets_seg:
+                    type: File
+                    outputSource: facets/facets_seg_output
             steps:
+                facets:
+                    run: facets.cwl
+                    in:
+                        normal_bam: normal_bam
+                        tumor_bam: tumor_bam
+                        genome: genome
+                    out: [facets_png_output, facets_txt_output, facets_out_output, facets_rdata_output, facets_seg_output]
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
                     in:

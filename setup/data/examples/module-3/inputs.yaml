@@ -12,12 +12,12 @@ tumor_sample_id: "Tumor"
 bed:
     class: File
     path: ../data/from-module-2/intervals.bed
-tumor_bam: 
+tumor_bam:
     class: File
-    path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam
+    path: ../data/from-module-2/DU874145-T.rg.md.abra.fmi.printreads.bam
 normal_bam:
     class: File
-    path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam
+    path: ../data/from-module-2/DU874145-N.rg.md.abra.fmi.printreads.bam
 refseq:
     class: File
     path: "/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt"
