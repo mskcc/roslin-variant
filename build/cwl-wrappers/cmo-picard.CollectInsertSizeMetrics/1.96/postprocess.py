@@ -39,6 +39,16 @@ def main():
 
     cwl['inputs']['I']['type'] = ['null', 'File']
 
+    # indentation matters here
+    cwl['inputs']['LEVEL'] = ruamel.yaml.load("""
+type:
+- 'null'
+- type: array
+  items: string
+  inputBinding:
+    prefix: --LEVEL
+""", ruamel.yaml.RoundTripLoader)
+
     cwl['inputs']['VALIDATION_STRINGENCY']['default'] = 'SILENT'
 
     del cwl['inputs']['version']
