@@ -67,13 +67,13 @@ inputs:
   request_file: File
   project_prefix: string
   md_metrics_files:
-    type: 
+    type:
       type: array
       items:
         type: array
         items: File
   trim_metrics_files:
-    type: 
+    type:
       type: array
       items:
         type: array
@@ -117,7 +117,7 @@ outputs:
     outputSource: scatter_metrics/gcbias_summary
   qc_files:
     type: File
-    outputSource: generate_pdf/qc_files 
+    outputSource: generate_pdf/qc_files
 
 
 
@@ -276,7 +276,7 @@ steps:
     out: [qc_files]
 
 
-           
 
 
- 
+
+
