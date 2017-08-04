@@ -70,9 +70,11 @@ def get_baits_and_targets(assay):
     if assay.find("IMPACT410") > -1:
         assay="IMPACT410_b37"
     if assay in cmo.util.targets:
-        return {"bait_intervals": str(cmo.util.targets[assay]['baits_bed']),
-                "target_intervals": str(cmo.util.targets[assay]['targets_bed']),
-                "fp_intervals": str(cmo.util.targets[assay]['FP_intervals'])}
+        return {"bait_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['baits_bed'])},
+            "target_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['targets_bed'])},
+            "fp_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['FP_intervals'])},
+            "fp_genotypes": {"class":"File", "path":str(cmo.util.targets[assay]['FP_genotypes'])}}
+            }
     else:
         print >>sys.stderr,"Assay field in Request file not found in cmo_resources.json targets: %s" % assay
         sys.exit(1)
@@ -154,6 +156,10 @@ if __name__ == "__main__":
     genome = "GRCh37"
 
     files = {
+        'mapping': {'class': 'File', 'path': os.path.realpath(args.mapping)},
+        'pairing': {'class': 'File', 'path': os.path.realpath(args.pairing)},
+        'grouping': {'class': 'File', 'path': os.path.realpath(args.grouping)},
+        'request': {'class': 'File', 'path': os.path.realpath(args.request)},
         'hapmap': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf'},
         'dbsnp': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf'},
         'indels_1000g': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf'},
