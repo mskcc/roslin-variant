@@ -1,0 +1,10 @@
+outputs:
+  qc_files:
+      type:
+        type: array
+        items: File
+      outputBinding:
+        glob: |
+          ${
+              return inputs.file_prefix + "*";
+          }

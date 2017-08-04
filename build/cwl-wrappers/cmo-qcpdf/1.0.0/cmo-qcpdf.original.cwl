@@ -1,7 +1,7 @@
 #!/usr/bin/env cwl-runner
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ generate_pdf.py --generate_cwl_tool
-# Help: $ generate_pdf.py --help_arg2cwl
+# To generate again: $ cmo_qcpdf --generate_cwl_tool
+# Help: $ cmo_qcpdf --help_arg2cwl
 
 cwlVersion: "cwl:v1.0"
 
@@ -16,24 +16,26 @@ inputs:
   gcbias_files:
     type:
       type: array
-      items: File
+      items: string
+  
+  
     inputBinding:
       prefix: --gcbias-files 
 
   mdmetrics_files:
     type:
       type: array
-      items:
-        type: array
-        items: File
+      items: string
+  
   
     inputBinding:
       prefix: --mdmetrics-files 
 
   insertsize_files:
-    type: 
+    type:
       type: array
-      items: File
+      items: string
+  
   
     inputBinding:
       prefix: --insertsize-files 
@@ -41,7 +43,7 @@ inputs:
   hsmetrics_files:
     type:
       type: array
-      items: File
+      items: string
   
   
     inputBinding:
@@ -50,7 +52,8 @@ inputs:
   qualmetrics_files:
     type:
       type: array
-      items: File
+      items: string
+  
   
     inputBinding:
       prefix: --qualmetrics-files 
@@ -58,53 +61,56 @@ inputs:
   fingerprint_files:
     type:
       type: array
-      items: File
-   
+      items: string
+  
+  
     inputBinding:
       prefix: --fingerprint-files 
 
   trimgalore_files:
     type:
       type: array
-      items: 
-        type: array
-        items: File
+      items: string
+  
+  
     inputBinding:
       prefix: --trimgalore-files 
 
   file_prefix:
-    type: string
+    type: str
+  
+  
     inputBinding:
       prefix: --file-prefix 
 
   fp_genotypes:
-    type: File
+    type: str
+  
+  
     inputBinding:
       prefix: --fp-genotypes 
 
   pairing_file:
-    type: File
+    type: str
+  
+  
     inputBinding:
       prefix: --pairing-file 
 
   grouping_file:
-    type: File
+    type: str
+  
+  
     inputBinding:
       prefix: --grouping-file 
 
   request_file:
-    type: File
+    type: str
+  
+  
     inputBinding:
       prefix: --request-file 
 
 
 outputs:
-  qc_files:
-    type: 
-      type: array
-      items: File
-    outputBinding:
-      glob: | 
-        ${
-            return inputs.file_prefix + "*";
-        }
+    []

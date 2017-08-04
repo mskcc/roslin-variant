@@ -82,6 +82,9 @@
         ],
         "facets": [
             "1.5.4"
+        ],
+        "@qcpdf": [
+            "1.0.0"
         ]
     },
     "containerDependency": {
@@ -157,6 +160,9 @@
         ],
         "facets": [
             "cmo_facets.doFacets"
+        ],
+        "@qcpdf": [
+            "cmo_qcpdf"
         ]
     }
 }
