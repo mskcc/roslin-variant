@@ -30,7 +30,7 @@ Registry: http://localhost:5000
 %test
 
     # get actual output from generate_pdf
-        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /tmp/actual_generate_pdf.diff.txt    
+        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /tmp/actual_generate_pdf.diff.txt
 
     # expected generate_pdf output
     cat > /tmp/expected_generate_pdf.diff.txt << EOM
@@ -42,4 +42,3 @@ EOM
 
     # delete tmp files
     rm -rf /tmp/*.diff.txt
-

@@ -67,13 +67,13 @@ inputs:
   request_file: File
   project_prefix: string
   md_metrics_files:
-    type: 
+    type:
       type: array
       items:
         type: array
         items: File
   trim_metrics_files:
-    type: 
+    type:
       type: array
       items:
         type: array
@@ -117,7 +117,7 @@ outputs:
     outputSource: scatter_metrics/gcbias_summary
   qc_files:
     type: File
-    outputSource: generate_pdf/qc_files 
+    outputSource: generate_pdf/qc_files
 
 
 
@@ -259,7 +259,7 @@ steps:
               valueFrom: ${ return true; }
           out: [out_file]
   generate_pdf:
-    run: generate-pdf.cwl
+    run: cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
     in:
       gcbias_files: scatter_metrics/gcbias_metrics_files
       mdmetrics_files: md_metrics_files
@@ -274,9 +274,3 @@ steps:
       grouping_file: grouping_file
       request_file: request_file
     out: [qc_files]
-
-
-           
-
-
- 

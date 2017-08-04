@@ -160,6 +160,9 @@
         ],
         "facets": [
             "cmo_facets.doFacets"
+        ],
+        "roslin-qc": [
+            "cmo_qcpdf"
         ]
     }
 }
