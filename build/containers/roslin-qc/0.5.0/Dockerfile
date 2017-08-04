@@ -24,7 +24,7 @@ RUN apk add --update \
     # install mysql connector
     && cd /tmp \
 	&& pip install mysql-connector-python-2.1.6.tar.gz \
-	# install pandas 
+	# install pandas
 	&& easy_install pandas \
 	# install python dependencies
 	&& pip install fnmatch2 dbconfig argparse \
