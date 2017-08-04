@@ -55,14 +55,19 @@ def parse_request_file(rfile):
     stream = open(rfile, "r")
     #this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser. 
     #thumbs up
+    assay=None
+    project=None
     while(1):
         line = stream.readline()
         if not line:
             break
         if line.find("Assay") > -1:
             (key, value) = line.strip().split(": ")
-            return value
-    return None
+            assay=value
+        if line.find("ProjectID") > -1:
+            (key, value) = line.strip().split(": ")
+            project=value
+    return (assay, project)
 
 
 
@@ -122,7 +127,7 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output-directory", help="output_directory for pipeline (NOT CONFIG FILE)", required=True)
     parser.add_argument("-f", "--yaml-output-file", help="file to write yaml to", required=True)
     args = parser.parse_args()
-    assay = parse_request_file(args.request)
+    (assay, project_id) = parse_request_file(args.request)
     intervals = get_baits_and_targets(assay)
     mapping_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
@@ -156,10 +161,10 @@ if __name__ == "__main__":
     genome = "GRCh37"
 
     files = {
-        'mapping': {'class': 'File', 'path': os.path.realpath(args.mapping)},
-        'pairing': {'class': 'File', 'path': os.path.realpath(args.pairing)},
-        'grouping': {'class': 'File', 'path': os.path.realpath(args.grouping)},
-        'request': {'class': 'File', 'path': os.path.realpath(args.request)},
+        'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
+        'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
+        'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
+        'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
         'hapmap': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf'},
         'dbsnp': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf'},
         'indels_1000g': {'class': 'File', 'path': '/ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf'},
@@ -232,7 +237,8 @@ if __name__ == "__main__":
         "covariates": covariates,
         "emit_original_quals": True,
         "num_threads": 10,
-        "tmp_dir": "/scratch"
+        "tmp_dir": "/scratch",
+        "project_prefix": project_id
     }
     out_dict.update({"runparams": params})
     ofh.write(yaml.dump(out_dict))
