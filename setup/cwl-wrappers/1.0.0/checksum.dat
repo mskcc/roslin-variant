@@ -25,7 +25,7 @@ af104261c58765fcb2f1432e5ab75bf3  ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk
 215869493d07b858ebe8534408f22a26  ./cmo-mutect/1.1.5/cmo-mutect.cwl
 86cfca0e3fbcd0cd3ec6cc16293777b2  ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
 f1a13b21abac4c756ef9341c43722c8b  ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
-bc4025f0e12dfa08c5661256ca7fd05f  ./cmo-picard.CalculateHsMetrics/1.96/cmo-picard.CalculateHsMetrics.cwl
+8bd5b6ae5ec86b0f4bc02acdd9155a79  ./cmo-picard.CalculateHsMetrics/1.96/cmo-picard.CalculateHsMetrics.cwl
 e253adffe17a811cc46299d4199b663e  ./cmo-picard.CollectAlignmentSummaryMetrics/1.96/cmo-picard.CollectAlignmentSummaryMetrics.cwl
 4c5b956d722465614ad270bf44fdae33  ./cmo-picard.CollectGcBiasMetrics/1.96/cmo-picard.CollectGcBiasMetrics.cwl
 d9a183f5be4fa33c9eb3a4303b69505f  ./cmo-picard.CollectInsertSizeMetrics/1.96/cmo-picard.CollectInsertSizeMetrics.cwl
@@ -56,7 +56,7 @@ d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c804c5d194dbc118df1ee78c834e3753  ./module-2.cwl
 31a5ae8cd56d22fddda58a543a06321e  ./module-3.cwl
 452bdba3a0bf652b90e8a97e2c626dc7  ./module-4.cwl
-d3e0398f59538e802cd3e2db719dfda8  ./module-5.cwl
+15299643137cd2fe91a2f60c19cc276b  ./module-5.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
 f2fd0900df0aa290832ee340409d8b36  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
