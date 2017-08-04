@@ -259,7 +259,7 @@ steps:
               valueFrom: ${ return true; }
           out: [out_file]
   generate_pdf:
-    run: generate-pdf.cwl
+    run: cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
     in:
       gcbias_files: scatter_metrics/gcbias_metrics_files
       mdmetrics_files: md_metrics_files
@@ -274,9 +274,3 @@ steps:
       grouping_file: grouping_file
       request_file: request_file
     out: [qc_files]
-
-
-
-
-
-
