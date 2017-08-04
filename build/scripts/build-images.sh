@@ -145,6 +145,7 @@ do
         abra) padding_size=100;; # fixme: because no longer alpine
         seq-cna) padding_size=50;;
         facets) padding_size=100;;
+        roslin-qc) padding_size=100;;
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)

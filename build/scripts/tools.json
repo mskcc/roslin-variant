@@ -83,8 +83,8 @@
         "facets": [
             "1.5.4"
         ],
-        "@qcpdf": [
-            "1.0.0"
+        "roslin-qc": [
+            "0.5.0"
         ]
     },
     "containerDependency": {
@@ -161,7 +161,7 @@
         "facets": [
             "cmo_facets.doFacets"
         ],
-        "@qcpdf": [
+        "roslin-qc": [
             "cmo_qcpdf"
         ]
     }
