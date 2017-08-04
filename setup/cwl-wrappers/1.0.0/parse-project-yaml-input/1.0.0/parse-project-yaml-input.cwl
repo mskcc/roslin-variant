@@ -60,6 +60,11 @@ inputs:
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
+        fp_genotypes: File
+        grouping_file: File
+        request_file: File
+        pairing_file: File
+
 
   groups:
     type:
@@ -282,8 +287,13 @@ outputs:
       items: string
   fp_intervals: File
   genome: string
+  project_prefix: string
   bait_intervals: File
   target_intervals: File
+  fp_genotypes: File
+  request_file: File
+  pairing_file: File
+  grouping_file: File
 
 
 expression: "${var groups = inputs.groups;
@@ -323,7 +333,12 @@ expression: "${var groups = inputs.groups;
 project_object['bait_intervals']=inputs.db_files.bait_intervals;
 project_object['target_intervals']=inputs.db_files.target_intervals;
 project_object['fp_intervals']=inputs.db_files.fp_intervals;
+project_object['fp_genotypes']=inputs.db_files.fp_genotypes;
+project_object['request_file']=inputs.db_files.request_file;
+project_object['pairing_file']=inputs.db_files.pairing_file;
+project_object['grouping_fie']=inputs.db_files.grouping_file;
 project_object['genome']=inputs.runparams.genome;
+project_object['project_prefix']=inputs.runparams.project_prefix;
 return project_object;
 }"
 

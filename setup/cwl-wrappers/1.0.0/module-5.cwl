@@ -61,6 +61,24 @@ inputs:
   bait_intervals: File
   target_intervals: File
   fp_intervals: File
+  fp_genotypes: File
+  grouping_file: File
+  pairing_file: File
+  request_file: File
+  project_prefix: string
+  md_metrics_files:
+    type: 
+      type: array
+      items:
+        type: array
+        items: File
+  trim_metrics_files:
+    type: 
+      type: array
+      items:
+        type: array
+        items: File
+
 
 outputs:
 
@@ -97,6 +115,9 @@ outputs:
   gcbias_summary:
     type: File
     outputSource: scatter_metrics/gcbias_summary
+  qc_files:
+    type: File
+    outputSource: generate_pdf/qc_files 
 
 
 
@@ -237,3 +258,25 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
+  generate_pdf:
+    run: generate-pdf.cwl
+    in:
+      gcbias_files: scatter_metrics/gcbias_metrics_files
+      mdmetrics_files: md_metrics_files
+      fingerprint_files: scatter_metrics/doc_basecounts
+      trimgalore_files: trim_metrics_files
+      insertsize_files: scatter_metrics/is_metrics
+      hsmetrics_files: scatter_metrics/hs_metrics_files
+      qualmetrics_files: scatter_metrics/qual_metrics
+      file_prefix: project_prefix
+      fp_genotypes: fp_genotypes
+      pairing_file: pairing_file
+      grouping_file: grouping_file
+      request_file: request_file
+    out: [qc_files]
+
+
+           
+
+
+ 
