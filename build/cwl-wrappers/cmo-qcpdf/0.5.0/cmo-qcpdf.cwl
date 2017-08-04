@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-qcpdf
-  doap:revision: 1.0.0
+  doap:revision: 0.5.0
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -35,8 +35,8 @@ dct:contributor:
     foaf:mbox: mailto:chunj@mskcc.org
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_qcpdf --generate_cwl_tool
-# Help: $ cmo_qcpdf --help_arg2cwl
+# To generate again: $ cmo_qcpdf -o FILENAME --generate_cwl_tool
+# Help: $ cmo_qcpdf  --help_arg2cwl
 
 cwlVersion: cwl:v1.0
 
