@@ -82,6 +82,9 @@
         ],
         "facets": [
             "1.5.4"
+        ],
+        "roslin-qc": [
+            "0.5.0"
         ]
     },
     "containerDependency": {
