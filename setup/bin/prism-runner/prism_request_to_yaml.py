@@ -53,35 +53,36 @@ def parse_grouping_file(gfile):
 
 def parse_request_file(rfile):
     stream = open(rfile, "r")
-    #this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser. 
-    #thumbs up
-    assay=None
-    project=None
+    # this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser.
+    # thumbs up
+    assay = None
+    project = None
+
     while(1):
         line = stream.readline()
         if not line:
             break
         if line.find("Assay") > -1:
             (key, value) = line.strip().split(": ")
-            assay=value
+            assay = value
         if line.find("ProjectID") > -1:
             (key, value) = line.strip().split(": ")
-            project=value
+            project = value
     return (assay, project)
 
 
-
 def get_baits_and_targets(assay):
-    #probably need similar rules for whatever "Exome" string is in rquest
+    # probably need similar rules for whatever "Exome" string is in rquest
     if assay.find("IMPACT410") > -1:
-        assay="IMPACT410_b37"
+        assay = "IMPACT410_b37"
     if assay in cmo.util.targets:
-        return {"bait_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['baits_list'])},
-            "target_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['targets_list'])},
-            "fp_intervals": {"class":"File", "path":str(cmo.util.targets[assay]['FP_intervals'])},
-            "fp_genotypes": {"class":"File", "path":str(cmo.util.targets[assay]['FP_genotypes'])}}
+        return {"bait_intervals": {"class": "File", "path": str(cmo.util.targets[assay]['baits_list'])},
+                "target_intervals": {"class": "File", "path": str(cmo.util.targets[assay]['targets_list'])},
+                "fp_intervals": {"class": "File", "path": str(cmo.util.targets[assay]['FP_intervals'])},
+                "fp_genotypes": {"class": "File", "path": str(cmo.util.targets[assay]['FP_genotypes'])}}
+
     else:
-        print >>sys.stderr,"Assay field in Request file not found in cmo_resources.json targets: %s" % assay
+        print >>sys.stderr, "Assay field in Request file not found in cmo_resources.json targets: %s" % assay
         sys.exit(1)
 
 

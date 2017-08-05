@@ -47,7 +47,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 8
-    coresMin: 2 
+    coresMin: 2
 
 
 doc: |
@@ -66,13 +66,12 @@ inputs:
     doc: filename2 to split
     inputBinding:
       prefix: --fastq2
-  
+
   sample:
-    type:
-    - "null"
-    - string
-    inputBinding: 
-      prefix: --sample 
+    type: ['null', string]
+    doc: sample ID
+    inputBinding:
+      prefix: --sample
 
 
 outputs:

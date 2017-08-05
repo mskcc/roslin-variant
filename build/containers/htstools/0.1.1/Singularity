@@ -1,0 +1,92 @@
+Bootstrap: docker
+From: /pipeline-htstools:0.1.1
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    . /tmp/settings-container.sh
+
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    export PYTHONNOUSERSITE="set"
+    case $1 in
+        snp-pileup) shift; exec /usr/bin/snp-pileup "$@" ;;
+        ppflag-fixer) shift; exec /usr/bin/ppflag-fixer "$@" ;;
+        *) echo "Please use either snp-pileup or ppflag-fixer"; exit 1 ;;
+    esac
+
+%test
+
+    # get actual output from snp-pileup
+    /usr/bin/snp-pileup --help > /tmp/actual_snp_pileup.diff.txt
+    # get actual output from ppflag-fixer
+    /usr/bin/ppflag-fixer --help > /tmp/actual_ppflag_fixer.diff.txt
+
+    # expected snp-pileup output
+    cat > /tmp/expected_snp_pileup.diff.txt << EOM
+Usage: snp-pileup [OPTION...] <vcf file> <output file> <sequence files...>
+
+  -A, --count-orphans        Do not discard anomalous read pairs.
+  -d, --max-depth=DEPTH      Sets the maximum depth. Default is 4000.
+  -g, --gzip                 Compresses the output file with BGZF.
+  -p, --progress             Show a progress bar. WARNING: requires additional
+                             time to calculate number of SNPs, and will take
+                             longer than normal.
+  -P, --pseudo-snps=MULTIPLE Every MULTIPLE positions, if there is no SNP,
+                             insert a blank record with the total count at the
+                             position.
+  -q, --min-map-quality=QUALITY   Sets the minimum threshold for mapping
+                             quality. Default is 0.
+  -Q, --min-base-quality=QUALITY   Sets the minimum threshold for base quality.
+                             Default is 0.
+  -r, --min-read-counts=READS   Comma separated list of minimum read counts for
+                             a position to be output. Default is 0.
+  -v, --verbose              Show detailed messages.
+  -x, --ignore-overlaps      Disable read-pair overlap detection.
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+EOM
+
+    # expected ppflag-fixer output
+    cat > /tmp/expected_ppflag_fixer.diff.txt << EOM
+Usage: ppflag-fixer [OPTION...] <input file> <output file>
+
+  -m, --max-tlen=LENGTH      Sets a maximum bound of LENGTH on all fragments;
+                             any greater and they won't be marked as proper
+                             pair.
+  -p, --progress             Keep track of progress through the file. This
+                             requires the file to be indexed.
+  -?, --help                 Give this help list
+      --usage                Give a short usage message
+
+Mandatory or optional arguments to long options are also mandatory or optional
+for any corresponding short options.
+EOM
+
+    # diff snp-pileup
+    diff /tmp/actual_snp_pileup.diff.txt /tmp/expected_snp_pileup.diff.txt
+
+    # diff ppflag-fixer
+    diff /tmp/actual_ppflag_fixer.diff.txt /tmp/expected_ppflag_fixer.diff.txt
+
+    # delete tmp files
+    rm -rf /tmp/*.diff.txt
+

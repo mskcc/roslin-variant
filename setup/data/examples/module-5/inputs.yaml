@@ -1,7 +1,24 @@
 genome: 'GRCh37'
+
 bams:
-  - { class: File, path: ../data/from-module-2/P1_ADDRG_MD.abra.fmi.printreads.bam }
-  - { class: File, path: ../data/from-module-2/P2_ADDRG_MD.abra.fmi.printreads.bam }
+  - { class: File, path: ../data/from-module-2/DU874145-N.rg.md.abra.fmi.printreads.bam }
+  - { class: File, path: ../data/from-module-2/DU874145-T.rg.md.abra.fmi.printreads.bam }
+
 bait_intervals: { class: File, path: ../data/ilists/AgilentExon_51MB_b37_v3_baits.100sites.intervals }
 target_intervals: { class: File, path: ../data/ilists/AgilentExon_51MB_b37_v3_targets.100sites.intervals }
-fp_intervals: { class: File, path: ../data/ilists/AgilentExon_51MB_b37_v3_targets.100sites.intervals }
+fp_intervals: { class: File, path: ../data/ilists/Agilent51MBExome__b37__FP_intervals.intervals }
+fp_genotypes: { class: File, path: ../data/ilists/Agilent51MBExome__b37__FP_tiling_genotypes.txt }
+
+grouping_file: { class: File, path: ./Proj_DEV_0002_sample_grouping.txt }
+request_file: { class: File, path: ./Proj_DEV_0002_request.txt }
+pairing_file:  { class: File, path: ./Proj_DEV_0002_sample_pairing.txt }
+project_prefix: "Proj_DEV_0002"
+
+md_metrics_files:
+  - [{ class: File, path: ../data/from-module-1//DU874145-N.rg.md_metrics }]
+  - [{ class: File, path: ../data/from-module-1//DU874145-T.rg.md_metrics }]
+trim_metrics_files:
+  - [{ class: File, path: ../data/from-module-1/DU874145-T_IGO_00000_TEST_L001_R2_001.chunk000_cl.stats }]
+  - [{ class: File, path: ../data/from-module-1/DU874145-T_IGO_00000_TEST_L001_R1_001.chunk000_cl.stats }]
+  - [{ class: File, path: ../data/from-module-1/DU874145-N_IGO_00000_TEST_L001_R2_001.chunk000_cl.stats }]
+  - [{ class: File, path: ../data/from-module-1/DU874145-N_IGO_00000_TEST_L001_R1_001.chunk000_cl.stats }]
