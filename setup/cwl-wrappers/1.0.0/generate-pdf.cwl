@@ -66,9 +66,13 @@ inputs:
   trimgalore_files:
     type:
       type: array
-      items: 
+      items:
         type: array
-        items: File
+        items:
+          type: array
+          items: 
+            type: array
+            items: File
     inputBinding:
       prefix: --trimgalore-files 
 
