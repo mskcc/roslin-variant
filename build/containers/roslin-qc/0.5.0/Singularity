@@ -24,8 +24,9 @@ Registry: http://localhost:5000
 
 %runscript
 
+    # disable per-user site-packages before run
     export PYTHONNOUSERSITE="set"
-    exec python /usr/bin/generate_pdf.py
+    exec python /usr/bin/generate_pdf.py "$@"
 
 %test
 
