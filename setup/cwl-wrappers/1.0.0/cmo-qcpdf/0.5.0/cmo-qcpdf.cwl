@@ -100,7 +100,7 @@ inputs:
 
   trimgalore_files:
     type:
-      type: array
+    - type: array
       items:
         type: array
         items:
@@ -108,12 +108,10 @@ inputs:
           items:
             type: array
             items: File
-
-type:
-      type: array
-      items:
-        type: array
-        items: File
+#    - type: array
+#      items: 
+#        type: array
+#        items: File
     inputBinding:
       prefix: --trimgalore-files
 
