@@ -108,10 +108,6 @@ inputs:
           items:
             type: array
             items: File
-#    - type: array
-#      items: 
-#        type: array
-#        items: File
     inputBinding:
       prefix: --trimgalore-files
 
