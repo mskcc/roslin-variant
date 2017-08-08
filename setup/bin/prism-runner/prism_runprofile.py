@@ -10,7 +10,7 @@ import ruamel.yaml
 import redis
 
 
-DOC_VERSION = "0.0.1"
+DOC_VERSION = "1.0.0"
 
 IMG_METADATA_CACHE = {}
 CWL_METADATA_CACHE = {}
