@@ -85,6 +85,12 @@ cp ./settings.sh $HOME_DIR/.prism/
 echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" > $HOME_DIR/.prism/sing.sh
 echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" > ~/.prism/prism-runner.sh
 
+# append -S 1 to TOIL_LSF_ARGS (IGOWEB-459)
+if [[ "${TOIL_LSF_ARGS}" != *"-S 1"* ]]
+then
+    echo "export TOIL_LSF_ARGS='${TOIL_LSF_ARGS} -S 1'" > ~/.prism/toil-lsf-args.sh
+fi
+
 cp $HOME_DIR/.profile $HOME_DIR/.profile.bak
 
 settings_found=`grep "# PRISM.SETTINGS\$" $HOME_DIR/.profile`
@@ -94,17 +100,21 @@ then
 fi
 
 cat << "EOF"
-  ____   ____   ___  ____   __  __                    
- |  _ \ |  _ \ |_ _|/ ___| |  \/  |                   
- | |_) || |_) | | | \___ \ | |\/| |                   
- |  __/ |  _ <  | |  ___) || |  | |                   
- |_|    |_| \_\|___||____/ |_|  |_|                   
-    ____  ___  ____   _____  _      ___  _   _  _____ 
-   |  _ \|_ _||  _ \ | ____|| |    |_ _|| \ | || ____|
-   | |_) || | | |_) ||  _|  | |     | | |  \| ||  _|  
-   |  __/ | | |  __/ | |___ | |___  | | | |\  || |___ 
-   |_|   |___||_|    |_____||_____||___||_| \_||_____|
-                                                      
+
+ ______     ______     ______     __         __     __   __                  
+/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \                 
+\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \                
+ \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\               
+  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/               
+ ______   __     ______   ______     __         __     __   __     ______    
+/\  == \ /\ \   /\  == \ /\  ___\   /\ \       /\ \   /\ "-.\ \   /\  ___\   
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\   \ \ \____  \ \ \  \ \ \-.  \  \ \  __\   
+ \ \_\    \ \_\  \ \_\    \ \_____\  \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\ 
+  \/_/     \/_/   \/_/     \/_____/   \/_____/   \/_/   \/_/ \/_/   \/_____/ 
+                                                                             
+
+ Roslin Pipeline
+
 EOF
 
 echo "Your workspace: ${PRISM_INPUT_PATH}/${USER_ID}"

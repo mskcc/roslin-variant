@@ -70,10 +70,14 @@ items: File
 """, ruamel.yaml.RoundTripLoader)
 
     cwl['inputs']['trimgalore_files']['type'] = ruamel.yaml.load("""
-type: array
-items:
-  type: array
-  items: File
+- type: array
+  items:
+    type: array
+    items:
+      type: array
+      items:
+        type: array
+        items: File
 """, ruamel.yaml.RoundTripLoader)
 
     cwl['inputs']['fp_genotypes']['type'] = 'File'
