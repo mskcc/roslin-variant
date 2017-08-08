@@ -4,11 +4,26 @@ import os
 import subprocess
 import hashlib
 import json
+import logging
 import argparse
 import re
 import ruamel.yaml
 import redis
 
+
+logger = logging.getLogger("prism_runprofile")
+logger.setLevel(logging.INFO)
+
+# create a file log handler
+log_file_handler = logging.FileHandler('prism_runprofile.log')
+log_file_handler.setLevel(logging.INFO)
+
+# create a logging format
+log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_file_handler.setFormatter(log_formatter)
+
+# add the handlers to the logger
+logger.addHandler(log_file_handler)
 
 DOC_VERSION = "1.0.0"
 
@@ -712,11 +727,15 @@ def main():
 
     params = parser.parse_args()
 
-    run_profile = make_runprofile(params.job_uuid, params.inputs_yaml_path, params.cwltoil_log_path)
+    try:
+        run_profile = make_runprofile(params.job_uuid, params.inputs_yaml_path, params.cwltoil_log_path)
 
-    print json.dumps(run_profile, indent=2)
+        print json.dumps(run_profile, indent=2)
 
-    publish_to_redis(params.job_uuid, run_profile)
+        publish_to_redis(params.job_uuid, run_profile)
+
+    except Exception as e:
+        logger.error(repr(e))
 
 
 if __name__ == "__main__":
