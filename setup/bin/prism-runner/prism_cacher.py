@@ -17,7 +17,7 @@ def poll():
         "bjobs",
         "-u", "all",
         "-a",
-        "-o", "jobid proj_name job_name stat submit_time start_time finish_time run_time effective_resreq exec_host delimiter='\t'",
+        "-o", "user jobid proj_name job_name stat submit_time start_time finish_time run_time effective_resreq exec_host delimiter='\t'",
         "-noheader"
     ]
 

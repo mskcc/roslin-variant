@@ -16,7 +16,7 @@ import re
 import pytz
 import redis
 
-DOC_VERSION = "0.0.1"
+DOC_VERSION = "1.0.0"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
 
 

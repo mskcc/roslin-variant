@@ -30,7 +30,7 @@ log_file_handler.setFormatter(log_formatter)
 # add the handlers to the logger
 logger.addHandler(log_file_handler)
 
-DOC_VERSION = "0.0.1"
+DOC_VERSION = "1.0.0"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S %Z%z"
 
 
@@ -44,12 +44,12 @@ def parse_effective_resource_requirement_string(input_str):
     if match:
         memory = match.group(1)
 
-    cores = None
+    iounits = None
     match = re.search(r'iounits=(.*?)\]', input_str)
     if match:
-        cores = match.group(1)
+        iounits = match.group(1)
 
-    return memory, cores
+    return memory, iounits
 
 
 def parse_execution_host_string(input_str):
@@ -295,7 +295,7 @@ def construct_run_results(bjobs_info, already_reported_projs):
     for row in rows:
 
         try:
-            lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = row.strip().split('\t')
+            user_id, lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = row.strip().split('\t')
         except ValueError as e:
             logger.error("Invalid bjob info:" + ",".join(row.strip().split('\t')))
 
@@ -327,6 +327,7 @@ def construct_run_results(bjobs_info, already_reported_projs):
                 "pipelineJobStoreId": None,
                 "workflow": None,
                 "projectId": cmo_project_id,
+                "userId": user_id,
                 "labels": [],
                 "timestamp": {},
                 "status": {},
@@ -383,19 +384,19 @@ def construct_run_results(bjobs_info, already_reported_projs):
                 )
 
         # parse effective resource requirement string
-        memory, cores = parse_effective_resource_requirement_string(effective_resreq)
+        memory, iounits = parse_effective_resource_requirement_string(effective_resreq)
 
         # parse execution host string
-        num_of_hosts, host_name = parse_execution_host_string(exec_host)
+        num_of_cores, host_name = parse_execution_host_string(exec_host)
 
         # construct batchSystemJobs
         projects[job_uuid]["batchSystemJobs"][lsf_job_id] = {
             "name": job_name,
             "status": status,
             "memory": memory,
-            "cores": cores,
-            "hosts": {
-                host_name: num_of_hosts
+            "iounits": iounits,
+            "cores": {
+                host_name: num_of_cores
             },
             "logFile": None
         }
