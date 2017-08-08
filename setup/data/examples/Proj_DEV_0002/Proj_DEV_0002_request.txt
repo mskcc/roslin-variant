@@ -5,7 +5,7 @@ Investigator: donoghum
 Investigator_Name: Mark Donoghue
 Data_Analyst: Amy Webber
 Data_Analyst_E-mail: webbera@mskcc.org
-ProjectID: Proj_UTest02_s16
+ProjectID: Proj_DEV_0002
 ProjectFolder: /ifs/projects/BIC/variant/Proj_UTest02_s16
 Species: Human
 Assay: AgilentExon_51MB_b37_v3

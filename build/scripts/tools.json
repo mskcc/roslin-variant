@@ -76,6 +76,15 @@
         ],
         "seq-cna": [
             "1.0.0"
+        ],
+        "htstools": [
+            "0.1.1"
+        ],
+        "facets": [
+            "1.5.4"
+        ],
+        "roslin-qc": [
+            "0.5.0"
         ]
     },
     "containerDependency": {
@@ -88,14 +97,20 @@
         "picard": [
             "cmo_picard.MarkDuplicates",
             "cmo_picard.AddOrReplaceReadGroups",
-            "cmo_picard.FixMateInformation"
+            "cmo_picard.FixMateInformation",
+            "cmo_picard.CollectMultipleMetrics",
+            "cmo_picard.CalculateHsMetrics",
+            "cmo_picard.CollectAlignmentSummaryMetrics",
+            "cmo_picard.CollectGcBiasMetrics",
+            "cmo_picard.CollectInsertSizeMetrics"
         ],
         "gatk": [
             "cmo_gatk.FindCoveredIntervals",
             "cmo_gatk.BaseRecalibrator",
             "cmo_gatk.PrintReads",
             "cmo_gatk.SomaticIndelDetector",
-            "cmo_gatk.CombineVariants"
+            "cmo_gatk.CombineVariants",
+            "cmo_gatk.DepthOfCoverage"
         ],
         "abra": [
             "cmo_abra"
@@ -136,8 +151,18 @@
         "@split-reads": [
             "cmo_split_reads"
         ],
-        "ngs-filters":[
+        "ngs-filters": [
             "ngs-filters"
+        ],
+        "htstools": [
+            "cmo_snp-pileup",
+            "cmo_ppflag-fixer"
+        ],
+        "facets": [
+            "cmo_facets.doFacets"
+        ],
+        "roslin-qc": [
+            "cmo_qcpdf"
         ]
     }
 }

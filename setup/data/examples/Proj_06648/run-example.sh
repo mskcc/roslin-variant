@@ -4,6 +4,7 @@ prism_request_to_yaml.py \
 	-m Proj_06648_sample_mapping.txt \
 	-p Proj_06648_sample_pairing.txt \
 	-g Proj_06648_sample_grouping.txt \
+	-r Proj_06648_request.txt \
 	-o . \
 	-f inputs.yaml
 
