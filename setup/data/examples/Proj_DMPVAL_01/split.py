@@ -4,7 +4,6 @@ import csv
 import re
 
 
-
 project_name = "Proj_DMPVAL_01"
 num_of_groups = 256
 num_of_groups_per_batch = 64
@@ -26,7 +25,7 @@ num_of_batches = len(split_ranges)
 
 
 for batch_id in range(1, num_of_batches + 1):
-    file_batch[batch_id] = open("{}_{}_sample_grouping.txt".format(project_name, batch_id), "wt")
+    file_batch[batch_id] = open("./batch/batch-{0}/{1}_{0}_sample_grouping.txt".format(batch_id, project_name), "wt")
     grouping_dict[batch_id] = dict()
 
 
@@ -59,3 +58,4 @@ with open("Proj_DMPVAL_01_sample_grouping.txt", "r") as fh:
 
 for batch_id in range(1, num_of_batches + 1):
     file_batch[batch_id].close()
+    print "Generated {}".format(file_batch[batch_id].name)
