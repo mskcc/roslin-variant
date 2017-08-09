@@ -59,7 +59,7 @@ c804c5d194dbc118df1ee78c834e3753  ./module-2.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
 54e4a54b4bc62e4d7b324c06b1853cb5  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
-262bbbca38dc486588cb26f875280a5e  ./project-workflow.cwl
+4ff6f7c9d5d06fe82ce69ea53ddaefe2  ./project-workflow.cwl
 acbf3454941f81831232452299fdcd75  ./remove-variants/0.1.1/remove-variants.cwl
 00371afb5a6b8d4884bb2c258a7366b9  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 fac1573f49f84bd881f606248b87b997  ./replace-allele-counts/0.1.1/replace-allele-counts.cwl
