@@ -388,7 +388,7 @@ steps:
       aa_bams: group_process/bams
       runparams: runparams
       db_files: db_files
-      bams: 
+      bams:
         valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
       genome: projparse/genome
       bait_intervals: projparse/bait_intervals
@@ -402,5 +402,4 @@ steps:
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
 
-
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary]
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
