@@ -269,6 +269,9 @@ outputs:
   gcbias_summary:
     type: File
     outputSource: gather_metrics/gcbias_summary
+  qcpdf:
+    type: File
+    outputSource: gather_metrics/qc_files
 
 steps:
 
@@ -399,8 +402,5 @@ steps:
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
 
+
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary]
-
-
-
-

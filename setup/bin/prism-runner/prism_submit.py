@@ -27,6 +27,7 @@ def bsub(bsubline):
     output = process.stdout.readline()
 
     # fixme: need better exception handling
+    print output
     lsf_job_id = int(output.strip().split()[1].strip('<>'))
 
     return lsf_job_id
