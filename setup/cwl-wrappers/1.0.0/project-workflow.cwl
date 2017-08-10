@@ -385,9 +385,11 @@ steps:
   gather_metrics:
     run: module-5.cwl
     in:
+      aa_bams: group_process/bams
       runparams: runparams
       db_files: db_files
-      bams: group_process/bams
+      bams: 
+        valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
       genome: projparse/genome
       bait_intervals: projparse/bait_intervals
       target_intervals: projparse/target_intervals
@@ -400,6 +402,5 @@ steps:
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
 
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
-    scatter: [bams]
-    scatterMethod: dotproduct
+
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary]
