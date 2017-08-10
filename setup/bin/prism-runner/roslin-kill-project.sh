@@ -28,6 +28,7 @@ do
     esac
 done
 
+# get LSF project name using LSF leader job ID
 if [ ! -z ${lsf_leader_job_id} ]
 then
     lsf_project_name=`bjobs -o proj_name -noheader ${lsf_leader_job_id}`
@@ -44,6 +45,7 @@ then
     exit 1
 fi
 
+# get list of job IDs that belong to the specified LSF project
 list=`bjobs -P ${lsf_project_name} -o "jobid delimiter=','" -noheader 2>&1`
 
 if [ "${list}" == "No unfinished job found" ]
@@ -52,7 +54,12 @@ then
     exit 0
 fi
 
+# start terminating jobs
 for id in ${list}
 do
     bkill $id
 done
+
+# wait 5 seconds and check if any jobs are still running
+sleep 5
+bjobs -P ${lsf_project_name}
