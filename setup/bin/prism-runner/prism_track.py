@@ -398,7 +398,13 @@ def construct_run_results(bjobs_info, already_reported_projs):
             "cores": {
                 host_name: num_of_cores
             },
-            "logFile": None
+            "logFile": None,
+            "timestamp": {
+                "submitted": parse_date_to_utc(submit_time),
+                "started": parse_date_to_utc(start_time),
+                "finished": parse_date_to_utc(finish_time),
+                "duration": parse_run_time_string(run_time)
+            }
         }
 
     return projects
