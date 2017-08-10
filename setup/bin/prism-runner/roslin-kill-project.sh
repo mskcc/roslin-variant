@@ -9,7 +9,8 @@ USAGE: `basename $0` [options]
 OPTIONS:
 
    -p	   LSF project name (e.g. Proj_05583_F:d95fcae6-7c55-11e7-865e-645106efb11c)
-   -l      LSF leader job ID
+   -l      LSF leader job ID (e.g. 13186465)
+   -h      Help
 
 NOTES:
 
@@ -32,9 +33,10 @@ done
 if [ ! -z ${lsf_leader_job_id} ]
 then
     lsf_project_name=`bjobs -o proj_name -noheader ${lsf_leader_job_id}`
-    if [[ "${lsf_project_name}" == *"not found"* ]]
+    if [[ "${lsf_project_name}" == *"not found"* ]] ||
+       [[ "${lsf_project_name}" == *"Illegal job ID"* ]]
     then
-        echo "Unable to find the leader job"
+        echo "Unable to find the leader job for LSF ID '${lsf_leader_job_id}'"
         exit 1
     fi
 fi
