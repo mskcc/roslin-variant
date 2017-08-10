@@ -4,11 +4,10 @@ outputs:
       type: array
       items: File
     outputBinding:
-      glob: "*R1*chunk*fastq.gz"
+      glob: '*_R1_*chunk*.fastq.gz'
   chunks2:
     type:
       type: array
       items: File
     outputBinding:
-      glob: "*R2*chunk*fastq.gz"
-
+      glob: '*_R2_*chunk*.fastq.gz'
