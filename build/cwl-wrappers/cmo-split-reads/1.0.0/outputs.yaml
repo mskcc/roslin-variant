@@ -1,13 +1,28 @@
 outputs:
+
   chunks1:
     type:
       type: array
       items: File
     outputBinding:
-      glob: '*_R1_*chunk*.fastq.gz'
+      glob: |
+        ${
+          var pattern = '*_R1_*chunk*.fastq.gz';
+          if (inputs.sample)
+            pattern = inputs.sample + pattern;
+          return pattern
+        }
+
   chunks2:
     type:
       type: array
       items: File
     outputBinding:
       glob: '*_R2_*chunk*.fastq.gz'
+      glob: |
+        ${
+          var pattern = '*_R2_*chunk*.fastq.gz';
+          if (inputs.sample)
+            pattern = inputs.sample + pattern;
+          return pattern
+        }
