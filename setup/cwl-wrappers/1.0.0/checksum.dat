@@ -38,7 +38,7 @@ c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 fe440a6dcf504ef812d0be0803dd157e  ./cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
 57a22c5edc1fa3685a483f061b314dd9  ./cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
 8da5aada0759f71f156bcf18a3af6d50  ./cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
-4351ca0890a7664152f1af39b7466f4e  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
+b7ad199941d6615a9bf51db9152dc442  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
 2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 c00b039441f41fcbd4d8fd802f630aa5  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 892cac8ef0ab60e57d639727c1b5d5a9  ./cmo-vardict/1.4.6/cmo-vardict.cwl
