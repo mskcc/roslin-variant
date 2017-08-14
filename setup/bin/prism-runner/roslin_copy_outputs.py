@@ -149,9 +149,6 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
     # copy other files using bsub/parallel
     for file_type in data:
 
-        if file_type == "bam":
-            continue
-
         dst_dir = os.path.join(user_out_dir, file_type)
         if not os.path.isdir(dst_dir):
             os.makedirs(dst_dir)
