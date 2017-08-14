@@ -286,11 +286,20 @@ def main():
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    # copy to work directory
-    copyfile(
-        os.path.join(params.cmo_project_path, "inputs.yaml"),
-        os.path.join(work_dir, "inputs.yaml")
-    )
+    # copy input metadata files (mapping, grouping, paring, request, and inputs.yaml)
+    input_metadata_filenames = [
+        "inputs.yaml",
+        "{}_request.txt".format(params.cmo_project_id),
+        "{}_sample_grouping.txt".format(params.cmo_project_id),
+        "{}_sample_mapping.txt".format(params.cmo_project_id),
+        "{}_sample_pairing.txt".format(params.cmo_project_id),
+    ]
+
+    for filename in input_metadata_filenames:
+        copyfile(
+            os.path.join(params.cmo_project_path, filename),
+            os.path.join(work_dir, filename)
+        )
 
     # convert any relative path in inputs.yaml (e.g. path: ../abc)
     # to absolute path (e.g. path: /ifs/abc)
