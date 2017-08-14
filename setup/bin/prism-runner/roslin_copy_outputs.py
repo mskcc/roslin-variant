@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"copy final output to /ifs/res/pi"
 
 import os
 import subprocess
