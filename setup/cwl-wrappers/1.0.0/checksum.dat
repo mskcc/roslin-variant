@@ -36,7 +36,7 @@ c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 0242d30242292f3ecfa68cb4490ee3f7  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 9bb20484aa0b7a57dbf0349e1d64b5d5  ./cmo-pindel/0.2.5b8/cmo-pindel.cwl
 fe440a6dcf504ef812d0be0803dd157e  ./cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
-57a22c5edc1fa3685a483f061b314dd9  ./cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
+7ea93e6893790d508647054de21703e1  ./cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
 8da5aada0759f71f156bcf18a3af6d50  ./cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 b7ad199941d6615a9bf51db9152dc442  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
 2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
@@ -55,7 +55,7 @@ d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c804c5d194dbc118df1ee78c834e3753  ./module-2.cwl
 31a5ae8cd56d22fddda58a543a06321e  ./module-3.cwl
 452bdba3a0bf652b90e8a97e2c626dc7  ./module-4.cwl
-15299643137cd2fe91a2f60c19cc276b  ./module-5.cwl
+dc6bf5a8a5b1f1d3e23e70bc2aaf0996  ./module-5.cwl
 4e896e25a0d1abb6a2d69e1dbbec2045  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
 54e4a54b4bc62e4d7b324c06b1853cb5  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
