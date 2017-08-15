@@ -42,6 +42,9 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_qcpdf]
+arguments:
+- prefix: --globdir
+  valueFrom: ${ return runtime.outdir; }
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -70,12 +73,10 @@ inputs:
           items:
             type: array
             items: File
-
   files:
     type:
       type: array
       items: File
-
   gcbias_files:
     type: string
     inputBinding:
@@ -113,6 +114,7 @@ inputs:
 
   file_prefix:
     type: string
+
 
     inputBinding:
       prefix: --file-prefix
@@ -156,7 +158,3 @@ outputs:
         ${
             return inputs.file_prefix + "*";
         }
-arguments:
-  - prefix: --globdir
-    valueFrom: ${return runtime.outdir;}
-   
