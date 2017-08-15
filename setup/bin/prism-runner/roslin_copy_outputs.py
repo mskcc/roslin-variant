@@ -9,9 +9,6 @@ import argparse
 import glob
 import shutil
 
-# how many parallel copy do we want to execute per host?
-NUM_OF_PARALLEL_PER_HOST = 5
-
 logger = logging.getLogger("roslin_copy_outputs")
 logger.setLevel(logging.INFO)
 
@@ -52,11 +49,13 @@ def wait_until_done(lsf_job_id_list):
 
         # break out if all DONE
         if results.rstrip() == "DONE":
-            break
+            print "DONE."
+            exit(0)
+        elif "EXIT" in results:
+            print "Some of the jobs failed"
+            exit(1)
 
         time.sleep(5)
-
-    print "DONE."
 
 
 def bsub(bsubline):
@@ -71,11 +70,11 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit_to_lsf(cmo_project_id, job_uuid, job_command, work_dir, job_name):
+def submit_to_lsf(cmo_project_id, job_uuid, job_command, work_dir, job_name, num_of_parallels_per_host):
     "submit roslin-runner to the w node"
 
     mem = 1
-    cpu = NUM_OF_PARALLEL_PER_HOST
+    cpu = num_of_parallels_per_host
 
     lsf_proj_name = "{}:{}".format(cmo_project_id, job_uuid)
     job_desc = job_name
@@ -90,8 +89,8 @@ def submit_to_lsf(cmo_project_id, job_uuid, job_command, work_dir, job_name):
         "-J", job_name,
         "-Jd", job_desc,
         "-cwd", work_dir,
-        "-o", "roslin_copy_outputs_stdout.txt",
-        "-e", "roslin_copy_outputs_stderr.txt",
+        "-o", "roslin_copy_outputs_stdout.log",
+        "-e", "roslin_copy_outputs_stderr.log",
         job_command
     ]
 
@@ -124,19 +123,22 @@ def create_file_list(src_dir, glob_patterns):
     return list(set(file_list))
 
 
-def create_parallel_cp_commands(file_list, dst_dir):
+def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
     "create a parallel cp command"
 
     cmds = list()
 
-    groups = list(chunks(file_list, NUM_OF_PARALLEL_PER_HOST))
+    num_of_chunks = len(file_list) / num_of_parallels_per_host
+
+    # each group will have x number of files where x = num_of_chunks
+    groups = list(chunks(file_list, num_of_chunks))
 
     # e.g. { echo "filename1"; echo "filename2"; } | parallel -j+2 cp {} /dst_dir
     for group in groups:
         cmd = ''
         for filename in group:
             cmd = cmd + 'echo "{}"; '.format(filename)
-        cmd = '{ ' + cmd + '} | parallel -j+' + str(NUM_OF_PARALLEL_PER_HOST) + ' cp {} ' + dst_dir
+        cmd = '{ ' + cmd + '} | parallel -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
 
         cmds.append(cmd)
 
@@ -146,38 +148,58 @@ def create_parallel_cp_commands(file_list, dst_dir):
 def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
     "copy output files in toil work dir to the final destination"
 
+    # parallels : how many cp do we want to parallelize? (per host)
+    # e.g. 5 means 5 cp commands will be parallelized within a single host
     data = {
-        "bam": [
-            "outputs/*.bam"
-        ],
-        "vcf": [
-            "outputs/*.vcf",
-            "outputs/*.mutect.txt"
-        ],
-        "maf": [
-            "outputs/*.maf"
-        ],
-        "qc": [
-            "outputs/*.asmetrics",
-            "outputs/*.hsmetrics",
-            "outputs/*.ismetrics*",
-            "outputs/*.gcbias*",
-            "outputs/*.md_metrics",
-            "outputs/*.stats",
-            "outputs/*.pdf"
-        ],
-        "log": [
-            "outputs/log/*",
-            "stdout.txt",
-            "stderr.txt",
-            "outputs/output-meta.json"
-        ],
-        "inputs": [
-            "inputs.yaml",
-            "{}_sample_grouping.txt".format(cmo_project_id),
-            "{}_sample_mapping.txt".format(cmo_project_id),
-            "{}_sample_pairing.txt".format(cmo_project_id),
-        ]
+        "bam": {
+            "patterns": [
+                "outputs/*.bam"
+            ],
+            "parallels": 5
+        },
+        "vcf": {
+            "patterns": [
+                "outputs/*.vcf",
+                "outputs/*.mutect.txt"
+            ],
+            "parallels": 3
+        },
+        "maf": {
+            "patterns": [
+                "outputs/*.maf"
+            ],
+            "parallels": 1
+        },
+        "qc": {
+            "patterns": [
+                "outputs/*.asmetrics",
+                "outputs/*.hsmetrics",
+                "outputs/*.ismetrics*",
+                "outputs/*.gcbias*",
+                "outputs/*.md_metrics",
+                "outputs/*.stats",
+                "outputs/*.pdf"
+            ],
+            "parallels": 2
+        },
+        "log": {
+            "patterns": [
+                "outputs/log/*",
+                "stdout.log",
+                "stderr.log",
+                "outputs/output-meta.json"
+            ],
+            "parallels": 2
+        },
+        "inputs": {
+            "patterns": [
+                "inputs.yaml",
+                "{}_sample_grouping.txt".format(cmo_project_id),
+                "{}_sample_mapping.txt".format(cmo_project_id),
+                "{}_sample_pairing.txt".format(cmo_project_id),
+            ],
+            "parallels": 1
+        }
     }
 
     # copy project request file to rootdir level
@@ -196,14 +218,23 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         if not os.path.isdir(dst_dir):
             os.makedirs(dst_dir)
 
-        file_list = create_file_list(toil_work_dir, data[file_type])
+        file_list = create_file_list(toil_work_dir, data[file_type]["patterns"])
 
-        cmds = create_parallel_cp_commands(file_list, dst_dir)
+        cmds = create_parallel_cp_commands(file_list, dst_dir, data[file_type]["parallels"])
+
+        print "{} ({} jobs in parallel)".format(file_type, len(cmds))
 
         for num, cmd in enumerate(cmds):
 
             # bsub parallel cp and store LSF job id
-            _, lsf_job_id = submit_to_lsf(cmo_project_id, job_uuid, cmd, toil_work_dir, "roslin_copy_outputs_{}_{}".format(file_type, num))
+            _, lsf_job_id = submit_to_lsf(
+                cmo_project_id,
+                job_uuid,
+                cmd,
+                toil_work_dir,
+                "roslin_copy_outputs_{}_{}/{}".format(file_type, num + 1, len(cmds)),
+                data[file_type]["parallels"]
+            )
 
             # add LSF job id to list object
             lsf_job_id_list.append(lsf_job_id)
