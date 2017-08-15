@@ -199,9 +199,14 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         cmds = create_parallel_cp_commands(file_list, dst_dir)
 
         for cmd in cmds:
+
+            # bsub parallel cp and store LSF job id
             _, lsf_job_id = submit_to_lsf(cmo_project_id, job_uuid, cmd, toil_work_dir, "roslin_copy_outputs_{}".format(file_type))
+
+            # add LSF job id to list object
             lsf_job_id_list.append(lsf_job_id)
 
+    # wait until all issued LSB jobs are finished
     wait_until_done(lsf_job_id_list)
 
 
