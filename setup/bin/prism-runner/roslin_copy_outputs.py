@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 "copy final output to /ifs/res/pi"
 
+import time
 import os
 import subprocess
 import logging
@@ -8,8 +9,8 @@ import argparse
 import glob
 import shutil
 
-
-NUM_OF_CHUNKS = 4
+# how many parallel copy do we want to execute per host?
+NUM_OF_PARALLEL_PER_HOST = 5
 
 logger = logging.getLogger("roslin_copy_outputs")
 logger.setLevel(logging.INFO)
@@ -26,6 +27,38 @@ log_file_handler.setFormatter(log_formatter)
 logger.addHandler(log_file_handler)
 
 
+def bjobs(lsf_job_id_list):
+    "execute bjobs to get status of each job"
+
+    # supply space-separated IDs all at once to bjobs
+    # if all jobs are finished, you will get only one "DONE" because of | sort | uniq
+    bjobs_cmdline = "bjobs -o stat -noheader {} | sort | uniq".format(" ".join(str(x) for x in lsf_job_id_list))
+
+    process = subprocess.Popen(bjobs_cmdline, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    output = process.stdout.read()
+
+    return output
+
+
+def wait_until_done(lsf_job_id_list):
+    "wait for all jobs to finish"
+
+    print "Waiting for all jobs to finish..."
+
+    while True:
+
+        # poll bjobs
+        results = bjobs(lsf_job_id_list)
+
+        # break out if all DONE
+        if results.rstrip() == "DONE":
+            break
+
+        time.sleep(5)
+
+    print "DONE."
+
+
 def bsub(bsubline):
     "execute lsf bsub"
 
@@ -33,7 +66,6 @@ def bsub(bsubline):
     output = process.stdout.readline()
 
     # fixme: need better exception handling
-    print output
     lsf_job_id = int(output.strip().split()[1].strip('<>'))
 
     return lsf_job_id
@@ -43,7 +75,7 @@ def submit_to_lsf(cmo_project_id, job_uuid, job_command, work_dir, job_name):
     "submit roslin-runner to the w node"
 
     mem = 1
-    cpu = NUM_OF_CHUNKS
+    cpu = NUM_OF_PARALLEL_PER_HOST
 
     lsf_proj_name = "{}:{}".format(cmo_project_id, job_uuid)
     job_desc = job_name
@@ -61,42 +93,48 @@ def submit_to_lsf(cmo_project_id, job_uuid, job_command, work_dir, job_name):
         job_command
     ]
 
-    print bsubline
-
     lsf_job_id = bsub(bsubline)
 
     return lsf_proj_name, lsf_job_id
 
 
 def chunks(l, n):
-    # For item i in a range that is a length of l,
+    "split a list into a n-size chunk"
+
+    # for item i in a range that is a length of l,
     for i in range(0, len(l), n):
-        # Create an index range for l of n items:
+        # create an index range for l of n items:
         yield l[i:i + n]
 
 
 def create_file_list(src_dir, glob_patterns):
+    "create a list object that contains all the files to be copied"
 
     file_list = list()
 
+    # iterate through glob_patterns
+    # construct a list that contains all the files to be copied
     for glob_pattern in glob_patterns:
         file_list.extend(glob.glob(os.path.join(src_dir, glob_pattern)))
 
+    # deduplicate
     # fixme: seriously?
     return list(set(file_list))
 
 
-def create_lsf_parallel_cp_commands(file_list, dst_dir):
+def create_parallel_cp_commands(file_list, dst_dir):
+    "create a parallel cp command"
 
     cmds = list()
 
-    groups = list(chunks(file_list, NUM_OF_CHUNKS))
+    groups = list(chunks(file_list, NUM_OF_PARALLEL_PER_HOST))
 
+    # e.g. { echo "filename1"; echo "filename2"; } | parallel -j+2 cp {} /dst_dir
     for group in groups:
         cmd = ''
         for filename in group:
             cmd = cmd + 'echo "{}"; '.format(filename)
-        cmd = '{ ' + cmd + '} | parallel -j+' + str(NUM_OF_CHUNKS) + ' cp {} ' + dst_dir
+        cmd = '{ ' + cmd + '} | parallel -j+' + str(NUM_OF_PARALLEL_PER_HOST) + ' cp {} ' + dst_dir
 
         cmds.append(cmd)
 
@@ -146,6 +184,9 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         os.path.join(user_out_dir, "{}_request.txt".format(cmo_project_id)),
     )
 
+    # list that will contain all the LSF job IDs
+    lsf_job_id_list = list()
+
     # copy other files using bsub/parallel
     for file_type in data:
 
@@ -155,10 +196,13 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
 
         file_list = create_file_list(toil_work_dir, data[file_type])
 
-        cmds = create_lsf_parallel_cp_commands(file_list, dst_dir)
+        cmds = create_parallel_cp_commands(file_list, dst_dir)
 
         for cmd in cmds:
-            submit_to_lsf(cmo_project_id, job_uuid, cmd, toil_work_dir, "roslin_copy_outputs_{}".format(file_type))
+            _, lsf_job_id = submit_to_lsf(cmo_project_id, job_uuid, cmd, toil_work_dir, "roslin_copy_outputs_{}".format(file_type))
+            lsf_job_id_list.append(lsf_job_id)
+
+    wait_until_done(lsf_job_id_list)
 
 
 def main():
@@ -200,7 +244,7 @@ def main():
     try:
 
         # construct and cerate the final user output directory
-        user_out_dir = os.path.join(params.user_out_base_dir, params.cmo_project_id)
+        user_out_dir = os.path.join(params.user_out_base_dir, params.cmo_project_id + "-" + params.job_uuid)
         if not os.path.isdir(user_out_dir):
             os.makedirs(user_out_dir)
 
