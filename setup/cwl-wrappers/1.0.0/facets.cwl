@@ -138,4 +138,4 @@ steps:
       cval:
         default: 50
     out: [png_files, txt_files, out_files, rdata_files, seg_files]
-    run: cmo-facets.doFacets/1.5.4/cmo-facets.doFacets.cwl
+    run: cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
