@@ -69,8 +69,8 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, debug_mode)
         "-J", job_name,
         "-Jd", job_desc,
         "-cwd", work_dir,
-        "-oo", "stdout.txt",
-        "-eo", "stderr.txt",
+        "-oo", "stdout.log",
+        "-eo", "stderr.log",
         job_command
     ]
 
