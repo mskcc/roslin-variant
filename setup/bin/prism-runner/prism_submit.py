@@ -126,7 +126,7 @@ def targzip_project_files(cmo_project_id, cmo_project_path):
     files = glob.glob(os.path.join(cmo_project_path, "*"))
 
     tgz_path = "{}.tgz".format(os.path.join(cmo_project_path, cmo_project_id))
-    tar = tarfile.open(tgz_path, "w:gz")
+    tar = tarfile.open(tgz_path, mode="w:gz", dereference=True)
     for filename in files:
         tar.add(filename)
     tar.close()
