@@ -155,6 +155,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
 
     # parallels : how many cp do we want to parallelize? (per host)
     # e.g. 5 means 5 cp commands will be parallelized within a single host
+    # fixme: externalize this to config.json or something
     data = {
         "bam": {
             "patterns": [
@@ -174,7 +175,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "outputs/*.maf",
                 "outputs/*.fillout.maf",
                 "outputs/*.ffpe-normal.fillout",
-                "outputs/*.curated.fllout"
+                "outputs/*.curated.fillout"
             ],
             "parallels": 1
         },
