@@ -171,7 +171,10 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         },
         "maf": {
             "patterns": [
-                "outputs/*.maf"
+                "outputs/*.maf",
+                "outputs/*.fillout.maf",
+                "outputs/*.ffpe-normal.fillout",
+                "outputs/*.curated.fllout"
             ],
             "parallels": 1
         },
