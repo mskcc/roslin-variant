@@ -133,7 +133,7 @@ def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
 
     if num_of_chunks == 0:
         # a single group can cover the entire files
-        groups = file_list
+        groups = [file_list]
     else:
         # each group will have x number of files where x = num_of_chunks
         groups = list(chunks(file_list, num_of_chunks))
