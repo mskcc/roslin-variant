@@ -129,14 +129,14 @@ def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
     cmds = list()
     groups = list()
 
-    num_of_chunks = len(file_list) / num_of_parallels_per_host
+    num_of_files_per_group = len(file_list) / num_of_parallels_per_host
 
-    if num_of_chunks == 0:
+    if num_of_files_per_group == 0:
         # a single group can cover the entire files
         groups = [file_list]
     else:
-        # each group will have x number of files where x = num_of_chunks
-        groups = list(chunks(file_list, num_of_chunks))
+        # each group will have x number of files where x = num_of_files_per_group
+        groups = list(chunks(file_list, num_of_files_per_group))
 
     # e.g. { echo "filename1"; echo "filename2"; } | parallel -j+2 cp {} /dst_dir
     for group in groups:
