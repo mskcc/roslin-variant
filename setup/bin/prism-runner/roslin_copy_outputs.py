@@ -196,7 +196,8 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "outputs/log/*",
                 "stdout.log",
                 "stderr.log",
-                "outputs/output-meta.json"
+                "run-profile.json",
+                "outputs/output-meta.json",
             ],
             "parallels": 2
         },
@@ -206,6 +207,21 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "{}_sample_grouping.txt".format(cmo_project_id),
                 "{}_sample_mapping.txt".format(cmo_project_id),
                 "{}_sample_pairing.txt".format(cmo_project_id),
+            ],
+            "parallels": 1
+        },
+        "facets": {
+            "patterns": [
+                "*._hisense.CNCF.png",
+                "*._hisense.cncf.txt",
+                "*._hisense.out",
+                "*._hisense.Rdata",
+                "*._hisense.seg",
+                "*._purity.CNCF.png",
+                "*._purity.cncf.txt",
+                "*._purity.out",
+                "*._purity.Rdata",
+                "*._purity.seg",
             ],
             "parallels": 1
         }
