@@ -258,6 +258,7 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
+
   generate_pdf:
     run: cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
     in:
@@ -266,7 +267,7 @@ steps:
       trim_metrics_files: trim_metrics_files
       gcbias_files:
         valueFrom: ${ return "*.gcbiasmetrics";}
-      mdmetrics_files: 
+      mdmetrics_files:
         valueFrom: ${ return "*.md_metrics";}
       fingerprint_files:
         valueFrom: ${ return "*_FP_base_counts.txt";}

@@ -238,6 +238,26 @@ def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 
+def call_copy_outputs(cmo_project_id, job_uuid, toil_work_dir):
+    "call roslin_copy_outputs"
+
+    bin_path = os.environ.get("PRISM_BIN_PATH")
+
+    cmd = [
+        "python",
+        os.path.join(bin_path, "bin/prism-runner/roslin_copy_outputs.py"),
+        "--cmo-project-id", cmo_project_id,
+        "--job-uuid", job_uuid,
+        "--toil-work-dir", toil_work_dir,
+        "--user-out-base-dir", "/ifs/res/pi"
+    ]
+
+    logger.info("Calling: " + " ".join(cmd))
+
+    # non-blocking call
+    subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+
 def parse_workflow_filename(runner_cmd):
     "parse runner's arguments"
 
@@ -381,6 +401,13 @@ def construct_run_results(bjobs_info, already_reported_projs):
                     job_uuid,
                     os.path.join(projects[job_uuid]["workingDirectory"], "inputs.yaml"),
                     projects[job_uuid]["logFiles"]["cwltoil"]
+                )
+
+                # call roslin_copy_outputs.py
+                call_copy_outputs(
+                    projects[job_uuid]["projectId"],
+                    job_uuid,
+                    projects[job_uuid]["workingDirectory"]
                 )
 
         # parse effective resource requirement string

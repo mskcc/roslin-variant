@@ -69,8 +69,8 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, debug_mode)
         "-J", job_name,
         "-Jd", job_desc,
         "-cwd", work_dir,
-        "-oo", "stdout.txt",
-        "-eo", "stderr.txt",
+        "-oo", "stdout.log",
+        "-eo", "stderr.log",
         job_command
     ]
 
@@ -126,7 +126,7 @@ def targzip_project_files(cmo_project_id, cmo_project_path):
     files = glob.glob(os.path.join(cmo_project_path, "*"))
 
     tgz_path = "{}.tgz".format(os.path.join(cmo_project_path, cmo_project_id))
-    tar = tarfile.open(tgz_path, "w:gz")
+    tar = tarfile.open(tgz_path, mode="w:gz", dereference=True)
     for filename in files:
         tar.add(filename)
     tar.close()
@@ -286,11 +286,20 @@ def main():
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
-    # copy to work directory
-    copyfile(
-        os.path.join(params.cmo_project_path, "inputs.yaml"),
-        os.path.join(work_dir, "inputs.yaml")
-    )
+    # copy input metadata files (mapping, grouping, paring, request, and inputs.yaml)
+    input_metadata_filenames = [
+        "inputs.yaml",
+        "{}_request.txt".format(params.cmo_project_id),
+        "{}_sample_grouping.txt".format(params.cmo_project_id),
+        "{}_sample_mapping.txt".format(params.cmo_project_id),
+        "{}_sample_pairing.txt".format(params.cmo_project_id),
+    ]
+
+    for filename in input_metadata_filenames:
+        copyfile(
+            os.path.join(params.cmo_project_path, filename),
+            os.path.join(work_dir, filename)
+        )
 
     # convert any relative path in inputs.yaml (e.g. path: ../abc)
     # to absolute path (e.g. path: /ifs/abc)
