@@ -703,22 +703,22 @@ def main():
     parser = argparse.ArgumentParser(description='make_runprofile')
 
     parser.add_argument(
-        "--job_uuid",
+        "--job-uuid",
         action="store",
         dest="job_uuid",
         required=True
     )
 
     parser.add_argument(
-        "--inputs_yaml",
+        "--work-dir",
         action="store",
-        dest="inputs_yaml_path",
-        help="Path to inputs.yaml",
+        dest="work_dir",
+        help="toil working directory",
         required=True
     )
 
     parser.add_argument(
-        "--cwltoil_log",
+        "--cwltoil-log",
         action="store",
         dest="cwltoil_log_path",
         help="Path to cwltoil.log",
@@ -728,9 +728,15 @@ def main():
     params = parser.parse_args()
 
     try:
-        run_profile = make_runprofile(params.job_uuid, params.inputs_yaml_path, params.cwltoil_log_path)
+        inputs_yaml_path = os.path.join(params.work_dir, "inputs.yaml")
+        run_profile = make_runprofile(params.job_uuid, inputs_yaml_path, params.cwltoil_log_path)
 
         print json.dumps(run_profile, indent=2)
+
+        write_file(
+            os.path.join(params.work_dir, "run-profile.json"),
+            json.dumps(run_profile, indent=2)
+        )
 
         publish_to_redis(params.job_uuid, run_profile)
 
