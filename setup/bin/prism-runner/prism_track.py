@@ -219,7 +219,7 @@ def run(cmd, shell=False, strip_newline=True):
     return stdout, stderr, process.returncode
 
 
-def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
+def call_make_runprofile(job_uuid, toil_work_dir, cwltoil_log_path):
     "call make_runprofile program"
 
     bin_path = os.environ.get("PRISM_BIN_PATH")
@@ -227,9 +227,9 @@ def call_make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
     cmd = [
         "python",
         os.path.join(bin_path, "bin/prism-runner/prism_runprofile.py"),
-        "--job_uuid", job_uuid,
-        "--inputs_yaml", inputs_yaml_path,
-        "--cwltoil_log", cwltoil_log_path
+        "--job-uuid", job_uuid,
+        "--work-dir", toil_work_dir,
+        "--cwltoil-log", cwltoil_log_path
     ]
 
     logger.info("Calling: " + " ".join(cmd))
@@ -399,7 +399,7 @@ def construct_run_results(bjobs_info, already_reported_projs):
                 # call make_runprofile program
                 call_make_runprofile(
                     job_uuid,
-                    os.path.join(projects[job_uuid]["workingDirectory"], "inputs.yaml"),
+                    projects[job_uuid]["workingDirectory"],
                     projects[job_uuid]["logFiles"]["cwltoil"]
                 )
 
