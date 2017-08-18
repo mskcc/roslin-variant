@@ -47,21 +47,24 @@ then
     exit 1
 fi
 
-# get list of job IDs that belong to the specified LSF project
-list=`bjobs -P ${lsf_project_name} -o "jobid delimiter=','" -noheader 2>&1`
-
-if [ "${list}" == "No unfinished job found" ]
-then
-    echo "No jobs found for '${lsf_project_name}'"
-    exit 0
-fi
-
-# start terminating jobs
-for id in ${list}
+while true
 do
-    bkill $id
-done
+    # get list of job IDs that belong to the specified LSF project
+    list=`bjobs -P ${lsf_project_name} -o "jobid delimiter=','" -noheader 2>&1`
 
-# wait 5 seconds and check if any jobs are still running
-sleep 5
-bjobs -P ${lsf_project_name}
+    if [ "${list}" == "No unfinished job found" ]
+    then
+        echo "No jobs found or all jobs are killed for '${lsf_project_name}'"
+        exit 0
+    fi
+
+    # start terminating jobs
+    for id in ${list}
+    do
+        bkill $id
+    done
+
+    # wait 5 seconds
+    sleep 5
+
+done
