@@ -269,6 +269,9 @@ outputs:
   gcbias_summary:
     type: File
     outputSource: gather_metrics/gcbias_summary
+  qcpdf:
+    type: File
+    outputSource: gather_metrics/qc_files
 
 steps:
 
@@ -281,6 +284,7 @@ steps:
       samples: samples
       runparams: runparams
     out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix]
+
   group_process:
     run:  module-1-2.chunk.cwl
     in:
@@ -382,9 +386,11 @@ steps:
   gather_metrics:
     run: module-5.cwl
     in:
+      aa_bams: group_process/bams
       runparams: runparams
       db_files: db_files
-      bams: group_process/bams
+      bams:
+        valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
       genome: projparse/genome
       bait_intervals: projparse/bait_intervals
       target_intervals: projparse/target_intervals
@@ -397,10 +403,4 @@ steps:
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
 
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary]
-    scatter: [bams]
-    scatterMethod: dotproduct
-
-
-
-
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]

@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: /pipeline-facets:1.5.4
+From: /pipeline-facets:1.5.5
 Registry: http://localhost:5000
 
 %setup
@@ -24,6 +24,8 @@ Registry: http://localhost:5000
 %runscript
 
     export PYTHONNOUSERSITE="set"
+    export FACETS_OVERRIDE_EXITCODE="set"
+
     case $1 in
         doFacets) shift; exec python /usr/bin/facets-suite/facets doFacets "$@" ;;
         mafAnno) shift; exec python /usr/bin/facets-suite/facets mafAnno "$@" ;;

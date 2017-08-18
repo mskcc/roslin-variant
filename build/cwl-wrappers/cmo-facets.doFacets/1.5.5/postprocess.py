@@ -37,7 +37,7 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['baseCommand'] = ['sing.sh', 'facets', '1.5.4', 'doFacets']
+    cwl['baseCommand'] = ['sing.sh', 'facets', '1.5.5', 'doFacets']
 
     cwl['inputs']['cval']['type'] = ['null', 'int']
     cwl['inputs']['snp_nbhd']['type'] = ['null', 'int']

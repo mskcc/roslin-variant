@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-facets.doFacets
-  doap:revision: 1.5.4
+  doap:revision: 1.5.5
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - sing.sh
 - facets
-- 1.5.4
+- 1.5.5
 - doFacets
 
 requirements:

@@ -75,6 +75,9 @@ def get_baits_and_targets(assay):
     # probably need similar rules for whatever "Exome" string is in rquest
     if assay.find("IMPACT410") > -1:
         assay = "IMPACT410_b37"
+    if assay.find("IMPACT468") > -1:
+        assay = "IMPACT468_b37"
+
     if assay in cmo.util.targets:
         return {"bait_intervals": {"class": "File", "path": str(cmo.util.targets[assay]['baits_list'])},
                 "target_intervals": {"class": "File", "path": str(cmo.util.targets[assay]['targets_list'])},

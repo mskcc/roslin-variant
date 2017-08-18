@@ -1,9 +1,30 @@
 #!/bin/bash
 
-if [ -z "$1" ]
+out=""
+user=$1
+
+if [ -z "$user" ]
 then
-    echo "Need LSF Project Name. (e.g. Proj_5088_B:fe21e822-4bfa-11e7-9c2b-645106efb11c)""
-    exit 1
+  user=$USER
 fi
 
-bjobs -a -P $1 -o "jobid proj_name job_name stat delimiter=','" | sort -k 1 -n | tabulate --sep , -1 --format orgtbl
+proj_list=`bjobs -u $user -o "proj_name" -noheader | sort | uniq`
+
+for proj in $proj_list
+do
+  cwd=`bjobs -u $user -P $proj -o "sub_cwd" -noheader | sort | uniq`
+  outdir=`bjobs -u $user -P "${proj}" -o "exec_cwd" -noheader | sort | uniq | tail -1`
+  head=`echo $proj | cut -d: -f1`
+  echo "== ${head} =="
+  job_list=`bjobs -u $user -P $proj -o 'job_name' -noheader | sort | uniq | awk -F'/' '{ print $NF }'`
+  for job in $job_list
+  do
+    echo " - $job"
+  done
+  if [ "${outdir}" != "-" ]
+  then
+    echo " : ${outdir}"
+    find ${outdir}/outputs/log -name "*.log" -name "*.log" ! -name "cwltoil.log" -printf " > %f\n" | sort | uniq
+  fi
+  echo
+done

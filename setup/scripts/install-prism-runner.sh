@@ -17,6 +17,8 @@ cp ../bin/prism-runner/prism_runprofile.py ${PRISM_BIN_PATH}/bin/prism-runner/pr
 cp ../bin/prism-runner/prism_cacher.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_cacher.py
 
 cp ../bin/prism-runner/prism_request_to_yaml.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_request_to_yaml.py
+cp ../bin/prism-runner/roslin-project-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-project-status.sh
+cp ../bin/prism-runner/roslin-project-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/bjp
 
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then

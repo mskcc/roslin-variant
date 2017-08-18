@@ -4,22 +4,22 @@ MAINTAINER Nikhil Kumar (kumarn1@mskcc.org)
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
-      version.facets_suite="1.5.4" \
+      version.facets_suite="1.5.5" \
       version.facets="0.5.6"\
       version.alpine="3.6" \
       version.r="3.3.3-r0" \
       version.pctGCdata="0.2.0" \
-      source.facets_suite="https://github.com/mskcc/facets-suite/releases/tag/1.5.4" \
+      source.facets_suite="https://github.com/mskcc/facets-suite/releases/tag/1.5.5" \
       source.facets="https://github.com/mskcc/facets/archive/v0.5.6.tar.gz"\
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"
 
-ENV FACETS_SUITE_VERSION 1.5.4
+ENV FACETS_SUITE_VERSION 1.5.5
 ENV FACETS_VERSION 0.5.6
 ENV R_VERSION 3.3.3-r0
 ENV PCTGCDATA 0.2.0
 
 # facets-suite is in a private repo. for now we will just copy from local rather than wget
-COPY facets-suite-1.5.4.tar.gz /tmp/facets-suite-1.5.4.tar.gz
+COPY facets-suite-${FACETS_SUITE_VERSION}.tar.gz /tmp/facets-suite-${FACETS_SUITE_VERSION}.tar.gz
 
 # copy script that installs R packages
 COPY install-packages.R /tmp/install-packages.R
@@ -66,5 +66,6 @@ RUN apk add --update \
         && rm -rf /var/cache/apk/* /tmp/*
 
 ENV PYTHONNOUSERSITE set
+ENV FACETS_OVERRIDE_EXITCODE set
 
 ENTRYPOINT ["sh"]

@@ -37,44 +37,89 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['gcbias_files']['type'] = ruamel.yaml.load("""
-type: array
-items: File
-""", ruamel.yaml.RoundTripLoader)
+#     cwl['inputs']['gcbias_files']['type'] = ruamel.yaml.load("""
+# type: array
+# items: File
+# """, ruamel.yaml.RoundTripLoader)
 
-    cwl['inputs']['mdmetrics_files']['type'] = ruamel.yaml.load("""
-type: array
-items:
+#     cwl['inputs']['mdmetrics_files']['type'] = ruamel.yaml.load("""
+# type: array
+# items:
+#   type: array
+#   items: File
+# """, ruamel.yaml.RoundTripLoader)
+
+#     cwl['inputs']['insertsize_files']['type'] = ruamel.yaml.load("""
+# type: array
+# items: File
+# """, ruamel.yaml.RoundTripLoader)
+
+#     cwl['inputs']['hsmetrics_files']['type'] = ruamel.yaml.load("""
+# type: array
+# items: File
+# """, ruamel.yaml.RoundTripLoader)
+
+#     cwl['inputs']['qualmetrics_files']['type'] = ruamel.yaml.load("""
+# type: array
+# items: File
+# """, ruamel.yaml.RoundTripLoader)
+
+#     cwl['inputs']['fingerprint_files']['type'] = ruamel.yaml.load("""
+# type: array
+# items: File
+# """, ruamel.yaml.RoundTripLoader)
+
+#     cwl['inputs']['trimgalore_files']['type'] = ruamel.yaml.load("""
+# - type: array
+#   items:
+#     type: array
+#     items:
+#       type: array
+#       items:
+#         type: array
+#         items: File
+# """, ruamel.yaml.RoundTripLoader)
+
+    # 8th is right after baseCommand
+    cwl.insert(8, 'arguments', ruamel.yaml.load("""
+- prefix: --globdir
+  valueFrom: ${ return runtime.outdir; }
+""", ruamel.yaml.RoundTripLoader))
+
+    cwl['inputs'].insert(0, 'md_metrics_files', ruamel.yaml.load("""
+type:
+  type: array
+  items:
+    type: array
+    items: File
+""", ruamel.yaml.RoundTripLoader))
+
+    cwl['inputs'].insert(1, 'trim_metrics_files', ruamel.yaml.load("""
+type:
+  type: array
+  items:
+    type: array
+    items:
+      type: array
+      items:
+        type: array
+        items: File
+""", ruamel.yaml.RoundTripLoader))
+
+    cwl['inputs'].insert(2, 'files', ruamel.yaml.load("""
+type:
   type: array
   items: File
-""", ruamel.yaml.RoundTripLoader)
+""", ruamel.yaml.RoundTripLoader))
 
-    cwl['inputs']['insertsize_files']['type'] = ruamel.yaml.load("""
-type: array
-items: File
-""", ruamel.yaml.RoundTripLoader)
+    cwl['inputs']['mdmetrics_files']['type'] = 'string'
 
-    cwl['inputs']['hsmetrics_files']['type'] = ruamel.yaml.load("""
-type: array
-items: File
-""", ruamel.yaml.RoundTripLoader)
-
-    cwl['inputs']['qualmetrics_files']['type'] = ruamel.yaml.load("""
-type: array
-items: File
-""", ruamel.yaml.RoundTripLoader)
-
-    cwl['inputs']['fingerprint_files']['type'] = ruamel.yaml.load("""
-type: array
-items: File
-""", ruamel.yaml.RoundTripLoader)
-
-    cwl['inputs']['trimgalore_files']['type'] = ruamel.yaml.load("""
-type: array
-items:
-  type: array
-  items: File
-""", ruamel.yaml.RoundTripLoader)
+    cwl['inputs']['gcbias_files']['type'] = 'string'
+    cwl['inputs']['insertsize_files']['type'] = 'string'
+    cwl['inputs']['hsmetrics_files']['type'] = 'string'
+    cwl['inputs']['qualmetrics_files']['type'] = 'string'
+    cwl['inputs']['fingerprint_files']['type'] = 'string'
+    cwl['inputs']['trimgalore_files']['type'] = 'string'
 
     cwl['inputs']['fp_genotypes']['type'] = 'File'
     cwl['inputs']['pairing_file']['type'] = 'File'

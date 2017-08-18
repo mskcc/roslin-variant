@@ -42,6 +42,9 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_qcpdf]
+arguments:
+- prefix: --globdir
+  valueFrom: ${ return runtime.outdir; }
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -54,56 +57,58 @@ doc: |
   None
 
 inputs:
-  gcbias_files:
+  md_metrics_files:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+  trim_metrics_files:
+    type:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items: File
+  files:
     type:
       type: array
       items: File
+  gcbias_files:
+    type: string
     inputBinding:
       prefix: --gcbias-files
 
   mdmetrics_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
+    type: string
     inputBinding:
       prefix: --mdmetrics-files
 
   insertsize_files:
-    type:
-      type: array
-      items: File
+    type: string
     inputBinding:
       prefix: --insertsize-files
 
   hsmetrics_files:
-    type:
-      type: array
-      items: File
+    type: string
     inputBinding:
       prefix: --hsmetrics-files
 
   qualmetrics_files:
-    type:
-      type: array
-      items: File
+    type: string
     inputBinding:
       prefix: --qualmetrics-files
 
   fingerprint_files:
-    type:
-      type: array
-      items: File
+    type: string
     inputBinding:
       prefix: --fingerprint-files
 
   trimgalore_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
+    type: string
     inputBinding:
       prefix: --trimgalore-files
 

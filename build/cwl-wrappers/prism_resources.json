@@ -183,7 +183,7 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
         }, 
         "facets": {
-            "1.5.4": "sing.sh facets 1.5.4"
+            "1.5.5": "sing.sh facets 1.5.5"
         }, 
         "facets_lib": {
             "0.3.22": "/opt/common/CentOS_6-dev/facets_lib/0.3.22/", 

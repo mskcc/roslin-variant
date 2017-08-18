@@ -11,10 +11,9 @@ prism_request_to_yaml.py \
 nohup prism-runner.sh \
 	-w project-workflow.cwl \
 	-i inputs.yaml \
-	-b lsf -d &
+	-b lsf &
 
 # prism_submit.py \
 #    --id Proj_DEV_0002 \
 #    --path . \
-#    --workflow project-workflow.cwl \
-#    --debug
+#    --workflow project-workflow.cwl

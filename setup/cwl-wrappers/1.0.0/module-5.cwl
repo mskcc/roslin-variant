@@ -258,16 +258,27 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
+
   generate_pdf:
     run: cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
     in:
-      gcbias_files: scatter_metrics/gcbias_metrics_files
-      mdmetrics_files: md_metrics_files
-      fingerprint_files: scatter_metrics/doc_basecounts
-      trimgalore_files: trim_metrics_files
-      insertsize_files: scatter_metrics/is_metrics
-      hsmetrics_files: scatter_metrics/hs_metrics_files
-      qualmetrics_files: scatter_metrics/qual_metrics
+      files: scatter_metrics/as_metrics_files
+      md_metrics_files: md_metrics_files
+      trim_metrics_files: trim_metrics_files
+      gcbias_files:
+        valueFrom: ${ return "*.gcbiasmetrics";}
+      mdmetrics_files:
+        valueFrom: ${ return "*.md_metrics";}
+      fingerprint_files:
+        valueFrom: ${ return "*_FP_base_counts.txt";}
+      trimgalore_files:
+        valueFrom: ${ return "*_cl.stats";}
+      insertsize_files:
+        valueFrom: ${ return "*.ismetrics";}
+      hsmetrics_files:
+        valueFrom: ${ return "*.hsmetrics";}
+      qualmetrics_files:
+        valueFrom: ${ return "*.quality_by_cycle_metrics";}
       file_prefix: project_prefix
       fp_genotypes: fp_genotypes
       pairing_file: pairing_file
