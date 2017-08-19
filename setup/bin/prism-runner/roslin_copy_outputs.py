@@ -140,9 +140,15 @@ def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
 
     # e.g. { echo "filename1"; echo "filename2"; } | parallel -j+2 cp {} /dst_dir
     for group in groups:
+
+        # skip if there are no files in the group
+        if len(group) == 0:
+            continue
+
         cmd = ''
         for filename in group:
             cmd = cmd + 'echo "{}"; '.format(filename)
+
         cmd = '{ ' + cmd + '} | parallel -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
 
         cmds.append(cmd)
@@ -212,16 +218,16 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         },
         "facets": {
             "patterns": [
-                "*._hisense.CNCF.png",
-                "*._hisense.cncf.txt",
-                "*._hisense.out",
-                "*._hisense.Rdata",
-                "*._hisense.seg",
-                "*._purity.CNCF.png",
-                "*._purity.cncf.txt",
-                "*._purity.out",
-                "*._purity.Rdata",
-                "*._purity.seg",
+                "outputs/*._hisense.CNCF.png",
+                "outputs/*._hisense.cncf.txt",
+                "outputs/*._hisense.out",
+                "outputs/*._hisense.Rdata",
+                "outputs/*._hisense.seg",
+                "outputs/*._purity.CNCF.png",
+                "outputs/*._purity.cncf.txt",
+                "outputs/*._purity.out",
+                "outputs/*._purity.Rdata",
+                "outputs/*._purity.seg",
             ],
             "parallels": 1
         }
