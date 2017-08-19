@@ -55,7 +55,7 @@ def wait_until_done(lsf_job_id_list):
             print "Some of the jobs failed"
             exit(1)
 
-        time.sleep(5)
+        time.sleep(10)
 
 
 def bsub(bsubline):
@@ -218,16 +218,16 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         },
         "facets": {
             "patterns": [
-                "outputs/*._hisense.CNCF.png",
-                "outputs/*._hisense.cncf.txt",
-                "outputs/*._hisense.out",
-                "outputs/*._hisense.Rdata",
-                "outputs/*._hisense.seg",
-                "outputs/*._purity.CNCF.png",
-                "outputs/*._purity.cncf.txt",
-                "outputs/*._purity.out",
-                "outputs/*._purity.Rdata",
-                "outputs/*._purity.seg",
+                "outputs/*_hisens.CNCF.png",
+                "outputs/*_hisens.cncf.txt",
+                "outputs/*_hisens.out",
+                "outputs/*_hisens.Rdata",
+                "outputs/*_hisens.seg",
+                "outputs/*_purity.CNCF.png",
+                "outputs/*_purity.cncf.txt",
+                "outputs/*_purity.out",
+                "outputs/*_purity.Rdata",
+                "outputs/*_purity.seg"
             ],
             "parallels": 1
         }
