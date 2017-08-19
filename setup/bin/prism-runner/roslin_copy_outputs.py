@@ -307,7 +307,7 @@ def main():
     try:
 
         # construct and cerate the final user output directory
-        user_out_dir = os.path.join(params.user_out_base_dir, params.cmo_project_id + "-" + params.job_uuid)
+        user_out_dir = os.path.join(params.user_out_base_dir, params.cmo_project_id + "." + params.job_uuid)
         if not os.path.isdir(user_out_dir):
             os.makedirs(user_out_dir)
 
