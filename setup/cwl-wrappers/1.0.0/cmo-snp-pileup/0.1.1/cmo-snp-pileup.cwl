@@ -54,7 +54,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 6
-    coresMin: 1
+    coresMin: 2
 
 
 doc: |
