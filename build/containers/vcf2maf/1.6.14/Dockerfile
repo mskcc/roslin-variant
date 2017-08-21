@@ -61,7 +61,7 @@ RUN apk add --update \
             && cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
             && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
             && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
-      # install bcftools     
+      # install bcftools
             && cd /tmp && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
             && tar xvjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
             && cd /tmp/bcftools-${BCFTOOLS_VERSION} \
