@@ -478,6 +478,11 @@ def main():
 
             try:
 
+                # write prj object to lsf-job-info.log in toil's working directory
+                if prj["status"] in ["DONE", "EXIT"] and not os.path.isfile(os.path.join(prj["workingDirectory"], "run-results.json")):
+                    with open(os.path.join(prj["workingDirectory"], "run-results.json"), "w") as file_handle:
+                        file_handle.write(json.dumps(prj, indent=2))
+
                 print "  {}:{} ({} secs) ({})".format(prj["projectId"], job_uuid, prj["timestamp"]["duration"], prj["status"])
 
                 for lsf_job_id in prj["batchSystemJobs"]:
