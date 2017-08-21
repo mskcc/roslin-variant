@@ -271,7 +271,7 @@
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
         }, 
         "vcf2maf": {
-            "default": "sudo docker run -i vcf2maf:1.6.12 "
+            "default": "sudo docker run -i vcf2maf:1.6.14 "
         }, 
         "vep": {
             "default": "sudo docker run -i vep:86"
