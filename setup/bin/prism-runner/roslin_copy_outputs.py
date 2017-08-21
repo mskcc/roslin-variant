@@ -8,6 +8,7 @@ import logging
 import argparse
 import glob
 import shutil
+import tempfile
 
 logger = logging.getLogger("roslin_copy_outputs")
 logger.setLevel(logging.INFO)
@@ -145,13 +146,13 @@ def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
         if len(group) == 0:
             continue
 
-        cmd = ''
-        for filename in group:
-            cmd = cmd + 'echo "{}"; '.format(filename)
+        # create a temp file to store file names
+        with tempfile.NamedTemporaryFile(delete=False) as file_temp:
+            for filename in group:
+                file_temp.write(filename + "\n")
 
-        cmd = '{ ' + cmd + '} | parallel -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
-
-        cmds.append(cmd)
+            cmd = 'parallel -a ' + file_temp.name + ' -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
+            cmds.append(cmd)
 
     return cmds
 
