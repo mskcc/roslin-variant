@@ -43,6 +43,7 @@ b7ad199941d6615a9bf51db9152dc442  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
 c00b039441f41fcbd4d8fd802f630aa5  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 892cac8ef0ab60e57d639727c1b5d5a9  ./cmo-vardict/1.4.6/cmo-vardict.cwl
 7a7dc0a786240b05c98795c98782ed84  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
+d7ed955fbab286d3e924b89392334cd4  ./cmo-vcf2maf/1.6.14/cmo-vcf2maf.cwl
 195f5ded1e068323b83b18750c754fda  ./facets.cwl
 4b22e7f03dfe2e865aa6492dc3e30658  ./flatten-array/1.0.0/flatten-array-bam.cwl
 8f34434e269a3bedd0f52f4f2f7869a5  ./flatten-array/1.0.0/flatten-array-fastq.cwl
