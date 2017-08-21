@@ -1,0 +1,955 @@
+db_files:
+  bait_intervals: {class: File, path: /ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals}
+  cosmic: {class: File, path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf}
+  curated_bams:
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M12-1892-N_bc10_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44042-1-N_bc24_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44503-N_bc39_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-43532-1-N_bc16_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M12-2615-N_bc12_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44056-1-N_bc23_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44315-1-N_bc30_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M11-3639-N_bc03_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44538-N_bc36_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-43646-1-N_bc29_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-40685-N_bc34_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M12-0399-N_bc08_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-43697-1-N_bc33_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M14-8322-2-N_bc14_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-41382-1-N_bc17_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M14-7594-1-N_bc21_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M11-1637-N_bc11_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M13-1083-N_bc06_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M11-1089-N_bc04_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/M12-0994-N_bc05_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S12-18799-N_bc38_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-43894-1-N_bc32_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  - {class: File, path: /ifs/depot/resources/dmp/data/mskdata/std-normals-bam/VERSIONS/cv5/S14-44576-1-N_bc27_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam}
+  dbsnp: {class: File, path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf}
+  exac_filter: {class: File, path: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz}
+  ffpe_normal_bams:
+  - {class: File, path: /ifs/work/prism/chunj/test-data/ffpe/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam}
+  fp_genotypes: {class: File, path: /ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt}
+  fp_intervals: {class: File, path: /ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals}
+  grouping_file: {class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/Proj_DMPVAL_01/batch32/batch-3/Proj_DMPVAL_01_3_sample_grouping.txt}
+  hapmap: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hapmap_3.3.b37.vcf}
+  hotspot_list: {class: File, path: /ifs/work/prism/chunj/test-data/ref/hotspot-list-union-v1-v2.txt}
+  indels_1000g: {class: File, path: /ifs/work/prism/chunj/test-data/ref/Mills_and_1000G_gold_standard.indels.b37.vcf}
+  mapping_file: {class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/Proj_DMPVAL_01/batch32/batch-3/Proj_DMPVAL_01_3_sample_mapping.txt}
+  pairing_file: {class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/Proj_DMPVAL_01/batch32/batch-3/Proj_DMPVAL_01_3_sample_pairing.txt}
+  ref_fasta: /ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta
+  refseq: {class: File, path: /ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt}
+  request_file: {class: File, path: /ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/Proj_DMPVAL_01/batch32/batch-3/Proj_DMPVAL_01_3_request.txt}
+  snps_1000g: {class: File, path: /ifs/work/prism/chunj/test-data/ref/1000G_phase1.snps.high_confidence.b37.vcf}
+  target_intervals: {class: File, path: /ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals}
+  vep_data: /ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86
+groups:
+- [UN863535_N, UN863535_T]
+- [QO754917_N, QO754917_T]
+- [SO805465_N, SO805465_T]
+- [LI926221_N, LI926221_T]
+- [PD439985_N, PD439985_T]
+- [DX472478_N, DX472478_T]
+- [LS383169_N, LS383169_T]
+- [QB684488_N, QB684488_T]
+- [TE452791_N, TE452791_T]
+- [DO343374_N, DO343374_T]
+- [WN916772_N, WN916772_T]
+- [WQ513030_N, WQ513030_T]
+- [EA653738_N, EA653738_T]
+- [ZC340471_N, ZC340471_T]
+- [EB190263_N, EB190263_T]
+- [PP067256_N, PP067256_T]
+- [JG489118_N, JG489118_T]
+- [FQ157230_N, FQ157230_T]
+- [MQ832044_N, MQ832044_T]
+- [HQ358458_N, HQ358458_T]
+- [YH066633_N, YH066633_T]
+- [YG501192_N, YG501192_T]
+- [YU445542_N, YU445542_T]
+- [KC552953_N, KC552953_T]
+- [ZW081989_N, ZW081989_T]
+- [WW105060_N, WW105060_T]
+- [PF888064_N, PF888064_T]
+- [HQ179320_N, HQ179320_T]
+- [BZ009585_N, BZ009585_T]
+- [AH761070_N, AH761070_T]
+- [VS345880_N, VS345880_T]
+- [OB321408_N, OB321408_T]
+pairs:
+- [AH761070_T, AH761070_N]
+- [BZ009585_T, BZ009585_N]
+- [DO343374_T, DO343374_N]
+- [DX472478_T, DX472478_N]
+- [EA653738_T, EA653738_N]
+- [EB190263_T, EB190263_N]
+- [FQ157230_T, FQ157230_N]
+- [HQ179320_T, HQ179320_N]
+- [HQ358458_T, HQ358458_N]
+- [JG489118_T, JG489118_N]
+- [KC552953_T, KC552953_N]
+- [LI926221_T, LI926221_N]
+- [LS383169_T, LS383169_N]
+- [MQ832044_T, MQ832044_N]
+- [OB321408_T, OB321408_N]
+- [PD439985_T, PD439985_N]
+- [PF888064_T, PF888064_N]
+- [PP067256_T, PP067256_N]
+- [QB684488_T, QB684488_N]
+- [QO754917_T, QO754917_N]
+- [SO805465_T, SO805465_N]
+- [TE452791_T, TE452791_N]
+- [UN863535_T, UN863535_N]
+- [VS345880_T, VS345880_N]
+- [WN916772_T, WN916772_N]
+- [WQ513030_T, WQ513030_N]
+- [WW105060_T, WW105060_N]
+- [YG501192_T, YG501192_N]
+- [YH066633_T, YH066633_N]
+- [YU445542_T, YU445542_N]
+- [ZC340471_T, ZC340471_N]
+- [ZW081989_T, ZW081989_N]
+runparams:
+  abra_scratch: /scratch/
+  covariates: [CycleCovariate, ContextCovariate, ReadGroupCovariate, QualityScoreCovariate]
+  emit_original_quals: true
+  genome: GRCh37
+  mutect_dcov: 50000
+  mutect_rf: [BadCigar]
+  num_cpu_threads_per_data_thread: 6
+  num_threads: 10
+  project_prefix: Proj_DMPVAL_01
+  tmp_dir: /scratch
+samples:
+- CN: MSKCC
+  ID: QB684488_N
+  LB: QB684488_N_1
+  PL: Illumina
+  PU: QB684488_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_QB684488-N/QB684488-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_QB684488-N/QB684488-N_L000_R2_000.fastq.gz}
+  RG_ID: QB684488_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: QB684488_N.bam
+- CN: MSKCC
+  ID: LS383169_N
+  LB: LS383169_N_1
+  PL: Illumina
+  PU: LS383169_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_LS383169-N/LS383169-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_LS383169-N/LS383169-N_L000_R2_000.fastq.gz}
+  RG_ID: LS383169_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: LS383169_N.bam
+- CN: MSKCC
+  ID: DX472478_N
+  LB: DX472478_N_1
+  PL: Illumina
+  PU: DX472478_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_DX472478-N/DX472478-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_DX472478-N/DX472478-N_L000_R2_000.fastq.gz}
+  RG_ID: DX472478_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: DX472478_N.bam
+- CN: MSKCC
+  ID: YG501192_T
+  LB: YG501192_T_1
+  PL: Illumina
+  PU: YG501192_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_YG501192-T/YG501192-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_YG501192-T/YG501192-T_L000_R2_000.fastq.gz}
+  RG_ID: YG501192_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: YG501192_T.bam
+- CN: MSKCC
+  ID: YH066633_N
+  LB: YH066633_N_1
+  PL: Illumina
+  PU: YH066633_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_YH066633-N/YH066633-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_YH066633-N/YH066633-N_L000_R2_000.fastq.gz}
+  RG_ID: YH066633_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: YH066633_N.bam
+- CN: MSKCC
+  ID: PD439985_N
+  LB: PD439985_N_1
+  PL: Illumina
+  PU: PD439985_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_PD439985-N/PD439985-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_PD439985-N/PD439985-N_L000_R2_000.fastq.gz}
+  RG_ID: PD439985_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: PD439985_N.bam
+- CN: MSKCC
+  ID: SO805465_N
+  LB: SO805465_N_1
+  PL: Illumina
+  PU: SO805465_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_N_Zp/Sample_SO805465-N/SO805465-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_N_Zp/Sample_SO805465-N/SO805465-N_L000_R2_000.fastq.gz}
+  RG_ID: SO805465_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: SO805465_N.bam
+- CN: MSKCC
+  ID: YH066633_T
+  LB: YH066633_T_1
+  PL: Illumina
+  PU: YH066633_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_YH066633-T/YH066633-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_YH066633-T/YH066633-T_L000_R2_000.fastq.gz}
+  RG_ID: YH066633_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: YH066633_T.bam
+- CN: MSKCC
+  ID: LI926221_T
+  LB: LI926221_T_1
+  PL: Illumina
+  PU: LI926221_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_LI926221-T/LI926221-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_LI926221-T/LI926221-T_L000_R2_000.fastq.gz}
+  RG_ID: LI926221_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: LI926221_T.bam
+- CN: MSKCC
+  ID: SO805465_T
+  LB: SO805465_T_1
+  PL: Illumina
+  PU: SO805465_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_N_Zp/Sample_SO805465-T/SO805465-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_N_Zp/Sample_SO805465-T/SO805465-T_L000_R2_000.fastq.gz}
+  RG_ID: SO805465_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: SO805465_T.bam
+- CN: MSKCC
+  ID: PD439985_T
+  LB: PD439985_T_1
+  PL: Illumina
+  PU: PD439985_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_PD439985-T/PD439985-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_PD439985-T/PD439985-T_L000_R2_000.fastq.gz}
+  RG_ID: PD439985_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: PD439985_T.bam
+- CN: MSKCC
+  ID: QB684488_T
+  LB: QB684488_T_1
+  PL: Illumina
+  PU: QB684488_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_QB684488-T/QB684488-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_QB684488-T/QB684488-T_L000_R2_000.fastq.gz}
+  RG_ID: QB684488_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: QB684488_T.bam
+- CN: MSKCC
+  ID: YG501192_N
+  LB: YG501192_N_1
+  PL: Illumina
+  PU: YG501192_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_YG501192-N/YG501192-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_YG501192-N/YG501192-N_L000_R2_000.fastq.gz}
+  RG_ID: YG501192_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: YG501192_N.bam
+- CN: MSKCC
+  ID: LS383169_T
+  LB: LS383169_T_1
+  PL: Illumina
+  PU: LS383169_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_LS383169-T/LS383169-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_LS383169-T/LS383169-T_L000_R2_000.fastq.gz}
+  RG_ID: LS383169_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: LS383169_T.bam
+- CN: MSKCC
+  ID: DX472478_T
+  LB: DX472478_T_1
+  PL: Illumina
+  PU: DX472478_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_DX472478-T/DX472478-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_DX472478-T/DX472478-T_L000_R2_000.fastq.gz}
+  RG_ID: DX472478_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: DX472478_T.bam
+- CN: MSKCC
+  ID: WN916772_T
+  LB: WN916772_T_1
+  PL: Illumina
+  PU: WN916772_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_WN916772-T/WN916772-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_WN916772-T/WN916772-T_L000_R2_000.fastq.gz}
+  RG_ID: WN916772_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: WN916772_T.bam
+- CN: MSKCC
+  ID: BZ009585_N
+  LB: BZ009585_N_1
+  PL: Illumina
+  PU: BZ009585_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_BZ009585-N/BZ009585-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_BZ009585-N/BZ009585-N_L000_R2_000.fastq.gz}
+  RG_ID: BZ009585_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: BZ009585_N.bam
+- CN: MSKCC
+  ID: AH761070_N
+  LB: AH761070_N_1
+  PL: Illumina
+  PU: AH761070_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_J_Zp/Sample_AH761070-N/AH761070-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_J_Zp/Sample_AH761070-N/AH761070-N_L000_R2_000.fastq.gz}
+  RG_ID: AH761070_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: AH761070_N.bam
+- CN: MSKCC
+  ID: EB190263_N
+  LB: EB190263_N_1
+  PL: Illumina
+  PU: EB190263_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BV_Zp/Sample_EB190263-N/EB190263-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BV_Zp/Sample_EB190263-N/EB190263-N_L000_R2_000.fastq.gz}
+  RG_ID: EB190263_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: EB190263_N.bam
+- CN: MSKCC
+  ID: VS345880_N
+  LB: VS345880_N_1
+  PL: Illumina
+  PU: VS345880_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_DH_Zp/Sample_VS345880-N/VS345880-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_DH_Zp/Sample_VS345880-N/VS345880-N_L000_R2_000.fastq.gz}
+  RG_ID: VS345880_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: VS345880_N.bam
+- CN: MSKCC
+  ID: OB321408_T
+  LB: OB321408_T_1
+  PL: Illumina
+  PU: OB321408_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_OB321408-T/OB321408-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_OB321408-T/OB321408-T_L000_R2_000.fastq.gz}
+  RG_ID: OB321408_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: OB321408_T.bam
+- CN: MSKCC
+  ID: UN863535_N
+  LB: UN863535_N_1
+  PL: Illumina
+  PU: UN863535_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_UN863535-N/UN863535-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_UN863535-N/UN863535-N_L000_R2_000.fastq.gz}
+  RG_ID: UN863535_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: UN863535_N.bam
+- CN: MSKCC
+  ID: ZW081989_N
+  LB: ZW081989_N_1
+  PL: Illumina
+  PU: ZW081989_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_ZW081989-N/ZW081989-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_ZW081989-N/ZW081989-N_L000_R2_000.fastq.gz}
+  RG_ID: ZW081989_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: ZW081989_N.bam
+- CN: MSKCC
+  ID: WW105060_N
+  LB: WW105060_N_1
+  PL: Illumina
+  PU: WW105060_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_DH_Zp/Sample_WW105060-N/WW105060-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_DH_Zp/Sample_WW105060-N/WW105060-N_L000_R2_000.fastq.gz}
+  RG_ID: WW105060_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: WW105060_N.bam
+- CN: MSKCC
+  ID: UN863535_T
+  LB: UN863535_T_1
+  PL: Illumina
+  PU: UN863535_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_UN863535-T/UN863535-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_UN863535-T/UN863535-T_L000_R2_000.fastq.gz}
+  RG_ID: UN863535_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: UN863535_T.bam
+- CN: MSKCC
+  ID: ZW081989_T
+  LB: ZW081989_T_1
+  PL: Illumina
+  PU: ZW081989_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_ZW081989-T/ZW081989-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_E_Zp/Sample_ZW081989-T/ZW081989-T_L000_R2_000.fastq.gz}
+  RG_ID: ZW081989_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: ZW081989_T.bam
+- CN: MSKCC
+  ID: OB321408_N
+  LB: OB321408_N_1
+  PL: Illumina
+  PU: OB321408_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_OB321408-N/OB321408-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_OB321408-N/OB321408-N_L000_R2_000.fastq.gz}
+  RG_ID: OB321408_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: OB321408_N.bam
+- CN: MSKCC
+  ID: PP067256_N
+  LB: PP067256_N_1
+  PL: Illumina
+  PU: PP067256_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_PP067256-N/PP067256-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_PP067256-N/PP067256-N_L000_R2_000.fastq.gz}
+  RG_ID: PP067256_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: PP067256_N.bam
+- CN: MSKCC
+  ID: BZ009585_T
+  LB: BZ009585_T_1
+  PL: Illumina
+  PU: BZ009585_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_BZ009585-T/BZ009585-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_BZ009585-T/BZ009585-T_L000_R2_000.fastq.gz}
+  RG_ID: BZ009585_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: BZ009585_T.bam
+- CN: MSKCC
+  ID: AH761070_T
+  LB: AH761070_T_1
+  PL: Illumina
+  PU: AH761070_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_J_Zp/Sample_AH761070-T/AH761070-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_J_Zp/Sample_AH761070-T/AH761070-T_L000_R2_000.fastq.gz}
+  RG_ID: AH761070_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: AH761070_T.bam
+- CN: MSKCC
+  ID: VS345880_T
+  LB: VS345880_T_1
+  PL: Illumina
+  PU: VS345880_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_CSF2_Zp/Sample_VS345880-T/VS345880-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_CSF2_Zp/Sample_VS345880-T/VS345880-T_L000_R2_000.fastq.gz}
+  RG_ID: VS345880_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: VS345880_T.bam
+- CN: MSKCC
+  ID: EB190263_T
+  LB: EB190263_T_1
+  PL: Illumina
+  PU: EB190263_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BV_Zp/Sample_EB190263-T/EB190263-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BV_Zp/Sample_EB190263-T/EB190263-T_L000_R2_000.fastq.gz}
+  RG_ID: EB190263_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: EB190263_T.bam
+- CN: MSKCC
+  ID: QO754917_T
+  LB: QO754917_T_1
+  PL: Illumina
+  PU: QO754917_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_QO754917-T/QO754917-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_QO754917-T/QO754917-T_L000_R2_000.fastq.gz}
+  RG_ID: QO754917_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: QO754917_T.bam
+- CN: MSKCC
+  ID: ZC340471_T
+  LB: ZC340471_T_1
+  PL: Illumina
+  PU: ZC340471_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_ZC340471-T/ZC340471-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_ZC340471-T/ZC340471-T_L000_R2_000.fastq.gz}
+  RG_ID: ZC340471_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: ZC340471_T.bam
+- CN: MSKCC
+  ID: EA653738_N
+  LB: EA653738_N_1
+  PL: Illumina
+  PU: EA653738_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_O_v3_Zp/Sample_EA653738-N/EA653738-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_O_v3_Zp/Sample_EA653738-N/EA653738-N_L000_R2_000.fastq.gz}
+  RG_ID: EA653738_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: EA653738_N.bam
+- CN: MSKCC
+  ID: PF888064_N
+  LB: PF888064_N_1
+  PL: Illumina
+  PU: PF888064_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_PF888064-N/PF888064-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_PF888064-N/PF888064-N_L000_R2_000.fastq.gz}
+  RG_ID: PF888064_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: PF888064_N.bam
+- CN: MSKCC
+  ID: HQ179320_N
+  LB: HQ179320_N_1
+  PL: Illumina
+  PU: HQ179320_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_HQ179320-N/HQ179320-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_HQ179320-N/HQ179320-N_L000_R2_000.fastq.gz}
+  RG_ID: HQ179320_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: HQ179320_N.bam
+- CN: MSKCC
+  ID: WW105060_T
+  LB: WW105060_T_1
+  PL: Illumina
+  PU: WW105060_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_CM_Zp/Sample_WW105060-T/WW105060-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_CM_Zp/Sample_WW105060-T/WW105060-T_L000_R2_000.fastq.gz}
+  RG_ID: WW105060_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: WW105060_T.bam
+- CN: MSKCC
+  ID: KC552953_N
+  LB: KC552953_N_1
+  PL: Illumina
+  PU: KC552953_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07427_B_Zp/Sample_KC552953-N/KC552953-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07427_B_Zp/Sample_KC552953-N/KC552953-N_L000_R2_000.fastq.gz}
+  RG_ID: KC552953_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: KC552953_N.bam
+- CN: MSKCC
+  ID: LI926221_N
+  LB: LI926221_N_1
+  PL: Illumina
+  PU: LI926221_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_LI926221-N/LI926221-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_L_Zp/Sample_LI926221-N/LI926221-N_L000_R2_000.fastq.gz}
+  RG_ID: LI926221_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: LI926221_N.bam
+- CN: MSKCC
+  ID: HQ179320_T
+  LB: HQ179320_T_1
+  PL: Illumina
+  PU: HQ179320_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_HQ179320-T/HQ179320-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_HQ179320-T/HQ179320-T_L000_R2_000.fastq.gz}
+  RG_ID: HQ179320_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: HQ179320_T.bam
+- CN: MSKCC
+  ID: FQ157230_T
+  LB: FQ157230_T_1
+  PL: Illumina
+  PU: FQ157230_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07336_B_Zp/Sample_FQ157230-T/FQ157230-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07336_B_Zp/Sample_FQ157230-T/FQ157230-T_L000_R2_000.fastq.gz}
+  RG_ID: FQ157230_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: FQ157230_T.bam
+- CN: MSKCC
+  ID: PF888064_T
+  LB: PF888064_T_1
+  PL: Illumina
+  PU: PF888064_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_PF888064-T/PF888064-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_PF888064-T/PF888064-T_L000_R2_000.fastq.gz}
+  RG_ID: PF888064_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: PF888064_T.bam
+- CN: MSKCC
+  ID: YU445542_T
+  LB: YU445542_T_1
+  PL: Illumina
+  PU: YU445542_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_YU445542-T/YU445542-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_YU445542-T/YU445542-T_L000_R2_000.fastq.gz}
+  RG_ID: YU445542_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: YU445542_T.bam
+- CN: MSKCC
+  ID: QO754917_N
+  LB: QO754917_N_1
+  PL: Illumina
+  PU: QO754917_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_QO754917-N/QO754917-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_5500_AF_Im_Zp/Sample_QO754917-N/QO754917-N_L000_R2_000.fastq.gz}
+  RG_ID: QO754917_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: QO754917_N.bam
+- CN: MSKCC
+  ID: EA653738_T
+  LB: EA653738_T_1
+  PL: Illumina
+  PU: EA653738_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_O_Zp/Sample_EA653738-T/EA653738-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_O_Zp/Sample_EA653738-T/EA653738-T_L000_R2_000.fastq.gz}
+  RG_ID: EA653738_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: EA653738_T.bam
+- CN: MSKCC
+  ID: WQ513030_T
+  LB: WQ513030_T_1
+  PL: Illumina
+  PU: WQ513030_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_WQ513030-T/WQ513030-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_WQ513030-T/WQ513030-T_L000_R2_000.fastq.gz}
+  RG_ID: WQ513030_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: WQ513030_T.bam
+- CN: MSKCC
+  ID: FQ157230_N
+  LB: FQ157230_N_1
+  PL: Illumina
+  PU: FQ157230_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07336_B_Zp/Sample_FQ157230-N/FQ157230-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07336_B_Zp/Sample_FQ157230-N/FQ157230-N_L000_R2_000.fastq.gz}
+  RG_ID: FQ157230_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: FQ157230_N.bam
+- CN: MSKCC
+  ID: JG489118_T
+  LB: JG489118_T_1
+  PL: Illumina
+  PU: JG489118_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_JG489118-T/JG489118-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_JG489118-T/JG489118-T_L000_R2_000.fastq.gz}
+  RG_ID: JG489118_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: JG489118_T.bam
+- CN: MSKCC
+  ID: HQ358458_T
+  LB: HQ358458_T_1
+  PL: Illumina
+  PU: HQ358458_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_HQ358458-T/HQ358458-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_HQ358458-T/HQ358458-T_L000_R2_000.fastq.gz}
+  RG_ID: HQ358458_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: HQ358458_T.bam
+- CN: MSKCC
+  ID: ZC340471_N
+  LB: ZC340471_N_1
+  PL: Illumina
+  PU: ZC340471_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_ZC340471-N/ZC340471-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_ZC340471-N/ZC340471-N_L000_R2_000.fastq.gz}
+  RG_ID: ZC340471_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: ZC340471_N.bam
+- CN: MSKCC
+  ID: MQ832044_T
+  LB: MQ832044_T_1
+  PL: Illumina
+  PU: MQ832044_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_MQ832044-T/MQ832044-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_MQ832044-T/MQ832044-T_L000_R2_000.fastq.gz}
+  RG_ID: MQ832044_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: MQ832044_T.bam
+- CN: MSKCC
+  ID: YU445542_N
+  LB: YU445542_N_1
+  PL: Illumina
+  PU: YU445542_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_YU445542-N/YU445542-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_BJ_Zp/Sample_YU445542-N/YU445542-N_L000_R2_000.fastq.gz}
+  RG_ID: YU445542_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: YU445542_N.bam
+- CN: MSKCC
+  ID: TE452791_N
+  LB: TE452791_N_1
+  PL: Illumina
+  PU: TE452791_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_TE452791-N/TE452791-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_TE452791-N/TE452791-N_L000_R2_000.fastq.gz}
+  RG_ID: TE452791_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: TE452791_N.bam
+- CN: MSKCC
+  ID: DO343374_T
+  LB: DO343374_T_1
+  PL: Illumina
+  PU: DO343374_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_DO343374-T/DO343374-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_DO343374-T/DO343374-T_L000_R2_000.fastq.gz}
+  RG_ID: DO343374_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: DO343374_T.bam
+- CN: MSKCC
+  ID: TE452791_T
+  LB: TE452791_T_1
+  PL: Illumina
+  PU: TE452791_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_TE452791-T/TE452791-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05257_V3_Zp/Sample_TE452791-T/TE452791-T_L000_R2_000.fastq.gz}
+  RG_ID: TE452791_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: TE452791_T.bam
+- CN: MSKCC
+  ID: MQ832044_N
+  LB: MQ832044_N_1
+  PL: Illumina
+  PU: MQ832044_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_MQ832044-N/MQ832044-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_341_Zp/Sample_MQ832044-N/MQ832044-N_L000_R2_000.fastq.gz}
+  RG_ID: MQ832044_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: MQ832044_N.bam
+- CN: MSKCC
+  ID: PP067256_T
+  LB: PP067256_T_1
+  PL: Illumina
+  PU: PP067256_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_PP067256-T/PP067256-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_PP067256-T/PP067256-T_L000_R2_000.fastq.gz}
+  RG_ID: PP067256_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: PP067256_T.bam
+- CN: MSKCC
+  ID: DO343374_N
+  LB: DO343374_N_1
+  PL: Illumina
+  PU: DO343374_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_DO343374-N/DO343374-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_I_Zp/Sample_DO343374-N/DO343374-N_L000_R2_000.fastq.gz}
+  RG_ID: DO343374_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: DO343374_N.bam
+- CN: MSKCC
+  ID: KC552953_T
+  LB: KC552953_T_1
+  PL: Illumina
+  PU: KC552953_T_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07427_B_Zp/Sample_KC552953-T/KC552953-T_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07427_B_Zp/Sample_KC552953-T/KC552953-T_L000_R2_000.fastq.gz}
+  RG_ID: KC552953_T_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: KC552953_T.bam
+- CN: MSKCC
+  ID: JG489118_N
+  LB: JG489118_N_1
+  PL: Illumina
+  PU: JG489118_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_JG489118-N/JG489118-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07058_B_Zp/Sample_JG489118-N/JG489118-N_L000_R2_000.fastq.gz}
+  RG_ID: JG489118_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: JG489118_N.bam
+- CN: MSKCC
+  ID: WQ513030_N
+  LB: WQ513030_N_1
+  PL: Illumina
+  PU: WQ513030_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_WQ513030-N/WQ513030-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_05500_AKT_Zp/Sample_WQ513030-N/WQ513030-N_L000_R2_000.fastq.gz}
+  RG_ID: WQ513030_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: WQ513030_N.bam
+- CN: MSKCC
+  ID: WN916772_N
+  LB: WN916772_N_1
+  PL: Illumina
+  PU: WN916772_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_WN916772-N/WN916772-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04430_K_410_Zp/Sample_WN916772-N/WN916772-N_L000_R2_000.fastq.gz}
+  RG_ID: WN916772_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: WN916772_N.bam
+- CN: MSKCC
+  ID: HQ358458_N
+  LB: HQ358458_N_1
+  PL: Illumina
+  PU: HQ358458_N_1DMPLibs
+  R1:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_HQ358458-N/HQ358458-N_L000_R1_000.fastq.gz}
+  R2:
+  - {class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_04763_P_Zp/Sample_HQ358458-N/HQ358458-N_L000_R2_000.fastq.gz}
+  RG_ID: HQ358458_N_1DMPLibsPE
+  adapter: AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG
+  adapter2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT
+  bwa_output: HQ358458_N.bam

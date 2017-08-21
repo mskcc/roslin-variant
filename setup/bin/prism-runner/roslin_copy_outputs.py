@@ -8,6 +8,7 @@ import logging
 import argparse
 import glob
 import shutil
+import tempfile
 
 logger = logging.getLogger("roslin_copy_outputs")
 logger.setLevel(logging.INFO)
@@ -40,7 +41,7 @@ def bjobs(lsf_job_id_list):
 def wait_until_done(lsf_job_id_list):
     "wait for all jobs to finish"
 
-    print "Waiting for all jobs to finish..."
+    logger.info("Waiting for all jobs to finish...")
 
     while True:
 
@@ -49,13 +50,13 @@ def wait_until_done(lsf_job_id_list):
 
         # break out if all DONE
         if results.rstrip() == "DONE":
-            print "DONE."
+            logger.info("DONE.")
             exit(0)
         elif "EXIT" in results:
-            print "Some of the jobs failed"
+            logger.error("Some of the jobs failed")
             exit(1)
 
-        time.sleep(5)
+        time.sleep(10)
 
 
 def bsub(bsubline):
@@ -140,12 +141,18 @@ def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
 
     # e.g. { echo "filename1"; echo "filename2"; } | parallel -j+2 cp {} /dst_dir
     for group in groups:
-        cmd = ''
-        for filename in group:
-            cmd = cmd + 'echo "{}"; '.format(filename)
-        cmd = '{ ' + cmd + '} | parallel -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
 
-        cmds.append(cmd)
+        # skip if there are no files in the group
+        if len(group) == 0:
+            continue
+
+        # create a temp file to store file names
+        with tempfile.NamedTemporaryFile(delete=False) as file_temp:
+            for filename in group:
+                file_temp.write(filename + "\n")
+
+            cmd = 'parallel -a ' + file_temp.name + ' -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
+            cmds.append(cmd)
 
     return cmds
 
@@ -187,7 +194,23 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "outputs/*.gcbias*",
                 "outputs/*.md_metrics",
                 "outputs/*.stats",
-                "outputs/*.pdf"
+                "outputs/*.pdf",
+                "outputs/{}_CutAdaptStats.txt".format(cmo_project_id),
+                "outputs/{}_DiscordantHomAlleleFractions.txt".format(cmo_project_id),
+                "outputs/{}_FingerprintSummary.txt".format(cmo_project_id),
+                "outputs/{}_GcBiasMetrics.txt".format(cmo_project_id),
+                "outputs/{}_HsMetrics.txt".format(cmo_project_id),
+                "outputs/{}_InsertSizeMetrics_Histograms.txt".format(cmo_project_id),
+                "outputs/{}_MajorContamination.txt".format(cmo_project_id),
+                "outputs/{}_markDuplicatesMetrics.txt".format(cmo_project_id),
+                "outputs/{}_MinorContamination.txt".format(cmo_project_id),
+                "outputs/{}_post_recal_MeanQualityByCycle.txt".format(cmo_project_id),
+                "outputs/{}_pre_recal_MeanQualityByCycle.txt".format(cmo_project_id),
+                "outputs/{}_ProjectSummary.txt".format(cmo_project_id),
+                "outputs/{}_QC_Report.pdf".format(cmo_project_id),
+                "outputs/{}_SampleSummary.txt".format(cmo_project_id),
+                "outputs/{}_UnexpectedMatches.txt".format(cmo_project_id),
+                "outputs/{}_UnexpectedMismatches.txt".format(cmo_project_id)
             ],
             "parallels": 2
         },
@@ -196,7 +219,9 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "outputs/log/*",
                 "stdout.log",
                 "stderr.log",
-                "outputs/output-meta.json"
+                "run-profile.json",
+                "run-results.json",
+                "outputs/output-meta.json",
             ],
             "parallels": 2
         },
@@ -206,6 +231,21 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "{}_sample_grouping.txt".format(cmo_project_id),
                 "{}_sample_mapping.txt".format(cmo_project_id),
                 "{}_sample_pairing.txt".format(cmo_project_id),
+            ],
+            "parallels": 1
+        },
+        "facets": {
+            "patterns": [
+                "outputs/*_hisens.CNCF.png",
+                "outputs/*_hisens.cncf.txt",
+                "outputs/*_hisens.out",
+                "outputs/*_hisens.Rdata",
+                "outputs/*_hisens.seg",
+                "outputs/*_purity.CNCF.png",
+                "outputs/*_purity.cncf.txt",
+                "outputs/*_purity.out",
+                "outputs/*_purity.Rdata",
+                "outputs/*_purity.seg"
             ],
             "parallels": 1
         }
@@ -231,7 +271,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
 
         cmds = create_parallel_cp_commands(file_list, dst_dir, data[file_type]["parallels"])
 
-        print "{} ({} jobs in parallel)".format(file_type, len(cmds))
+        logger.info("{} ({} jobs in parallel)".format(file_type, len(cmds)))
 
         for num, cmd in enumerate(cmds):
 
@@ -244,6 +284,8 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "roslin_copy_outputs_{}_{}_{}".format(file_type, num + 1, len(cmds)),
                 data[file_type]["parallels"]
             )
+
+            logger.info(str(lsf_job_id) + ':' + cmd)
 
             # add LSF job id to list object
             lsf_job_id_list.append(lsf_job_id)
@@ -286,16 +328,30 @@ def main():
         required=True
     )
 
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        dest="force_overwrite",
+        required=False
+    )
+    parser.set_defaults(force_overwrite=False)
+
     params = parser.parse_args()
 
     try:
 
         # construct and cerate the final user output directory
-        user_out_dir = os.path.join(params.user_out_base_dir, params.cmo_project_id + "-" + params.job_uuid)
+        user_out_dir = os.path.join(params.user_out_base_dir, params.cmo_project_id + "." + params.job_uuid)
+
+        copy_ops = True
+
         if not os.path.isdir(user_out_dir):
             os.makedirs(user_out_dir)
+        else:
+            copy_ops = params.force_overwrite
 
-        copy_outputs(params.cmo_project_id, params.job_uuid, params.toil_work_dir, user_out_dir)
+        if copy_ops:
+            copy_outputs(params.cmo_project_id, params.job_uuid, params.toil_work_dir, user_out_dir)
 
     except Exception as e:
         logger.error(repr(e))
