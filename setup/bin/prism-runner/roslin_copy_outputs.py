@@ -191,8 +191,9 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "outputs/*.asmetrics",
                 "outputs/*.hsmetrics",
                 "outputs/*.ismetrics*",
-                "outputs/*.gcbias*",
                 "outputs/*.md_metrics",
+                "outputs/*.quality_by_cycle_metrics"
+                "outputs/*.gcbias*",
                 "outputs/*.stats",
                 "outputs/*.pdf",
                 "outputs/{}_CutAdaptStats.txt".format(cmo_project_id),
