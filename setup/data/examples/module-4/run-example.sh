@@ -4,7 +4,7 @@ workflow="module-4.cwl"
 
 if [ "$1" = "-s" ]
 then
-    prism_submit.py \
+    roslin_submit.py \
         --id Proj_DEV_${USER} \
         --path . \
         --workflow ${workflow}

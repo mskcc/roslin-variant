@@ -13,7 +13,7 @@ nohup prism-runner.sh \
 	-i inputs.yaml \
 	-b lsf &
 
-# prism_submit.py \
+# roslin_submit.py \
 #     --id Proj_06648 \
 #     --path . \
 #     --workflow project-workflow.cwl

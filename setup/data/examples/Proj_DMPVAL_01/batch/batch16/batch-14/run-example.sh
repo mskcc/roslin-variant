@@ -5,7 +5,7 @@
 # 	-i inputs.yaml \
 # 	-b lsf &
 
-prism_submit.py \
+roslin_submit.py \
    --id Proj_DMPVAL_01_14 \
    --path . \
    --workflow project-workflow.cwl

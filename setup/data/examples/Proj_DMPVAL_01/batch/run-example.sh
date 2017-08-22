@@ -13,7 +13,7 @@ prism_request_to_yaml.py \
 # 	-i inputs.yaml \
 # 	-b lsf &
 
-# prism_submit.py \
+# roslin_submit.py \
 #    --id Proj_DMPVAL_01 \
 #    --path . \
 #    --workflow project-workflow.cwl
