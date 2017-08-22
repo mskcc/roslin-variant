@@ -145,7 +145,7 @@ esac
 
 
 # override CMO_RESOURC_CONFIG only while cwltoil is running
-export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
+export CMO_RESOURCE_CONFIG="${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/prism_resources.json"
 
 if [ -z "${JOB_UUID}" ]
 then
