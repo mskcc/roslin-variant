@@ -8,12 +8,12 @@ prism_request_to_yaml.py \
 	-o . \
 	-f inputs.yaml
 
-nohup prism-runner.sh \
-	-w project-workflow.cwl \
-	-i inputs.yaml \
-	-b lsf &
+# nohup prism-runner.sh \
+# 	-w project-workflow.cwl \
+# 	-i inputs.yaml \
+# 	-b lsf &
 
-# roslin_submit.py \
-#     --id Proj_UTest02_s16 \
-#     --path . \
-#     --workflow project-workflow.cwl
+roslin_submit.py \
+    --id Proj_UTest02_s16 \
+    --path . \
+    --workflow project-workflow.cwl
