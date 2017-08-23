@@ -108,7 +108,7 @@ To see the status of the job while it's running, open another terminal, and run 
 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
-$ prism-job-status.sh
+$ roslin-job-status.sh
 
 |   JOBID | STAT   | JOB_NAME                                | MAX_REQ_PROC   | EXEC_HOST   |
 |---------+--------+-----------------------------------------+----------------+-------------|
@@ -125,7 +125,7 @@ Run the following command to archive the job output and log files once the job i
 
 ```bash
 $ cd $PRISM_INPUT_PATH/chunj/examples/module-1
-$ prism-job-archive.sh
+$ roslin-job-archive.sh
 ```
 
 ## Running Project-level workflows with Your Own Data

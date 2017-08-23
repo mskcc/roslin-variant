@@ -7,10 +7,10 @@ source ./settings.sh
 
 # copy scripts
 cp ../bin/prism-runner/prism-runner.sh ${PRISM_BIN_PATH}/bin/prism-runner/prism-runner.sh
-cp ../bin/prism-runner/prism-job-archive.sh ${PRISM_BIN_PATH}/bin/prism-runner/prism-job-archive.sh
-cp ../bin/prism-runner/prism-job-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/prism-job-status.sh
+cp ../bin/prism-runner/roslin-job-archive.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-job-archive.sh
+cp ../bin/prism-runner/roslin-job-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-job-status.sh
 cp ../bin/prism-runner/tree.py ${PRISM_BIN_PATH}/bin/prism-runner/tree.py
-cp ../bin/prism-runner/prism-get-tmp-size.sh ${PRISM_BIN_PATH}/bin/prism-get-tmp-size.sh
+cp ../bin/prism-runner/roslin-get-tmp-size.sh ${PRISM_BIN_PATH}/bin/roslin-get-tmp-size.sh
 
 cp ../bin/prism-runner/roslin_submit.py ${PRISM_BIN_PATH}/bin/prism-runner/roslin_submit.py
 cp ../bin/prism-runner/prism_runprofile.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_runprofile.py
