@@ -140,8 +140,9 @@
         }, 
         "abra": {
             "0.92": "sing.sh abra 0.92", 
+            "2.08": "sing.sh abra 2.08", 
             "default": "sing.sh abra 0.92"
-        }, 
+        },       
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         }, 
