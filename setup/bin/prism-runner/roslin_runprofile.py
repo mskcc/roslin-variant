@@ -11,11 +11,11 @@ import ruamel.yaml
 import redis
 
 
-logger = logging.getLogger("prism_runprofile")
+logger = logging.getLogger("roslin_runprofile")
 logger.setLevel(logging.INFO)
 
 # create a file log handler
-log_file_handler = logging.FileHandler('prism_runprofile.log')
+log_file_handler = logging.FileHandler('roslin_runprofile.log')
 log_file_handler.setLevel(logging.INFO)
 
 # create a logging format
