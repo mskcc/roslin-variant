@@ -39,7 +39,7 @@ path_pairing="./${project_name}_sample_pairing.txt"
 grep -P "${group_name}$" ${project_name}_sample_grouping.original.txt > ${path_grouping}
 
 # create inputs.yaml
-./prism_request_to_yaml.py \
+./roslin_request_to_yaml.py \
     -m ${path_mapping} \
     -p ${path_pairing} \
     -g ${path_grouping} \
