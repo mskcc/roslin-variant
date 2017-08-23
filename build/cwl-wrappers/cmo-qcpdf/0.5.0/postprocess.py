@@ -37,49 +37,6 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-#     cwl['inputs']['gcbias_files']['type'] = ruamel.yaml.load("""
-# type: array
-# items: File
-# """, ruamel.yaml.RoundTripLoader)
-
-#     cwl['inputs']['mdmetrics_files']['type'] = ruamel.yaml.load("""
-# type: array
-# items:
-#   type: array
-#   items: File
-# """, ruamel.yaml.RoundTripLoader)
-
-#     cwl['inputs']['insertsize_files']['type'] = ruamel.yaml.load("""
-# type: array
-# items: File
-# """, ruamel.yaml.RoundTripLoader)
-
-#     cwl['inputs']['hsmetrics_files']['type'] = ruamel.yaml.load("""
-# type: array
-# items: File
-# """, ruamel.yaml.RoundTripLoader)
-
-#     cwl['inputs']['qualmetrics_files']['type'] = ruamel.yaml.load("""
-# type: array
-# items: File
-# """, ruamel.yaml.RoundTripLoader)
-
-#     cwl['inputs']['fingerprint_files']['type'] = ruamel.yaml.load("""
-# type: array
-# items: File
-# """, ruamel.yaml.RoundTripLoader)
-
-#     cwl['inputs']['trimgalore_files']['type'] = ruamel.yaml.load("""
-# - type: array
-#   items:
-#     type: array
-#     items:
-#       type: array
-#       items:
-#         type: array
-#         items: File
-# """, ruamel.yaml.RoundTripLoader)
-
     # 8th is right after baseCommand
     cwl.insert(8, 'arguments', ruamel.yaml.load("""
 - prefix: --globdir
@@ -125,6 +82,8 @@ type:
     cwl['inputs']['pairing_file']['type'] = 'File'
     cwl['inputs']['grouping_file']['type'] = 'File'
     cwl['inputs']['request_file']['type'] = 'File'
+
+    del cwl['inputs']['globdir']
 
     #-->
     # fixme: until we can auto generate cwl for cmo-qcpdf
