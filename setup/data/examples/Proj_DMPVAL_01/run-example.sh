@@ -1,6 +1,6 @@
 #!/bin/bash
 
-prism_request_to_yaml.py \
+roslin_request_to_yaml.py \
     -m Proj_DMPVAL_01_sample_mapping.txt \
     -p Proj_DMPVAL_01_sample_pairing.txt \
     -g Proj_DMPVAL_01_sample_grouping.txt \

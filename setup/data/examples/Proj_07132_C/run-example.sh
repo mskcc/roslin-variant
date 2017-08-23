@@ -1,6 +1,6 @@
 #!/bin/bash
 
-prism_request_to_yaml.py \
+roslin_request_to_yaml.py \
 	-m Proj_07132_C_sample_mapping.txt \
 	-p Proj_07132_C_sample_pairing.txt \
 	-g Proj_07132_C_sample_grouping.txt \

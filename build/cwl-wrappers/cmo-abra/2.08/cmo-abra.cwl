@@ -64,6 +64,12 @@ inputs:
       prefix: --threads
 
     default: '15'
+  bwa_ref:
+    type: ['null', string]
+    doc: bwa ref
+    inputBinding:
+      prefix: --bwa-ref
+
   mmr:
     type: ['null', string]
     doc: Max allowed mismatch rate when mapping reads back to contigs (default - 0.05)
@@ -221,6 +227,11 @@ inputs:
     inputBinding:
       prefix: --undup
 
+  working:
+    doc: Working directory for intermediate output. Must not already exist
+    inputBinding:
+      prefix: --working
+    type: string
   cl:
     type: ['null', string]
     doc: Compression level of output bam file (s) (default - 5)
@@ -299,11 +310,12 @@ inputs:
     inputBinding:
       prefix: --mcl
 
-  log:
+  mad:
     type: ['null', string]
-    doc: Logging level (trace,debug,info,warn, error) (default - info)
+    doc: Regions with average depth exceeding this value will be downsampled (default
+      - 1000)
     inputBinding:
-      prefix: --log
+      prefix: --mad
 
   single:
     type: ['null', string]
@@ -343,12 +355,11 @@ inputs:
     inputBinding:
       prefix: --targets
 
-  mad:
+  log:
     type: ['null', string]
-    doc: Regions with average depth exceeding this value will be downsampled (default
-      - 1000)
+    doc: Logging level (trace,debug,info,warn, error) (default - info)
     inputBinding:
-      prefix: --mad
+      prefix: --log
 
   mcr:
     type: ['null', string]
@@ -357,11 +368,6 @@ inputs:
       prefix: --mcr
 
 
-  working:
-    doc: Working directory for intermediate output. Must not already exist
-    inputBinding:
-      prefix: --working
-    type: string
 outputs:
   outbams:
     type: File[]
