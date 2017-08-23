@@ -226,7 +226,7 @@ def call_make_runprofile(job_uuid, toil_work_dir, cwltoil_log_path):
 
     cmd = [
         "python",
-        os.path.join(bin_path, "bin/prism-runner/prism_runprofile.py"),
+        os.path.join(bin_path, "bin/prism-runner/roslin_runprofile.py"),
         "--job-uuid", job_uuid,
         "--work-dir", toil_work_dir,
         "--cwltoil-log", cwltoil_log_path

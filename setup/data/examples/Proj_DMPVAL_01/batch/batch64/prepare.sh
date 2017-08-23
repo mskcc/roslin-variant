@@ -32,7 +32,7 @@ do
     echo "Generating inputs.yaml for batch-${batch_id}"
 
     # create inputs.yaml
-    ./prism_request_to_yaml.py \
+    ./roslin_request_to_yaml.py \
         -m ${path_mapping} \
         -p ${path_pairing} \
         -g ${path_grouping} \

@@ -7,6 +7,7 @@ ca87cfb2a1f1dabce8a1d337cbb15939  ./basic-filtering.pindel/0.1.7/basic-filtering
 e1ccff8c8302d1650aec39c560059ee5  ./basic-filtering.vardict/0.1.6/basic-filtering.vardict.cwl
 b3bf6a3a72b905bb1b63fa014b6b76e2  ./basic-filtering.vardict/0.1.7/basic-filtering.vardict.cwl
 807fe456388c9aecd167e4b057f1b9c8  ./cmo-abra/0.92/cmo-abra.cwl
+25d150363952ed9b7f82cd1d8c67db86  ./cmo-abra/2.08/cmo-abra.cwl
 f478627b09b4f3b35380ffd7c5bfb54d  ./cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
 4558a78a58b337266e5b70b4527618e7  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 6d8a60df5a9b6c99e8befd2cfb8a55c9  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
@@ -53,7 +54,7 @@ be635e74251457d5a19771cc70c9a000  ./module-1-2.chunk.cwl
 ecee8522746fbefeb418791bdb8c574d  ./module-1.cwl
 37b690c7281c90a87539d1742860b25e  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
-c804c5d194dbc118df1ee78c834e3753  ./module-2.cwl
+27e162d427d8aed95ef6e0ef7cecd72b  ./module-2.cwl
 31a5ae8cd56d22fddda58a543a06321e  ./module-3.cwl
 452bdba3a0bf652b90e8a97e2c626dc7  ./module-4.cwl
 dc6bf5a8a5b1f1d3e23e70bc2aaf0996  ./module-5.cwl
