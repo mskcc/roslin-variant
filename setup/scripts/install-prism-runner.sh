@@ -12,7 +12,7 @@ cp ../bin/prism-runner/prism-job-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/pr
 cp ../bin/prism-runner/tree.py ${PRISM_BIN_PATH}/bin/prism-runner/tree.py
 cp ../bin/prism-runner/prism-get-tmp-size.sh ${PRISM_BIN_PATH}/bin/prism-get-tmp-size.sh
 
-cp ../bin/prism-runner/prism_submit.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_submit.py
+cp ../bin/prism-runner/roslin_submit.py ${PRISM_BIN_PATH}/bin/prism-runner/roslin_submit.py
 cp ../bin/prism-runner/prism_runprofile.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_runprofile.py
 cp ../bin/prism-runner/prism_cacher.py ${PRISM_BIN_PATH}/bin/prism-runner/prism_cacher.py
 

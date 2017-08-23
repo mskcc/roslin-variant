@@ -33,7 +33,7 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, debug_mode):
+def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, restart_jobstore_uuid, debug_mode):
     "submit roslin-runner to the w node"
 
     mem = 1
@@ -54,6 +54,10 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, debug_mode)
         job_uuid,
         output_dir
     )
+
+    # add "-r" if restart jobstore uuid is supplied
+    if restart_jobstore_uuid:
+        job_command = job_command + " -r {}".format(restart_jobstore_uuid)
 
     # add "-d" if debug_mode is turned on
     if debug_mode:
@@ -268,6 +272,14 @@ def main():
     )
 
     parser.add_argument(
+        "--restart",
+        action="store",
+        dest="restart_jobstore_uuid",
+        help="jobstore uuid for restart",
+        required=False
+    )
+
+    parser.add_argument(
         "--debug",
         action="store_true",
         dest="debug_mode",
@@ -313,6 +325,7 @@ def main():
         job_uuid,
         work_dir,
         params.workflow_name,
+        params.restart_jobstore_uuid,
         params.debug_mode
     )
 

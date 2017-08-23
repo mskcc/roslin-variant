@@ -50,7 +50,7 @@ do
 # 	-i inputs.yaml \\
 # 	-b lsf &
 
-prism_submit.py \\
+roslin_submit.py \\
    --id Proj_DMPVAL_01_${batch_id} \\
    --path . \\
    --workflow project-workflow.cwl
