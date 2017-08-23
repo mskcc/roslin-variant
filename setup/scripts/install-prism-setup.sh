@@ -11,7 +11,7 @@ source ./settings.sh
 cp ./settings.sh ${PRISM_BIN_PATH}/bin/setup/
 
 # copy init script
-cp ../bin/setup/prism-init.sh ${PRISM_BIN_PATH}/bin/setup/prism-init.sh
+cp ../bin/setup/roslin-init.sh ${PRISM_BIN_PATH}/bin/setup/roslin-init.sh
 
 # copy remove-settings script
 cp ../bin/setup/remove-settings.sh ${PRISM_BIN_PATH}/bin/setup/remove-settings.sh

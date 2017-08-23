@@ -133,13 +133,13 @@ $ tail -f /var/log/cloud-init-output.log
 
 ### Creating Workspace
 
-SSH into the instance and run the `prism-init.sh` command based on the instance you brought up:
+SSH into the instance and run the `roslin-init.sh` command based on the instance you brought up:
 
 ### r4.2xlarge or higher
 
 ```bash
 $ cd /ifs/work/chunj/prism-proto/prism/bin/setup
-$ ./prism-init.sh -u ubuntu -s
+$ ./roslin-init.sh -u ubuntu -s
 ```
 
 ### t2.micro

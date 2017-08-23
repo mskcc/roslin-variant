@@ -49,7 +49,7 @@ $ cd /ifs/work/chunj/prism-proto/prism/bin/setup
 Run the following command. Make sure to replace `chunj` with your own login name:
 
 ```bash
-$ ./prism-init.sh -u chunj
+$ ./roslin-init.sh -u chunj
 ```
 
 Log out and log back in or execute `source ~/.profile`.
