@@ -1,4 +1,4 @@
-FROM java:7
+FROM java:8
 MAINTAINER Nikhil Kumar (kumarn1@mskcc.org)
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
@@ -16,6 +16,6 @@ RUN apt-get -y update \
       && rm -rf /tmp/*
 
 ENTRYPOINT ["java", "-jar", "/usr/bin/abra.jar"]
-CMD ["--help"]
+CMD [""]
 
 
