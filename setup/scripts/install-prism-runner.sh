@@ -12,6 +12,7 @@ cp ../bin/prism-runner/roslin-job-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/r
 cp ../bin/prism-runner/tree.py ${PRISM_BIN_PATH}/bin/prism-runner/tree.py
 cp ../bin/prism-runner/roslin-get-tmp-size.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-get-tmp-size.sh
 cp ../bin/prism-runner/roslin-restart.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-restart.sh
+cp ../bin/prism-runner/roslin-kill-project.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-kill-project.sh
 
 cp ../bin/prism-runner/roslin_submit.py ${PRISM_BIN_PATH}/bin/prism-runner/roslin_submit.py
 cp ../bin/prism-runner/roslin_runprofile.py ${PRISM_BIN_PATH}/bin/prism-runner/roslin_runprofile.py
