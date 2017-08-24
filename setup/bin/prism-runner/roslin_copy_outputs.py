@@ -41,8 +41,6 @@ def bjobs(lsf_job_id_list):
 def wait_until_done(lsf_job_id_list):
     "wait for all jobs to finish"
 
-    logger.info("Waiting for all jobs to finish...")
-
     while True:
 
         # poll bjobs
@@ -50,11 +48,9 @@ def wait_until_done(lsf_job_id_list):
 
         # break out if all DONE
         if results.rstrip() == "DONE":
-            logger.info("DONE.")
-            exit(0)
+            return 0
         elif "EXIT" in results:
-            logger.error("Some of the jobs failed")
-            exit(1)
+            return 1
 
         time.sleep(10)
 
@@ -252,6 +248,8 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         }
     }
 
+    logger.info("{}:{}:BEGIN".format(cmo_project_id, job_uuid))
+
     # copy project request file to rootdir level
     shutil.copyfile(
         os.path.join(toil_work_dir, "{}_request.txt".format(cmo_project_id)),
@@ -272,7 +270,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
 
         cmds = create_parallel_cp_commands(file_list, dst_dir, data[file_type]["parallels"])
 
-        logger.info("{} ({} jobs in parallel)".format(file_type, len(cmds)))
+        logger.info("{}:{}:{} ({} jobs in parallel)".format(cmo_project_id, job_uuid, file_type, len(cmds)))
 
         for num, cmd in enumerate(cmds):
 
@@ -286,13 +284,20 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 data[file_type]["parallels"]
             )
 
-            logger.info(str(lsf_job_id) + ':' + cmd)
+            logger.info("{}:{}:{} - {}".format(cmo_project_id, job_uuid, lsf_job_id, cmd))
 
             # add LSF job id to list object
             lsf_job_id_list.append(lsf_job_id)
 
+    logger.info("{}:{}:WAIT_TILL_FINISH".format(cmo_project_id, job_uuid))
+
     # wait until all issued LSB jobs are finished
-    wait_until_done(lsf_job_id_list)
+    exitcode = wait_until_done(lsf_job_id_list)
+
+    if exitcode == 0:
+        logger.info("{}:{}:DONE".format(cmo_project_id, job_uuid))
+    else:
+        logger.info("{}:{}:FAILED".format(cmo_project_id, job_uuid))
 
 
 def main():
