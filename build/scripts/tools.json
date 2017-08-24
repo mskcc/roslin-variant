@@ -43,7 +43,6 @@
             "1.0.1"
         ],
         "basic-filtering": [
-            "0.1.6",
             "0.1.7"
         ],
         "bcftools": [
@@ -54,7 +53,6 @@
             "86"
         ],
         "vcf2maf": [
-            "1.6.12",
             "1.6.14"
         ],
         "getbasecountsmultisample": [
@@ -67,7 +65,6 @@
             "0.1.1"
         ],
         "replace-allele-counts": [
-            "0.1.0",
             "0.1.1"
         ],
         "ngs-filters": [
