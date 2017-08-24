@@ -15,7 +15,7 @@ OPTIONS:
 EOF
 }
 
-while getopts "p:e:h" OPTION
+while getopts "p:eh" OPTION
 do
     case $OPTION in
         p) lsf_project_name=$OPTARG ;;
