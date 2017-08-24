@@ -14,7 +14,7 @@ $ cd /vagrant/build/scripts/
 $ ./build-all.sh
 ```
 
-Note that this will also push the generated docker images to Docker Hub. If you do not want this behavior, run with the `-n` parameter.
+Note that this will not push the generated docker images to Docker Hub. If you do want to push, run with the `-p` parameter.
 
 ## Move Artifacts
 
@@ -23,4 +23,3 @@ The following command will gather all the created container images as well as th
 ```bash
 $ ./move-all-artifacts-to-setup.sh
 ```
-

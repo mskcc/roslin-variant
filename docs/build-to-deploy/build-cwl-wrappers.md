@@ -6,6 +6,23 @@ This document will walk you through using *BCFTools v1.3.1* as an example, but s
 
 ![/docs/cwl-autogen-process.png](/docs/cwl-autogen-process.png)
 
+## Stay up-to-date
+
+Some CWL wrappers rely on cmo packages, thus your cmo package inside the vagrant box must be up-to-date in order to generate the correct program arguments.
+
+```
+$ sudo su
+$ cd /usr/local/bin/cmo-gxargparse/cmo
+$ git pull
+```
+
+The build scripts use `ruamel.yaml` to handle YAML version 1.2. In case you want to stay up-to-date with `ruamel.yaml` without re-creating the vagrant box, you can run the following command inside the vagrant box:
+
+```
+$ sudo su
+$ pip install ruamel.yaml --upgrade
+```
+
 ## tools.json
 
 Define a dependency relationship in `/build/scripts/tools.json`. The `containerDependency` section describes that the `cmo_bcftools norm` command calls the containerized `bcftools norm` with tool-specific parameters. The suffix `.norm` below denotes that we are generating a CWL wrapper for BCFTools' `norm` command.
@@ -56,7 +73,7 @@ Set the value to a Docker run command that can actually invoke the tool and outp
         ...
         "bcftools": {
             "default": "sudo docker run -i bcftools:1.3.1"
-        }, 
+        },
         ...
     }
 }
@@ -72,7 +89,7 @@ What's actually used at runtime is `/build/cwl-wrappers/prism_resources.json`. M
 
 ```
 "bcftools": {
-    "1.3.1": "sing.sh bcftools 1.3.1", 
+    "1.3.1": "sing.sh bcftools 1.3.1",
     "default": "sing.sh bcftools 1.3.1"
 }
 ```
@@ -91,7 +108,7 @@ cmo-bcftools.norm/
     ├── cmo-bcftools.norm.cwl
     ├── metadata.yaml
     ├── outputs.yaml
-    ├── postprocess.py    
+    ├── postprocess.py
     └── requirements.yaml
 ```
 
@@ -113,7 +130,7 @@ doap:release:
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
-```    
+```
 
 ### Creator
 
@@ -166,7 +183,7 @@ requirements:
   ResourceRequirement:
     ramMin: 30
     coresMin: 5
-```    
+```
 
 ## postproces.py
 
