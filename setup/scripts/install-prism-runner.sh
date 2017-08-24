@@ -24,6 +24,8 @@ cp ../bin/prism-runner/roslin_request_to_yaml.py ${PRISM_BIN_PATH}/bin/prism-run
 cp ../bin/prism-runner/roslin-project-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/roslin-project-status.sh
 cp ../bin/prism-runner/roslin-project-status.sh ${PRISM_BIN_PATH}/bin/prism-runner/bjp
 
+cp ../bin/prism-runner/hello-roslin ${PRISM_BIN_PATH}/bin/prism-runner/hello-roslin
+
 if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
     echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" | sudo tee /etc/profile.d/prism-runner.sh
