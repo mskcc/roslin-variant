@@ -57,7 +57,6 @@ then
 fi
 
 HOME_DIR=$HOME
-# HOME_DIR="/home/${USER_ID}"
 
 if [ -d "${PRISM_INPUT_PATH}/${USER_ID}" ] && [ "${FORCE_OVERWRITE}" -eq 0 ]
 then
@@ -77,26 +76,26 @@ then
     find ${PRISM_INPUT_PATH}/${USER_ID}/ -name "run-example.sh" | xargs -I {} sed -i "s/lsf/singleMachine/g" {}
 fi
 
-# .prism
-mkdir -p $HOME_DIR/.prism
+# .roslin
+mkdir -p $HOME_DIR/.roslin
 
-# add under .prism the scripts & settings to be loaded upon user login
-cp ./settings.sh $HOME_DIR/.prism/
-echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" > $HOME_DIR/.prism/sing.sh
-echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" > ~/.prism/prism-runner.sh
+# add under .roslin the scripts & settings to be loaded upon user login
+cp ./settings.sh $HOME_DIR/.roslin/
+echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/sing" > $HOME_DIR/.roslin/sing.sh
+echo "PATH=\$PATH:${PRISM_BIN_PATH}/bin/prism-runner" > ~/.roslin/prism-runner.sh
 
 # append -S 1 to TOIL_LSF_ARGS (IGOWEB-459)
 if [[ "${TOIL_LSF_ARGS}" != *"-S 1"* ]]
 then
-    echo "export TOIL_LSF_ARGS='${TOIL_LSF_ARGS} -S 1'" > ~/.prism/toil-lsf-args.sh
+    echo "export TOIL_LSF_ARGS='${TOIL_LSF_ARGS} -S 1'" > ~/.roslin/toil-lsf-args.sh
 fi
 
 cp $HOME_DIR/.profile $HOME_DIR/.profile.bak
 
-settings_found=`grep "# PRISM.SETTINGS\$" $HOME_DIR/.profile`
+settings_found=`grep "# ROSLIN.SETTINGS\$" $HOME_DIR/.profile`
 if [ -z "$settings_found" ]
 then
-    echo "for file in $HOME_DIR/.prism/*.sh; do source \$file; done  # PRISM.SETTINGS" >> $HOME_DIR/.profile
+    echo "for file in $HOME_DIR/.roslin/*.sh; do source \$file; done  # ROSLIN.SETTINGS" >> $HOME_DIR/.profile
 fi
 
 cat << "EOF"

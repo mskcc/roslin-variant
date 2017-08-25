@@ -1,23 +1,23 @@
 export PRISM_VERSION="1.0.0"
 
-PRISM_ROOT="/ifs/work/chunj/prism-proto"
+PRISM_ROOT="/ifs/work/pi"
 
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
-export PRISM_BIN_PATH="${PRISM_ROOT}/prism"
+export PRISM_BIN_PATH="${PRISM_ROOT}/roslin"
 
 # reference data (e.g. genome assemblies)
-export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
+export PRISM_DATA_PATH="${PRISM_ROOT}/resources"
 
 # other paths that we'd like to bind (space separated)
 export PRISM_EXTRA_BIND_PATH="/scratch /ifs"
 
 # output path
-export PRISM_OUTPUT_PATH="${PRISM_ROOT}/ifs/prism/outputs"
+export PRISM_OUTPUT_PATH="${PRISM_ROOT}/roslin/outputs"
 
 # workspace
-export PRISM_INPUT_PATH="${PRISM_ROOT}/ifs/prism/inputs"
+export PRISM_INPUT_PATH="${PRISM_ROOT}/workspace"
 
 #<--
 

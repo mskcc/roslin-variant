@@ -43,7 +43,6 @@
             "1.0.1"
         ],
         "basic-filtering": [
-            "0.1.6",
             "0.1.7"
         ],
         "bcftools": [
@@ -67,7 +66,6 @@
             "0.1.1"
         ],
         "replace-allele-counts": [
-            "0.1.0",
             "0.1.1"
         ],
         "ngs-filters": [
