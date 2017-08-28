@@ -15,7 +15,7 @@ OPTIONS:
 EOF
 }
 
-while getopts "p:e:h" OPTION
+while getopts "p:eh" OPTION
 do
     case $OPTION in
         p) lsf_project_name=$OPTARG ;;
@@ -48,6 +48,6 @@ else
     echo "Here's the restart command that we can come up with."
     echo "Re-run with -e or execute the following command to restart the workflow."
     echo
-    echo "$ ${restart_cmd}"
+    echo "${restart_cmd}"
     echo
 fi

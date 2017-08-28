@@ -15,12 +15,12 @@ import pytz
 import redis
 
 
-logger = logging.getLogger("prism_track")
+logger = logging.getLogger("roslin_track")
 logger.propagate = False
 logger.setLevel(logging.INFO)
 
 # create a file log handler
-log_file_handler = logging.FileHandler('prism_track.log')
+log_file_handler = logging.FileHandler('roslin_track.log')
 log_file_handler.setLevel(logging.INFO)
 
 # create a logging format
@@ -177,7 +177,7 @@ def get_cwltoil_log_path(stderr_log_path):
                     break
 
     except Exception as e:
-        logger.info(e)
+        logger.error(e)
 
     return cwltoil_log_path
 
@@ -200,7 +200,7 @@ def get_final_output_metadata(stdout_log_path):
                 return None
 
     except Exception as e:
-        logger.info(e)
+        logger.error(e)
         pass
 
 
@@ -226,7 +226,7 @@ def call_make_runprofile(job_uuid, toil_work_dir, cwltoil_log_path):
 
     cmd = [
         "python",
-        os.path.join(bin_path, "bin/prism-runner/prism_runprofile.py"),
+        os.path.join(bin_path, "bin/prism-runner/roslin_runprofile.py"),
         "--job-uuid", job_uuid,
         "--work-dir", toil_work_dir,
         "--cwltoil-log", cwltoil_log_path
@@ -298,7 +298,7 @@ def get_job_store_id(output_dir):
             return ffile.read().rstrip()
 
     except Exception as e:
-        logger.info(e)
+        logger.error(e)
         return None
 
 
@@ -410,6 +410,18 @@ def construct_run_results(bjobs_info, already_reported_projs):
                     projects[job_uuid]["workingDirectory"]
                 )
 
+        # this is the roslin_copy_outputs job
+        # fixme: we probably don't want to use the hardcoded string "roslin_copy_outputs" here
+        elif job_name.startswith("roslin_copy_outputs"):
+            projects[job_uuid]["timestamp"] = {
+                "submitted": parse_date_to_utc(submit_time),
+                "started": parse_date_to_utc(start_time),
+                "finished": parse_date_to_utc(finish_time),
+                "duration": parse_run_time_string(run_time),
+                "lastUpdated": get_current_utc_datetime()
+            }
+            projects[job_uuid]["status"] = status
+
         # parse effective resource requirement string
         memory, iounits = parse_effective_resource_requirement_string(effective_resreq)
 
@@ -478,11 +490,10 @@ def main():
 
             try:
 
-                # write prj object to lsf-job-info.log in toil's working directory
-                if prj["status"] in ["DONE", "EXIT"] and not os.path.isfile(os.path.join(prj["workingDirectory"], "run-results.json")):
-                    with open(os.path.join(prj["workingDirectory"], "run-results.json"), "w") as file_handle:
-                        file_handle.write(json.dumps(prj, indent=2))
+                # publish to redis
+                redis_client.publish('roslin-run-results', json.dumps(prj))
 
+                # screen output for debugging
                 print "  {}:{} ({} secs) ({})".format(prj["projectId"], job_uuid, prj["timestamp"]["duration"], prj["status"])
 
                 for lsf_job_id in prj["batchSystemJobs"]:
@@ -491,14 +502,22 @@ def main():
                         job_name = lsf_job["name"] if not lsf_job["name"].startswith("leader") else "leader"
                         print "    - {} {} ({})".format(lsf_job_id, job_name, lsf_job["status"])
 
-                redis_client.publish('roslin-run-results', json.dumps(prj))
+                # write prj object to run-results.json in toil's working directory
+                if prj["workingDirectory"]:
+                    if prj["status"] in ["DONE", "EXIT"] and not os.path.isfile(os.path.join(prj["workingDirectory"], "run-results.json")):
+                        # fixme: you might not have permission to write, so try-except
+                        try:
+                            with open(os.path.join(prj["workingDirectory"], "run-results.json"), "w") as file_handle:
+                                file_handle.write(json.dumps(prj, indent=2))
+                        except Exception as e:
+                            logger.error(e)
 
                 # no more reporting if statu is DONE or EXIT
                 if prj["status"] in ["DONE", "EXIT"]:
                     already_reported_projs.add(job_uuid)
 
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(e)
 
         print "<----- {}".format(datetime.datetime.now().strftime("%H:%M:%S"))
         print

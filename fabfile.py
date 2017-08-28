@@ -20,7 +20,7 @@ def get_settings_sh_path(config):
 
 @task
 @hosts('u36.cbio.mskcc.org')
-def delete_prism_bin():
+def delete_roslin_bin():
     """
     delete everything under ${PRISIM_BIN_PATH}
     """
@@ -30,7 +30,7 @@ def delete_prism_bin():
 
 @task
 @hosts('u36.cbio.mskcc.org')
-def half_delete_prism_input():
+def half_delete_roslin_input():
     """
     delete only files (no directories) in ${PRISIM_INPUT_PATH}/chunj
     """
@@ -51,8 +51,8 @@ def rsync_luna(skip_install=False, skip_ref=False, local_bin_singularity=False):
     # get pipeline version from configuration
     pipeline_version = config["version"]
 
-    # use /scratch/prism/ to use the bigger disk
-    work_dir = '/scratch/prism//prism-setup-{}'.format(pipeline_version)
+    # use /scratch/roslin/ to use the bigger disk
+    work_dir = '/scratch/roslin/roslin-setup-{}'.format(pipeline_version)
 
     run("mkdir -p {}".format(work_dir))
 

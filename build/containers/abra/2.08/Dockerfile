@@ -16,6 +16,3 @@ RUN apt-get -y update \
       && rm -rf /tmp/*
 
 ENTRYPOINT ["java", "-jar", "/usr/bin/abra.jar"]
-CMD [""]
-
-
