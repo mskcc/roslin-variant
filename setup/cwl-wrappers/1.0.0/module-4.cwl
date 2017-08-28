@@ -257,7 +257,7 @@ steps:
         out: [fillout]
 
     replace_allele_counts:
-        run: replace-allele-counts/0.1.1/replace-allele-counts.cwl
+        run: replace-allele-counts/0.2.0/replace-allele-counts.cwl
         in:
             inputMaf: remove_variants/maf
             fillout: fillout_tumor_normal/fillout

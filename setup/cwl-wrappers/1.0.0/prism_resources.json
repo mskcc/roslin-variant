@@ -297,7 +297,8 @@
         }, 
         "replace-allele-counts": {
             "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
-            "0.1.1": "sing.sh replace-allele-counts 0.1.1", 
+            "0.1.1": "sing.sh replace-allele-counts 0.1.1",
+            "0.2.0": "sing.sh replace-allele-counts 0.2.0",
             "default": "sing.sh replace-allele-counts 0.1.0"
         }, 
         "roslin-qc": {
