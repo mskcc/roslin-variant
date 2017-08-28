@@ -67,6 +67,7 @@ else
 
         # modify cmo_resources.json so that cmo calls a dockerized tool
         python ./update_resource_def.py -f ../cwl-wrappers/cmo_resources.json ${TOOL_NAME} default "${tool_cmd}"
+	
     fi
 
     # tell cmo to use this json file for calling tools

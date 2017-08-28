@@ -140,9 +140,10 @@
         }, 
         "abra": {
             "0.92": "sing.sh abra 0.92", 
+            "2.07": "sing.sh abra 2.07", 
             "2.08": "sing.sh abra 2.08", 
             "default": "sing.sh abra 0.92"
-        },       
+        }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         }, 
@@ -299,6 +300,7 @@
         "replace-allele-counts": {
             "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
             "0.1.1": "sing.sh replace-allele-counts 0.1.1", 
+            "0.2.0": "sing.sh replace-allele-counts 0.2.0", 
             "default": "sing.sh replace-allele-counts 0.1.0"
         }, 
         "roslin-qc": {
