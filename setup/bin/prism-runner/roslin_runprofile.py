@@ -310,24 +310,25 @@ def get_bioinformatics_software_version(cmd0, cmdline):
             version = match.group(1)
 
     # fixme: revise cwl so that baseCommand has something like --version
-    if cmd0.startswith("cmo_split_reads"):
-        version = "1.0.0"
-    elif cmd0.startswith("cmo_index"):
-        version = "1.0.0"
-    elif cmd0.startswith("cmo_trimgalore"):
-        version = "0.2.5.mod"
-    elif cmd0.startswith("cmo_vcf2maf"):
-        version = "1.6.12"
-    elif cmd0.startswith("cmo_bcftools"):
-        version = "1.3.1"
-    elif cmd0.startswith("cmo_abra"):
-        version = "0.92"
-    elif cmdline.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
-        version = "1.96"
-    elif cmdline.startswith("cmo_picard --cmd MarkDuplicates"):
-        version = "1.96"
-    elif cmdline.startswith("cmo_picard --cmd FixMateInformation"):
-        version = "1.96"
+    if version == "unknown":
+        if cmd0.startswith("cmo_split_reads"):
+            version = "1.0.0"
+        elif cmd0.startswith("cmo_index"):
+            version = "1.0.0"
+        elif cmd0.startswith("cmo_trimgalore"):
+            version = "0.2.5.mod"
+        elif cmd0.startswith("cmo_vcf2maf"):
+            version = "1.6.12"
+        elif cmd0.startswith("cmo_bcftools"):
+            version = "1.3.1"
+        elif cmd0.startswith("cmo_abra"):
+            version = "0.92"
+        elif cmdline.startswith("cmo_picard --cmd AddOrReplaceReadGroups"):
+            version = "1.96"
+        elif cmdline.startswith("cmo_picard --cmd MarkDuplicates"):
+            version = "1.96"
+        elif cmdline.startswith("cmo_picard --cmd FixMateInformation"):
+            version = "1.96"
 
     return version
 
@@ -743,7 +744,7 @@ def main():
             json.dumps(run_profile, indent=2)
         )
 
-        # public run-profile to redis
+        # publish run-profile to redis
         publish_to_redis(params.job_uuid, run_profile)
 
     except Exception as e:
