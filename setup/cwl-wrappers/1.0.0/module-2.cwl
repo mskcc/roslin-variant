@@ -148,10 +148,20 @@ steps:
                         items: File
                     outputSource: picard_fixmate_information/out_bam
             steps:
-                picard_fixmate_information:
-                    run: ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
+                picard_cleansam:
+                    run: ./cmo-picard.CleanSam/1.129/cmo-picard.CleanSam.cwl 
                     in:
                         I: I
+                        VALIDATION_STRINGENCY:
+                          valueFrom: ${ return "SILENT";}
+                        O:
+                            valueFrom: ${ return inputs.I.basename.replace(".bam", ".cs.bam"); }
+                    out: [out_bam]
+
+                picard_fixmate_information:
+                    run: ./cmo-picard.FixMateInformation/1.129/cmo-picard.FixMateInformation.cwl
+                    in:
+                        I: picard_cleansam/out_bam
                         SO:
                             default: "coordinate"
                         VALIDATION_STRINGENCY:
