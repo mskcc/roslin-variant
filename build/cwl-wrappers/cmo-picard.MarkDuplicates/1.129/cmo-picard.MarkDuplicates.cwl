@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-picard.MarkDuplicates.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: '1.129'
+  doap:name: cmo-picard.MarkDuplicates
+  doap:revision: 1.129
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -46,7 +49,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20
+    ramMin: 30
     coresMin: 2
 
 
@@ -93,13 +96,10 @@ inputs:
   I:
     type:
     - 'null'
-    - File
     - type: array
-      items: string
-
-
-    inputBinding:
-      prefix: --I
+      items: File
+      inputBinding:
+        prefix: --I
 
   M:
     type: string
@@ -186,7 +186,7 @@ inputs:
 
   CREATE_INDEX:
     type: ['null', boolean]
-    default: false
+    default: true
 
     inputBinding:
       prefix: --CREATE_INDEX
@@ -237,6 +237,7 @@ inputs:
 outputs:
   bam:
     type: File
+    secondaryFiles: [^.bai]
     outputBinding:
       glob: |
         ${

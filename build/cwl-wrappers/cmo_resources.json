@@ -136,7 +136,7 @@
         }, 
         "abra": {
             "2.08": "sudo docker run -i abra:2.08 ", 
-            "default": "sudo docker run -i abra:2.07"
+            "default": "sudo docker run -i abra:2.08 "
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
