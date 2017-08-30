@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-abra
-  doap:revision: 2.08
+  doap:revision: 2.07
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_abra
 - --version
-- '2.08'
+- '2.07'
 
 requirements:
   InlineJavascriptRequirement: {}
