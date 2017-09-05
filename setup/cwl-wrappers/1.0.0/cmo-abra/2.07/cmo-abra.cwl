@@ -82,27 +82,6 @@ inputs:
     inputBinding:
       prefix: --kmer
 
-  no_gkl:
-    type: ['null', string]
-    doc: Disable GKL Intel Deflater
-    inputBinding:
-      prefix: --no-gkl
-
-  skip:
-    type: ['null', string]
-    doc: If no target specified, skip realignment of chromosomes matching specified
-      regex. Skipped reads are output without modification. Specify none to disable.
-      (default - GL.*|hs37d5|chr.*random|chrUn. *|chrEBV|CMV|HBV|HCV.*|HIV. *|KSHV|HTLV.*|MCV|SV40|HPV.*)
-    inputBinding:
-      prefix: --skip
-
-  sua:
-    type: ['null', string]
-    doc: Do not use unmapped reads anchored by mate to trigger assembly. These reads
-      are still eligible to contribute to assembly
-    inputBinding:
-      prefix: --sua
-
   contigs:
     type: ['null', string]
     doc: Optional file to which assembled contigs are written
@@ -141,13 +120,6 @@ inputs:
     inputBinding:
       prefix: --reference_sequence
 
-  index:
-    type: ['null', string]
-    doc: Enable BAM index generation when outputting sorted alignments (may require
-      additonal memory)
-    inputBinding:
-      prefix: --index
-
   out:
     type: 
 
@@ -168,13 +140,13 @@ inputs:
   mbq:
     type: ['null', string]
     doc: Minimum base quality for inclusion in assembly. This value is compared against
-      the sum of base qualities per kmer position (default - 20)
+      the sum of base qualities per kmer position (default - 60)
     inputBinding:
       prefix: --mbq
 
   mnf:
     type: ['null', string]
-    doc: Assembly minimum node frequency (default - 1)
+    doc: Assembly minimum node frequency (default - 2)
     inputBinding:
       prefix: --mnf
 
@@ -204,8 +176,8 @@ inputs:
     - ^.bai
   ca:
     type: ['null', string]
-    doc: Contig anchor [M_bases_at_contig_edge, max_mismatches_near_edge] (default
-      - 10,2)
+    doc: Contig anchor [M_bases_at_contig_edge, max_mismatches_at_edge (default -
+      10,2)
     inputBinding:
       prefix: --ca
 
@@ -217,15 +189,9 @@ inputs:
 
   maxn:
     type: ['null', string]
-    doc: Maximum pre-pruned nodes in regional assembly (default - 150000)
+    doc: Maximum pre-pruned nodes in regional assembly (default - 9000)
     inputBinding:
       prefix: --maxn
-
-  undup:
-    type: ['null', string]
-    doc: Unset duplicate flag
-    inputBinding:
-      prefix: --undup
 
   working:
     doc: Working directory for intermediate output. Must not already exist
@@ -241,7 +207,7 @@ inputs:
   sc:
     type: ['null', string]
     doc: Soft clip contig args [max_contigs, min_base_qual,frac_high_qual_bases, min_soft_clip_len]
-      (default - 16,13,80,15)
+      (default - 32,13,80,8)
     inputBinding:
       prefix: --sc
 
@@ -250,13 +216,6 @@ inputs:
     doc: Skip assembly
     inputBinding:
       prefix: --sa
-
-  mrn:
-    type: ['null', string]
-    doc: Reads with noise score exceeding this value are not remapped. numMismatches+(numIndels*2)
-      < readLength*mnr (default - 0.1)
-    inputBinding:
-      prefix: --mrn
 
   junctions:
     type: ['null', string]
@@ -267,7 +226,7 @@ inputs:
   mrr:
     type: ['null', string]
     doc: Regions containing more reads than this value are not processed. Use -1 to
-      disable. (default - 1000000)
+      disable. (default - 10000)
     inputBinding:
       prefix: --mrr
 
@@ -279,7 +238,7 @@ inputs:
 
   dist:
     type: ['null', string]
-    doc: Max read move distance (default - 1000)
+    doc: Max read move distance (default - 500000)
     inputBinding:
       prefix: --dist
 
@@ -287,16 +246,9 @@ inputs:
     type: ['null', string]
     doc: Min edge pruning ratio. Default value is appropriate for relatively sensitive
       somatic cases. May be increased for improved speed in germline only cases. (default
-      - 0.01)
+      - 0.02)
     inputBinding:
       prefix: --mer
-
-  amq:
-    type: ['null', string]
-    doc: Set mapq for alignments that map equally well to reference and an ABRA generated
-      contig. default of -1 disables (default - -1)
-    inputBinding:
-      prefix: --amq
 
   tmpdir:
     type: ['null', string]
@@ -313,7 +265,7 @@ inputs:
   mad:
     type: ['null', string]
     doc: Regions with average depth exceeding this value will be downsampled (default
-      - 1000)
+      - 250)
     inputBinding:
       prefix: --mad
 
@@ -328,19 +280,6 @@ inputs:
     doc: Processing window size and overlap (size,overlap) (default - 400,200)
     inputBinding:
       prefix: --ws
-
-  mac:
-    type: ['null', string]
-    doc: Max assembled contigs (default - 64)
-    inputBinding:
-      prefix: --mac
-
-  in_vcf:
-    type: ['null', string]
-    doc: VCF containing known (or suspected) variant sites. Very large files should
-      be avoided.
-    inputBinding:
-      prefix: --in-vcf
 
   target_kmers:
     type: ['null', string]
@@ -363,7 +302,7 @@ inputs:
 
   mcr:
     type: ['null', string]
-    doc: Max number of cached reads per sample per thread (default - 1000000)
+    doc: Max number of cached reads per sample per thread (default - 500000)
     inputBinding:
       prefix: --mcr
 

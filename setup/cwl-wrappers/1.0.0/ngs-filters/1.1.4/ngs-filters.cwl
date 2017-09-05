@@ -66,7 +66,7 @@ inputs:
   inputMaf:
     type: 
 
-    - File
+      - File
     doc: Input maf file which needs to be tagged
     inputBinding:
       prefix: --input-maf

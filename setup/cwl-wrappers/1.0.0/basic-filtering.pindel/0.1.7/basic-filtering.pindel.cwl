@@ -71,8 +71,8 @@ inputs:
   inputVcf:
     type: 
 
-    - string
-    - File
+      - string
+      - File
     doc: Input vcf freebayes file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
