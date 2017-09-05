@@ -260,7 +260,7 @@ steps:
           out: [out_file]
 
   generate_pdf:
-    run: cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
+    run: cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
     in:
       files: scatter_metrics/as_metrics_files
       md_metrics_files: md_metrics_files
