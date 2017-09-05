@@ -187,6 +187,8 @@ jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 printf "\n---> PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n"
 
 # run cwltoil
+export PYTHONPATH=/ifs/work/pi/cmo_package_archive/1.6.7/lib/python2.7/site-packages/
+export PATH=/ifs/work/pi/cmo_package_archive/1.6.7/bin:$PATH
 set -o pipefail
 cwltoil \
     ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
@@ -194,7 +196,7 @@ cwltoil \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --defaultMem 12G \
-    --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
+    --preserve-environment PYTHONPATH PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
     --disableCaching \
