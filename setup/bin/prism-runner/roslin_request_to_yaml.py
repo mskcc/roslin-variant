@@ -212,6 +212,27 @@ if __name__ == "__main__":
 
     ofh = open(args.yaml_output_file, "wb")
     sample_list = list()
+    #rudimentary data checking charris 9-6-2017
+    fail =0
+    for pair in pairing_dict:
+        if pair[0] not in mapping_dict.keys():
+            print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s " % (str(pair), pair[0])
+            fail=1
+        if pair[1] not in mapping_dict.keys():
+            print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s " % (str(pair), pair[0])
+            fail=1
+    for group in grouping_dict.values():
+        for sample in group:
+            if  sample not in mapping_dict.keys():
+                print >>sys.stderr, "grouping file has uses id %s, but this wasn't found in mapping file" % sample
+                fail=1
+    if fail:
+        sys.exit(1)
+
+
+
+
+
     for sample_id, sample in mapping_dict.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
