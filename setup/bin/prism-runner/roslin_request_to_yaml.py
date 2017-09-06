@@ -62,7 +62,7 @@ def parse_request_file(rfile):
         line = stream.readline()
         if not line:
             break
-        if line.find("Assay") > -1:
+        if line.find("Assay:") ==0:
             (key, value) = line.strip().split(": ")
             assay = value
         if line.find("ProjectID") > -1:
