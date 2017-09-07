@@ -33,7 +33,7 @@ def bsub(bsubline):
     return lsf_job_id
 
 
-def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, restart_jobstore_uuid, debug_mode):
+def submit_to_lsf(cmo_project_id, job_uuid, work_dir, pipeline_version, workflow_name, restart_jobstore_uuid, debug_mode):
     "submit roslin-runner to the w node"
 
     mem = 1
@@ -47,13 +47,24 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, workflow_name, restart_job
     output_dir = os.path.join(work_dir, "outputs")
     input_yaml = "inputs.yaml"
 
-    job_command = "prism-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
-        workflow_name,
-        input_yaml,
-        cmo_project_id,
-        job_uuid,
-        output_dir
-    )
+    if pipeline_version != None:
+        job_command = "prism-runner.sh -v {} -w {} -i {} -b lsf -p {} -j {} -o {}".format(
+            pipeline_version,
+            workflow_name,
+            input_yaml,
+            cmo_project_id,
+            job_uuid,
+            output_dir
+        )
+    else:
+        job_command = "prism-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
+            workflow_name,
+            input_yaml,
+            cmo_project_id,
+            job_uuid,
+            output_dir
+        )
+
 
     # add "-r" if restart jobstore uuid is supplied
     if restart_jobstore_uuid:
@@ -286,6 +297,15 @@ def main():
         help="Run the runner in debug mode"
     )
 
+    parser.add_argument(
+        "--version",
+        action="store",
+        dest="pipeline_version",
+        help="Pipeline version (e.g. 1.0.0)",
+        default=None,
+        required=False
+    )
+
     params = parser.parse_args()
 
     # create a new unique job uuid
@@ -324,6 +344,7 @@ def main():
         params.cmo_project_id,
         job_uuid,
         work_dir,
+        params.pipeline_version,
         params.workflow_name,
         params.restart_jobstore_uuid,
         params.debug_mode
