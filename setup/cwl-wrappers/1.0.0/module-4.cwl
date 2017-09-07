@@ -33,6 +33,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
+  - class: foaf:Person
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org    
 
 cwlVersion: v1.0
 

@@ -75,9 +75,24 @@ inputs:
 
 outputs:
 
-    combined_vcf:
+    combine_vcf:
         type: File
         outputSource: combine/out_vcf
+    facets_png:
+        type: File
+        outputSource: call_variants/facets_png
+    facets_txt:
+        type: File
+        outputSource: call_variants/facets_txt
+    facets_out:
+        type: File
+        outputSource: call_variants/facets_out
+    facets_rdata:
+        type: File
+        outputSource: call_variants/facets_rdata
+    facets_seg:
+        type: File
+        outputSource: call_variants/facets_seg
 
 steps:
 

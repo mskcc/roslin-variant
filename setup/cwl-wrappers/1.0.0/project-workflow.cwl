@@ -36,6 +36,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
+  - class: foaf:Person
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
 
 cwlVersion: v1.0
 
@@ -333,26 +336,23 @@ steps:
       normal_bam: pairing/normal_bams
       genome: pairing/genome
       bed: pairing/covint_bed
-      normal_sample_id: pairing/normal_sample_ids
-      tumor_sample_id: pairing/tumor_sample_ids
+      normal_sample_name: pairing/normal_sample_ids
+      tumor_sample_name: pairing/tumor_sample_ids
       dbsnp: pairing/dbsnp
       cosmic: pairing/cosmic
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
-    out: [mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg]
-    scatter: [tumor_bam, normal_bam, normal_sample_id, tumor_sample_id, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
+    out: [combine_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg]
+    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
   parse_pairs:
-    run: parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
+    run: parse-pairs-and-vcfs/2.0.0/parse-pairs-and-vcfs.cwl
     in:
       bams: group_process/bams
       pairs: pairs
-      mutect_vcf: variant_calling/mutect_vcf
-      mutect_callstats: variant_calling/mutect_callstats
-      pindel_vcf: variant_calling/pindel_vcf
-      vardict_vcf: variant_calling/vardict_vcf
+      combine_vcf: variant_calling/combine_vcf            
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
@@ -360,16 +360,13 @@ steps:
       curated_bams: projparse/curated_bams
       ffpe_normal_bams: projparse/ffpe_normal_bams
       hotspot_list: projparse/hotspot_list
-    out: [tumor_id, normal_id, srt_mutect_vcf, srt_mutect_callstats, srt_pindel_vcf, srt_vardict_vcf, srt_genome, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_ffpe_normal_bams, srt_hotspot_list]
+    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_ffpe_normal_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
     in:
-      bams: parse_pairs/srt_bams
-      mutect_vcf: parse_pairs/srt_mutect_vcf
-      mutect_callstats: parse_pairs/srt_mutect_callstats
-      pindel_vcf: parse_pairs/srt_pindel_vcf
-      vardict_vcf: parse_pairs/srt_vardict_vcf
+      bams: parse_pairs/srt_bams      
+      combine_vcf: parse_pairs/srt_combine_vcf      
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
@@ -380,7 +377,7 @@ steps:
       ffpe_normal_bams: parse_pairs/srt_ffpe_normal_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [mutect_vcf, mutect_callstats, pindel_vcf, vardict_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
+    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
 
   gather_metrics:
