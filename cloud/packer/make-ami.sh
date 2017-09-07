@@ -16,7 +16,7 @@ fi
 packer build \
     -only=amazon-ebs \
     -var 'cwltoil_version=mskcc' \
-    prism-node.packer | tee ${result_file}
+    roslin-node.packer | tee ${result_file}
 
 # exit if packer failed
 if [ $? -ne 0 ]
