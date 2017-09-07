@@ -1,4 +1,5 @@
 import os, sys, argparse, logging, cmo, yaml
+import tempfile, shutil
 
 
 logger = logging.getLogger('replace_allele_counts')
@@ -65,12 +66,10 @@ if __name__ == "__main__":
     logger.info("Found: %s bams" % len(bams))
     logger.info("Found %s mark dup stat files" % len(md_metrics))
     logger.info("Found: %s trim stat files" % len(trim_metrics))
-    logger.info("using %s targets, filepath: %s" % (args.targets, cmo.util.targets[args.targets]['targets_list']))
-    logger.info("using %s baits, filepath: %s" % (args.targets, cmo.util.targets[args.targets]['baits_list']))
     out = {}
     bams = [ {"class":"File","path":x} for x in bams]
     md_metrics = [ [{"class":"File","path":x}] for x in md_metrics]
-    trim_metrics = [ [[[{"class":"File","path":x}]]] for x in trim_metrics]
+    trim_metrics = [ [{"class":"File","path":x}] for x in trim_metrics]
     out['project_prefix']= get_project_prefix(request)
     out['bams'] = bams
     out['genome']='GRCh37'
@@ -78,15 +77,37 @@ if __name__ == "__main__":
     out['pairing_file']={"class":"File", "path":str(pairing)}
     out['grouping_file']={"class":"File", "path":str(grouping)}
     out['mapping_file']={"class":"File", "path":str(mapping)}
-    out['bait_intervals']={"class":"File", "path":str(cmo.util.targets[args.targets]['baits_list'])}
-    out['target_intervals']={"class":"File", "path":str(cmo.util.targets[args.targets]['targets_list'])}
-    out['fp_intervals']={"class":"File", "path":str(cmo.util.targets[args.targets]['FP_intervals'])}
-    out['fp_genotypes']={"class":"File", "path":str(cmo.util.targets[args.targets]['FP_genotypes'])}
     out['md_metrics_files']=md_metrics
     out['trim_metrics_files']=trim_metrics
+    if args.targets:
+        logger.info("using %s targets, filepath: %s" % (args.targets, cmo.util.targets[args.targets]['targets_list']))
+        logger.info("using %s baits, filepath: %s" % (args.targets, cmo.util.targets[args.targets]['baits_list']))
+        out['bait_intervals']={"class":"File", "path":str(cmo.util.targets[args.targets]['baits_list'])}
+        out['target_intervals']={"class":"File", "path":str(cmo.util.targets[args.targets]['targets_list'])}
+        out['fp_intervals']={"class":"File", "path":str(cmo.util.targets[args.targets]['FP_intervals'])}
+        out['fp_genotypes']={"class":"File", "path":str(cmo.util.targets[args.targets]['FP_genotypes'])}
+
+    else:
+        logger.info("using supplied targets, filepath: %s" % (args.raw_targets_file))
+        logger.info("using supplied baits, filepath: %s" % (args.raw_baits_file))
+        #use fp intervals from another target bc they are all the same
+        #potential FIXME
+        out['bait_intervals']={"class":"File", "path":str(os.path.abspath(args.raw_targets_file))}
+        out['target_intervals']={"class":"File", "path":str(os.path.abspath(args.raw_baits_file))}
+        out['fp_intervals']={"class":"File", "path":str(cmo.util.targets['IMPACT468']['FP_intervals'])}
+        out['fp_genotypes']={"class":"File", "path":str(cmo.util.targets['IMPACT468']['FP_genotypes'])}
+
+    tempdir = tempfile.mkdtemp()
+    os.chdir(tempdir)
+    shutil.copy(request, tempdir)
+    shutil.copy(mapping, tempdir)
+    shutil.copy(pairing, tempdir)
+    shutil.copy(grouping, tempdir)
     final_file = open("inputs.yaml", "w")
-    yaml.dump(out, final_file, default_flow_style=False)
+    yaml.dump(out, final_file, default_flow_style=True)
     final_file.close()
+    cmd = ["roslin_submit.py", "--id", out['project_prefix'], '--path', tempdir, '--workflow', 'module-5.cwl']
+    print " ".join(cmd)
 
 
 
