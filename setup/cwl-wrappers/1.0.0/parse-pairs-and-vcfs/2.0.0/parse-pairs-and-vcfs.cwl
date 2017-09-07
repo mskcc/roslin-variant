@@ -71,6 +71,7 @@ inputs:
   combine_vcf:
     type:
       type: array
+      items: File
   pairs:
     type:
       type: array
