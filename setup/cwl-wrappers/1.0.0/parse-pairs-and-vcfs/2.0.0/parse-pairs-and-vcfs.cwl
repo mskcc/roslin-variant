@@ -105,7 +105,7 @@ outputs:
        items: string  
   srt_combine_vcf:
     type:
-      items: array
+      type: array
       items: File  
   srt_ref_fasta:
      type:
