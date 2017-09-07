@@ -93,6 +93,19 @@ outputs:
     facets_seg:
         type: File
         outputSource: call_variants/facets_seg
+    mutect_vcf:
+        type: File
+        outputSource: call_variants/mutect_vcf
+    mutect_callstats:
+        type: File
+        outputSource: call_variants/mutect_callstats
+    vardict_vcf:
+        type: File
+        outputSource: call_variants/vardict_vcf
+    pindel_vcf:
+        type: File
+        outputSource: call_variants/pindel_vcf
+
 
 steps:
 
