@@ -188,7 +188,7 @@ def convert_examples_to_use_abs_path(inputs_yaml_path):
         yaml_file.write("\n".join(output))
 
 
-def construct_project_metadata(cmo_project_id, cmo_project_path):
+def construct_project_metadata(cmo_project_id, cmo_project_path, job_uuid):
 
     request_file = os.path.abspath(
         os.path.join(cmo_project_path, cmo_project_id + "_request.txt")
@@ -213,6 +213,7 @@ def construct_project_metadata(cmo_project_id, cmo_project_path):
     project = {
         "version": DOC_VERSION,
         "projectId": cmo_project_id,
+        "pipelineJobId": job_uuid,
         "dateSubmitted": get_current_utc_datetime(),
         "inputFiles": {
             "blob": tgz_blob,
@@ -238,10 +239,10 @@ def construct_project_metadata(cmo_project_id, cmo_project_path):
     return project
 
 
-def publish_to_redis(cmo_project_id, cmo_project_path, lsf_proj_name):
+def publish_to_redis(cmo_project_id, cmo_project_path, lsf_proj_name, job_uuid):
 
     # fixme: wait until leader job shows up in LSF
-    data = construct_project_metadata(cmo_project_id, cmo_project_path)
+    data = construct_project_metadata(cmo_project_id, cmo_project_path, job_uuid)
 
     if not data:
         return
@@ -357,7 +358,7 @@ def main():
     # fixme: wait till leader job shows up
     time.sleep(5)
 
-    publish_to_redis(params.cmo_project_id, params.cmo_project_path, lsf_proj_name)
+    publish_to_redis(params.cmo_project_id, params.cmo_project_path, lsf_proj_name, job_uuid)
 
 
 if __name__ == "__main__":
