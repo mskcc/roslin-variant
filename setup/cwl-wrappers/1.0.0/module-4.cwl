@@ -111,7 +111,7 @@ steps:
             retain_info:
                 default: "set,TYPE,FAILURE_REASON"
             output_maf:
-                valueFrom: ${ return inputs.normal_id + "." + inputs.tumor_id + ".combined-variants.vep.maf" }
+                valueFrom: ${ return inputs.tumor_id + "." + inputs.normal_id + ".combined-variants.vep.maf" }
         out: [output]
 
     remove_variants:
@@ -203,7 +203,7 @@ steps:
             normal_sample_name: normal_sample_name
             inputMaf: replace_allele_counts/maf
             outputMaf:
-                valueFrom: ${ return inputs.normal_sample_name + "." + inputs.tumor_sample_name + ".maf" }
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".maf" }
             NormalPanelMaf: fillout_second/fillout_curated_bams
             FFPEPoolMaf: fillout_second/fillout_ffpe_normal
             inputHSP: hotspot_list

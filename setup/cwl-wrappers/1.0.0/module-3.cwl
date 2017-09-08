@@ -185,7 +185,7 @@ steps:
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_name, tumor_sample_name]
                         vcf:
-                            valueFrom: ${ return inputs.bams[0].basename.replace(".bam", ".") + inputs.bams[1].basename.replace(".bam", ".pindel.vcf") }
+                            valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".") + inputs.bams[0].basename.replace(".bam", ".pindel.vcf") }
                         fasta: genome
                         output_prefix: tumor_sample_name
                     out: [output]
@@ -199,7 +199,7 @@ steps:
                         N2: normal_sample_name
                         bedfile: bed
                         vcf:
-                            valueFrom: ${ return inputs.b2.basename.replace(".bam", ".") + inputs.b.basename.replace(".bam", ".vardict.vcf") }
+                            valueFrom: ${ return inputs.b.basename.replace(".bam", ".") + inputs.b2.basename.replace(".bam", ".vardict.vcf") }
                     out: [output]
                 mutect:
                     run: cmo-mutect/1.1.4/cmo-mutect.cwl
@@ -212,9 +212,9 @@ steps:
                         read_filter: mutect_rf
                         downsample_to_coverage: mutect_dcov
                         vcf:
-                            valueFrom: ${ return inputs.input_file_normal.replace(".bam",".") + inputs.input_file_tumor.basename.replace(".bam", ".mutect.vcf") }
+                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".") + inputs.input_file_normal.basename.replace(".bam", ".mutect.vcf") }
                         out:
-                            valueFrom: ${ return inputs.input_file_normal.replace(".bam",".") + inputs.input_file_tumor.basename.replace(".bam", ".mutect.txt") }
+                            valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".") + inputs.input_file_normal.basename.replace(".bam", ".mutect.txt") }
                     out: [output, callstats_output]
     filtering:
         in:
