@@ -139,7 +139,7 @@ expression: '${var bams= [];
      for (var j=0; j<inputs.bams[i].length; j++) { bams.push(inputs.bams[i][j]);
      }
  }
- var combine_vcf = inputs.combine_vcf 
+ var combine_vcf = inputs.combine_vcf; 
  var pairs = inputs.pairs;
  var arrays = [combine_vcf];
  var final_answers = [];
