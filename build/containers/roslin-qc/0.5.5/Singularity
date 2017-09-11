@@ -1,6 +1,6 @@
 
 Bootstrap: docker
-From: /pipeline-roslin-qc:0.5.0
+From: /pipeline-roslin-qc:0.5.5
 Registry: http://localhost:5000
 
 %setup
