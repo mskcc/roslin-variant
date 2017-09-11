@@ -42,6 +42,7 @@ def main():
 
     cwl['inputs']['fastq1']['type'] = ['string', 'File']
     cwl['inputs']['fastq2']['type'] = ['string', 'File']
+    cwl['inputs']['M']['default'] = True
     cwl['inputs']['t']['default'] = '5'
 
     write(params.filename_cwl, ruamel.yaml.dump(
