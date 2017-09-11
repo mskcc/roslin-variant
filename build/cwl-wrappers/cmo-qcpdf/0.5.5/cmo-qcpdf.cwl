@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-  - http://dublincore.org/2012/06/14/dcterms.rdf
-  - http://xmlns.com/foaf/spec/20140114.rdf
-  - http://usefulinc.com/ns/doap#
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
@@ -38,10 +38,13 @@ dct:contributor:
 # To generate again: $ cmo_qcpdf -o FILENAME --generate_cwl_tool
 # Help: $ cmo_qcpdf  --help_arg2cwl
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: ['cmo_qcpdf']
+baseCommand: [cmo_qcpdf]
+arguments:
+- prefix: --globdir
+  valueFrom: ${ return runtime.outdir; }
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -51,49 +54,107 @@ requirements:
 
 
 doc: |
-  Do Dat PostProcessing
+  None
 
 inputs:
-  
-  qc_version:
-    type: ["null", string]
-    default: default
-    doc: destination of filtered output
-    inputBinding:
-      prefix: --qc-version 
-
-  R_version:
+  md_metrics_files:
     type:
-    - "null"
-    - type: enum
-      symbols: ['default']
-    default: 3.1.2
-    doc: Run QC PDF generation
-    inputBinding:
-      prefix: --R-version 
-
-  pre:
-    type: ["null", string]
-    default: Project
-    doc: project prefix
-    inputBinding:
-      prefix: --pre 
-
-  metrics_directory:
+      type: array
+      items:
+        type: array
+        items: File
+  trim_metrics_files:
+    type:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items: File
+  files:
+    type:
+      type: array
+      items: File
+  gcbias_files:
     type: string
-  
-    doc: pipeline generated metrics directory
     inputBinding:
-      prefix: --metrics-directory 
+      prefix: --gcbias-files
+
+  mdmetrics_files:
+    type: string
+    inputBinding:
+      prefix: --mdmetrics-files
+
+  insertsize_files:
+    type: string
+    inputBinding:
+      prefix: --insertsize-files
+
+  hsmetrics_files:
+    type: string
+    inputBinding:
+      prefix: --hsmetrics-files
+
+  qualmetrics_files:
+    type: string
+    inputBinding:
+      prefix: --qualmetrics-files
+
+  fingerprint_files:
+    type: string
+    inputBinding:
+      prefix: --fingerprint-files
+
+  trimgalore_files:
+    type: string
+    inputBinding:
+      prefix: --trimgalore-files
+
+  file_prefix:
+    type: string
+
+
+    inputBinding:
+      prefix: --file-prefix
+
+  fp_genotypes:
+    type: File
+
+
+    inputBinding:
+      prefix: --fp-genotypes
+
+  pairing_file:
+    type: File
+
+
+    inputBinding:
+      prefix: --pairing-file
+
+  grouping_file:
+    type: File
+
+
+    inputBinding:
+      prefix: --grouping-file
+
+  request_file:
+    type: File
+
+
+    inputBinding:
+      prefix: --request-file
 
 
 outputs:
   qc_files:
-      type:
-        type: array
-        items: File
-      outputBinding:
-        glob: |
-          ${
-              return inputs.file_prefix + "*";
-          }
+    type:
+      type: array
+      items: File
+    outputBinding:
+      glob: |
+        ${
+            return inputs.file_prefix + "*";
+        }

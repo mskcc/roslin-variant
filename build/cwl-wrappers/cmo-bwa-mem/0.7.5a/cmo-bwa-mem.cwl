@@ -132,7 +132,7 @@ inputs:
 
   M:
     type: ['null', boolean]
-    default: false
+    default: true
     doc: mark shorter split hits as secondary (for Picard/GATK compatibility)
     inputBinding:
       prefix: -M
