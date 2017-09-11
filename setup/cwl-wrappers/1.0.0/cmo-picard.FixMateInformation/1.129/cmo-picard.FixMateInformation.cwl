@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-picard.FixMateInformation
-  doap:revision: 1.96
+  doap:revision: 1.129
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
