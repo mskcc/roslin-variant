@@ -135,6 +135,8 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
+            "2.07": "sudo docker run -i abra:2.07 ", 
+            "2.08": "sudo docker run -i abra:2.08 ", 
             "default": "sudo docker run -i abra:2.08 "
         }, 
         "analyzeFingerprint": {
@@ -247,7 +249,7 @@
             "default": "sudo docker run -i replace-allele-counts:0.1.0 "
         }, 
         "roslin-qc": {
-            "default": "sudo docker run -i roslin-qc:0.5.0 "
+            "default": "sudo docker run -i roslin-qc:0.5.5 "
         }, 
         "samstat": {
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"

@@ -163,8 +163,8 @@ inputs:
     type: 
 
 
-    - string
-    - File
+      - string
+      - File
     inputBinding:
       position: 1
 
