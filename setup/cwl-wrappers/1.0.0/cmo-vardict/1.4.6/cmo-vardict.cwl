@@ -88,8 +88,8 @@ inputs:
   b2:
     type: 
 
-    - 'null'
-    - File
+      - 'null'
+      - File
     doc: Normal bam
     inputBinding:
       prefix: -b2
@@ -391,8 +391,8 @@ inputs:
   vcf:
     type: 
 
-    - 'null'
-    - string
+      - 'null'
+      - string
     doc: output vcf file
     inputBinding:
       prefix: --vcf

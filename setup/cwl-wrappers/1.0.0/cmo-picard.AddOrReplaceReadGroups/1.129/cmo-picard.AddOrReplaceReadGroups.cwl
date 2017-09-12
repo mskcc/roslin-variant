@@ -10,10 +10,13 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-doap:name: cmo-picard.AddOrReplaceReadGroups.cwl
 doap:release:
 - class: doap:Version
-  doap:revision: '1.129'
+  doap:name: cmo-picard.AddOrReplaceReadGroups
+  doap:revision: 1.129
+- class: doap:Version
+  doap:name: cwl-wrapper
+  doap:revision: 1.0.0
 
 dct:creator:
 - class: foaf:Organization
@@ -141,7 +144,7 @@ inputs:
 
   CREATE_INDEX:
     type: ['null', boolean]
-    default: false
+    default: true
 
     inputBinding:
       prefix: --CREATE_INDEX
