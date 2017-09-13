@@ -72,8 +72,8 @@ inputs:
   inputMaf:
     type: 
 
-      - string
-      - File
+    - string
+    - File
     doc: Input maf file which needs to be fixed
     inputBinding:
       prefix: --input-maf
@@ -81,8 +81,8 @@ inputs:
   fillout:
     type: 
 
-      - string
-      - File
+    - string
+    - File
     doc: Input fillout file created by GetBaseCountMultiSample using the input maf
     inputBinding:
       prefix: --fillout
