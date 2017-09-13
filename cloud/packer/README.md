@@ -7,13 +7,13 @@ Build Amazon Machine Image or DigitalOcean image using Packer.
 Output the various components a template defines
 
 ```bash
-$ packer inspect prism-node.packer
+$ packer inspect roslin-node.packer
 ```
 
 Validate a syntax and configuration of a template 
 
 ```
-$ packer validate prism-node.packer
+$ packer validate roslin-node.packer
 ```
 
 ## Credentials for Providers
@@ -33,8 +33,8 @@ $ packer validate prism-node.packer
 ### Building for a Specific Provider
 
 ```bash
-$ packer build -only=amazon-ebs prism-node.packer
-$ packer build -only=digitalocean prism-node.packer
+$ packer build -only=amazon-ebs roslin-node.packer
+$ packer build -only=digitalocean roslin-node.packer
 ```
 
 ### Building with a Specific Version of `cwltoil`
@@ -43,13 +43,13 @@ $ packer build -only=digitalocean prism-node.packer
 - `mskcc`
 
 ```
-$ packer build -var 'cwltoil_version=mskcc' prism-node.packer
+$ packer build -var 'cwltoil_version=mskcc' roslin-node.packer
 ```
 
 ### Building for AWS with MSKCC CWLTOIL
 
 ```bash
-$ packer build -only=amazon-ebs -var 'cwltoil_version=mskcc' prism-node.packer
+$ packer build -only=amazon-ebs -var 'cwltoil_version=mskcc' roslin-node.packer
 ```
 
 ## Verifying Software Version Installed
