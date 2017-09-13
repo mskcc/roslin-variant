@@ -57,10 +57,10 @@ inputs:
   input_file:
     type: 
 
-      - string
-      - File
-      - type: array
-        items: string
+    - string
+    - File
+    - type: array
+      items: string
     doc: picard interval list
     inputBinding:
       prefix: --input_file
