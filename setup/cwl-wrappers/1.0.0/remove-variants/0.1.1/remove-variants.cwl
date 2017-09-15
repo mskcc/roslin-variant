@@ -71,8 +71,8 @@ inputs:
   inputMaf:
     type: 
 
-    - string
-    - File
+      - string
+      - File
     doc: Input maf file which needs to be fixed
     inputBinding:
       prefix: --input-maf

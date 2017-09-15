@@ -1,4 +1,4 @@
-FROM java:8-alpine
+FROM java:7-alpine
 MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
@@ -8,9 +8,11 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       source.picard="https://github.com/broadinstitute/picard/releases/tag/1.129"
 
 ENV TOOL_VERSION 1.129
+ENV R_VERSION 3.3.2-r0
 
 RUN apk add --update \
       && apk add ca-certificates openssl \
+      && apk add R=${R_VERSION} --update-cache --repository http://dl-5.alpinelinux.org/alpine/v3.5/community --allow-untrusted \
       && cd /tmp && wget https://github.com/broadinstitute/picard/releases/download/${TOOL_VERSION}/picard-tools-${TOOL_VERSION}.zip \
       && unzip picard-tools-${TOOL_VERSION}.zip \
       && mv /tmp/picard-tools-${TOOL_VERSION} /usr/bin/picard-tools \

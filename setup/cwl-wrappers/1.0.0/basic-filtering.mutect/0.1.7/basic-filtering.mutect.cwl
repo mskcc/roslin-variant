@@ -71,8 +71,8 @@ inputs:
   inputVcf:
     type: 
 
-    - string
-    - File
+      - string
+      - File
     doc: Input vcf muTect file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
@@ -80,8 +80,8 @@ inputs:
   inputTxt:
     type: 
 
-    - string
-    - File
+      - string
+      - File
     doc: Input txt muTect file which needs to be filtered
     inputBinding:
       prefix: --inputTxt

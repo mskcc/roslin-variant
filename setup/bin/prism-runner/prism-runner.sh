@@ -185,8 +185,23 @@ jobstore_path="${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
 # job uuid followed by a colon (:) and then job store uuid
 printf "\n---> PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n"
-
-# run cwltoil
+#set cmo package version based on env variable
+#FIXME installation script needs improving, default might be more than this 1.6.7 hardcode
+if [ -z "$ROSLIN_CMO_VERSION" ]; then
+    export ROSLIN_CMO_VERSION="1.6.7"
+fi
+echo "Using ${ROSLIN_CMO_VERSION} CMO package version"
+export EXPECTED_PYTHONPATH="/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/lib/python2.7/site-packages/"
+if [ ! -d "$EXPECTED_PYTHONPATH" ]; then
+    echo "Can't find python package at $EXPECTED_PYTHONPATH"
+    exit 1
+else
+    echo "Package found at $EXPECTED_PYTHONPATH"
+fi
+export PYTHONPATH=$EXPECTED_PYTHONPATH
+#assume if the python path is there, this will also be there
+export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:$PATH
+#run cwltoil
 set -o pipefail
 cwltoil \
     ${PRISM_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
@@ -194,7 +209,7 @@ cwltoil \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --defaultMem 12G \
-    --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
+    --preserve-environment PYTHONPATH PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
     --disableCaching \

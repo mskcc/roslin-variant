@@ -1,0 +1,45 @@
+
+Bootstrap: docker
+From: /pipeline-roslin-qc:0.5.5
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    source /tmp/settings-container.sh
+
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    # disable per-user site-packages before run
+    export PYTHONNOUSERSITE="set"
+    exec python /usr/bin/generate_pdf.py "$@"
+
+%test
+
+    # get actual output from generate_pdf
+        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /tmp/actual_generate_pdf.diff.txt
+
+    # expected generate_pdf output
+    cat > /tmp/expected_generate_pdf.diff.txt << EOM
+usage: generate_pdf.py [-h] --gcbias-files GCBIAS_FILES --globdir GLOBDIR
+EOM
+
+    # diff generate_pdf
+    diff /tmp/actual_generate_pdf.diff.txt /tmp/expected_generate_pdf.diff.txt
+
+    # delete tmp files
+    rm -rf /tmp/*.diff.txt

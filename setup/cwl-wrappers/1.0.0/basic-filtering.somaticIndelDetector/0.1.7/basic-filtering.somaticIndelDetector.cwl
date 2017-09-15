@@ -72,8 +72,8 @@ inputs:
   inputVcf:
     type: 
 
-    - string
-    - File
+      - string
+      - File
     doc: Input SomaticIndelDetector vcf file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
@@ -81,8 +81,8 @@ inputs:
   inputTxt:
     type: 
 
-    - string
-    - File
+      - string
+      - File
     doc: Input SomaticIndelDetector txt file which needs to be filtered
     inputBinding:
       prefix: --inputTxt
