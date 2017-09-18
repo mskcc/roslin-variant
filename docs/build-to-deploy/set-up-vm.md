@@ -87,28 +87,28 @@ $ ./configure.py config.dev.yaml
 Configure `/setup/settings.sh`. Below is what's already configured for the Luna environment. No need to change unless you know what you're doing.
 
 ```bash
-PRISM_ROOT="/ifs/work/chunj/prism-proto"
+ROSLIN_ROOT="/ifs/work/chunj/prism-proto"
 
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
-export PRISM_BIN_PATH="${PRISM_ROOT}/prism"
+export ROSLIN_BIN_PATH="${ROSLIN_ROOT}/prism"
 
 # reference data (e.g. genome assemblies)
-export PRISM_DATA_PATH="${PRISM_ROOT}/ifs"
+export ROSLIN_DATA_PATH="${ROSLIN_ROOT}/ifs"
 
 # other paths that we'd like to bind (space separated)
-export PRISM_EXTRA_BIND_PATH="/scratch"
+export ROSLIN_EXTRA_BIND_PATH="/scratch"
 
 #<--
 
 # input files to pipeline (e.g. fastq files)
-export PRISM_INPUT_PATH="${PRISM_ROOT}/ifs/prism/inputs"
+export ROSLIN_INPUT_PATH="${ROSLIN_ROOT}/ifs/prism/inputs"
 
 # path to singularity executable
 # singularity is expected to be found at the same location regardless of the nodes you're on
 # override this if you want to test a different version of singularity.
-export PRISM_SINGULARITY_PATH="/usr/bin/singularity"
+export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 ```
 
 ### /build/settings-container.sh

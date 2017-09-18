@@ -25,7 +25,7 @@ def delete_roslin_bin():
     delete everything under ${PRISIM_BIN_PATH}
     """
 
-    run('rm -rf $PRISM_BIN_PATH/*')
+    run('rm -rf $ROSLIN_BIN_PATH/*')
 
 
 @task
@@ -35,7 +35,7 @@ def half_delete_roslin_input():
     delete only files (no directories) in ${PRISIM_INPUT_PATH}/chunj
     """
 
-    run('find $PRISM_INPUT_PATH/chunj -maxdepth 1 -type f -delete')
+    run('find $ROSLIN_INPUT_PATH/chunj -maxdepth 1 -type f -delete')
 
 
 @task
@@ -82,3 +82,16 @@ def rsync_luna(skip_install=False, skip_ref=False, local_bin_singularity=False):
     if local_bin_singularity:
         settings_sh_path = get_settings_sh_path(config)
         run('sed -i "s#/usr/bin/singularity#/usr/local/bin/singularity#g" {}'.format(settings_sh_path))
+
+
+@task
+def rsync_core():
+    """
+    fab -i ~/.ssh/id_rsa -u chunj -H selene.mskcc.org rsync_core
+    """
+
+    with cd("../core"):
+
+        local("./make-deployable-pkg.sh")
+
+        put('roslin-core-v1.0.0.tgz', '/scratch/chunj/')

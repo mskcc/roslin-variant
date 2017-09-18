@@ -41,9 +41,9 @@ case $LOC_GENASSM in
         if [ -z $SKIP_B3 ]
         then
             # copy and configure reference data
-            mkdir -p ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
-            cp /ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/* ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
-            cp /ifs/depot/assemblies/H.sapiens/b37/b37.* ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
+            mkdir -p ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            cp /ifs/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/* ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            cp /ifs/depot/assemblies/H.sapiens/b37/b37.* ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/
         fi
         ;;
 
@@ -52,20 +52,20 @@ case $LOC_GENASSM in
         # directories for reference data
         if [ -z $USE_VAGRANT_BIG_DISK ]
         then
-            mkdir -p ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            mkdir -p ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
         else
-            mkdir -p ${PRISM_DATA_PATH}}/depot/assemblies/H.sapiens/b37/index/bwa
+            mkdir -p ${ROSLIN_DATA_PATH}}/depot/assemblies/H.sapiens/b37/index/bwa
             sudo mkdir -p /vagrant/bigdisk/b37
-            ln -snf /vagrant/bigdisk/depot/assemblies/H.sapiens/b37/index/bwa ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            ln -snf /vagrant/bigdisk/depot/assemblies/H.sapiens/b37/index/bwa ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
         fi
 
         if [ -z $SKIP_B3 ]
         then
             # copy and configure reference data
-            cat ../data/assemblies/b37.tar.gz.part_* > ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
-            tar xvzf ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz -C ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
-            rm -rf ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
-            chmod -R +r ${PRISM_DATA_PATH}/depot/
+            cat ../data/assemblies/b37.tar.gz.part_* > ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
+            tar xvzf ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz -C ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            rm -rf ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
+            chmod -R +r ${ROSLIN_DATA_PATH}/depot/
         fi
         ;;
 
@@ -75,21 +75,21 @@ case $LOC_GENASSM in
         then
 
             mkdir -p ../data/assemblies
-            mkdir -p ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            mkdir -p ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
             mkdir -p /ifs/work/prism/chunj/test-data/ref
 
             # sync from s3 (b37)
             aws s3 sync s3://chunj-ifs/depot/assemblies/H.sapiens/b37 ../data/assemblies
 
             # copy and configure reference data (b37)
-            cat ../data/assemblies/b37.tar.gz.part_* > ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
-            tar xvzf ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz -C ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
-            rm -rf ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
-            chmod -R +r ${PRISM_DATA_PATH}/depot/
+            cat ../data/assemblies/b37.tar.gz.part_* > ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
+            tar xvzf ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz -C ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12
+            rm -rf ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.tar.gz
+            chmod -R +r ${ROSLIN_DATA_PATH}/depot/
 
-            cp ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
-            cp ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta.fai ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
-            cp ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.dict ${PRISM_DATA_PATH}/depot/assemblies/H.sapiens/b37/
+            cp ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/
+            cp ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.fasta.fai ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/
+            cp ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/index/bwa/0.7.12/b37.dict ${ROSLIN_DATA_PATH}/depot/assemblies/H.sapiens/b37/
 
             # sync from s3 (vcf, ...)
             aws s3 sync s3://chunj-ref /ifs/work/prism/chunj/test-data/

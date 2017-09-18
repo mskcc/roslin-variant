@@ -65,7 +65,7 @@ Make sure to replace `chunj` with your own login name.
 Go to your workspace:
 
 ```bash
-$ cd $PRISM_INPUT_PATH/chunj
+$ cd $ROSLIN_INPUT_PATH/chunj
 ```
 
 You will find the `examples` directory:
@@ -107,7 +107,7 @@ Each job will be given a unique job UUID. And the output of the job will be plac
 To see the status of the job while it's running, open another terminal, and run the following command. This must be run from the directory where you ran the job or use `-o` to specify the job output directory:
 
 ```bash
-$ cd $PRISM_INPUT_PATH/chunj/examples/module-1
+$ cd $ROSLIN_INPUT_PATH/chunj/examples/module-1
 $ roslin-job-status.sh
 
 |   JOBID | STAT   | JOB_NAME                                | MAX_REQ_PROC   | EXEC_HOST   |
@@ -124,7 +124,7 @@ $ roslin-job-status.sh
 Run the following command to archive the job output and log files once the job is completed. This must be run from the directory where you ran the job or use `-o` to specify the job output directory:
 
 ```bash
-$ cd $PRISM_INPUT_PATH/chunj/examples/module-1
+$ cd $ROSLIN_INPUT_PATH/chunj/examples/module-1
 $ roslin-job-archive.sh
 ```
 

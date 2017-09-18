@@ -210,8 +210,8 @@ def test_trimgalore():
     assert_equals(result['clstats2']['class'], 'File')
 
 
-def test_bsub_of_prism_runner():
-    "bsubsing prism runner should still generate the correct output"
+def test_bsub_of_roslin_runner():
+    "bsubsing roslin runner should still generate the correct output"
 
     result = read_result('./outputs/bsub-of-prism-runner.txt')
 

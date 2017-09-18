@@ -14,7 +14,7 @@ b2ee494edc78d23cc009dc36c0852909  ./cmo-abra/2.07/cmo-abra.cwl
 13de0600b09fbb34095c4518466a7e62  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 63cbecdc3663115b8135eb1683e3079c  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 fcb51ab23273a2ad820b59633fa7219b  ./cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
-88d9f01b44d2215e144a6d2a5457fdbf  ./cmo-fillout/1.2.1/cmo-fillout.cwl
+de20c970b95334f4808124cdb531774b  ./cmo-fillout/1.2.1/cmo-fillout.cwl
 fb3cb4f6eed6c1edefafe8ca883de5af  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 a0b8828d39f96bb01bde963756d5569b  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 1910607d4bed3287524bc3d7c6ab03f5  ./cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
@@ -78,3 +78,7 @@ d0cbf748965a18822c33dbe23ec880fa  ./replace-allele-counts/0.1.1/replace-allele-c
 f89c85cfe7c64fdc41f0556c74c0a87c  ./replace-allele-counts/0.2.0/replace-allele-counts.cwl
 7a1dfe1cdc09749d77e3c8333b250fb6  ./samtools/1.3.1/samtools-sam2bam.cwl
 fa3515aaecce2530f7bb8d58696c75d4  ./sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
+2f52218bddd6d87636fc07327d5cf9e5  ./test/env.cwl
+8769f1fbbbaa2fa0a8fe549e5316c230  ./test/head-10.cwl
+fb4920731508c47020a52b93cef64370  ./test/samtools.cwl
+678bfb722b25abd7d1531954f2076d19  ./test/test-workflow-1.cwl

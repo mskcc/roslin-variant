@@ -5,7 +5,7 @@ load 'helpers/bats-assert/load'
 load 'helpers/bats-file/load'
 load 'helpers/stub/load'
 
-PRISM_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
+ROSLIN_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
 
 setup() {
   TEST_TEMP_DIR="$(temp_make)"
@@ -38,125 +38,125 @@ get_args_line() {
 
 @test "should have prism-runner.sh" {
 
-    assert_file_exist ${PRISM_RUNNER_SCRIPT}
+    assert_file_exist ${ROSLIN_RUNNER_SCRIPT}
 }
 
 @test "should abort if all the necessary env vars are not configured" {
 
-    unset PRISM_BIN_PATH
-    unset PRISM_DATA_PATH
-    unset PRISM_EXTRA_BIND_PATH
-    unset PRISM_INPUT_PATH
-    unset PRISM_OUTPUT_PATH
-    unset PRISM_SINGULARITY_PATH
+    unset ROSLIN_BIN_PATH
+    unset ROSLIN_DATA_PATH
+    unset ROSLIN_EXTRA_BIND_PATH
+    unset ROSLIN_INPUT_PATH
+    unset ROSLIN_OUTPUT_PATH
+    unset ROSLIN_SINGULARITY_PATH
 
-    run ${PRISM_RUNNER_SCRIPT}
-
-    assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
-}
-
-@test "should abort if PRISM_BIN_PATH is not configured" {
-
-    unset PRISM_BIN_PATH
-    export PRISM_DATA_PATH="b"
-    export PRISM_EXTRA_BIND_PATH="c"
-    export PRISM_INPUT_PATH="d"
-    export PRISM_OUTPUT_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
-
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if PRISM_DATA_PATH is not configured" {
+@test "should abort if ROSLIN_BIN_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    unset PRISM_DATA_PATH
-    export PRISM_EXTRA_BIND_PATH="c"
-    export PRISM_INPUT_PATH="d"
-    export PRISM_OUTPUT_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
+    unset ROSLIN_BIN_PATH
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
 
-    run ${PRISM_RUNNER_SCRIPT}
-
-    assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
-}
-
-@test "should abort if PRISM_EXTRA_BIND_PATH is not configured" {
-
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    unset PRISM_EXTRA_BIND_PATH
-    export PRISM_INPUT_PATH="d"
-    export PRISM_OUTPUT_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
-
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if PRISM_INPUT_PATH is not configured" {
+@test "should abort if ROSLIN_DATA_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_EXTRA_BIND_PATH="c"
-    unset PRISM_INPUT_PATH
-    export PRISM_OUTPUT_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
+    export ROSLIN_BIN_PATH="a"
+    unset ROSLIN_DATA_PATH
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
 
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if ROSLIN_EXTRA_BIND_PATH is not configured" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    unset ROSLIN_EXTRA_BIND_PATH
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if ROSLIN_INPUT_PATH is not configured" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    unset ROSLIN_INPUT_PATH
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
+
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
 
-@test "should abort if PRISM_OUTPUT_PATH is not configured" {
+@test "should abort if ROSLIN_OUTPUT_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_EXTRA_BIND_PATH="c"
-    export PRISM_INPUT_PATH="e"
-    unset PRISM_OUTPUT_PATH
-    export PRISM_SINGULARITY_PATH="f"
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="e"
+    unset ROSLIN_OUTPUT_PATH
+    export ROSLIN_SINGULARITY_PATH="f"
 
-    run ${PRISM_RUNNER_SCRIPT}
-
-    assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
-}
-
-@test "should abort if PRISM_SINGULARITY_PATH is not configured" {
-
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_EXTRA_BIND_PATH="c"
-    export PRISM_INPUT_PATH="d"
-    export PRISM_OUTPUT_PATH="e"
-    unset PRISM_SINGULARITY_PATH
-
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if unable to find Singularity at PRISM_SINGULARITY_PATH" {
+@test "should abort if ROSLIN_SINGULARITY_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_EXTRA_BIND_PATH="c"
-    export PRISM_INPUT_PATH="d"
-    export PRISM_OUTPUT_PATH="e"
-    export PRISM_SINGULARITY_PATH="/usr/no-bin/singularity"
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    unset ROSLIN_SINGULARITY_PATH
 
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if unable to find Singularity at ROSLIN_SINGULARITY_PATH" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="/usr/no-bin/singularity"
+
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line 'Unable to find Singularity.'
@@ -165,17 +165,17 @@ get_args_line() {
 # fixme: this is so MSKCC specific
 @test "should skip checking Singularity existence if on one of those leader nodes" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_EXTRA_BIND_PATH="c"
-    export PRISM_INPUT_PATH="d"
-    export PRISM_OUTPUT_PATH="e"
-    export PRISM_SINGULARITY_PATH="/usr/no-bin/singularity"
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="/usr/no-bin/singularity"
 
     # stub the 'hostname' command to return 'luna'
     stub hostname 'echo "luna"'
 
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     refute_line --index 0 --partial 'Unable to find Singularity.'
@@ -183,7 +183,7 @@ get_args_line() {
     # stub the 'hostname' command to return 'selene'
     stub hostname 'echo "selene"'
 
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     refute_line --index 0 --partial 'Unable to find Singularity.'
@@ -193,12 +193,12 @@ get_args_line() {
 
 @test "should abort if workflow or input filename is not supplied" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
-    run ${PRISM_RUNNER_SCRIPT}
+    run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line --index 0 --partial 'USAGE:'
@@ -206,12 +206,12 @@ get_args_line() {
 
 @test "should abort if input file doesn't exit" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i test.yaml
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i test.yaml
 
     assert_failure
     assert_line --index 0 --partial 'not found'
@@ -219,15 +219,15 @@ get_args_line() {
 
 @test "should abort if batch system is not specified with -b" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     echo "test input" > ${TEST_TEMP_DIR}/test.yaml
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml
 
     assert_failure
     assert_line --index 0 --partial 'USAGE:'
@@ -235,15 +235,15 @@ get_args_line() {
 
 @test "should abort if unknown batch system is supplied via -b" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     echo "test input" > ${TEST_TEMP_DIR}/test.yaml
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b xyz
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b xyz
 
     assert_failure
     assert_line --index 0 --partial 'USAGE:'
@@ -251,15 +251,15 @@ get_args_line() {
 
 @test "should abort if mesos is selected for batch system" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     echo "test input" > ${TEST_TEMP_DIR}/test.yaml
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b mesos
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b mesos
 
     assert_failure
     assert_line --index 0 --partial 'Unsupported'
@@ -267,10 +267,10 @@ get_args_line() {
 
 @test "should abort if output directory already exists" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -286,7 +286,7 @@ get_args_line() {
     echo "test" > ${different_output_dir}/hello.txt
 
     # call prism runner with -o
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
 
     assert_failure
     assert_line --partial 'The specified output directory already exists'
@@ -299,10 +299,10 @@ get_args_line() {
 
 @test "should output job UUID at the beginning and the end" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     echo "test input" > ${TEST_TEMP_DIR}/test.yaml
@@ -310,7 +310,7 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b lsf
 
     assert_success
 
@@ -333,10 +333,10 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -347,7 +347,7 @@ get_args_line() {
 
     workflow_filename='abc.cwl'
 
-    run ${PRISM_RUNNER_SCRIPT} -w ${workflow_filename} -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -w ${workflow_filename} -i ${input_filename} -b lsf
 
     assert_success
 
@@ -368,7 +368,7 @@ get_args_line() {
     # /tmp/prism-runner.bats-12-7uktFHNZ4w/test.yaml
     # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
     # --defaultDisk 10G
-    # --preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH CMSOURCE_CONFIG
+    # --preserve-environment PATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMSOURCE_CONFIG
     # --no-container
     # --not-strcit
     # --disableCaching
@@ -385,16 +385,16 @@ get_args_line() {
     #
 
     # check workflow filename (positional arg 0)
-    assert_equal "${args[0]}" "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/${workflow_filename}"
+    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}/${workflow_filename}"
 
     # check input filename (positional arg 1)
     assert_equal "${args[1]}" "${input_filename}"
 
     # check --jobStore
-    assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 1 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --preserve-environment
-    assert_line --index 1 --partial "--preserve-environment PATH PRISM_DATA_PATH PRISM_BIN_PATH PRISM_EXTRA_BIND_PATH PRISM_INPUT_PATH PRISM_OUTPUT_PATH PRISM_SINGULARITY_PATH"
+    assert_line --index 1 --partial "--preserve-environment PATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH"
 
     # check --no-container
     assert_line --index 1 --partial "--no-container"
@@ -412,7 +412,7 @@ get_args_line() {
     assert_line --index 1 --partial "--realTimeLogging"
 
     # check --workDir
-    assert_line --index 1 --partial "--workDir ${PRISM_BIN_PATH}/tmp"
+    assert_line --index 1 --partial "--workDir ${ROSLIN_BIN_PATH}/tmp"
 
     # by default, debug-related parameters should not be added
     refute_line --index 1 --partial "--logDebug --cleanWorkDir never"
@@ -425,10 +425,10 @@ get_args_line() {
 
 @test "should correctly handle -d (debug mode) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -438,7 +438,7 @@ get_args_line() {
     stub cwltoil 'echo "$@"'
 
     # call prism-runner with -b lsf -d
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -d
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -d
 
     assert_success
 
@@ -450,10 +450,10 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil for lsf" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -463,7 +463,7 @@ get_args_line() {
     stub cwltoil 'echo "$@"'
 
     # call prism-runner with -b lsf
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_success
 
@@ -475,10 +475,10 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil for singleMachine" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -488,7 +488,7 @@ get_args_line() {
     stub cwltoil 'echo "$@"'
 
     # call prism-runner with -b singleMachine
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
 
@@ -500,10 +500,10 @@ get_args_line() {
 
 @test "should correctly handle -o (output directory) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -517,7 +517,7 @@ get_args_line() {
     rm -rf ./outputs/log
 
     # call prism runner without -o
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
 
@@ -541,7 +541,7 @@ get_args_line() {
     different_output_dir="${TEST_TEMP_DIR}/diff"
 
     # call prism runner with -o
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
 
     assert_success
 
@@ -569,10 +569,10 @@ get_args_line() {
 
 @test "should correctly handle -v (pipeline version) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -585,7 +585,7 @@ get_args_line() {
     workflow_filename='abc.cwl'
 
     # call prism-runner with -v
-    run ${PRISM_RUNNER_SCRIPT} -v ${pipeline_version} -w ${workflow_filename} -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -v ${pipeline_version} -w ${workflow_filename} -i ${input_filename} -b lsf
 
     assert_success
 
@@ -595,17 +595,17 @@ get_args_line() {
     read -r -a args <<< "$args_line"
 
     # check workflow filename (positional arg 0)
-    assert_equal "${args[0]}" "${PRISM_BIN_PATH}/pipeline/${pipeline_version}/${workflow_filename}"
+    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/pipeline/${pipeline_version}/${workflow_filename}"
 
     unstubs
 }
 
 @test "should set CMO_RESOURCE_CONFIG correctly before run, unset after run" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -614,21 +614,21 @@ get_args_line() {
     # stub cwltoil to print the value of CMO_RESOURCE_CONFIG
     stub cwltoil 'printenv CMO_RESOURCE_CONFIG'
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
 
-    assert_line --index 1 "${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}/prism_resources.json"
+    assert_line --index 1 "${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}/roslin_resources.json"
 
     assert_equal `printenv CMO_RESOURCE_CONFIG` ''
 }
 
 @test "should correctly handle -r (restart) parameter when calling cwltoil" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     echo "test input" > ${TEST_TEMP_DIR}/test.yaml
@@ -639,7 +639,7 @@ get_args_line() {
     job_store_uuid='some-uuid'
 
     # call prism-runner with -r
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r ${job_store_uuid}
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r ${job_store_uuid}
 
     assert_success
 
@@ -651,7 +651,7 @@ get_args_line() {
     assert_line --index 2 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
 
     # check --jobStore
-    assert_line --index 1 --partial "--jobStore file://${PRISM_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 1 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --restart
     assert_line --index 1 --partial "--restart"
@@ -664,10 +664,10 @@ get_args_line() {
 
 @test "should set TOIL_LSF_PROJECT correctly before run, unset after run" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -676,7 +676,7 @@ get_args_line() {
     # stub cwltoil to print the value of TOIL_LSF_PROJECT
     stub cwltoil 'printenv TOIL_LSF_PROJECT'
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_success
 
@@ -690,10 +690,10 @@ get_args_line() {
 
 @test "should correctly handle -p (CMO project ID) parameter" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -702,7 +702,7 @@ get_args_line() {
     # stub cwltoil to print the value of TOIL_LSF_PROJECT
     stub cwltoil 'printenv TOIL_LSF_PROJECT'
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -p Proj_5678_F_2
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -p Proj_5678_F_2
 
     assert_success
 
@@ -714,10 +714,10 @@ get_args_line() {
 
 @test "should correctly handle -j (job UUID) parameter" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -728,7 +728,7 @@ get_args_line() {
 
     pre_generated_job_uuid='836260e0-4af0-11e7-ab78-645106efb11c'
 
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -p Proj_5000_B -j ${pre_generated_job_uuid}
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -p Proj_5000_B -j ${pre_generated_job_uuid}
 
     assert_success
 
@@ -745,10 +745,10 @@ get_args_line() {
 
 @test "should exit with the correct exit code 0" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -758,7 +758,7 @@ get_args_line() {
     stub cwltoil 'exit 0'
 
     # call prism-runner
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_success
 
@@ -767,10 +767,10 @@ get_args_line() {
 
 @test "should exit with the correct exit code 1" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_EXTRA_BIND_PATH, PRISM_INPUT_PATH, and PRISM_OUTPUT_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
     input_filename="${TEST_TEMP_DIR}/test.yaml"
@@ -780,7 +780,7 @@ get_args_line() {
     stub cwltoil 'exit 1'
 
     # call prism-runner
-    run ${PRISM_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_failure
 

@@ -8,8 +8,7 @@
 /build/cwl-wrappers/**/*.bak
 /build/tmp/**
 /build/scripts/error.*.txt
-/setup/data/assemblies
-/setup/tools/**
+/setup/img/**
 /*.tgz
 /test/outputs
 /test/mock/stub

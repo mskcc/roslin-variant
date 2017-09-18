@@ -14,7 +14,7 @@
 On Selene:
 
 ```bash
-$ cd $PRISM_INPUT_PATH/$USER/examples/unit-test
+$ cd $ROSLIN_INPUT_PATH/$USER/examples/unit-test
 ```
 
 The following command will run all the examples in your workspace directory, collect the metadata about outputs, and place them under the `./outputs/` directory.
@@ -84,12 +84,12 @@ $ cd /vagrant/test
 $ bats prism-runner.bats
  ✓ should have prism-runner.sh
  ✓ should abort if all the necessary env vars are not configured
- ✓ should abort if PRISM_BIN_PATH is not configured
- ✓ should abort if PRISM_DATA_PATH is not configured
- ✓ should abort if PRISM_EXTRA_BIND_PATH is not configured
- ✓ should abort if PRISM_INPUT_PATH is not configured
- ✓ should abort if PRISM_SINGULARITY_PATH is not configured
- ✓ should abort if unable to find Singularity at PRISM_SINGULARITY_PATH
+ ✓ should abort if ROSLIN_BIN_PATH is not configured
+ ✓ should abort if ROSLIN_DATA_PATH is not configured
+ ✓ should abort if ROSLIN_EXTRA_BIND_PATH is not configured
+ ✓ should abort if ROSLIN_INPUT_PATH is not configured
+ ✓ should abort if ROSLIN_SINGULARITY_PATH is not configured
+ ✓ should abort if unable to find Singularity at ROSLIN_SINGULARITY_PATH
  ✓ should skip checking Singularity existence if on one of those leader nodes
  ✓ should abort if workflow or input filename is not supplied
  ✓ should abort if input file doesn't exit
@@ -119,10 +119,10 @@ $ bats sing.bats
  ✓ should have sing.sh
  ✓ should be able to run singularity
  ✓ should abort if all the necessary env vars are not configured
- ✓ should abort if PRISM_SINGULARITY_PATH is not configured
- ✓ should abort if PRISM_DATA_PATH is not configured
- ✓ should abort if PRISM_BIN_PATH is not configured
- ✓ should abort if PRISM_EXTRA_BIND_PATH is not configured
+ ✓ should abort if ROSLIN_SINGULARITY_PATH is not configured
+ ✓ should abort if ROSLIN_DATA_PATH is not configured
+ ✓ should abort if ROSLIN_BIN_PATH is not configured
+ ✓ should abort if ROSLIN_EXTRA_BIND_PATH is not configured
  ✓ should abort if the two required parameters are not supplied
  ✓ should run the tool image and display 'Hello, World!'
  ✓ should properly bind extra paths defined

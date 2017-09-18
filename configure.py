@@ -35,13 +35,18 @@ def configure_setup_settings(settings):
 
     # render
     content = template.render(
-        version=settings["version"],
-        root=settings["root"],
+        core_min_version=settings["dependencies"]["core"]["version"]["min"],
+        core_max_version=settings["dependencies"]["core"]["version"]["max"],
+        pipeline_name=settings["name"],
+        pipeline_version=settings["version"],
+        pipeline_root=os.path.join(settings["root"], settings["version"]),
         binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
         binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
+        dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
+        dependencies_cmo_python_path=settings["dependencies"]["cmo"]["python-path"]
     )
 
     write_to_disk("/vagrant/setup/scripts/settings.sh", content)

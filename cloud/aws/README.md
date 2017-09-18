@@ -154,7 +154,7 @@ Log out and log back in.
 See if you can run the sam2bam workflow:
 
 ```bash
-$ cd $PRISM_INPUT_PATH/ubuntu/examples/samtools-sam2bam
+$ cd $ROSLIN_INPUT_PATH/ubuntu/examples/samtools-sam2bam
 $ ./run-example.sh
 ```
 

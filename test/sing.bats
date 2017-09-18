@@ -18,12 +18,12 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should abort if all the necessary env vars are not configured" {
 
-    unset PRISM_BIN_PATH
-    unset PRISM_DATA_PATH
-    unset PRISM_INPUT_PATH
-    unset PRISM_OUTPUT_PATH
-    unset PRISM_EXTRA_BIND_PATH
-    unset PRISM_SINGULARITY_PATH
+    unset ROSLIN_BIN_PATH
+    unset ROSLIN_DATA_PATH
+    unset ROSLIN_INPUT_PATH
+    unset ROSLIN_OUTPUT_PATH
+    unset ROSLIN_EXTRA_BIND_PATH
+    unset ROSLIN_SINGULARITY_PATH
 
     run ${SING_SCRIPT}
 
@@ -31,29 +31,14 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if PRISM_BIN_PATH is not configured" {
+@test "should abort if ROSLIN_BIN_PATH is not configured" {
 
-    unset PRISM_BIN_PATH
-    export PRISM_DATA_PATH="b"
-    export PRISM_INPUT_PATH="c"
-    export PRISM_OUPUT_PATH="d"
-    export PRISM_EXTRA_BIND_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
-
-    run ${SING_SCRIPT}
-
-    assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
-}
-
-@test "should abort if PRISM_DATA_PATH is not configured" {
-
-    export PRISM_BIN_PATH="a"
-    unset PRISM_DATA_PATH
-    export PRISM_INPUT_PATH="c"
-    export PRISM_OUPUT_PATH="d"
-    export PRISM_EXTRA_BIND_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
+    unset ROSLIN_BIN_PATH
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_OUPUT_PATH="d"
+    export ROSLIN_EXTRA_BIND_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
 
     run ${SING_SCRIPT}
 
@@ -61,29 +46,14 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if PRISM_INPUT_PATH is not configured" {
+@test "should abort if ROSLIN_DATA_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    unset PRISM_INPUT_PATH
-    export PRISM_OUPUT_PATH="d"
-    export PRISM_EXTRA_BIND_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
-
-    run ${SING_SCRIPT}
-
-    assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
-}
-
-@test "should abort if PRISM_OUPUT_PATH is not configured" {
-
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_INPUT_PATH="c"
-    unset PRISM_OUPUT_PATH
-    export PRISM_EXTRA_BIND_PATH="e"
-    export PRISM_SINGULARITY_PATH="f"
+    export ROSLIN_BIN_PATH="a"
+    unset ROSLIN_DATA_PATH
+    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_OUPUT_PATH="d"
+    export ROSLIN_EXTRA_BIND_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
 
     run ${SING_SCRIPT}
 
@@ -91,14 +61,14 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if PRISM_EXTRA_BIND_PATH is not configured" {
+@test "should abort if ROSLIN_INPUT_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_INPUT_PATH="c"
-    export PRISM_OUPUT_PATH="d"
-    unset PRISM_EXTRA_BIND_PATH
-    export PRISM_SINGULARITY_PATH="f"
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    unset ROSLIN_INPUT_PATH
+    export ROSLIN_OUPUT_PATH="d"
+    export ROSLIN_EXTRA_BIND_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
 
     run ${SING_SCRIPT}
 
@@ -106,14 +76,44 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if PRISM_SINGULARITY_PATH is not configured" {
+@test "should abort if ROSLIN_OUPUT_PATH is not configured" {
 
-    export PRISM_BIN_PATH="a"
-    export PRISM_DATA_PATH="b"
-    export PRISM_INPUT_PATH="c"
-    export PRISM_OUPUT_PATH="d"
-    export PRISM_EXTRA_BIND_PATH="e"
-    unset PRISM_SINGULARITY_PATH
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_INPUT_PATH="c"
+    unset ROSLIN_OUPUT_PATH
+    export ROSLIN_EXTRA_BIND_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
+
+    run ${SING_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if ROSLIN_EXTRA_BIND_PATH is not configured" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_OUPUT_PATH="d"
+    unset ROSLIN_EXTRA_BIND_PATH
+    export ROSLIN_SINGULARITY_PATH="f"
+
+    run ${SING_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if ROSLIN_SINGULARITY_PATH is not configured" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_OUPUT_PATH="d"
+    export ROSLIN_EXTRA_BIND_PATH="e"
+    unset ROSLIN_SINGULARITY_PATH
 
     run ${SING_SCRIPT}
 
@@ -123,10 +123,10 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should abort if the two required parameters are not supplied" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_INPUT_PATH, PRISM_OUTPUT_PATH, and PRISM_EXTRA_BIND_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     run ${SING_SCRIPT}
 
@@ -136,10 +136,10 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should run the tool image and display 'Hello, World!'" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_INPUT_PATH, PRISM_OUTPUT_PATH, and PRISM_EXTRA_BIND_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     run ${SING_SCRIPT} fake-tool 1.0.0 "Hello, World!"
 
@@ -152,11 +152,11 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should properly bind all the paths defined" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_INPUT_PATH, PRISM_OUTPUT_PATH, and PRISM_EXTRA_BIND_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
     source ./settings.sh
 
     # fake singularity so that it just echoed out the arguments received
-    export PRISM_SINGULARITY_PATH="echo"
+    export ROSLIN_SINGULARITY_PATH="echo"
 
     run ${SING_SCRIPT} fake-tool 1.0.0
 
@@ -165,19 +165,19 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     # because of the way fake-tool is built,
     # if it runs correctly, it will echo out the arguments received
     bind_extra=""
-    for extra_path in ${PRISM_EXTRA_BIND_PATH}
+    for extra_path in ${ROSLIN_EXTRA_BIND_PATH}
     do
         bind_extra="${bind_extra} --bind ${extra_path}:${extra_path}"
     done
-    assert_output "run --bind ${PRISM_BIN_PATH}:${PRISM_BIN_PATH} --bind ${PRISM_DATA_PATH}:${PRISM_DATA_PATH} --bind ${PRISM_INPUT_PATH}:${PRISM_INPUT_PATH} --bind ${PRISM_OUTPUT_PATH}:${PRISM_OUTPUT_PATH}${bind_extra} ${PWD}/mock/bin/tools/fake-tool/1.0.0/fake-tool.img"
+    assert_output "run --bind ${ROSLIN_BIN_PATH}:${ROSLIN_BIN_PATH} --bind ${ROSLIN_DATA_PATH}:${ROSLIN_DATA_PATH} --bind ${ROSLIN_INPUT_PATH}:${ROSLIN_INPUT_PATH} --bind ${ROSLIN_OUTPUT_PATH}:${ROSLIN_OUTPUT_PATH}${bind_extra} ${PWD}/mock/bin/tools/fake-tool/1.0.0/fake-tool.img"
 }
 
 @test "should call singularity with env -i" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_INPUT_PATH, PRISM_OUTPUT_PATH, and PRISM_EXTRA_BIND_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     export UNIT_TEST_DONT_PASS_THIS_ENV="Hello, World!"
 
@@ -196,10 +196,10 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should return metadata (labels) if -i (inspect) option is supplied" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_INPUT_PATH, PRISM_OUTPUT_PATH, and PRISM_EXTRA_BIND_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # fake-tool has metadata
     run ${SING_SCRIPT} -i fake-tool 1.0.0 "Hello, World!"
@@ -217,10 +217,10 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should return non-zero exit code if metadata is not found" {
 
-    # this will load PRISM_BIN_PATH, PRISM_DATA_PATH, PRISM_INPUT_PATH, PRISM_OUTPUT_PATH, and PRISM_EXTRA_BIND_PATH
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
     source ./settings.sh
 
-    export PRISM_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # env-tool does not have metadata
     run ${SING_SCRIPT} -i env-tool 1.0.0 "Hello, World!"

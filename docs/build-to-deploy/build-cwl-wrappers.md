@@ -83,9 +83,9 @@ What this does is that `gxargparse` will find this entry and call the Dockerized
 
 The `cmo_resources.json` file is used only during the CWL generation process. This file won't be used at runtime.
 
-## prism_resources.json
+## roslin_resources.json
 
-What's actually used at runtime is `/build/cwl-wrappers/prism_resources.json`. Make sure that this file has the correct key/value mapping, something like below under the tool name (e.g. `bcftools`).
+What's actually used at runtime is `/build/cwl-wrappers/roslin_resources.json`. Make sure that this file has the correct key/value mapping, something like below under the tool name (e.g. `bcftools`).
 
 ```
 "bcftools": {

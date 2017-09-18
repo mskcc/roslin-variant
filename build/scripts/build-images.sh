@@ -171,32 +171,32 @@ do
     # delete /tmp/labels.json
     rm -rf /tmp/labels.json
 
-    # modify prism_resources.json so that cmo in production can call sing.sh (singularity wrapper)
+    # modify roslin_resources.json so that cmo in production can call sing.sh (singularity wrapper)
     case ${tool_name} in
         pindel)
             # pindel needs special treament since pindel container has two executables "pindel" and "pindel2vcf"
-            python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json pindel ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel"
-            python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json pindel2vcf ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel2vcf"
+            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json pindel ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel"
+            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json pindel2vcf ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel2vcf"
             ;;
         vardict)
             # vardict needs special treament since vardict container has one R script and one Perl script to be exposed
-            python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vardict ${tool_version} "sing.sh ${tool_name} ${tool_version} vardict"
+            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json vardict ${tool_version} "sing.sh ${tool_name} ${tool_version} vardict"
 
             # an extra space needed at the end because cmo will append either "testsomatic.R" or "var2vcf_paired.pl"
             # and we need to make sure it's treated as an argument.
             # e.g. sing.sh vardict 1.4.6 testsomatic.R
-            python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vardict_bin ${tool_version} "sing.sh ${tool_name} ${tool_version} "
+            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json vardict_bin ${tool_version} "sing.sh ${tool_name} ${tool_version} "
             ;;
         vcf2maf)
             # an extra space needed at the end because cmo will append "vcf2maf.pl"
             # e.g. sing.sh vcf2maf 1.6.12 vcf2maf.pl
-            python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json vcf2maf ${tool_version} "sing.sh ${tool_name} ${tool_version} "
+            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json vcf2maf ${tool_version} "sing.sh ${tool_name} ${tool_version} "
             ;;
         roslin)
             # do nothing
             ;;
         *)
-            python ./update_resource_def.py -f ../cwl-wrappers/prism_resources.json ${tool_name} ${tool_version} "sing.sh ${tool_name} ${tool_version}"
+            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json ${tool_name} ${tool_version} "sing.sh ${tool_name} ${tool_version}"
             ;;
     esac
 
