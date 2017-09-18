@@ -59,7 +59,7 @@ inputs:
   maf:
     type: File
 
-    doc: MAF file on which to filllout
+    doc: MAF file on which to fillout
     inputBinding:
       prefix: --maf
 
@@ -83,9 +83,15 @@ inputs:
 
   output:
     type: ['null', string]
-    doc: Prefix for output file
+    doc: Filename for output
     inputBinding:
       prefix: --output
+
+  portal_output:
+    type: ['null', string]
+    doc: Filename for a portal-friendly output MAF
+    inputBinding:
+      prefix: --portal-output
 
   n_threads:
     type:
@@ -112,4 +118,14 @@ outputs:
             return inputs.output;
           else
             return inputs.maf.basename.replace(".maf", ".fillout");
+        }
+  portal_fillout:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.portal_maf)
+            return inputs.portal_maf;
+          else
+            return inputs.maf.basename.replace(".maf", ".fillout.portal.maf");
         }
