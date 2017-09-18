@@ -14,7 +14,7 @@ b2ee494edc78d23cc009dc36c0852909  ./cmo-abra/2.07/cmo-abra.cwl
 13de0600b09fbb34095c4518466a7e62  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 63cbecdc3663115b8135eb1683e3079c  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 fcb51ab23273a2ad820b59633fa7219b  ./cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
-de20c970b95334f4808124cdb531774b  ./cmo-fillout/1.2.1/cmo-fillout.cwl
+f4b46c7bf6c9a51311008a7636326e63  ./cmo-fillout/1.2.1/cmo-fillout.cwl
 fb3cb4f6eed6c1edefafe8ca883de5af  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 a0b8828d39f96bb01bde963756d5569b  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 1910607d4bed3287524bc3d7c6ab03f5  ./cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
