@@ -355,7 +355,7 @@ steps:
     in:
       bams: group_process/bams
       pairs: pairs
-      combine_vcf: variant_calling/combine_vcf            
+      combine_vcf: variant_calling/combine_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
@@ -368,8 +368,8 @@ steps:
   filter:
     run: module-4.cwl
     in:
-      bams: parse_pairs/srt_bams      
-      combine_vcf: parse_pairs/srt_combine_vcf      
+      bams: parse_pairs/srt_bams
+      combine_vcf: parse_pairs/srt_combine_vcf
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
