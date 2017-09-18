@@ -14,7 +14,7 @@ b2ee494edc78d23cc009dc36c0852909  ./cmo-abra/2.07/cmo-abra.cwl
 13de0600b09fbb34095c4518466a7e62  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
 63cbecdc3663115b8135eb1683e3079c  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 fcb51ab23273a2ad820b59633fa7219b  ./cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
-88d9f01b44d2215e144a6d2a5457fdbf  ./cmo-fillout/1.2.1/cmo-fillout.cwl
+f4b46c7bf6c9a51311008a7636326e63  ./cmo-fillout/1.2.1/cmo-fillout.cwl
 fb3cb4f6eed6c1edefafe8ca883de5af  ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
 a0b8828d39f96bb01bde963756d5569b  ./cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
 1910607d4bed3287524bc3d7c6ab03f5  ./cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
@@ -65,13 +65,13 @@ a74ef326d1cedd1316d3180944dcabce  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c85715dd3910a5ed8fc53cacc379fe42  ./module-2.cwl
 acb11f5c0a36c5ce2189614aa1a66aa5  ./module-3.cwl
-da66a727a67416f660a8550b017983c5  ./module-4.cwl
+3e3a07cea0133801682ab804ed6433a9  ./module-4.cwl
 df72da0ac40d945dc7c7f0ebb9bfcde2  ./module-5.cwl
 b9ddeca9b27904321a681901f83eb95c  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
 0ef64747989c871ee57742bb47955f06  ./parse-pairs-and-vcfs/2.0.0/parse-pairs-and-vcfs.cwl
 54e4a54b4bc62e4d7b324c06b1853cb5  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
-82ed35fee6b93c0520fb26b3b03e5b6a  ./project-workflow.cwl
+01a50135b82ea0281280aff43a23a745  ./project-workflow.cwl
 72d70fe94e734436742130b353fab23e  ./remove-variants/0.1.1/remove-variants.cwl
 5adfdd447fd84f704b4683cd3bda4bb6  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 d0cbf748965a18822c33dbe23ec880fa  ./replace-allele-counts/0.1.1/replace-allele-counts.cwl
