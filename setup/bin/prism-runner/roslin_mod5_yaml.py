@@ -53,6 +53,7 @@ if __name__ == "__main__":
     parser.add_argument("-t", "--targets", choices=cmo.util.targets.keys(), help="use an installed bait/target combo")
     parser.add_argument("-rt", "--raw-targets-file", help="use a properly formatted picard intervals target file of your own. Warning, must end in .intervals for some versions of picard.")
     parser.add_argument("-rb", "--raw-baits-file", help="use a properly formatted picard intervals bait file of your own. Warning, must end in .intervals for some versions of picard.")
+    parser.add_argument("--execute", help="execute command, and cleanup tempdir. if not specified, prints command for you to execute instead", action="store_true")
     #FIXME someday this needs to select genome string as well
     args = parser.parse_args()
     if args.targets and args.raw_targets_file:
@@ -107,7 +108,13 @@ if __name__ == "__main__":
     yaml.dump(out, final_file, default_flow_style=True)
     final_file.close()
     cmd = ["roslin_submit.py", "--id", out['project_prefix'], '--path', tempdir, '--workflow', 'module-5.cwl']
-    print " ".join(cmd)
+    if args.execute:
+        logger.info("Executing %s" % " ".join(cmd))
+        subprocess.call(cmd)
+        logger.info("Cleaning up temp...")
+        shutil.rmtree(tempdir)
+    logger.info("All Done.")
+
 
 
 
