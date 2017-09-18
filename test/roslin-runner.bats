@@ -5,7 +5,7 @@ load 'helpers/bats-assert/load'
 load 'helpers/bats-file/load'
 load 'helpers/stub/load'
 
-ROSLIN_RUNNER_SCRIPT="/vagrant/setup/bin/prism-runner/prism-runner.sh"
+ROSLIN_RUNNER_SCRIPT="/vagrant/core/bin/roslin-runner.sh"
 
 setup() {
   TEST_TEMP_DIR="$(temp_make)"
@@ -19,24 +19,24 @@ teardown() {
 # the second line would look like beow
 # job uuid followed by a colon (:), then job store uuid
 #
-# ---> PRISM JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece:e5c42a10-34b7-11e7-9db3-645106efb11c"
+# ---> ROSLIN JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece:e5c42a10-34b7-11e7-9db3-645106efb11c"
 #
 get_job_uuid() {
     line=$(echo "$1" | sed -n "2p")
-    echo $(echo $line | cut -c23-58)
+    echo $(echo $line | cut -c24-59)
 }
 
 get_job_store_uuid() {
     line=$(echo "$1" | sed -n "2p")
-    echo $(echo $line | cut -c60-)
+    echo $(echo $line | cut -c61-)
 }
 
-# the third line would have all the arguments supplied to prism-runner
+# the fourth line would have all the arguments supplied to roslin-runner
 get_args_line() {
-    echo $(echo "$1" | sed -n "3p")
+    echo $(echo "$1" | sed -n "4p")
 }
 
-@test "should have prism-runner.sh" {
+@test "should have roslin-runner.sh" {
 
     assert_file_exist ${ROSLIN_RUNNER_SCRIPT}
 }
@@ -49,6 +49,8 @@ get_args_line() {
     unset ROSLIN_INPUT_PATH
     unset ROSLIN_OUTPUT_PATH
     unset ROSLIN_SINGULARITY_PATH
+    unset ROSLIN_CMO_VERSION
+    unset ROSLIN_CMO_PYTHON_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -64,6 +66,8 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="d"
     export ROSLIN_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -79,6 +83,8 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="d"
     export ROSLIN_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -94,6 +100,8 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="d"
     export ROSLIN_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -109,6 +117,8 @@ get_args_line() {
     unset ROSLIN_INPUT_PATH
     export ROSLIN_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -125,6 +135,8 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="e"
     unset ROSLIN_OUTPUT_PATH
     export ROSLIN_SINGULARITY_PATH="f"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -140,6 +152,42 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="d"
     export ROSLIN_OUTPUT_PATH="e"
     unset ROSLIN_SINGULARITY_PATH
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if ROSLIN_CMO_VERSION is not configured" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
+    unset ROSLIN_CMO_VERSION
+    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the necessary paths are not correctly configured!'
+}
+
+@test "should abort if ROSLIN_CMO_PYTHON_PATH is not configured" {
+
+    export ROSLIN_BIN_PATH="a"
+    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_EXTRA_BIND_PATH="c"
+    export ROSLIN_INPUT_PATH="d"
+    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_SINGULARITY_PATH="f"
+    export ROSLIN_CMO_VERSION="g"
+    unset ROSLIN_CMO_PYTHON_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -155,11 +203,27 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="d"
     export ROSLIN_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="/usr/no-bin/singularity"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
     assert_line 'Unable to find Singularity.'
+}
+
+@test "should abort if unable to find python package at ROSLIN_CMO_PYTHON_PATH" {
+
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
+    source ./settings.sh
+
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_CMO_PYTHON_PATH="/doesnt/exist/directory"
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line "Can't find python package at ${ROSLIN_CMO_PYTHON_PATH}"
 }
 
 # fixme: this is so MSKCC specific
@@ -171,6 +235,8 @@ get_args_line() {
     export ROSLIN_INPUT_PATH="d"
     export ROSLIN_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="/usr/no-bin/singularity"
+    export ROSLIN_CMO_VERSION="g"
+    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     # stub the 'hostname' command to return 'luna'
     stub hostname 'echo "luna"'
@@ -285,7 +351,7 @@ get_args_line() {
     mkdir -p ${different_output_dir}
     echo "test" > ${different_output_dir}/hello.txt
 
-    # call prism runner with -o
+    # call roslin-runner with -o
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
 
     assert_failure
@@ -316,11 +382,11 @@ get_args_line() {
 
     # the line 0 and line 2 would have something like this:
     #
-    # PRISM JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece
+    # ROSLIN JOB UUID = 11af6ef4-1682-11e7-8e2c-02e45b1a6ece
     #
     # note that bats doesn't count empty lines
     assert_line --index 0 --regexp 'JOB UUID = [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'
-    assert_line --index 2 --regexp 'JOB UUID = [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'
+    assert_line --index 3 --regexp 'JOB UUID = [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}'
 
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
@@ -365,10 +431,10 @@ get_args_line() {
     # example argument line:
     #
     # /vagrant/test/mock/bin/pipeline/1.0.0/abc.cwl
-    # /tmp/prism-runner.bats-12-7uktFHNZ4w/test.yaml
+    # /tmp/roslin-runner.bats-12-7uktFHNZ4w/test.yaml
     # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
     # --defaultDisk 10G
-    # --preserve-environment PATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMSOURCE_CONFIG
+    # --preserve-environment PATH PYTHONPATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMSOURCE_CONFIG
     # --no-container
     # --not-strcit
     # --disableCaching
@@ -391,34 +457,34 @@ get_args_line() {
     assert_equal "${args[1]}" "${input_filename}"
 
     # check --jobStore
-    assert_line --index 1 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 2 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --preserve-environment
-    assert_line --index 1 --partial "--preserve-environment PATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH"
+    assert_line --index 2 --partial "--preserve-environment PATH PYTHONPATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH"
 
     # check --no-container
-    assert_line --index 1 --partial "--no-container"
+    assert_line --index 2 --partial "--no-container"
 
     # check --disableCaching
-    assert_line --index 1 --partial "--disableCaching"
+    assert_line --index 2 --partial "--disableCaching"
 
     # check --maxLogFileSize
-    assert_line --index 1 --partial "--maxLogFileSize 0"
+    assert_line --index 2 --partial "--maxLogFileSize 0"
 
     # check --realTimeLogging
-    assert_line --index 1 --partial "--realTimeLogging"
+    assert_line --index 2 --partial "--realTimeLogging"
 
     # check --realTimeLogging
-    assert_line --index 1 --partial "--realTimeLogging"
+    assert_line --index 2 --partial "--realTimeLogging"
 
     # check --workDir
-    assert_line --index 1 --partial "--workDir ${ROSLIN_BIN_PATH}/tmp"
+    assert_line --index 2 --partial "--workDir ${ROSLIN_BIN_PATH}/tmp"
 
     # by default, debug-related parameters should not be added
-    refute_line --index 1 --partial "--logDebug --cleanWorkDir never"
+    refute_line --index 2 --partial "--logDebug --cleanWorkDir never"
 
     # check --not-strcit
-    assert_line --index 1 --partial "--not-strict"
+    assert_line --index 2 --partial "--not-strict"
 
     unstubs
 }
@@ -437,13 +503,13 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
-    # call prism-runner with -b lsf -d
+    # call roslin-runner with -b lsf -d
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf -d
 
     assert_success
 
     # check lsf-related
-    assert_line --index 1 --partial "--logDebug --cleanWorkDir never"
+    assert_line --index 2 --partial "--logDebug --cleanWorkDir never"
 
     unstubs
 }
@@ -462,13 +528,13 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
-    # call prism-runner with -b lsf
+    # call roslin-runner with -b lsf
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_success
 
     # check lsf-related
-    assert_line --index 1 --partial "--batchSystem lsf --stats"
+    assert_line --index 2 --partial "--batchSystem lsf --stats"
 
     unstubs
 }
@@ -487,13 +553,13 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
-    # call prism-runner with -b singleMachine
+    # call roslin-runner with -b singleMachine
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
 
     # check lsf-related
-    assert_line --index 1 --partial "--batchSystem singleMachine"
+    assert_line --index 2 --partial "--batchSystem singleMachine"
 
     unstubs
 }
@@ -516,7 +582,7 @@ get_args_line() {
     rm -rf ./outputs
     rm -rf ./outputs/log
 
-    # call prism runner without -o
+    # call roslin-runner without -o
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
     assert_success
@@ -529,18 +595,18 @@ get_args_line() {
     assert_file_exist ./outputs/job-uuid
 
     # check --writeLogs
-    assert_line --index 1 --partial "--writeLogs /vagrant/test/outputs/log"
+    assert_line --index 2 --partial "--writeLogs /vagrant/test/outputs/log"
 
     # check --logFile
-    assert_line --index 1 --partial "--logFile /vagrant/test/outputs/log/cwltoil.log"
+    assert_line --index 2 --partial "--logFile /vagrant/test/outputs/log/cwltoil.log"
 
     # check --outdir
-    assert_line --index 1 --partial "--outdir /vagrant/test/outputs"
+    assert_line --index 2 --partial "--outdir /vagrant/test/outputs"
 
     # setup different output directory
     different_output_dir="${TEST_TEMP_DIR}/diff"
 
-    # call prism runner with -o
+    # call roslin-runner with -o
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine -o ${different_output_dir}
 
     assert_success
@@ -553,13 +619,13 @@ get_args_line() {
     assert_file_exist ${different_output_dir}/job-uuid
 
     # check --outdir
-    assert_line --index 1 --partial "--outdir ${different_output_dir}"
+    assert_line --index 2 --partial "--outdir ${different_output_dir}"
 
     # check --writeLogs
-    assert_line --index 1 --partial "--writeLogs ${different_output_dir}/log"
+    assert_line --index 2 --partial "--writeLogs ${different_output_dir}/log"
 
     # check --logFile
-    assert_line --index 1 --partial "--logFile ${different_output_dir}/log/cwltoil.log"
+    assert_line --index 2 --partial "--logFile ${different_output_dir}/log/cwltoil.log"
 
     # tear down
     rm -rf ${different_output_dir}
@@ -584,7 +650,7 @@ get_args_line() {
     pipeline_version='2.0.1'
     workflow_filename='abc.cwl'
 
-    # call prism-runner with -v
+    # call roslin-runner with -v
     run ${ROSLIN_RUNNER_SCRIPT} -v ${pipeline_version} -w ${workflow_filename} -i ${input_filename} -b lsf
 
     assert_success
@@ -618,7 +684,7 @@ get_args_line() {
 
     assert_success
 
-    assert_line --index 1 "${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}/roslin_resources.json"
+    assert_line --index 2 "${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}/roslin_resources.json"
 
     assert_equal `printenv CMO_RESOURCE_CONFIG` ''
 }
@@ -638,7 +704,7 @@ get_args_line() {
 
     job_store_uuid='some-uuid'
 
-    # call prism-runner with -r
+    # call roslin-runner with -r
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r ${job_store_uuid}
 
     assert_success
@@ -648,13 +714,13 @@ get_args_line() {
 
     # check uuid at the beginning and the end of the output
     assert_line --index 0 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
-    assert_line --index 2 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
+    assert_line --index 3 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
 
     # check --jobStore
-    assert_line --index 1 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 2 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --restart
-    assert_line --index 1 --partial "--restart"
+    assert_line --index 2 --partial "--restart"
 
     # check the content of job_uuid file
     assert_equal "${job_store_uuid}" `cat ./outputs/job-store-uuid`
@@ -683,9 +749,53 @@ get_args_line() {
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
 
-    assert_line --index 1 "default:${job_uuid}"
+    assert_line --index 2 "default:${job_uuid}"
 
     assert_equal `printenv TOIL_LSF_PROJECT` ''
+}
+
+@test "should set PATH correctly before run" {
+
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
+    source ./settings.sh
+
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to print the value of PYTHONPATH
+    stub cwltoil 'printenv PATH'
+
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+
+    assert_success
+
+    assert_line --index 2 --partial "/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin"
+}
+
+@test "should set PYTHONPATH correctly before run" {
+
+    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
+    source ./settings.sh
+
+    export ROSLIN_SINGULARITY_PATH=`which singularity`
+    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
+
+    # create fake input file
+    input_filename="${TEST_TEMP_DIR}/test.yaml"
+    echo "test input" > ${input_filename}
+
+    # stub cwltoil to print the value of PYTHONPATH
+    stub cwltoil 'printenv PYTHONPATH'
+
+    run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
+
+    assert_success
+
+    assert_line --index 2 "${ROSLIN_CMO_PYTHON_PATH}"
 }
 
 @test "should correctly handle -p (CMO project ID) parameter" {
@@ -709,7 +819,7 @@ get_args_line() {
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
 
-    assert_line --index 1 "Proj_5678_F_2:${job_uuid}"
+    assert_line --index 2 "Proj_5678_F_2:${job_uuid}"
 }
 
 @test "should correctly handle -j (job UUID) parameter" {
@@ -740,7 +850,7 @@ get_args_line() {
 
     assert_equal "${pre_generated_job_uuid}" "${job_uuid}"
 
-    assert_line --index 1 "Proj_5000_B:${pre_generated_job_uuid}"
+    assert_line --index 2 "Proj_5000_B:${pre_generated_job_uuid}"
 }
 
 @test "should exit with the correct exit code 0" {
@@ -757,7 +867,7 @@ get_args_line() {
     # stub cwltoil to exit with code 0
     stub cwltoil 'exit 0'
 
-    # call prism-runner
+    # call roslin-runner
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_success
@@ -779,7 +889,7 @@ get_args_line() {
     # stub cwltoil to exit with code 1
     stub cwltoil 'exit 1'
 
-    # call prism-runner
+    # call roslin-runner
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
     assert_failure

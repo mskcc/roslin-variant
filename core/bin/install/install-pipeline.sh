@@ -44,12 +44,12 @@ install_temp_path=`mktemp -d`
 cp ${pipeline_package_path} ${install_temp_path}
 tar xvzf ${pipeline_package_path} -C ${install_temp_path}
 
+# load Roslin pipeline specific settings.sh
+source ${install_temp_path}/setup/scripts/settings.sh
+
 # copy pipeline-specific settings to Roslin Core condif directory
 mkdir -p ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_VERSION}
 cp ${install_temp_path}/setup/scripts/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_VERSION}
-
-# load Roslin pipeline specific settings.sh
-source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_VERSION}/settings.sh
 
 echo "${ROSLIN_PIPELINE_NAME} v${ROSLIN_VERSION}"
 
@@ -142,7 +142,7 @@ done
 cd ${ROSLIN_BIN_PATH}/img
 md5sum -c checksum.dat
 
-cd ${ROSLIN_BIN_PATH}/cwl/1.0.0
+cd ${ROSLIN_BIN_PATH}/cwl
 md5sum -c checksum.dat
 
 # clean up

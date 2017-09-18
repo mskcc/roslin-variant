@@ -1,8 +1,9 @@
 #!/bin/bash
 
-if [ -z $ROSLIN_BIN_PATH ] || [ -z $ROSLIN_DATA_PATH ] || \
-   [ -z $ROSLIN_INPUT_PATH ] || [ -z $ROSLIN_OUTPUT_PATH ] || \
-   [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z $ROSLIN_SINGULARITY_PATH ]
+if [ -z "$ROSLIN_BIN_PATH" ] || [ -z "$ROSLIN_DATA_PATH" ] || \
+   [ -z "$ROSLIN_INPUT_PATH" ] || [ -z "$ROSLIN_OUTPUT_PATH" ] || \
+   [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z "$ROSLIN_SINGULARITY_PATH" ] || \
+   [ -z "$ROSLIN_CMO_VERSION" ] || [ -z "$ROSLIN_CMO_PYTHON_PATH" ]
 then
     echo "Some of the necessary paths are not correctly configured!"
     echo "ROSLIN_BIN_PATH=${ROSLIN_BIN_PATH}"
@@ -11,6 +12,8 @@ then
     echo "ROSLIN_INPUT_PATH=${ROSLIN_INPUT_PATH}"
     echo "ROSLIN_OUTPUT_PATH=${ROSLIN_OUTPUT_PATH}"
     echo "ROSLIN_SINGULARITY_PATH=${ROSLIN_SINGULARITY_PATH}"
+    echo "ROSLIN_CMO_VERSION=${ROSLIN_CMO_VERSION}"
+    echo "ROSLIN_CMO_PYTHON_PATH=${ROSLIN_CMO_PYTHON_PATH}"
     exit 1
 fi
 
@@ -91,6 +94,12 @@ do
         *) usage; exit 1 ;;
     esac
 done
+
+if [ ! -d "$ROSLIN_CMO_PYTHON_PATH" ]
+then
+    echo "Can't find python package at $ROSLIN_CMO_PYTHON_PATH"
+    exit 1
+fi
 
 if [ -z $WORKFLOW_FILENAME ] || [ -z $INPUT_FILENAME ]
 then
@@ -184,24 +193,17 @@ echo "${job_store_uuid}" > ${OUTPUT_DIRECTORY}/job-store-uuid
 jobstore_path="${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
 # job uuid followed by a colon (:) and then job store uuid
-printf "\n---> PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n"
-#set cmo package version based on env variable
-#FIXME installation script needs improving, default might be more than this 1.6.7 hardcode
-if [ -z "$ROSLIN_CMO_VERSION" ]; then
-    export ROSLIN_CMO_VERSION="1.6.7"
-fi
+printf "\n---> ROSLIN JOB UUID = ${job_uuid}:${job_store_uuid}\n"
+
 echo "Using ${ROSLIN_CMO_VERSION} CMO package version"
-export EXPECTED_PYTHONPATH="/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/lib/python2.7/site-packages/"
-if [ ! -d "$EXPECTED_PYTHONPATH" ]; then
-    echo "Can't find python package at $EXPECTED_PYTHONPATH"
-    exit 1
-else
-    echo "Package found at $EXPECTED_PYTHONPATH"
-fi
-export PYTHONPATH=$EXPECTED_PYTHONPATH
-#assume if the python path is there, this will also be there
+
+# set PYTHONPATH
+export PYTHONPATH="${ROSLIN_CMO_PYTHON_PATH}"
+
+# assume if the python path is there, this will also be there
 export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:$PATH
-#run cwltoil
+
+# run cwltoil
 set -o pipefail
 cwltoil \
     ${ROSLIN_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
@@ -209,7 +211,7 @@ cwltoil \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --defaultMem 12G \
-    --preserve-environment PYTHONPATH PATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
+    --preserve-environment PATH PYTHONPATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
     --disableCaching \
@@ -228,6 +230,6 @@ unset CMO_RESOURCE_CONFIG
 # revert TOIL_LSF_PROJECT
 unset TOIL_LSF_PROJECT
 
-printf "\n<--- PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n\n"
+printf "\n<--- ROSLIN JOB UUID = ${job_uuid}:${job_store_uuid}\n\n"
 
 exit ${exit_code}
