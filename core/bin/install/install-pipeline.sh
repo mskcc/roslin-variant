@@ -89,10 +89,10 @@ chmod 777 ${ROSLIN_OUTPUT_PATH}
 #<--
 
 # copy container images
-cp -R ${install_temp_path}/setup/tools/* ${ROSLIN_BIN_PATH}/img/
+cp -R ${install_temp_path}/setup/img/* ${ROSLIN_BIN_PATH}/img/
 
 # copy cwl wrappers
-cp -R ${install_temp_path}/setup/cwl-wrappers/* ${ROSLIN_BIN_PATH}/cwl/
+cp -R ${install_temp_path}/setup/cwl/* ${ROSLIN_BIN_PATH}/cwl/
 
 # use pre-fetched local schemas instead of going over the Internet to fetch
 for file in `find ${ROSLIN_BIN_PATH}/cwl -name "*.cwl"`
