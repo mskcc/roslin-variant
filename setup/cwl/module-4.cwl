@@ -35,7 +35,7 @@ dct:contributor:
     foaf:mbox: mailto:chunj@mskcc.org
   - class: foaf:Person
     foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org    
+    foaf:mbox: mailto:kumarn1@mskcc.org
 
 cwlVersion: v1.0
 
@@ -93,6 +93,9 @@ outputs:
     maf:
         type: File
         outputSource: ngs_filters/output
+    portal_fillout:
+        type: File
+        outputSource: fillout_tumor_normal/portal_fillout
 
 steps:
 
@@ -130,7 +133,7 @@ steps:
             genome: genome
             output_format:
                 default: "1"
-        out: [fillout]
+        out: [fillout, portal_fillout]
 
     replace_allele_counts:
         run: replace-allele-counts/0.2.0/replace-allele-counts.cwl

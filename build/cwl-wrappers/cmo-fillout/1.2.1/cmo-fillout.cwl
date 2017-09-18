@@ -109,6 +109,7 @@ inputs:
       prefix: --format
 
 outputs:
+
   fillout:
     type: File
     outputBinding:
@@ -118,4 +119,15 @@ outputs:
             return inputs.output;
           else
             return inputs.maf.basename.replace(".maf", ".fillout");
+        }
+
+  portal_fillout:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.portal_output)
+            return inputs.portal_output;
+          else
+            return inputs.maf.basename.replace(".maf", ".fillout.portal.maf");
         }

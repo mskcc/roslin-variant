@@ -65,13 +65,13 @@ a74ef326d1cedd1316d3180944dcabce  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c85715dd3910a5ed8fc53cacc379fe42  ./module-2.cwl
 acb11f5c0a36c5ce2189614aa1a66aa5  ./module-3.cwl
-da66a727a67416f660a8550b017983c5  ./module-4.cwl
+3e3a07cea0133801682ab804ed6433a9  ./module-4.cwl
 df72da0ac40d945dc7c7f0ebb9bfcde2  ./module-5.cwl
 b9ddeca9b27904321a681901f83eb95c  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
 0ef64747989c871ee57742bb47955f06  ./parse-pairs-and-vcfs/2.0.0/parse-pairs-and-vcfs.cwl
 54e4a54b4bc62e4d7b324c06b1853cb5  ./parse-project-yaml-input/1.0.0/parse-project-yaml-input.cwl
-82ed35fee6b93c0520fb26b3b03e5b6a  ./project-workflow.cwl
+01a50135b82ea0281280aff43a23a745  ./project-workflow.cwl
 72d70fe94e734436742130b353fab23e  ./remove-variants/0.1.1/remove-variants.cwl
 5adfdd447fd84f704b4683cd3bda4bb6  ./replace-allele-counts/0.1.0/replace-allele-counts.cwl
 d0cbf748965a18822c33dbe23ec880fa  ./replace-allele-counts/0.1.1/replace-allele-counts.cwl
