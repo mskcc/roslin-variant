@@ -56,7 +56,7 @@ params = parser.parse_args()
 logging_stdout = logging.getLogger().handlers[0]
 
 logger = logging.getLogger("roslin_copy_outputs")
-#Set stream level logging    
+# Set stream level logging
 log_stream_handler = logging.StreamHandler(sys.stdout)
 log_stream_handler.setLevel(logging.INFO)
 log_stream_formatter = logging.Formatter('[%(message_type)s] - %(message)s')
@@ -64,21 +64,22 @@ log_stream_handler.setFormatter(log_stream_formatter)
 logger.addHandler(log_stream_handler)
 logging.getLogger().removeHandler(logging_stdout)
 
-#Set file level logging
+# Set file level logging
 try:
     log_file_handler = logging.FileHandler('roslin_copy_outputs.log')
 except IOError as permission_err:
-    logger.info("Need permissions to write the log file here:",extra={"message_type":"Permission Error"})
+    logger.info("Need permissions to write the log file here:", extra={"message_type": "Permission Error"})
     exc_type, exc_value, exc_tb = sys.exc_info()
-    exception_as_string = traceback.format_exception(exc_type,exc_value,exc_tb)
-    logger.info("\n"+"".join(exception_as_string),extra={'message_type':"Raw Error"}) 
-    sys.exit()   
+    exception_as_string = traceback.format_exception(exc_type, exc_value, exc_tb)
+    logger.info("\n" + "".join(exception_as_string), extra={'message_type': "Raw Error"})
+    sys.exit()
 
 
-log_file_handler.setLevel(logging.INFO)    
-log_file_formatter = logging.Formatter('[%(message_type)s] - %(message)s')    
-log_file_handler.setFormatter(log_file_formatter)    
+log_file_handler.setLevel(logging.INFO)
+log_file_formatter = logging.Formatter('[%(message_type)s] - %(message)s')
+log_file_handler.setFormatter(log_file_formatter)
 logger.addHandler(log_file_handler)
+
 
 def bjobs(lsf_job_id_list):
     "execute bjobs to get status of each job"
@@ -105,7 +106,7 @@ def wait_until_done(lsf_job_id_list):
         if results.rstrip() == "DONE":
             return 0
         elif "EXIT" in results:
-            logger.info("Check roslin_copy_outputs_stderr.log",extra={'message_type':"Error"})
+            logger.info("Check roslin_copy_outputs_stderr.log", extra={'message_type': "Error"})
             return 1
 
         time.sleep(10)
@@ -201,7 +202,7 @@ def create_parallel_cp_commands(file_list, dst_dir, num_of_parallels_per_host):
         # create a temp file to store file names
         with tempfile.NamedTemporaryFile(delete=False) as file_temp:
             for filename in group:
-                file_temp.write(filename + "\n")            
+                file_temp.write(filename + "\n")
 
             cmd = 'parallel -a ' + file_temp.name + ' -j+' + str(num_of_parallels_per_host) + ' cp {} ' + dst_dir
             cmds.append(cmd)
@@ -304,7 +305,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         }
     }
 
-    logger.info("{}:{}:BEGIN".format(cmo_project_id, job_uuid),extra={'message_type':"INFO"})
+    logger.info("{}:{}:BEGIN".format(cmo_project_id, job_uuid), extra={'message_type': "INFO"})
 
     # copy project request file to rootdir level
     shutil.copyfile(
@@ -326,7 +327,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
 
         cmds = create_parallel_cp_commands(file_list, dst_dir, data[file_type]["parallels"])
 
-        logger.info("{}:{} ({} jobs in parallel)".format(cmo_project_id, job_uuid, len(cmds)),extra={'message_type':"INFO for {}".format(file_type)})
+        logger.info("{}:{} ({} jobs in parallel)".format(cmo_project_id, job_uuid, len(cmds)), extra={'message_type': "INFO for {}".format(file_type)})
 
         for num, cmd in enumerate(cmds):
 
@@ -338,32 +339,32 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 toil_work_dir,
                 "roslin_copy_outputs_{}_{}_{}".format(file_type, num + 1, len(cmds)),
                 data[file_type]["parallels"]
-            )            
+            )
 
-            logger.info("{}:{}:{} - {}".format(cmo_project_id, job_uuid, lsf_job_id, cmd),extra={'message_type':"Command"})
+            logger.info("{}:{}:{} - {}".format(cmo_project_id, job_uuid, lsf_job_id, cmd), extra={'message_type': "Command"})
 
             # add LSF job id to list object
             lsf_job_id_list.append(lsf_job_id)
 
-    logger.info("{}:{}:WAIT_TILL_FINISH".format(cmo_project_id, job_uuid),extra={'message_type':"INFO"})
+    logger.info("{}:{}:WAIT_TILL_FINISH".format(cmo_project_id, job_uuid), extra={'message_type': "INFO"})
 
     # wait until all issued LSB jobs are finished
     exitcode = wait_until_done(lsf_job_id_list)
 
     if exitcode == 0:
-        logger.info("{}:{}:DONE".format(cmo_project_id, job_uuid),extra={'message_type':"INFO"})
+        logger.info("{}:{}:DONE".format(cmo_project_id, job_uuid), extra={'message_type': "INFO"})
     else:
-        logger.info("{}:{}:FAILED".format(cmo_project_id, job_uuid),extra={'message_type':"INFO"})
+        logger.info("{}:{}:FAILED".format(cmo_project_id, job_uuid), extra={'message_type': "INFO"})
 
 
 def main():
-    "main function"       
+    "main function"
 
-    if not os.access(params.toil_work_dir,os.R_OK):
-        logger.info("Need permission to read from {}".format(params.toil_work_dir),extra={'message_type':"Permission Error"})
+    if not os.access(params.toil_work_dir, os.R_OK):
+        logger.info("Need permission to read from {}".format(params.toil_work_dir), extra={'message_type': "Permission Error"})
 
-    if not os.access(params.user_out_base_dir,os.W_OK):
-        logger.info("Need permission to write to {}".format(params.user_out_base_dir),extra={'message_type':"Permission Error"})
+    if not os.access(params.user_out_base_dir, os.W_OK):
+        logger.info("Need permission to write to {}".format(params.user_out_base_dir), extra={'message_type': "Permission Error"})
 
     try:
 
@@ -378,15 +379,13 @@ def main():
             copy_ops = params.force_overwrite
 
         if copy_ops:
-            copy_outputs(params.cmo_project_id,params.job_uuid,params.toil_work_dir,user_out_dir)
-
+            copy_outputs(params.cmo_project_id, params.job_uuid, params.toil_work_dir, user_out_dir)
 
     except Exception as e:
-        logger.info("Error in copying files",extra={'message_type':"Error"})        
+        logger.info("Error in copying files", extra={'message_type': "Error"})
         exc_type, exc_value, exc_tb = sys.exc_info()
-        exception_as_string = traceback.format_exception(exc_type,exc_value,exc_tb)
-        logger.info("\n"+"".join(exception_as_string),extra={'message_type':"Raw Error"})
-
+        exception_as_string = traceback.format_exception(exc_type, exc_value, exc_tb)
+        logger.info("\n" + "".join(exception_as_string), extra={'message_type': "Raw Error"})
 
 
 if __name__ == "__main__":
