@@ -8,7 +8,6 @@ $schemas:
   - http://xmlns.com/foaf/spec/20140114.rdf
   - http://usefulinc.com/ns/doap#
 
-
 doap:release:
 - class: doap:Version
   doap:name: basic-filtering.somaticIndelDetector

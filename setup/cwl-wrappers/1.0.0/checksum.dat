@@ -1,11 +1,15 @@
 58d99e4ef1b382c4887aa69d9aeec654  ./basic-filtering.mutect/0.1.6/basic-filtering.mutect.cwl
 e7fa4d833b8c6031c1df4e169c8bff1d  ./basic-filtering.mutect/0.1.7/basic-filtering.mutect.cwl
+71a93484b8c2eda2f29b2b17c3f875a0  ./basic-filtering.mutect/0.1.8/basic-filtering.mutect.cwl
 52732617099734b8707bdfddc7b7d093  ./basic-filtering.pindel/0.1.6/basic-filtering.pindel.cwl
 6eb88ac9ae8925050f32591a804041bb  ./basic-filtering.pindel/0.1.7/basic-filtering.pindel.cwl
+c9860e0b21c1412f371f9545f4b20257  ./basic-filtering.pindel/0.1.8/basic-filtering.pindel.cwl
 de27ca34e650baec738fcb02d0b5d3b7  ./basic-filtering.somaticIndelDetector/0.1.6/basic-filtering.somaticIndelDetector.cwl
-3967f95b8864911d585cf34543c6a595  ./basic-filtering.somaticIndelDetector/0.1.7/basic-filtering.somaticIndelDetector.cwl
+a5ef34c4c917758b9c711092f3ab0c49  ./basic-filtering.somaticIndelDetector/0.1.7/basic-filtering.somaticIndelDetector.cwl
+831e5872038c424961e40b9e1327aca9  ./basic-filtering.somaticIndelDetector/0.1.8/basic-filtering.somaticIndelDetector.cwl
 28f981bf6ef481ad1a4d8a34e923da0d  ./basic-filtering.vardict/0.1.6/basic-filtering.vardict.cwl
 26cc2a6b285271da10f022c6d904cf2a  ./basic-filtering.vardict/0.1.7/basic-filtering.vardict.cwl
+7ed3e461cbfd721789ab949f57a847ec  ./basic-filtering.vardict/0.1.8/basic-filtering.vardict.cwl
 807fe456388c9aecd167e4b057f1b9c8  ./cmo-abra/0.92/cmo-abra.cwl
 e9c0424908b38ce098ccaa7075a46ac9  ./cmo-abra/2.07/cmo-abra.cwl
 25d150363952ed9b7f82cd1d8c67db86  ./cmo-abra/2.08/cmo-abra.cwl
@@ -64,7 +68,7 @@ ecee8522746fbefeb418791bdb8c574d  ./module-1.cwl
 a74ef326d1cedd1316d3180944dcabce  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c85715dd3910a5ed8fc53cacc379fe42  ./module-2.cwl
-acb11f5c0a36c5ce2189614aa1a66aa5  ./module-3.cwl
+6651b3c0b8268ad11c0edc457dc0c025  ./module-3.cwl
 b32d80087c6b7b5ffe06b80bb5f3700a  ./module-4.cwl
 df72da0ac40d945dc7c7f0ebb9bfcde2  ./module-5.cwl
 b9ddeca9b27904321a681901f83eb95c  ./ngs-filters/1.1.4/ngs-filters.cwl
