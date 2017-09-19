@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: basic-filtering.somaticIndelDetector
-  doap:revision: 0.1.7
+  doap:revision: 0.1.8
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -47,7 +47,7 @@ class: CommandLineTool
 baseCommand:
 - sing.sh
 - basic-filtering
-- 0.1.7
+- 0.1.8
 - sid
 
 requirements:

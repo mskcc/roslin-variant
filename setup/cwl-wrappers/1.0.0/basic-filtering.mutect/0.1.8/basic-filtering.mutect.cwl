@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: basic-filtering.somaticIndelDetector
-  doap:revision: 0.1.7
+  doap:name: basic-filtering.mutect
+  doap:revision: 0.1.8
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -38,8 +38,8 @@ dct:contributor:
     foaf:mbox: mailto:chunj@mskcc.org
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ filter_sid.py --generate_cwl_tool
-# Help: $ filter_sid.py --help_arg2cwl
+# To generate again: $ filter_mutect.py --generate_cwl_tool
+# Help: $ filter_mutect.py --help_arg2cwl
 
 cwlVersion: cwl:v1.0
 
@@ -47,8 +47,8 @@ class: CommandLineTool
 baseCommand:
 - sing.sh
 - basic-filtering
-- 0.1.7
-- sid
+- 0.1.8
+- mutect
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -58,7 +58,7 @@ requirements:
 
 
 doc: |
-  Filter indels from the output of SomaticIndelDetector in GATK v2.3-9
+  Filter snps from the output of muTect v1.14
 
 inputs:
   verbose:
@@ -73,7 +73,7 @@ inputs:
 
     - string
     - File
-    doc: Input SomaticIndelDetector vcf file which needs to be filtered
+    doc: Input vcf muTect file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
 
@@ -82,7 +82,7 @@ inputs:
 
     - string
     - File
-    doc: Input SomaticIndelDetector txt file which needs to be filtered
+    doc: Input txt muTect file which needs to be filtered
     inputBinding:
       prefix: --inputTxt
 
