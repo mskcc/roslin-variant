@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# if [ -z "$ROSLIN_CORE_VERSION" ] || [ -z "$ROSLIN_CORE_ROOT" ] || \
-#    [ -z "$ROSLIN_CORE_PATH" ] || [ -z "$ROSLIN_CORE_BIN_PATH" ] || \
-#    [ -z "$ROSLIN_CORE_CONFIG_PATH" ]
-# then
-#     echo "Some of the necessary paths are not correctly configured!"
-#     echo "ROSLIN_CORE_VERSION=${ROSLIN_CORE_VERSION}"
-#     echo "ROSLIN_CORE_ROOT=${ROSLIN_CORE_ROOT}"
-#     echo "ROSLIN_CORE_PATH=${ROSLIN_CORE_PATH}"
-#     echo "ROSLIN_CORE_BIN_PATH=${ROSLIN_CORE_BIN_PATH}"
-#     echo "ROSLIN_CORE_CONFIG_PATH=${ROSLIN_CORE_CONFIG_PATH}"
-#     exit 1
-# fi
+if [ -z "$ROSLIN_CORE_VERSION" ] || [ -z "$ROSLIN_CORE_ROOT" ] || \
+   [ -z "$ROSLIN_CORE_PATH" ] || [ -z "$ROSLIN_CORE_BIN_PATH" ] || \
+   [ -z "$ROSLIN_CORE_CONFIG_PATH" ]
+then
+    echo "Some of the Roslin Core settings are not found."
+    echo "ROSLIN_CORE_VERSION=${ROSLIN_CORE_VERSION}"
+    echo "ROSLIN_CORE_ROOT=${ROSLIN_CORE_ROOT}"
+    echo "ROSLIN_CORE_PATH=${ROSLIN_CORE_PATH}"
+    echo "ROSLIN_CORE_BIN_PATH=${ROSLIN_CORE_BIN_PATH}"
+    echo "ROSLIN_CORE_CONFIG_PATH=${ROSLIN_CORE_CONFIG_PATH}"
+    exit 1
+fi
 
 if [ -z "$ROSLIN_BIN_PATH" ] || [ -z "$ROSLIN_DATA_PATH" ] || \
    [ -z "$ROSLIN_INPUT_PATH" ] || [ -z "$ROSLIN_OUTPUT_PATH" ] || \
