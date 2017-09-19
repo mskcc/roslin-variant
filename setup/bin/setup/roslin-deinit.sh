@@ -42,8 +42,8 @@ then
     sudo rm -rf /etc/profile.d/sing.sh
     sudo rm -rf /etc/profile.d/prism-runner.sh
 else
-    rm -rf ~/.prism
-    grep -v "# PRISM.SETTINGS$" ~/.profile > ~/.profile.tmp
+    rm -rf ~/.roslin
+    grep -v "# ROSLIN.SETTINGS$" ~/.profile > ~/.profile.tmp
     mv ~/.profile.tmp ~/.profile
     echo "Done. Log out and log back in."
 fi

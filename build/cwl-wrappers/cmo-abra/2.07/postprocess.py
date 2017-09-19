@@ -58,7 +58,7 @@ items: string
 """
     cwl['inputs']['out']['type'] = ruamel.yaml.load(input_out_type, ruamel.yaml.RoundTripLoader)
     cwl['inputs']['out']['inputBinding'].insert(0, 'itemSeparator', ',')
-    cwl['inputs']['threads']['default'] = '15'
+    cwl['inputs']['threads']['default'] = '8'
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 
