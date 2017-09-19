@@ -79,7 +79,7 @@ if [ -z "$ROSLIN_BIN_PATH" ] || [ -z "$ROSLIN_DATA_PATH" ] || \
    [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z "$ROSLIN_SINGULARITY_PATH" ] || \
    [ -z "$ROSLIN_CMO_VERSION" ] || [ -z "$ROSLIN_CMO_PYTHON_PATH" ]
 then
-    echo "Some of the necessary paths are not correctly configured!"
+    echo "Some of the Roslin Pipeline settings are not found."
     echo "ROSLIN_BIN_PATH=${ROSLIN_BIN_PATH}"
     echo "ROSLIN_DATA_PATH=${ROSLIN_DATA_PATH}"
     echo "ROSLIN_EXTRA_BIND_PATH=${ROSLIN_EXTRA_BIND_PATH}"

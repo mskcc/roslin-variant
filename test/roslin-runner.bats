@@ -58,7 +58,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_BIN_PATH is not configured" {
@@ -78,7 +78,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_DATA_PATH is not configured" {
@@ -98,7 +98,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_EXTRA_BIND_PATH is not configured" {
@@ -118,7 +118,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_INPUT_PATH is not configured" {
@@ -138,7 +138,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 
@@ -159,7 +159,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_SINGULARITY_PATH is not configured" {
@@ -179,7 +179,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_CMO_VERSION is not configured" {
@@ -199,7 +199,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if ROSLIN_CMO_PYTHON_PATH is not configured" {
@@ -219,7 +219,7 @@ get_args_line() {
     run ${ROSLIN_RUNNER_SCRIPT}
 
     assert_failure
-    assert_line 'Some of the necessary paths are not correctly configured!'
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
 @test "should abort if unable to find Singularity at ROSLIN_SINGULARITY_PATH" {
