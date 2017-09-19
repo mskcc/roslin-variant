@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# if [ -z "$ROSLIN_CORE_VERSION" ] || [ -z "$ROSLIN_CORE_ROOT" ] || \
+#    [ -z "$ROSLIN_CORE_PATH" ] || [ -z "$ROSLIN_CORE_BIN_PATH" ] || \
+#    [ -z "$ROSLIN_CORE_CONFIG_PATH" ]
+# then
+#     echo "Some of the necessary paths are not correctly configured!"
+#     echo "ROSLIN_CORE_VERSION=${ROSLIN_CORE_VERSION}"
+#     echo "ROSLIN_CORE_ROOT=${ROSLIN_CORE_ROOT}"
+#     echo "ROSLIN_CORE_PATH=${ROSLIN_CORE_PATH}"
+#     echo "ROSLIN_CORE_BIN_PATH=${ROSLIN_CORE_BIN_PATH}"
+#     echo "ROSLIN_CORE_CONFIG_PATH=${ROSLIN_CORE_CONFIG_PATH}"
+#     exit 1
+# fi
+
 if [ -z "$ROSLIN_BIN_PATH" ] || [ -z "$ROSLIN_DATA_PATH" ] || \
    [ -z "$ROSLIN_INPUT_PATH" ] || [ -z "$ROSLIN_OUTPUT_PATH" ] || \
    [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z "$ROSLIN_SINGULARITY_PATH" ] || \
@@ -33,7 +46,7 @@ then
 fi
 
 # defaults
-PIPELINE_VERSION=${ROSLIN_VERSION}
+PIPELINE_NAME_VERSION=${ROSLIN_DEFAULT_PIPELINE_NAME_VERSION}
 
 DEBUG_OPTIONS=""
 RESTART_OPTIONS=""
@@ -51,7 +64,7 @@ Prism Pipeline Runner
 
 OPTIONS:
 
-   -v      Pipeline version (default=${PIPELINE_VERSION})
+   -v      Pipeline name/version (default=${PIPELINE_NAME_VERSION})
    -w      Workflow filename (*.cwl)
    -i      Input filename (*.yaml)
    -b      Batch system ("singleMachine", "lsf", "mesos")
@@ -78,13 +91,13 @@ EOF
 while getopts “v:w:i:b:o:r:zdp:j:” OPTION
 do
     case $OPTION in
-        v) PIPELINE_VERSION=$OPTARG ;;
+        v) PIPELINE_NAME_VERSION=$OPTARG ;;
         w) WORKFLOW_FILENAME=$OPTARG ;;
         i) INPUT_FILENAME=$OPTARG ;;
         b) BATCH_SYSTEM=$OPTARG ;;
         o) OUTPUT_DIRECTORY=$OPTARG ;;
         r) RESTART_JOBSTORE_ID=$OPTARG; RESTART_OPTIONS="--restart" ;;
-       	z) cd ${ROSLIN_BIN_PATH}/pipeline/${PIPELINE_VERSION}
+       	z) cd ${ROSLIN_BIN_PATH}/cwl
            find . -name "*.cwl" -exec bash -c "echo {} | cut -c 3- | sort" \;
            exit 0
            ;;
@@ -113,23 +126,6 @@ then
     exit 1
 fi
 
-# get absolute path for output directory
-OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
-
-# check if output directory already exists
-if [ -d ${OUTPUT_DIRECTORY} ]
-then
-    echo "The specified output directory already exists: ${OUTPUT_DIRECTORY}"
-    echo "Aborted."
-    exit 1
-fi
-
-# create output directory
-mkdir -p ${OUTPUT_DIRECTORY}
-
-# create log directory (under output)
-mkdir -p ${OUTPUT_DIRECTORY}/log
-
 # handle batch system options
 case $BATCH_SYSTEM in
 
@@ -153,8 +149,25 @@ case $BATCH_SYSTEM in
 esac
 
 
+# get absolute path for output directory
+OUTPUT_DIRECTORY=`python -c "import os;print(os.path.abspath('${OUTPUT_DIRECTORY}'))"`
+
+# check if output directory already exists
+if [ -d ${OUTPUT_DIRECTORY} ]
+then
+    echo "The specified output directory already exists: ${OUTPUT_DIRECTORY}"
+    echo "Aborted."
+    exit 1
+fi
+
+# create output directory
+mkdir -p ${OUTPUT_DIRECTORY}
+
+# create log directory (under output)
+mkdir -p ${OUTPUT_DIRECTORY}/log
+
 # override CMO_RESOURC_CONFIG only while cwltoil is running
-export CMO_RESOURCE_CONFIG="${ROSLIN_BIN_PATH}/pipeline/${PIPELINE_VERSION}/roslin_resources.json"
+export CMO_RESOURCE_CONFIG="${ROSLIN_BIN_PATH}/cwl/roslin_resources.json"
 
 if [ -z "${JOB_UUID}" ]
 then
@@ -206,7 +219,7 @@ export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:$PATH
 # run cwltoil
 set -o pipefail
 cwltoil \
-    ${ROSLIN_BIN_PATH}/pipeline/${PIPELINE_VERSION}/${WORKFLOW_FILENAME} \
+    ${ROSLIN_BIN_PATH}/cwl/${WORKFLOW_FILENAME} \
     ${INPUT_FILENAME} \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \

@@ -1,3 +1,4 @@
+# fake settings for Rosline Pipeline
 export ROSLIN_VERSION="1.0.0"
 export ROSLIN_BIN_PATH="/vagrant/test/mock/bin"
 export ROSLIN_DATA_PATH="/vagrant/test/mock/data"

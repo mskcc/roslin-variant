@@ -215,7 +215,7 @@ get_args_line() {
 @test "should abort if unable to find python package at ROSLIN_CMO_PYTHON_PATH" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
     export ROSLIN_CMO_PYTHON_PATH="/doesnt/exist/directory"
@@ -260,7 +260,7 @@ get_args_line() {
 @test "should abort if workflow or input filename is not supplied" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -273,7 +273,7 @@ get_args_line() {
 @test "should abort if input file doesn't exit" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -286,7 +286,7 @@ get_args_line() {
 @test "should abort if batch system is not specified with -b" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -302,7 +302,7 @@ get_args_line() {
 @test "should abort if unknown batch system is supplied via -b" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -318,7 +318,7 @@ get_args_line() {
 @test "should abort if mesos is selected for batch system" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -334,7 +334,7 @@ get_args_line() {
 @test "should abort if output directory already exists" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -366,7 +366,7 @@ get_args_line() {
 @test "should output job UUID at the beginning and the end" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -400,7 +400,7 @@ get_args_line() {
 @test "should correctly construct the parameters when calling cwltoil" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -430,7 +430,7 @@ get_args_line() {
 
     # example argument line:
     #
-    # /vagrant/test/mock/bin/pipeline/1.0.0/abc.cwl
+    # /vagrant/test/mock/bin/abc.cwl
     # /tmp/roslin-runner.bats-12-7uktFHNZ4w/test.yaml
     # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
     # --defaultDisk 10G
@@ -451,7 +451,7 @@ get_args_line() {
     #
 
     # check workflow filename (positional arg 0)
-    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}/${workflow_filename}"
+    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/cwl/${workflow_filename}"
 
     # check input filename (positional arg 1)
     assert_equal "${args[1]}" "${input_filename}"
@@ -492,7 +492,7 @@ get_args_line() {
 @test "should correctly handle -d (debug mode) parameter when calling cwltoil" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -517,7 +517,7 @@ get_args_line() {
 @test "should correctly construct the parameters when calling cwltoil for lsf" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -542,7 +542,7 @@ get_args_line() {
 @test "should correctly construct the parameters when calling cwltoil for singleMachine" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -567,7 +567,7 @@ get_args_line() {
 @test "should correctly handle -o (output directory) parameter when calling cwltoil" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -636,7 +636,7 @@ get_args_line() {
 @test "should correctly handle -v (pipeline version) parameter when calling cwltoil" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -661,7 +661,7 @@ get_args_line() {
     read -r -a args <<< "$args_line"
 
     # check workflow filename (positional arg 0)
-    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/pipeline/${pipeline_version}/${workflow_filename}"
+    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/cwl/${workflow_filename}"
 
     unstubs
 }
@@ -669,7 +669,7 @@ get_args_line() {
 @test "should set CMO_RESOURCE_CONFIG correctly before run, unset after run" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -684,7 +684,7 @@ get_args_line() {
 
     assert_success
 
-    assert_line --index 2 "${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}/roslin_resources.json"
+    assert_line --index 2 "${ROSLIN_BIN_PATH}/cwl/roslin_resources.json"
 
     assert_equal `printenv CMO_RESOURCE_CONFIG` ''
 }
@@ -692,7 +692,7 @@ get_args_line() {
 @test "should correctly handle -r (restart) parameter when calling cwltoil" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -731,7 +731,7 @@ get_args_line() {
 @test "should set TOIL_LSF_PROJECT correctly before run, unset after run" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -757,7 +757,7 @@ get_args_line() {
 @test "should set PATH correctly before run" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
     export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
@@ -779,7 +779,7 @@ get_args_line() {
 @test "should set PYTHONPATH correctly before run" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
     export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
@@ -801,7 +801,7 @@ get_args_line() {
 @test "should correctly handle -p (CMO project ID) parameter" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -825,7 +825,7 @@ get_args_line() {
 @test "should correctly handle -j (job UUID) parameter" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -856,7 +856,7 @@ get_args_line() {
 @test "should exit with the correct exit code 0" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -878,7 +878,7 @@ get_args_line() {
 @test "should exit with the correct exit code 1" {
 
     # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_EXTRA_BIND_PATH, ROSLIN_INPUT_PATH, and ROSLIN_OUTPUT_PATH
-    source ./settings.sh
+    source ./settings-pipeline.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
