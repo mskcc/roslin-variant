@@ -67,8 +67,8 @@ inputs:
     type: 
 
 
-      - string
-      - File
+    - string
+    - File
     inputBinding:
       prefix: --fastq1
 
