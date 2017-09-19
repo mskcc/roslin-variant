@@ -237,6 +237,9 @@ outputs:
   maf:
     type: File
     outputSource: filter/maf
+  fillout_maf:
+    type: File
+    outputSource: filter/portal_fillout
 
   # qc
   as_metrics:
@@ -376,7 +379,7 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       ffpe_normal_bams: parse_pairs/srt_ffpe_normal_bams
       hotspot_list: parse_pairs/srt_hotspot_list
-    out: [maf]
+    out: [maf, portal_fillout]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
 

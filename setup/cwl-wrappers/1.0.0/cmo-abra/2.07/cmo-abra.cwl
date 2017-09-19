@@ -50,7 +50,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 30
-    coresMin: 15
+    coresMin: 8 
 
 
 doc: |
@@ -63,7 +63,7 @@ inputs:
     inputBinding:
       prefix: --threads
 
-    default: '15'
+    default: '8'
   bwa_ref:
     type: ['null', string]
     doc: bwa ref

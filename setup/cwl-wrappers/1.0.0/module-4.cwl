@@ -93,6 +93,9 @@ outputs:
     maf:
         type: File
         outputSource: ngs_filters/output
+    portal_fillout:
+        type: File
+        outputSource: fillout_tumor_normal/portal_fillout
 
 steps:
 
@@ -130,20 +133,20 @@ steps:
             genome: genome
             output_format:
                 default: "1"
-        out: [fillout]
+        out: [fillout, portal_fillout]
 
-    replace_allele_counts:
-        run: replace-allele-counts/0.2.0/replace-allele-counts.cwl
-        in:
-            inputMaf: remove_variants/maf
-            fillout: fillout_tumor_normal/fillout
-            outputMaf:
-                valueFrom: ${ return inputs.inputMaf.basename.replace(".maf", ".fillout.maf") }
-        out: [maf]
+#    replace_allele_counts:
+#        run: replace-allele-counts/0.2.0/replace-allele-counts.cwl
+#        in:
+#            inputMaf: remove_variants/maf
+#            fillout: fillout_tumor_normal/fillout
+#            outputMaf:
+#                valueFrom: ${ return inputs.inputMaf.basename.replace(".maf", ".fillout.maf") }
+#        out: [maf]
 
     fillout_second:
         in:
-            maf: replace_allele_counts/maf
+            maf: fillout_tumor_normal/portal_fillout
             genome: genome
             curated_bams: curated_bams
             ffpe_normal_bams: ffpe_normal_bams
@@ -178,7 +181,7 @@ steps:
                         output_format:
                             default: "1"
                         output:
-                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", ".curated.fillout"); }
+                            valueFrom: ${ return inputs.maf.basename.replace(".maf", ".curated.fillout"); }
                         n_threads:
                             default: 10
                     out: [fillout]
@@ -191,7 +194,7 @@ steps:
                         output_format:
                             default: "1"
                         output:
-                            valueFrom: ${ return inputs.maf.basename.replace(".fillout.maf", ".ffpe-normal.fillout"); }
+                            valueFrom: ${ return inputs.maf.basename.replace(".maf", ".ffpe-normal.fillout"); }
                         n_threads:
                             default: 10
                     out: [fillout]
@@ -201,7 +204,7 @@ steps:
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
-            inputMaf: replace_allele_counts/maf
+            inputMaf: fillout_tumor_normal/portal_fillout
             outputMaf:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".maf" }
             NormalPanelMaf: fillout_second/fillout_curated_bams
