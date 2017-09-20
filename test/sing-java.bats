@@ -5,8 +5,8 @@ load 'helpers/bats-assert/load'
 load 'helpers/bats-file/load'
 load 'helpers/stub/load'
 
-SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
-SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
+SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
+SING_JAVA_SCRIPT="/vagrant/core/bin/sing/sing-java.sh"
 
 @test "should have sing.sh" {
 
@@ -20,9 +20,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
 
 @test "should properly reconstruct the command" {
 
-    # this will load ROSLIN_BIN_PATH and ROSLIN_DATA_PATH
-    source ./settings.sh
-    
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
+
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     java_opts="-Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar"
@@ -40,9 +40,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
 
 @test "should properly construct the sing call for picard 1.129" {
 
-    # this will load ROSLIN_BIN_PATH and ROSLIN_DATA_PATH
-    source ./settings.sh
-    
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
+
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     java_opts="-Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar"
@@ -70,9 +70,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
 
 @test "should properly construct the sing call for picard 1.96" {
 
-    # this will load ROSLIN_BIN_PATH and ROSLIN_DATA_PATH
-    source ./settings.sh
-    
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
+
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     java_opts="-Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar"
@@ -100,9 +100,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
 
 @test "should properly construct the sing call for abra 0.92" {
 
-    # this will load ROSLIN_BIN_PATH and ROSLIN_DATA_PATH
-    source ./settings.sh
-    
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
+
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     java_opts="-Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar"
@@ -129,9 +129,9 @@ SING_JAVA_SCRIPT="/vagrant/setup/bin/sing/sing-java.sh"
 
 @test "should properly construct the sing call for mutect 1.1.4" {
 
-    # this will load ROSLIN_BIN_PATH and ROSLIN_DATA_PATH
-    source ./settings.sh
-    
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
+
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     java_opts="-Xms256m -Xmx30g -XX:-UseGCOverheadLimit -Djava.io.tmpdir=/scratch/ -jar"

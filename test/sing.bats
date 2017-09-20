@@ -4,7 +4,7 @@ load 'helpers/bats-support/load'
 load 'helpers/bats-assert/load'
 load 'helpers/bats-file/load'
 
-SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
+SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
 
 @test "should have sing.sh" {
 
@@ -123,8 +123,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should abort if the two required parameters are not supplied" {
 
-    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
-    source ./settings.sh
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -136,8 +136,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should run the tool image and display 'Hello, World!'" {
 
-    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
-    source ./settings.sh
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -152,8 +152,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should properly bind all the paths defined" {
 
-    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
-    source ./settings.sh
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
 
     # fake singularity so that it just echoed out the arguments received
     export ROSLIN_SINGULARITY_PATH="echo"
@@ -169,13 +169,13 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
     do
         bind_extra="${bind_extra} --bind ${extra_path}:${extra_path}"
     done
-    assert_output "run --bind ${ROSLIN_BIN_PATH}:${ROSLIN_BIN_PATH} --bind ${ROSLIN_DATA_PATH}:${ROSLIN_DATA_PATH} --bind ${ROSLIN_INPUT_PATH}:${ROSLIN_INPUT_PATH} --bind ${ROSLIN_OUTPUT_PATH}:${ROSLIN_OUTPUT_PATH}${bind_extra} ${PWD}/mock/bin/tools/fake-tool/1.0.0/fake-tool.img"
+    assert_output "run --bind ${ROSLIN_BIN_PATH}:${ROSLIN_BIN_PATH} --bind ${ROSLIN_DATA_PATH}:${ROSLIN_DATA_PATH} --bind ${ROSLIN_INPUT_PATH}:${ROSLIN_INPUT_PATH} --bind ${ROSLIN_OUTPUT_PATH}:${ROSLIN_OUTPUT_PATH}${bind_extra} ${PWD}/mock/roslin-pipelines/variant/1.0.0/bin/img/fake-tool/1.0.0/fake-tool.img"
 }
 
 @test "should call singularity with env -i" {
 
-    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
-    source ./settings.sh
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -196,8 +196,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should return metadata (labels) if -i (inspect) option is supplied" {
 
-    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
-    source ./settings.sh
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
@@ -217,8 +217,8 @@ SING_SCRIPT="/vagrant/setup/bin/sing/sing.sh"
 
 @test "should return non-zero exit code if metadata is not found" {
 
-    # this will load ROSLIN_BIN_PATH, ROSLIN_DATA_PATH, ROSLIN_INPUT_PATH, ROSLIN_OUTPUT_PATH, and ROSLIN_EXTRA_BIND_PATH
-    source ./settings.sh
+    # load the Roslin Pipeline settings
+    source ./mock/roslin-core/1.0.0/config/variant/1.0.0/settings.sh
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 

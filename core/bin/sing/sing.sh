@@ -40,7 +40,7 @@ do
 done
 
 # path to container images
-container_image_path="${ROSLIN_BIN_PATH}/tools"
+container_image_path="${ROSLIN_BIN_PATH}/img"
 
 while getopts “i” OPTION
 do

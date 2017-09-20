@@ -7,24 +7,24 @@ export ROSLIN_PIPELINE_NAME="{{ pipeline_name }}"
 export ROSLIN_PIPELINE_VERSION="{{ pipeline_version }}"
 
 # Roslin root path
-ROSLIN_ROOT="{{ pipeline_root }}"
+ROSLIN_PIPELINE_ROOT="{{ pipeline_root }}"
 
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
-export ROSLIN_BIN_PATH="${ROSLIN_ROOT}/{{ binding_core }}"
+export ROSLIN_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_core }}"
 
 # reference data (e.g. genome assemblies)
-export ROSLIN_DATA_PATH="${ROSLIN_ROOT}/{{ binding_data }}"
+export ROSLIN_DATA_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_data }}"
 
 # other paths that we'd like to bind (space separated)
 export ROSLIN_EXTRA_BIND_PATH="{{ binding_extra }}"
 
 # output path
-export ROSLIN_OUTPUT_PATH="${ROSLIN_ROOT}/{{ binding_output }}"
+export ROSLIN_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_output }}"
 
 # workspace
-export ROSLIN_INPUT_PATH="${ROSLIN_ROOT}/{{ binding_workspace }}"
+export ROSLIN_INPUT_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_workspace }}"
 
 #<--
 
