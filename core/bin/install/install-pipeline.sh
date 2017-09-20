@@ -48,10 +48,10 @@ tar xvzf ${pipeline_package_path} -C ${install_temp_path}
 source ${install_temp_path}/setup/scripts/settings.sh
 
 # copy pipeline-specific settings to Roslin Core condif directory
-mkdir -p ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_VERSION}
-cp ${install_temp_path}/setup/scripts/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_VERSION}
+mkdir -p ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
+cp ${install_temp_path}/setup/scripts/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 
-echo "${ROSLIN_PIPELINE_NAME} v${ROSLIN_VERSION}"
+echo "${ROSLIN_PIPELINE_NAME} v${ROSLIN_PIPELINE_VERSION}"
 
 #--> create directories
 

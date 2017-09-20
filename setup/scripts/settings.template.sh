@@ -4,7 +4,7 @@ export ROSLIN_CORE_MAX_VERSION="{{ core_max_version }}"
 
 # Roslin pipeline name/version
 export ROSLIN_PIPELINE_NAME="{{ pipeline_name }}"
-export ROSLIN_VERSION="{{ pipeline_version }}"
+export ROSLIN_PIPELINE_VERSION="{{ pipeline_version }}"
 
 # Roslin root path
 ROSLIN_ROOT="{{ pipeline_root }}"

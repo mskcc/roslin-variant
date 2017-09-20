@@ -4,7 +4,7 @@
 source ./settings.sh
 
 # directories for binaries, executables, scripts
-mkdir -p ${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}
+mkdir -p ${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_PIPELINE_VERSION}
 mkdir -p ${ROSLIN_BIN_PATH}/schemas
 mkdir -p ${ROSLIN_BIN_PATH}/tools
 
@@ -30,7 +30,7 @@ mkdir -p ${ROSLIN_INPUT_PATH}
 mkdir -p ${ROSLIN_OUTPUT_PATH}
 
 # group should have read/write/execute permission
-chmod -R 775 ${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}
+chmod -R 775 ${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_PIPELINE_VERSION}
 chmod -R 775 ${ROSLIN_BIN_PATH}/schemas
 chmod -R 775 ${ROSLIN_BIN_PATH}/tools
 chmod -R 775 ${ROSLIN_BIN_PATH}/bin/setup

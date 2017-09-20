@@ -41,10 +41,93 @@ get_args_line() {
     assert_file_exist ${ROSLIN_RUNNER_SCRIPT}
 }
 
-@test "should abort if all the necessary env vars are not configured" {
+
+@test "should abort if all the necessary Roslin Core settings are not configured" {
+
+    unset ROSLIN_CORE_VERSION
+    unset ROSLIN_CORE_ROOT
+    unset ROSLIN_CORE_PATH
+    unset ROSLIN_CORE_BIN_PATH
+    unset ROSLIN_CORE_CONFIG_PATH
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Core settings are not found.'
+}
+
+@test "should abort if ROSLIN_CORE_VERSION is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    unset ROSLIN_CORE_VERSION
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Core settings are not found.'
+}
+
+@test "should abort if ROSLIN_CORE_ROOT is not configured" {
+
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    unset ROSLIN_CORE_ROOT
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Core settings are not found.'
+}
+
+@test "should abort if ROSLIN_CORE_PATH is not configured" {
+
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    unset ROSLIN_CORE_PATH
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Core settings are not found.'
+}
+
+@test "should abort if ROSLIN_CORE_BIN_PATH is not configured" {
+
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    unset ROSLIN_CORE_BIN_PATH
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Core settings are not found.'
+}
+
+@test "should abort if ROSLIN_CORE_CONFIG_PATH is not configured" {
+
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    unset ROSLIN_CORE_CONFIG_PATH
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Core settings are not found.'
+}
+
+@test "should abort if all the necessary Roslin Pipeline settings are not configured" {
+
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
     unset ROSLIN_BIN_PATH
     unset ROSLIN_DATA_PATH
@@ -64,16 +147,12 @@ get_args_line() {
 @test "should abort if ROSLIN_BIN_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
     unset ROSLIN_BIN_PATH
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
-    export ROSLIN_SINGULARITY_PATH="f"
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -84,16 +163,12 @@ get_args_line() {
 @test "should abort if ROSLIN_DATA_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_DATA_PATH
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
-    export ROSLIN_SINGULARITY_PATH="f"
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -104,16 +179,13 @@ get_args_line() {
 @test "should abort if ROSLIN_EXTRA_BIND_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
+
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_EXTRA_BIND_PATH
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
-    export ROSLIN_SINGULARITY_PATH="f"
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -124,16 +196,12 @@ get_args_line() {
 @test "should abort if ROSLIN_INPUT_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_INPUT_PATH
-    export ROSLIN_OUTPUT_PATH="e"
-    export ROSLIN_SINGULARITY_PATH="f"
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -141,20 +209,15 @@ get_args_line() {
     assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
-
 @test "should abort if ROSLIN_OUTPUT_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="e"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_OUTPUT_PATH
-    export ROSLIN_SINGULARITY_PATH="f"
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="h"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -165,16 +228,12 @@ get_args_line() {
 @test "should abort if ROSLIN_SINGULARITY_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_SINGULARITY_PATH
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -185,16 +244,12 @@ get_args_line() {
 @test "should abort if ROSLIN_CMO_VERSION is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
-    export ROSLIN_SINGULARITY_PATH="f"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_CMO_VERSION
-    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -205,15 +260,11 @@ get_args_line() {
 @test "should abort if ROSLIN_CMO_PYTHON_PATH is not configured" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
-    export ROSLIN_SINGULARITY_PATH="f"
-    export ROSLIN_CMO_VERSION="g"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     unset ROSLIN_CMO_PYTHON_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
@@ -225,16 +276,12 @@ get_args_line() {
 @test "should abort if unable to find Singularity at ROSLIN_SINGULARITY_PATH" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
     export ROSLIN_SINGULARITY_PATH="/usr/no-bin/singularity"
-    export ROSLIN_CMO_VERSION="g"
-    export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -245,13 +292,18 @@ get_args_line() {
 @test "should abort if unable to find python package at ROSLIN_CMO_PYTHON_PATH" {
 
     # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0.wrong"
 
     export ROSLIN_SINGULARITY_PATH=`which singularity`
-    export ROSLIN_CMO_PYTHON_PATH="/doesnt/exist/directory"
 
     run ${ROSLIN_RUNNER_SCRIPT}
+
+    # load the Roslin Variant Pipeline settings so that we can check results using env vars
+    # load after calling cwltoil otherwise this test could be meaningless
+    source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_DEFAULT_PIPELINE_NAME_VERSION}/settings.sh
 
     assert_failure
     assert_line "Can't find python package at ${ROSLIN_CMO_PYTHON_PATH}"
@@ -261,7 +313,7 @@ get_args_line() {
 @test "should skip checking Singularity existence if on one of those leader nodes" {
 
     # load the Roslin Core settings
-    source ./settings-core.sh
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
     export ROSLIN_BIN_PATH="a"
     export ROSLIN_DATA_PATH="b"
@@ -293,10 +345,13 @@ get_args_line() {
 
 @test "should abort if workflow or input filename is not supplied" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     run ${ROSLIN_RUNNER_SCRIPT}
@@ -307,10 +362,13 @@ get_args_line() {
 
 @test "should abort if input file doesn't exit" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i test.yaml
@@ -321,10 +379,13 @@ get_args_line() {
 
 @test "should abort if batch system is not specified with -b" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -338,10 +399,13 @@ get_args_line() {
 
 @test "should abort if unknown batch system is supplied via -b" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -355,10 +419,13 @@ get_args_line() {
 
 @test "should abort if mesos is selected for batch system" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -372,10 +439,13 @@ get_args_line() {
 
 @test "should abort if output directory already exists" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -405,10 +475,13 @@ get_args_line() {
 
 @test "should output job UUID at the beginning and the end" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -440,10 +513,13 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -457,7 +533,14 @@ get_args_line() {
 
     run ${ROSLIN_RUNNER_SCRIPT} -w ${workflow_filename} -i ${input_filename} -b lsf
 
+    # load the Roslin Variant Pipeline settings so that we can check results using env vars
+    # load after calling cwltoil otherwise this test could be meaningless
+    source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_DEFAULT_PIPELINE_NAME_VERSION}/settings.sh
+
     assert_success
+
+    # check versions of Roslin Core, Roslin Pipeline, CMO
+    assert_line --index 1 "VERSIONS: roslin-core-${ROSLIN_CORE_VERSION}, roslin-${ROSLIN_PIPELINE_NAME}-${ROSLIN_PIPELINE_VERSION}, cmo-${ROSLIN_CMO_VERSION}"
 
     # get job UUID
     job_uuid=$(get_job_uuid "$output")
@@ -472,7 +555,7 @@ get_args_line() {
 
     # example argument line:
     #
-    # /vagrant/test/mock/bin/abc.cwl
+    # /vagrant/test/mock/bin/cwl/abc.cwl
     # /tmp/roslin-runner.bats-12-7uktFHNZ4w/test.yaml
     # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
     # --defaultDisk 10G
@@ -533,10 +616,13 @@ get_args_line() {
 
 @test "should correctly handle -d (debug mode) parameter when calling cwltoil" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -559,10 +645,13 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil for lsf" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -585,10 +674,13 @@ get_args_line() {
 
 @test "should correctly construct the parameters when calling cwltoil for singleMachine" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -611,10 +703,13 @@ get_args_line() {
 
 @test "should correctly handle -o (output directory) parameter when calling cwltoil" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -679,12 +774,12 @@ get_args_line() {
     unstubs
 }
 
-@test "should correctly handle -v (pipeline version) parameter when calling cwltoil" {
+@test "should correctly handle -v (pipeline name/version) parameter when calling cwltoil" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -694,13 +789,22 @@ get_args_line() {
     # stub cwltoil to echo out whatever the parameters supplied
     stub cwltoil 'echo "$@"'
 
-    pipeline_version='2.0.1'
+    pipeline_name="variant"
+    pipeline_version="2.0.1"
+    pipeline_name_version="${pipeline_name}/${pipeline_version}"
     workflow_filename='abc.cwl'
 
     # call roslin-runner with -v
-    run ${ROSLIN_RUNNER_SCRIPT} -v ${pipeline_version} -w ${workflow_filename} -i ${input_filename} -b lsf
+    run ${ROSLIN_RUNNER_SCRIPT} -v ${pipeline_name_version} -w ${workflow_filename} -i ${input_filename} -b lsf
+
+    # load the Roslin Variant Pipeline settings so that we can check results using env vars
+    # load after calling cwltoil otherwise this test could be meaningless
+    source ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh
 
     assert_success
+
+    # check versions of Roslin Core, Roslin Pipeline, CMO
+    assert_line --index 1 "VERSIONS: roslin-core-${ROSLIN_CORE_VERSION}, roslin-${ROSLIN_PIPELINE_NAME}-${ROSLIN_PIPELINE_VERSION}, cmo-${ROSLIN_CMO_VERSION}"
 
     # parse argument line (each arg separated by a single space character)
     # and then split to make an array
@@ -710,15 +814,24 @@ get_args_line() {
     # check workflow filename (positional arg 0)
     assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/cwl/${workflow_filename}"
 
+    # check --jobStore
+    assert_line --index 2 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+
+    # check --workDir
+    assert_line --index 2 --partial "--workDir ${ROSLIN_BIN_PATH}/tmp"
+
     unstubs
 }
 
 @test "should set CMO_RESOURCE_CONFIG correctly before run, unset after run" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -730,6 +843,10 @@ get_args_line() {
 
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b singleMachine
 
+    # load the Roslin Variant Pipeline settings so that we can check results using env vars
+    # load after calling cwltoil otherwise this test could be meaningless
+    source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_DEFAULT_PIPELINE_NAME_VERSION}/settings.sh
+
     assert_success
 
     assert_line --index 2 "${ROSLIN_BIN_PATH}/cwl/roslin_resources.json"
@@ -739,10 +856,13 @@ get_args_line() {
 
 @test "should correctly handle -r (restart) parameter when calling cwltoil" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -755,6 +875,10 @@ get_args_line() {
 
     # call roslin-runner with -r
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${TEST_TEMP_DIR}/test.yaml -b singleMachine -r ${job_store_uuid}
+
+    # load the Roslin Variant Pipeline settings so that we can check results using env vars
+    # load after calling cwltoil otherwise this test could be meaningless
+    source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_DEFAULT_PIPELINE_NAME_VERSION}/settings.sh
 
     assert_success
 
@@ -779,10 +903,13 @@ get_args_line() {
 
 @test "should set TOIL_LSF_PROJECT correctly before run, unset after run" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -806,11 +933,16 @@ get_args_line() {
 
 @test "should set PATH correctly before run" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
+
+    # configure CMO PYTHONPATH
     export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     # create fake input file
@@ -822,6 +954,10 @@ get_args_line() {
 
     run ${ROSLIN_RUNNER_SCRIPT} -w abc.cwl -i ${input_filename} -b lsf
 
+    # load the Roslin Variant Pipeline settings so that we can check results using env vars
+    # load after calling cwltoil otherwise this test could be meaningless
+    source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_DEFAULT_PIPELINE_NAME_VERSION}/settings.sh
+
     assert_success
 
     assert_line --index 2 --partial "/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin"
@@ -829,11 +965,16 @@ get_args_line() {
 
 @test "should set PYTHONPATH correctly before run" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
+
+    # configure CMO PYTHONPATH
     export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
 
     # create fake input file
@@ -852,10 +993,13 @@ get_args_line() {
 
 @test "should correctly handle -p (CMO project ID) parameter" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -877,10 +1021,13 @@ get_args_line() {
 
 @test "should correctly handle -j (job UUID) parameter" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -909,10 +1056,13 @@ get_args_line() {
 
 @test "should exit with the correct exit code 0" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file
@@ -932,10 +1082,13 @@ get_args_line() {
 
 @test "should exit with the correct exit code 1" {
 
-    # load the Roslin Core/Pipeline settings
-    source ./settings-core.sh
-    source ./settings-pipeline.sh
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
 
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    # configure Singularity path
     export ROSLIN_SINGULARITY_PATH=`which singularity`
 
     # create fake input file

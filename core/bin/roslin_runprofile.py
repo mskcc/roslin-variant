@@ -207,7 +207,7 @@ def get_roslin_info():
     "get roslin info"
 
     # fixme: roslin
-    version = os.environ.get("ROSLIN_VERSION")
+    version = os.environ.get("ROSLIN_PIPELINE_VERSION")
     path = os.environ.get("ROSLIN_BIN_PATH")
 
     return item(

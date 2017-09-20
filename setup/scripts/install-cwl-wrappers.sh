@@ -55,5 +55,5 @@ do
 done
 
 # check md5 checksum
-cd ${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_VERSION}
+cd ${ROSLIN_BIN_PATH}/pipeline/${ROSLIN_PIPELINE_VERSION}
 md5sum -c checksum.dat

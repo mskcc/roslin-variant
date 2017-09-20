@@ -1,7 +1,7 @@
-name: impact
+name: variant
 version: 1.0.0
-description: Roslin Impact Analysis Pipeline v1.0.0
-root: /ifs/work/pi/roslin-pipelines/impact
+description: Roslin Variant Pipeline v1.0.0
+root: /ifs/work/pi/roslin-pipelines/variant
 binding:
   core: bin
   data: resources

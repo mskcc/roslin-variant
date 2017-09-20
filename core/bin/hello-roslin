@@ -15,7 +15,7 @@ cat << "EOF"
 
 EOF
 
-echo "Roslin Pipeline ${ROSLIN_VERSION}"
+echo "Roslin Pipeline ${ROSLIN_PIPELINE_VERSION}"
 echo
 echo "ROSLIN_BIN_PATH=${ROSLIN_BIN_PATH}"
 echo "ROSLIN_DATA_PATH=${ROSLIN_DATA_PATH}"

@@ -6,7 +6,7 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.roslin="1.0.0" \
       version.alpine="3.5.x"
 
-ENV ROSLIN_VERSION 1.0.0
+ENV ROSLIN_PIPELINE_VERSION 1.0.0
 
 ADD welcome.txt /
 

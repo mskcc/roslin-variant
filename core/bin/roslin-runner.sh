@@ -74,6 +74,22 @@ do
     esac
 done
 
+if [ -z "$pipeline_name_version" ]
+then
+    echo "Pipeline name/version must be set."
+    exit 1
+fi
+
+if [ ! -r "${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh" ]
+then
+    echo "Can't find/read the specified Pipeline name/version."
+    echo "${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh"
+    exit 1
+fi
+
+# load pipeline settings
+source ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh
+
 if [ -z "$ROSLIN_BIN_PATH" ] || [ -z "$ROSLIN_DATA_PATH" ] || \
    [ -z "$ROSLIN_INPUT_PATH" ] || [ -z "$ROSLIN_OUTPUT_PATH" ] || \
    [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z "$ROSLIN_SINGULARITY_PATH" ] || \
@@ -106,7 +122,7 @@ then
     fi
 fi
 
-if [ ! -d "$ROSLIN_CMO_PYTHON_PATH" ]
+if [ ! -d $ROSLIN_CMO_PYTHON_PATH ]
 then
     echo "Can't find python package at $ROSLIN_CMO_PYTHON_PATH"
     exit 1
@@ -118,7 +134,7 @@ then
     exit 1
 fi
 
-if [ ! -r "$input_filename" ]
+if [ ! -r $input_filename ]
 then
     echo "The input file is not found or not readable."
     exit 1
@@ -206,7 +222,7 @@ jobstore_path="${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 # job uuid followed by a colon (:) and then job store uuid
 printf "\n---> ROSLIN JOB UUID = ${job_uuid}:${job_store_uuid}\n"
 
-echo "Using ${ROSLIN_CMO_VERSION} CMO package version"
+echo "VERSIONS: roslin-core-${ROSLIN_CORE_VERSION}, roslin-${ROSLIN_PIPELINE_NAME}-${ROSLIN_PIPELINE_VERSION}, cmo-${ROSLIN_CMO_VERSION}"
 
 # set PYTHONPATH
 export PYTHONPATH="${ROSLIN_CMO_PYTHON_PATH}"
