@@ -961,6 +961,7 @@ get_args_line() {
     assert_success
 
     assert_line --index 2 --partial "/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin"
+    assert_line --index 2 --partial "${ROSLIN_CORE_BIN_PATH}/sing"
 }
 
 @test "should set PYTHONPATH correctly before run" {

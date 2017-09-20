@@ -27,7 +27,7 @@ cat << EOF
 
 USAGE: `basename $0` [options]
 
-Prism Pipeline Runner
+Roslin Runner
 
 OPTIONS:
 
@@ -48,8 +48,8 @@ OPTIONS for MSKCC LSF+TOIL:
 
 EXAMPLE:
 
-   `basename $0` -w module-1.cwl -i inputs-module-1.yaml -b lsf
-   `basename $0` -w cmo-bwa-mem.cwl -i inputs-cmo-bwa-mem.yaml -b singleMachine
+   `basename $0` -v variant/1.0.0 -w module-1.cwl -i inputs.yaml -b lsf
+   `basename $0` -v rna-seq/1.0.0 -w tophat.cwl -i inputs.yaml -b singleMachine
 
 EOF
 }
@@ -76,7 +76,7 @@ done
 
 if [ -z "$pipeline_name_version" ]
 then
-    echo "Pipeline name/version must be set."
+    usage
     exit 1
 fi
 
@@ -227,7 +227,7 @@ echo "VERSIONS: roslin-core-${ROSLIN_CORE_VERSION}, roslin-${ROSLIN_PIPELINE_NAM
 # set PYTHONPATH
 export PYTHONPATH="${ROSLIN_CMO_PYTHON_PATH}"
 
-# assume if the python path is there, this will also be there
+# add cmo and sing to PATH
 export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:${ROSLIN_CORE_BIN_PATH}/sing:$PATH
 
 # run cwltoil

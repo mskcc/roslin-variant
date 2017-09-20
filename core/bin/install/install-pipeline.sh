@@ -120,9 +120,9 @@ do
 
     # replace http: to file: (already fetched in /schemas directory)
     cat ${file}.bak | \
-        sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${ROSLIN_CORE_PATH}/schemas/dcterms.rdf|g" | \
-        sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${ROSLIN_CORE_PATH}/schemas/foaf.rdf|g" | \
-        sed "s|- http://usefulinc.com/ns/doap#|- file://${ROSLIN_CORE_PATH}/schemas/doap.rdf|g" \
+        sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${ROSLIN_CORE_SCHEMA_PATH}/dcterms.rdf|g" | \
+        sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${ROSLIN_CORE_SCHEMA_PATH}/foaf.rdf|g" | \
+        sed "s|- http://usefulinc.com/ns/doap#|- file://${ROSLIN_CORE_SCHEMA_PATH}/doap.rdf|g" \
         > ${file}
 
     # get the number of line differences
@@ -142,7 +142,7 @@ done
 #<--
 
 # copy jumpstart examples
-tar cvzf ${ROSLIN_BIN_PATH}/examples.tgz -C ${install_temp_path}/setup ./examples
+tar cvzf ${ROSLIN_INPUT_PATH}/examples.tgz -C ${install_temp_path}/setup ./examples
 
 # check md5 checksum
 cd ${ROSLIN_BIN_PATH}/img

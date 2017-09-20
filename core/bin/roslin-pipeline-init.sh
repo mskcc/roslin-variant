@@ -36,7 +36,7 @@ done
 
 if [ -z "$pipeline_name_version" ]
 then
-    echo "Pipeline name/version must be set."
+    usage
     exit 1
 fi
 
@@ -74,12 +74,31 @@ fi
 mkdir -p ${ROSLIN_INPUT_PATH}/${user_id}
 
 # copy jumpstart examples
-tar xzf ${ROSLIN_BIN_PATH}/examples.tgz -C ${ROSLIN_INPUT_PATH}/${user_id} --strip-components 1
+tar xzf ${ROSLIN_INPUT_PATH}/examples.tgz -C ${ROSLIN_INPUT_PATH}/${user_id} --strip-components 1
 
+# switch to singleMachine if requested
 if [ "$use_single_machine_example" -eq 1 ]
 then
     find ${ROSLIN_INPUT_PATH}/${user_id}/ -name "run-example.sh" | xargs -I {} sed -i "s/lsf/singleMachine/g" {}
 fi
+
+cat << "EOF"
+
+ ______     ______     ______     __         __     __   __                  
+/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \                 
+\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \                
+ \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\               
+  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/               
+ ______   __     ______   ______     __         __     __   __     ______    
+/\  == \ /\ \   /\  == \ /\  ___\   /\ \       /\ \   /\ "-.\ \   /\  ___\   
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\   \ \ \____  \ \ \  \ \ \-.  \  \ \  __\   
+ \ \_\    \ \_\  \ \_\    \ \_____\  \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\ 
+  \/_/     \/_/   \/_/     \/_____/   \/_____/   \/_/   \/_/ \/_/   \/_____/ 
+                                                                             
+
+ Roslin Pipeline
+
+EOF
 
 echo "Your workspace: ${ROSLIN_INPUT_PATH}/${user_id}"
 echo
