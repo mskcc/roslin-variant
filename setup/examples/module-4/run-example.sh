@@ -9,7 +9,7 @@ then
         --path . \
         --workflow ${workflow}
 else
-    prism-runner.sh \
+    roslin-runner.sh \
         -w ${workflow} \
         -i inputs.yaml \
         -b lsf

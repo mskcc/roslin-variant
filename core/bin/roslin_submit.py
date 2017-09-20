@@ -48,7 +48,7 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, pipeline_version, workflow
     input_yaml = "inputs.yaml"
 
     if pipeline_version != None:
-        job_command = "prism-runner.sh -v {} -w {} -i {} -b lsf -p {} -j {} -o {}".format(
+        job_command = "roslin-runner.sh -v {} -w {} -i {} -b lsf -p {} -j {} -o {}".format(
             pipeline_version,
             workflow_name,
             input_yaml,
@@ -57,7 +57,7 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, pipeline_version, workflow
             output_dir
         )
     else:
-        job_command = "prism-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
+        job_command = "roslin-runner.sh -w {} -i {} -b lsf -p {} -j {} -o {}".format(
             workflow_name,
             input_yaml,
             cmo_project_id,

@@ -228,7 +228,7 @@ echo "VERSIONS: roslin-core-${ROSLIN_CORE_VERSION}, roslin-${ROSLIN_PIPELINE_NAM
 export PYTHONPATH="${ROSLIN_CMO_PYTHON_PATH}"
 
 # assume if the python path is there, this will also be there
-export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:$PATH
+export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:${ROSLIN_CORE_BIN_PATH}/sing:$PATH
 
 # run cwltoil
 set -o pipefail

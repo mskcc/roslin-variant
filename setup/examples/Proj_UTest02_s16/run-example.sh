@@ -8,7 +8,7 @@ roslin_request_to_yaml.py \
 	-o . \
 	-f inputs.yaml
 
-# nohup prism-runner.sh \
+# nohup roslin-runner.sh \
 # 	-w project-workflow.cwl \
 # 	-i inputs.yaml \
 # 	-b lsf &

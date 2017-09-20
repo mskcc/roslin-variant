@@ -45,7 +45,7 @@ fi
 
 ./install-sing.sh
 
-./install-prism-runner.sh
+./install-roslin-runner.sh
 
 ./install-tools.sh
 

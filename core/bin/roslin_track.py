@@ -262,7 +262,7 @@ def parse_workflow_filename(runner_cmd):
     "parse runner's arguments"
 
     # e.g.
-    # prism-runner.sh -w
+    # roslin-runner.sh -w
     # cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl -i
     # inputs.yaml -b lsf -p Proj_DEV_chunj -j
     # d06e0364-6664-11e7-a766-645106efb11c -o
@@ -278,7 +278,7 @@ def parse_job_output_path(runner_cmd):
     "parse runner's arguments"
 
     # e.g.
-    # prism-runner.sh -w
+    # roslin-runner.sh -w
     # cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl -i
     # inputs.yaml -b lsf -p Proj_DEV_chunj -j
     # d06e0364-6664-11e7-a766-645106efb11c -o

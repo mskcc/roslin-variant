@@ -1,6 +1,6 @@
 #!/bin/bash
 
-prism-runner.sh \
+roslin-runner.sh \
     -w cmo-mutect/1.1.4/cmo-mutect.cwl \
     -i inputs.yaml \
     -b lsf

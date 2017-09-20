@@ -315,7 +315,7 @@ output: P1.bam
 ```bash
 #!/bin/bash
 
-prism-runner.sh \
+roslin-runner.sh \
     -w cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl \
     -i inputs.yaml \
     -b lsf

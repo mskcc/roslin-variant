@@ -62,7 +62,7 @@ do
       bsub -q test -K -cwd ${tools_dir}/bsub-of-prism-runner \
         -eo ${output_dir}/bsub-of-prism-runner.stderr.txt \
         -oo ${output_dir}/bsub-of-prism-runner.txt \
-        "prism-runner.sh -w samtools/1.3.1/samtools-sam2bam.cwl -i ./inputs.yaml -b lsf"
+        "roslin-runner.sh -w samtools/1.3.1/samtools-sam2bam.cwl -i ./inputs.yaml -b lsf"
       ;;
 
     Proj_DEV_0002)

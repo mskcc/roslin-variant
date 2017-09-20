@@ -184,13 +184,13 @@ samples:
 Run the following command:
 
 ```bash
-$ prism-runner.sh \
+$ roslin-runner.sh \
     -w project-workflow.cwl \
     -i inputs.yaml \
     -b lsf
 ```
 
-Here are some of the parameters you can specify for `prism-runner.sh`:
+Here are some of the parameters you can specify for `roslin-runner.sh`:
 
 - `-w` : Workflow filename (*.cwl)
 - `-i` : Input filename (*.yaml)

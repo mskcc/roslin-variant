@@ -45,7 +45,7 @@ do
     cat > ${path_runex} << EOF
 #!/bin/bash
 
-# nohup prism-runner.sh \\
+# nohup roslin-runner.sh \\
 # 	-w project-workflow.cwl \\
 # 	-i inputs.yaml \\
 # 	-b lsf &

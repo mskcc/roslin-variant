@@ -40,7 +40,7 @@ if [ "$ROSLIN_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
     sudo rm -rf /etc/profile.d/prism-pipeline-envs.sh
     sudo rm -rf /etc/profile.d/sing.sh
-    sudo rm -rf /etc/profile.d/prism-runner.sh
+    sudo rm -rf /etc/profile.d/roslin-runner.sh
 else
     rm -rf ~/.roslin
     grep -v "# ROSLIN.SETTINGS$" ~/.profile > ~/.profile.tmp

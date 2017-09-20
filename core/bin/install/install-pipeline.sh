@@ -51,7 +51,9 @@ source ${install_temp_path}/setup/scripts/settings.sh
 mkdir -p ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 cp ${install_temp_path}/setup/scripts/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 
+echo
 echo "roslin-${ROSLIN_PIPELINE_NAME}-pipeline-${ROSLIN_PIPELINE_VERSION}"
+echo
 
 #--> create directories
 
@@ -118,9 +120,9 @@ do
 
     # replace http: to file: (already fetched in /schemas directory)
     cat ${file}.bak | \
-        sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${ROSLIN_BIN_PATH}/schemas/dcterms.rdf|g" | \
-        sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${ROSLIN_BIN_PATH}/schemas/foaf.rdf|g" | \
-        sed "s|- http://usefulinc.com/ns/doap#|- file://${ROSLIN_BIN_PATH}/schemas/doap.rdf|g" \
+        sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${ROSLIN_CORE_PATH}/schemas/dcterms.rdf|g" | \
+        sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${ROSLIN_CORE_PATH}/schemas/foaf.rdf|g" | \
+        sed "s|- http://usefulinc.com/ns/doap#|- file://${ROSLIN_CORE_PATH}/schemas/doap.rdf|g" \
         > ${file}
 
     # get the number of line differences

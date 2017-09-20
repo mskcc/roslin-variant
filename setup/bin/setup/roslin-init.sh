@@ -82,7 +82,7 @@ mkdir -p $HOME_DIR/.roslin
 # add under .roslin the scripts & settings to be loaded upon user login
 cp ./settings.sh $HOME_DIR/.roslin/
 echo "PATH=\$PATH:${ROSLIN_BIN_PATH}/bin/sing" > $HOME_DIR/.roslin/sing.sh
-echo "PATH=\$PATH:${ROSLIN_BIN_PATH}/bin/prism-runner" > ~/.roslin/prism-runner.sh
+echo "PATH=\$PATH:${ROSLIN_BIN_PATH}/bin/prism-runner" > ~/.roslin/roslin-runner.sh
 
 # append -S 1 to TOIL_LSF_ARGS (IGOWEB-459)
 if [[ "${TOIL_LSF_ARGS}" != *"-S 1"* ]]

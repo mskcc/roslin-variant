@@ -58,7 +58,7 @@ $ nosetests
 ### Purpose
 
 - Test if the following bash scripts function correctly
-  - `prism-runner.sh`
+  - `roslin-runner.sh`
   - `sing.sh`
   - `sing-java.sh`
 
@@ -77,12 +77,12 @@ $ cd /vagrant/test
 $ ./install-test-helpers.sh
 ```
 
-Test `prism-runner.sh`:
+Test `roslin-runner.sh`:
 
 ```bash
 $ cd /vagrant/test
 $ bats prism-runner.bats
- ✓ should have prism-runner.sh
+ ✓ should have roslin-runner.sh
  ✓ should abort if all the necessary env vars are not configured
  ✓ should abort if ROSLIN_BIN_PATH is not configured
  ✓ should abort if ROSLIN_DATA_PATH is not configured

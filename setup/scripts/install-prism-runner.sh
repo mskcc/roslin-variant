@@ -6,7 +6,7 @@ VERSION='1.0.0'
 source ./settings.sh
 
 # copy scripts
-cp ../bin/prism-runner/prism-runner.sh ${ROSLIN_BIN_PATH}/bin/prism-runner/prism-runner.sh
+cp ../bin/prism-runner/roslin-runner.sh ${ROSLIN_BIN_PATH}/bin/prism-runner/roslin-runner.sh
 cp ../bin/prism-runner/roslin-job-archive.sh ${ROSLIN_BIN_PATH}/bin/prism-runner/roslin-job-archive.sh
 cp ../bin/prism-runner/roslin-job-status.sh ${ROSLIN_BIN_PATH}/bin/prism-runner/roslin-job-status.sh
 cp ../bin/prism-runner/tree.py ${ROSLIN_BIN_PATH}/bin/prism-runner/tree.py
@@ -28,5 +28,5 @@ cp ../bin/prism-runner/hello-roslin ${ROSLIN_BIN_PATH}/bin/prism-runner/hello-ro
 
 if [ "$ROSLIN_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
-    echo "PATH=\$PATH:${ROSLIN_BIN_PATH}/bin/prism-runner" | sudo tee /etc/profile.d/prism-runner.sh
+    echo "PATH=\$PATH:${ROSLIN_BIN_PATH}/bin/prism-runner" | sudo tee /etc/profile.d/roslin-runner.sh
 fi
