@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pipeline_name_version="variant/1.0.0"
+
 roslin_request_to_yaml.py \
 	-m Proj_UTest02_s16_sample_mapping.txt \
 	-p Proj_UTest02_s16_sample_pairing.txt \
@@ -9,6 +11,7 @@ roslin_request_to_yaml.py \
 	-f inputs.yaml
 
 # nohup roslin-runner.sh \
+# 	-v ${pipeline_name_version} \
 # 	-w project-workflow.cwl \
 # 	-i inputs.yaml \
 # 	-b lsf &
@@ -16,4 +19,5 @@ roslin_request_to_yaml.py \
 roslin_submit.py \
     --id Proj_UTest02_s16 \
     --path . \
-    --workflow project-workflow.cwl
+    --workflow project-workflow.cwl \
+	--pipeline ${pipeline_name_version}

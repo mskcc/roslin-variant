@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pipeline_name_version="variant/1.0.0"
+
 roslin_request_to_yaml.py \
 	-m Proj_06648_sample_mapping.txt \
 	-p Proj_06648_sample_pairing.txt \
@@ -8,12 +10,14 @@ roslin_request_to_yaml.py \
 	-o . \
 	-f inputs.yaml
 
-nohup roslin-runner.sh \
-	-w project-workflow.cwl \
-	-i inputs.yaml \
-	-b lsf &
+# nohup roslin-runner.sh \
+# 	-v ${pipeline_name_version} \
+# 	-w project-workflow.cwl \
+# 	-i inputs.yaml \
+# 	-b lsf &
 
-# roslin_submit.py \
-#     --id Proj_06648 \
-#     --path . \
-#     --workflow project-workflow.cwl
+roslin_submit.py \
+    --id Proj_06648 \
+    --path . \
+    --workflow project-workflow.cwl \
+	--pipeline ${pipeline_name_version}
