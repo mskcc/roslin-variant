@@ -16,5 +16,5 @@ dependencies:
       min: 1.0.0
       max: 1.0.0
   cmo:
-    version: 1.6.8
+    version: 1.6.9
     python-path: /ifs/work/pi/cmo_package_archive/1.6.7/lib/python2.7/site-packages/
