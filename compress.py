@@ -60,7 +60,7 @@ def main():
     pipeline_name = config["name"]
     pipeline_version = config["version"]
 
-    output_filename = "roslin-{}-v{}.tgz".format(
+    output_filename = "roslin-{}-pipeline-v{}.tgz".format(
         pipeline_name,
         pipeline_version
     )

@@ -51,7 +51,7 @@ source ${install_temp_path}/setup/scripts/settings.sh
 mkdir -p ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 cp ${install_temp_path}/setup/scripts/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 
-echo "${ROSLIN_PIPELINE_NAME} v${ROSLIN_PIPELINE_VERSION}"
+echo "roslin-${ROSLIN_PIPELINE_NAME}-pipeline-${ROSLIN_PIPELINE_VERSION}"
 
 #--> create directories
 
@@ -94,7 +94,7 @@ cp -R ${install_temp_path}/setup/img/* ${ROSLIN_BIN_PATH}/img/
 # copy cwl wrappers
 cp -R ${install_temp_path}/setup/cwl/* ${ROSLIN_BIN_PATH}/cwl/
 
-# use pre-fetched local schemas instead of going over the Internet to fetch
+#--> use pre-fetched local schemas instead of going over the Internet to fetch
 for file in `find ${ROSLIN_BIN_PATH}/cwl -name "*.cwl"`
 do
 
@@ -137,6 +137,10 @@ do
     fi
 
 done
+#<--
+
+# copy jumpstart examples
+tar cvzf ${ROSLIN_BIN_PATH}/examples.tgz -C ${install_temp_path}/setup ./examples
 
 # check md5 checksum
 cd ${ROSLIN_BIN_PATH}/img

@@ -68,7 +68,7 @@ fi
 # create user directory
 mkdir -p ${ROSLIN_INPUT_PATH}/${USER_ID}
 
-# copy jumpstart exampels
+# copy jumpstart examples
 tar xzf ${ROSLIN_BIN_PATH}/bin/setup/examples.tgz -C ${ROSLIN_INPUT_PATH}/${USER_ID} --strip-components 1
 
 if [ "$USE_SINGLE_MACHINE_EXAMPLE" -eq 1 ]
