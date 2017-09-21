@@ -10,11 +10,11 @@ OPTIONS:
 
    -v      pipeline name/version
    -u      Username you want to configure a workplace for
-   -f      Overwrite workspace even if it exists
+   -f      Overwrite workspace even if it already exists
 
 EXAMPLE:
 
-   `basename $0` -u chunj
+   `basename $0` -v variant/1.0.0 -u chunj
 
 EOF
 }

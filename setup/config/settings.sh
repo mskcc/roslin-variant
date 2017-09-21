@@ -6,8 +6,8 @@ export ROSLIN_CORE_MAX_VERSION="1.0.0"
 export ROSLIN_PIPELINE_NAME="variant"
 export ROSLIN_PIPELINE_VERSION="1.0.0"
 
-# Roslin root path
-ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-pipelines/variant/1.0.0"
+# Roslin pipeline root path
+ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-pipelines/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
 
 #--> the following paths will be supplied to singularity as bind points
 

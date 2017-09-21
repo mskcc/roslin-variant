@@ -18,8 +18,11 @@ def compress(output_filename):
     cmd = [
         "tar",
         "--exclude", ".DS_Store",
+        "--exclude", "./setup/config/*.template.sh",
         "--exclude", "./setup/data/assemblies",
 #--> fixme
+        "--exclude", "./setup/scripts",
+        "--exclude", "./setup/bin",
         "--exclude", "./setup/img/abra",
         "--exclude", "./setup/img/basic-filtering",
         "--exclude", "./setup/img/bcftools",
@@ -42,6 +45,8 @@ def compress(output_filename):
         "--exclude", "./setup/img/vardict",
         "--exclude", "./setup/img/vcf2maf",
         "--exclude", "./setup/img/vep",
+        "--exclude", "./setup/img/samtools",
+        # "--exclude", "./setup/examples",
 #<--
         "-cvzf", output_filename,
         "./setup"

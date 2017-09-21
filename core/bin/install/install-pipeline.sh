@@ -11,16 +11,21 @@ USAGE: `basename $0` [options]
 
 OPTIONS:
 
-   -p	   pipeline-package.tgz
+   -p	   Roslin Pipeline deployable package (.tgz file)
+   -f      Overwrite the existing installation
    -h      Help
 
 EOF
 }
 
-while getopts "p:h" OPTION
+# defaults
+force_overwrite=0
+
+while getopts "p:fh" OPTION
 do
     case $OPTION in
         p) pipeline_package_path=$OPTARG ;;
+        f) force_overwrite=1 ;;
         h) usage; exit 0 ;;
         *) usage; exit 1 ;;
     esac
@@ -39,17 +44,30 @@ then
 fi
 
 pipeline_package_filename=`basename ${pipeline_package_path}`
+
+# temporary tgz extraction path
 install_temp_path=`mktemp -d`
 
-cp ${pipeline_package_path} ${install_temp_path}
-tar xvzf ${pipeline_package_path} -C ${install_temp_path}
+# extract
+echo "Extracting - this may take a while..."
+tar xzf ${pipeline_package_path} -C ${install_temp_path}
 
-# load Roslin pipeline specific settings.sh
-source ${install_temp_path}/setup/scripts/settings.sh
+# load the Roslin Pipeline settings.sh found in tgz
+source ${install_temp_path}/setup/config/settings.sh
 
-# copy pipeline-specific settings to Roslin Core condif directory
+if [ -d ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION} ]
+then
+    if [ $force_overwrite -eq 0 ]
+    then
+        echo "roslin-${ROSLIN_PIPELINE_NAME}-pipeline-${ROSLIN_PIPELINE_VERSION} already exists."
+        echo "Use -f if you want to overwrite."
+        exit 1
+    fi
+fi
+
+# copy the Roslin Pipeline settings.sh to Roslin Core config directory
 mkdir -p ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
-cp ${install_temp_path}/setup/scripts/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
+cp ${install_temp_path}/setup/config/settings.sh ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 
 echo
 echo "roslin-${ROSLIN_PIPELINE_NAME}-pipeline-${ROSLIN_PIPELINE_VERSION}"
@@ -118,7 +136,7 @@ do
     # make backup
     cp ${file} ${file}.bak
 
-    # replace http: to file: (already fetched in /schemas directory)
+    # replace http: to file: (already fetched in Roslin Core /schemas directory)
     cat ${file}.bak | \
         sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${ROSLIN_CORE_SCHEMA_PATH}/dcterms.rdf|g" | \
         sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${ROSLIN_CORE_SCHEMA_PATH}/foaf.rdf|g" | \
@@ -153,3 +171,5 @@ md5sum -c checksum.dat
 
 # clean up
 rm -rf ${install_temp_path}
+
+echo "DONE."

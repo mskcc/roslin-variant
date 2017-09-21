@@ -1,7 +1,7 @@
 name: variant
 version: 1.0.0
 description: Roslin Variant Pipeline v1.0.0
-root: /ifs/work/pi/roslin-pipelines/variant
+root: /ifs/work/pi/roslin-pipelines
 binding:
   core: bin
   data: resources

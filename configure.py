@@ -29,9 +29,9 @@ def get_template(filename):
 
 
 def configure_setup_settings(settings):
-    "make /setup/scripts/settings.sh"
+    "make /setup/config/settings.sh"
 
-    template = get_template("/vagrant/setup/scripts/settings.template.sh")
+    template = get_template("/vagrant/setup/config/settings.template.sh")
 
     # render
     content = template.render(
@@ -39,7 +39,7 @@ def configure_setup_settings(settings):
         core_max_version=settings["dependencies"]["core"]["version"]["max"],
         pipeline_name=settings["name"],
         pipeline_version=settings["version"],
-        pipeline_root=os.path.join(settings["root"], settings["version"]),
+        pipeline_root=settings["root"],
         binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
         binding_output=settings["binding"]["output"],
@@ -49,7 +49,7 @@ def configure_setup_settings(settings):
         dependencies_cmo_python_path=settings["dependencies"]["cmo"]["python-path"]
     )
 
-    write_to_disk("/vagrant/setup/scripts/settings.sh", content)
+    write_to_disk("/vagrant/setup/config/settings.sh", content)
 
 
 def configure_build_settings(settings):
