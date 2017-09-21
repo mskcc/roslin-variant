@@ -17,7 +17,7 @@ roslin_request_to_yaml.py \
 # 	-b lsf &
 
 roslin_submit.py \
-    --id Proj_6048_B \
-    --path . \
-    --workflow project-workflow.cwl \
+	--id Proj_6048_B \
+	--path . \
+	--workflow project-workflow.cwl \
 	--pipeline ${pipeline_name_version}

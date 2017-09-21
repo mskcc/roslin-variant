@@ -12,14 +12,15 @@ mkdir -p ${ROSLIN_CORE_SCHEMA_PATH}
 cp -r ../* ${ROSLIN_CORE_BIN_PATH}
 cp -r ../../config/* ${ROSLIN_CORE_CONFIG_PATH}
 cp -r ../../schemas/* ${ROSLIN_CORE_SCHEMA_PATH}
+cp ${ROSLIN_CORE_BIN_PATH}/roslin-project-status.sh ${ROSLIN_CORE_BIN_PATH}/bjp
 
 cat << "EOF"
 
- ______     ______     ______     __         __     __   __                  
-/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \                 
-\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \                
- \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\               
-  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/               
+ ______     ______     ______     __         __     __   __
+/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \
+\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \
+ \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\
+  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/
 
 Add the following two lines to your .profile or .bashrc:
 
