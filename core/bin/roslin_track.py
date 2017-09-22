@@ -222,11 +222,11 @@ def run(cmd, shell=False, strip_newline=True):
 def call_make_runprofile(job_uuid, toil_work_dir, cwltoil_log_path):
     "call make_runprofile program"
 
-    bin_path = os.environ.get("ROSLIN_BIN_PATH")
+    bin_path = os.environ.get("ROSLIN_CORE_BIN_PATH")
 
     cmd = [
         "python",
-        os.path.join(bin_path, "bin/prism-runner/roslin_runprofile.py"),
+        os.path.join(bin_path, "roslin_runprofile.py"),
         "--job-uuid", job_uuid,
         "--work-dir", toil_work_dir,
         "--cwltoil-log", cwltoil_log_path
@@ -241,11 +241,11 @@ def call_make_runprofile(job_uuid, toil_work_dir, cwltoil_log_path):
 def call_copy_outputs(cmo_project_id, job_uuid, toil_work_dir):
     "call roslin_copy_outputs"
 
-    bin_path = os.environ.get("ROSLIN_BIN_PATH")
+    bin_path = os.environ.get("ROSLIN_CORE_BIN_PATH")
 
     cmd = [
         "python",
-        os.path.join(bin_path, "bin/prism-runner/roslin_copy_outputs.py"),
+        os.path.join(bin_path, "roslin_copy_outputs.py"),
         "--cmo-project-id", cmo_project_id,
         "--job-uuid", job_uuid,
         "--toil-work-dir", toil_work_dir,

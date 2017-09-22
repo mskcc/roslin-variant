@@ -276,6 +276,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "run-profile.json",
                 "run-results.json",
                 "outputs/output-meta.json",
+                "outputs/settings"
             ],
             "parallels": 2
         },

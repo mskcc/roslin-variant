@@ -735,6 +735,12 @@ get_args_line() {
     # check the job-uuid file is created in the correct location
     assert_file_exist ./outputs/job-uuid
 
+    # check the job-store-uuid file is created in the correct location
+    assert_file_exist ./outputs/job-store-uuid
+
+    # check settings.sh is copied over to the correct location
+    assert_file_exist ./outputs/settings
+
     # check --writeLogs
     assert_line --index 2 --partial "--writeLogs /vagrant/test/outputs/log"
 

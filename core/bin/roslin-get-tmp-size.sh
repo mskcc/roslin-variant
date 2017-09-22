@@ -43,6 +43,9 @@ printf "Job Store UUID : $job_store_uuid\n"
 workflow_id=`grep -m 1 -P -o "The workflow ID is: '(.*?)'" ${cwltoil_log} | tail -1 | awk -F':' '{ print $2 }' | sed "s/[' ]//g"`
 printf "Workflow ID    : $workflow_id\n"
 
+# load the Roslin Pipeline settings used
+source ${outputs_path}/settings
+
 echo
 echo "with all symbolic links dereferenced"
 du ${outputs_path} -shL

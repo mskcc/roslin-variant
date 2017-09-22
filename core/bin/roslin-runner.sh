@@ -217,6 +217,9 @@ echo "${job_uuid}" > ${output_directory}/job-uuid
 # save jobstore uuid
 echo "${job_store_uuid}" > ${output_directory}/job-store-uuid
 
+# save the Roslin Pipeline settings.sh
+cp ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh ${output_directory}/settings
+
 jobstore_path="${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
 # job uuid followed by a colon (:) and then job store uuid
