@@ -1,10 +1,12 @@
-# which version of Roslin Core is required?
-export ROSLIN_CORE_MIN_VERSION="{{ core_min_version }}"
-export ROSLIN_CORE_MAX_VERSION="{{ core_max_version }}"
+export ROSLIN_PIPELINE_DESCRIPTION="{{ pipeline_description }}"
 
 # Roslin pipeline name/version
 export ROSLIN_PIPELINE_NAME="{{ pipeline_name }}"
 export ROSLIN_PIPELINE_VERSION="{{ pipeline_version }}"
+
+# which version of Roslin Core is required?
+export ROSLIN_CORE_MIN_VERSION="{{ core_min_version }}"
+export ROSLIN_CORE_MAX_VERSION="{{ core_max_version }}"
 
 # Roslin pipeline root path
 ROSLIN_PIPELINE_ROOT="{{ pipeline_root }}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"

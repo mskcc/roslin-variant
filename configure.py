@@ -35,10 +35,11 @@ def configure_setup_settings(settings):
 
     # render
     content = template.render(
-        core_min_version=settings["dependencies"]["core"]["version"]["min"],
-        core_max_version=settings["dependencies"]["core"]["version"]["max"],
+        pipeline_description=settings["description"],
         pipeline_name=settings["name"],
         pipeline_version=settings["version"],
+        core_min_version=settings["dependencies"]["core"]["version"]["min"],
+        core_max_version=settings["dependencies"]["core"]["version"]["max"],
         pipeline_root=settings["root"],
         binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
