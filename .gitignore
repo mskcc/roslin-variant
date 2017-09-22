@@ -10,6 +10,7 @@
 /build/scripts/error.*.txt
 /setup/img/**
 /*.tgz
+/*.tgz.bak
 /core/*.tgz
 /test/outputs
 /test/mock/stub
