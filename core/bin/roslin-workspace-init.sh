@@ -63,23 +63,23 @@ then
     exit 1
 fi
 
-if [ -d "${ROSLIN_INPUT_PATH}/${user_id}" ] && [ "${force_overwrite}" -eq 0 ]
+if [ -d "${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}" ] && [ "${force_overwrite}" -eq 0 ]
 then
-    echo "Your workspace already exists: ${ROSLIN_INPUT_PATH}/${user_id}"
+    echo "Your workspace already exists: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}"
     echo "Aborted."
     exit 1
 fi
 
 # create user directory
-mkdir -p ${ROSLIN_INPUT_PATH}/${user_id}
+mkdir -p ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}
 
 # copy jumpstart examples
-tar xzf ${ROSLIN_INPUT_PATH}/examples.tgz -C ${ROSLIN_INPUT_PATH}/${user_id} --strip-components 1
+tar xzf ${ROSLIN_PIPELINE_WORKSPACE_PATH}/examples.tgz -C ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id} --strip-components 1
 
 # switch to singleMachine if requested
 if [ "$use_single_machine_example" -eq 1 ]
 then
-    find ${ROSLIN_INPUT_PATH}/${user_id}/ -name "run-example.sh" | xargs -I {} sed -i "s/lsf/singleMachine/g" {}
+    find ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}/ -name "run-example.sh" | xargs -I {} sed -i "s/lsf/singleMachine/g" {}
 fi
 
 cat << "EOF"
@@ -99,7 +99,7 @@ Roslin Pipeline
 
 EOF
 
-echo "Your workspace: ${ROSLIN_INPUT_PATH}/${user_id}"
+echo "Your workspace: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}"
 echo
 echo "Add the following three lines to your .profile or .bashrc if not already added:"
 echo

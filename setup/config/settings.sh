@@ -12,19 +12,19 @@ ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-pipelines/${ROSLIN_PIPELINE_NAME}/${RO
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
-export ROSLIN_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/bin"
+export ROSLIN_PIPELINE_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/bin"
 
 # reference data (e.g. genome assemblies)
-export ROSLIN_DATA_PATH="${ROSLIN_PIPELINE_ROOT}/resources"
+export ROSLIN_PIPELINE_DATA_PATH="${ROSLIN_PIPELINE_ROOT}/resources"
 
 # other paths that we'd like to bind (space separated)
 export ROSLIN_EXTRA_BIND_PATH="/scratch /ifs"
 
 # output path
-export ROSLIN_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/outputs"
+export ROSLIN_PIPELINE_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/outputs"
 
 # workspace
-export ROSLIN_INPUT_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
+export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
 
 #<--
 

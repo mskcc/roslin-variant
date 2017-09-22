@@ -18,10 +18,10 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
 
 @test "should abort if all the necessary env vars are not configured" {
 
-    unset ROSLIN_BIN_PATH
-    unset ROSLIN_DATA_PATH
-    unset ROSLIN_INPUT_PATH
-    unset ROSLIN_OUTPUT_PATH
+    unset ROSLIN_PIPELINE_BIN_PATH
+    unset ROSLIN_PIPELINE_DATA_PATH
+    unset ROSLIN_PIPELINE_WORKSPACE_PATH
+    unset ROSLIN_PIPELINE_OUTPUT_PATH
     unset ROSLIN_EXTRA_BIND_PATH
     unset ROSLIN_SINGULARITY_PATH
 
@@ -31,11 +31,11 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if ROSLIN_BIN_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_BIN_PATH is not configured" {
 
-    unset ROSLIN_BIN_PATH
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_INPUT_PATH="c"
+    unset ROSLIN_PIPELINE_BIN_PATH
+    export ROSLIN_PIPELINE_DATA_PATH="b"
+    export ROSLIN_PIPELINE_WORKSPACE_PATH="c"
     export ROSLIN_OUPUT_PATH="d"
     export ROSLIN_EXTRA_BIND_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
@@ -46,11 +46,11 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if ROSLIN_DATA_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_DATA_PATH is not configured" {
 
-    export ROSLIN_BIN_PATH="a"
-    unset ROSLIN_DATA_PATH
-    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_PIPELINE_BIN_PATH="a"
+    unset ROSLIN_PIPELINE_DATA_PATH
+    export ROSLIN_PIPELINE_WORKSPACE_PATH="c"
     export ROSLIN_OUPUT_PATH="d"
     export ROSLIN_EXTRA_BIND_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
@@ -61,11 +61,11 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
     assert_line 'Some of the necessary paths are not correctly configured!'
 }
 
-@test "should abort if ROSLIN_INPUT_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_WORKSPACE_PATH is not configured" {
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    unset ROSLIN_INPUT_PATH
+    export ROSLIN_PIPELINE_BIN_PATH="a"
+    export ROSLIN_PIPELINE_DATA_PATH="b"
+    unset ROSLIN_PIPELINE_WORKSPACE_PATH
     export ROSLIN_OUPUT_PATH="d"
     export ROSLIN_EXTRA_BIND_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
@@ -78,9 +78,9 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
 
 @test "should abort if ROSLIN_OUPUT_PATH is not configured" {
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_PIPELINE_BIN_PATH="a"
+    export ROSLIN_PIPELINE_DATA_PATH="b"
+    export ROSLIN_PIPELINE_WORKSPACE_PATH="c"
     unset ROSLIN_OUPUT_PATH
     export ROSLIN_EXTRA_BIND_PATH="e"
     export ROSLIN_SINGULARITY_PATH="f"
@@ -93,9 +93,9 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
 
 @test "should abort if ROSLIN_EXTRA_BIND_PATH is not configured" {
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_PIPELINE_BIN_PATH="a"
+    export ROSLIN_PIPELINE_DATA_PATH="b"
+    export ROSLIN_PIPELINE_WORKSPACE_PATH="c"
     export ROSLIN_OUPUT_PATH="d"
     unset ROSLIN_EXTRA_BIND_PATH
     export ROSLIN_SINGULARITY_PATH="f"
@@ -108,9 +108,9 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
 
 @test "should abort if ROSLIN_SINGULARITY_PATH is not configured" {
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
-    export ROSLIN_INPUT_PATH="c"
+    export ROSLIN_PIPELINE_BIN_PATH="a"
+    export ROSLIN_PIPELINE_DATA_PATH="b"
+    export ROSLIN_PIPELINE_WORKSPACE_PATH="c"
     export ROSLIN_OUPUT_PATH="d"
     export ROSLIN_EXTRA_BIND_PATH="e"
     unset ROSLIN_SINGULARITY_PATH
@@ -169,7 +169,7 @@ SING_SCRIPT="/vagrant/core/bin/sing/sing.sh"
     do
         bind_extra="${bind_extra} --bind ${extra_path}:${extra_path}"
     done
-    assert_output "run --bind ${ROSLIN_BIN_PATH}:${ROSLIN_BIN_PATH} --bind ${ROSLIN_DATA_PATH}:${ROSLIN_DATA_PATH} --bind ${ROSLIN_INPUT_PATH}:${ROSLIN_INPUT_PATH} --bind ${ROSLIN_OUTPUT_PATH}:${ROSLIN_OUTPUT_PATH}${bind_extra} ${PWD}/mock/roslin-pipelines/variant/1.0.0/bin/img/fake-tool/1.0.0/fake-tool.img"
+    assert_output "run --bind ${ROSLIN_PIPELINE_BIN_PATH}:${ROSLIN_PIPELINE_BIN_PATH} --bind ${ROSLIN_PIPELINE_DATA_PATH}:${ROSLIN_PIPELINE_DATA_PATH} --bind ${ROSLIN_PIPELINE_WORKSPACE_PATH}:${ROSLIN_PIPELINE_WORKSPACE_PATH} --bind ${ROSLIN_PIPELINE_OUTPUT_PATH}:${ROSLIN_PIPELINE_OUTPUT_PATH}${bind_extra} ${PWD}/mock/roslin-pipelines/variant/1.0.0/bin/img/fake-tool/1.0.0/fake-tool.img"
 }
 
 @test "should call singularity with env -i" {

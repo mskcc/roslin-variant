@@ -3,16 +3,16 @@
 # do not echo out anything,
 # otherwise sing.sh ... | sing.sh ... won't work
 
-if [ -z $ROSLIN_BIN_PATH ] || [ -z $ROSLIN_DATA_PATH ] || \
-   [ -z $ROSLIN_INPUT_PATH ] || [ -z $ROSLIN_OUTPUT_PATH ] || \
+if [ -z $ROSLIN_PIPELINE_BIN_PATH ] || [ -z $ROSLIN_PIPELINE_DATA_PATH ] || \
+   [ -z $ROSLIN_PIPELINE_WORKSPACE_PATH ] || [ -z $ROSLIN_PIPELINE_OUTPUT_PATH ] || \
    [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z $ROSLIN_SINGULARITY_PATH ]
 then
     echo "Some of the necessary paths are not correctly configured!"
-    echo "ROSLIN_BIN_PATH=${ROSLIN_BIN_PATH}"
-    echo "ROSLIN_DATA_PATH=${ROSLIN_DATA_PATH}"
+    echo "ROSLIN_PIPELINE_BIN_PATH=${ROSLIN_PIPELINE_BIN_PATH}"
+    echo "ROSLIN_PIPELINE_DATA_PATH=${ROSLIN_PIPELINE_DATA_PATH}"
     echo "ROSLIN_EXTRA_BIND_PATH=${ROSLIN_EXTRA_BIND_PATH}"
-    echo "ROSLIN_INPUT_PATH=${ROSLIN_INPUT_PATH}"
-    echo "ROSLIN_OUTPUT_PATH=${ROSLIN_OUTPUT_PATH}"
+    echo "ROSLIN_PIPELINE_WORKSPACE_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}"
+    echo "ROSLIN_PIPELINE_OUTPUT_PATH=${ROSLIN_PIPELINE_OUTPUT_PATH}"
     echo "ROSLIN_SINGULARITY_PATH=${ROSLIN_SINGULARITY_PATH}"
     exit 1
 fi
@@ -29,10 +29,10 @@ EOF
 }
 
 # set up singularity bind paths
-bind_bin="${ROSLIN_BIN_PATH}:${ROSLIN_BIN_PATH}"
-bind_data="${ROSLIN_DATA_PATH}:${ROSLIN_DATA_PATH}"
-bind_input="${ROSLIN_INPUT_PATH}:${ROSLIN_INPUT_PATH}"
-bind_output="${ROSLIN_OUTPUT_PATH}:${ROSLIN_OUTPUT_PATH}"
+bind_bin="${ROSLIN_PIPELINE_BIN_PATH}:${ROSLIN_PIPELINE_BIN_PATH}"
+bind_data="${ROSLIN_PIPELINE_DATA_PATH}:${ROSLIN_PIPELINE_DATA_PATH}"
+bind_input="${ROSLIN_PIPELINE_WORKSPACE_PATH}:${ROSLIN_PIPELINE_WORKSPACE_PATH}"
+bind_output="${ROSLIN_PIPELINE_OUTPUT_PATH}:${ROSLIN_PIPELINE_OUTPUT_PATH}"
 bind_extra=""
 for extra_path in ${ROSLIN_EXTRA_BIND_PATH}
 do
@@ -40,7 +40,7 @@ do
 done
 
 # path to container images
-container_image_path="${ROSLIN_BIN_PATH}/img"
+container_image_path="${ROSLIN_PIPELINE_BIN_PATH}/img"
 
 while getopts “i” OPTION
 do

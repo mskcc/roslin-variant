@@ -63,7 +63,7 @@ do
         b) batch_system=$OPTARG ;;
         o) output_directory=$OPTARG ;;
         r) restart_jobstore_id=$OPTARG; restart_options="--restart" ;;
-       	z) cd ${ROSLIN_BIN_PATH}/cwl
+       	z) cd ${ROSLIN_PIPELINE_BIN_PATH}/cwl
            find . -name "*.cwl" -exec bash -c "echo {} | cut -c 3- | sort" \;
            exit 0
            ;;
@@ -90,17 +90,17 @@ fi
 # load pipeline settings
 source ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh
 
-if [ -z "$ROSLIN_BIN_PATH" ] || [ -z "$ROSLIN_DATA_PATH" ] || \
-   [ -z "$ROSLIN_INPUT_PATH" ] || [ -z "$ROSLIN_OUTPUT_PATH" ] || \
+if [ -z "$ROSLIN_PIPELINE_BIN_PATH" ] || [ -z "$ROSLIN_PIPELINE_DATA_PATH" ] || \
+   [ -z "$ROSLIN_PIPELINE_WORKSPACE_PATH" ] || [ -z "$ROSLIN_PIPELINE_OUTPUT_PATH" ] || \
    [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z "$ROSLIN_SINGULARITY_PATH" ] || \
    [ -z "$ROSLIN_CMO_VERSION" ] || [ -z "$ROSLIN_CMO_PYTHON_PATH" ]
 then
     echo "Some of the Roslin Pipeline settings are not found."
-    echo "ROSLIN_BIN_PATH=${ROSLIN_BIN_PATH}"
-    echo "ROSLIN_DATA_PATH=${ROSLIN_DATA_PATH}"
+    echo "ROSLIN_PIPELINE_BIN_PATH=${ROSLIN_PIPELINE_BIN_PATH}"
+    echo "ROSLIN_PIPELINE_DATA_PATH=${ROSLIN_PIPELINE_DATA_PATH}"
     echo "ROSLIN_EXTRA_BIND_PATH=${ROSLIN_EXTRA_BIND_PATH}"
-    echo "ROSLIN_INPUT_PATH=${ROSLIN_INPUT_PATH}"
-    echo "ROSLIN_OUTPUT_PATH=${ROSLIN_OUTPUT_PATH}"
+    echo "ROSLIN_PIPELINE_WORKSPACE_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}"
+    echo "ROSLIN_PIPELINE_OUTPUT_PATH=${ROSLIN_PIPELINE_OUTPUT_PATH}"
     echo "ROSLIN_SINGULARITY_PATH=${ROSLIN_SINGULARITY_PATH}"
     echo "ROSLIN_CMO_VERSION=${ROSLIN_CMO_VERSION}"
     echo "ROSLIN_CMO_PYTHON_PATH=${ROSLIN_CMO_PYTHON_PATH}"
@@ -181,7 +181,7 @@ mkdir -p ${output_directory}
 mkdir -p ${output_directory}/log
 
 # override CMO_RESOURC_CONFIG only while cwltoil is running
-export CMO_RESOURCE_CONFIG="${ROSLIN_BIN_PATH}/cwl/roslin_resources.json"
+export CMO_RESOURCE_CONFIG="${ROSLIN_PIPELINE_BIN_PATH}/cwl/roslin_resources.json"
 
 if [ -z "${JOB_UUID}" ]
 then
@@ -220,7 +220,7 @@ echo "${job_store_uuid}" > ${output_directory}/job-store-uuid
 # save the Roslin Pipeline settings.sh
 cp ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh ${output_directory}/settings
 
-jobstore_path="${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+jobstore_path="${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
 # job uuid followed by a colon (:) and then job store uuid
 printf "\n---> ROSLIN JOB UUID = ${job_uuid}:${job_store_uuid}\n"
@@ -236,12 +236,12 @@ export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:${ROSLIN_
 # run cwltoil
 set -o pipefail
 cwltoil \
-    ${ROSLIN_BIN_PATH}/cwl/${workflow_filename} \
+    ${ROSLIN_PIPELINE_BIN_PATH}/cwl/${workflow_filename} \
     ${input_filename} \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
     --defaultMem 12G \
-    --preserve-environment PATH PYTHONPATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
+    --preserve-environment PATH PYTHONPATH ROSLIN_PIPELINE_DATA_PATH ROSLIN_PIPELINE_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_PIPELINE_WORKSPACE_PATH ROSLIN_PIPELINE_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
     --disableCaching \
@@ -249,7 +249,7 @@ cwltoil \
     --maxLogFileSize 0 \
     --writeLogs	${output_directory}/log \
     --logFile ${output_directory}/log/cwltoil.log \
-    --workDir ${ROSLIN_BIN_PATH}/tmp \
+    --workDir ${ROSLIN_PIPELINE_BIN_PATH}/tmp \
     --outdir ${output_directory} ${restart_options} ${batch_sys_options} ${debug_options} \
     | tee ${output_directory}/output-meta.json
 exit_code=$?

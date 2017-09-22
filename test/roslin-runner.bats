@@ -129,11 +129,11 @@ get_args_line() {
     # load the Roslin Variant Pipeline settings
     export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
-    unset ROSLIN_BIN_PATH
-    unset ROSLIN_DATA_PATH
+    unset ROSLIN_PIPELINE_BIN_PATH
+    unset ROSLIN_PIPELINE_DATA_PATH
     unset ROSLIN_EXTRA_BIND_PATH
-    unset ROSLIN_INPUT_PATH
-    unset ROSLIN_OUTPUT_PATH
+    unset ROSLIN_PIPELINE_WORKSPACE_PATH
+    unset ROSLIN_PIPELINE_OUTPUT_PATH
     unset ROSLIN_SINGULARITY_PATH
     unset ROSLIN_CMO_VERSION
     unset ROSLIN_CMO_PYTHON_PATH
@@ -144,7 +144,7 @@ get_args_line() {
     assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
-@test "should abort if ROSLIN_BIN_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_BIN_PATH is not configured" {
 
     # load the Roslin Core settings
     source ./mock/roslin-core/1.0.0/config/settings.sh
@@ -152,7 +152,7 @@ get_args_line() {
     # load the Roslin Variant Pipeline settings
     export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
-    unset ROSLIN_BIN_PATH
+    unset ROSLIN_PIPELINE_BIN_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -160,7 +160,7 @@ get_args_line() {
     assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
-@test "should abort if ROSLIN_DATA_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_DATA_PATH is not configured" {
 
     # load the Roslin Core settings
     source ./mock/roslin-core/1.0.0/config/settings.sh
@@ -168,7 +168,7 @@ get_args_line() {
     # load the Roslin Variant Pipeline settings
     export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
-    unset ROSLIN_DATA_PATH
+    unset ROSLIN_PIPELINE_DATA_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -193,7 +193,7 @@ get_args_line() {
     assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
-@test "should abort if ROSLIN_INPUT_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_WORKSPACE_PATH is not configured" {
 
     # load the Roslin Core settings
     source ./mock/roslin-core/1.0.0/config/settings.sh
@@ -201,7 +201,7 @@ get_args_line() {
     # load the Roslin Variant Pipeline settings
     export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
-    unset ROSLIN_INPUT_PATH
+    unset ROSLIN_PIPELINE_WORKSPACE_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -209,7 +209,7 @@ get_args_line() {
     assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
-@test "should abort if ROSLIN_OUTPUT_PATH is not configured" {
+@test "should abort if ROSLIN_PIPELINE_OUTPUT_PATH is not configured" {
 
     # load the Roslin Core settings
     source ./mock/roslin-core/1.0.0/config/settings.sh
@@ -217,7 +217,7 @@ get_args_line() {
     # load the Roslin Variant Pipeline settings
     export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
 
-    unset ROSLIN_OUTPUT_PATH
+    unset ROSLIN_PIPELINE_OUTPUT_PATH
 
     run ${ROSLIN_RUNNER_SCRIPT}
 
@@ -315,11 +315,11 @@ get_args_line() {
     # load the Roslin Core settings
     source ./mock/roslin-core/1.0.0/config/settings.sh
 
-    export ROSLIN_BIN_PATH="a"
-    export ROSLIN_DATA_PATH="b"
+    export ROSLIN_PIPELINE_BIN_PATH="a"
+    export ROSLIN_PIPELINE_DATA_PATH="b"
     export ROSLIN_EXTRA_BIND_PATH="c"
-    export ROSLIN_INPUT_PATH="d"
-    export ROSLIN_OUTPUT_PATH="e"
+    export ROSLIN_PIPELINE_WORKSPACE_PATH="d"
+    export ROSLIN_PIPELINE_OUTPUT_PATH="e"
     export ROSLIN_SINGULARITY_PATH="/usr/no-bin/singularity"
     export ROSLIN_CMO_VERSION="g"
     export ROSLIN_CMO_PYTHON_PATH="/usr/local/lib/python2.7/site-packages/"
@@ -559,7 +559,7 @@ get_args_line() {
     # /tmp/roslin-runner.bats-12-7uktFHNZ4w/test.yaml
     # --jobStore file:///vagrant/test/mock/bin/tmp/jobstore-78377068-1682-11e7-8e2c-02e45b1a6ece
     # --defaultDisk 10G
-    # --preserve-environment PATH PYTHONPATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMSOURCE_CONFIG
+    # --preserve-environment PATH PYTHONPATH ROSLIN_PIPELINE_DATA_PATH ROSLIN_PIPELINE_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_PIPELINE_WORKSPACE_PATH ROSLIN_PIPELINE_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMSOURCE_CONFIG
     # --no-container
     # --not-strcit
     # --disableCaching
@@ -576,16 +576,16 @@ get_args_line() {
     #
 
     # check workflow filename (positional arg 0)
-    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/cwl/${workflow_filename}"
+    assert_equal "${args[0]}" "${ROSLIN_PIPELINE_BIN_PATH}/cwl/${workflow_filename}"
 
     # check input filename (positional arg 1)
     assert_equal "${args[1]}" "${input_filename}"
 
     # check --jobStore
-    assert_line --index 2 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 2 --partial "--jobStore file://${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --preserve-environment
-    assert_line --index 2 --partial "--preserve-environment PATH PYTHONPATH ROSLIN_DATA_PATH ROSLIN_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_INPUT_PATH ROSLIN_OUTPUT_PATH ROSLIN_SINGULARITY_PATH"
+    assert_line --index 2 --partial "--preserve-environment PATH PYTHONPATH ROSLIN_PIPELINE_DATA_PATH ROSLIN_PIPELINE_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_PIPELINE_WORKSPACE_PATH ROSLIN_PIPELINE_OUTPUT_PATH ROSLIN_SINGULARITY_PATH"
 
     # check --no-container
     assert_line --index 2 --partial "--no-container"
@@ -603,7 +603,7 @@ get_args_line() {
     assert_line --index 2 --partial "--realTimeLogging"
 
     # check --workDir
-    assert_line --index 2 --partial "--workDir ${ROSLIN_BIN_PATH}/tmp"
+    assert_line --index 2 --partial "--workDir ${ROSLIN_PIPELINE_BIN_PATH}/tmp"
 
     # by default, debug-related parameters should not be added
     refute_line --index 2 --partial "--logDebug --cleanWorkDir never"
@@ -818,13 +818,13 @@ get_args_line() {
     read -r -a args <<< "$args_line"
 
     # check workflow filename (positional arg 0)
-    assert_equal "${args[0]}" "${ROSLIN_BIN_PATH}/cwl/${workflow_filename}"
+    assert_equal "${args[0]}" "${ROSLIN_PIPELINE_BIN_PATH}/cwl/${workflow_filename}"
 
     # check --jobStore
-    assert_line --index 2 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 2 --partial "--jobStore file://${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --workDir
-    assert_line --index 2 --partial "--workDir ${ROSLIN_BIN_PATH}/tmp"
+    assert_line --index 2 --partial "--workDir ${ROSLIN_PIPELINE_BIN_PATH}/tmp"
 
     unstubs
 }
@@ -855,7 +855,7 @@ get_args_line() {
 
     assert_success
 
-    assert_line --index 2 "${ROSLIN_BIN_PATH}/cwl/roslin_resources.json"
+    assert_line --index 2 "${ROSLIN_PIPELINE_BIN_PATH}/cwl/roslin_resources.json"
 
     assert_equal `printenv CMO_RESOURCE_CONFIG` ''
 }
@@ -896,7 +896,7 @@ get_args_line() {
     assert_line --index 3 --partial "JOB UUID = ${job_uuid}:${job_store_uuid}"
 
     # check --jobStore
-    assert_line --index 2 --partial "--jobStore file://${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
+    assert_line --index 2 --partial "--jobStore file://${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid}"
 
     # check --restart
     assert_line --index 2 --partial "--restart"

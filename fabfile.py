@@ -25,7 +25,7 @@ def delete_roslin_bin():
     delete everything under ${PRISIM_BIN_PATH}
     """
 
-    run('rm -rf $ROSLIN_BIN_PATH/*')
+    run('rm -rf $ROSLIN_PIPELINE_BIN_PATH/*')
 
 
 @task
@@ -35,7 +35,7 @@ def half_delete_roslin_input():
     delete only files (no directories) in ${PRISIM_INPUT_PATH}/chunj
     """
 
-    run('find $ROSLIN_INPUT_PATH/chunj -maxdepth 1 -type f -delete')
+    run('find $ROSLIN_PIPELINE_WORKSPACE_PATH/chunj -maxdepth 1 -type f -delete')
 
 
 @task

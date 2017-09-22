@@ -14,7 +14,7 @@
 On Selene:
 
 ```bash
-$ cd $ROSLIN_INPUT_PATH/$USER/examples/unit-test
+$ cd $ROSLIN_PIPELINE_WORKSPACE_PATH/$USER/examples/unit-test
 ```
 
 The following command will run all the examples in your workspace directory, collect the metadata about outputs, and place them under the `./outputs/` directory.
@@ -84,10 +84,10 @@ $ cd /vagrant/test
 $ bats prism-runner.bats
  ✓ should have roslin-runner.sh
  ✓ should abort if all the necessary env vars are not configured
- ✓ should abort if ROSLIN_BIN_PATH is not configured
- ✓ should abort if ROSLIN_DATA_PATH is not configured
+ ✓ should abort if ROSLIN_PIPELINE_BIN_PATH is not configured
+ ✓ should abort if ROSLIN_PIPELINE_DATA_PATH is not configured
  ✓ should abort if ROSLIN_EXTRA_BIND_PATH is not configured
- ✓ should abort if ROSLIN_INPUT_PATH is not configured
+ ✓ should abort if ROSLIN_PIPELINE_WORKSPACE_PATH is not configured
  ✓ should abort if ROSLIN_SINGULARITY_PATH is not configured
  ✓ should abort if unable to find Singularity at ROSLIN_SINGULARITY_PATH
  ✓ should skip checking Singularity existence if on one of those leader nodes
@@ -120,8 +120,8 @@ $ bats sing.bats
  ✓ should be able to run singularity
  ✓ should abort if all the necessary env vars are not configured
  ✓ should abort if ROSLIN_SINGULARITY_PATH is not configured
- ✓ should abort if ROSLIN_DATA_PATH is not configured
- ✓ should abort if ROSLIN_BIN_PATH is not configured
+ ✓ should abort if ROSLIN_PIPELINE_DATA_PATH is not configured
+ ✓ should abort if ROSLIN_PIPELINE_BIN_PATH is not configured
  ✓ should abort if ROSLIN_EXTRA_BIND_PATH is not configured
  ✓ should abort if the two required parameters are not supplied
  ✓ should run the tool image and display 'Hello, World!'

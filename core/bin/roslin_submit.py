@@ -311,7 +311,7 @@ def main():
     job_uuid = str(uuid.uuid1())
 
     # must be one of the singularity binding points
-    work_base_dir = os.environ.get("ROSLIN_OUTPUT_PATH")
+    work_base_dir = os.environ.get("ROSLIN_PIPELINE_OUTPUT_PATH")
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
     if not os.path.exists(work_dir):

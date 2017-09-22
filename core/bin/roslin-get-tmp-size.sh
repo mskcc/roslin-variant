@@ -49,11 +49,11 @@ source ${outputs_path}/settings
 echo
 echo "with all symbolic links dereferenced"
 du ${outputs_path} -shL
-du ${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid} -shL
-du ${ROSLIN_BIN_PATH}/tmp/toil-${workflow_id} -shL
+du ${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid} -shL
+du ${ROSLIN_PIPELINE_BIN_PATH}/tmp/toil-${workflow_id} -shL
 
 echo
 echo "without following any symbolic links"
 du ${outputs_path} -sh
-du ${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid} -sh
-du ${ROSLIN_BIN_PATH}/tmp/toil-${workflow_id} -sh
+du ${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid} -sh
+du ${ROSLIN_PIPELINE_BIN_PATH}/tmp/toil-${workflow_id} -sh

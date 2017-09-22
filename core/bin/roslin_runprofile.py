@@ -208,7 +208,7 @@ def get_roslin_info():
 
     # fixme: roslin
     version = os.environ.get("ROSLIN_PIPELINE_VERSION")
-    path = os.environ.get("ROSLIN_BIN_PATH")
+    path = os.environ.get("ROSLIN_PIPELINE_BIN_PATH")
 
     return item(
         path=path,
@@ -375,7 +375,7 @@ def lookup_cmo_sing_cmdline(cmd0, version):
 
     try:
         # read roslin_resources.json
-        bin_path = os.environ.get("ROSLIN_BIN_PATH")
+        bin_path = os.environ.get("ROSLIN_PIPELINE_BIN_PATH")
         res_json_path = os.path.join(bin_path, "pipeline/1.0.0/roslin_resources.json")
         resources = json.loads(read_file(res_json_path))
 
@@ -407,7 +407,7 @@ def get_cwl_metadata(cwl_filename, version):
         return CWL_METADATA_CACHE[cache_key]
 
     # fixme: this will fail if different users work on different bin base
-    bin_path = os.environ.get("ROSLIN_BIN_PATH")
+    bin_path = os.environ.get("ROSLIN_PIPELINE_BIN_PATH")
     cwl_path = os.path.join(
         bin_path, "pipeline/1.0.0/",
         cwl_filename.replace(".cwl", ""), version, cwl_filename

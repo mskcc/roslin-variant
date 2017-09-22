@@ -76,46 +76,46 @@ echo
 #--> create directories
 
 # container images
-mkdir -p ${ROSLIN_BIN_PATH}/img
+mkdir -p ${ROSLIN_PIPELINE_BIN_PATH}/img
 
 # cwl wrappers
-mkdir -p ${ROSLIN_BIN_PATH}/cwl
+mkdir -p ${ROSLIN_PIPELINE_BIN_PATH}/cwl
 
 # toil tmp
-mkdir -p ${ROSLIN_BIN_PATH}/tmp
+mkdir -p ${ROSLIN_PIPELINE_BIN_PATH}/tmp
 
 # data path (e.g. resources such as genome assemblies)
-mkdir -p ${ROSLIN_DATA_PATH}
+mkdir -p ${ROSLIN_PIPELINE_DATA_PATH}
 
 # directories for pipeline inputs (e.g. workspace, examples)
-mkdir -p ${ROSLIN_INPUT_PATH}
+mkdir -p ${ROSLIN_PIPELINE_WORKSPACE_PATH}
 
 # create output directory
-mkdir -p ${ROSLIN_OUTPUT_PATH}
+mkdir -p ${ROSLIN_PIPELINE_OUTPUT_PATH}
 
 #<--
 
 #--> permission
 
 # group should have read/write/execute permission
-chmod -R 775 ${ROSLIN_BIN_PATH}/img
-chmod -R 775 ${ROSLIN_BIN_PATH}/cwl
+chmod -R 775 ${ROSLIN_PIPELINE_BIN_PATH}/img
+chmod -R 775 ${ROSLIN_PIPELINE_BIN_PATH}/cwl
 
 # everyone should have read/write/execute permission
-chmod 777 ${ROSLIN_BIN_PATH}/tmp
-chmod 777 ${ROSLIN_INPUT_PATH}
-chmod 777 ${ROSLIN_OUTPUT_PATH}
+chmod 777 ${ROSLIN_PIPELINE_BIN_PATH}/tmp
+chmod 777 ${ROSLIN_PIPELINE_WORKSPACE_PATH}
+chmod 777 ${ROSLIN_PIPELINE_OUTPUT_PATH}
 
 #<--
 
 # copy container images
-cp -R ${install_temp_path}/setup/img/* ${ROSLIN_BIN_PATH}/img/
+cp -R ${install_temp_path}/setup/img/* ${ROSLIN_PIPELINE_BIN_PATH}/img/
 
 # copy cwl wrappers
-cp -R ${install_temp_path}/setup/cwl/* ${ROSLIN_BIN_PATH}/cwl/
+cp -R ${install_temp_path}/setup/cwl/* ${ROSLIN_PIPELINE_BIN_PATH}/cwl/
 
 #--> use pre-fetched local schemas instead of going over the Internet to fetch
-for file in `find ${ROSLIN_BIN_PATH}/cwl -name "*.cwl"`
+for file in `find ${ROSLIN_PIPELINE_BIN_PATH}/cwl -name "*.cwl"`
 do
 
     parent_dir=$(python -c "import os; print os.path.abspath(os.path.join('${file}', '..'))")
@@ -160,13 +160,13 @@ done
 #<--
 
 # copy jumpstart examples
-tar cvzf ${ROSLIN_INPUT_PATH}/examples.tgz -C ${install_temp_path}/setup ./examples
+tar cvzf ${ROSLIN_PIPELINE_WORKSPACE_PATH}/examples.tgz -C ${install_temp_path}/setup ./examples
 
 # check md5 checksum
-cd ${ROSLIN_BIN_PATH}/img
+cd ${ROSLIN_PIPELINE_BIN_PATH}/img
 md5sum -c checksum.dat
 
-cd ${ROSLIN_BIN_PATH}/cwl
+cd ${ROSLIN_PIPELINE_BIN_PATH}/cwl
 md5sum -c checksum.dat
 
 # clean up

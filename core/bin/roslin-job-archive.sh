@@ -105,12 +105,12 @@ printf "Workflow ID    : $workflow_id\n"
 source ${outputs_path}/settings
 
 # get toil stats
-toil stats ${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid} > ${outputs_path}/toil-stats.log 2>&1
+toil stats ${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid} > ${outputs_path}/toil-stats.log 2>&1
 
 # save file contents
 python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${outputs_path} > ${outputs_path}/tree.outputs.txt
-python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${ROSLIN_BIN_PATH}/tmp/jobstore-${job_store_uuid} > ${outputs_path}/tree.jobstore.txt
-python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${ROSLIN_BIN_PATH}/tmp/toil-${workflow_id} > ${outputs_path}/tree.toiltmp.txt
+python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${ROSLIN_PIPELINE_BIN_PATH}/tmp/jobstore-${job_store_uuid} > ${outputs_path}/tree.jobstore.txt
+python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${ROSLIN_PIPELINE_BIN_PATH}/tmp/toil-${workflow_id} > ${outputs_path}/tree.toiltmp.txt
 
 ls -lh ${outputs_path}/* >> ${outputs_path}/tree.outputs.txt
 
@@ -119,7 +119,7 @@ new_archive_path=$(get_archive_name $archives_path/$job_uuid)
 mkdir -p ${new_archive_path}
 
 tar czf ${new_archive_path}/outputs.tgz ${outputs_path}/*
-tar czf ${new_archive_path}/jobstore.tgz -C ${ROSLIN_BIN_PATH}/tmp/ ./jobstore-${job_store_uuid}
-tar czf ${new_archive_path}/toiltmp.tgz -C ${ROSLIN_BIN_PATH}/tmp/ ./toil-${workflow_id}
+tar czf ${new_archive_path}/jobstore.tgz -C ${ROSLIN_PIPELINE_BIN_PATH}/tmp/ ./jobstore-${job_store_uuid}
+tar czf ${new_archive_path}/toiltmp.tgz -C ${ROSLIN_PIPELINE_BIN_PATH}/tmp/ ./toil-${workflow_id}
 
 echo "Archived       : ${new_archive_path}"
