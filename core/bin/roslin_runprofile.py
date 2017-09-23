@@ -167,7 +167,7 @@ def run(cmd, shell=False, strip_newline=True):
     return stdout, stderr, process.returncode
 
 
-# fixme: common
+# fixme: common.lib
 def generate_sha1(filename):
     "generate SHA1 hash out of file"
 
@@ -184,6 +184,25 @@ def generate_sha1(filename):
             sha1.update(data)
 
     return sha1.hexdigest()
+
+
+# fixme: common.lib
+def read_pipeline_settings(settings_path):
+    "read the Roslin Pipeline settings"
+
+    command = ['bash', '-c', 'source {} && env'.format(settings_path)]
+
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+
+    source_env = {}
+
+    for line in proc.stdout:
+        (key, _, value) = line.partition("=")
+        source_env[key] = value.rstrip()
+
+    proc.communicate()
+
+    return source_env
 
 
 def get_singularity_info():

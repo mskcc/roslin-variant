@@ -253,6 +253,27 @@ def publish_to_redis(cmo_project_id, cmo_project_path, lsf_proj_name, job_uuid):
     redis_client.publish('roslin-projects', json.dumps(data))
 
 
+# fixme: common.lib
+def read_pipeline_settings(pipeline_name_version):
+    "read the Roslin Pipeline settings"
+
+    settings_path = os.path.join(os.environ.get("ROSLIN_CORE_CONFIG_PATH"), pipeline_name_version, "settings.sh")
+
+    command = ['bash', '-c', 'source {} && env'.format(settings_path)]
+
+    proc = subprocess.Popen(command, stdout=subprocess.PIPE)
+
+    source_env = {}
+
+    for line in proc.stdout:
+        (key, _, value) = line.partition("=")
+        source_env[key] = value.rstrip()
+
+    proc.communicate()
+
+    return source_env
+
+
 def main():
     "main function"
 
@@ -310,8 +331,11 @@ def main():
     # create a new unique job uuid
     job_uuid = str(uuid.uuid1())
 
+    # read the Roslin Pipeline settings
+    pipeline_settings = read_pipeline_settings(params.pipeline_name_version)
+
     # must be one of the singularity binding points
-    work_base_dir = os.environ.get("ROSLIN_PIPELINE_OUTPUT_PATH")
+    work_base_dir = pipeline_settings["ROSLIN_PIPELINE_OUTPUT_PATH"]
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
     if not os.path.exists(work_dir):
