@@ -26,7 +26,7 @@ def compress(output_filename):
         "--exclude", "./setup/img/abra",
         "--exclude", "./setup/img/basic-filtering",
         "--exclude", "./setup/img/bcftools",
-        "--exclude", "./setup/img/bwa",
+        # "--exclude", "./setup/img/bwa",
         "--exclude", "./setup/img/facets",
         "--exclude", "./setup/img/gatk",
         "--exclude", "./setup/img/getbasecountsmultisample",
@@ -45,7 +45,7 @@ def compress(output_filename):
         "--exclude", "./setup/img/vardict",
         "--exclude", "./setup/img/vcf2maf",
         "--exclude", "./setup/img/vep",
-        "--exclude", "./setup/img/samtools",
+        # "--exclude", "./setup/img/samtools",
         # "--exclude", "./setup/examples",
 #<--
         "-cvzf", output_filename,

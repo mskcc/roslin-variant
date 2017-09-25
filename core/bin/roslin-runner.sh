@@ -93,7 +93,7 @@ source ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh
 if [ -z "$ROSLIN_PIPELINE_BIN_PATH" ] || [ -z "$ROSLIN_PIPELINE_DATA_PATH" ] || \
    [ -z "$ROSLIN_PIPELINE_WORKSPACE_PATH" ] || [ -z "$ROSLIN_PIPELINE_OUTPUT_PATH" ] || \
    [ -z "$ROSLIN_EXTRA_BIND_PATH" ] || [ -z "$ROSLIN_SINGULARITY_PATH" ] || \
-   [ -z "$ROSLIN_CMO_VERSION" ] || [ -z "$ROSLIN_CMO_PYTHON_PATH" ]
+   [ -z "$ROSLIN_CMO_VERSION" ] || [ -z "$ROSLIN_CMO_BIN_PATH" ] || [ -z "$ROSLIN_CMO_PYTHON_PATH" ]
 then
     echo "Some of the Roslin Pipeline settings are not found."
     echo "ROSLIN_PIPELINE_BIN_PATH=${ROSLIN_PIPELINE_BIN_PATH}"
@@ -103,6 +103,7 @@ then
     echo "ROSLIN_PIPELINE_OUTPUT_PATH=${ROSLIN_PIPELINE_OUTPUT_PATH}"
     echo "ROSLIN_SINGULARITY_PATH=${ROSLIN_SINGULARITY_PATH}"
     echo "ROSLIN_CMO_VERSION=${ROSLIN_CMO_VERSION}"
+    echo "ROSLIN_CMO_BIN_PATH=${ROSLIN_CMO_BIN_PATH}"
     echo "ROSLIN_CMO_PYTHON_PATH=${ROSLIN_CMO_PYTHON_PATH}"
     exit 1
 fi
@@ -231,7 +232,7 @@ echo "VERSIONS: roslin-core-${ROSLIN_CORE_VERSION}, roslin-${ROSLIN_PIPELINE_NAM
 export PYTHONPATH="${ROSLIN_CMO_PYTHON_PATH}"
 
 # add cmo and sing to PATH
-export PATH=/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin:${ROSLIN_CORE_BIN_PATH}/sing:$PATH
+export PATH=${ROSLIN_CMO_BIN_PATH}:${ROSLIN_CORE_BIN_PATH}/sing:$PATH
 
 # run cwltoil
 set -o pipefail

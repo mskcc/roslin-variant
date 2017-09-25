@@ -7,7 +7,7 @@ export ROSLIN_EXTRA_BIND_PATH="/vagrant/test/mock/scratch1 /vagrant/test/mock/sc
 export ROSLIN_PIPELINE_WORKSPACE_PATH="/vagrant/test/mock/inputs"
 export ROSLIN_PIPELINE_OUTPUT_PATH="/vagrant/test/mock/outputs"
 export ROSLIN_CMO_VERSION="1.6.7"
-
+export ROSLIN_CMO_BIN_PATH="/usr/local/bin/cmo-gxargparse/cmo/bin/"
 # incorrect PYTHON PATH
 export ROSLIN_CMO_PYTHON_PATH="/doesnt/exist"
 

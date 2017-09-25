@@ -6,7 +6,7 @@
 
 Use Packer to build an AMI first. This is only required if you need to rebuild an image.
 
-If you did recreate the AMI, capture the AMI ID generated and replace the old AMI ID in the `specification.template.json` file with the new AMI ID.
+If you did recreate the AMI, the new AMI ID and EBS snapshot ID must be replaced in the `specification.*json` file. This can be done by executing `update-templates.sh` with the IDs.
 
 ### Deploy Reference Files
 
@@ -16,7 +16,10 @@ tbd
 
 ```
 $ python compress.py
-$ aws s3 cp roslin-v1.0.0.tgz s3://roslin-installer/
+$ aws s3 cp roslin-variant-pipeline-v1.0.0.tgz s3://roslin-installer
+$ cd core
+$ ./make-deployable-pkg.sh
+$ aws s3 cp roslin-core-v1.0.0.tgz s3://roslin-installer
 ```
 
 ## Single Machine Test

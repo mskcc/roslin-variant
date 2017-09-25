@@ -11,7 +11,7 @@ wget --no-check-certificate --content-disposition https://github.com/singularity
 tar xvzf singularity-${SINGULARITY_VERSION}.tar.gz
 rm -rf singularity-${SINGULARITY_VERSION}.tar.gz
 cd singularity-${SINGULARITY_VERSION}
-./configure --prefix=/usr/local
+./configure --prefix=/usr
 make
 sudo make install
 

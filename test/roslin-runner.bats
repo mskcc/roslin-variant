@@ -257,6 +257,22 @@ get_args_line() {
     assert_line 'Some of the Roslin Pipeline settings are not found.'
 }
 
+@test "should abort if ROSLIN_CMO_BIN_PATH is not configured" {
+
+    # load the Roslin Core settings
+    source ./mock/roslin-core/1.0.0/config/settings.sh
+
+    # load the Roslin Variant Pipeline settings
+    export ROSLIN_DEFAULT_PIPELINE_NAME_VERSION="variant/1.0.0"
+
+    unset ROSLIN_CMO_BIN_PATH
+
+    run ${ROSLIN_RUNNER_SCRIPT}
+
+    assert_failure
+    assert_line 'Some of the Roslin Pipeline settings are not found.'
+}
+
 @test "should abort if ROSLIN_CMO_PYTHON_PATH is not configured" {
 
     # load the Roslin Core settings
@@ -966,7 +982,7 @@ get_args_line() {
 
     assert_success
 
-    assert_line --index 2 --partial "/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/bin"
+    assert_line --index 2 --partial "${ROSLIN_CMO_BIN_PATH}"
     assert_line --index 2 --partial "${ROSLIN_CORE_BIN_PATH}/sing"
 }
 

@@ -37,4 +37,5 @@ export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 
 # cmo
 export ROSLIN_CMO_VERSION="{{ dependencies_cmo_version }}"
+export ROSLIN_CMO_BIN_PATH="{{ dependencies_cmo_bin_path }}"
 export ROSLIN_CMO_PYTHON_PATH="{{ dependencies_cmo_python_path }}"

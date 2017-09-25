@@ -56,11 +56,15 @@ then
     exit 1
 fi
 
-if [ `whoami` != "$user_id" ]
+# check this constraint only if user is not root
+if [ `whoami` != "root" ]
 then
-    echo "You can only run this from your own account (`whoami` != ${user_id})"
-    echo "Aborted."
-    exit 1
+    if [ `whoami` != "$user_id" ]
+    then
+        echo "You can only run this from your own account (`whoami` != ${user_id})"
+        echo "Aborted."
+        exit 1
+    fi
 fi
 
 if [ -d "${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}" ] && [ "${force_overwrite}" -eq 0 ]

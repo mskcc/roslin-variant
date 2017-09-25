@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-version_file="/var/log/prism-software-versions.txt"
+version_file="/var/log/roslin-software-versions.txt"
 
 write()
 {
@@ -27,5 +27,5 @@ check "singularity" "singularity --version"
 
 # cmo works a bit different, so...
 # need cmo_resources.json in order to import cmo.
-cmo_version=`CMO_RESOURCE_CONFIG="/usr/local/bin/cmo_resources.json" python -c "import cmo; print cmo.__version__"`
-write "cmo : $cmo_version"
+# cmo_version=`CMO_RESOURCE_CONFIG="/usr/local/bin/cmo_resources.json" python -c "import cmo; print cmo.__version__"`
+# write "cmo : $cmo_version"
