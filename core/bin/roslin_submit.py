@@ -347,7 +347,7 @@ def main():
         "{}_request.txt".format(params.cmo_project_id),
         "{}_sample_grouping.txt".format(params.cmo_project_id),
         "{}_sample_mapping.txt".format(params.cmo_project_id),
-        "{}_sample_pairing.txt".format(params.cmo_project_id),
+        "{}_sample_pairing.txt".format(params.cmo_project_id)
     ]
 
     for filename in input_metadata_filenames:

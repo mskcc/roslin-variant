@@ -201,7 +201,6 @@ def get_final_output_metadata(stdout_log_path):
 
     except Exception as e:
         logger.error(e)
-        pass
 
 
 # fixme: common
