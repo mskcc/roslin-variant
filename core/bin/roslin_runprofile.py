@@ -124,7 +124,6 @@ def get_references(inputs_yaml_path):
             checksum_value=generate_sha1(db_files["refseq"]["path"])
         )
 
-##
     if "hotspot_list" in db_files:
         references["hotspot_list"] = item(
             path=db_files["hotspot_list"]["path"],
@@ -152,7 +151,7 @@ def get_references(inputs_yaml_path):
     return references
 
 
-# fixme: common
+# fixme: common.lib
 def run(cmd, shell=False, strip_newline=True):
     "run a command and return (stdout, stderr, exit code)"
 
@@ -205,10 +204,10 @@ def read_pipeline_settings(settings_path):
     return source_env
 
 
-def get_singularity_info():
+def get_singularity_info(pipeline_settings):
     "get singularity info"
 
-    path = os.environ.get("ROSLIN_SINGULARITY_PATH")
+    path = pipeline_settings["ROSLIN_SINGULARITY_PATH"]
 
     version, _, _ = run([path, "--version"])
 
@@ -222,19 +221,23 @@ def get_singularity_info():
     )
 
 
-def get_roslin_info():
+def get_roslin_info(pipeline_settings):
     "get roslin info"
 
-    # fixme: roslin
-    version = os.environ.get("ROSLIN_PIPELINE_VERSION")
-    path = os.environ.get("ROSLIN_PIPELINE_BIN_PATH")
-
-    return item(
-        path=path,
-        version=version,
-        checksum_method=None,
-        checksum_value=None
-    )
+    return {
+        "core": item(
+            path=os.environ.get("ROSLIN_CORE_PATH"),
+            version=os.environ.get("ROSLIN_CORE_VERSION"),
+            checksum_method=None,
+            checksum_value=None
+        ),
+        "pipeline": item(
+            path=pipeline_settings["ROSLIN_PIPELINE_BIN_PATH"],
+            version=pipeline_settings["ROSLIN_PIPELINE_VERSION"],
+            checksum_method=None,
+            checksum_value=None
+        )
+    }
 
 
 def get_cmo_pkg_info():
@@ -385,7 +388,7 @@ def get_img_metadata(sing_cmdline):
     return out
 
 
-def lookup_cmo_sing_cmdline(cmd0, version):
+def lookup_cmo_sing_cmdline(pipeline_settings, cmd0, version):
     """
     for a given cmo command and version, get sing command-line by looking up roslin_resources.json
     e.g. cmo0 = cmo_trimgalore
@@ -394,8 +397,8 @@ def lookup_cmo_sing_cmdline(cmd0, version):
 
     try:
         # read roslin_resources.json
-        bin_path = os.environ.get("ROSLIN_PIPELINE_BIN_PATH")
-        res_json_path = os.path.join(bin_path, "pipeline/1.0.0/roslin_resources.json")
+        bin_path = pipeline_settings["ROSLIN_PIPELINE_BIN_PATH"]
+        res_json_path = os.path.join(bin_path, "cwl/roslin_resources.json")
         resources = json.loads(read_file(res_json_path))
 
         # may or may not be trailing whitespaces
@@ -418,7 +421,7 @@ def lookup_cmo_sing_cmdline(cmd0, version):
         return None
 
 
-def get_cwl_metadata(cwl_filename, version):
+def get_cwl_metadata(pipeline_settings, cwl_filename, version):
     "get cwl metadata"
 
     cache_key = cwl_filename + ":" + version
@@ -426,9 +429,9 @@ def get_cwl_metadata(cwl_filename, version):
         return CWL_METADATA_CACHE[cache_key]
 
     # fixme: this will fail if different users work on different bin base
-    bin_path = os.environ.get("ROSLIN_PIPELINE_BIN_PATH")
+    bin_path = pipeline_settings["ROSLIN_PIPELINE_BIN_PATH"]
     cwl_path = os.path.join(
-        bin_path, "pipeline/1.0.0/",
+        bin_path, "cwl",
         cwl_filename.replace(".cwl", ""), version, cwl_filename
     )
 
@@ -470,8 +473,10 @@ def get_toil_log_level(log):
     else:
         return None
 
+# fixme: let's use some design pattern
 
-def get_bioinformatics_software_info_loglevel_INFO(log):
+
+def get_bioinformatics_software_info_loglevel_INFO(pipeline_settings, log):
     "get bioinformatics software info when log level is set to INFO"
 
     sw_list = {}
@@ -527,7 +532,7 @@ def get_bioinformatics_software_info_loglevel_INFO(log):
         if cmd0.startswith("sing.sh"):
             entry["img"] = get_img_metadata(base_cmd)
         elif cmd0.startswith("cmo_"):
-            sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
+            sing_cmdline = lookup_cmo_sing_cmdline(pipeline_settings, cmd0, version)
             if sing_cmdline:
                 entry["img"] = get_img_metadata(sing_cmdline)
 
@@ -536,7 +541,8 @@ def get_bioinformatics_software_info_loglevel_INFO(log):
     return sw_list
 
 
-def get_bioinformatics_software_info_loglevel_DEBUG(log):
+# fixme: let's use some design pattern
+def get_bioinformatics_software_info_loglevel_DEBUG(pipeline_settings, log):
     "get bioinformatics software info when log level is set to DEBUG"
 
     sw_list = {}
@@ -640,14 +646,14 @@ def get_bioinformatics_software_info_loglevel_DEBUG(log):
             if cmd0.startswith("sing.sh"):
                 entry["img"] = get_img_metadata(final_command_line)
             elif cmd0.startswith("cmo_"):
-                sing_cmdline = lookup_cmo_sing_cmdline(cmd0, version)
+                sing_cmdline = lookup_cmo_sing_cmdline(pipeline_settings, cmd0, version)
                 if sing_cmdline:
                     entry["img"] = get_img_metadata(sing_cmdline)
 
             if cwl_filename + version in CWL_METADATA_CACHE:
                 entry["cwl"] = CWL_METADATA_CACHE[cwl_filename + version]
             else:
-                entry["cwl"] = get_cwl_metadata(cwl_filename, version)
+                entry["cwl"] = get_cwl_metadata(pipeline_settings, cwl_filename, version)
 
             sw_list[software_name].append(entry)
 
@@ -665,7 +671,8 @@ def get_bioinformatics_software_info_loglevel_DEBUG(log):
     return sw_list
 
 
-def get_bioinformatics_software_info(cwltoil_log):
+# fixme: let's use some design pattern
+def get_bioinformatics_software_info(pipeline_settings, cwltoil_log):
     "get bioinformatics software info"
 
     log = read_file(cwltoil_log)
@@ -673,15 +680,20 @@ def get_bioinformatics_software_info(cwltoil_log):
     log_level = get_toil_log_level(log)
 
     if log_level == "INFO":
-        return get_bioinformatics_software_info_loglevel_INFO(log)
+        return get_bioinformatics_software_info_loglevel_INFO(pipeline_settings, log)
     elif log_level == "DEBUG":
-        return get_bioinformatics_software_info_loglevel_DEBUG(log)
+        return get_bioinformatics_software_info_loglevel_DEBUG(pipeline_settings, log)
     else:
         return {}
 
 
-def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
+def make_runprofile(job_uuid, work_dir, cwltoil_log_path):
     "make run profile"
+
+    # read the Roslin Pipeline settings
+    pipeline_settings = read_pipeline_settings(os.path.join(work_dir, "settings"))
+
+    inputs_yaml_path = os.path.join(work_dir, "inputs.yaml")
 
     run_profile = {
 
@@ -690,12 +702,12 @@ def make_runprofile(job_uuid, inputs_yaml_path, cwltoil_log_path):
         "pipelineJobId": job_uuid,
 
         "softwareUsed": {
-            "roslin": get_roslin_info(),
+            "roslin": get_roslin_info(pipeline_settings),
             "cmo": get_cmo_pkg_info(),
-            "singularity": get_singularity_info(),
+            "singularity": get_singularity_info(pipeline_settings),
             "cwltoil": get_cwltoil_info(),
             "node": get_node_info(),
-            "bioinformatics": get_bioinformatics_software_info(cwltoil_log_path)
+            "bioinformatics": get_bioinformatics_software_info(pipeline_settings, cwltoil_log_path)
         },
 
         "references": get_references(inputs_yaml_path)
@@ -749,10 +761,8 @@ def main():
 
     try:
 
-        inputs_yaml_path = os.path.join(params.work_dir, "inputs.yaml")
-
         # generate run-profile
-        run_profile = make_runprofile(params.job_uuid, inputs_yaml_path, params.cwltoil_log_path)
+        run_profile = make_runprofile(params.job_uuid, params.work_dir, params.cwltoil_log_path)
 
         # display run-profile to screen
         print json.dumps(run_profile, indent=2)
