@@ -2,6 +2,7 @@
 ##################
 .vagrant
 .vscode/ftp-sync.json
+.vscode/.ropeproject/*
 
 /build/containers/**/*.img
 /build/containers/**/*.img.bak
