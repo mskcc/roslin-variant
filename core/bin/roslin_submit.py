@@ -93,20 +93,6 @@ def submit_to_lsf(cmo_project_id, job_uuid, work_dir, pipeline_name_version, wor
     return lsf_proj_name, lsf_job_id
 
 
-def read(filename):
-    """return file contents"""
-
-    with open(filename, 'r') as file_in:
-        return file_in.read()
-
-
-def write(filename, cwl):
-    """write to file"""
-
-    with open(filename, 'w') as file_out:
-        file_out.write(cwl)
-
-
 # fixme: move to common
 def get_current_utc_datetime():
     "return the current UTC date/time"
@@ -338,6 +324,7 @@ def main():
     work_base_dir = pipeline_settings["ROSLIN_PIPELINE_OUTPUT_PATH"]
     work_dir = os.path.join(work_base_dir, job_uuid[:8], job_uuid)
 
+    # create only if work_dir does not exist
     if not os.path.exists(work_dir):
         os.makedirs(work_dir)
 
