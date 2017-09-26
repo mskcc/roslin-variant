@@ -7,19 +7,12 @@ cat << "EOF"
 \ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \
  \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\
   \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/
- ______   __     ______   ______     __         __     __   __     ______
-/\  == \ /\ \   /\  == \ /\  ___\   /\ \       /\ \   /\ "-.\ \   /\  ___\
-\ \  _-/ \ \ \  \ \  _-/ \ \  __\   \ \ \____  \ \ \  \ \ \-.  \  \ \  __\
- \ \_\    \ \_\  \ \_\    \ \_____\  \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\
-  \/_/     \/_/   \/_/     \/_____/   \/_____/   \/_/   \/_/ \/_/   \/_____/
 
 EOF
 
-echo "Roslin Pipeline ${ROSLIN_PIPELINE_VERSION}"
+echo "Roslin Core ${ROSLIN_CORE_VERSION}"
 echo
-echo "ROSLIN_PIPELINE_BIN_PATH=${ROSLIN_PIPELINE_BIN_PATH}"
-echo "ROSLIN_PIPELINE_DATA_PATH=${ROSLIN_PIPELINE_DATA_PATH}"
-echo "ROSLIN_EXTRA_BIND_PATH=${ROSLIN_EXTRA_BIND_PATH}"
-echo "ROSLIN_PIPELINE_WORKSPACE_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}"
-echo "ROSLIN_PIPELINE_OUTPUT_PATH=${ROSLIN_PIPELINE_OUTPUT_PATH}"
-echo "ROSLIN_SINGULARITY_PATH=${ROSLIN_SINGULARITY_PATH}"
+echo "ROSLIN_CORE_ROOT=${ROSLIN_CORE_ROOT}"
+echo "ROSLIN_CORE_PATH=${ROSLIN_CORE_PATH}"
+echo "ROSLIN_CORE_BIN_PATH=${ROSLIN_CORE_BIN_PATH}"
+echo "ROSLIN_CORE_CONFIG_PATH=${ROSLIN_CORE_CONFIG_PATH}"
