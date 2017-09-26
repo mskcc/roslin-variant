@@ -188,7 +188,7 @@ printf "\n---> PRISM JOB UUID = ${job_uuid}:${job_store_uuid}\n"
 #set cmo package version based on env variable
 #FIXME installation script needs improving, default might be more than this 1.6.7 hardcode
 if [ -z "$ROSLIN_CMO_VERSION" ]; then
-    export ROSLIN_CMO_VERSION="1.6.9"
+    export ROSLIN_CMO_VERSION="1.7.0"
 fi
 echo "Using ${ROSLIN_CMO_VERSION} CMO package version"
 export EXPECTED_PYTHONPATH="/ifs/work/pi/cmo_package_archive/${ROSLIN_CMO_VERSION}/lib/python2.7/site-packages/"
