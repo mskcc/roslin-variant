@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# su - ubuntu
+# AWS user data scripts are executed as the root user
+# so do not use the sudo command in the script.
 
 ROSLIN_CORE_VERSION="1.0.0"
 ROSLIN_PIPELINE_NAME="variant"
@@ -55,6 +56,8 @@ cat ${roslin_pipeline_settings}.bak | \
 source ${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}/settings.sh
 
 # install cmo
+# libs required by cmo
+apt-get install -y zlib1g-dev libbz2-dev liblzma-dev
 cd /tmp
 wget -O cmo-${ROSLIN_CMO_VERSION}.tar.gz https://github.com/mskcc/cmo/archive/${ROSLIN_CMO_VERSION}.tar.gz
 tar xvzf cmo-${ROSLIN_CMO_VERSION}.tar.gz
@@ -64,10 +67,7 @@ python setup.py install --prefix `dirname ${ROSLIN_CMO_BIN_PATH}`
 
 #--> fixme #hack
 
-# /bin/bash instead of /bin/sh
-sed -i.bak "s|return_code = subprocess.check_call(cmd, shell=shell, stderr=stderr, stdout=stdout, stdin=stdin)|return_code = subprocess.check_call(cmd, shell=shell, stderr=stderr, stdout=stdout, stdin=stdin, executable='/bin/bash')|g" /usr/local/lib/python2.7/dist-packages/cmo-1.6.9-py2.7.egg/cmo/util.py
-
-# reduce resource requirements
+# reduce resource requirements (for dev using t2.micro)
 for file in `find ${ROSLIN_PIPELINE_BIN_PATH}/cwl -name "*.cwl"`
 do
 	sudo sed -i.bak "s/ramMin: .*/ramMin: 1/g" $file
@@ -80,12 +80,17 @@ cp ./cmo/data/cmo_resources.json /usr/local/bin/
 
 rm -rf /tmp/cmo-*
 
-
-# give the ownership of the workspace to the 'ubuntu' user
+# give the ownership of the workspace and scratch to the 'ubuntu' user
 chown -R ubuntu ${ROSLIN_PIPELINE_WORKSPACE_PATH}
+chown -R ubuntu /scratch
 
+# update .profile
+# 
 echo "source ${ROSLIN_CORE_CONFIG_PATH}/settings.sh" >> /home/ubuntu/.profile
 echo "export PATH=${ROSLIN_CORE_BIN_PATH}:\$PATH" >> /home/ubuntu/.profile
+echo "ulimit -s 65536"  >> /home/ubuntu/.profile
+
+
 
 #
 #fixme: copy references
