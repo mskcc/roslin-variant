@@ -24,26 +24,6 @@ do
   cat ./empty-lines.sh >> user-data.sh
 done
 
-# exit 0
-
-# cat ../packer/scripts/bootstrap.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/install-python.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/install-singularity.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/install-docker.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/install-cwltoil-mskcc.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/install-nodejs.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/install-awscli.sh \
-#     ./empty-lines.sh \
-#     ../packer/scripts/check-versions.sh \
-#     ./empty-lines.sh \
-#     ./add-volume.sh > user-data.sh
-
 result_json=`mktemp -q -t ec2-instance-result`
 
 if [ $? -ne 0 ]

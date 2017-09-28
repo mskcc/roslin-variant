@@ -76,7 +76,7 @@ done
 
 #<--
 
-cp ./cmo/data/cmo_resources.json /usr/local/bin/
+# cp ./cmo/data/cmo_resources.json /usr/local/bin/
 
 rm -rf /tmp/cmo-*
 
@@ -88,6 +88,7 @@ chown -R ubuntu /scratch
 # 
 echo "source ${ROSLIN_CORE_CONFIG_PATH}/settings.sh" >> /home/ubuntu/.profile
 echo "export PATH=${ROSLIN_CORE_BIN_PATH}:\$PATH" >> /home/ubuntu/.profile
+echo "export CMO_RESOURCE_CONFIG=${ROSLIN_PIPELINE_BIN_PATH}/cwl/roslin_resources.json" >> /home/ubuntu/.profile
 echo "ulimit -s 65536"  >> /home/ubuntu/.profile
 
 
