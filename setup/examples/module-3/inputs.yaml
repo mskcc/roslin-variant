@@ -7,8 +7,8 @@ cosmic:
     path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
 mutect_dcov: 50000
 mutect_rf: ["BadCigar"]
-normal_sample_id: "Normal"
-tumor_sample_id: "Tumor"
+normal_sample_name: "Normal"
+tumor_sample_name: "Tumor"
 bed:
     class: File
     path: ../data/from-module-2/intervals.bed
