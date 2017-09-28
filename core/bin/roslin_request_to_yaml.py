@@ -26,8 +26,14 @@ def parse_mapping_file(mfile):
         new_row = copy.deepcopy(row)
         new_row['rg_id'] = row['sample_id'] + new_row['library_suffix'] + new_row['run_id']
         fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
-        new_row['fastqs'] = fastqs
-        mapping_dict[row['sample_id']] = new_row
+        if row['sample_id'] in mapping_dict:
+            #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
+            #FIXME do this merge better
+            mapping_dict[row['sample_id']]['fastqs']['R1'].append(fastqs['R1'])
+            mapping_dict[row['sample_id']]['fastqs']['R2'].append(fastqs['R2'])
+        else:
+            new_row['fastqs'] = fastqs
+            mapping_dict[row['sample_id']] = new_row
     return mapping_dict
 
 
