@@ -18,6 +18,8 @@
 /test/mock/**/*.img
 /test/helpers/bats*
 
+/cloud/dev/user-data.sh
+
 # Compiled source #
 ###################
 *.pyc
