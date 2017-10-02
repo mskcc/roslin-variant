@@ -12,7 +12,6 @@ read -r -d '' scripts << EOM
 ../packer/scripts/install-nodejs.sh
 ../packer/scripts/install-awscli.sh
 ../packer/scripts/check-versions.sh
-./add-volume.sh
 ./misc.sh
 EOM
 

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo chown ubuntu /scratch/
+sudo chown -R ubuntu:ubuntu /scratch/
