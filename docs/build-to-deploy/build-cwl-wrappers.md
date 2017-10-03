@@ -11,7 +11,6 @@ This document will walk you through using *BCFTools v1.3.1* as an example, but s
 Some CWL wrappers rely on cmo packages, thus your cmo package inside the vagrant box must be up-to-date in order to generate the correct program arguments.
 
 ```
-$ sudo su
 $ cd /usr/local/bin/cmo-gxargparse/cmo
 $ git pull
 ```
@@ -239,7 +238,6 @@ Note that this part must be done inside the virtual machine.
 To see what tools can be built, run `build-cwl.sh` with the `-z` parameter:
 
 ```bash
-$ sudo su
 $ ./build-cwl.sh -z
 trimgalore:0.4.3:cmo_trimgalore
 trimgalore:0.2.5.mod:cmo_trimgalore
@@ -269,7 +267,6 @@ list2bed:1.0.1:cmo_list2bed
 To generate a CWL wrapper for a specific tool, run `build-cwl.sh` with the `-t` parameter:
 
 ```bash
-$ sudo su
 $ ./build-cwl.sh -t bcftools:1.3.1:cmo_bcftools.norm
 ```
 
