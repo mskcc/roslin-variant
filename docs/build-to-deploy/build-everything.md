@@ -9,7 +9,6 @@ This document covers Step 2 and 3:
 Inside the virtual machine, run the following command to bulid *all* the necessary container images as well as the CWL wrappers.
 
 ```bash
-$ sudo su
 $ cd /vagrant/build/scripts/
 $ ./build-all.sh
 ```

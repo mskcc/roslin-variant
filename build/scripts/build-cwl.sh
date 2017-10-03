@@ -7,13 +7,6 @@ source ./settings-build.sh
 source ./tools-utils.sh
 
 
-# for the time being, sudo su is required
-if [ "`whoami`" != 'root' ]
-then
-    echo "Run sudo su first."
-    exit 1
-fi
-
 usage()
 {
 cat << EOF
