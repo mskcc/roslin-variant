@@ -233,8 +233,9 @@ def publish_to_redis(cmo_project_id, cmo_project_path, lsf_proj_name, job_uuid):
         return
 
     # connect to redis
-    # fixme: configurable host, port, credentials
-    redis_client = redis.StrictRedis(host='pitchfork', port=9006, db=0)
+    redis_host = os.environ.get("ROSLIN_REDIS_HOST")
+    redis_port = int(os.environ.get("ROSLIN_REDIS_PORT"))
+    redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=0)
 
     redis_client.publish('roslin-projects', json.dumps(data))
 
