@@ -317,6 +317,7 @@ def construct_run_results(bjobs_info, already_reported_projs):
             user_id, lsf_job_id, lsf_proj_name, job_name, status, submit_time, start_time, finish_time, run_time, effective_resreq, exec_host = row.strip().split('\t')
         except ValueError as e:
             logger.error("Invalid bjob info:" + ",".join(row.strip().split('\t')))
+            continue
 
         # only care about roslin launched jobs
         # lsf_proj_name = Proj_5088_B:eec50a98-4c5f-11e7-af25-8cdcd4013cd4
