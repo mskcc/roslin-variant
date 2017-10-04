@@ -53,7 +53,7 @@ requirements:
     coresMin: 2
 
 doc: |
-  Perform fillout operation on MAF file using GetBaseCountsMultiSample
+  Fillout allele counts for a MAF file using GetBaseCountsMultiSample on BAMs
 
 inputs:
   maf:
@@ -83,7 +83,7 @@ inputs:
 
   output:
     type: ['null', string]
-    doc: Filename for output
+    doc: Filename for output of raw fillout data in MAF/VCF format
     inputBinding:
       prefix: --output
 
@@ -93,12 +93,18 @@ inputs:
     inputBinding:
       prefix: --portal-output
 
+  fillout:
+    type: ['null', string]
+    doc: Precomputed fillout file from GBCMS (using this skips GBCMS)
+    inputBinding:
+      prefix: --fillout
+
   n_threads:
     type:
     - 'null'
     - int
     default: 10
-    doc: Multithread
+    doc: Multithreaded GBCMS
     inputBinding:
       prefix: --n_threads
 
@@ -110,7 +116,7 @@ inputs:
 
 outputs:
 
-  fillout:
+  fillout_out:
     type: File
     outputBinding:
       glob: |

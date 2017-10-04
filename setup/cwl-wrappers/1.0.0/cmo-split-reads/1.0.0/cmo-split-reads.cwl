@@ -67,11 +67,11 @@ inputs:
     inputBinding:
       prefix: --fastq2
 
-  sample:
+  platform_unit:
     type: ['null', string]
     doc: sample ID
     inputBinding:
-      prefix: --sample
+      prefix: --platform-unit
 
 
 outputs:
@@ -83,7 +83,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = '*_R1_*chunk*.fastq.gz';
+          var pattern = '*-R1-*chunk*.fastq.gz';
           if (inputs.sample)
             pattern = inputs.sample + pattern;
           return pattern
@@ -96,7 +96,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = '*_R2_*chunk*.fastq.gz';
+          var pattern = '*-R2-*chunk*.fastq.gz';
           if (inputs.sample)
             pattern = inputs.sample + pattern;
           return pattern
