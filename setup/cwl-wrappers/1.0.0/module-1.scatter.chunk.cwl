@@ -55,13 +55,14 @@ inputs:
   bwa_output: string
   add_rg_LB: string
   add_rg_PL: string
-  add_rg_ID: string
-  add_rg_PU: string
+  add_rg_ID: string[]
+  add_rg_PU: string[]
   add_rg_SM: string
   add_rg_CN: string
   tmp_dir: string
   genome: string
   group: string
+  opt_dup_pix_dist: string
 
 outputs:
 
@@ -92,17 +93,19 @@ steps:
     in:
       fastq1: fastq1
       fastq2: fastq2
-      sample: add_rg_SM
+      platform_unit: add_rg_PU
     out: [chunks1, chunks2]
-    scatter: [fastq1, fastq2]
+    scatter: [fastq1, fastq2, platform_unit]
     scatterMethod: dotproduct
   flatten:
     run: flatten-array/1.0.0/flatten-array-fastq.cwl
     in:
       fastq1: chunking/chunks1
       fastq2: chunking/chunks2
+      add_rg_ID: add_rg_ID
+      add_rg_PU: add_rg_PU
     out:
-      [chunks1, chunks2]
+      [chunks1, chunks2, rg_ID, rg_PU]
   align:
     in:
       chunkfastq1: flatten/chunks1
@@ -113,12 +116,12 @@ steps:
       bwa_output: bwa_output
       add_rg_LB: add_rg_LB
       add_rg_PL: add_rg_PL
-      add_rg_ID: add_rg_ID
-      add_rg_PU: add_rg_PU
+      add_rg_ID: flatten/rg_ID
+      add_rg_PU: flatten/rg_PU
       add_rg_SM: add_rg_SM
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
-    scatter: [chunkfastq1, chunkfastq2]
+    scatter: [chunkfastq1, chunkfastq2, add_rg_ID, add_rg_PU]
     scatterMethod: dotproduct
     out: [clstats1, clstats2, bam]
     run:
@@ -194,6 +197,7 @@ steps:
     run: ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
     in:
       group: group
+      OPTICAL_DUPLICATE_PIXEL_DISTANCE: opt_dup_pix_dist
       I: align/bam
       O:
         valueFrom: |

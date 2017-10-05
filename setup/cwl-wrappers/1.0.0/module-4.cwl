@@ -133,7 +133,7 @@ steps:
             genome: genome
             output_format:
                 default: "1"
-        out: [fillout, portal_fillout]
+        out: [fillout_out, portal_fillout]
 
 #    replace_allele_counts:
 #        run: replace-allele-counts/0.2.0/replace-allele-counts.cwl
@@ -167,10 +167,10 @@ steps:
             outputs:
                 fillout_curated_bams:
                     type: File
-                    outputSource: fillout_curated_bams_step/fillout
+                    outputSource: fillout_curated_bams_step/fillout_out
                 fillout_ffpe_normal:
                     type: File
-                    outputSource: fillout_ffpe_normal_step/fillout
+                    outputSource: fillout_ffpe_normal_step/fillout_out
             steps:
                 fillout_curated_bams_step:
                     run: cmo-fillout/1.2.1/cmo-fillout.cwl
@@ -184,7 +184,7 @@ steps:
                             valueFrom: ${ return inputs.maf.basename.replace(".maf", ".curated.fillout"); }
                         n_threads:
                             default: 10
-                    out: [fillout]
+                    out: [fillout_out]
                 fillout_ffpe_normal_step:
                     run: cmo-fillout/1.2.1/cmo-fillout.cwl
                     in:
@@ -197,7 +197,7 @@ steps:
                             valueFrom: ${ return inputs.maf.basename.replace(".maf", ".ffpe-normal.fillout"); }
                         n_threads:
                             default: 10
-                    out: [fillout]
+                    out: [fillout_out]
 
     ngs_filters:
         run: ngs-filters/1.1.4/ngs-filters.cwl

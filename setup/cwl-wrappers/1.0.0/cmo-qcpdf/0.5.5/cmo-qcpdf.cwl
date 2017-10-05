@@ -147,7 +147,6 @@ inputs:
     inputBinding:
       prefix: --request-file
 
-
 outputs:
   qc_files:
     type:

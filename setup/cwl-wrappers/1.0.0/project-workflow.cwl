@@ -128,6 +128,7 @@ inputs:
         num_threads: int
         tmp_dir: string
         project_prefix: string
+        opt_dup_pix_dist: string
   samples:
     type:
       type: array
@@ -138,7 +139,7 @@ inputs:
           LB: string
           ID: string
           PL: string
-          PU: string
+          PU: string[]
           R1:
             type:
               type: array
@@ -147,7 +148,7 @@ inputs:
             type:
               type: array
               items: File
-          RG_ID: string
+          RG_ID: string[]
           adapter: string
           adapter2: string
           bwa_output: string
@@ -289,7 +290,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, ffpe_normal_bams, hotspot_list, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix,opt_dup_pix_dist]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -318,6 +319,7 @@ steps:
       abra_scratch: projparse/abra_scratch
       refseq: projparse/refseq
       group: projparse/group_ids
+      opt_dup_pix_dist: projparse/opt_dup_pix_dist
     out: [clstats1, clstats2, bams, md_metrics, covint_bed, covint_list]
     scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, refseq, covariates, group]
     scatterMethod: dotproduct
