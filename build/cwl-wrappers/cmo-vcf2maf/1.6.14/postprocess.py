@@ -38,7 +38,9 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
+    cwl['baseCommand'] = ['cmo_vcf2maf', '--version', '1.6.14']
     del cwl['inputs']['version']
+
     cwl['inputs']['input_vcf']['type'] = ['string', 'File']
     cwl['inputs']['filter_vcf']['type'] = ['null', 'string', 'File']
 
@@ -55,6 +57,8 @@ def main():
 
     # use one inside the container by deafult
     cwl['inputs']['custom_enst']['default'] = '/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc'
+
+    cwl['inputs']['buffer_size']['type'] = ['null', 'int']
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))
