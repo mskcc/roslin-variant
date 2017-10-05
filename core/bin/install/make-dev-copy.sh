@@ -49,6 +49,7 @@ pipeline_package_filename=`basename ${pipeline_package_path}`
 # temporary tgz extraction path
 install_temp_path=`mktemp -d`
 
+#fixme: instead, we could just extract settings.sh alone, manipulate it, and then put it back to tgz
 echo "This may take a while..."
 
 # extract

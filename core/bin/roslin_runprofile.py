@@ -240,29 +240,14 @@ def get_roslin_info(pipeline_settings):
     }
 
 
-def get_cmo_pkg_info():
+def get_cmo_pkg_info(pipeline_settings):
     "get cmo package info"
 
-    # __version__
-    # __file__
-    # __path__
-    cmd = 'python -s -c "import cmo,os; print cmo.__version__, os.path.abspath(cmo.__file__), os.path.abspath(cmo.__path__[0])"'
-    stdout, _, _ = run(cmd, shell=True)
-
-    # fixme: command return nothing in other user's env
-    if stdout.strip() == "":
-        return None
-
-    version, init_pyc, path = stdout.split()
-
-    # checksum on __init__.pyc
-    sha1 = generate_sha1(init_pyc)
-
     return item(
-        path=path,
-        version=version,
-        checksum_method="sha1",
-        checksum_value=sha1
+        path=pipeline_settings["ROSLIN_PIPELINE_BIN_PATH"],
+        version=pipeline_settings["ROSLIN_PIPELINE_VERSION"],
+        checksum_method=None,
+        checksum_value=None
     )
 
 
@@ -717,7 +702,7 @@ def make_runprofile(job_uuid, work_dir, cwltoil_log_path):
 
         "softwareUsed": {
             "roslin": get_roslin_info(pipeline_settings),
-            "cmo": get_cmo_pkg_info(),
+            "cmo": get_cmo_pkg_info(pipeline_settings),
             "singularity": get_singularity_info(pipeline_settings),
             "cwltoil": get_cwltoil_info(),
             "node": get_node_info(),
