@@ -89,31 +89,31 @@ outputs:
       items: string
 
 
-expression: "${ 
-    var fastq1 = []; 
-    var fastq2 =[]; 
-    var add_rg_ID = []; 
-    var add_rg_PU = []; 
-    for (var i = 0; i < inputs.fastq1.length; i++) { 
-        for (var j =0; j < inputs.fastq1[i].length; j++) { 
-            fastq1.push(inputs.fastq1[i][j]); 
-            fastq2.push(inputs.fastq2[i][j]); 
-        } 
-    } 
-    fastq1 = fastq1.sort(function(a,b) {  if (a['basename']< b['basename']) { return -1; } else if(a['basename'] > b['basename']) { return 1; } else { return 0; } }); 
+expression: "${
+    var fastq1 = [];
+    var fastq2 =[];
+    var add_rg_ID = [];
+    var add_rg_PU = [];
+    for (var i = 0; i < inputs.fastq1.length; i++) {
+        for (var j =0; j < inputs.fastq1[i].length; j++) {
+            fastq1.push(inputs.fastq1[i][j]);
+            fastq2.push(inputs.fastq2[i][j]);
+        }
+    }
+    fastq1 = fastq1.sort(function(a,b) {  if (a['basename']< b['basename']) { return -1; } else if(a['basename'] > b['basename']) { return 1; } else { return 0; } });
     fastq2 = fastq2.sort(function(a,b) { if (a['basename']< b['basename']) { return -1; } else if(a['basename'] > b['basename']) { return 1; } else { return 0; }});
-    for (var i =0; i < fastq1.length; i++) { 
-        for(var j=0; j < inputs.add_rg_PU.length; j++) { 
-            if (fastq1[i].basename.includes(inputs.add_rg_PU[j])) { 
-                add_rg_ID.push(inputs.add_rg_ID[j]); 
-                add_rg_PU.push(inputs.add_rg_PU[j]); 
-            } 
-        } 
-    }  
-    var returnobj = {}; 
-    returnobj['chunks1'] = fastq1; 
-    returnobj['chunks2'] = fastq2; 
-    returnobj['rg_ID']= add_rg_ID; 
-    returnobj['rg_PU']= add_rg_PU; 
+    for (var i =0; i < fastq1.length; i++) {
+        for(var j=0; j < inputs.add_rg_PU.length; j++) {
+            if (fastq1[i].basename.includes(inputs.add_rg_PU[j])) {
+                add_rg_ID.push(inputs.add_rg_ID[j]);
+                add_rg_PU.push(inputs.add_rg_PU[j]);
+            }
+        }
+    }
+    var returnobj = {};
+    returnobj['chunks1'] = fastq1;
+    returnobj['chunks2'] = fastq2;
+    returnobj['rg_ID']= add_rg_ID;
+    returnobj['rg_PU']= add_rg_PU;
     return returnobj;
 }"
