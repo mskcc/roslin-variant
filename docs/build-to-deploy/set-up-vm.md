@@ -82,7 +82,7 @@ $ cd /vagrant
 $ ./configure.py config.dev.yaml
 ```
 
-### /setup/settings.sh
+### /setup/scripts/settings.sh
 
 Configure `/setup/settings.sh`. Below is what's already configured for the Luna environment. No need to change unless you know what you're doing.
 
@@ -113,7 +113,7 @@ export PRISM_SINGULARITY_PATH="/usr/bin/singularity"
 
 ### /build/settings-container.sh
 
-Make sure that the bind points defined in `/setup/settings.sh` must be also defined in `/build/settings-container.sh`.
+Make sure that the bind points defined in `/setup/scripts/settings.sh` must be also defined in `/build/settings-container.sh`.
 
 ```bash
 export SINGULARITY_BIND_POINTS="/ifs/work/chunj/prism-proto/ifs /ifs/work/chunj/prism-proto/prism /scratch"
