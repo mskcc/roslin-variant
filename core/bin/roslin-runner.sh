@@ -241,7 +241,7 @@ cwltoil \
     ${input_filename} \
     --jobStore file://${jobstore_path} \
     --defaultDisk 10G \
-    --defaultMem 12G \
+    --defaultMem 20G \
     --preserve-environment PATH PYTHONPATH ROSLIN_PIPELINE_DATA_PATH ROSLIN_PIPELINE_BIN_PATH ROSLIN_EXTRA_BIND_PATH ROSLIN_PIPELINE_WORKSPACE_PATH ROSLIN_PIPELINE_OUTPUT_PATH ROSLIN_SINGULARITY_PATH CMO_RESOURCE_CONFIG \
     --no-container \
     --not-strict \
