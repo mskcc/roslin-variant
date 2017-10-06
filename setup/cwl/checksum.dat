@@ -49,13 +49,8 @@ c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.Ma
 0242d30242292f3ecfa68cb4490ee3f7  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 9bb20484aa0b7a57dbf0349e1d64b5d5  ./cmo-pindel/0.2.5b8/cmo-pindel.cwl
 fe440a6dcf504ef812d0be0803dd157e  ./cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
-<<<<<<< HEAD:setup/cwl/checksum.dat
-7ea93e6893790d508647054de21703e1  ./cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
-8e86ddef663dc21e7b59455c15947955  ./cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
-=======
 a151f278bf1c2f039ffc2645dad53c63  ./cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
 e7c8946e089ff2b8539f5e271c9f759e  ./cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
->>>>>>> dev:setup/cwl-wrappers/1.0.0/checksum.dat
 1fb5bdfb75e5a2a9ad446d1a3aa33343  ./cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 985940b203fec229a833eb575b572669  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
 2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
@@ -74,11 +69,7 @@ e8fc6e7f16189588188d980004fd4f98  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c85715dd3910a5ed8fc53cacc379fe42  ./module-2.cwl
 6651b3c0b8268ad11c0edc457dc0c025  ./module-3.cwl
-<<<<<<< HEAD:setup/cwl/checksum.dat
-39717e31dd0f0f8be85668bc902b0a37  ./module-4.cwl
-=======
 7b24c8c609a570a1122b32d38a1b2aeb  ./module-4.cwl
->>>>>>> dev:setup/cwl-wrappers/1.0.0/checksum.dat
 df72da0ac40d945dc7c7f0ebb9bfcde2  ./module-5.cwl
 b9ddeca9b27904321a681901f83eb95c  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
