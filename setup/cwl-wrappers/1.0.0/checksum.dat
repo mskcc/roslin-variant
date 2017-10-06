@@ -56,8 +56,8 @@ e7c8946e089ff2b8539f5e271c9f759e  ./cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
 2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 c0bdb99096405389fe6a6bd295872401  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
 e480715b75c934fb91b2565e1539fd7f  ./cmo-vardict/1.4.6/cmo-vardict.cwl
-7a7dc0a786240b05c98795c98782ed84  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
-d7ed955fbab286d3e924b89392334cd4  ./cmo-vcf2maf/1.6.14/cmo-vcf2maf.cwl
+e7019f5e39a3907f470e3688a711b1f6  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
+2eae536d4d53a4b33e43257468099b9e  ./cmo-vcf2maf/1.6.14/cmo-vcf2maf.cwl
 195f5ded1e068323b83b18750c754fda  ./facets.cwl
 4b22e7f03dfe2e865aa6492dc3e30658  ./flatten-array/1.0.0/flatten-array-bam.cwl
 93ffc68cb001e63447012c9c5086db64  ./flatten-array/1.0.0/flatten-array-fastq.cwl
@@ -69,7 +69,7 @@ e8fc6e7f16189588188d980004fd4f98  ./module-1.scatter.chunk.cwl
 d0bb546deea7482a4152b0a58221eb9b  ./module-1.scatter.cwl
 c85715dd3910a5ed8fc53cacc379fe42  ./module-2.cwl
 6651b3c0b8268ad11c0edc457dc0c025  ./module-3.cwl
-7de5c90f533153671cc290c496997754  ./module-4.cwl
+7b24c8c609a570a1122b32d38a1b2aeb  ./module-4.cwl
 df72da0ac40d945dc7c7f0ebb9bfcde2  ./module-5.cwl
 b9ddeca9b27904321a681901f83eb95c  ./ngs-filters/1.1.4/ngs-filters.cwl
 8d152431063ae10454bff4daaadcb072  ./parse-pairs-and-vcfs/1.0.0/parse-pairs-and-vcfs.cwl
