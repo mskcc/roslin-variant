@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pipeline_name_version="variant/1.0.0"
+pipeline_name_version="variant/1.0.1"
 
 roslin_request_to_yaml.py \
     -m Proj_DEV_0001_sample_mapping.txt \

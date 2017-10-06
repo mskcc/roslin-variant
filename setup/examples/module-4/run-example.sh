@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pipeline_name_version="variant/1.0.0"
+pipeline_name_version="variant/1.0.1"
 workflow="module-4.cwl"
 
 if [ "$1" = "-s" ]
