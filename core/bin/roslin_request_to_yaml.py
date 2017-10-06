@@ -23,14 +23,24 @@ def parse_mapping_file(mfile):
     fh = open(mfile, "r")
     csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=mapping_headers)
     for row in csvreader:
+        # take all hyphens out, these will be word separators in fastq chunks
+        # fuck hyphens, as well
+        #like, seriously
+        row['sample_id'] = row['sample_id'].replace("-", "_")
         new_row = copy.deepcopy(row)
-        new_row['rg_id'] = row['sample_id'] + new_row['library_suffix'] + new_row['run_id']
+        rg_id = row['sample_id'].replace("-", "_") + new_row['library_suffix'].replace("-", "_") + "-" + new_row['run_id'].replace("-", "_")
+        new_row['run_id'] = new_row['run_id'].replace("-", "_")
+        new_row['rg_id'] = [rg_id]
+        # hyphens suck
         fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
         if row['sample_id'] in mapping_dict:
-            #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
-            #FIXME do this merge better
-            mapping_dict[row['sample_id']]['fastqs']['R1'].append(fastqs['R1'])
-            mapping_dict[row['sample_id']]['fastqs']['R2'].append(fastqs['R2'])
+            # this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
+            # FIXME do this merge better
+            mapping_dict[row['sample_id']]['fastqs']['R1'] = mapping_dict[row['sample_id']]['fastqs']['R1'] + fastqs['R1']
+            mapping_dict[row['sample_id']]['fastqs']['R2'] = mapping_dict[row['sample_id']]['fastqs']['R2'] + fastqs['R2']
+            # append this so when we have a big list of bullshit, we can hoepfully sort out
+            # the types of bullshit that are suited for each other
+            mapping_dict[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-" + new_row['run_id'])
         else:
             new_row['fastqs'] = fastqs
             mapping_dict[row['sample_id']] = new_row
@@ -42,7 +52,7 @@ def parse_pairing_file(pfile):
     fh = open(pfile, "r")
     csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=pairing_headers)
     for row in csvreader:
-        pairing.append([row['tumor_id'], row['normal_id']])
+        pairing.append([row['tumor_id'].replace("-", "_"), row['normal_id'].replace("-", "_")])
     return pairing
 
 
@@ -53,7 +63,7 @@ def parse_grouping_file(gfile):
     for row in csvreader:
         if row['group_id'] not in grouping_dict:
             grouping_dict[row['group_id']] = list()
-        grouping_dict[row['group_id']].append(row['sample_id'])
+        grouping_dict[row['group_id']].append(row['sample_id'].replace("-", "_"))
     return grouping_dict
 
 
@@ -68,7 +78,7 @@ def parse_request_file(rfile):
         line = stream.readline()
         if not line:
             break
-        if line.find("Assay:") ==0:
+        if line.find("Assay:") == 0:
             (key, value) = line.strip().split(": ")
             assay = value
         if line.find("ProjectID") > -1:
@@ -218,26 +228,23 @@ if __name__ == "__main__":
 
     ofh = open(args.yaml_output_file, "wb")
     sample_list = list()
-    #rudimentary data checking charris 9-6-2017
-    fail =0
+    # rudimentary data checking charris 9-6-2017
+    fail = 0
     for pair in pairing_dict:
         if pair[0] not in mapping_dict.keys():
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s " % (str(pair), pair[0])
-            fail=1
+            fail = 1
         if pair[1] not in mapping_dict.keys():
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s " % (str(pair), pair[0])
-            fail=1
+            fail = 1
     for group in grouping_dict.values():
         for sample in group:
-            if  sample not in mapping_dict.keys():
+            if sample not in mapping_dict.keys():
                 print >>sys.stderr, "grouping file has uses id %s, but this wasn't found in mapping file" % sample
-                fail=1
+                fail = 1
     if fail:
-        sys.exit(1)
-
-
-
-
+        print >>sys.stderr, "PAIRING LINES NEED TO BE EDITED TO MAKE THIS WORK, but PRODUCING FILE ANYWAY"
+        # sys.exit(1)
 
     for sample_id, sample in mapping_dict.items():
         new_sample_object = dict()
@@ -246,7 +253,7 @@ if __name__ == "__main__":
         new_sample_object['R1'] = sample['fastqs']['R1']
         new_sample_object['R2'] = sample['fastqs']['R2']
         new_sample_object['LB'] = sample_id + sample['library_suffix']
-        new_sample_object['RG_ID'] = sample['rg_id'] + sample['runtype']
+        new_sample_object['RG_ID'] = [x + sample['runtype'] for x in sample['rg_id']]
         new_sample_object['PU'] = sample['rg_id']
         new_sample_object['ID'] = sample_id
         new_sample_object['PL'] = "Illumina"
@@ -269,7 +276,8 @@ if __name__ == "__main__":
         "emit_original_quals": True,
         "num_threads": 10,
         "tmp_dir": "/scratch",
-        "project_prefix": project_id
+        "project_prefix": project_id,
+        "opt_dup_pix_dist": "2500"
     }
     out_dict.update({"runparams": params})
     ofh.write(yaml.dump(out_dict))

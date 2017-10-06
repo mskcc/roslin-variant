@@ -91,6 +91,7 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        opt_dup_pix_dist: string
   samples:
     type:
       type: array
@@ -101,7 +102,7 @@ inputs:
           LB: string
           ID: string
           PL: string
-          PU: string
+          PU: string[]
           R1:
             type:
               type: array
@@ -110,7 +111,7 @@ inputs:
             type:
               type: array
               items: File
-          RG_ID: string
+          RG_ID: string[]
           adapter: string
           adapter2: string
           bwa_output: string
@@ -165,14 +166,18 @@ outputs:
     type:
       type: array
       items:
-        type: array
-        items: string
+          type: array
+          items:
+            type: array
+            items: string
   PU:
     type:
       type: array
       items:
-        type: array
-        items: string
+          type: array
+          items:
+            type: array
+            items: string
   ID:
     type:
       type: array
@@ -294,6 +299,7 @@ outputs:
   request_file: File
   pairing_file: File
   grouping_file: File
+  opt_dup_pix_dist: string
 
 
 expression: "${var groups = inputs.groups;
@@ -339,6 +345,7 @@ project_object['pairing_file']=inputs.db_files.pairing_file;
 project_object['grouping_file']=inputs.db_files.grouping_file;
 project_object['genome']=inputs.runparams.genome;
 project_object['project_prefix']=inputs.runparams.project_prefix;
+project_object['opt_dup_pix_dist']=inputs.runparams.opt_dup_pix_dist;
 return project_object;
 }"
 

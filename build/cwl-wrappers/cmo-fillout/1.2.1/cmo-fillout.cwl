@@ -116,7 +116,7 @@ inputs:
 
 outputs:
 
-  fillout:
+  fillout_out:
     type: File
     outputBinding:
       glob: |

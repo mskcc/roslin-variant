@@ -38,7 +38,9 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
+    cwl['baseCommand'] = ['cmo_vcf2maf', '--version', '1.6.12']
     del cwl['inputs']['version']
+
     cwl['inputs']['input_vcf']['type'] = ['string', 'File']
     cwl['inputs']['filter_vcf']['type'] = ['null', 'string', 'File']
 

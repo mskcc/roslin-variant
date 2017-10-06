@@ -82,11 +82,15 @@ inputs:
   add_rg_ID:
     type:
       type: array
-      items: string
+      items:
+        type: array
+        items: string
   add_rg_PU:
     type:
       type: array
-      items: string
+      items:
+        type: array
+        items: string
   add_rg_SM:
     type:
       type: array
@@ -124,6 +128,7 @@ inputs:
   abra_scratch: string
   intervals: ['null', string]
   refseq: File
+  opt_dup_pix_dist: string
 
 outputs:
 
@@ -178,6 +183,7 @@ steps:
       add_rg_CN: add_rg_CN
       tmp_dir: tmp_dir
       group: group
+      opt_dup_pix_dist: opt_dup_pix_dist
     out: [clstats1, clstats2, bam, md_metrics]
     scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN]
     scatterMethod: dotproduct
