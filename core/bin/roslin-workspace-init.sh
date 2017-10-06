@@ -8,9 +8,11 @@ USAGE: `basename $0` [options]
 
 OPTIONS:
 
-   -v      pipeline name/version
+   -v      Pipeline name/version
    -u      Username you want to configure a workplace for
    -f      Overwrite workspace even if it already exists
+   -s      Convert examples to run in singleMachine mode
+   -z      Display installed pipeline name/version
 
 EXAMPLE:
 
@@ -22,13 +24,14 @@ EOF
 use_single_machine_example=0
 force_overwrite=0
 
-while getopts “v:u:sfh” OPTION
+while getopts “v:u:sfzh” OPTION
 do
     case $OPTION in
         v) pipeline_name_version=$OPTARG ;;
         u) user_id=$OPTARG ;;
         s) use_single_machine_example=1 ;;
         f) force_overwrite=1 ;;
+        z) find $ROSLIN_CORE_CONFIG_PATH -mindepth 2 -type d | grep -o -P "/config/.*" | cut -c9- | sort; exit 1 ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
