@@ -44,7 +44,7 @@ d9a183f5be4fa33c9eb3a4303b69505f  ./cmo-picard.CollectInsertSizeMetrics/1.96/cmo
 ee11dfb83e6fed481ed17775aa620e2b  ./cmo-picard.CollectMultipleMetrics/1.96/cmo-picard.CollectMultipleMetrics.cwl
 fc1936296f372b7787bc985657787e99  ./cmo-picard.FixMateInformation/1.129/cmo-picard.FixMateInformation.cwl
 59b7d283b2cf09bfcecbb72036cf6a26  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
-2babd2ed93c70a4ee0ea3149293545a4  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
+f9073fbb1b3742b7937ff1d76d351053  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
 0242d30242292f3ecfa68cb4490ee3f7  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 9bb20484aa0b7a57dbf0349e1d64b5d5  ./cmo-pindel/0.2.5b8/cmo-pindel.cwl
