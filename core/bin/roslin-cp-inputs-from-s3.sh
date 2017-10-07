@@ -41,6 +41,7 @@ aws s3 sync ${s3_bucket} ${proj_name}
 
 chmod +x ${proj_name}/run-example.sh
 
+echo
 echo "Make sure to update run-example.sh in ./${proj_name}/"
 echo "- Ensure Roslin Pipeline name and version is the one that you wish to use."
 echo "- roslin_submit.py is not supported."

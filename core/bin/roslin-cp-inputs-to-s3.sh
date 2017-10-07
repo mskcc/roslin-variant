@@ -7,13 +7,14 @@ temp_path=`mktemp -d`
 cur_dir="`pwd`"
 proj_name="`basename ${cur_dir}`"
 mapping_file="${proj_name}_sample_mapping.txt"
-rows=`cat ${mapping_file}`
 
 if [ -r "$mapping_file" ]
 then
     echo "Must be run from inside a project directory where mapping/grouping/pairing/request file exist."
     exit 1
 fi
+
+rows=`cat ${mapping_file}`
 
 cp ${mapping_file} ${temp_path}
 
@@ -38,3 +39,7 @@ aws s3 cp ${proj_name}_request.txt ${s3_bucket}/${proj_name}/
 aws s3 cp run-example.sh ${s3_bucket}/${proj_name}/
 
 rm -rf ${temp_path}
+
+echo
+echo "Copied to ${s3_bucket}/${proj_name}"
+echo
