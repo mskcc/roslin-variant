@@ -173,7 +173,7 @@ outputs:
   PU:
     type:
       type: array
-      items: 
+      items:
           type: array
           items:
             type: array

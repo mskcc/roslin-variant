@@ -48,6 +48,7 @@ type:
 """, ruamel.yaml.RoundTripLoader)
 
     cwl['inputs']['CREATE_INDEX']['default'] = True
+    del cwl['inputs']['cmd']
     del cwl['inputs']['version']
     del cwl['inputs']['java_version']
 

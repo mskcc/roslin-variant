@@ -7,7 +7,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = '*_R1_*chunk*.fastq.gz';
+          var pattern = '*-R1-*chunk*.fastq.gz';
           if (inputs.sample)
             pattern = inputs.sample + pattern;
           return pattern
@@ -18,10 +18,9 @@ outputs:
       type: array
       items: File
     outputBinding:
-      glob: '*_R2_*chunk*.fastq.gz'
       glob: |
         ${
-          var pattern = '*_R2_*chunk*.fastq.gz';
+          var pattern = '*-R2-*chunk*.fastq.gz';
           if (inputs.sample)
             pattern = inputs.sample + pattern;
           return pattern
