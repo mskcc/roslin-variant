@@ -324,8 +324,6 @@ def get_bioinformatics_software_version(cmd0, cmdline):
             version = "1.0.0"
         elif cmd0.startswith("cmo_trimgalore"):
             version = "0.2.5.mod"
-        elif cmd0.startswith("cmo_vcf2maf"):
-            version = "1.6.12"
         elif cmd0.startswith("cmo_bcftools"):
             version = "1.3.1"
         elif cmd0.startswith("cmo_abra"):
