@@ -39,6 +39,7 @@ def main():
 
     cwl['inputs']['fastq1']['type'] = 'File'
     cwl['inputs']['fastq2']['type'] = 'File'
+    cwl['inputs']['platform_unit']['type'] = ['null', 'string']
 
     write(params.filename_cwl, ruamel.yaml.dump(
         cwl, Dumper=ruamel.yaml.RoundTripDumper))

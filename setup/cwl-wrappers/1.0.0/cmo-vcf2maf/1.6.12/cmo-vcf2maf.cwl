@@ -42,7 +42,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_vcf2maf]
+baseCommand:
+- cmo_vcf2maf
+- --version
+- 1.6.12
 
 requirements:
   InlineJavascriptRequirement: {}

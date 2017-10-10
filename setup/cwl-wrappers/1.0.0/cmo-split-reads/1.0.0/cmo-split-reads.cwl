@@ -68,8 +68,11 @@ inputs:
       prefix: --fastq2
 
   platform_unit:
-    type: ['null', string]
-    doc: sample ID
+    type: 
+
+    - 'null'
+    - string
+    doc: RG/PU ID
     inputBinding:
       prefix: --platform-unit
 

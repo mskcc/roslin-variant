@@ -41,7 +41,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_qcpdf]
+baseCommand:
+- cmo_qcpdf
+- --version
+- 0.5.5
 arguments:
 - prefix: --globdir
   valueFrom: ${ return runtime.outdir; }

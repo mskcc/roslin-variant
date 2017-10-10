@@ -57,13 +57,6 @@ doc: |
   None
 
 inputs:
-  cmd:
-    type: ['null', string]
-    default: MarkDuplicates
-
-    inputBinding:
-      prefix: --cmd
-
   MAX_SEQS:
     type: ['null', string]
     doc: This option is obsolete. ReadEnds will always be spilled to disk. Default

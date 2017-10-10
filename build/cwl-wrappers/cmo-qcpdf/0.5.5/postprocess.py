@@ -85,6 +85,9 @@ type:
 
     del cwl['inputs']['globdir']
 
+    cwl['baseCommand'] = ['cmo_qcpdf', '--version', '0.5.5']
+    del cwl['inputs']['version']
+
     #-->
     # fixme: until we can auto generate cwl for cmo-qcpdf
     # set outputs using outputs.yaml
