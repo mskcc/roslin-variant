@@ -111,8 +111,16 @@ chmod 777 ${ROSLIN_PIPELINE_OUTPUT_PATH}
 # copy container images
 cp -R ${install_temp_path}/setup/img/* ${ROSLIN_PIPELINE_BIN_PATH}/img/
 
+# check md5 checksum
+cd ${ROSLIN_PIPELINE_BIN_PATH}/img
+md5sum -c checksum.dat
+
 # copy cwl wrappers
 cp -R ${install_temp_path}/setup/cwl/* ${ROSLIN_PIPELINE_BIN_PATH}/cwl/
+
+# check md5 checksum
+cd ${ROSLIN_PIPELINE_BIN_PATH}/cwl
+md5sum -c checksum.dat
 
 #--> use pre-fetched local schemas instead of going over the Internet to fetch
 for file in `find ${ROSLIN_PIPELINE_BIN_PATH}/cwl -name "*.cwl"`
@@ -161,13 +169,6 @@ done
 
 # copy jumpstart examples
 tar cvzf ${ROSLIN_PIPELINE_WORKSPACE_PATH}/examples.tgz -C ${install_temp_path}/setup ./examples
-
-# check md5 checksum
-cd ${ROSLIN_PIPELINE_BIN_PATH}/img
-md5sum -c checksum.dat
-
-cd ${ROSLIN_PIPELINE_BIN_PATH}/cwl
-md5sum -c checksum.dat
 
 # clean up
 rm -rf ${install_temp_path}
