@@ -38,6 +38,10 @@ s3_bucket="s3://roslin-installer-dev/workspace/${user_id}/${proj_name}"
 
 mkdir -p ${proj_name}
 aws s3 sync ${s3_bucket} ${proj_name}
+if [ ! $? -eq 0 ]
+then
+    exit 1
+fi
 
 chmod +x ${proj_name}/run-example.sh
 
