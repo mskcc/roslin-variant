@@ -30,9 +30,11 @@ def parse_mapping_file(mfile):
         new_row = copy.deepcopy(row)
         rg_id = row['sample_id'].replace("-","_") + new_row['library_suffix'].replace("-","_") + "-" + new_row['run_id'].replace("-","_")
         new_row['run_id']=new_row['run_id'].replace("-","_")
-        new_row['rg_id']=[rg_id]
         #hyphens suck
         fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
+        new_row['rg_id']= []
+        for fastq in fastqs['R1']:
+            new_row['rg_id'].append(rg_id)
         if row['sample_id'] in mapping_dict:
             #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
             #FIXME do this merge better
@@ -40,10 +42,13 @@ def parse_mapping_file(mfile):
             mapping_dict[row['sample_id']]['fastqs']['R2']= mapping_dict[row['sample_id']]['fastqs']['R2'] + fastqs['R2']
             #append this so when we have a big list of bullshit, we can hoepfully sort out 
             #the types of bullshit that are suited for each other
-            mapping_dict[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-"+new_row['run_id'])
+            for fastq in fastqs['R1']:
+                mapping_dict[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-"+new_row['run_id'])
         else:
             new_row['fastqs'] = fastqs
             mapping_dict[row['sample_id']] = new_row
+
+
     return mapping_dict
 
 
