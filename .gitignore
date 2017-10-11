@@ -2,6 +2,7 @@
 ##################
 .vagrant
 .vscode/ftp-sync.json
+.vscode/.ropeproject
 
 /build/containers/**/*.img
 /build/containers/**/*.img.bak
@@ -15,6 +16,10 @@
 /test/outputs
 /test/mock/stub
 /test/helpers/bats*
+
+# Roslin Core
+/core/**
+/test/mock/roslin-pipelines/**
 
 # Compiled source #
 ###################

@@ -42,7 +42,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_vcf2maf]
+baseCommand:
+- cmo_vcf2maf
+- --version
+- 1.6.14
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -136,7 +139,9 @@ inputs:
       prefix: --normal-id
 
   buffer_size:
-    type: ['null', string]
+    type:
+    - 'null'
+    - int
     default: 5000
     doc: Number of variants VEP loads at a time; Reduce this for low memory systems
     inputBinding:
