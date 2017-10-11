@@ -1,5 +1,4 @@
 FROM alpine:3.4
-MAINTAINER Nikhil Kumar (kumarn1@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \

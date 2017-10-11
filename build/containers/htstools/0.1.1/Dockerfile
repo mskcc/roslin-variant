@@ -1,5 +1,4 @@
 FROM ubuntu:16.04
-MAINTAINER Nikhil Kumar (kumarn1@mskcc.org)
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
