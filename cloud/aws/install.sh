@@ -5,7 +5,7 @@
 
 ROSLIN_CORE_VERSION="1.0.0"
 ROSLIN_PIPELINE_NAME="variant"
-ROSLIN_PIPELINE_VERSION="1.0.1"
+ROSLIN_PIPELINE_VERSION="1.3.0"
 
 s3_bucket="s3://roslin-installer"
 

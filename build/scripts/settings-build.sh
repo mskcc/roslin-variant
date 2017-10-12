@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PIPELINE_VERSION="1.0.1"
+PIPELINE_VERSION="1.3.0"
 
 MY_TEMP_DIRECTORY="/vagrant/build/tmp"
 
