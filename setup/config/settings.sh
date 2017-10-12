@@ -1,8 +1,8 @@
-export ROSLIN_PIPELINE_DESCRIPTION="Roslin Variant Pipeline v1.3.0"
+export ROSLIN_PIPELINE_DESCRIPTION="Roslin Variant Pipeline v1.3.1"
 
 # Roslin pipeline name/version
 export ROSLIN_PIPELINE_NAME="variant"
-export ROSLIN_PIPELINE_VERSION="1.3.0"
+export ROSLIN_PIPELINE_VERSION="1.3.1"
 
 # which version of Roslin Core is required?
 export ROSLIN_CORE_MIN_VERSION="1.0.0"
