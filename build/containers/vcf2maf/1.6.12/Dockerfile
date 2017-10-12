@@ -6,7 +6,7 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.vep="86" \
       version.htslib="1.4" \
       version.samtools="1.4.1" \
-      version.perl="5.22.2-r0" \
+      version.perl="5.22.3-r0" \
       version.alpine="3.4.x" \
       source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.12" \
       source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
@@ -15,7 +15,7 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
 
 ENV VCF2MAF_VERSION 1.6.12
 ENV VEP_VERSION 86
-ENV PERL_VERSION 5.22.2-r0
+ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.4
 ENV SAMTOOLS_VERSION 1.4.1
 
