@@ -11,6 +11,6 @@ echo "Instance ID: ${instance_id}"
 # add tags
 aws ec2 create-tags \
     --resources ${spot_req_id} ${instance_id} \
-    --tags Key=Name,Value=prism-pipeline-test Key=Owner,Value=chunj
+    --tags Key=Name,Value=roslin-pipeline-test Key=Owner,Value=chunj
 
 echo "Tagged."

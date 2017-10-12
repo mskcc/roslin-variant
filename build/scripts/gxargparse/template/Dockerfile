@@ -1,5 +1,4 @@
 FROM {{ tool_name }}:{{ tool_version }}
-MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)"
 

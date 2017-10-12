@@ -1,11 +1,10 @@
 FROM java:8-alpine
-MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.vardict="1.4.6" \
       version.r="3.3.2-r0" \
-      version.perl="5.22.2-r0" \
+      version.perl="5.22.3-r0" \
       version.alpine="3.4.6" \
       source.vardict="https://github.com/AstraZeneca-NGS/VarDictJava/releases/tag/v1.4.6" \
       source.r="https://pkgs.alpinelinux.org/package/v3.5/community/x86_64/R" \
@@ -13,7 +12,7 @@ LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
 
 ENV VARDICT_VERSION 1.4.6
 ENV R_VERSION 3.3.2-r0
-ENV PERL_VERSION 5.22.2-r0
+ENV PERL_VERSION 5.22.3-r0
 
 # R only avail in Alpine 3.5 community
 RUN apk add --update \

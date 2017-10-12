@@ -22,25 +22,25 @@ EOF
 while getopts “slh” OPTION
 do
     case $OPTION in
-        s) export PRISM_SYSTEM_WIDE_INSTALL="YES" ;;
-        l) export PRISM_SYSTEM_WIDE_INSTALL="NO" ;;
+        s) export ROSLIN_SYSTEM_WIDE_INSTALL="YES" ;;
+        l) export ROSLIN_SYSTEM_WIDE_INSTALL="NO" ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
 done
 
-if [ -z $PRISM_SYSTEM_WIDE_INSTALL ]
+if [ -z $ROSLIN_SYSTEM_WIDE_INSTALL ]
 then
     usage
     exit 1
 fi
 
 
-if [ "$PRISM_SYSTEM_WIDE_INSTALL" == "YES" ]
+if [ "$ROSLIN_SYSTEM_WIDE_INSTALL" == "YES" ]
 then
     sudo rm -rf /etc/profile.d/prism-pipeline-envs.sh
     sudo rm -rf /etc/profile.d/sing.sh
-    sudo rm -rf /etc/profile.d/prism-runner.sh
+    sudo rm -rf /etc/profile.d/roslin-runner.sh
 else
     rm -rf ~/.roslin
     grep -v "# ROSLIN.SETTINGS$" ~/.profile > ~/.profile.tmp

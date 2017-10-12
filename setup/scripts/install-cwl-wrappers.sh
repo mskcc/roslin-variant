@@ -4,13 +4,13 @@
 source ./settings.sh
 
 # copy cwl wrappers
-cp -R ../cwl-wrappers/* ${PRISM_BIN_PATH}/pipeline/
+cp -R ../cwl-wrappers/* ${ROSLIN_PIPELINE_BIN_PATH}/pipeline/
 
 # copy RDF schemas that are referenced by cwl wrappers
-cp -R ../schemas/* ${PRISM_BIN_PATH}/schemas/
+cp -R ../schemas/* ${ROSLIN_PIPELINE_BIN_PATH}/schemas/
 
 # use pre-fetched local schemas instead of going over the Internet to fetch
-root_dir="${PRISM_BIN_PATH}/pipeline/"
+root_dir="${ROSLIN_PIPELINE_BIN_PATH}/pipeline/"
 for file in `find ${root_dir} -name "*.cwl"`
 do
 
@@ -34,9 +34,9 @@ do
 
     # replace http: to file: (already fetched in /schemas directory)
     cat ${file}.bak | \
-        sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${PRISM_BIN_PATH}/schemas/dcterms.rdf|g" | \
-        sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${PRISM_BIN_PATH}/schemas/foaf.rdf|g" | \
-        sed "s|- http://usefulinc.com/ns/doap#|- file://${PRISM_BIN_PATH}/schemas/doap.rdf|g" \
+        sed "s|- http://dublincore.org/2012/06/14/dcterms.rdf|- file://${ROSLIN_PIPELINE_BIN_PATH}/schemas/dcterms.rdf|g" | \
+        sed "s|- http://xmlns.com/foaf/spec/20140114.rdf|- file://${ROSLIN_PIPELINE_BIN_PATH}/schemas/foaf.rdf|g" | \
+        sed "s|- http://usefulinc.com/ns/doap#|- file://${ROSLIN_PIPELINE_BIN_PATH}/schemas/doap.rdf|g" \
         > ${file}
 
     # get the number of line differences
@@ -55,5 +55,5 @@ do
 done
 
 # check md5 checksum
-cd ${PRISM_BIN_PATH}/pipeline/${PRISM_VERSION}
+cd ${ROSLIN_PIPELINE_BIN_PATH}/pipeline/${ROSLIN_PIPELINE_VERSION}
 md5sum -c checksum.dat

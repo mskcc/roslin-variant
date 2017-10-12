@@ -2,24 +2,23 @@
 ##################
 .vagrant
 .vscode/ftp-sync.json
-.vscode/.ropeproject
+.vscode/.ropeproject/*
 
 /build/containers/**/*.img
 /build/containers/**/*.img.bak
 /build/cwl-wrappers/**/*.bak
 /build/tmp/**
 /build/scripts/error.*.txt
-/setup/data/assemblies
-/setup/tools/**
 /setup/img/**
 /*.tgz
+/*.tgz.bak
+/core/*.tgz
 /test/outputs
 /test/mock/stub
+/test/mock/**/*.img
 /test/helpers/bats*
 
-# Roslin Core
-/core/**
-/test/mock/roslin-pipelines/**
+/cloud/dev/user-data.sh
 
 # Compiled source #
 ###################
@@ -38,3 +37,4 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+

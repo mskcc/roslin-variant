@@ -136,13 +136,13 @@ Specify a base image to be used:
 
 ### #2 MAINTAINER
 
-Specify the maintainer's full name and email address.
+Deprecated by Docker. Use the `maintainer` or `contributor` label instead.
 
 ### #3 LABEL
 
 Include metadata:
 
-- `maintainer` : Same as #2
+- `maintainer` : Specify the maintainer's full name and email address.
 - `version.image` : Version of this container image. The tool version stays the same same, but the container image can still be upgraded (e.g. default value for one of the tool's parameters changed)
 - `version.???`
     - Version of the tool being containerized.

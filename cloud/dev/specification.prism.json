@@ -1,0 +1,21 @@
+{
+  "ImageId": "ami-cd0f5cb6",
+  "BlockDeviceMappings": [
+    {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+        "DeleteOnTermination": true,
+        "VolumeType": "gp2",
+        "VolumeSize": 100
+      }
+    }
+  ],
+  "KeyName": "prism",
+  "SecurityGroupIds": [
+    "sg-e553449b"
+  ],
+  "InstanceType": "r4.2xlarge",
+  "Placement": {
+    "AvailabilityZone": "us-east-1a"
+  }
+}

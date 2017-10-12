@@ -29,22 +29,37 @@ def get_template(filename):
 
 
 def configure_setup_settings(settings):
-    "make /setup/scripts/settings.sh"
+    "make /setup/config/settings.sh"
 
-    template = get_template("/vagrant/setup/scripts/settings.template.sh")
+    template = get_template("/vagrant/setup/config/settings.template.sh")
 
     # render
     content = template.render(
-        version=settings["version"],
-        root=settings["root"],
+        pipeline_description=settings["description"],
+        pipeline_name=settings["name"],
+        pipeline_version=settings["version"],
+        core_min_version=settings["dependencies"]["core"]["version"]["min"],
+        core_max_version=settings["dependencies"]["core"]["version"]["max"],
+        pipeline_root=settings["root"],
         binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
         binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
+        dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
+        dependencies_cmo_bin_path=os.path.join(
+            settings["dependencies"]["cmo"]["install-path"],
+            settings["dependencies"]["cmo"]["version"],
+            "bin"
+        ),
+        dependencies_cmo_python_path=os.path.join(
+            settings["dependencies"]["cmo"]["install-path"],
+            settings["dependencies"]["cmo"]["version"],
+            "lib/python2.7/site-packages"
+        )
     )
 
-    write_to_disk("/vagrant/setup/scripts/settings.sh", content)
+    write_to_disk("/vagrant/setup/config/settings.sh", content)
 
 
 def configure_build_settings(settings):

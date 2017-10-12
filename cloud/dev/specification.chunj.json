@@ -1,0 +1,24 @@
+{
+  "ImageId": "ami-1e339e71",
+  "BlockDeviceMappings": [
+    {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+        "DeleteOnTermination": true,
+        "VolumeType": "gp2",
+        "VolumeSize": 30
+      }
+    }
+  ],
+  "KeyName": "mskcc-chunj",
+  "SecurityGroupIds": [
+    "sg-a47381ce"
+  ],
+  "InstanceType": "t2.micro",
+  "Placement": {
+    "AvailabilityZone": "eu-central-1a"
+  },
+  "IamInstanceProfile": {
+    "Arn": "arn:aws:iam::273241104452:instance-profile/prism-node-role"
+  }
+}

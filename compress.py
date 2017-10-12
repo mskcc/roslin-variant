@@ -18,8 +18,37 @@ def compress(output_filename):
     cmd = [
         "tar",
         "--exclude", ".DS_Store",
-        "--exclude", "P-00*.fastq.gz",
-        "--exclude", "./setup/data/assemblies",
+        "--exclude", "./setup/config/*.template.sh",
+#--> fixme
+        "--exclude", "./setup/scripts",
+        "--exclude", "./setup/bin",
+
+        # "--exclude", "./setup/img/abra",
+        # "--exclude", "./setup/img/basic-filtering",
+        # "--exclude", "./setup/img/bcftools",
+        # "--exclude", "./setup/img/facets",
+        # "--exclude", "./setup/img/gatk",
+        # "--exclude", "./setup/img/getbasecountsmultisample",
+        # "--exclude", "./setup/img/htstools",
+        # "--exclude", "./setup/img/list2bed",
+        # "--exclude", "./setup/img/mutect",
+        # "--exclude", "./setup/img/ngs-filters",
+        # "--exclude", "./setup/img/picard",
+        # "--exclude", "./setup/img/pindel",
+        # "--exclude", "./setup/img/remove-variants",
+        # "--exclude", "./setup/img/replace-allele-counts",
+        # "--exclude", "./setup/img/roslin",
+        # "--exclude", "./setup/img/roslin-qc",
+        # "--exclude", "./setup/img/seq-cna",
+        # "--exclude", "./setup/img/trimgalore",
+        # "--exclude", "./setup/img/vardict",
+        # "--exclude", "./setup/img/vcf2maf",
+        # "--exclude", "./setup/img/vep",
+        # "--exclude", "./setup/img/bwa",
+        # "--exclude", "./setup/img/samtools",
+
+        # "--exclude", "./setup/examples",
+#<--
         "-cvzf", output_filename,
         "./setup"
     ]
@@ -34,9 +63,13 @@ def main():
     "main function"
 
     config = get_config()
-    version = config["version"]
+    pipeline_name = config["name"]
+    pipeline_version = config["version"]
 
-    output_filename = "roslin-v{}.tgz".format(version)
+    output_filename = "roslin-{}-pipeline-v{}.tgz".format(
+        pipeline_name,
+        pipeline_version
+    )
 
     stdout, stderr, exit_code = compress(output_filename)
 
