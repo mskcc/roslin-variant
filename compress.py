@@ -18,8 +18,7 @@ def compress(output_filename):
     cmd = [
         "tar",
         "--exclude", ".DS_Store",
-        "--exclude", "P-00*.fastq.gz",
-        "--exclude", "./setup/data/assemblies",
+        "--exclude", "./setup/config/*.template.sh",
         "-cvzf", output_filename,
         "./setup"
     ]
@@ -34,9 +33,13 @@ def main():
     "main function"
 
     config = get_config()
-    version = config["version"]
+    pipeline_name = config["name"]
+    pipeline_version = config["version"]
 
-    output_filename = "roslin-v{}.tgz".format(version)
+    output_filename = "roslin-{}-pipeline-v{}.tgz".format(
+        pipeline_name,
+        pipeline_version
+    )
 
     stdout, stderr, exit_code = compress(output_filename)
 

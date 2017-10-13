@@ -1,0 +1,23 @@
+genome: 'GRCh37'
+dbsnp:
+    class: File
+    path: /ifs/work/prism/chunj/test-data/ref/dbsnp_138.b37.excluding_sites_after_129.vcf
+cosmic:
+    class: File
+    path: /ifs/work/prism/chunj/test-data/ref/CosmicCodingMuts_v67_b37_20131024__NDS.vcf
+mutect_dcov: 50000
+mutect_rf: ["BadCigar"]
+normal_sample_name: "Normal"
+tumor_sample_name: "Tumor"
+bed:
+    class: File
+    path: ../data/from-module-2/intervals.bed
+tumor_bam:
+    class: File
+    path: ../data/from-module-2/DU874145-T.rg.md.abra.fmi.printreads.bam
+normal_bam:
+    class: File
+    path: ../data/from-module-2/DU874145-N.rg.md.abra.fmi.printreads.bam
+refseq:
+    class: File
+    path: "/ifs/work/prism/chunj/test-data/ref/refGene_b37.sorted.txt"

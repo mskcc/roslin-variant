@@ -1,5 +1,5 @@
 {
-  "ImageId": "ami-ed99d4fb",
+  "ImageId": "ami-ac5eeec3",
   "BlockDeviceMappings": [
     {
       "DeviceName": "/dev/sda1",
@@ -7,17 +7,17 @@
         "DeleteOnTermination": true,
         "VolumeType": "gp2",
         "VolumeSize": 30,
-        "SnapshotId": "snap-0bbf25a006730f55c"
+        "SnapshotId": "snap-0f299627b06f48783"
       }
     }
   ],
   "KeyName": "mskcc-chunj",
   "SecurityGroupIds": [
-    "sg-19c52d66"
+    "sg-a47381ce"
   ],
   "InstanceType": "t2.micro",
   "Placement": {
-    "AvailabilityZone": "us-east-1c"
+    "AvailabilityZone": "eu-central-1a"
   },
   "IamInstanceProfile": {
     "Arn": "arn:aws:iam::273241104452:instance-profile/prism-node-role"

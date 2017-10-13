@@ -1,16 +1,18 @@
 #!/bin/bash -e
 
-VERSION="1.4.3"
+# DEPRECATED: install cmo when Roslin Pipeline is installed.
 
-cd /tmp
+# VERSION="1.6.9"
 
-wget -O cmo-${VERSION}.tar.gz https://github.com/mskcc/cmo/archive/${VERSION}.tar.gz
-tar xvzf cmo-${VERSION}.tar.gz
+# cd /tmp
 
-cd cmo-${VERSION}
+# wget -O cmo-${VERSION}.tar.gz https://github.com/mskcc/cmo/archive/${VERSION}.tar.gz
+# tar xvzf cmo-${VERSION}.tar.gz
 
-sudo python setup.py install
+# cd cmo-${VERSION}
 
-sudo cp ./cmo/data/cmo_resources.json /usr/local/bin/
+# sudo python setup.py install
 
-sudo rm -rf /tmp/cmo-*
+# sudo cp ./cmo/data/cmo_resources.json /usr/local/bin/
+
+# sudo rm -rf /tmp/cmo-*

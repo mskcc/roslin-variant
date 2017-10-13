@@ -1,5 +1,4 @@
 FROM ngs-filters:1.1.4
-MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)"
 

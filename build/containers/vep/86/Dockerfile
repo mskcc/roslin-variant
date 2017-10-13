@@ -1,17 +1,16 @@
 FROM alpine:3.4
-MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.vep="86" \
       version.htslib="1.4" \
-      version.perl="5.22.2-r0" \
+      version.perl="5.22.3-r0" \
       version.alpine="3.4.x" \
       source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.4"
 
 ENV VEP_VERSION 86
-ENV PERL_VERSION 5.22.2-r0
+ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.4
 
 # http://www.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html

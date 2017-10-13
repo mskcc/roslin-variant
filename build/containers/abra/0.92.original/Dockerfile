@@ -1,5 +1,4 @@
 FROM java:7-alpine
-MAINTAINER Jaeyoung Chun (chunj@mskcc.org)
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.container="1.0" \

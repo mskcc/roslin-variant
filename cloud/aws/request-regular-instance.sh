@@ -26,7 +26,7 @@ echo ${instance_id}
 # add tags
 aws ec2 create-tags \
     --resources ${instance_id} \
-    --tags Key=Name,Value=prism-pipeline-test Key=Owner,Value=chunj
+    --tags Key=Name,Value=roslin-pipeline-test Key=Owner,Value=chunj
 
 # wait till instance is in running state
 aws ec2 wait instance-running --instance-ids ${instance_id}
@@ -39,7 +39,7 @@ echo ${public_dns_name}
 sleep 10
 
 # check installed software
-ssh -i ~/mskcc-chunj.pem -o "StrictHostKeyChecking no" ubuntu@${public_dns_name} "cat /var/log/prism-software-versions.txt"
+ssh -i ~/mskcc-chunj.pem -o "StrictHostKeyChecking no" ubuntu@${public_dns_name} "cat /var/log/roslin-software-versions.txt"
 
 # poll every 5 sec if cloud-init is finished
 while true

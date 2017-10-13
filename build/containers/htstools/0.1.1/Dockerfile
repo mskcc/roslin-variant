@@ -1,5 +1,4 @@
 FROM ubuntu:16.04
-MAINTAINER Nikhil Kumar (kumarn1@mskcc.org)
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
@@ -15,9 +14,9 @@ ENV HTSLIB_VERSION 1.5
 
 
 RUN   apt-get -y update \
-      && apt-get -y install build-essential zlib1g-dev \
+      && apt-get -y install build-essential \
       && apt-get -y install wget \
-      && apt-get -y install libbz2-dev liblzma-dev libcurl4-gnutls-dev \
+      && apt-get -y install zlib1g-dev libbz2-dev liblzma-dev libcurl4-gnutls-dev \
 # download, unzip, install htslib
       && cd /tmp \
       && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
@@ -44,4 +43,4 @@ RUN   apt-get -y update \
 
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["sh"]
+ENTRYPOINT ["/bin/bash"]

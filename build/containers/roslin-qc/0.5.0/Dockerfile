@@ -1,5 +1,4 @@
 FROM python:2.7.13-alpine3.6
-MAINTAINER Nikhil Kumar (kumarn1@mskcc.org)
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \

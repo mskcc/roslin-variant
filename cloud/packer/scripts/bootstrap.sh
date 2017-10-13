@@ -2,7 +2,7 @@
 
 sudo apt-get -y update
 
-# install tree and jq
+# install utilities
 sudo apt-get -y install tree jq
 
 # create /scratch directory
