@@ -11,10 +11,10 @@ roslin_request_to_yaml.py \
     -f inputs.yaml
 
 # nohup roslin-runner.sh \
-#   -v ${pipeline_name_version} \
-# 	-w project-workflow.cwl \
-# 	-i inputs.yaml \
-# 	-b lsf &
+#     -v ${pipeline_name_version} \
+#     -w project-workflow.cwl \
+#     -i inputs.yaml \
+#     -b lsf &
 
 roslin_submit.py \
    --id Proj_DEV_0001 \
