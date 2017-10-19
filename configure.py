@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os
+import os, sys
 import ruamel.yaml
 from jinja2 import Template
 
@@ -99,8 +99,12 @@ def configure_build_settings(settings):
 def main():
     "main function"
 
+    if len(sys.argv) < 2:
+	print "USAGE: config.py configuration_file.yaml"
+	exit()
+
     settings = ruamel.yaml.load(
-        read_from_disk("config.yaml"),
+        read_from_disk(sys.argv[1]),
         ruamel.yaml.RoundTripLoader
     )
 
