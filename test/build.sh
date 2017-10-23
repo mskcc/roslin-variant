@@ -1,5 +1,6 @@
 #!/bin/bash
 # genrate id for test build
+# BONUS COMMENT
 UUID=$(cat /proc/sys/kernel/random/uuid)
 printf "$UUID\n"
 #dynamically add it to the vagrant file
