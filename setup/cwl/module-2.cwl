@@ -128,48 +128,7 @@ steps:
             targets: list2bed/output_file
         out: [outbams]
 
-    parallel_fixmate:
-        in:
-            I: abra/outbams
-        out: [out]
-        scatter: [I]
-        scatterMethod: dotproduct
-        run:
-            class: Workflow
-            inputs:
-                I:
-                    type:
-                        type: array
-                        items: File
-            outputs:
-                out:
-                    type:
-                        type: array
-                        items: File
-                    outputSource: picard_fixmate_information/out_bam
-            steps:
-                picard_cleansam:
-                    run: ./cmo-picard.CleanSam/1.129/cmo-picard.CleanSam.cwl 
-                    in:
-                        I: I
-                        VALIDATION_STRINGENCY:
-                          valueFrom: ${ return "SILENT";}
-                        O:
-                            valueFrom: ${ return inputs.I.basename.replace(".bam", ".cs.bam"); }
-                    out: [out_bam]
 
-                picard_fixmate_information:
-                    run: ./cmo-picard.FixMateInformation/1.129/cmo-picard.FixMateInformation.cwl
-                    in:
-                        I: picard_cleansam/out_bam
-                        SO:
-                            default: "coordinate"
-                        VALIDATION_STRINGENCY:
-                            default: "LENIENT"
-                        O:
-                            valueFrom: |
-                                  ${ return inputs.I.basename.replace(".bam", ".fmi.bam"); }
-                    out: [out_bam]
 
     gatk_base_recalibrator:
         run: ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
@@ -179,7 +138,7 @@ steps:
             indels_1000g: indels_1000g
             snps_1000g: snps_1000g
             reference_sequence: genome
-            input_file: parallel_fixmate/out
+            input_file: abra/outbams
             knownSites:
                 valueFrom: ${return [inputs.dbsnp,inputs.hapmap, inputs.indels_1000g, inputs.snps_1000g]}
             covariate: covariates
@@ -224,7 +183,7 @@ steps:
                         BQSR: BQSR
                         input_file: input_file
                         num_cpu_threads_per_data_thread:
-                            default: "6"
+                            default: "5"
                         read_filter:
                             valueFrom: ${ return ["BadCigar"]; }
                         emit_original_quals:
