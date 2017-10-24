@@ -17,7 +17,8 @@ sed -i "s/UUID_VALUE/$UUID/g" $TestDir/config.test.yaml
 # build images and cwl
 cd /vagrant/build/scripts
 ./build-all.sh > $TestDir/build_stdout.txt 2> $TestDir/build_stderr.txt
- move everything to setup
+# move everything to setup
+cd /vagrant/build/scripts
 ./move-all-artifacts-to-setup.sh > $TestDir/move_stdout.txt 2> $TestDir/move_stderr.txt
 # check if cwls are generated
 if [ $(ls | grep -c "error.*") -gt 0 ]

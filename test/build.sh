@@ -1,5 +1,10 @@
 #!/bin/bash
+# path to lsf commands
+export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
+# Script will exit if a command exits with nonzero exit value
+set -e
 # genrate id for test build
+printf "\n----------Starting----------\n"
 UUID=$(cat /proc/sys/kernel/random/uuid)
 printf "$UUID\n"
 #dynamically add it to the vagrant file
@@ -13,14 +18,14 @@ export VAGRANT_CWD=$parentDir
 export VAGRANT_VAGRANTFILE=Vagrantfile_test
 # Set tmp and test directory
 export TMPDIR="/srv/scratch/"
-export TOIL_LSF_ARGS=-S 1
+export TOIL_LSF_ARGS='-S 1'
 TempDir=/srv/scratch/$UUID
-TestDir=/srv/scratch/test_output/$UUID
+TestDir=../test_output/$UUID
 # Start vagrant to build the pipeline
 printf "\n----------Building now----------\n"
 vagrant up
 # check if build did not fail
-if [ $(ls | grep -c "EXIT") -gt 0 ]
+if [ $(ls $TestDir | grep -c "EXIT") -gt 0 ]
 then
 exit 1
 fi
