@@ -20,7 +20,7 @@ export VAGRANT_VAGRANTFILE=Vagrantfile_test
 export TMPDIR="/srv/scratch/"
 export TOIL_LSF_ARGS='-S 1'
 TempDir=/srv/scratch/$UUID
-TestDir=../test_output/$UUID
+TestDir=test_output/$UUID
 # Start vagrant to build the pipeline
 printf "\n----------Building now----------\n"
 vagrant up
@@ -38,7 +38,6 @@ source /ifs/work/pi/roslin-core/1.0.0/config/settings.sh
 # Deploy
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-test-pipeline-v${UUID}.tgz"
-TempDir=/srv/scratch/$UUID
 mkdir $TempDir
 cd $TempDir
 mv $pipeline_name $TempDir 
