@@ -25,13 +25,13 @@ TestDir=test_output/$UUID
 printf "\n----------Building now----------\n"
 vagrant up
 # check if build did not fail
+cd ..
 if [ $(ls $TestDir | grep -c "EXIT") -gt 0 ]
 then
 exit 1
 fi
 printf "\n----------Compressing now----------\n"
 # Compress pipeline
-cd ..
 python test/compress.py $UUID > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 # Load roslin core
 source /ifs/work/pi/roslin-core/1.0.0/config/settings.sh
