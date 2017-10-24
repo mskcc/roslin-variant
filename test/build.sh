@@ -34,13 +34,13 @@ printf "\n----------Compressing now----------\n"
 # Compress pipeline
 python test/compress.py $UUID > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 # Load roslin core
-source /ifs/work/pi/roslin-core/1.0.0/config/settings.sh
+source /ifs/work/pi/roslin-test/roslin-core/1.0.0/config/settings.sh
 # Deploy
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-test-pipeline-v${UUID}.tgz"
 mkdir $TempDir
+mv $pipeline_name $TempDir
 cd $TempDir
-mv $pipeline_name $TempDir 
 export PATH=$ROSLIN_CORE_BIN_PATH/install:$PATH
 install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
 cd $ROSLIN_CORE_BIN_PATH
@@ -48,7 +48,7 @@ cd $ROSLIN_CORE_BIN_PATH
 ./roslin-workspace-init.sh -v test/$UUID -u jenkins
 # Run test
 printf "\n----------Running Test----------\n"
-cd /ifs/work/pi/roslin-test/test/$UUID/workspace/jenkins/examples/Proj_DEV_0002
+cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$UUID/workspace/jenkins/examples/Proj_DEV_0002
 #pipelineJobId=$(./run-example.sh | grep '[0-9a-zA-Z]\{8\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{12\}')
 pipelineLeaderId=$(./run-example.sh | grep '[0-9]\{8\}')
 printf "$pipelineLeaderId\n"
