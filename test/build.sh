@@ -42,7 +42,7 @@ mkdir $TempDir
 mv $pipeline_name $TempDir
 cd $TempDir
 export PATH=$ROSLIN_CORE_BIN_PATH/install:$PATH
-install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
+install-pipeline.sh -p $TempDir/$pipeline_name > $parentDir/$TestDir/deploy_stdout.txt 2> $parentDir/$TestDir/deploy_stderr.txt
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v test/$UUID -u jenkins
