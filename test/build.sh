@@ -1,5 +1,6 @@
 #!/bin/bash
 # path to lsf commands
+# BONUS COMMENT AGAIN
 export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
 # Script will exit if a command exits with nonzero exit value
 set -e
