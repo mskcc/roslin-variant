@@ -150,7 +150,7 @@ steps:
 
     parallel_printreads:
         in:
-            input_file: parallel_fixmate/out
+            input_file: abra/outbams
             reference_sequence: genome
             BQSR: gatk_base_recalibrator/recal_matrix
         out: [out]
