@@ -270,6 +270,7 @@
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
+            "2.13": "sing.sh picard 2.13", 
             "1.96": "sing.sh picard 1.96", 
             "default": "sing.sh picard 1.96"
         }, 
