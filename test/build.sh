@@ -55,7 +55,7 @@ cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v test/$BUILD_NUMBER -u jenkins
 # Run test
-print "\n----------Running Test----------\n"
+printf "\n----------Running Test----------\n"
 cp $parentDir/test/run-example.sh.template $TestDir/run-example.sh
 sed -i "s/PIPELINE_NAME/test/g" $TestDir/run-example.sh
 sed -i "s/PIPELINE_VERSION/$BUILD_NUMBER/g" $TestDir/run-example.sh
