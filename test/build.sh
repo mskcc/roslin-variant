@@ -65,7 +65,9 @@ cp $parentDir/$TestDir/run-example.sh .
 #source /ifs/work/pi/roslin-test/.pyenv/bin/activate
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 #Set nodejs path
-export PATH=$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin
+#export PATH=$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin
+export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
 printf "$pipelineLeaderId\n"
 runningBool=1
