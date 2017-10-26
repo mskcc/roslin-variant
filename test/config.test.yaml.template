@@ -1,6 +1,6 @@
 name: test
-version: UUID_VALUE
-description: Roslin Pipeline Test for UUID_VALUE
+version: BUILD_VALUE
+description: Roslin Pipeline Test for BUILD_VALUE
 root: /ifs/work/pi/roslin-test/roslin-pipelines
 binding:
   core: bin
