@@ -1,8 +1,8 @@
 #!/bin/bash
-BUID=$1
+ID=$1
 # Create log directory
 mkdir -p /vagrant/test_output
-TestDir=/vagrant/test_output/$BUILD
+TestDir=/vagrant/test_output/$ID
 mkdir $TestDir
 # using highly advance communication let jenkins know that build failed
 function on_exit {
@@ -12,7 +12,7 @@ function on_exit {
 trap on_exit ERR
 # Dynamically edit config and set it
 cp /vagrant/test/config.test.yaml.template $TestDir/config.test.yaml
-sed -i "s/BUILD_VALUE/$BUILD/g" $TestDir/config.test.yaml
+sed -i "s/BUILD_VALUE/$ID/g" $TestDir/config.test.yaml
 /vagrant/configure.py $TestDir/config.test.yaml
 # build images and cwl
 cd /vagrant/build/scripts
