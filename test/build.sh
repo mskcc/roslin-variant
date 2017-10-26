@@ -8,6 +8,8 @@ export LSF_ENVDIR=/common/lsf/conf
 export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
 #Set python env
 export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
+#Set nodejs path
+export PATH=$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin
 #Script will exit if a command exits with nonzero exit value
 set -e
 # genrate id for test build
@@ -55,12 +57,16 @@ cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v test/$BUILD_NUMBER -u jenkins
 # Run test
-printf "\n----------Running Test----------\n"
+print "\n----------Running Test----------\n"
+cp $parentDir/test/run-example.sh.template $TestDir/run-example.sh
+sed -i "s/PIPELINE_NAME/test/g" $TestDir/run-example.sh
+sed -i "s/PIPELINE_VERSION/$BUILD_NUMBER/g" $TestDir/run-example.sh
 cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$BUILD_NUMBER/workspace/jenkins/examples/Proj_DEV_0002
+cp $TestDir/run-example.sh .
 #pipelineJobId=$(./run-example.sh | grep '[0-9a-zA-Z]\{8\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{12\}')
 #source /ifs/work/pi/roslin-test/.pyenv/bin/activate
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
-pipelineLeaderId=$(./run-example.sh | grep '[0-9]\{8\}')
+pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
 printf "$pipelineLeaderId\n"
 runningBool=1
 while [ $runningBool != 0 ]
