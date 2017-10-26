@@ -51,8 +51,9 @@ cd $ROSLIN_CORE_BIN_PATH
 printf "\n----------Running Test----------\n"
 cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$BUILD_NUMBER/workspace/jenkins/examples/Proj_DEV_0002
 #pipelineJobId=$(./run-example.sh | grep '[0-9a-zA-Z]\{8\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{12\}')
-source /ifs/work/pi/roslin-test/.pyenv/bin/activate
+#source /ifs/work/pi/roslin-test/.pyenv/bin/activate
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
+export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
 pipelineLeaderId=$(./run-example.sh | grep '[0-9]\{8\}')
 printf "$pipelineLeaderId\n"
 runningBool=1
