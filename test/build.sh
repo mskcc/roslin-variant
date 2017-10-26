@@ -56,11 +56,11 @@ cd $ROSLIN_CORE_BIN_PATH
 ./roslin-workspace-init.sh -v test/$BUILD_NUMBER -u jenkins
 # Run test
 printf "\n----------Running Test----------\n"
-cp $parentDir/test/run-example.sh.template $TestDir/run-example.sh
-sed -i "s/PIPELINE_NAME/test/g" $TestDir/run-example.sh
-sed -i "s/PIPELINE_VERSION/$BUILD_NUMBER/g" $TestDir/run-example.sh
+cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
+sed -i "s/PIPELINE_NAME/test/g" $parentDir/$TestDir/run-example.sh
+sed -i "s/PIPELINE_VERSION/$BUILD_NUMBER/g" $parentDir/$TestDir/run-example.sh
 cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$BUILD_NUMBER/workspace/jenkins/examples/Proj_DEV_0002
-cp $TestDir/run-example.sh .
+cp $parentDir/$TestDir/run-example.sh .
 #pipelineJobId=$(./run-example.sh | grep '[0-9a-zA-Z]\{8\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{12\}')
 #source /ifs/work/pi/roslin-test/.pyenv/bin/activate
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
