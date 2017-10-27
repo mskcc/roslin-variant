@@ -23,7 +23,7 @@ cd /vagrant/build/scripts
 # check if cwls are generated
 if [ $(ls | grep -c "error.*") -gt 0 ]
 then
-cp error.* $TestDir
+mv error.* $TestDir
 on_exit
 fi
 
