@@ -68,7 +68,14 @@ export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 #export PATH=$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin
 export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-export HOME=$parentDir/$TestDir
+#export HOME=$parentDir/$TestDir
+function store_test_logs {
+cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$BUILD_NUMBER/outputs
+cd $(ls -d */|head -n 1)
+cd $(ls -d */|head -n 1)
+cp stderr.log $parentDir/$TestDir/test_stderr.txt
+cp stdout.log $parentDir/$TestDir/test_stdout.txt
+}
 pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
 printf "$pipelineLeaderId\n"
 runningBool=1
@@ -79,10 +86,12 @@ printf "$leaderStatus\n"
   if [ "$leaderStatus" == "DONE" ]
     then
     printf "Job Finished successfully\n"
+    store_test_logs
     runningBool=0
   elif [ "$leaderStatus" == "EXIT" ]
     then
     printf "Job Failed\n"
+    store_test_logs
     exit 1
   fi
   sleep 1m
