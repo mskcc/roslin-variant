@@ -36,6 +36,6 @@ export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
 export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 
 # cmo
-export ROSLIN_CMO_VERSION="1.8.1"
+export ROSLIN_CMO_VERSION="1.9.0"
 export ROSLIN_CMO_BIN_PATH="/ifs/work/pi/cmo_package_archive/1.8.1/bin"
 export ROSLIN_CMO_PYTHON_PATH="/ifs/work/pi/cmo_package_archive/1.8.1/lib/python2.7/site-packages"
