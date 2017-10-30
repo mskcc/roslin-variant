@@ -86,7 +86,8 @@
             "1.5.5"
         ],
         "roslin-qc": [
-            "0.5.5"
+            "0.5.5",
+            "0.5.8"
         ]
     },
     "containerDependency": {
