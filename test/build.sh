@@ -1,6 +1,7 @@
 #!/bin/bash
 # path to lsf commands
 #Set LSF env
+#silly comment
 export LSF_LIBDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib
 export LSF_SERVERDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc
 export LSF_BINDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
