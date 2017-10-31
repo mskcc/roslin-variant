@@ -26,6 +26,7 @@ export VAGRANT_CWD=$parentDir
 export VAGRANT_VAGRANTFILE=Vagrantfile_test
 # Set tmp and test directory
 export TMPDIR="/srv/scratch/"
+export TMP="/srv/scratch/"
 export TOIL_LSF_ARGS='-S 1'
 TempDir=/srv/scratch/$BUILD_NUMBER
 TestDir=test_output/$BUILD_NUMBER
