@@ -185,6 +185,10 @@
         "cutadapt_metrics": {
             "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
         }, 
+        "delly": {
+            "0.7.7": "sing.sh delly 0.7.7", 
+            "default": "sing.sh delly 0.7.7"
+        }, 
         "facets": {
             "1.5.5": "sing.sh facets 1.5.5"
         }, 

@@ -105,6 +105,9 @@ outputs:
     pindel_vcf:
         type: File
         outputSource: call_variants/pindel_vcf
+    delly_sv:
+        type: File
+        outputSource: call_variants/sv_file
 
 
 steps:
@@ -128,7 +131,7 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt, facets_out, facets_rdata, facets_seg]
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, sv_file]
         run:
             class: Workflow
             inputs:
@@ -171,7 +174,16 @@ steps:
                 facets_seg:
                     type: File
                     outputSource: facets/facets_seg_output
+                delly_sv:
+                    type: File
+                    outputSource: delly/sv_file
             steps:
+                delly:
+                    run: cmo-delly.call/0.7.7/cmo-delly.call.cwl
+                    in:
+                        i: [tumor_bam]
+                        g: genome
+                    out: [sv_file]
                 facets:
                     run: facets.cwl
                     in:

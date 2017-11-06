@@ -86,6 +86,9 @@
         ],
         "roslin-qc": [
             "0.5.5"
+        ],
+        "delly": [
+            "0.7.7"
         ]
     },
     "containerDependency": {
@@ -112,6 +115,11 @@
             "cmo_gatk.SomaticIndelDetector",
             "cmo_gatk.CombineVariants",
             "cmo_gatk.DepthOfCoverage"
+        ],
+        "delly": [
+            "cmo_delly.call",
+            "cmo_delly.filter",
+            "cmo_delly.merge"
         ],
         "abra": [
             "cmo_abra"

@@ -1,21 +1,5 @@
 outputs:
-  png_files:
+  delly_files:
     type: File[]
     outputBinding:
-      glob: '*.png'
-  txt_files:
-    type: File[]
-    outputBinding:
-      glob: '*.txt'
-  out_files:
-    type: File[]
-    outputBinding:
-      glob: '*.out'
-  rdata_files:
-    type: File[]
-    outputBinding:
-      glob: '*.Rdata'
-  seg_files:
-    type: File[]
-    outputBinding:
-      glob: '*.seg'
+      glob: '*.bcf'
