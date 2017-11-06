@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_qcpdf -o FILENAME --generate_cwl_tool
 # Help: $ cmo_qcpdf  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: "cwl:v1.0"
 
 class: CommandLineTool
 baseCommand:
@@ -151,35 +151,35 @@ inputs:
       prefix: --request-file
 
   minor_contam_threshold:
-    type: ['null', string]
+    type: ["null", float]
     default: 0.0
 
     inputBinding:
       prefix: --minor-contam-threshold
 
   major_contam_threshold:
-    type: ['null', string]
+    type: ["null", float]
     default: 0.6
 
     inputBinding:
       prefix: --major-contam-threshold
 
   duplication_threshold:
-    type: ['null', string]
+    type: ["null", int]
     default: 50
 
     inputBinding:
       prefix: --duplication-threshold
 
   cov_warn_threshold:
-    type: ['null', string]
+    type: ["null", int]
     default: 50
 
     inputBinding:
       prefix: --cov-warn-threshold
 
   cov_fail_threshold:
-    type: ['null', string]
+    type: ["null", int]
     default: 25
 
     inputBinding:
