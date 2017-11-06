@@ -14,8 +14,8 @@ a5ef34c4c917758b9c711092f3ab0c49  ./basic-filtering.somaticIndelDetector/0.1.7/b
 e9c0424908b38ce098ccaa7075a46ac9  ./cmo-abra/2.07/cmo-abra.cwl
 25d150363952ed9b7f82cd1d8c67db86  ./cmo-abra/2.08/cmo-abra.cwl
 5aca620f618d90edf08b8559411778ee  ./cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
-01e5ff595cf105b9d0174ebe161eb2f1  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 13de0600b09fbb34095c4518466a7e62  ./cmo-bwa-mem/0.7.15/cmo-bwa-mem.cwl
+01e5ff595cf105b9d0174ebe161eb2f1  ./cmo-bwa-mem/0.7.12/cmo-bwa-mem.cwl
 63cbecdc3663115b8135eb1683e3079c  ./cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
 fcb51ab23273a2ad820b59633fa7219b  ./cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
 c1f55f3d125cb9093a1d46ab0afd8cde  ./cmo-fillout/1.2.1/cmo-fillout.cwl
@@ -46,15 +46,15 @@ fc1936296f372b7787bc985657787e99  ./cmo-picard.FixMateInformation/1.129/cmo-pica
 59b7d283b2cf09bfcecbb72036cf6a26  ./cmo-picard.FixMateInformation/1.96/cmo-picard.FixMateInformation.cwl
 f9073fbb1b3742b7937ff1d76d351053  ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
 c7e604c4d27e19136e2e7eeed7672ce7  ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
-0242d30242292f3ecfa68cb4490ee3f7  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 9bb20484aa0b7a57dbf0349e1d64b5d5  ./cmo-pindel/0.2.5b8/cmo-pindel.cwl
+0242d30242292f3ecfa68cb4490ee3f7  ./cmo-pindel/0.2.5a7/cmo-pindel.cwl
 fe440a6dcf504ef812d0be0803dd157e  ./cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
 a151f278bf1c2f039ffc2645dad53c63  ./cmo-qcpdf/0.5.0/cmo-qcpdf.cwl
 e7c8946e089ff2b8539f5e271c9f759e  ./cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
 1fb5bdfb75e5a2a9ad446d1a3aa33343  ./cmo-snp-pileup/0.1.1/cmo-snp-pileup.cwl
 985940b203fec229a833eb575b572669  ./cmo-split-reads/1.0.0/cmo-split-reads.cwl
-2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 c0bdb99096405389fe6a6bd295872401  ./cmo-trimgalore/0.4.3/cmo-trimgalore.cwl
+2b56a1ee11812f5bd6dcdb93fd5d4a22  ./cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
 e480715b75c934fb91b2565e1539fd7f  ./cmo-vardict/1.4.6/cmo-vardict.cwl
 e7019f5e39a3907f470e3688a711b1f6  ./cmo-vcf2maf/1.6.12/cmo-vcf2maf.cwl
 2eae536d4d53a4b33e43257468099b9e  ./cmo-vcf2maf/1.6.14/cmo-vcf2maf.cwl
