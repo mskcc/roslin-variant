@@ -270,8 +270,8 @@
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
-            "2.13": "sing.sh picard 2.13", 
             "1.96": "sing.sh picard 1.96", 
+            "2.13": "sing.sh picard 2.13", 
             "default": "sing.sh picard 1.96"
         }, 
         "pindel": {
@@ -308,7 +308,8 @@
         "roslin-qc": {
             "0.5.0": "sing.sh roslin-qc 0.5.0", 
             "0.5.5": "sing.sh roslin-qc 0.5.5", 
-            "default": "sing.sh roslin-qc 0.5.0"
+            "0.5.8": "sing.sh roslin-qc 0.5.8", 
+            "default": "sing.sh roslin-qc 0.5.8"
         }, 
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 

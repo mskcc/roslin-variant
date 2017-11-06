@@ -50,7 +50,8 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 10
-    coresMin: 4 
+    coresMin: 4
+
 
 doc: |
   This tool helps to tag hotspot events
