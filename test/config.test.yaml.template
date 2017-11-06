@@ -16,5 +16,5 @@ dependencies:
       min: 1.0.0
       max: 1.0.0
   cmo:
-    version: 1.8.1
-    install-path: /ifs/work/pi/cmo_package_archive/
+    version: 1.9.0
+    install-path: /ifs/work/pi/roslin-test/cmo-dev/
