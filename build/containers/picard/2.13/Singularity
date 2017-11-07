@@ -30,19 +30,17 @@ Registry: http://localhost:5000
 %test
 
     # get actual output of the tool
-    java -jar /usr/bin/picard-tools/picard.jar MarkDuplicates 2>&1 | sed -n '3p;8p' > /tmp/actual.diff.txt || true
-    java -jar /usr/bin/picard-tools/picard.jar AddOrReplaceReadGroups 2>&1 | sed -n '3p;8p' >> /tmp/actual.diff.txt || true
+    java -jar /usr/bin/picard-tools/picard.jar MarkDuplicates 2>&1 | grep "Version" > /tmp/actual.diff.txt || true
+    java -jar /usr/bin/picard-tools/picard.jar AddOrReplaceReadGroups 2>&1 | grep "Version" >> /tmp/actual.diff.txt || true
 
 # expected output
 cat > /tmp/expected.diff.txt << EOM
-USAGE: MarkDuplicates [options]
-Version: 1.129(b508b2885562a4e932d3a3a60b8ea283b7ec78e2_1424706677)
-USAGE: AddOrReplaceReadGroups [options]
-Version: 1.129(b508b2885562a4e932d3a3a60b8ea283b7ec78e2_1424706677)
+Version: 2.13-SNAPSHOT
+Version: 2.13-SNAPSHOT
 EOM
 
     # diff
     diff /tmp/actual.diff.txt /tmp/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt
+    #rm -rf /tmp/*.diff.txt
