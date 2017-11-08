@@ -37,20 +37,15 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['baseCommand'] = ['cmo_delly', '--version', 'default', '--cmd', 'filter']
+    cwl['baseCommand'] = ['cmo_delly', '--version', '0.7.7', '--cmd', 'filter']
 
     del cwl['inputs']['version']
     del cwl['inputs']['cmd']
     cwl['inputs']['i'] = ruamel.yaml.load("""
-type:
-    type: array
-    items: File
+type: File
 inputBinding:
   prefix: --input
-  itemSeparator: " "
-  separate: True
-secondaryFiles: ['.bai']
-doc: Input files (sorted bams)
+doc: Input file (.bcf)
 """, ruamel.yaml.RoundTripLoader)
     
     #-->

@@ -50,7 +50,7 @@ inputs:
     type: ["null", string]
     doc: file with regions to exclude
     inputBinding:
-      prefix: --exclude 
+      prefix: --exclude_file 
 
   o:
     type: ["null", string]
@@ -93,14 +93,26 @@ inputs:
     inputBinding:
       prefix: --geno-qual 
 
-  i:
-    type:
-      type: array
-      items: string
+  normal_bam:
+    type: str
   
-    doc: Input files (sorted bams)
+    doc: Sorted normal bam
     inputBinding:
-      prefix: --input 
+      prefix: --normal_bam 
+
+  tumor_bam:
+    type: str
+  
+    doc: Sorted tumor bam
+    inputBinding:
+      prefix: --tumor_bam 
+
+  all_regions:
+    type: ["null", boolean]
+    default: False
+    doc: include regions marked in this genome
+    inputBinding:
+      prefix: --all_regions 
 
   stderr:
     type: ["null", str]

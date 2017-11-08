@@ -95,6 +95,13 @@ inputs:
     inputBinding:
       prefix: --input 
 
+  all_regions:
+    type: ["null", boolean]
+    default: False
+    doc: include regions marked in this genome
+    inputBinding:
+      prefix: --all_regions 
+
   stderr:
     type: ["null", str]
     doc: log stderr to file

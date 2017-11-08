@@ -107,7 +107,7 @@ outputs:
         outputSource: call_variants/pindel_vcf
     delly_sv:
         type: File
-        outputSource: call_variants/sv_file
+        outputSource: call_variants/delly_sv
 
 
 steps:
@@ -131,7 +131,9 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, sv_file]
+            delly_type:
+               valueFrom: ${ return ["DUP", "DEL", "INV", "BND", "INS"]; }
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, delly_sv]
         run:
             class: Workflow
             inputs:
@@ -146,6 +148,7 @@ steps:
                 mutect_rf: string[]
                 bed: File
                 refseq: File #file of refseq genes...
+                delly_type: string[]
             outputs:
                 mutect_vcf:
                     type: File
@@ -180,9 +183,17 @@ steps:
             steps:
                 delly:
                     run: cmo-delly.call/0.7.7/cmo-delly.call.cwl
+                    scatter: [t]
+                    scatterMethod: dotproduct
                     in:
-                        i: [tumor_bam]
+                        tumor_bam: tumor_bam                        
+                        normal_bam: normal_bam
+                        normal_sample_name: normal_sample_name
+                        tumor_sample_name: tumor_sample_name
                         g: genome
+                        t: delly_type
+                        o:
+                           valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name +"." + inputs.t + ".bcf"; }
                     out: [sv_file]
                 facets:
                     run: facets.cwl

@@ -43,7 +43,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_delly
 - --version
-- default
+- 0.7.7
 - --cmd
 - call
 
@@ -77,7 +77,7 @@ inputs:
     type: ['null', string]
     doc: file with regions to exclude
     inputBinding:
-      prefix: --exclude
+      prefix: --exclude_file
 
   o:
     type: ['null', string]
@@ -120,16 +120,25 @@ inputs:
     inputBinding:
       prefix: --geno-qual
 
-  i:
-    type:
-      type: array
-      items: File
+  normal_bam:
+    type: File
+    doc: Sorted normal bam
     inputBinding:
-      prefix: --input
-      itemSeparator: ' '
-      separate: true
+      prefix: --normal_bam
     secondaryFiles: [.bai]
-    doc: Input files (sorted bams)
+  tumor_bam:
+    type: File
+    doc: Sorted tumor bam
+    inputBinding:
+      prefix: --tumor_bam
+    secondaryFiles: [.bai]
+  all_regions:
+    type: ['null', boolean]
+    default: false
+    doc: include regions marked in this genome
+    inputBinding:
+      prefix: --all_regions
+
   stderr:
     type: ['null', string]
     doc: log stderr to file

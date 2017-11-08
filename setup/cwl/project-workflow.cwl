@@ -207,6 +207,15 @@ outputs:
       items: File
     outputSource: variant_calling/pindel_vcf
 
+  # delly
+  delly_sv:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: variant_calling/delly_sv
+
   # facets
   facets_png:
     type:

@@ -37,20 +37,23 @@ def main():
     cwl = ruamel.yaml.load(read(params.filename_cwl),
                            ruamel.yaml.RoundTripLoader)
 
-    cwl['baseCommand'] = ['cmo_delly', '--version', 'default', '--cmd', 'call']
+    cwl['baseCommand'] = ['cmo_delly', '--version', '0.7.7', '--cmd', 'call']
 
     del cwl['inputs']['version']
     del cwl['inputs']['cmd']
-    cwl['inputs']['i'] = ruamel.yaml.load("""
-type:
-  type: array
-  items: File
+    cwl['inputs']['normal_bam'] = ruamel.yaml.load("""
+type: File
+doc: Sorted normal bam
 inputBinding:
-  prefix: --input
-  itemSeparator: " "
-  separate: True
+    prefix: --normal_bam 
 secondaryFiles: ['.bai']
-doc: Input files (sorted bams)
+""", ruamel.yaml.RoundTripLoader)
+    cwl['inputs']['tumor_bam'] = ruamel.yaml.load("""
+type: File
+doc: Sorted tumor bam
+inputBinding:
+    prefix: --tumor_bam 
+secondaryFiles: ['.bai']
 """, ruamel.yaml.RoundTripLoader)
     #-->
     # fixme: until we can auto generate cwl for cmo-facets.doFacets

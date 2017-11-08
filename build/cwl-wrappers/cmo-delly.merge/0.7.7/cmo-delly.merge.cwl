@@ -43,7 +43,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_delly
 - --version
-- default
+- 0.7.7
 - --cmd
 - merge
 
@@ -121,8 +121,14 @@ inputs:
       prefix: --input
       itemSeparator: ' '
       separate: true
-    secondaryFiles: [.bai]
-    doc: Input files (sorted bams)
+    doc: Input files (.bcf)
+  all_regions:
+    type: ['null', boolean]
+    default: false
+    doc: include regions marked in this genome
+    inputBinding:
+      prefix: --all_regions
+
   stderr:
     type: ['null', string]
     doc: log stderr to file

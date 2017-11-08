@@ -66,7 +66,8 @@
             "omni": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_omni2.5.b37.vcf", 
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_phase1.snps.high_confidence.b37.vcf", 
             "star_index": "/ifs/depot/assemblies/H.sapiens/hg19/index/star/2.4.1d/withoutJunctions", 
-            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
+            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86",
+            "delly": "/ifs/work/pi/resources/delly/human.hg19.excl.tsv"
         }, 
         "GRCh38": {
             "exac": "", 
@@ -78,7 +79,8 @@
             }, 
             "kallisto_index": "/ifs/res/pwg/data/assemblies/homo_sapiens/gencode.v25/gencode.v25.pc_transcripts", 
             "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25", 
-            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
+            "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86",
+            "delly": "/ifs/work/pi/resources/delly/human.hg38.excl.tsv"
         }, 
         "GRCm38": {
             "exac": "", 
@@ -115,7 +117,8 @@
                 "default": "/ifs/depot/annotation/M.musculus/gencode/vM8/gencode.vM8.annotation.dedup.gtf"
             }, 
             "kallisto_index": "/ifs/depot/assemblies/M.musculus/mm10/index/kallisto/v0.42.1/gencode/vM8/gencode.vM8.annotation.gtf.fasta.idx", 
-            "star_index": "/ifs/depot/assemblies/M.musculus/mm10/index/star/2.4.1d/gencode/vM8/overhang74"
+            "star_index": "/ifs/depot/assemblies/M.musculus/mm10/index/star/2.4.1d/gencode/vM8/overhang74",
+            "delly": "/ifs/work/pi/resources/delly/mouse.mm10.excl.tsv"
         }, 
         "mm9": {
             "fasta": "/ifs/depot/assemblies/M.musculus/mm9/mm9.fasta"
