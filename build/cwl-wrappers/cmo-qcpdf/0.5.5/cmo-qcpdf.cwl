@@ -150,6 +150,41 @@ inputs:
     inputBinding:
       prefix: --request-file
 
+  minor_contam_threshold:
+    type: ['null', float]
+    default: 0.0
+
+    inputBinding:
+      prefix: --minor-contam-threshold
+
+  major_contam_threshold:
+    type: ['null', float]
+    default: 0.6
+
+    inputBinding:
+      prefix: --major-contam-threshold
+
+  duplication_threshold:
+    type: ['null', int]
+    default: 50
+
+    inputBinding:
+      prefix: --duplication-threshold
+
+  cov_warn_threshold:
+    type: ['null', int]
+    default: 50
+
+    inputBinding:
+      prefix: --cov-warn-threshold
+
+  cov_fail_threshold:
+    type: ['null', int]
+    default: 25
+
+    inputBinding:
+      prefix: --cov-fail-threshold
+
 outputs:
   qc_files:
     type:
