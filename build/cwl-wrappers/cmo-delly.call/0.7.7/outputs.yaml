@@ -1,6 +1,6 @@
 outputs:
   sv_file:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
