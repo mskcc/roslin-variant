@@ -4,6 +4,8 @@
 .vscode/ftp-sync.json
 .vscode/.ropeproject/*
 
+.idea
+
 /build/containers/**/*.img
 /build/containers/**/*.img.bak
 /build/cwl-wrappers/**/*.bak

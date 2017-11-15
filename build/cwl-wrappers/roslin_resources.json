@@ -374,6 +374,10 @@
             "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
+        },
+        "marianas": {
+            "0.0.0": "sing.sh marianas 0.0.0",
+            "default": "sing.sh marianas 0.0.0"
         }
     }, 
     "targets": {

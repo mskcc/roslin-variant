@@ -17,5 +17,5 @@ dependencies:
       max: 1.0.0
   cmo:
     version: 1.9.2
-    install-path: /ifs/work/pi/roslin-test/cmo-dev/
+    install-path: /home/johnsoni/.local
 

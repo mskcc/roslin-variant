@@ -92,6 +92,9 @@
         ],
         "delly": [
             "0.7.7"
+        ],
+        "marianas": [
+            "0.0.0"
         ]
     },
     "containerDependency": {
@@ -175,6 +178,9 @@
         ],
         "roslin-qc": [
             "cmo_qcpdf"
+        ],
+        "marianas": [
+            "cmo_marianas"
         ]
     }
 }

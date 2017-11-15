@@ -3,7 +3,7 @@
 export ROSLIN_CORE_VERSION="1.0.0"
 
 # path to all the Roslin Core versions are/will be installed
-export ROSLIN_CORE_ROOT="/ifs/work/pi/roslin-core"
+export ROSLIN_CORE_ROOT="/ifs/work/bergerm1/Innovation/sandbox/ian/roslin-core"
 
 # path for a specific version of Roslin Core
 export ROSLIN_CORE_PATH="${ROSLIN_CORE_ROOT}/${ROSLIN_CORE_VERSION}"
