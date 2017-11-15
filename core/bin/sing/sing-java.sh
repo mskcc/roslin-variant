@@ -21,7 +21,7 @@ do
         sing_opts+=("$var")
     fi
 
-    if [ "$var" == "-jar" ]
+    if [ "$var" == "-jar" ] || [ "$var" == "-cp" ]
     then
         # we're done with handling java options
         flag=1
@@ -54,6 +54,11 @@ case $tool_name in
 
     abra)
         tool_name="/usr/bin/abra.jar"
+        tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
+        ;;
+
+	marianas)
+        tool_name="/usr/bin/marianas-0.0.0.jar"
         tool_opts=`echo ${sing_opts[*]} | cut -d' ' -f4-`
         ;;
 
