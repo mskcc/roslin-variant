@@ -17,4 +17,4 @@ dependencies:
       max: 1.0.0
   cmo:
     version: 1.9.2
-    install-path: /home/johnsoni/.local
+    install-path: /home/johnsoni/cmo_tools

@@ -1,7 +1,7 @@
-export ROSLIN_PIPELINE_DESCRIPTION="Roslin Pipeline Test for 31afdfef-c16f-4800-9b73-90495818500c"
+export ROSLIN_PIPELINE_DESCRIPTION="Roslin Variant Pipeline v1.3.1"
 
 # Roslin pipeline name/version
-export ROSLIN_PIPELINE_NAME="test"
+export ROSLIN_PIPELINE_NAME="variant"
 export ROSLIN_PIPELINE_VERSION="1.3.1"
 
 # which version of Roslin Core is required?
@@ -9,7 +9,7 @@ export ROSLIN_CORE_MIN_VERSION="1.0.0"
 export ROSLIN_CORE_MAX_VERSION="1.0.0"
 
 # Roslin pipeline root path
-ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-test/31afdfef-c16f-4800-9b73-90495818500c/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
+ROSLIN_PIPELINE_ROOT="/ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
 
 #--> the following paths will be supplied to singularity as bind points
 
@@ -36,6 +36,6 @@ export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
 export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 
 # cmo
-export ROSLIN_CMO_VERSION="1.9.1"
-export ROSLIN_CMO_BIN_PATH="/ifs/work/pi/cmo_package_archive/1.9.1/bin"
-export ROSLIN_CMO_PYTHON_PATH="/ifs/work/pi/cmo_package_archive/1.9.1/lib/python2.7/site-packages"
+export ROSLIN_CMO_VERSION="1.9.2"
+export ROSLIN_CMO_BIN_PATH="/home/johnsoni/cmo_tools/1.9.2/bin"
+export ROSLIN_CMO_PYTHON_PATH="/home/johnsoni/cmo_tools/1.9.2/lib/python2.7/site-packages"
