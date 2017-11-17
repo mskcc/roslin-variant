@@ -180,7 +180,7 @@
             "cmo_qcpdf"
         ],
         "marianas": [
-            "cmo_marianas"
+            "cmo_marianas.ProcessLoopUMIFastq"
         ]
     }
 }

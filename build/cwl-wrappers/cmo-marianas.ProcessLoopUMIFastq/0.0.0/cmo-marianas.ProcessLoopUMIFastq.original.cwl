@@ -15,7 +15,7 @@ inputs:
     inputBinding:
       prefix: --r1_fastq
     secondaryFiles:
-    - ${self.location.replace("_R1_", "_R2")}
+    - ${self.location.replace("_R1_", "_R2_")}
     - ${self.location.replace(/(.*)(\/.*$)/, "$1/SampleSheet.csv")}
 
   umi_length:
