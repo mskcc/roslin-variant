@@ -51,12 +51,6 @@ requirements:
 
 doc: Marianas UMI Clipping module
 
-requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 4
-    coresMin: 1
-
 inputs:
   r1_fastq:
     type: File
