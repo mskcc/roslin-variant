@@ -2,29 +2,29 @@ outputs:
   processed_fastq_1:
     type: File
     outputBinding:
-      glob: $(inputs.r1_fastq)
+      glob: ${ return "**/" + inputs.r1_fastq.basename }
 
   processed_fastq_2:
     type: File
     outputBinding:
-      glob: $(inputs.r2_fastq)
+      glob: ${ return "**/" + inputs.r1_fastq.basename.replace("_R1_", "_R2_") }
 
-#  composite_umi_frequencies:
-#    type: File
-#    outputBinding:
-#      glob: composite-umi-frequencies.txt
+  composite_umi_frequencies:
+    type: File
+    outputBinding:
+      glob: ${ return "**/composite-umi-frequencies.txt" }
 
   info:
     type: File
     outputBinding:
-      glob: info.txt
+      glob: ${ return "**/info.txt" }
 
-#   sample_sheet:
-#     type: File
-#     outputBinding:
-#       glob: SampleSheet.csv
+  sample_sheet:
+    type: File
+    outputBinding:
+      glob: ${ return "**/SampleSheet.csv" }
 
   umi_frequencies:
     type: File
     outputBinding:
-      glob: umi-frequencies.txt
+      glob: ${ return "**/umi-frequencies.txt" }
