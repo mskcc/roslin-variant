@@ -1,0 +1,37 @@
+Bootstrap: docker
+From: /pipeline-abra:2.12
+Registry: http://localhost:5000
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    . /tmp/settings-container.sh
+    
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    # just run java so that caller can pass java options
+    # exec java -jar /usr/bin/abra.jar "$@"
+    exec java "$@"
+
+%test
+
+    # get actual output of abra
+    # Should pick out the abra version from the top of the help output
+    # INFO    Fri Aug 18 19:11:23 UTC 2017    Abra version: 2.12
+    # INFO    Fri Aug 18 19:11:23 UTC 2017    Abra params: [/usr/bin/
+    # abra.jar --help]
+    exec java -jar /usr/bin/abra.jar help 2>&1 | grep -q "Abra version: 2.12" || { echo "no match" >&2; exit 1; }
