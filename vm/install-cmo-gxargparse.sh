@@ -13,7 +13,7 @@ DEST_PATH="/usr/local/bin/"
 # install cmo
 
 # get cmo from git
-sudo git clone https://github.com/ionox0/cmo.git ${DEST_PATH}/cmo-gxargparse/cmo
+sudo git clone -b ij/marianas-tool https://github.com/ionox0/cmo.git ${DEST_PATH}/cmo-gxargparse/cmo
 sudo chown -R vagrant:vagrant ${DEST_PATH}/cmo-gxargparse/cmo
 
 # install dependencies
