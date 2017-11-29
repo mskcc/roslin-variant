@@ -1,7 +1,7 @@
-name: test
-version: BUILD_VALUE
-description: Roslin Pipeline Test for BUILD_VALUE
-root: /ifs/work/pi/roslin-test/roslin-pipelines
+name: variant
+version: 1.3.1
+description: Roslin Variant Pipeline v1.3.1
+root: /ifs/work/bergerm1/Innovation/sandbox/ian/roslin-pipelines
 binding:
   core: bin
   data: resources
@@ -17,4 +17,4 @@ dependencies:
       max: 1.0.0
   cmo:
     version: 1.9.2
-    install-path: /home/johnsoni/1.9.2
+    install-path: /home/johnsoni/cmo_tools

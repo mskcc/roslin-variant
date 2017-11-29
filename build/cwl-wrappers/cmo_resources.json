@@ -283,6 +283,9 @@
         }, 
         "vt": {
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt"
+        },
+        "marianas": {
+            "default": "sudo docker run -i marianas:0.0.0 "
         }
     }, 
     "targets": {
