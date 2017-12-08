@@ -189,7 +189,7 @@ steps:
                         output_prefix: tumor_sample_name
                     out: [output]
                 vardict:
-                    run: cmo-vardict/1.4.6/cmo-vardict.cwl
+                    run: cmo-vardict/1.5.1/cmo-vardict.cwl
                     in:
                         G: genome
                         b: tumor_bam
