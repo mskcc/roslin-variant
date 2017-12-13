@@ -34,12 +34,12 @@ then
 fi
 
 # build cwl wrappers
-./build-cwl.sh
-if [ $? -eq 1 ]
-then
-    echo "Failed to build CWL wrappers."
-    exit 1
-fi
+# ./build-cwl.sh
+# if [ $? -eq 1 ]
+# then
+#     echo "Failed to build CWL wrappers."
+#     exit 1
+# fi
 
 if [ "$push_to_dockerhub" = 'yes' ]
 then
