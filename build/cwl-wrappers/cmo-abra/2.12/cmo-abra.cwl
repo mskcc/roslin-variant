@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_abra
 - --version
-- '2.12'
+- '2.07'
 
 requirements:
   InlineJavascriptRequirement: {}
