@@ -142,11 +142,8 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
-            "0.92": "sing.sh abra 0.92", 
-            "2.07": "sing.sh abra 2.07", 
-            "2.08": "sing.sh abra 2.08", 
             "2.12": "sing.sh abra 2.12", 
-            "default": "sing.sh abra 0.92"
+            "default": "sing.sh abra 2.12"
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
@@ -271,16 +268,16 @@
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
         "ngs-filters": {
-            "1.1.4": "sing.sh ngs-filters 1.1.4"
+            "1.1.4": "sing.sh ngs-filters 1.1.4", 
+            "1.2": "sing.sh ngs-filters 1.2"
         }, 
         "perl": {
             "default": "sing-perl.sh"
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
-            "1.96": "sing.sh picard 1.96", 
-            "2.13": "sing.sh picard 2.13",            
-            "default": "sing.sh picard 1.96"
+            "2.13": "sing.sh picard 2.13", 
+            "default": "sing.sh picard 1.129"
         }, 
         "pindel": {
             "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel", 

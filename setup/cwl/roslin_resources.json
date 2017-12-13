@@ -278,8 +278,8 @@
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
-            "1.96": "sing.sh picard 1.96",             
-            "default": "sing.sh picard 1.96"
+            "2.13": "sing.sh picard 2.13", 
+            "default": "sing.sh picard 1.129"
         }, 
         "pindel": {
             "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel", 
