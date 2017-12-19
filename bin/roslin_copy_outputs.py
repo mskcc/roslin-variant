@@ -255,6 +255,7 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
         },
         "qc": {
             "patterns": [
+                "outputs/*FP_base_counts.txt",
                 "outputs/*.asmetrics",
                 "outputs/*.hsmetrics",
                 "outputs/*.ismetrics*",
