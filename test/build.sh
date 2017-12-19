@@ -62,7 +62,6 @@ printf "\n----------Compressing----------\n"
 cd $parentDir
 python test/compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 # Deploy
-cd $currentDir
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
 mkdir $TempDir
