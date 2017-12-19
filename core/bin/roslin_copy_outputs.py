@@ -233,7 +233,8 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
     data = {
         "bam": {
             "patterns": [
-                "outputs/*.bam"
+                "outputs/*.bam",
+                "outputs/*.bai"
             ],
             "parallels": 5
         },
