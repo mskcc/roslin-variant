@@ -14,14 +14,14 @@ set -e
 printf "\n----------Starting----------\n"
 #UUID=$(cat /proc/sys/kernel/random/uuid)
 #printf "$UUID\n"
-printf "Starting Build $BUILD_NUMBER"
+printf "Starting Build $BUILD_NUMBER\n"
 # dynamically add it to the vagrant file
 cp ../Vagrantfile ../Vagrantfile_test
 sed -i '$ d' ../Vagrantfile_test
 # set the config to point to the right workspace
 installDir=/ifs/work/pi/roslin-test/targeted-variants/$BUILD_NUMBER
 coreDir=$installDir/roslin-core
-sed -i "s|/ifs/work/pi/roslin-pipelines|${installDir}/roslin-pipelines|g" config.variant.yaml
+sed -i "s|/ifs/work/pi/roslin-pipelines|${installDir}/roslin-pipelines|g" ../config.variant.yaml
 printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend" "$BUILD_NUMBER" >> ../Vagrantfile_test
 ## set vagrant path correctly
 currentDir=$PWD
