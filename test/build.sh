@@ -6,7 +6,7 @@ export LSF_SERVERDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc
 export LSF_BINDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
 export LSF_ENVDIR=/common/lsf/conf
 export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
-#Set python env
+# Set python env
 export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
 #Script will exit if a command exits with nonzero exit value
 set -e
@@ -15,9 +15,13 @@ printf "\n----------Starting----------\n"
 #UUID=$(cat /proc/sys/kernel/random/uuid)
 #printf "$UUID\n"
 printf "Starting Build $BUILD_NUMBER"
-#dynamically add it to the vagrant file
+# dynamically add it to the vagrant file
 cp ../Vagrantfile ../Vagrantfile_test
 sed -i '$ d' ../Vagrantfile_test
+# set the config to point to the right workspace
+installDir=/ifs/work/pi/roslin-test/targeted-variants/$BUILD_NUMBER
+coreDir=$installDir/roslin-core
+sed -i "s|/ifs/work/pi/roslin-pipelines|${installDir}/roslin-pipelines|g" config.variant.yaml
 printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend" "$BUILD_NUMBER" >> ../Vagrantfile_test
 ## set vagrant path correctly
 currentDir=$PWD
@@ -31,7 +35,7 @@ export TOIL_LSF_ARGS='-S 1'
 TempDir=/srv/scratch/$BUILD_NUMBER
 TestDir=test_output/$BUILD_NUMBER
 # Start vagrant to build the pipeline
-printf "\n----------Building now----------\n"
+printf "\n----------Building----------\n"
 vagrant up
 # check if build did not fail
 cd ..
@@ -39,11 +43,23 @@ if [ $(ls $TestDir | grep -c "EXIT") -gt 0 ]
 then
 exit 1
 fi
-printf "\n----------Compressing now----------\n"
+printf "\n----------Compressing----------\n"
 # Compress pipeline
 python test/compress.py $BUILD_NUMBER > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
+printf "\n----------Setting up workspace----------\n"
+# Create the test dir where the pipeline will be installed
+mkdir $installDir
+mkdir $coreDir
+printf "\n----------Installing Core----------\n"
+source core/config/settings.sh
+# Set test specific core
+sed -i 's|'${ROSLIN_CORE_ROOT}'|'${coreDir}'|g' core/config/settings.sh
 # Load roslin core
-source /ifs/work/pi/roslin-test/roslin-core/1.0.0/config/settings.sh
+source core/config/settings.sh
+# install core
+cd core/bin/install
+./install-core.sh
+cd $currentDir
 # Deploy
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-test-pipeline-v${BUILD_NUMBER}.tgz"
@@ -71,7 +87,7 @@ export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 #export HOME=$parentDir/$TestDir
 function store_test_logs {
-cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$BUILD_NUMBER/outputs
+cd $installDir/roslin-pipelines/test/$BUILD_NUMBER/outputs
 cd $(ls -d */|head -n 1)
 cd $(ls -d */|head -n 1)
 cp stderr.log $parentDir/$TestDir/test_stderr.txt

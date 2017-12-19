@@ -10,9 +10,8 @@ function on_exit {
  touch EXIT
 }
 trap on_exit ERR
-# Dynamically edit config and set it
-cp /vagrant/test/config.test.yaml.template $TestDir/config.test.yaml
-sed -i "s/BUILD_VALUE/$ID/g" $TestDir/config.test.yaml
+# Set the config
+cp /vagrant/config.variant.yaml $TestDir/config.test.yaml
 /vagrant/configure.py $TestDir/config.test.yaml
 # build images and cwl
 cd /vagrant/build/scripts
