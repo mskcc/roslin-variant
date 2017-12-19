@@ -54,15 +54,16 @@ printf "\n----------Installing Core----------\n"
 source core/config/settings.sh
 # Set test specific core
 sed -i 's|'${ROSLIN_CORE_ROOT}'|'${coreDir}'|g' core/config/settings.sh
-# Load roslin core
+# Load roslin core and pipeline
 source core/config/settings.sh
+source setup/config/settings.sh
 # install core
 cd core/bin/install
 ./install-core.sh
 cd $currentDir
 # Deploy
 printf "\n----------Deploying----------\n"
-pipeline_name="roslin-test-pipeline-v${BUILD_NUMBER}.tgz"
+pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
 mkdir $TempDir
 mv $pipeline_name $TempDir
 cd $TempDir
@@ -70,13 +71,13 @@ export PATH=$ROSLIN_CORE_BIN_PATH/install:$PATH
 install-pipeline.sh -p $TempDir/$pipeline_name > $parentDir/$TestDir/deploy_stdout.txt 2> $parentDir/$TestDir/deploy_stderr.txt
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
-./roslin-workspace-init.sh -v test/$BUILD_NUMBER -u jenkins
+./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u jenkins
 # Run test
 printf "\n----------Running Test----------\n"
 cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
-sed -i "s/PIPELINE_NAME/test/g" $parentDir/$TestDir/run-example.sh
-sed -i "s/PIPELINE_VERSION/$BUILD_NUMBER/g" $parentDir/$TestDir/run-example.sh
-cd /ifs/work/pi/roslin-test/roslin-pipelines/test/$BUILD_NUMBER/workspace/jenkins/examples/Proj_DEV_0002
+sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example.sh
+sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example.sh
+cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0002
 cp $parentDir/$TestDir/run-example.sh .
 #pipelineJobId=$(./run-example.sh | grep '[0-9a-zA-Z]\{8\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{12\}')
 #source /ifs/work/pi/roslin-test/.pyenv/bin/activate
@@ -87,7 +88,7 @@ export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 #export HOME=$parentDir/$TestDir
 function store_test_logs {
-cd $installDir/roslin-pipelines/test/$BUILD_NUMBER/outputs
+cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/outputs
 cd $(ls -d */|head -n 1)
 cd $(ls -d */|head -n 1)
 cp stderr.log $parentDir/$TestDir/test_stderr.txt
