@@ -43,9 +43,6 @@ if [ $(ls $TestDir | grep -c "EXIT") -gt 0 ]
 then
 exit 1
 fi
-printf "\n----------Compressing----------\n"
-# Compress pipeline
-python test/compress.py $BUILD_NUMBER > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 printf "\n----------Setting up workspace----------\n"
 # Create the test dir where the pipeline will be installed
 mkdir $installDir
@@ -61,6 +58,9 @@ source setup/config/settings.sh
 cd core/bin/install
 ./install-core.sh
 cd $currentDir
+printf "\n----------Compressing----------\n"
+# Compress pipeline
+python compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 # Deploy
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
