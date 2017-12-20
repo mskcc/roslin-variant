@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-vardict
-  doap:revision: 1.4.6
+  doap:revision: 1.5.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -23,16 +23,16 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Jaeyoung Chun
-    foaf:mbox: mailto:chunj@mskcc.org
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
 
 dct:contributor:
 - class: foaf:Organization
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Jaeyoung Chun
-    foaf:mbox: mailto:chunj@mskcc.org
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
 # To generate again: $ cmo_vardict -o FILENAME --generate_cwl_tool
@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_vardict
 - --version
-- 1.4.6
+- 1.5.1
 
 requirements:
   InlineJavascriptRequirement: {}

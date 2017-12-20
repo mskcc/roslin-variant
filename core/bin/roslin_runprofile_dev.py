@@ -4,6 +4,7 @@ import os
 import subprocess
 import hashlib
 import json
+#import logging
 import argparse
 import re
 import ruamel.yaml
@@ -11,7 +12,7 @@ import redis
 import logging
 
 
-logger = logging.getLogger("roslin_runprofile")
+logger = logging.getLogger("roslin_runprofile_dev")
 logger.setLevel(logging.ERROR)
 
 # create a file log handler
@@ -694,6 +695,22 @@ def make_runprofile(job_uuid, work_dir, cwltoil_log_path):
     pipeline_settings = read_pipeline_settings(pipeline_settings_path)
 
     inputs_yaml_path = os.path.join(work_dir, "inputs.yaml")
+    print inputs_yaml_path
+    print "1"
+    print get_roslin_info(pipeline_settings)
+    print "2"
+    print get_cmo_pkg_info(pipeline_settings)
+    print "3"
+    print get_singularity_info(pipeline_settings)
+    print "4"
+    print get_cwltoil_info()
+    print "5"
+    print get_node_info()
+    print "6"
+    print get_bioinfo_software_info(pipeline_settings_path, pipeline_settings, cwltoil_log_path)
+    print "7"
+    print get_references(inputs_yaml_path)
+    print "hi"
 
     run_profile = {
 
@@ -712,6 +729,7 @@ def make_runprofile(job_uuid, work_dir, cwltoil_log_path):
 
         "references": get_references(inputs_yaml_path)
     }
+    print run_profile
 
     return run_profile
 
@@ -774,9 +792,10 @@ def main():
         )
 
         # publish run-profile to redis
-        publish_to_redis(params.job_uuid, run_profile)
+        #publish_to_redis(params.job_uuid, run_profile)
 
     except Exception as e:
+        print repr(e)
         logger.error(repr(e))
 
 

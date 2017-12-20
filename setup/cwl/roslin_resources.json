@@ -278,7 +278,8 @@
         }, 
         "picard": {
             "1.129": "sing.sh picard 1.129", 
-            "1.96": "sing.sh picard 1.96",             
+            "1.96": "sing.sh picard 1.96", 
+            "2.13": "sing.sh picard 2.13",            
             "default": "sing.sh picard 1.96"
         }, 
         "pindel": {
@@ -349,10 +350,12 @@
         }, 
         "vardict": {
             "1.4.6": "sing.sh vardict 1.4.6 vardict", 
+            "1.5.1": "sing.sh vardict 1.5.1 vardict", 
             "default": "sing.sh vardict 1.4.6 vardict"
         }, 
         "vardict_bin": {
             "1.4.6": "sing.sh vardict 1.4.6 ", 
+            "1.5.1": "sing.sh vardict 1.5.1 ", 
             "default": "sing.sh vardict 1.4.6 "
         }, 
         "varscan": {
@@ -379,7 +382,7 @@
     "targets": {
         "AgilentExon_51MB_b37_v3": {
             "FP_genotypes": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_FP_tiling_intervals.intervals",
+            "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_FP_tiling_intervals.intervals", 
             "baits_bed": "/ifs/depot/resources/targets/AgilentExon_51MB_b37_v3/AgilentExon_51MB_b37_v3_baits.bed", 
             "baits_ilist": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/targets/AgilentExon_51MB_b37_v3/AgilentExon_51MB_b37_v3_baits.ilist", 
             "baits_list": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_baits.intervals", 
