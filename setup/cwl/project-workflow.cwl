@@ -224,21 +224,12 @@ outputs:
     secondaryFiles:
       - ^.bcf.csi
     outputSource: find_svs/delly_filtered_sv
-   merged_file:
+  merged_file:
     type: File
     outputSource: merge_with_bcftools/merged_file
-   maf_file:
+  maf_file:
     type: File
     outputSource: convert_vcf2maf/output
-
-  # delly
-  #delly_sv:
-  #  type:
-  #    type: array
-  #    items:
-  #      type: array
-  #      items: File
-  #  outputSource: variant_calling/delly_sv
 
   # facets
   facets_png:
