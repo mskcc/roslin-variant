@@ -207,14 +207,38 @@ outputs:
       items: File
     outputSource: variant_calling/pindel_vcf
 
-  # delly
+  # structural variants
   delly_sv:
-    type:
+    type: 
       type: array
-      items:
-        type: array
-        items: File
-    outputSource: variant_calling/delly_sv
+      items: File
+    secondariyFiles:
+      - ^.bcf.csi
+    outputSource: find_svs/delly_sv
+  delly_filtered_sv: 
+    type: 
+      type: array
+      items: File
+    outputBinding: 
+      glob: '*.pass.bcf'
+    secondaryFiles:
+      - ^.bcf.csi
+    outputSource: find_svs/delly_filtered_sv
+   merged_file:
+    type: File
+    outputSource: merge_with_bcftools/merged_file
+   maf_file:
+    type: File
+    outputSource: convert_vcf2maf/output
+
+  # delly
+  #delly_sv:
+  #  type:
+  #    type: array
+  #    items:
+  #      type: array
+  #      items: File
+  #  outputSource: variant_calling/delly_sv
 
   # facets
   facets_png:
@@ -415,3 +439,23 @@ steps:
       pairing_file: projparse/pairing_file
 
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
+
+  find_svs:
+    run: module-6.cwl
+    in:
+      tumor_bam: pairing/tumor_bam
+      normal_bam: pairing/normal_bam
+      genome: pairing/genome
+      normal_sample_name: pairing/normal_sample_name
+      tumor_sample_name: pairing/tumor_sample_name
+      pass: 
+        valueFrom: ${ return true; }
+      altaf: 
+        valueFrom: ${ return 0.1; }
+      ratiogeno:
+        valueFrom: ${ return 0; }
+      filter_somatic:
+        valueFrom: ${ return "somatic"; }
+      delly_type:
+        valueFrom: ${ return [ DUP, BND, DEL, INS, INV ]; }
+    out: [ delly_sv, delly_filtered_sv, merged_file, maf_file ]
