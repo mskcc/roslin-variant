@@ -5,4 +5,4 @@
 ######################################
 
 ./move-container-artifacts-to-setup.sh
-./move-cwl-artifacts-to-setup.sh
+#./move-cwl-artifacts-to-setup.sh

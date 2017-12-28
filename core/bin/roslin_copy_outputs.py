@@ -12,6 +12,9 @@ import shutil
 import tempfile
 import traceback
 
+os.environ["TMP"] = '/ifs/work/scratch'
+os.environ["TMPDIR"] = '/ifs/work/scratch'
+
 parser = argparse.ArgumentParser(description='roslin_copy_outputs')
 
 parser.add_argument(
@@ -53,16 +56,16 @@ parser.set_defaults(force_overwrite=False)
 
 params = parser.parse_args()
 
-logging_stdout = logging.getLogger().handlers[0]
+#logging_stdout = logging.getLogger().handlers[0]
 
-logger = logging.getLogger("roslin_copy_outputs")
+'''logger = logging.getLogger("roslin_copy_outputs")
 # Set stream level logging
 log_stream_handler = logging.StreamHandler(sys.stdout)
 log_stream_handler.setLevel(logging.INFO)
 log_stream_formatter = logging.Formatter('[%(message_type)s] - %(message)s')
 log_stream_handler.setFormatter(log_stream_formatter)
 logger.addHandler(log_stream_handler)
-logging.getLogger().removeHandler(logging_stdout)
+#logging.getLogger().removeHandler(logging_stdout)
 
 # Set file level logging
 try:
@@ -79,7 +82,18 @@ log_file_handler.setLevel(logging.INFO)
 log_file_formatter = logging.Formatter('[%(message_type)s] - %(message)s')
 log_file_handler.setFormatter(log_file_formatter)
 logger.addHandler(log_file_handler)
-
+'''
+logger = logging.getLogger("roslin_copy_outputs")
+logger.setLevel(logging.INFO)
+# create a file log handler$
+log_file_handler = logging.FileHandler('roslin_copy_outputs.log')
+log_file_handler.setLevel(logging.INFO)
+# create a logging format$
+#log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_formatter = logging.Formatter('[%(message_type)s] - %(message)s')
+log_file_handler.setFormatter(log_formatter)
+# add the handlers to the logger$
+logger.addHandler(log_file_handler)
 
 def bjobs(lsf_job_id_list):
     "execute bjobs to get status of each job"
@@ -247,8 +261,8 @@ def copy_outputs(cmo_project_id, job_uuid, toil_work_dir, user_out_dir):
                 "outputs/*.hsmetrics",
                 "outputs/*.ismetrics*",
                 "outputs/*.md_metrics",
-                "outputs/*.quality_by_cycle_metrics",
-                "outputs/*.gcbias*",
+                "outputs/*.quality_by_cycle_metrics"
+                "outputs/*.gcbiasmetrics",
                 "outputs/*.stats",
                 "outputs/*.pdf",
                 "outputs/{}_CutAdaptStats.txt".format(cmo_project_id),

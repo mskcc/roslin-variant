@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # load Roslin Core settings
-source ../../config/settings.sh
+source ${ROSLIN_CORE_CONFIG_PATH}/settings.sh
 
 usage()
 {

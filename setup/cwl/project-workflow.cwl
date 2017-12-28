@@ -231,15 +231,6 @@ outputs:
     type: File
     outputSource: convert_vcf2maf/output
 
-  # delly
-  #delly_sv:
-  #  type:
-  #    type: array
-  #    items:
-  #      type: array
-  #      items: File
-  #  outputSource: variant_calling/delly_sv
-
   # facets
   facets_png:
     type:
@@ -381,7 +372,7 @@ steps:
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
-    out: [combine_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, delly_sv]
+    out: [combine_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
