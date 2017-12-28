@@ -52,6 +52,7 @@
                 "129": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.excluding_sites_after_129.vcf", 
                 "138": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.vcf"
             }, 
+            "delly": "/ifs/work/pi/resources/delly/human.hg19.excl.tsv", 
             "exac": "/opt/common/CentOS_6-dev/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
@@ -66,10 +67,10 @@
             "omni": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_omni2.5.b37.vcf", 
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/1000G_phase1.snps.high_confidence.b37.vcf", 
             "star_index": "/ifs/depot/assemblies/H.sapiens/hg19/index/star/2.4.1d/withoutJunctions", 
-            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/",
-            "delly": "/ifs/work/pi/resources/delly/human.hg19.excl.tsv"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
         }, 
         "GRCh38": {
+            "delly": "/ifs/work/pi/resources/delly/human.hg38.excl.tsv", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz", 
             "gencode": {
@@ -78,8 +79,7 @@
             }, 
             "kallisto_index": "/ifs/res/pwg/data/assemblies/homo_sapiens/gencode.v25/gencode.v25.pc_transcripts", 
             "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25", 
-            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/",
-            "delly": "/ifs/work/pi/resources/delly/human.hg38.excl.tsv"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/v86/"
         }, 
         "GRCm38": {
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz", 
@@ -108,6 +108,7 @@
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/hg19/1000G_phase1.snps.high_confidence.hg19.vcf"
         }, 
         "mm10": {
+            "delly": "/ifs/work/pi/resources/delly/mouse.mm10.excl.tsv", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/mouse_MM10_dbSNP_NCBI_20150625___noChrM__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/depot/assemblies/M.musculus/mm10/mm10.fasta", 
             "gencode": {
@@ -115,8 +116,7 @@
                 "default": "/ifs/depot/annotation/M.musculus/gencode/vM8/gencode.vM8.annotation.dedup.gtf"
             }, 
             "kallisto_index": "/ifs/depot/assemblies/M.musculus/mm10/index/kallisto/v0.42.1/gencode/vM8/gencode.vM8.annotation.gtf.fasta.idx", 
-            "star_index": "/ifs/depot/assemblies/M.musculus/mm10/index/star/2.4.1d/gencode/vM8/overhang74",
-            "delly": "/ifs/work/pi/resources/delly/mouse.mm10.excl.tsv"
+            "star_index": "/ifs/depot/assemblies/M.musculus/mm10/index/star/2.4.1d/gencode/vM8/overhang74"
         }, 
         "mm9": {
             "fasta": "/ifs/depot/assemblies/M.musculus/mm9/mm9.fasta"
@@ -140,7 +140,7 @@
         "abra": {
             "2.07": "sudo docker run -i abra:2.07 ", 
             "2.08": "sudo docker run -i abra:2.08 ", 
-            "default": "sudo docker run -i abra:2.08 "
+            "default": "sudo docker run -i abra:2.12 "
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"

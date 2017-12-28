@@ -26,8 +26,8 @@ def main():
 	print "USAGE: compress.py pipeline_name"
         exit()
 
-    pipeline_name = "test"
-    pipeline_version = sys.argv[1]
+    pipeline_name = sys.argv[1]
+    pipeline_version = sys.argv[2]
 
     output_filename = "roslin-{}-pipeline-v{}.tgz".format(
         pipeline_name,

@@ -4,19 +4,19 @@ import os
 import subprocess
 import hashlib
 import json
-import logging
 import argparse
 import re
 import ruamel.yaml
 import redis
+import logging
 
 
 logger = logging.getLogger("roslin_runprofile")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.ERROR)
 
 # create a file log handler
 log_file_handler = logging.FileHandler('roslin_runprofile.log')
-log_file_handler.setLevel(logging.INFO)
+log_file_handler.setLevel(logging.ERROR)
 
 # create a logging format
 log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -69,6 +69,9 @@ def get_references(inputs_yaml_path):
         read_file(inputs_yaml_path),
         ruamel.yaml.RoundTripLoader
     )
+
+    if "runparms" not in yaml or "db_files" not in yaml:
+        return {}
 
     runparams = yaml["runparams"]
     db_files = yaml["db_files"]

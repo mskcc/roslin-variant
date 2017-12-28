@@ -52,6 +52,7 @@
                 "129": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.excluding_sites_after_129.vcf", 
                 "138": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/b37/dbsnp_138.b37.vcf"
             }, 
+            "delly": "/ifs/work/pi/resources/delly/human.hg19.excl.tsv", 
             "exac": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
             "facets_snps": "/ifs/work/socci/Depot/Pipelines/FACETS/v3/lib/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/work/chunj/prism-proto/ifs/depot/assemblies/H.sapiens/b37/b37.fasta", 
@@ -69,6 +70,7 @@
             "vep_cache": "/ifs/work/chunj/prism-proto/ifs/depot/resources/vep/v86"
         }, 
         "GRCh38": {
+            "delly": "/ifs/work/pi/resources/delly/human.hg38.excl.tsv", 
             "exac": "", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
             "fasta": "/opt/common/CentOS_6-dev/vep/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz", 
@@ -108,6 +110,7 @@
             "snps_1000g": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/data/hg19/1000G_phase1.snps.high_confidence.hg19.vcf"
         }, 
         "mm10": {
+            "delly": "/ifs/work/pi/resources/delly/mouse.mm10.excl.tsv", 
             "facets_snps": "/opt/common/CentOS_6-dev/facets_lib/mouse_MM10_dbSNP_NCBI_20150625___noChrM__plusPseudo50__DROP_SORT.vcf.gz", 
             "fasta": "/ifs/depot/assemblies/M.musculus/mm10/mm10.fasta", 
             "gencode": {
@@ -142,6 +145,7 @@
             "0.92": "sing.sh abra 0.92", 
             "2.07": "sing.sh abra 2.07", 
             "2.08": "sing.sh abra 2.08", 
+            "2.12": "sing.sh abra 2.12", 
             "default": "sing.sh abra 0.92"
         }, 
         "analyzeFingerprint": {
@@ -184,11 +188,11 @@
         }, 
         "cutadapt_metrics": {
             "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
-        },
-        "delly":{
-            "0.7.7": "sing.sh delly 0.7.7"
-
-        },
+        }, 
+        "delly": {
+            "0.7.7": "sing.sh delly 0.7.7", 
+            "default": "sing.sh delly 0.7.7"
+        }, 
         "facets": {
             "1.5.5": "sing.sh facets 1.5.5"
         }, 
@@ -275,6 +279,7 @@
         "picard": {
             "1.129": "sing.sh picard 1.129", 
             "1.96": "sing.sh picard 1.96", 
+            "2.13": "sing.sh picard 2.13",            
             "default": "sing.sh picard 1.96"
         }, 
         "pindel": {
@@ -311,7 +316,8 @@
         "roslin-qc": {
             "0.5.0": "sing.sh roslin-qc 0.5.0", 
             "0.5.5": "sing.sh roslin-qc 0.5.5", 
-            "default": "sing.sh roslin-qc 0.5.0"
+            "0.5.8": "sing.sh roslin-qc 0.5.8", 
+            "default": "sing.sh roslin-qc 0.5.8"
         }, 
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 
@@ -344,10 +350,12 @@
         }, 
         "vardict": {
             "1.4.6": "sing.sh vardict 1.4.6 vardict", 
+            "1.5.1": "sing.sh vardict 1.5.1 vardict", 
             "default": "sing.sh vardict 1.4.6 vardict"
         }, 
         "vardict_bin": {
             "1.4.6": "sing.sh vardict 1.4.6 ", 
+            "1.5.1": "sing.sh vardict 1.5.1 ", 
             "default": "sing.sh vardict 1.4.6 "
         }, 
         "varscan": {
@@ -373,8 +381,8 @@
     }, 
     "targets": {
         "AgilentExon_51MB_b37_v3": {
-            "FP_genotypes": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.intervals", 
+            "FP_genotypes": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_FP_tiling_intervals.intervals", 
             "baits_bed": "/ifs/depot/resources/targets/AgilentExon_51MB_b37_v3/AgilentExon_51MB_b37_v3_baits.bed", 
             "baits_ilist": "/ifs/work/socci/Pipelines/CBE/variants_pipeline/targets/AgilentExon_51MB_b37_v3/AgilentExon_51MB_b37_v3_baits.ilist", 
             "baits_list": "/ifs/work/pi/resources/roslin_resources/targets/WES_Agilent_v4/b37/AgilentExon_51MB_b37_v3_baits.intervals", 
@@ -394,8 +402,8 @@
         "Agilent_MouseAllExonV1_mm10_v1": "", 
         "Genomic_mm10": "", 
         "IDT_Exome_v1_FP": {
-            "FP_genotypes": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.intervals", 
+            "FP_genotypes": "/ifs/work/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/FP_tiling_intervals.intervals", 
             "baits_bed": "/ifs/work/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/IDT_Exome_v1_FP_b37_baits.bed", 
             "baits_list": "/ifs/work/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/IDT_Exome_v1_FP_b37_baits.ilist", 
             "targets_bed": "/ifs/work/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/IDT_Exome_v1_FP_b37_targets.bed", 
@@ -407,14 +415,14 @@
             "baits_bed": "/ifs/depot/resources/targets/IMPACT410_b37/IMPACT410_b37_baits.bed", 
             "baits_list": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals", 
             "targets_bed": "/ifs/depot/resources/targets/IMPACT410_b37/IMPACT410_b37_targets.bed", 
-            "targets_list": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals"
+            "targets_list": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.intervals"
         }, 
         "IMPACT410_hg19": "", 
         "IMPACT468_b37": {
             "FP_genotypes": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt", 
             "FP_intervals": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals", 
             "baits_list": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals", 
-            "targets_list": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals"
+            "targets_list": "/ifs/work/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
         }, 
         "IMPACT_341_hg19": "", 
         "abra": {

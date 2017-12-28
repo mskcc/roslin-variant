@@ -168,7 +168,7 @@ def get_cwltoil_log_path(stderr_log_path):
 
                 # INFO:toil.lib.bioio:Logging to file
                 # '/ifs/work/chunj/prism-proto/ifs/prism/inputs/chunj/examples/_tracking_test/5dff7de4/5dff7de4-4b93-11e7-8c71-8cdcd4013cd4/outputs/log/cwltoil.log'.
-                match = re.search(r"INFO:toil.lib.bioio:Logging to file '(.*?)'.", line)
+                match = re.search(r"INFO toil.lib.bioio: Logging to file '(.*?)'.", line)
                 if match:
                     cwltoil_log_path = match.group(1)
 
@@ -189,7 +189,7 @@ def get_final_output_metadata(stdout_log_path):
         with open(stdout_log_path, "rt") as fstdout:
             data = fstdout.read()
             match = re.search(
-                "---> PRISM JOB UUID = .*?\n(.*?)<--- PRISM JOB UUID", data, re.DOTALL)
+                "---> ROSLIN JOB UUID = .*?\n(.*?)", data, re.DOTALL)
 
             if match:
                 output_metadata = match.group(1).strip()
@@ -232,6 +232,7 @@ def call_make_runprofile(job_uuid, toil_work_dir, cwltoil_log_path):
     ]
 
     logger.info("Calling: " + " ".join(cmd))
+    print "Making a runprofile for " + str(job_uuid)	
 
     # non-blocking call
     subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -252,6 +253,7 @@ def call_copy_outputs(cmo_project_id, job_uuid, toil_work_dir):
     ]
 
     logger.info("Calling: " + " ".join(cmd))
+    print "Copying outputs for " + str(job_uuid)
 
     # non-blocking call
     subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -521,9 +523,8 @@ def main():
                 logger.error(e)
 
         print "<----- {}".format(datetime.datetime.now().strftime("%H:%M:%S"))
-        print
-
-        time.sleep(params.polling_interval)
+        
+	time.sleep(params.polling_interval)
 
 
 if __name__ == "__main__":

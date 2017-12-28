@@ -25,15 +25,27 @@ def poll(lsf_queue, only_me):
         "-q", lsf_queue,
         "-noheader"
     ]
-
+    
+    bjobs_control = [
+         "bjobs",
+         "-a",
+         "-o", "user jobid proj_name job_name stat submit_time start_time finish_time run_time effective_resreq exec_host delimiter='\t'",
+         "-q", "control",
+         "-noheader"
+    ]
+    
     if not only_me:
         bjobs.extend(["-u", "all"])
+        bjobs_control.extend(["-u","all"])
 
     process = subprocess.Popen(bjobs, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     data = process.stdout.read()
-
+    control_process = subprocess.Popen(bjobs_control, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    control_data = control_process.stdout.read()
+    combined_data = data + control_data
+    
     # compress and base64
-    msg = base64.b64encode(zlib.compress(data))
+    msg = base64.b64encode(zlib.compress(combined_data))
 
     redis_client.set('bjobs', msg)
     print "sent: {0:,} bytes ({1})".format(len(msg), datetime.now().strftime("%H:%M:%S"))
