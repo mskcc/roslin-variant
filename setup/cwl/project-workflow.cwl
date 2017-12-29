@@ -373,7 +373,7 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
     out: [combine_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
-    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
+    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed, altaf, ratiogeno, filter_somatic, delly_type, pass]
     scatterMethod: dotproduct
 
   parse_pairs:
