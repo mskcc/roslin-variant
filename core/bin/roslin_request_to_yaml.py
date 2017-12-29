@@ -186,6 +186,11 @@ if __name__ == "__main__":
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
     rf = ["BadCigar"]
     genome = "GRCh37"
+    ratiogeno = 0.0
+    altaf = 0.1
+    delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
+    pass_val = True
+    filter_somatic = "somatic"
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -284,8 +289,14 @@ if __name__ == "__main__":
         "num_threads": 10,
         "tmp_dir": "/scratch",
         "project_prefix": project_id,
-        "opt_dup_pix_dist": "2500"
+        "opt_dup_pix_dist": "2500",
+        "ratiogeno": ratiogeno,
+        "altaf": altaf,
+        "pass": pass_val,
+        "filter_somatic": filter_somatic,
+        "delly_type": delly_type
     }
     out_dict.update({"runparams": params})
     ofh.write(yaml.dump(out_dict))
     ofh.close()
+ 
