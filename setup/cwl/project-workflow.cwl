@@ -229,7 +229,7 @@ outputs:
     outputSource: find_svs/merged_file
   maf_file:
     type: File
-    outputSource: find_svs/output
+    outputSource: find_svs/maf_file
 
   # facets
   facets_png:
