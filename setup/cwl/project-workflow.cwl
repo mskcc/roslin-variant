@@ -454,3 +454,4 @@ steps:
       filter_somatic: pairing/filter_somatic
     out: [ delly_sv, delly_filtered_sv, merged_file, maf_file ]
     scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, altaf, ratiogeno, delly_type, pass, filter_somatic ]
+    scatterMethod: dotproduct
