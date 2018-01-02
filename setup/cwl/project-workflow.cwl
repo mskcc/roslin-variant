@@ -129,6 +129,14 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        delly_type:
+          type:
+            type: array
+            items: string
+        ratiogeno: float
+        altaf: float
+        pass: boolean
+        filter_somatic: string
   samples:
     type:
       type: array
@@ -212,7 +220,7 @@ outputs:
     type: 
       type: array
       items: File
-    secondariyFiles:
+    secondaryFiles:
       - ^.bcf.csi
     outputSource: find_svs/delly_sv
   delly_filtered_sv: 
