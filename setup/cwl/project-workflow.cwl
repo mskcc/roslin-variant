@@ -356,7 +356,7 @@ steps:
       db_files: db_files
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, delly_type, ratiogeno, altaf, pass, filter_somatic ]
 
   variant_calling:
     run: module-3.cwl
