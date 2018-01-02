@@ -65,6 +65,7 @@ inputs:
       bad sites [e]
     inputBinding:
       prefix: --check-ref
+    default: s
 
   remove_duplicates:
     type: ['null', boolean]
