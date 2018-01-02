@@ -216,7 +216,7 @@ outputs:
       - ^.bcf.csi
     outputSource: find_svs/delly_sv
   delly_filtered_sv: 
-    type: 
+    type:
       type: array
       items: File
     outputBinding: 
@@ -226,10 +226,10 @@ outputs:
     outputSource: find_svs/delly_filtered_sv
   merged_file:
     type: File
-    outputSource: merge_with_bcftools/merged_file
+    outputSource: find_svs/merged_file
   maf_file:
     type: File
-    outputSource: convert_vcf2maf/output
+    outputSource: find_svs/output
 
   # facets
   facets_png:
@@ -373,7 +373,7 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
     out: [combine_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
-    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed, altaf, ratiogeno, filter_somatic, delly_type, pass]
+    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
   parse_pairs:
@@ -400,7 +400,7 @@ steps:
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
       vep_data: parse_pairs/srt_vep_data
-      tumor_sample_name: parse_pairs/tumor_id
+      tumor_sample_name: parse_pairs/tumor_id 
       normal_sample_name: parse_pairs/normal_id
       curated_bams: parse_pairs/srt_curated_bams
       ffpe_normal_bams: parse_pairs/srt_ffpe_normal_bams
