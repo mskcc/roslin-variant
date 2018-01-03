@@ -94,10 +94,6 @@ inputs:
           type:
             type: array
             items: string
-        ratiogeno: float
-        altaf: float
-        pass: boolean
-        filter_somatic: string
 
 outputs:
 
@@ -153,29 +149,13 @@ outputs:
       items: 
         type: array
         items: string
-  ratiogeno: 
-    type: 
-      type: array
-      items: float
-  altaf: 
-    type:
-      type: array
-      items: float
-  pass: 
-    type:
-      type: array
-      items: boolean
-  filter_somatic:
-    type: 
-      type: array
-      items: string 
 
 expression: '${
 var samples = {};
 var sample_beds =[];
 var flattened_bams = [];
 var extra_shit = {};
-var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome", "ratiogeno", "altaf", "pass", "filter_somatic", "delly_type"];
+var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome",  "delly_type"];
 for (var i = 0; i < inputs.bams.length; i++) {
     for (var j = 0; j < inputs.bams[i].length; j++) {
         flattened_bams.push(inputs.bams[i][j]);

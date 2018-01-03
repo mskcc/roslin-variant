@@ -133,10 +133,6 @@ inputs:
           type:
             type: array
             items: string
-        ratiogeno: float
-        altaf: float
-        pass: boolean
-        filter_somatic: string
   samples:
     type:
       type: array
@@ -364,7 +360,7 @@ steps:
       db_files: db_files
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, delly_type, ratiogeno, altaf, pass, filter_somatic ]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, delly_type ]
 
   variant_calling:
     run: module-3.cwl
@@ -447,11 +443,7 @@ steps:
       genome: pairing/genome
       normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
-      altaf: pairing/altaf
-      ratiogeno: pairing/ratiogeno
       delly_type: pairing/delly_type
-      pass: pairing/pass
-      filter_somatic: pairing/filter_somatic
     out: [ delly_sv, delly_filtered_sv, merged_file, maf_file ]
-    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, altaf, ratiogeno, delly_type, pass, filter_somatic ]
+    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type ]
     scatterMethod: dotproduct

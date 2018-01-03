@@ -61,10 +61,6 @@ inputs:
     tumor_sample_name:
         type: string
     genome: string
-    pass: boolean
-    altaf: float
-    ratiogeno: float
-    filter_somatic: string
     delly_type: string[] 
 
 outputs:
@@ -136,10 +132,6 @@ steps:
             tumor_sample_name: tumor_sample_name
             genome: genome
             pairfile: createTNPair/pairfile
-            altaf: altaf
-            ratiogeno: ratiogeno
-            filter_somatic: filter_somatic
-            pass: pass
             delly_type: delly_type 
         out: [ delly_sv , delly_filtered_sv ]
         run:
@@ -152,10 +144,6 @@ steps:
                 tumor_sample_name: string
                 delly_type: string
                 pairfile: File
-                pass: boolean
-                altaf: float
-                ratiogeno: float
-                filter_somatic: string    
             outputs:
                 delly_sv:
                     type: File
@@ -185,14 +173,9 @@ steps:
                 delly_filter:
                     run: cmo-delly.filter/0.7.7/cmo-delly.filter.cwl
                     in:
-                        f: filter_somatic
                         i: delly_call/sv_file
-                        s: pairfile
-                        p: pass
+                        s: createTNPair/pairfile
                         t: delly_type
-                        r: ratiogeno
-                        tumor_sample_name: tumor_sample_name
-                        normal_sample_name: normal_sample_name
                         o: 
                             valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
                     out: [ sv_file ]
