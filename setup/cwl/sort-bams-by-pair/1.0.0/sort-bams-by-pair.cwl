@@ -151,9 +151,8 @@ outputs:
     type:
       type: array
       items: 
-        type:
-          type: array
-          items: string
+        type: array
+        items: string
   ratiogeno: 
     type: 
       type: array
