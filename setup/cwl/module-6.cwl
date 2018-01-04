@@ -147,6 +147,8 @@ steps:
             outputs:
                 delly_sv:
                     type: File
+                    seconaryFiles: 
+                        - ^.bcf.csi
                     outputSource: delly_call/sv_file
                 delly_filtered_sv:
                     type: 
@@ -174,7 +176,7 @@ steps:
                     run: cmo-delly.filter/0.7.7/cmo-delly.filter.cwl
                     in:
                         i: delly_call/sv_file
-                        s: createTNPair/pairfile
+                        s: pairfile
                         t: delly_type
                         o: 
                             valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
