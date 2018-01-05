@@ -1,5 +1,6 @@
 #!/usr/bin/env cwl-runner
 
+
 $namespaces:
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -65,6 +66,7 @@ inputs:
       bad sites [e]
     inputBinding:
       prefix: --check-ref
+    default: s
 
   remove_duplicates:
     type: ['null', boolean]
