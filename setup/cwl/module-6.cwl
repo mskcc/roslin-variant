@@ -62,6 +62,7 @@ inputs:
         type: string
     genome: string
     delly_type: string[] 
+    vep_data: string
 
 outputs:
 
@@ -213,10 +214,7 @@ steps:
     convert_vcf2maf:
         run: cmo-vcf2maf/1.6.15/cmo-vcf2maf.cwl 
         in:
-            vep_release:
-                valueFrom: ${ return "88"; } # add to .yaml? or set as default?
-            vep_path:
-                valueFrom: ${ return "/opt/common/CentOS_6-dev/vep/v88"; } #add to .yaml? or set as default?
+            vep_data: vep_data
             normal_id: normal_sample_name
             tumor_id: tumor_sample_name
             vcf_normal_id: normal_sample_name

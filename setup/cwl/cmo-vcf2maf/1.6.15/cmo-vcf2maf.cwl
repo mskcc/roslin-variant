@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/pi/roslin-core/1.0.0/schemas/dcterms.rdf
-- file:///ifs/work/pi/roslin-core/1.0.0/schemas/foaf.rdf
-- file:///ifs/work/pi/roslin-core/1.0.0/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 
 doap:release:
@@ -150,7 +150,7 @@ inputs:
 
   custom_enst:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vcf2maf/develop/data/isoform_overrides_at_mskc #/usr/bin/vcf2maf/data/isoform_overrides_at_mskccc
+    default: /usr/bin/vcf2maf/data/isoform_overrides_at_mskcc
     doc: List of custom ENST IDs that override canonical selection
     inputBinding:
       prefix: --custom-enst
@@ -171,7 +171,7 @@ inputs:
 
   vep_data:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/cache/ #/opt/common/CentOS_6-dev/vep/v86/
+    default: /opt/common/CentOS_6-dev/vep/v86/
     doc: VEP's base cache/plugin directory
     inputBinding:
       prefix: --vep-data
