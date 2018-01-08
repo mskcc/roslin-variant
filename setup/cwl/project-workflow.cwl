@@ -441,7 +441,8 @@ steps:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: pairing/genome
-      vep_data: projparse/vep_data
+      vep_data:
+        valueFrom: ${ return inputs.db_files.vep_data; } 
       normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
       delly_type: pairing/delly_type
