@@ -71,6 +71,7 @@ inputs:
         indels_1000g: File
         refseq: File
         snps_1000g: File
+        vep_data: string
   runparams:
     type:
       type: record
@@ -143,6 +144,10 @@ outputs:
     type:
       type: array
       items: string
+  vep_data:
+    type:
+      type: array
+      items: string
   delly_type:
     type:
       type: array
@@ -155,7 +160,7 @@ var samples = {};
 var sample_beds =[];
 var flattened_bams = [];
 var extra_shit = {};
-var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome",  "delly_type"];
+var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data"];
 for (var i = 0; i < inputs.bams.length; i++) {
     for (var j = 0; j < inputs.bams[i].length; j++) {
         flattened_bams.push(inputs.bams[i][j]);

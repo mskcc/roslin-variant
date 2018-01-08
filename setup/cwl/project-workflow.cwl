@@ -360,7 +360,7 @@ steps:
       db_files: db_files
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, delly_type ]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, vep_data, delly_type ]
 
   variant_calling:
     run: module-3.cwl
@@ -441,11 +441,10 @@ steps:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: pairing/genome
-      vep_data:
-        valueFrom: ${ return inputs.db_files.vep_data; } 
+      vep_data: pairing/vep_data
       normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
       delly_type: pairing/delly_type
     out: [ delly_sv, delly_filtered_sv, merged_file, maf_file ]
-    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type ]
+    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data ]
     scatterMethod: dotproduct
