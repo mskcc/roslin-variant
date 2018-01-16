@@ -85,10 +85,12 @@ outputs:
    merged_file:
         type: File
         outputSource: merge_with_bcftools/merged_file
+   merged_file_unfiltered:
+        type: File
+        outputSource: merge_with_bcftools_unfiltered/merged_file_unfiltered
    maf_file:
         type: File
         outputSource: convert_vcf2maf/output
-
 steps:
     index:
         run: cmo-index/1.0.0/cmo-index.cwl
@@ -182,6 +184,35 @@ steps:
                         o: 
                             valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
                     out: [ sv_file ]
+    merge_with_bcftools_unfiltered:
+        in: 
+            tumor_sample_name: tumor_sample_name
+            normal_sample_name: normal_sample_name
+            bcf_files: call_sv_by_delly/delly_sv
+            output_filename: 
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".all.vcf"; } 
+        out: [ merged_file_unfiltered ]
+        run:
+            class: CommandLineTool
+            baseCommand: ["bcftools", "concat", "-a"] 
+            stdout: $(inputs.output_filename)
+            inputs:   
+                bcf_files: 
+                    type: 
+                        type: array
+                        items: File
+                    secondaryFiles:
+                        - ^.bcf.csi
+                    inputBinding:
+                        position: 2
+                output_filename: 
+                    type: string
+                    inputBinding:
+                        prefix: --output
+                        position: 1
+            outputs: 
+                merged_file_unfiltered:
+                    type: stdout
     merge_with_bcftools:
         in: 
             tumor_sample_name: tumor_sample_name
@@ -192,7 +223,7 @@ steps:
         out: [ merged_file ]
         run:
             class: CommandLineTool
-            baseCommand: ["bcftools", "concat", "-a"] # may need to generalize this...
+            baseCommand: ["bcftools", "concat", "-a"] 
             stdout: $(inputs.output_filename)
             inputs:   
                 pass_bcf_files: 
@@ -209,7 +240,7 @@ steps:
                         prefix: --output
                         position: 1
             outputs: 
-                merged_file: # somewhat redundant; refactor?
+                merged_file: 
                     type: stdout
     convert_vcf2maf:
         run: cmo-vcf2maf/1.6.15/cmo-vcf2maf.cwl 
