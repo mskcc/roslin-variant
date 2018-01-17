@@ -190,7 +190,7 @@ steps:
             normal_sample_name: normal_sample_name
             bcf_files: call_sv_by_delly/delly_sv
             output_filename: 
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".all.vcf"; } 
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; } 
         out: [ merged_file_unfiltered ]
         run:
             class: CommandLineTool
@@ -219,7 +219,7 @@ steps:
             normal_sample_name: normal_sample_name
             pass_bcf_files: call_sv_by_delly/delly_filtered_sv
             output_filename: 
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".all.pass.vcf"; } 
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; } 
         out: [ merged_file ]
         run:
             class: CommandLineTool
