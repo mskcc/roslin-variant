@@ -212,22 +212,6 @@ outputs:
     outputSource: variant_calling/pindel_vcf
 
   # structural variants
-  delly_sv:
-    type: 
-      type: array
-      items: File
-    secondaryFiles:
-      - ^.bcf.csi
-    outputSource: find_svs/delly_sv
-  delly_filtered_sv: 
-    type:
-      type: array
-      items: File
-    outputBinding: 
-      glob: '*.pass.bcf'
-    secondaryFiles:
-      - ^.bcf.csi
-    outputSource: find_svs/delly_filtered_sv
   merged_file_unfiltered:
     type: File
     outputSource: find_svs/merged_file_unfiltered
