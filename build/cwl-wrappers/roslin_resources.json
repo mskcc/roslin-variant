@@ -366,6 +366,7 @@
         "vcf2maf": {
             "1.6.12": "sing.sh vcf2maf 1.6.12 ", 
             "1.6.14": "sing.sh vcf2maf 1.6.14 ", 
+            "1.6.15": "sing.sh vcf2maf 1.6.15 ", 
             "default": "sing.sh vcf2maf 1.6.12 "
         }, 
         "vep": {

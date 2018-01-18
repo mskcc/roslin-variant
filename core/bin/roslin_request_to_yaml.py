@@ -186,6 +186,7 @@ if __name__ == "__main__":
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
     rf = ["BadCigar"]
     genome = "GRCh37"
+    delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -284,8 +285,10 @@ if __name__ == "__main__":
         "num_threads": 10,
         "tmp_dir": "/scratch",
         "project_prefix": project_id,
-        "opt_dup_pix_dist": "2500"
+        "opt_dup_pix_dist": "2500",
+        "delly_type": delly_type
     }
     out_dict.update({"runparams": params})
     ofh.write(yaml.dump(out_dict))
     ofh.close()
+ 
