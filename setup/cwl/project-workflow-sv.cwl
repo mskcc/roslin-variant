@@ -129,6 +129,10 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        delly_type:
+          type:
+            type: array
+            items: string
   samples:
     type:
       type: array
@@ -206,6 +210,17 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/pindel_vcf
+
+  # structural variants
+  merged_file_unfiltered:
+    type: File
+    outputSource: find_svs/merged_file_unfiltered
+  merged_file:
+    type: File
+    outputSource: find_svs/merged_file
+  maf_file:
+    type: File
+    outputSource: find_svs/maf_file
 
   # facets
   facets_png:
@@ -332,7 +347,7 @@ steps:
       db_files: db_files
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, vep_data, delly_type ]
 
   variant_calling:
     run: module-3.cwl
@@ -376,7 +391,7 @@ steps:
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
       vep_data: parse_pairs/srt_vep_data
-      tumor_sample_name: parse_pairs/tumor_id
+      tumor_sample_name: parse_pairs/tumor_id 
       normal_sample_name: parse_pairs/normal_id
       curated_bams: parse_pairs/srt_curated_bams
       ffpe_normal_bams: parse_pairs/srt_ffpe_normal_bams
@@ -406,3 +421,17 @@ steps:
       pairing_file: projparse/pairing_file
 
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
+
+  find_svs:
+    run: module-6.cwl
+    in:
+      tumor_bam: pairing/tumor_bams
+      normal_bam: pairing/normal_bams
+      genome: pairing/genome
+      vep_data: pairing/vep_data
+      normal_sample_name: pairing/normal_sample_ids
+      tumor_sample_name: pairing/tumor_sample_ids
+      delly_type: pairing/delly_type
+    out: [ merged_file, merged_file_unfiltered, maf_file ]
+    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data ]
+    scatterMethod: dotproduct
