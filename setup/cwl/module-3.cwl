@@ -184,6 +184,7 @@ steps:
                     in:
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_name, tumor_sample_name]
+                        include: bed
                         vcf:
                             valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".") + inputs.bams[0].basename.replace(".bam", ".pindel.vcf") }
                         fasta: genome
@@ -211,6 +212,7 @@ steps:
                         input_file_tumor: tumor_bam
                         read_filter: mutect_rf
                         downsample_to_coverage: mutect_dcov
+                        intervals: bed
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".") + inputs.input_file_normal.basename.replace(".bam", ".mutect.vcf") }
                         out:
