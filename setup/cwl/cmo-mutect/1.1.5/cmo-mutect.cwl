@@ -159,6 +159,7 @@ inputs:
     - 'null'
     - type: array
       items: string
+    - File
 
     doc: One or more genomic intervals over which to operate. Can be explicitly specified
       on the command line or in a file (including a rod file)
