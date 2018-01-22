@@ -338,4 +338,3 @@ steps:
             out:
                 valueFrom: ${ return inputs.tumor_sample_name +"."+inputs.normal_sample_name+".combined-variants.vcf" }
         out: [out_vcf]
-
