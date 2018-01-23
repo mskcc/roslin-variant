@@ -203,7 +203,7 @@ steps:
                             valueFrom: ${ return inputs.b.basename.replace(".bam", ".") + inputs.b2.basename.replace(".bam", ".vardict.vcf") }
                     out: [output]
                 mutect:
-                    run: cmo-mutect/1.1.4/cmo-mutect.cwl
+                    run: cmo-mutect/1.1.5/cmo-mutect.cwl
                     in:
                         reference_sequence: genome
                         dbsnp: dbsnp
