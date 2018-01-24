@@ -4,7 +4,7 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.roslin-qc="0.5.5" \
       version.r="3.3.3-r0" \
-      version.alpine="3.5.x"
+      version.alpine="3.6"
 
 ENV ROSLIN_QC_VERSION 0.5.5
 ENV R_VERSION 3.3.3-r0
