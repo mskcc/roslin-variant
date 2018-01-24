@@ -17,36 +17,37 @@ RUN apk add --update \
     # for wget
     && apk add ca-certificates openssl \
     # for compilation
-    && apk add build-base musl-dev python py-pip python-dev \
-    # hashlib does not like pip for some reason
-    && easy_install hashlib \
+    && apk add build-base musl-dev python py-pip python-dev py-setuptools\
     # install mysql connector
     && cd /tmp \
-	&& pip install mysql-connector-python-2.1.6.tar.gz \
-	# install pandas
-	&& easy_install pandas \
-	# install python dependencies
-	&& pip install fnmatch2 dbconfig argparse \
-	# install R
-	&& apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
-	# install R dependencies
-	&& Rscript --vanilla install-packages.R \
-	# install java and perl
-	&& apk add openjdk8-jre-base perl \
-	# unpack roslin-qc
-	&& tar xvzf roslin-qc-${ROSLIN_QC_VERSION}.tar.gz \
-	# FIX ALL THESE WRONG FILE PATHS
-	&& cd roslin-qc-${ROSLIN_QC_VERSION} \
-	&& sed -i[.bak] "s/opt\/common\/CentOS_6-dev\//usr\//g" *.pl \
-	&& sed -i[.bak] "s/opt\/common\/CentOS_6\/python\/python-2.7.8\//usr\/local\//g" *.py \
-	&& sed -i[.bak] "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
-	&& sed -i[.bak] "s/opt\/common\//usr\/local\//g" *.py \
-	# Install perl dependency needed
-	&& perl -MCPAN -e 'install Tie::IxHash' \
-	# send scripts to the bin directory
-	&& cp -r /tmp/roslin-qc-${ROSLIN_QC_VERSION}/* /usr/bin \
-	# clean up
-	&& rm -rf /tmp/*
+        # install R
+        && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
+        # install R dependencies
+        && Rscript --vanilla install-packages.R \
+        # install mysql connector
+        && pip install mysql-connector==2.1.4 \
+        # install pandas
+        && pip install django==1.11 \
+        && pip install dbconfig \
+        && pip install pandas \
+        # install python dependencies
+        && pip install fnmatch2 argparse \
+        # install java and perl
+        && apk add openjdk8-jre-base perl \
+        # unpack roslin-qc
+        && tar xvzf roslin-qc-${ROSLIN_QC_VERSION}.tar.gz \
+        # FIX ALL THESE WRONG FILE PATHS
+        && cd roslin-qc-${ROSLIN_QC_VERSION} \
+        && sed -i[.bak] "s/opt\/common\/CentOS_6-dev\//usr\//g" *.pl \
+        && sed -i[.bak] "s/opt\/common\/CentOS_6\/python\/python-2.7.8\//usr\/local\//g" *.py \
+        && sed -i[.bak] "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
+        && sed -i[.bak] "s/opt\/common\//usr\/local\//g" *.py \
+        # Install perl dependency needed
+        && perl -MCPAN -e 'install Tie::IxHash' \
+        # send scripts to the bin directory
+        && cp -r /tmp/roslin-qc-${ROSLIN_QC_VERSION}/* /usr/bin \
+        # clean up
+        && rm -rf /tmp/*
 
 ENV PYTHONNOUSERSITE set
 

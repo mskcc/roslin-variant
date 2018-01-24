@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM python:2.7.13-alpine
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
