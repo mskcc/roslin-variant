@@ -150,11 +150,12 @@ do
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)
-    size=$(get_docker_size_in_mib ${docker_image_full_name} ${padding_size})
+    # size=$(get_docker_size_in_mib ${docker_image_full_name} ${padding_size})
 
     # overwrite if already exists
     #sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
-
+    
+    sudo rm -rf /tmp/${tool_name}
     mkdir /tmp/${tool_name}
     mkdir /tmp/${tool_name}/${tool_version} 
 
@@ -175,10 +176,10 @@ do
     # mmap does not like images being built on a shared directory
    
     sudo singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.img /tmp/${tool_name}/${tool_version}/${tool_name} 
-    mv /tmp/${tool_name}/${tool_version}/${tool_name}.img ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
+    sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.img ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
     # delete tmp files
-    rm -rf /tmp/labels.json
-    rm -rf /tmp/${tool_name}
+    sudo rm -rf /tmp/labels.json
+    sudo rm -rf /tmp/${tool_name}
 
 
     # modify roslin_resources.json so that cmo in production can call sing.sh (singularity wrapper)
