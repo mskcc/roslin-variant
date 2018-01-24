@@ -9,7 +9,6 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 ENV ROSLIN_QC_VERSION 0.5.5
 ENV R_VERSION 3.3.3-r0
 
-COPY mysql-connector-python-2.1.6.tar.gz /tmp/mysql-connector-python-2.1.6.tar.gz
 COPY install-packages.R /tmp/install-packages.R
 COPY roslin-qc-${ROSLIN_QC_VERSION}.tar.gz /tmp/roslin-qc-${ROSLIN_QC_VERSION}.tar.gz
 
