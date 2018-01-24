@@ -171,7 +171,7 @@ do
     sudo singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
 
     # copy labels.json to /.roslin/ inside the image
-    cp /tmp/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/
+    sudo cp /tmp/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/
     # compress the image and build in non-shared directory 
     # mmap does not like images being built on a shared directory
    
