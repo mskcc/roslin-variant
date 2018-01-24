@@ -1,10 +1,10 @@
-FROM python:2.7.13-alpine
+FROM alpine:3.6
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.ngsfilters="1.1.4" \
       version.r="3.3.2-r0" \
-      version.alpine="3.4.6" \
+      version.alpine="3.6" \
       source.ngsfilters="https://github.com/mskcc/ngs-filters/releases/tag/v1.1.4" \
       source.r="https://pkgs.alpinelinux.org/package/v3.5/community/x86_64/R"
 

@@ -1,4 +1,4 @@
-FROM python:2.7.13-alpine3.6
+FROM alpine:3.6
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
@@ -17,7 +17,7 @@ RUN apk add --update \
     # for wget
     && apk add ca-certificates openssl \
     # for compilation
-    && apk add build-base musl-dev \
+    && apk add build-base musl-dev python py-pip python-dev \
     # hashlib does not like pip for some reason
     && easy_install hashlib \
     # install mysql connector

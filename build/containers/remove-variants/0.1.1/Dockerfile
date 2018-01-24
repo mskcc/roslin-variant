@@ -1,9 +1,9 @@
-FROM python:2.7.13-alpine
+FROM alpine:3.6
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.removevariants="0.1.1" \
-      version.alpine="3.4.6" \
+      version.alpine="3.6" \
       source.removevariants="https://github.com/mskcc/remove_variants/releases/tag/0.1.1"
 
 ENV REMOVEVARIANTS_VERSION 0.1.1
@@ -12,7 +12,7 @@ RUN apk add --update \
       # for wget
             && apk add ca-certificates openssl \
       # for compilation (numpy, ...)
-            && apk add build-base musl-dev \
+            && apk add build-base musl-dev python py-pip python-dev \
       # download, unzip, install
             && cd /tmp && wget https://github.com/mskcc/remove_variants/archive/${REMOVEVARIANTS_VERSION}.zip \
             && unzip ${REMOVEVARIANTS_VERSION}.zip \
