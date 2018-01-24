@@ -163,15 +163,22 @@ do
     sudo singularity build --sandbox --force \
         /tmp/${tool_name}/${tool_version}/${tool_name} \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
-
+        
     # retrieve labels from docker image and save to labels.json
     sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
 
     # create /.roslin/ directory
     sudo singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
 
-    # copy labels.json to /.roslin/ inside the image
-    sudo cp /tmp/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/
+    if [ ! -f /tmp/labels.json ]; then
+       # Sometimes does not get created the first time, TODO: figure out why
+       sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
+    fi
+    if [ -f /tmp/labels.json ]; then
+       # copy labels.json to /.roslin/ inside the image
+       sudo cp /tmp/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/
+    fi    
+
     # compress the image and build in non-shared directory 
     # mmap does not like images being built on a shared directory
    
