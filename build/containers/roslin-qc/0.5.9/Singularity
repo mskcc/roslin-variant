@@ -1,7 +1,7 @@
-
 Bootstrap: docker
-From: /pipeline-roslin-qc:0.5.9
-Registry: http://localhost:5000
+From: pipeline-roslin-qc:0.5.9
+Registry: localhost:5000
+Namespace:
 
 %setup
 
@@ -35,7 +35,7 @@ Registry: http://localhost:5000
 
     # expected generate_pdf output
     cat > /tmp/expected_generate_pdf.diff.txt << EOM
-usage: generate_pdf.py [-h] [--gcbias-files GCBIAS_FILES]
+usage: generate_pdf.py [-h] --gcbias-files GCBIAS_FILES --globdir GLOBDIR
 EOM
 
     # diff generate_pdf
