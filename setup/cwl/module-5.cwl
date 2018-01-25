@@ -179,7 +179,7 @@ steps:
 
       steps:
         as_metrics:
-          run: cmo-picard.CollectAlignmentSummaryMetrics/1.129/cmo-picard.CollectAlignmentSummaryMetrics.cwl
+          run: cmo-picard.CollectAlignmentSummaryMetrics/2.9/cmo-picard.CollectAlignmentSummaryMetrics.cwl
           in:
             I: bam
             O:
@@ -189,7 +189,7 @@ steps:
           out: [out_file]
 
         hs_metrics:
-          run: cmo-picard.CalculateHsMetrics/1.129/cmo-picard.CalculateHsMetrics.cwl
+          run: cmo-picard.CalculateHsMetrics/2.9/cmo-picard.CalculateHsMetrics.cwl
           in:
             BI: bait_intervals
             TI: target_intervals
@@ -204,7 +204,7 @@ steps:
               valueFrom: ${ return ["null", "SAMPLE"];}
           out: [out_file, per_target_out]
         insert_metrics:
-          run: cmo-picard.CollectInsertSizeMetrics/1.129/cmo-picard.CollectInsertSizeMetrics.cwl
+          run: cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
             I: bam
             H:
@@ -215,7 +215,7 @@ steps:
               valueFrom: ${ return ["null", "SAMPLE"];}
           out: [ is_file, is_hist]
         quality_metrics:
-          run: cmo-picard.CollectMultipleMetrics/1.129/cmo-picard.CollectMultipleMetrics.cwl
+          run: cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
           in:
             I: bam
             PROGRAM:
@@ -224,7 +224,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
           out: [qual_file, qual_hist]
         gcbias_metrics:
-          run: cmo-picard.CollectGcBiasMetrics/1.129/cmo-picard.CollectGcBiasMetrics.cwl
+          run: cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
           in:
             I: bam
             R: genome
@@ -261,7 +261,7 @@ steps:
           out: [out_file]
 
   generate_pdf:
-    run: cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
+    run: cmo-qcpdf/0.5.9/cmo-qcpdf.cwl
     in:
       files: scatter_metrics/as_metrics_files
       md_metrics_files: md_metrics_files
