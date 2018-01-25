@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-vardict:1.4.6
-Registry: http://localhost:5000
+From: pipeline-vardict:1.4.6
+Registry: localhost:5000
+Namespace:
 
 %setup
 

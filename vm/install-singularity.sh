@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SINGULARITY_VERSION="2.2.1"
+SINGULARITY_VERSION="2.4.2"
 SINGULARITY_INSTALL_TEMP_DIR="/tmp/singularity"
 
 sudo apt-get -y install build-essential autoconf automake libtool debootstrap
@@ -11,6 +11,7 @@ wget --no-check-certificate --content-disposition https://github.com/singularity
 tar xvzf singularity-${SINGULARITY_VERSION}.tar.gz
 rm -rf singularity-${SINGULARITY_VERSION}.tar.gz
 cd singularity-${SINGULARITY_VERSION}
+./autogen.sh
 ./configure --prefix=/usr/local
 make
 make install

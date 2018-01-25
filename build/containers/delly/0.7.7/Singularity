@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-delly:0.7.7
-Registry: http://localhost:5000
+From: pipeline-delly:0.7.7
+Registry: localhost:5000
+Namespace:
 
 %setup
 

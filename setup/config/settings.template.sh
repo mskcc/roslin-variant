@@ -33,7 +33,7 @@ export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_worksp
 # path to singularity executable
 # singularity is expected to be found at the same location regardless of the nodes you're on
 # override this if you want to test a different version of singularity.
-export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
+export ROSLIN_SINGULARITY_PATH="/opt/common/CentOS_6-dev/singularity/singularity-2.4.2/bin/singularity"
 
 # cmo
 export ROSLIN_CMO_VERSION="{{ dependencies_cmo_version }}"
