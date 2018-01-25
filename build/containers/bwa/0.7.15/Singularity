@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-bwa:0.7.15
-Registry: http://localhost:5000
+From: pipeline-bwa:0.7.15
+Registry: localhost:5000
+Namespace:
 
 %setup
 

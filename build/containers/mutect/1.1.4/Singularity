@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-mutect:1.1.4
-Registry: http://localhost:5000
+From: pipeline-mutect:1.1.4
+Registry: localhost:5000
+Namespace:
 
 %setup
 
