@@ -11,7 +11,7 @@ ENV R_VERSION 3.3.2-r0
 
 RUN apk add --update \
       && apk add ca-certificates openssl \
-      && apk add openjdk8-jre-base \$
+      && apk add openjdk8-jre-base \
       && apk add R=${R_VERSION} --update-cache --repository http://dl-5.alpinelinux.org/alpine/v3.5/community --allow-untrusted \
       && cd /tmp && wget https://github.com/broadinstitute/picard/releases/download/${TOOL_VERSION}/picard.jar \
       && mkdir /usr/bin/picard-tools/ \
