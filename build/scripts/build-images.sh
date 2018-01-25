@@ -171,9 +171,7 @@ do
     sudo singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
 
     if [ ! -f /tmp/labels.json ]; then
-       # Sometimes does not get created the first time, TODO: figure out why
-       # Dangling Docker images might be the answer
-       sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json       
+       # Dangling Docker images              
        echo "Did not get labels"
     fi
     if [ -f /tmp/labels.json ]; then
