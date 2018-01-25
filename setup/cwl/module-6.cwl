@@ -150,7 +150,7 @@ steps:
             outputs:
                 delly_sv:
                     type: File
-                    seconaryFiles: 
+                    secondaryFiles:
                         - ^.bcf.csi
                     outputSource: delly_call/sv_file
                 delly_filtered_sv:
