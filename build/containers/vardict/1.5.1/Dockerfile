@@ -12,7 +12,7 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV VARDICT_VERSION 1.5.1
 ENV R_VERSION 3.3.2-r0
-ENV PERL_VERSION 5.22.3-r0
+ENV PERL_VERSION 5.24.3-r1
 
 # R only avail in Alpine 3.5 community
 RUN apk add --update \
