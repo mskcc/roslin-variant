@@ -1,4 +1,4 @@
-FROM java:7-alpine
+FROM alpine:3.5
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
@@ -17,6 +17,7 @@ ENV PERL_VERSION 5.22.3-r0
 # R only avail in Alpine 3.5 community
 RUN apk add --update \
       && apk add ca-certificates openssl bash perl=${PERL_VERSION} \
+      && apk add openjdk8-jre-base \
       && apk add R=${R_VERSION} --update-cache --repository http://dl-5.alpinelinux.org/alpine/v3.5/community --allow-untrusted \
       && cd /tmp && wget https://github.com/AstraZeneca-NGS/VarDictJava/releases/download/v${VARDICT_VERSION}/VarDict-${VARDICT_VERSION}.zip \
       && unzip VarDict-${VARDICT_VERSION}.zip \
