@@ -172,7 +172,9 @@ do
 
     if [ ! -f /tmp/labels.json ]; then
        # Sometimes does not get created the first time, TODO: figure out why
-       sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
+       # Dangling Docker images might be the answer
+       sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json       
+       echo "Did not get labels"
     fi
     if [ -f /tmp/labels.json ]; then
        # copy labels.json to /.roslin/ inside the image
