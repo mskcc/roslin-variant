@@ -189,13 +189,12 @@ steps:
           out: [out_file]
 
         hs_metrics:
-          run: cmo-picard.CalculateHsMetrics/2.9/cmo-picard.CalculateHsMetrics.cwl
+          run: cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
           in:
             BI: bait_intervals
             TI: target_intervals
             I: bam
-#only for 1.96
-#            R: genome
+            R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
 #            PER_TARGET_COVERAGE:
@@ -222,6 +221,8 @@ steps:
               valueFrom: ${return ["null","MeanQualityByCycle"]}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
+            LEVEL:
+              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [qual_file, qual_hist]
         gcbias_metrics:
           run: cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
@@ -234,6 +235,8 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.pdf")}
             S:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
+            LEVEL:
+              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [pdf, out_file, summary]
 
         doc:
