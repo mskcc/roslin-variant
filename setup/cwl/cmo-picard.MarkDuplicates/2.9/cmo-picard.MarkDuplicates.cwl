@@ -59,12 +59,6 @@ doc: |
   None
 
 inputs:
-  cmd:
-    type: string
-
-
-    inputBinding:
-      prefix: --cmd
 
   MAX_SEQS:
     type: ['null', string]

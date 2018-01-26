@@ -56,13 +56,7 @@ requirements:
 doc: |
   None
 
-inputs:
-  cmd:
-    type: string
-
-
-    inputBinding:
-      prefix: --cmd
+inputs:  
 
   I:
     type:
