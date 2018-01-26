@@ -221,8 +221,6 @@ steps:
               valueFrom: ${return ["null","MeanQualityByCycle"]}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
-            LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [qual_file, qual_hist]
         gcbias_metrics:
           run: cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
@@ -235,8 +233,6 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.pdf")}
             S:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
-            LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [pdf, out_file, summary]
 
         doc:

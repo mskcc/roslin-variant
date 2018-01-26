@@ -108,16 +108,6 @@ inputs:
     inputBinding:
       prefix: --IS_BISULFITE_SEQUENCED
 
-  LEVEL:
-    type:
-    - 'null'
-    - type: array
-      items: string
-
-
-    inputBinding:
-      prefix: --METRIC_ACCUMULATION_LEVEL
-
   ALSO_IGNORE_DUPLICATES:
     type: ['null', string]
     doc: to get additional results without duplicates. This option allows to gain

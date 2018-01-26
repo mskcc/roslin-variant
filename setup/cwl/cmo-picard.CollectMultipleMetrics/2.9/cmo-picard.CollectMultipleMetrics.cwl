@@ -98,16 +98,6 @@ inputs:
     inputBinding:
       prefix: --OUTPUT
 
-  LEVEL:
-    type:
-    - 'null'
-    - type: array
-      items: string
-
-
-    inputBinding:
-      prefix: --METRIC_ACCUMULATION_LEVEL
-
   EXT:
     type: ['null', string]
     doc: Append the given file extension to all metric file names (ex. OUTPUT.insert_size_metrics.EXT).
