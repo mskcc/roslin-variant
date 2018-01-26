@@ -35,7 +35,7 @@ Namespace:
 
     # expected generate_pdf output
     cat > /tmp/expected_generate_pdf.diff.txt << EOM
-usage: generate_pdf.py [-h] --gcbias-files GCBIAS_FILES --globdir GLOBDIR
+usage: generate_pdf.py [-h] [--gcbias-files GCBIAS_FILES]
 EOM
 
     # diff generate_pdf
