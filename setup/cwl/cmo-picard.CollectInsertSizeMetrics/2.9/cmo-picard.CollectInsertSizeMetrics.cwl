@@ -49,7 +49,7 @@ baseCommand:
 - --cmd
 - CollectInsertSizeMetrics
 - --version
-- 2.9
+- "2.9"
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

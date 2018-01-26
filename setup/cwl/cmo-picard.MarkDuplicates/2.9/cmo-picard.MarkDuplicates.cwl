@@ -46,7 +46,7 @@ baseCommand:
 - --cmd
 - MarkDuplicates
 - --version
-- 2.9
+- "2.9"
 
 requirements:
   InlineJavascriptRequirement: {}
