@@ -80,7 +80,6 @@ sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-e
 cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0002
 cp $parentDir/$TestDir/run-example.sh .
 #pipelineJobId=$(./run-example.sh | grep '[0-9a-zA-Z]\{8\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{4\}-[0-9a-zA-Z]\{12\}')
-#source /ifs/work/pi/roslin-test/.pyenv/bin/activate
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 #Set nodejs path
 #export PATH=$PATH:/opt/common/CentOS_6-dev/nodejs/node-v6.10.1/bin
