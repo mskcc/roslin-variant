@@ -268,7 +268,8 @@
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         },
         "ngs-filters": {
-            "1.1.4": "sing.sh ngs-filters 1.1.4"
+            "1.1.4": "sing.sh ngs-filters 1.1.4",
+            "1.2": "sing.sh ngs-filters 1.2"
         },
         "perl": {
             "default": "sing-perl.sh"
