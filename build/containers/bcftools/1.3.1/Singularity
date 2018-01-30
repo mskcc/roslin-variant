@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-bcftools:1.3.1
-Registry: http://localhost:5000
+From: pipeline-bcftools:1.3.1
+Registry: localhost:5000
+Namespace:
 
 %setup
 

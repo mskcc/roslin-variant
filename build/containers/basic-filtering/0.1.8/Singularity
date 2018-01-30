@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-basic-filtering:0.1.8
-Registry: http://localhost:5000
+From: pipeline-basic-filtering:0.1.8
+Registry: localhost:5000
+Namespace:
 
 %setup
 

@@ -81,7 +81,7 @@ inputs:
 
   a:
     type: ['null', float]
-    default: 0.200000003
+    default: 0.1
     doc: min. fractional ALT support
     inputBinding:
       prefix: --altaf
@@ -102,20 +102,20 @@ inputs:
 
   r:
     type: ['null', float]
-    default: 0.75
+    default: 0.0
     doc: min. fraction of genotyped samples
     inputBinding:
       prefix: --ratiogeno
 
   p:
     type: ['null', boolean]
-    default: false
+    default: true
     doc: Filter sites for PASS
     inputBinding:
       prefix: --pass
 
   s:
-    type: ['null', string]
+    type: File
     doc: Two-column sample file listing sample name and tumor or control
     inputBinding:
       prefix: --samples
@@ -160,6 +160,7 @@ inputs:
     inputBinding:
       prefix: --input
     doc: Input file (.bcf)
+
   all_regions:
     type: ['null', boolean]
     default: false
@@ -183,6 +184,8 @@ inputs:
 outputs:
   sv_file:
     type: File
+    secondaryFiles: 
+      - ^.bcf.csi
     outputBinding:
       glob: |
         ${

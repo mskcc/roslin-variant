@@ -1,4 +1,4 @@
-FROM python:2.7.13-alpine
+FROM alpine:3.6
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
@@ -12,7 +12,7 @@ RUN apk add --update \
       # for wget
             && apk add ca-certificates openssl \
       # for compilation
-            && apk add build-base musl-dev \
+            && apk add build-base musl-dev python py-pip python-dev \
       # fix numpy compilation issue
             && ln -s /usr/include/locale.h /usr/include/xlocale.h \
       # download, unzip, install basic-filtering

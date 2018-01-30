@@ -177,7 +177,7 @@ steps:
             genome: genome
           out: [bam]
         add_rg_id:
-          run: ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
+          run: ./cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
           in:
             I: bwa/bam
             O:
@@ -194,7 +194,7 @@ steps:
             TMP_DIR: tmp_dir
           out: [bam, bai]
   mark_duplicates:
-    run: ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
+    run: ./cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
     in:
       group: group
       OPTICAL_DUPLICATE_PIXEL_DISTANCE: opt_dup_pix_dist

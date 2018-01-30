@@ -155,6 +155,8 @@ inputs:
 outputs:
   sv_file:
     type: File
+    secondaryFiles: 
+      - ^.bcf.csi
     outputBinding:
       glob: |
         ${
