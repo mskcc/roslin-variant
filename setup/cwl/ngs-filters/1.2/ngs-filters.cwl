@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - sing.sh
 - ngs-filters
-- 1.2
+- "1.2"
 
 requirements:
   InlineJavascriptRequirement: {}
