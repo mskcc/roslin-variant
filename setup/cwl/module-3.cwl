@@ -183,7 +183,6 @@ steps:
                     in:
                         bams: [normal_bam, tumor_bam]
                         sample_names: [normal_sample_name, tumor_sample_name]
-                        include: bed
                         vcf:
                             valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".") + inputs.bams[0].basename.replace(".bam", ".pindel.vcf") }
                         fasta: genome
@@ -202,7 +201,7 @@ steps:
                             valueFrom: ${ return inputs.b.basename.replace(".bam", ".") + inputs.b2.basename.replace(".bam", ".vardict.vcf") }
                     out: [output]
                 mutect:
-                    run: cmo-mutect/1.1.5/cmo-mutect.cwl
+                    run: cmo-mutect/1.1.4/cmo-mutect.cwl
                     in:
                         reference_sequence: genome
                         dbsnp: dbsnp
@@ -211,7 +210,6 @@ steps:
                         input_file_tumor: tumor_bam
                         read_filter: mutect_rf
                         downsample_to_coverage: mutect_dcov
-                        intervals: bed
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".") + inputs.input_file_normal.basename.replace(".bam", ".mutect.vcf") }
                         out:
