@@ -1,4 +1,4 @@
-FROM java:8-alpine
+FROM java:7-alpine
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \

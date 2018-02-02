@@ -1,4 +1,4 @@
-FROM python:2.7.13-alpine
+FROM alpine:3.6
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
@@ -12,7 +12,7 @@ RUN apk add --update \
       # for wget
             && apk add ca-certificates openssl \
       # for compilation (numpy, ...)
-            && apk add build-base musl-dev \
+            && apk add build-base musl-dev python py-pip python-dev\
       # download, unzip, install
             && cd /tmp && wget https://github.com/mskcc/replace_allele_counts/archive/${REPLACEALLELECOUNTS_VERSION}.zip \
             && unzip ${REPLACEALLELECOUNTS_VERSION}.zip \

@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-pindel:0.2.5a7
-Registry: http://localhost:5000
+From: pipeline-pindel:0.2.5a7
+Registry: localhost:5000
+Namespace:
 
 %setup
 

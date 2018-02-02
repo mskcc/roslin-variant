@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-picard:1.129
-Registry: http://localhost:5000
+From: pipeline-picard:1.129
+Registry: localhost:5000
+Namespace:
 
 %setup
 

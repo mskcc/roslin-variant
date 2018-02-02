@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-getbasecountsmultisample:1.2.1
-Registry: http://localhost:5000
+From: pipeline-getbasecountsmultisample:1.2.1
+Registry: localhost:5000
+Namespace:
 
 %setup
 
