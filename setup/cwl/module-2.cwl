@@ -103,6 +103,8 @@ steps:
         in:
             group: group
             reference_sequence: genome
+            excludeIntervals:
+              valueFrom: ${ return ["hs37d5"];}
             input_file: bams
             out:
                 valueFrom: ${ return inputs.group + ".fci.list"; }

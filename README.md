@@ -1,6 +1,6 @@
 # -- Outdated --
 
-# prism-pipeline
+# Roslin-targeted-variants
 
 Table of Contents:
 
