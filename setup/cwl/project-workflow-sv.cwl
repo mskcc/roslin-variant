@@ -435,6 +435,6 @@ steps:
       normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
       delly_type: pairing/delly_type
-    out: [ merged_file, merged_file_unfiltered, maf_file ]
-    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data, portal_file ]
+    out: [ merged_file, merged_file_unfiltered, maf_file, portal_file ]
+    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data ]
     scatterMethod: dotproduct
