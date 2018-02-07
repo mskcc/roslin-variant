@@ -249,8 +249,13 @@ steps:
             normal_id: normal_sample_name
             tumor_id: tumor_sample_name
             vcf_normal_id: normal_sample_name
-            vcf_tumor_id: normal_sample_name
+            vcf_tumor_id: tumor_sample_name
             input_vcf: merge_with_bcftools/merged_file
             output_maf: 
                 valueFrom: $(inputs.input_vcf.basename.replace('vcf','vep.maf'))
         out: [ output ]
+    portal_format_output:
+        run: portal-formatting.cli/1.0.0/format-maf.cwl
+        in:
+            input_maf: convert_vcf2maf/output
+        out: [ portal_file ]

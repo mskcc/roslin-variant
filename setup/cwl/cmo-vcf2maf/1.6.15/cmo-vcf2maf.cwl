@@ -89,7 +89,7 @@ inputs:
 
   ref_fasta:
     type: ['null', string]
-    default: /ifs/depot/assemblies/H.sapiens/b37/b37.fasta
+    default: /ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta
     doc: Reference FASTA file
     inputBinding:
       prefix: --ref-fasta
