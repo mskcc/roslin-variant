@@ -43,7 +43,8 @@
             "86"
         ],
         "vcf2maf": [
-            "1.6.12"
+            "1.6.12",
+            "1.6.15"
         ],
         "getbasecountsmultisample": [
             "1.2.1"
