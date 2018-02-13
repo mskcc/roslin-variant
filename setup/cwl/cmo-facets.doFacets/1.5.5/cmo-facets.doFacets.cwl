@@ -54,14 +54,14 @@ requirements:
     coresMin: 2
 
 doc: |
-  None
+  Run FACETS on tumor-normal SNP read counts generated using cmo_snp-pileup
 
 inputs:
   cval:
     type:
     - 'null'
     - int
-    default: 50
+    default: 100
     doc: critical value for segmentation
     inputBinding:
       prefix: --cval
@@ -98,6 +98,7 @@ inputs:
     type:
     - 'null'
     - int
+    default: 500
     doc: critical value for segmentation
     inputBinding:
       prefix: --purity_cval

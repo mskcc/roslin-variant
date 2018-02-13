@@ -100,8 +100,8 @@ steps:
       directory:
         default: "."
       purity_cval:
-        default: 100
+        default: 500
       cval:
-        default: 50
+        default: 100
     out: [png_files, txt_files, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
