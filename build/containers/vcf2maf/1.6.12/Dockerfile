@@ -25,9 +25,15 @@ COPY run.sh /usr/bin/vcf2maf/run.sh
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} musl-dev libgcrypt-dev perl-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+            && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} perl-dev=${PERL_VERSION} musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+      # install system packages that the Perl modules will need
+            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
+      # install perl libraries that VEP will need
+            && cpanm --notest LWP LWP::Simple LWP::Protocol::https Archive::Extract Archive::Tar Archive::Zip \
+            CGI DBI Encode version Time::HiRes DBD::mysql File::Copy::Recursive Perl::OSType Module::Metadata \
+            Sereal JSON Bio::Root::Version Set::IntervalTree PerlIO::gzip \
       # install htslib (for vep)
             && cd /tmp && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
             && tar xvjf htslib-${HTSLIB_VERSION}.tar.bz2 \
@@ -37,29 +43,11 @@ RUN apk add --update \
       # download/unzip vep
             && cd /tmp && wget https://github.com/Ensembl/ensembl-tools/archive/release/${VEP_VERSION}.zip \
             && unzip ${VEP_VERSION} \
-      # install perl libs
-            && cpanm File::Copy::Recursive \
-            Archive::Extract \
-            Archive::Zip \
-            Bio::Root::Version \
-            DBI \
-            CGI \
-            Sereal \
-            # optional
-            JSON \
-            Set::IntervalTree \
-            PerlIO::gzip \
-            # optional, but couldn't get it to work
-            # DBD::mysql
-            # Bio::DB::BigFile
-            # LWP::Simple
       # install vep
             && cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
             && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
             && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
       # install samtools
-            # --NO_HTSLIB cause the following warnings:
-            # MSG: Switching to using /tmp/ensembl-tools-release-86/scripts/variant_effect_predictor/t/..//t/testdata//vep-cache//homo_sapiens/78_GRCh38/test.fa
             && cd /tmp && wget https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 \
             && tar xvjf samtools-${SAMTOOLS_VERSION}.tar.bz2 \
             && cd /tmp/samtools-${SAMTOOLS_VERSION} \
