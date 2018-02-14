@@ -113,7 +113,7 @@ do
 
     printf "Regular: $leaderStatus; SV: $leaderStatusSV\n"
 
-    if [ "$leaderStatus" == "DONE" && "$leaderStatusSV" == "DONE" ]
+    if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ]
     then
         printf "Both Jobs Finished Successfully\n"
         store_test_logs
@@ -150,19 +150,19 @@ do
         fi
     fi
 
-    if [ $jobTrackBool == 0 && $jobTrackBoolSV == 0 && $runningBool != 0 ]
+    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] && [ $runningBool != 0 ]
     then
-        if [ "$leaderStatus" == "EXIT" && "$leaderStatusSV" == "EXIT" ]
+        if [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "EXIT" ]
         then
             printf "Both Jobs Failed\n"
             store_test_logs
             exit 1    
-        elif [ "$leaderStatus" == "EXIT" && "$leaderStatusSV" == "DONE" ]
+        elif [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "DONE" ]
         then
             printf "Regular Workflow Failed; SV Workflow Finished Successfully\n"
             store_test_logs
             exit 1
-        elif [ "$leaderStatus" == "DONE" && "$leaderStatusSV" == "EXIT" ]
+        elif [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "EXIT" ]
         then
             printf "Regular Workflow Finished Successfully; SV Workflow Failed\n"
             store_test_logs
