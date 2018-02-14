@@ -75,7 +75,7 @@ cd $ROSLIN_CORE_BIN_PATH
 # Run test
 printf "\n----------Running Test----------\n"
 cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
-cp $parentDir/test/run-example.sv.sh.template $parentDir/$TestDir/run-example.sv.sh
+cp $parentDir/test/run-example-sv.sh.template $parentDir/$TestDir/run-example-sv.sh
 
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example.sh
