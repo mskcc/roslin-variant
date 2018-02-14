@@ -44,7 +44,9 @@ class: CommandLineTool
 baseCommand:
 - cmo_mutect
 - --version
-- 1.1.4
+- "1.1.4"
+- --java-version
+- "jdk1.6.0_45"
 
 requirements:
   InlineJavascriptRequirement: {}
