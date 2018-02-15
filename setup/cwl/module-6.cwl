@@ -91,6 +91,10 @@ outputs:
    maf_file:
         type: File
         outputSource: convert_vcf2maf/output
+   portal_file:
+        type: File
+        outputSource: portal_format_output/portal_file
+
 steps:
     index:
         run: cmo-index/1.0.0/cmo-index.cwl
