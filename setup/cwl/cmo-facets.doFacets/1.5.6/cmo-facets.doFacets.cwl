@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-facets.doFacets
-  doap:revision: 1.5.5
+  doap:revision: 1.5.6
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - sing.sh
 - facets
-- 1.5.5
+- 1.5.6
 - doFacets
 
 requirements:
@@ -191,6 +191,11 @@ inputs:
     inputBinding:
       prefix: --seed
 
+  tumor_id:
+    type: ['null', string]
+    doc: Set the value for tumor id
+    inputBinding:
+      prefix: --tumor_id
 
 outputs:
   png_files:
