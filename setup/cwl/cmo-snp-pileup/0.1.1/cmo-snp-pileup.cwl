@@ -45,11 +45,16 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- htstools
-- 0.1.1
+- non-cmo.sh
+- --tool
+- "htstools"
+- --version
+- "0.1.1"
+- --language_version
+- "default"
+- --language
+- "bash"
 - snp-pileup
-
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

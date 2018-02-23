@@ -43,7 +43,7 @@ baseCommand:
 - "2.9"
 requirements:
   ResourceRequirement:
-    ramMin: 2
+    ramMin: 10
     coresMin: 1
 
 inputs:

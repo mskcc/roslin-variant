@@ -42,9 +42,15 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- facets
-- 1.5.5
+- non-cmo.sh
+- --tool
+- "facets"
+- --version
+- "1.5.5"
+- --language_version
+- "default"
+- --language
+- "python"
 - doFacets
 
 requirements:
@@ -166,7 +172,7 @@ inputs:
 
   R_lib:
     type: ['null', string]
-    default: latest
+    default: /opt/common/CentOS_6-dev/facets_lib/0.5.6/
     doc: Which version of FACETs to load into R
     inputBinding:
       prefix: --R_lib
