@@ -48,8 +48,7 @@ inputs:
 
     normal_bam: File
     tumor_bam: File
-    tumor_sample_name: string
-    normal_sample_name: string
+    tumor_sample_name: string 
     genome: string
 
 outputs:
