@@ -138,37 +138,27 @@
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         }, 
         "abra": {
-            "0.92": "sing.sh abra 0.92", 
-            "2.07": "sing.sh abra 2.07", 
-            "2.08": "sing.sh abra 2.08", 
-            "2.12": "sing.sh abra 2.12", 
-            "default": "sing.sh abra 0.92"
+            "2.12": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar", 
+            "default": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar"
         }, 
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         }, 
         "basic-filtering": {
-            "0.1.6": "sing.sh basic-filtering 0.1.6", 
-            "0.1.7": "sing.sh basic-filtering 0.1.7", 
-            "0.1.8": "sing.sh basic-filtering 0.1.8", 
-            "default": "sing.sh basic-filtering 0.1.6"
+            "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh", 
+            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh"
         }, 
         "bcftools": {
-            "1.3.1": "sing.sh bcftools 1.3.1", 
-            "1.5": "sing.sh bcftools 1.5", 
-            "default": "sing.sh bcftools 1.3.1"
+            "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools", 
+            "default": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
         }, 
         "bedtools": {
             "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/", 
             "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
         }, 
         "bwa": {
-            "0.7.12": "sing.sh bwa 0.7.12", 
-            "0.7.15": "sing.sh bwa 0.7.15", 
-            "0.7.5a": "sing.sh bwa 0.7.5a", 
-            "0.7.5a.test": "sing.sh bwa 0.7.5a.test", 
-            "0.7.5a.ubuntu": "sing.sh bwa 0.7.5a.ubuntu", 
-            "default": "sing.sh bwa 0.7.5a"
+            "0.7.5a": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa", 
+            "default": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa"
         }, 
         "convertqualityscore": {
             "1.1.8": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore", 
@@ -186,11 +176,12 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
         }, 
         "delly": {
-            "0.7.7": "sing.sh delly 0.7.7", 
-            "default": "sing.sh delly 0.7.7"
+            "0.7.7": "/opt/common/CentOS_6-dev/delly/0.7.7/delly", 
+            "default": "/opt/common/CentOS_6-dev/delly/0.7.7/delly"
         }, 
-        "facets": {
-            "1.5.5": "sing.sh facets 1.5.5"
+        "facets": {  
+            "1.5.5": "/opt/common/CentOS_6-dev/FACETS/1.5.5/facets",
+            "1.5.6": "/opt/common/CentOS_6-dev/FACETS/1.5.6/facets" 
         }, 
         "facets_lib": {
             "0.3.22": "/opt/common/CentOS_6-dev/facets_lib/0.3.22/", 
@@ -204,9 +195,8 @@
             "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
         }, 
         "gatk": {
-            "2.3-9": "sing.sh gatk 2.3-9", 
-            "3.3-0": "sing.sh gatk 3.3-0", 
-            "default": "sing.sh gatk 3.3-0"
+            "3.3-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar", 
+            "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
         }, 
         "gdc-client": {
             "1.1.0": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client", 
@@ -217,8 +207,8 @@
             "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
         }, 
         "getbasecountsmultisample": {
-            "1.2.1": "sing.sh getbasecountsmultisample 1.2.1", 
-            "default": "sing.sh getbasecountsmultisample 1.2.1"
+            "1.2.1": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample", 
+            "default": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample"
         }, 
         "hotspot3d": {
             "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/", 
@@ -228,25 +218,21 @@
             "0.6.1": "/opt/common/CentOS_6-dev/hotspots/0.6.1/", 
             "default": "/opt/common/CentOS_6-dev/hotspots/0.6.1/"
         }, 
-        "htstools": {
-            "0.1.1": "sing.sh htstools 0.1.1", 
-            "default": "sing.sh htstools 0.1.1"
-        }, 
         "java": {
-            "default": "sing-java.sh", 
-            "jdk1.7.0_75": "sing-java.sh", 
-            "jdk1.8.0_25": "sing-java.sh", 
-            "jdk1.8.0_31": "sing-java.sh", 
-            "jre1.7.0_75": "sing-java.sh"
+            "default": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
+            "jdk1.6.0_45": "/opt/common/CentOS_6/java/jdk1.6.0_45/bin/java", 
+            "jdk1.7.0_75": "/opt/common/CentOS_6/java/jdk1.7.0_75/bin/java", 
+            "jdk1.8.0_25": "/opt/common/CentOS_6/java/jdk1.8.0_25/bin/java", 
+            "jdk1.8.0_31": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
+            "jre1.7.0_75": "/opt/common/CentOS_6/java/jre1.7.0_75/bin/java"
         }, 
         "kallisto": {
             "0.42.1": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto", 
             "default": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto"
         }, 
         "list2bed": {
-            "1.0.0": "sing.sh list2bed 1.0.0", 
-            "1.0.1": "sing.sh list2bed 1.0.1", 
-            "default": "sing.sh list2bed 1.0.1"
+            "1.0.1": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py", 
+            "default": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py"
         }, 
         "matlab": {
             "R2014b": "/opt/common/CentOS_6-dev/matlab/R2014b/", 
@@ -259,33 +245,27 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         }, 
         "mutect": {
-            "1.1.4": "sing.sh mutect 1.1.4", 
-            "1.1.5": "sing.sh mutect 1.1.5"
+            "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
         }, 
         "mutsig-cv": {
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
             "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
         "ngs-filters": {
-            "1.1.4": "sing.sh ngs-filters 1.1.4"
+            "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py"
         }, 
         "perl": {
-            "default": "sing-perl.sh"
+            "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
         }, 
         "picard": {
-            "1.129": "sing.sh picard 1.129", 
-            "1.96": "sing.sh picard 1.96", 
-            "2.13": "sing.sh picard 2.13",            
-            "2.9": "sing.sh picard 2.9",
-            "default": "sing.sh picard 1.96"
+            "2.9": "/opt/common/CentOS_6/picard/picard-2.9.0-jar/picard.jar", 
+            "default": "/opt/common/CentOS_6/picard/picard-2.9.0-jar/picard.jar"
         }, 
         "pindel": {
-            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel", 
-            "0.2.5b8": "sing.sh pindel 0.2.5b8 pindel"
+            "0.2.5b8": "/opt/common/CentOS_6-dev/pindel/v0.2.5b8/pindel"
         }, 
         "pindel2vcf": {
-            "0.2.5a7": "sing.sh pindel 0.2.5a7 pindel2vcf", 
-            "0.2.5b8": "sing.sh pindel 0.2.5b8 pindel2vcf"
+            "0.2.5b8": "/opt/common/CentOS_6-dev/pindel/v0.2.5b8/pindel2vcf"
         }, 
         "postprocess": {
             "1.3.1": "/opt/common/CentOS_6-dev/postprocess/1.3.1", 
@@ -296,13 +276,16 @@
         }, 
         "python": {
             "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python"
-        }, 
+        },
+        "bash": {
+            "default": "/bin/bash"
+        },
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"
         }, 
         "remove-variants": {
-            "0.1.1": "sing.sh remove-variants 0.1.1", 
-            "default": "sing.sh remove-variants 0.1.1"
+            "0.1.1": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py", 
+            "default": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py"
         }, 
         "replace-allele-counts": {
             "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
@@ -311,11 +294,8 @@
             "default": "sing.sh replace-allele-counts 0.1.0"
         }, 
         "roslin-qc": {
-            "0.5.0": "sing.sh roslin-qc 0.5.0", 
-            "0.5.5": "sing.sh roslin-qc 0.5.5", 
-            "0.5.8": "sing.sh roslin-qc 0.5.8", 
-            "0.5.9": "sing.sh roslin-qc 0.5.9", 
-            "default": "sing.sh roslin-qc 0.5.8"
+            "0.5.9": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py", 
+            "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py"
         }, 
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 
@@ -325,9 +305,12 @@
             "0.1.19": "/opt/common/CentOS_6-dev/samtools/samtools-0.1.19/samtools", 
             "1.2": "/opt/common/CentOS_6-dev/samtools/samtools-1.2/samtools", 
             "1.3": "/opt/common/CentOS_6-dev/samtools/samtools-1.3/samtools", 
-            "1.3.1": "sing.sh samtools 1.3.1", 
-            "default": "sing.sh samtools 1.3.1"
-        }, 
+            "1.3.1": "/opt/common/CentOS_6-dev/samtools/samtools-1.3.1/samtools", 
+            "default": "/opt/common/CentOS_6-dev/samtools/samtools-1.3.1/samtools"
+        },
+        "htstools":{
+            "0.1.1": "/opt/common/CentOS_6-dev/htstools/v0.1.1/runScript.sh"
+        },
         "seq-cna": {
             "1.0.0": "sing.sh seq-cna 1.0.0"
         }, 
@@ -342,19 +325,16 @@
             "default": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR"
         }, 
         "trimgalore": {
-            "0.2.5.mod": "sing.sh trimgalore 0.2.5.mod", 
-            "0.4.3": "sing.sh trimgalore 0.4.3", 
-            "default": "sing.sh trimgalore 0.2.5.mod"
+            "0.2.5.mod": "/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5_MOD/trim_galore", 
+            "default": "/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5_MOD/trim_galore"
         }, 
         "vardict": {
-            "1.4.6": "sing.sh vardict 1.4.6 vardict", 
-            "1.5.1": "sing.sh vardict 1.5.1 vardict", 
-            "default": "sing.sh vardict 1.4.6 vardict"
+            "1.5.1": "/opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict", 
+            "default": "/opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict"
         }, 
         "vardict_bin": {
-            "1.4.6": "sing.sh vardict 1.4.6 ", 
-            "1.5.1": "sing.sh vardict 1.5.1 ", 
-            "default": "sing.sh vardict 1.4.6 "
+            "1.5.1": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/", 
+            "default": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/"
         }, 
         "varscan": {
             "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar", 
@@ -362,14 +342,13 @@
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
         }, 
         "vcf2maf": {
-            "1.6.12": "sing.sh vcf2maf 1.6.12 ", 
-            "1.6.14": "sing.sh vcf2maf 1.6.14 ", 
-            "1.6.15": "sing.sh vcf2maf 1.6.15 ",
-            "default": "sing.sh vcf2maf 1.6.12 "
+            "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
+            "1.6.15":"/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
+            "default": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/"
         }, 
         "vep": {
-            "86": "sing.sh vep 86", 
-            "default": "sing.sh vep 86"
+            "86": "/opt/common/CentOS_6-dev/vep/v86/", 
+            "default": "/opt/common/CentOS_6-dev/vep/v86/"
         }, 
         "vt": {
             "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt", 
@@ -377,7 +356,7 @@
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
         }
-    }, 
+    },
     "targets": {
         "AgilentExon_51MB_b37_v3": {
             "FP_genotypes": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/FP_genotypes/AgilentExon_51MB_b37_v3_FP_tiling_genotypes.txt", 

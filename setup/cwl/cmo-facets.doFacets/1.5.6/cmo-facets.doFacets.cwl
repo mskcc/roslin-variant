@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-facets.doFacets
-  doap:revision: 1.5.5
+  doap:revision: 1.5.6
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -46,7 +46,7 @@ baseCommand:
 - --tool
 - "facets"
 - --version
-- "1.5.5"
+- "1.5.6"
 - --language_version
 - "default"
 - --language
@@ -172,7 +172,7 @@ inputs:
 
   R_lib:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/facets_lib/0.5.6/
+    default: latest
     doc: Which version of FACETs to load into R
     inputBinding:
       prefix: --R_lib
@@ -197,6 +197,11 @@ inputs:
     inputBinding:
       prefix: --seed
 
+  tumor_id:
+    type: ['null', string]
+    doc: Set the value for tumor id
+    inputBinding:
+      prefix: --tumor_id
 
 outputs:
   png_files:

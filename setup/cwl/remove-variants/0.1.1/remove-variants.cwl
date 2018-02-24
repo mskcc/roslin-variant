@@ -45,10 +45,15 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- remove-variants
-- 0.1.1
-
+- non-cmo.sh
+- --tool
+- "remove-variants"
+- --version
+- "0.1.1"
+- --language_version
+- "default"
+- --language
+- "python"
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

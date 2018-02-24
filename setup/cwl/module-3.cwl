@@ -176,6 +176,7 @@ steps:
                     in:
                         normal_bam: normal_bam
                         tumor_bam: tumor_bam
+                        tumor_sample_name: tumor_sample_name 
                         genome: genome
                     out: [facets_png_output, facets_txt_output, facets_out_output, facets_rdata_output, facets_seg_output]
                 pindel:

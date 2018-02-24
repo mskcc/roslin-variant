@@ -48,6 +48,7 @@ inputs:
 
     normal_bam: File
     tumor_bam: File
+    tumor_sample_name: string 
     genome: string
 
 outputs:
@@ -103,5 +104,6 @@ steps:
         default: 100
       cval:
         default: 50
+      tumor_id: tumor_sample_name
     out: [png_files, txt_files, out_files, rdata_files, seg_files]
-    run: cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
+    run: cmo-facets.doFacets/1.5.6/cmo-facets.doFacets.cwl

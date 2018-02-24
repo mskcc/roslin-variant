@@ -42,10 +42,15 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- ngs-filters
+- non-cmo.sh
+- --tool
+- "ngs-filters"
+- --version
 - "1.2"
-
+- --language_version
+- "default"
+- --language
+- "python"
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
