@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/140/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/140/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/140/roslin-core/2.0.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -103,8 +103,8 @@ steps:
         in:
             group: group
             reference_sequence: genome
-            excludeIntervals:
-              valueFrom: ${ return ["hs37d5"];}
+            intervals:
+              valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
             input_file: bams
             out:
                 valueFrom: ${ return inputs.group + ".fci.list"; }

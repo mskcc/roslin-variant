@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/140/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/140/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/140/roslin-core/2.0.0/schemas/doap.rdf
 
 doap:name: cmo-index.cwl
 doap:release:
@@ -43,7 +43,7 @@ baseCommand:
 - "2.9"
 requirements:
   ResourceRequirement:
-    ramMin: 10
+    ramMin: 15
     coresMin: 1
 
 inputs:

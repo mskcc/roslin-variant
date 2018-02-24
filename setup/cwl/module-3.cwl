@@ -331,8 +331,8 @@ steps:
             rod_priority_list:
                 default: ["VarDict", "MuTect", "Pindel"]
             reference_sequence: genome
-            excludeIntervals:
-              valueFrom: ${ return ["hs37d5"];}
+            intervals:
+                valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             out:
