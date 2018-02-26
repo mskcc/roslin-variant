@@ -77,7 +77,7 @@ steps:
   snp_pileup:
     in:
       vcf:
-        default: "/ifs/work/pi/resources/facets/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
+        default: "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
       output_file:
         valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", "") + ".dat.gz"; }
       normal_bam: normal_bam
