@@ -39,6 +39,10 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Nikhil Kumar
     foaf:mbox: mailto:kumarn1@mskcc.org
+  - class: foaf:Person
+    foaf:name: Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
+
 
 cwlVersion: v1.0
 
@@ -231,11 +235,16 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/facets_png
-  facets_txt:
+  facets_txt_hisens:
     type:
       type: array
       items: File
-    outputSource: variant_calling/facets_txt
+    outputSource: variant_calling/facets_txt_hisens
+  facets_txt_purity:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_txt_purity
   facets_out:
     type:
       type: array
@@ -369,7 +378,7 @@ steps:
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
-    out: [combine_vcf, facets_png, facets_txt, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
@@ -432,7 +441,7 @@ steps:
     run: cmo-facets.geneLevel/1.5.6/cmo-facets.geneLevel.cwl 
     in:
       runparams: runparams
-      filenames: variant_calling/facets_txt
+      filenames: variant_calling/facets_txt_hisens
       targetFile:
         valueFrom: ${ return "IMPACT468";}
       method: 

@@ -33,6 +33,10 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Cyriac Kandoth
     foaf:mbox: mailto:kandothc@mskcc.org
+  - class: foaf:Person
+    foaf:name: Allan Bolipatan
+    foaf:mbox: mailto:bolipatc@mskcc.org
+
 
 cwlVersion: cwl:v1.0
 

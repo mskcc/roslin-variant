@@ -33,6 +33,10 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
+  - class: foaf:Person
+    foaf:name: Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
+
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
 # To generate again: $ cmo_facets doFacets --generate_cwl_tool
@@ -208,10 +212,14 @@ outputs:
     type: File[]
     outputBinding:
       glob: '*.png'
-  txt_files:
-    type: File[]
+  txt_files_purity:
+    type: File 
     outputBinding:
-      glob: '*.txt'
+      glob: '*_purity.cncf.txt'
+  txt_files_hisens:
+    type: File 
+    outputBinding:
+      glob: '*_hisens.cncf.txt'
   out_files:
     type: File[]
     outputBinding:

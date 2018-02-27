@@ -42,6 +42,10 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Nikhil Kumar
     foaf:mbox: mailto:kumarn1@mskcc.org 
+  - class: foaf:Person
+    foaf:name: Allan Bolipata 
+    foaf:mbox: mailto:bolipatc@mskcc.org 
+
 
 cwlVersion: v1.0
 
@@ -81,9 +85,12 @@ outputs:
     facets_png:
         type: File
         outputSource: call_variants/facets_png
-    facets_txt:
+    facets_txt_hisens:
         type: File
-        outputSource: call_variants/facets_txt
+        outputSource: call_variants/facets_txt_hisens
+    facets_txt_purity:
+        type: File
+        outputSource: call_variants/facets_txt_purity
     facets_out:
         type: File
         outputSource: call_variants/facets_out
@@ -158,9 +165,12 @@ steps:
                 facets_png:
                     type: File
                     outputSource: facets/facets_png_output
-                facets_txt:
+                facets_txt_hisens:
                     type: File
-                    outputSource: facets/facets_txt_output
+                    outputSource: facets/facets_txt_output_hisens
+                facets_txt_purity:
+                    type: File
+                    outputSource: facets/facets_txt_output_purity
                 facets_out:
                     type: File
                     outputSource: facets/facets_out_output
@@ -178,7 +188,7 @@ steps:
                         tumor_bam: tumor_bam
                         tumor_sample_name: tumor_sample_name 
                         genome: genome
-                    out: [facets_png_output, facets_txt_output, facets_out_output, facets_rdata_output, facets_seg_output]
+                    out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output]
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
                     in:
