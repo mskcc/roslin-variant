@@ -134,7 +134,7 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt, facets_out, facets_rdata, facets_seg]
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg]
         run:
             class: Workflow
             inputs:
