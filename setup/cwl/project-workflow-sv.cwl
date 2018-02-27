@@ -429,15 +429,15 @@ steps:
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
 
   create_portal_file_from_facets:
-    run: genelevel.cwl
+    run: cmo-facets.geneLevel/1.5.6/cmo-facets.geneLevel.cwl 
     in:
       runparams: runparams
       filenames: variant_calling/facets_txt
       targetFile:
-        valueFrom: { return "IMPACT468";}
+        valueFrom: ${ return "IMPACT468";}
       method: 
-        valueFrom: ${ return "scna":}
-      outfile: 
+        valueFrom: ${ return "scna";}
+      outfilename: 
         valueFrom: ${ return inputs.runparams.project_prefix + ".portal.geneLevel.txt";}
     out: [ outfile ]
 

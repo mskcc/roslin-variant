@@ -420,5 +420,5 @@ steps:
       method: 
         valueFrom: ${ return "scna";}
       outfilename: 
-        valueFrom: ${return inputs.runparams.project_prefix + ".portal.geneLevel.txt";}
+        valueFrom: ${ return inputs.runparams.project_prefix + ".portal.geneLevel.txt";}
     out: [ outfile ]
