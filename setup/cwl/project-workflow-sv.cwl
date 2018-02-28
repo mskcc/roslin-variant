@@ -444,9 +444,9 @@ steps:
       filenames: variant_calling/facets_txt_hisens
       targetFile:
         valueFrom: ${ return "IMPACT468";}
-      method: 
+      method:
         valueFrom: ${ return "scna";}
-      outfilename: 
+      outfilename:
         valueFrom: ${ return inputs.runparams.project_prefix + ".portal.geneLevel.txt";}
     out: [ outfile ]
 
