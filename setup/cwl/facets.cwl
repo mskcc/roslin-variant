@@ -33,6 +33,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
+  - class: foaf:Person
+    foaf:name: Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
 
 cwlVersion: v1.0
 
@@ -57,9 +60,13 @@ outputs:
     type: File[]
     outputSource: facets/png_files
 
-  facets_txt_output:
+  facets_txt_output_purity:
     type: File[]
-    outputSource: facets/txt_files
+    outputSource: facets/txt_files_purity
+
+  facets_txt_output_hisens:
+    type: File[]
+    outputSource: facets/txt_files_hisens
 
   facets_out_output:
     type: File[]
@@ -77,7 +84,7 @@ steps:
   snp_pileup:
     in:
       vcf:
-        default: "/ifs/work/pi/resources/facets/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
+        default: "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
       output_file:
         valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", "") + ".dat.gz"; }
       normal_bam: normal_bam
@@ -101,9 +108,9 @@ steps:
       directory:
         default: "."
       purity_cval:
-        default: 100
+        valueFrom: ${ return 500; }
       cval:
-        default: 50
+        valueFrom: ${ return 100; }
       tumor_id: tumor_sample_name
-    out: [png_files, txt_files, out_files, rdata_files, seg_files]
+    out: [png_files, txt_files_purity, txt_files_hisens, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.6/cmo-facets.doFacets.cwl
