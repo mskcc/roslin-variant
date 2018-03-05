@@ -198,6 +198,7 @@ inputs:
   seed:
     type: ['null', string]
     doc: Set the seed for reproducibility
+    default: 1000 
     inputBinding:
       prefix: --seed
 
