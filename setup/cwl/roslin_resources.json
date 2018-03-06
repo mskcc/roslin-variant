@@ -417,16 +417,16 @@
             "targets_list": "/ifs/depot/pi/resources/targets/IMPACT468_b37/targets_list/picard_targets.intervals"
         }, 
         "HemePACT_v3": {
-            "FP_genotypes":"/ifs/depot/pi/resources/targets/HemePACT_v3/FP_genotypes/FP_tiling_genotypes.txt",
-            "FP_intervals":"/ifs/depot/pi/resources/targets/HemePACT_v3/FP_intervals/FP_tiling_intervals.intervals",
-            "baits_list":"/ifs/depot/pi/resources/targets/HemePACT_v3/baits_list/picard_baits.intervals",
-            "targets_list":"/ifs/depot/pi/resources/targets/HemePACT_v3/targets_list/picard_targets.intervals"
+            "FP_genotypes":"/ifs/depot/pi/resources/targets/HemePACT_v3/FP_genotypes/HemePACT_v3_FP_tiling_genotypes.txt",
+            "FP_intervals":"/ifs/depot/pi/resources/targets/HemePACT_v3/FP_intervals/HemePACT_v3_FP_tiling_intervals.intervals",
+            "baits_list":"/ifs/depot/pi/resources/targets/HemePACT_v3/baits_list/HemePACT_v3_b37_baits.ilist",
+            "targets_list":"/ifs/depot/pi/resources/targets/HemePACT_v3/targets_list/HemePACT_v3_b37_targets.ilist"
         },
         "HemePACT_v4": {
-            "FP_genotypes":"/ifs/depot/pi/resources/targets/HemePACT_v4/FP_genotypes/FP_tiling_genotypes.txt",
-            "FP_intervals":"/ifs/depot/pi/resources/targets/HemePACT_v4/FP_intervals/FP_tiling_intervals.intervals",
-            "baits_list":"/ifs/depot/pi/resources/targets/HemePACT_v4/baits_list/picard_baits.intervals",
-            "targets_list":"/ifs/depot/pi/resources/targets/HemePACT_v4/targets_list/picard_targets.intervals"
+            "FP_genotypes":"/ifs/depot/pi/resources/targets/HemePACT_v4/FP_genotypes/HemePACT_v4_FP_tiling_genotypes.txt",
+            "FP_intervals":"/ifs/depot/pi/resources/targets/HemePACT_v4/FP_intervals/HemePACT_v4_FP_tiling_intervals.intervals",
+            "baits_list":"/ifs/depot/pi/resources/targets/HemePACT_v4/baits_list/HemePACT_v4_b37_baits.ilist",
+            "targets_list":"/ifs/depot/pi/resources/targets/HemePACT_v4/targets_list/HemePACT_v4_b37_targets.ilist"
         },
         "IMPACT_341_hg19": "", 
         "abra": {
