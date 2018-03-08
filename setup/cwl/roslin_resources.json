@@ -403,6 +403,14 @@
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals", 
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
         }, 
+        "Agilent_v4_51MB_Human": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.ilist"
+        },
         "HemePACT_v3": {
             "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",
             "FP_intervals":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_intervals.intervals",
