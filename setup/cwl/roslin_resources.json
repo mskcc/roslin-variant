@@ -359,67 +359,69 @@
     },
     "targets": {
         "AgilentExon_51MB_b37_v3": {
-            "FP_genotypes": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/FP_genotypes/AgilentExon_51MB_b37_v3_FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/FP_intervals/AgilentExon_51MB_b37_v3_FP_tiling_intervals.intervals", 
-            "baits_bed": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/baits_bed/AgilentExon_51MB_b37_v3_baits.bed", 
-            "baits_ilist": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/baits_ilist/AgilentExon_51MB_b37_v3_baits.ilist", 
-            "baits_list": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/baits_list/AgilentExon_51MB_b37_v3_baits.intervals", 
-            "targets_bed": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/targets_bed/AgilentExon_51MB_b37_v3_targets.bed", 
-            "targets_ilist": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/targets_ilist/AgilentExon_51MB_b37_v3_targets.ilist", 
-            "targets_list": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/targets_list/AgilentExon_51MB_b37_v3_targets.intervals", 
-            "targets_plus5bp_ilist": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_b37_v3/targets_plus5bp_ilist/AgilentExon_51MB_b37_v3_targets_plus5bp.ilist"
-        }, 
-        "AgilentExon_51MB_hg19_mm10_v3": "", 
-        "AgilentExon_51MB_hg19_v3": {
-            "FP_genotypes": "/ifs/depot/pi/resources/targets/IMPACT410_b37/FP_genotypes/FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/depot/pi/resources/targets/IMPACT410_b37/FP_intervals/FP_tiling_intervals.intervals", 
-            "baits_ilist": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_hg19_v3/baits_ilist/AgilentExon_51MB_hg19_v3_baits.ilist", 
-            "targets_ilist": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_hg19_v3/targets_plus5bp_ilist/AgilentExon_51MB_hg19_v3_targets.ilist", 
-            "targets_plus5bp_ilist": "/ifs/depot/pi/resources/targets/AgilentExon_51MB_hg19_v3/targets_plus5bp_ilist/AgilentExon_51MB_hg19_v3_targets.ilist"
-        }, 
-        "Agilent_MouseAllExonV1_mm10_v1": "", 
-        "Genomic_mm10": "", 
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_FP_tiling_intervals.intervals", 
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_baits.bed", 
+            "baits_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_baits.ilist", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_baits.intervals", 
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.bed", 
+            "targets_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.ilist", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.intervals", 
+            "targets_plus5bp_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets_plus5bp.ilist"
+        },  
         "IDT_Exome_v1_FP": {
-            "FP_genotypes": "/ifs/depot/pi/resources/targets/IDT_Exome_v1_FP/FP_genotypes/FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/depot/pi/resources/targets/IDT_Exome_v1_FP/FP_intervals/FP_tiling_intervals.intervals", 
-            "baits_bed": "/ifs/depot/pi/resources/targets/IDT_Exome_v1_FP/baits_bed/IDT_Exome_v1_FP_b37_baits.bed", 
-            "baits_list": "/ifs/depot/pi/resources/targets/IDT_Exome_v1_FP/baits_list/IDT_Exome_v1_FP_b37_baits.ilist", 
-            "targets_bed": "/ifs/depot/pi/resources/targets/IDT_Exome_v1_FP/targets_bed/IDT_Exome_v1_FP_b37_targets.bed", 
-            "targets_list": "/ifs/depot/pi/resources/targets/IDT_Exome_v1_FP/targets_list/IDT_Exome_v1_FP_b37_targets.ilist"
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_intervals.intervals", 
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.bed", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.ilist", 
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_targets.bed", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_targets.ilist"
         }, 
+        "E90_NimbleGeneV3_WES": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_targets.ilist"
+        },
+        "IMPACT341_b37":{
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/FP_tiling_intervals.list",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/picard_baits.interval_list",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/picard_targets.interval_list"
+        },
         "IMPACT410_b37": {
-            "FP_genotypes": "/ifs/depot/pi/resources/targets/IMPACT410_b37/FP_genotypes/FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/depot/pi/resources/targets/IMPACT410_b37/FP_intervals/FP_tiling_intervals.intervals", 
-            "baits_bed": "/ifs/depot/pi/resources/targets/IMPACT410_b37/baits_bed/IMPACT410_b37_baits.bed", 
-            "baits_list": "/ifs/depot/pi/resources/targets/IMPACT410_b37/baits_list/picard_baits.intervals", 
-            "targets_bed": "/ifs/depot/pi/resources/targets/IMPACT410_b37/targets_bed/IMPACT410_b37_targets.bed", 
-            "targets_list": "/ifs/depot/pi/resources/targets/IMPACT410_b37/targets_list/picard_targets.intervals"
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.intervals", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.intervals"
         }, 
-        "IMPACT410_hg19": "", 
         "IMPACT468_b37": {
-            "FP_genotypes": "/ifs/depot/pi/resources/targets/IMPACT468_b37/FP_genotypes/FP_tiling_genotypes.txt", 
-            "FP_intervals": "/ifs/depot/pi/resources/targets/IMPACT468_b37/FP_intervals/FP_tiling_intervals.intervals", 
-            "baits_list": "/ifs/depot/pi/resources/targets/IMPACT468_b37/baits_list/picard_baits.intervals", 
-            "targets_list": "/ifs/depot/pi/resources/targets/IMPACT468_b37/targets_list/picard_targets.intervals"
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
         }, 
-        "IMPACT_341_hg19": "", 
-        "abra": {
-            "GRCh37": "/ifs/depot/pi/resources/targets/abra/GRCh37/abra_target_regions_b37.bed", 
-            "hg19": "/ifs/depot/pi/resources/targets/abra/hg19/abra_target_regions_hg19.bed"
-        }, 
-        "wgs_b37": {
-            "FP_intervals": "/ifs/depot/pi/resources/targets/wgs_b37/FP_intervals/Agilent51MBExome__b37__FP_intervals.list", 
-            "FP_tiling_genotypes": "/ifs/depot/pi/resources/targets/wgs_b37/FP_tiling_genotypes/Agilent51MBExome__b37__FP_tiling_genotypes.txt", 
-            "baits_ilist": "/ifs/depot/pi/resources/targets/wgs_b37/baits_ilist/wgs_b37_baits.ilist", 
-            "targets_ilist": "/ifs/depot/pi/resources/targets/wgs_b37/targets_ilist/wgs_b37_targets.ilist", 
-            "targets_plus5bp_ilist": "/ifs/depot/pi/resources/targets/wgs_b37/targets_plus5bp_ilist/wgs_b37_targets_plus5bp.ilist"
-        }, 
-        "wgs_hg19": {
-            "FP_intervals": "/ifs/depot/pi/resources/targets/wgs_hg19/FP_intervals/Agilent51MBExome__hg19__FP_intervals.list", 
-            "FP_tiling_genotypes": "/ifs/depot/pi/resources/targets/wgs_hg19/FP_tiling_genotypes/Agilent51MBExome__hg19__FP_tiling_genotypes.txt", 
-            "baits_ilist": "/ifs/depot/pi/resources/targets/wgs_hg19/baits_ilist/wgs_hg19_baits.ilist", 
-            "targets_ilist": "/ifs/depot/pi/resources/targets/wgs_hg19/targets_ilist/wgs_hg19_targets.ilist", 
-            "targets_plus5bp_ilist": "/ifs/depot/pi/resources/targets/wgs_hg19/targets_plus5bp_ilist/wgs_hg19_targets_plus5bp.ilist"
+        "Agilent_v4_51MB_Human": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.ilist"
+        },
+        "HemePACT_v3": {
+            "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",
+            "FP_intervals":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_intervals.intervals",
+            "baits_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_b37_baits.ilist",
+            "targets_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_b37_targets.ilist"
+        },
+        "HemePACT_v4": {
+            "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_FP_tiling_genotypes.txt",
+            "FP_intervals":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_FP_tiling_intervals.intervals",
+            "baits_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_b37_baits.ilist",
+            "targets_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_b37_targets.ilist"
         }
     },
     "request_files": {

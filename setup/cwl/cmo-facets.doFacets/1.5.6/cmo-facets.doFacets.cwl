@@ -196,8 +196,9 @@ inputs:
       prefix: --ggplot2
 
   seed:
-    type: ['null', string]
+    type: ['null', int]
     doc: Set the seed for reproducibility
+    default: 1000 
     inputBinding:
       prefix: --seed
 
