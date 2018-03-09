@@ -129,10 +129,6 @@
         "gatk": "/opt/common/CentOS_6-dev/cmo/keys/mskcc_gatk.key"
     }, 
     "programs": {
-        "QoRT": {
-            "1.1.8": "/opt/common/CentOS_6-dev/QoRT/1.1.8/QoRTs.jar", 
-            "default": "/opt/common/CentOS_6-dev/QoRT/1.1.8/QoRTs.jar"
-        }, 
         "R": {
             "3.1.2": "/opt/common/CentOS_6/R/R-3.1.2/bin/", 
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
@@ -140,9 +136,6 @@
         "abra": {
             "2.12": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar", 
             "default": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar"
-        }, 
-        "analyzeFingerprint": {
-            "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         }, 
         "basic-filtering": {
             "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh", 
@@ -152,28 +145,9 @@
             "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools", 
             "default": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
         }, 
-        "bedtools": {
-            "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/", 
-            "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
-        }, 
         "bwa": {
             "0.7.5a": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa", 
             "default": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa"
-        }, 
-        "convertqualityscore": {
-            "1.1.8": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore", 
-            "default": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore"
-        }, 
-        "cqs_metrics": {
-            "default": "/opt/common/CentOS_6-dev/qc/default/mergeConvertQualityScoreMetrics.py"
-        }, 
-        "cutadapt": {
-            "1.1": "/usr/bin/cutadapt", 
-            "1.9.1": "/usr/bin/cutadapt", 
-            "default": "/usr/bin/cutadapt"
-        }, 
-        "cutadapt_metrics": {
-            "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
         }, 
         "delly": {
             "0.7.7": "/opt/common/CentOS_6-dev/delly/0.7.7/delly", 
@@ -198,26 +172,6 @@
             "3.3-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar", 
             "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
         }, 
-        "gdc-client": {
-            "1.1.0": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client", 
-            "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client"
-        }, 
-        "getbasecounts": {
-            "1.4.0": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts", 
-            "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
-        }, 
-        "getbasecountsmultisample": {
-            "1.2.1": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample", 
-            "default": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample"
-        }, 
-        "hotspot3d": {
-            "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/", 
-            "default": "/opt/common/CentOS_6-dev/hotspot3d/0.4/"
-        }, 
-        "hotspots": {
-            "0.6.1": "/opt/common/CentOS_6-dev/hotspots/0.6.1/", 
-            "default": "/opt/common/CentOS_6-dev/hotspots/0.6.1/"
-        }, 
         "java": {
             "default": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
             "jdk1.6.0_45": "/opt/common/CentOS_6/java/jdk1.6.0_45/bin/java", 
@@ -226,30 +180,12 @@
             "jdk1.8.0_31": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
             "jre1.7.0_75": "/opt/common/CentOS_6/java/jre1.7.0_75/bin/java"
         }, 
-        "kallisto": {
-            "0.42.1": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto", 
-            "default": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto"
-        }, 
         "list2bed": {
             "1.0.1": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py", 
             "default": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py"
         }, 
-        "matlab": {
-            "R2014b": "/opt/common/CentOS_6-dev/matlab/R2014b/", 
-            "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"
-        }, 
-        "mergeInsertSizeHistograms": {
-            "default": "/opt/common/CentOS_6-dev/qc/default/mergeInsertSizeHistograms.py"
-        }, 
-        "mergePicardMetrics": {
-            "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
-        }, 
         "mutect": {
             "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
-        }, 
-        "mutsig-cv": {
-            "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
-            "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
         }, 
         "ngs-filters": {
             "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py"
@@ -267,13 +203,6 @@
         "pindel2vcf": {
             "0.2.5b8": "/opt/common/CentOS_6-dev/pindel/v0.2.5b8/pindel2vcf"
         }, 
-        "postprocess": {
-            "1.3.1": "/opt/common/CentOS_6-dev/postprocess/1.3.1", 
-            "default": "/opt/common/CentOS_6-dev/postprocess/1.3.1/"
-        }, 
-        "ppflag-fixer": {
-            "default": "/opt/common/CentOS_6-dev/snp-pileup/ppflag-fixer"
-        }, 
         "python": {
             "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python"
         },
@@ -287,19 +216,9 @@
             "0.1.1": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py", 
             "default": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py"
         }, 
-        "replace-allele-counts": {
-            "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
-            "0.1.1": "sing.sh replace-allele-counts 0.1.1", 
-            "0.2.0": "sing.sh replace-allele-counts 0.2.0", 
-            "default": "sing.sh replace-allele-counts 0.1.0"
-        }, 
         "roslin-qc": {
             "0.5.9": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py", 
             "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py"
-        }, 
-        "samstat": {
-            "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 
-            "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
         }, 
         "samtools": {
             "0.1.19": "/opt/common/CentOS_6-dev/samtools/samtools-0.1.19/samtools", 
@@ -311,18 +230,8 @@
         "htstools":{
             "0.1.1": "/opt/common/CentOS_6-dev/htstools/v0.1.1/runScript.sh"
         },
-        "seq-cna": {
-            "1.0.0": "sing.sh seq-cna 1.0.0"
-        }, 
         "snp-pileup": {
             "default": "/opt/common/CentOS_6-dev/snp-pileup/snp-pileup"
-        }, 
-        "split-reads": {
-            "1.0.0": "sing.sh split-reads 1.0.0"
-        }, 
-        "star": {
-            "2.4.1d": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR", 
-            "default": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR"
         }, 
         "trimgalore": {
             "0.2.5.mod": "/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5_MOD/trim_galore", 
@@ -336,11 +245,6 @@
             "1.5.1": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/", 
             "default": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/"
         }, 
-        "varscan": {
-            "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar", 
-            "2.4.1": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar", 
-            "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
-        }, 
         "vcf2maf": {
             "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
             "1.6.15":"/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
@@ -348,13 +252,9 @@
         }, 
         "vep": {
             "86": "/opt/common/CentOS_6-dev/vep/v86/", 
-            "default": "/opt/common/CentOS_6-dev/vep/v86/"
-        }, 
-        "vt": {
-            "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt", 
-            "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
-            "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
-            "master": "/opt/common/CentOS_6-dev/vt/master/vt"
+            "88": "/opt/common/CentOS_6-dev/vep/v88/",
+            "91":  "/opt/common/CentOS_6-dev/vep/v91/",
+            "default": "/opt/common/CentOS_6-dev/vep/v88/"
         }
     },
     "targets": {
