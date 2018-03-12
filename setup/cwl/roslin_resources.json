@@ -172,6 +172,14 @@
             "3.3-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar", 
             "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
         }, 
+        "getbasecounts": {
+            "1.4.0": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts",
+            "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
+        },
+        "getbasecountsmultisample": {
+                "1.2.1": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample",
+                "default": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample"
+        },
         "java": {
             "default": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
             "jdk1.6.0_45": "/opt/common/CentOS_6/java/jdk1.6.0_45/bin/java", 
