@@ -1,0 +1,465 @@
+{
+    "chr1_fingerprints": {
+        "GRCh37": {
+            "length": 249250621, 
+            "name": "1"
+        }, 
+        "GRCh38": {
+            "length": 248956422, 
+            "name": "chr1"
+        }, 
+        "hg18": {
+            "length": 247249719, 
+            "name": "chr1"
+        }, 
+        "hg19": {
+            "length": 249250621, 
+            "name": "chr1"
+        }, 
+        "mm10": {
+            "length": 195471971, 
+            "name": "chr1"
+        }, 
+        "mm9": {
+            "length": 197195432, 
+            "name": "chr1"
+        }, 
+        "ncbi36": {
+            "length": 247249719, 
+            "name": "1"
+        }
+    }, 
+    "config": {
+        "gdc": {
+            "file_repository": "/ifs/res/pwg/gdc/files/", 
+            "gdc_token": "/ifs/res/pwg/gdc/token/gdc-user-token.taylorb.txt", 
+            "gdc_url": "https://gdc-api.nci.nih.gov/files/", 
+            "mongodb_db_name": "cmo_gdc", 
+            "mongodb_uri": "mongodb://pitchfork.cbio.private:27017", 
+            "num_parallel_slicing_downloads": 10, 
+            "tmp_jobs_dir": "/ifs/res/pwg/gdc/jobs/"
+        }
+    }, 
+    "genomes": {
+        "GRCh37": {
+            "bedtools_genome": "/ifs/depot/pi/resources/genomes/GRCh37/bedtools_genome/human.b37.genome", 
+            "bwa_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/bwa_fasta/b37.fasta", 
+            "cosmic": {
+                "67": "/ifs/depot/pi/resources/genomes/GRCh37/cosmic/67/CosmicCodingMuts_v67_b37_20131024__NDS.vcf", 
+                "74": "/ifs/depot/pi/resources/genomes/GRCh37/cosmic/74/CosmicCodingMuts_v74_b37_20151120.vcf"
+            }, 
+            "dbsnp": {
+                "129": "/ifs/depot/pi/resources/genomes/GRCh37/dbsnp/129/dbsnp_138.b37.excluding_sites_after_129.vcf", 
+                "138": "/ifs/depot/pi/resources/genomes/GRCh37/dbsnp/138/dbsnp_138.b37.vcf"
+            }, 
+            "delly": "/ifs/depot/pi/resources/genomes/GRCh37/delly/human.hg19.excl.tsv", 
+            "exac": "/ifs/depot/pi/resources/genomes/GRCh37/exac/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz", 
+            "facets_snps": "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
+            "fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta", 
+            "gencode": {
+                "19": "/ifs/depot/pi/resources/genomes/GRCh37/gencode/19/gencode.v19.annotation.gtf", 
+                "default": "/ifs/depot/pi/resources/genomes/GRCh37/gencode/19/gencode.v19.annotation.gtf"
+            }, 
+            "hapmap33": "/ifs/depot/pi/resources/genomes/GRCh37/hapmap33/hapmap_3.3.b37.vcf", 
+            "impact410_targets": "/ifs/depot/pi/resources/genomes/GRCh37/impact410_targets/IMPACT410_b37_targets.bed", 
+            "indels_1000g": "/ifs/depot/pi/resources/genomes/GRCh37/indels_1000g/Mills_and_1000G_gold_standard.indels.b37.vcf", 
+            "kallisto_index": "/ifs/depot/pi/resources/genomes/GRCh37/kallisto_index/gencode.v19", 
+            "omni": "/ifs/depot/pi/resources/genomes/GRCh37/omni/1000G_omni2.5.b37.vcf", 
+            "snps_1000g": "/ifs/depot/pi/resources/genomes/GRCh37/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf", 
+            "star_index": "/ifs/depot/pi/resources/genomes/GRCh37/star_index/withoutJunctions", 
+            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+        }, 
+        "GRCh38": {
+            "delly": "/ifs/depot/pi/resources/genomes/GRCh38/delly/human.hg38.excl.tsv", 
+            "exac": "", 
+            "facets_snps": "/ifs/depot/pi/resources/genomes/GRCh38/facets_snps/Homo_sapiens_assembly38.dbsnp138.vcf.gz", 
+            "fasta": "/ifs/depot/pi/resources/vep/cache/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz", 
+            "kallisto_index": "/ifs/depot/pi/resources/genomes/GRCh38/kallisto_index/gencode.v25.pc_transcripts", 
+            "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25", 
+            "vep_cache": "/ifs/depot/pi/resources/vep/cache" 
+        }, 
+        "GRCm38": {
+            "exac": "", 
+            "fasta": "/ifs/depot/pi/resources/vep/cache/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz", 
+            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+        }, 
+        "hg18": {
+            "bedtools_genome": "/ifs/depot/pi/resources/genomes/hg18/bedtools_genome/human.hg18.genome", 
+            "facets_snps": "/ifs/depot/pi/resources/genomes/hg18/facets_snps/dbsnp_137.hg18__RmDupsClean__plusPseudo50__DROP_SORT.liftover.vcf.gz", 
+            "fasta": "/ifs/depot/pi/resources/genomes/hg18/fasta/hg18.fasta"
+        }, 
+        "hg19": {
+            "bedtools_genome": "/ifs/depot/pi/resources/genomes/hg19/bedtools_genome/human.hg19.genome", 
+            "bwa_fasta": "/ifs/depot/pi/resources/genomes/hg19/bwa_fasta/hg19.fasta", 
+            "cosmic": {
+                "67": "/ifs/depot/pi/resources/genomes/hg19/cosmic/67/CosmicCodingMuts_v67_20131024.vcf"
+            }, 
+            "dbsnp": {
+                "135": "/ifs/depot/pi/resources/genomes/hg19/dbsnp/135/dbsnp_135.hg19__ReTag.vcf"
+            }, 
+            "facets_snps": "/ifs/depot/pi/resources/genomes/hg19/facets_snps/dbsnp_137.hg19__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz", 
+            "fasta": "/ifs/depot/pi/resources/genomes/hg19/fasta/hg19.fasta", 
+            "hapmap33": "/ifs/depot/pi/resources/genomes/hg19/hapmap33/hapmap_3.3.hg19.vcf", 
+            "impact410_targets": "/ifs/depot/pi/resources/genomes/hg19/impact410_targets/IMPACT_410_hg19_targets_plus3bp.bed", 
+            "indels_1000g": "/ifs/depot/pi/resources/genomes/hg19/indels_1000g/Mills_and_1000G_gold_standard.indels.hg19.vcf", 
+            "omni": "/ifs/depot/pi/resources/genomes/hg19/omni/1000G_omni2.5.hg19.vcf", 
+            "snps_1000g": "/ifs/depot/pi/resources/genomes/hg19/snps_1000g/1000G_phase1.snps.high_confidence.hg19.vcf"
+        }, 
+        "mm10": {
+            "delly": "/ifs/depot/pi/resources/genomes/mm10/delly/mouse.mm10.excl.tsv", 
+            "facets_snps": "/ifs/depot/pi/resources/genomes/mm10/facets_snps/mouse_MM10_dbSNP_NCBI_20150625___noChrM__plusPseudo50__DROP_SORT.vcf.gz", 
+            "fasta": "/ifs/depot/pi/resources/genomes/mm10/fasta/mm10.fasta", 
+            "gencode": {
+                "M8": "/ifs/depot/pi/resources/genomes/mm10/gencode/default/gencode.vM8.annotation.dedup.gtf", 
+                "default": "/ifs/depot/pi/resources/genomes/mm10/gencode/default/gencode.vM8.annotation.dedup.gtf"
+            }, 
+            "kallisto_index": "/ifs/depot/pi/resources/genomes/mm10/kallisto_index/gencode.vM8.annotation.gtf.fasta.idx", 
+            "star_index": "/ifs/depot/assemblies/M.musculus/mm10/index/star/2.4.1d/gencode/vM8/overhang74"
+        }, 
+        "mm9": {
+            "fasta": "/ifs/depot/pi/resources/genomes/mm9/fasta/mm9.fasta"
+        }, 
+        "ncbi36": {
+            "facets_snps": "/ifs/depot/pi/resources/genomes/ncbi36/facets_snps/dbsnp_137.ncbi36__RmDupsClean__plusPseudo50__DROP_SORT.liftover.vcf.gz", 
+            "fasta": "/ifs/depot/pi/resources/genomes/ncbi36/fasta/human_b36_male.fa"
+        }
+    }, 
+    "keys": {
+        "cghub": "/opt/common/CentOS_6-dev/cmo/keys/schultzn_cghub.key", 
+        "gatk": "/opt/common/CentOS_6-dev/cmo/keys/mskcc_gatk.key"
+    }, 
+    "programs": {
+        "QoRT": {
+            "1.1.8": "/opt/common/CentOS_6-dev/QoRT/1.1.8/QoRTs.jar", 
+            "default": "/opt/common/CentOS_6-dev/QoRT/1.1.8/QoRTs.jar"
+        }, 
+        "R": {
+            "3.1.2": "/opt/common/CentOS_6/R/R-3.1.2/bin/", 
+            "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
+        }, 
+        "abra": {
+            "2.12": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar", 
+            "default": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar"
+        }, 
+        "analyzeFingerprint": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
+        }, 
+        "basic-filtering": {
+            "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh", 
+            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh"
+        }, 
+        "bcftools": {
+            "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools", 
+            "default": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
+        }, 
+        "bedtools": {
+            "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/", 
+            "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
+        }, 
+        "bwa": {
+            "0.7.5a": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa", 
+            "default": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa"
+        }, 
+        "convertqualityscore": {
+            "1.1.8": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore", 
+            "default": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore"
+        }, 
+        "cqs_metrics": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergeConvertQualityScoreMetrics.py"
+        }, 
+        "cutadapt": {
+            "1.1": "/usr/bin/cutadapt", 
+            "1.9.1": "/usr/bin/cutadapt", 
+            "default": "/usr/bin/cutadapt"
+        }, 
+        "cutadapt_metrics": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
+        }, 
+        "delly": {
+            "0.7.7": "/opt/common/CentOS_6-dev/delly/0.7.7/delly", 
+            "default": "/opt/common/CentOS_6-dev/delly/0.7.7/delly"
+        }, 
+        "facets": {  
+            "1.5.5": "/opt/common/CentOS_6-dev/FACETS/1.5.5/facets",
+            "1.5.6": "/opt/common/CentOS_6-dev/FACETS/1.5.6/facets" 
+        }, 
+        "facets_lib": {
+            "0.3.22": "/opt/common/CentOS_6-dev/facets_lib/0.3.22/", 
+            "0.3.30": "/opt/common/CentOS_6-dev/facets_lib/0.3.30/", 
+            "0.3.7": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/", 
+            "0.3.8-hg18": "/opt/common/CentOS_6-dev/facets_lib/0.3.8-hg18/", 
+            "0.3.9": "/opt/common/CentOS_6-dev/facets_lib/0.3.9/", 
+            "0.5.2": "/opt/common/CentOS_6-dev/facets_lib/0.5.2/", 
+            "0.5.6": "/opt/common/CentOS_6-dev/facets_lib/0.5.6/", 
+            "current": "", 
+            "default": "/opt/common/CentOS_6-dev/facets_lib/0.3.7/"
+        }, 
+        "gatk": {
+            "3.3-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar", 
+            "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
+        }, 
+        "gdc-client": {
+            "1.1.0": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client", 
+            "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client"
+        }, 
+        "getbasecounts": {
+            "1.4.0": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts", 
+            "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
+        }, 
+        "getbasecountsmultisample": {
+            "1.2.1": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample", 
+            "default": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample"
+        }, 
+        "hotspot3d": {
+            "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/", 
+            "default": "/opt/common/CentOS_6-dev/hotspot3d/0.4/"
+        }, 
+        "hotspots": {
+            "0.6.1": "/opt/common/CentOS_6-dev/hotspots/0.6.1/", 
+            "default": "/opt/common/CentOS_6-dev/hotspots/0.6.1/"
+        }, 
+        "java": {
+            "default": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
+            "jdk1.6.0_45": "/opt/common/CentOS_6/java/jdk1.6.0_45/bin/java", 
+            "jdk1.7.0_75": "/opt/common/CentOS_6/java/jdk1.7.0_75/bin/java", 
+            "jdk1.8.0_25": "/opt/common/CentOS_6/java/jdk1.8.0_25/bin/java", 
+            "jdk1.8.0_31": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java", 
+            "jre1.7.0_75": "/opt/common/CentOS_6/java/jre1.7.0_75/bin/java"
+        }, 
+        "kallisto": {
+            "0.42.1": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto", 
+            "default": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto"
+        }, 
+        "list2bed": {
+            "1.0.1": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py", 
+            "default": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py"
+        }, 
+        "matlab": {
+            "R2014b": "/opt/common/CentOS_6-dev/matlab/R2014b/", 
+            "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"
+        }, 
+        "mergeInsertSizeHistograms": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergeInsertSizeHistograms.py"
+        }, 
+        "mergePicardMetrics": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
+        }, 
+        "mutect": {
+            "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
+        }, 
+        "mutsig-cv": {
+            "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4", 
+            "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
+        }, 
+        "ngs-filters": {
+            "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py"
+        }, 
+        "perl": {
+            "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
+        }, 
+        "picard": {
+            "2.9": "/opt/common/CentOS_6/picard/picard-2.9.0-jar/picard.jar", 
+            "default": "/opt/common/CentOS_6/picard/picard-2.9.0-jar/picard.jar"
+        }, 
+        "pindel": {
+            "0.2.5b8": "/opt/common/CentOS_6-dev/pindel/v0.2.5b8/pindel"
+        }, 
+        "pindel2vcf": {
+            "0.2.5b8": "/opt/common/CentOS_6-dev/pindel/v0.2.5b8/pindel2vcf"
+        }, 
+        "postprocess": {
+            "1.3.1": "/opt/common/CentOS_6-dev/postprocess/1.3.1", 
+            "default": "/opt/common/CentOS_6-dev/postprocess/1.3.1/"
+        }, 
+        "ppflag-fixer": {
+            "default": "/opt/common/CentOS_6-dev/snp-pileup/ppflag-fixer"
+        }, 
+        "python": {
+            "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python"
+        },
+        "bash": {
+            "default": "/bin/bash"
+        },
+        "qc": {
+            "default": "/opt/common/CentOS_6-dev/qc/default"
+        }, 
+        "remove-variants": {
+            "0.1.1": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py", 
+            "default": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py"
+        }, 
+        "replace-allele-counts": {
+            "0.1.0": "sing.sh replace-allele-counts 0.1.0", 
+            "0.1.1": "sing.sh replace-allele-counts 0.1.1", 
+            "0.2.0": "sing.sh replace-allele-counts 0.2.0", 
+            "default": "sing.sh replace-allele-counts 0.1.0"
+        }, 
+        "roslin-qc": {
+            "0.5.9": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py", 
+            "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py"
+        }, 
+        "samstat": {
+            "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat", 
+            "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
+        }, 
+        "samtools": {
+            "0.1.19": "/opt/common/CentOS_6-dev/samtools/samtools-0.1.19/samtools", 
+            "1.2": "/opt/common/CentOS_6-dev/samtools/samtools-1.2/samtools", 
+            "1.3": "/opt/common/CentOS_6-dev/samtools/samtools-1.3/samtools", 
+            "1.3.1": "/opt/common/CentOS_6-dev/samtools/samtools-1.3.1/samtools", 
+            "default": "/opt/common/CentOS_6-dev/samtools/samtools-1.3.1/samtools"
+        },
+        "htstools":{
+            "0.1.1": "/opt/common/CentOS_6-dev/htstools/v0.1.1/runScript.sh"
+        },
+        "seq-cna": {
+            "1.0.0": "sing.sh seq-cna 1.0.0"
+        }, 
+        "snp-pileup": {
+            "default": "/opt/common/CentOS_6-dev/snp-pileup/snp-pileup"
+        }, 
+        "split-reads": {
+            "1.0.0": "sing.sh split-reads 1.0.0"
+        }, 
+        "star": {
+            "2.4.1d": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR", 
+            "default": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR"
+        }, 
+        "trimgalore": {
+            "0.2.5.mod": "/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5_MOD/trim_galore", 
+            "default": "/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5_MOD/trim_galore"
+        }, 
+        "vardict": {
+            "1.5.1": "/opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict", 
+            "default": "/opt/common/CentOS_6-dev/vardict/v1.5.1/bin/VarDict"
+        }, 
+        "vardict_bin": {
+            "1.5.1": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/", 
+            "default": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/"
+        }, 
+        "varscan": {
+            "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar", 
+            "2.4.1": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar", 
+            "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
+        }, 
+        "vcf2maf": {
+            "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/", 
+            "1.6.15":"/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
+            "default": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/"
+        }, 
+        "vep": {
+            "86": "/opt/common/CentOS_6-dev/vep/v86/", 
+            "default": "/opt/common/CentOS_6-dev/vep/v86/"
+        }, 
+        "vt": {
+            "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt", 
+            "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
+            "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt", 
+            "master": "/opt/common/CentOS_6-dev/vt/master/vt"
+        }
+    },
+    "targets": {
+        "AgilentExon_51MB_b37_v3": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_FP_tiling_intervals.intervals", 
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_baits.bed", 
+            "baits_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_baits.ilist", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_baits.intervals", 
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.bed", 
+            "targets_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.ilist", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.intervals", 
+            "targets_plus5bp_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets_plus5bp.ilist"
+        },  
+        "IDT_Exome_v1_FP": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_intervals.intervals", 
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.bed", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.ilist", 
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_targets.bed", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_targets.ilist"
+        }, 
+        "E90_NimbleGeneV3_WES": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_targets.ilist"
+        },
+        "IMPACT341_b37":{
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/FP_tiling_intervals.list",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/picard_baits.interval_list",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/picard_targets.interval_list"
+        },
+        "IMPACT410_b37": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.intervals", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.intervals"
+        }, 
+        "IMPACT468_b37": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt", 
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals", 
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals", 
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
+        }, 
+        "Agilent_v4_51MB_Human": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.ilist"
+        },
+        "HemePACT_v3": {
+            "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",
+            "FP_intervals":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_intervals.intervals",
+            "baits_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_b37_baits.ilist",
+            "targets_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_b37_targets.ilist"
+        },
+        "HemePACT_v4": {
+            "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_FP_tiling_genotypes.txt",
+            "FP_intervals":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_FP_tiling_intervals.intervals",
+            "baits_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_b37_baits.ilist",
+            "targets_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_b37_targets.ilist"
+        }
+    },
+    "request_files": {
+        "hapmap": "/ifs/depot/pi/resources/request_files/hapmap/hapmap_3.3.b37.vcf",
+        "dbsnp": "/ifs/depot/pi/resources/request_files/dbsnp/dbsnp_138.b37.excluding_sites_after_129.vcf",
+        "indels_1000g": "/ifs/depot/pi/resources/request_files/indels_1000g/Mills_and_1000G_gold_standard.indels.b37.vcf",
+        "snps_1000g": "/ifs/depot/pi/resources/request_files/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf",
+        "cosmic": "/ifs/depot/pi/resources/request_files/cosmic/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
+        "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
+        "exac_filter": "/ifs/depot/pi/resources/request_files/exac_filter/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
+        "vep_data": "/ifs/depot/pi/resources/vep/cache",
+        "curated_bams": [
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-1892-N_bc10_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44042-1-N_bc24_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44503-N_bc39_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43532-1-N_bc16_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-2615-N_bc12_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44056-1-N_bc23_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44315-1-N_bc30_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M11-3639-N_bc03_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44538-N_bc36_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43646-1-N_bc29_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-40685-N_bc34_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-0399-N_bc08_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43697-1-N_bc33_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M14-8322-2-N_bc14_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-41382-1-N_bc17_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M14-7594-1-N_bc21_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M11-1637-N_bc11_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M13-1083-N_bc06_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M11-1089-N_bc04_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-0994-N_bc05_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S12-18799-N_bc38_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43894-1-N_bc32_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44576-1-N_bc27_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam"
+        ],
+        "ffpe_normal_bams": "/ifs/depot/pi/resources/request_files/ffpe_normal_bams/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam",
+        "hotspot_list": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.txt",
+        "ref_fasta": "/ifs/depot/pi/resources/request_files/ref_fasta/b37.fasta"
+    }
+}
