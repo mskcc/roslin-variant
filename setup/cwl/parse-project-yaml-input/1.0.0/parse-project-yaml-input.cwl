@@ -276,12 +276,6 @@ outputs:
       items:
         type: array
         items: File
-  ffpe_normal_bams:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
   hotspot_list:
     type:
       type: array
