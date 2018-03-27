@@ -169,7 +169,7 @@ steps:
             normal_sample_name: normal_sample_name
             inputMaf: fillout_tumor_normal/portal_fillout
             outputMaf:
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".maf" }
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".MUTS.maf" }
             NormalPanelMaf: fillout_second/fillout_curated_bams
             inputHSP: hotspot_list
         out: [output]

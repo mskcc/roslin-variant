@@ -262,9 +262,6 @@ outputs:
   maf:
     type: File
     outputSource: filter/maf
-  fillout_maf:
-    type: File
-    outputSource: filter/portal_fillout
 
   # qc
   as_metrics:
