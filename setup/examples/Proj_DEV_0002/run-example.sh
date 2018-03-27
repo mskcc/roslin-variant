@@ -3,6 +3,7 @@
 pipeline_name_version="variant/1.3.1"
 
 roslin_request_to_yaml.py \
+    --pipeline ${pipeline_name_version} \
     -m Proj_DEV_0002_sample_mapping.txt \
     -p Proj_DEV_0002_sample_pairing.txt \
     -g Proj_DEV_0002_sample_grouping.txt \
