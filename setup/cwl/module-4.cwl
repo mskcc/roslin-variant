@@ -163,13 +163,13 @@ steps:
                     out: [fillout_out]
 
     ngs_filters:
-        run: ngs-filters/1.2/ngs-filters.cwl
+        run: ngs-filters/1.2.1/ngs-filters.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             inputMaf: fillout_tumor_normal/portal_fillout
             outputMaf:
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".MUTS.maf" }
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".muts.maf" }
             NormalPanelMaf: fillout_second/fillout_curated_bams
             inputHSP: hotspot_list
         out: [output]

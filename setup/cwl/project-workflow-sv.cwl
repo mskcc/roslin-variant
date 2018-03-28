@@ -86,6 +86,7 @@ inputs:
           secondaryFiles:
             - .tbi
         hotspot_list: File
+        hotspot_vcf: File
         curated_bams:
           type:
             type: array
@@ -311,7 +312,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -369,6 +370,7 @@ steps:
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
+      hotspot_vcf: pairing/hotspot_vcf
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct

@@ -81,7 +81,7 @@ inputs:
 
   a:
     type: ['null', float]
-    default: 0.1
+    default: 0.04
     doc: min. fractional ALT support
     inputBinding:
       prefix: --altaf

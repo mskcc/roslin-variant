@@ -76,6 +76,8 @@ inputs:
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
+    hotspot_vcf:
+        type: File
 
 outputs:
 
@@ -254,23 +256,26 @@ steps:
                     outputSource: pindel_filtering_step/vcf
             steps:
                 mutect_filtering_step:
-                    run: basic-filtering.mutect/0.1.8/basic-filtering.mutect.cwl
+                    run: basic-filtering.mutect/0.2.0/basic-filtering.mutect.cwl
                     in:
                         inputVcf: mutect_vcf
                         inputTxt: mutect_callstats
                         tsampleName: tumor_sample_name
+                        hotspotVcf: hotspot_vcf
                     out: [vcf]
                 pindel_filtering_step:
-                    run: basic-filtering.pindel/0.1.8/basic-filtering.pindel.cwl
+                    run: basic-filtering.pindel/0.2.0/basic-filtering.pindel.cwl
                     in:
                         inputVcf: pindel_vcf
                         tsampleName: tumor_sample_name
+                        hotspotVcf: hotspot_vcf
                     out: [vcf]
                 vardict_filtering_step:
-                    run: basic-filtering.vardict/0.1.8/basic-filtering.vardict.cwl
+                    run: basic-filtering.vardict/0.2.0/basic-filtering.vardict.cwl
                     in:
                         inputVcf: vardict_vcf
                         tsampleName: tumor_sample_name
+                        hotspotVcf: hotspot_vcf
                     out: [vcf]
     normalize:
         in:

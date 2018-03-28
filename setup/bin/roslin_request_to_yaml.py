@@ -230,6 +230,7 @@ if __name__ == "__main__":
         'vep_data': str(REQUEST_FILES['vep_data']),
         'curated_bams': curated_bams,
         'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
+        'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
         'ref_fasta':  str(REQUEST_FILES['ref_fasta'])
     }
     files.update(intervals)
