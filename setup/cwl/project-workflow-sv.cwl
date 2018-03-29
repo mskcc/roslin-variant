@@ -370,7 +370,7 @@ steps:
       mutect_dcov: pairing/mutect_dcov
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
-      hotspot_vcf: pairing/hotspot_vcf
+      hotspot_vcf: projparse/hotspot_vcf
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
