@@ -48,8 +48,8 @@ requirements:
 
 inputs:
 
-  fastq1: File[]
-  fastq2: File[]
+  fastq1: string[]
+  fastq2: string[]
   adapter: string
   adapter2: string
   bwa_output: string
@@ -89,7 +89,7 @@ steps:
       ResourceRequirement:
         ramMin: 8
         coresMin: 2
-    run: cmo-split-reads/1.0.0/cmo-split-reads.cwl
+    run: cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2

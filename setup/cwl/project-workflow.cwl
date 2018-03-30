@@ -139,14 +139,8 @@ inputs:
           ID: string
           PL: string
           PU: string[]
-          R1:
-            type:
-              type: array
-              items: File
-          R2:
-            type:
-              type: array
-              items: File
+          R1: string[]
+          R2: string[]
           RG_ID: string[]
           adapter: string
           adapter2: string

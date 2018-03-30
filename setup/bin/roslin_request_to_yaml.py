@@ -160,7 +160,7 @@ def sort_fastqs_into_dict(files):
         for readset in sorted[sample]:
             for read in ["R1", "R2"]:
                 try:
-                    paired_by_sample[read].append({"class": "File", "path": sorted[sample][readset][read]})
+                    paired_by_sample[read].append(os.path.abspath(sorted[sample][readset][read]))
                 except:
                     print >>sys.stderr, "cant find %s for %s" % (read, readset)
                     print >>sys.stderr, "aligning as single end"
