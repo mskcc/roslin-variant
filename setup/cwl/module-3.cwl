@@ -102,6 +102,9 @@ outputs:
     facets_seg:
         type: File
         outputSource: call_variants/facets_seg
+    facets_counts:
+        type: File
+        outputSource: call_variants/facets_counts
     mutect_vcf:
         type: File
         outputSource: call_variants/mutect_vcf
@@ -136,7 +139,7 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg]
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
         run:
             class: Workflow
             inputs:
@@ -182,6 +185,9 @@ steps:
                 facets_seg:
                     type: File
                     outputSource: facets/facets_seg_output
+                facets_counts:
+                    type: File
+                    outputSource: facets/facets_counts_output
             steps:
                 facets:
                     run: facets.cwl
@@ -190,7 +196,7 @@ steps:
                         tumor_bam: tumor_bam
                         tumor_sample_name: tumor_sample_name 
                         genome: genome
-                    out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output]
+                    out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
                     in:

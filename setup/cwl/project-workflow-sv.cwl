@@ -249,6 +249,11 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/facets_seg
+  facets_counts:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/facets_counts
   facets_portal:
     type: File
     outputSource: create_portal_file_from_facets/outfile
@@ -365,7 +370,7 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
       hotspot_vcf: projparse/hotspot_vcf
-    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 

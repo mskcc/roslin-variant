@@ -80,6 +80,10 @@ outputs:
     type: File[]
     outputSource: facets/seg_files
 
+  facets_counts_output:
+    type: File[]
+    outputSource: snp_pileup/out_file
+
 steps:
   snp_pileup:
     in:
