@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-facets.geneLevel
-  doap:revision: 1.5.5
+  doap:revision: 1.5.6
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
