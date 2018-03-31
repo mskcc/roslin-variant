@@ -31,7 +31,8 @@ export VAGRANT_VAGRANTFILE=Vagrantfile_test
 # Set tmp and test directory
 export TMPDIR="/srv/scratch/"
 export TMP="/srv/scratch/"
-export TOIL_LSF_ARGS='-S 1'
+# Estimated walltime <60min allows jobs in short queue i.e. much less time in PEND state
+export TOIL_LSF_ARGS='-S 1 -We 0:59'
 TempDir=/srv/scratch/$BUILD_NUMBER
 TestDir=test_output/$BUILD_NUMBER
 # Start vagrant to build the pipeline
