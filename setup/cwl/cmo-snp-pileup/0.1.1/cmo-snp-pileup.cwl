@@ -55,11 +55,12 @@ baseCommand:
 - --language
 - "bash"
 - snp-pileup
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 6
-    coresMin: 2
+    ramMin: 8
+    coresMin: 1
 
 
 doc: |

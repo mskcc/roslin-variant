@@ -46,8 +46,8 @@ baseCommand: [cmo_abra]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
-    coresMin: 15
+    ramMin: 36
+    coresMin: 8
 
 
 doc: |
@@ -136,16 +136,15 @@ inputs:
 
   in:
     type: 
-
       type: array
       items: File
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
       itemSeparator: ','
       prefix: --in
-
     secondaryFiles:
     - ^.bai
+
   rcf:
     type: ['null', string]
     doc: Minimum read candidate fraction for triggering assembly (default - 0.01)
@@ -164,8 +163,8 @@ inputs:
     doc: Number of threads (default - 4)
     inputBinding:
       prefix: --threads
+    default: '8'
 
-    default: '15'
   adc:
     type: ['null', string]
     doc: Skip regions with average depth greater than this value (default - 100000)

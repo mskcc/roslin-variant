@@ -54,7 +54,7 @@ class: CommandLineTool
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 21
+    ramMin: 16
     coresMin: 1
 
 baseCommand:

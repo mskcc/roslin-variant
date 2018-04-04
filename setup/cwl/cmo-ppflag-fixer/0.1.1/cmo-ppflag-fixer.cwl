@@ -52,10 +52,11 @@ baseCommand:
 - --language
 - "bash"
 - ppflag-fixer
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 5
+    ramMin: 8
     coresMin: 1
 
 

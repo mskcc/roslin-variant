@@ -34,10 +34,6 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_facets doFacets --generate_cwl_tool
-# Help: $ cmo_facets doFacets --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
@@ -56,8 +52,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 7
-    coresMin: 2
+    ramMin: 8
+    coresMin: 1
 
 doc: |
   Run FACETS on tumor-normal SNP read counts generated using cmo_snp-pileup

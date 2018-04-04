@@ -51,9 +51,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 25
-    coresMin: 5
-
+    ramMin: 24
+    coresMin: 2
 
 doc: |
   None
@@ -473,11 +472,9 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - type: array
-      items: string
-
-    doc: How many CPU threads should be allocated per data thread to running this
-      analysis?
+    - int
+    default: 4
+    doc: How many CPU threads should be allocated per data thread to running this analysis?
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
 

@@ -49,8 +49,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
-    coresMin: 5
+    ramMin: 16
+    coresMin: 4
 
 doc: |
   run bwa mem
@@ -261,8 +261,8 @@ inputs:
     doc: INT number of threads [1]
     inputBinding:
       prefix: -t
+    default: '6'
 
-    default: '5'
   w:
     type: ['null', string]
     doc: INT band width for banded alignment [100]

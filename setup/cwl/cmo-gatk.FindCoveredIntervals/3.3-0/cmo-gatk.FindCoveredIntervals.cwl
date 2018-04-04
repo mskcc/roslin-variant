@@ -34,10 +34,6 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_gatk --generate_cwl_tool
-# Help: $ cmo_gatk --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
@@ -51,8 +47,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 15
-    coresMin: 1
+    ramMin: 24
+    coresMin: 2
 
 doc: |
   None
@@ -476,9 +472,8 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - int
+    default: 4
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread

@@ -34,10 +34,6 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_list2bed -o FILENAME --generate_cwl_tool
-# Help: $ cmo_list2bed  --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
@@ -49,9 +45,8 @@ requirements:
     ramMin: 2
     coresMin: 1
 
-
 doc: |
-  rerun a FIZZLED Job
+  Convert a Picard interval list file to a UCSC BED format
 
 inputs:
   input_file:

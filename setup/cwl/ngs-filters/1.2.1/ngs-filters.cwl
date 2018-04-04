@@ -50,12 +50,12 @@ baseCommand:
 - "default"
 - --language
 - "python"
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 24
-    coresMin: 4
-
+    coresMin: 1
 
 doc: |
   This tool flags false-positive somatic calls in a given MAF file
@@ -70,7 +70,6 @@ inputs:
 
   inputMaf:
     type: 
-
     - File
     doc: Input maf file which needs to be tagged
     inputBinding:
@@ -78,7 +77,6 @@ inputs:
 
   outputMaf:
     type: string
-
     doc: Output maf file name
     inputBinding:
       prefix: --output-maf

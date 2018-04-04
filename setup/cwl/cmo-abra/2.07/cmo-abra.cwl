@@ -49,7 +49,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
+    ramMin: 36
     coresMin: 8
 
 
@@ -62,8 +62,8 @@ inputs:
     doc: Number of threads (default - 4)
     inputBinding:
       prefix: --threads
-
     default: '8'
+
   bwa_ref:
     type: ['null', string]
     doc: bwa ref
@@ -164,16 +164,15 @@ inputs:
 
   in:
     type: 
-
       type: array
       items: File
     doc: Required list of input sam or bam file (s) separated by comma
     inputBinding:
       itemSeparator: ','
       prefix: --in
-
     secondaryFiles:
     - ^.bai
+
   ca:
     type: ['null', string]
     doc: Contig anchor [M_bases_at_contig_edge, max_mismatches_at_edge (default -
@@ -198,6 +197,7 @@ inputs:
     inputBinding:
       prefix: --working
     type: string
+
   cl:
     type: ['null', string]
     doc: Compression level of output bam file (s) (default - 5)

@@ -34,10 +34,6 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_gatk --generate_cwl_tool
-# Help: $ cmo_gatk --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
@@ -51,9 +47,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
-    coresMin: 4
-
+    ramMin: 24
+    coresMin: 2
 
 doc: |
   None
@@ -77,7 +72,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Reads arguments from the specified file
     inputBinding:
       prefix: --arg_file
@@ -90,6 +84,7 @@ inputs:
       inputBinding:
         prefix: --input_file
     doc: Input file containing sequence data (SAM or BAM)
+
   read_buffer_size:
     type:
     - 'null'
@@ -105,8 +100,7 @@ inputs:
     - 'null'
     - type: array
       items: string
-
-    doc: Run reporting mode (NO_ET|AWS| STDOUT)
+    doc: Run reporting mode (NO_ET|AWS|STDOUT)
     inputBinding:
       prefix: --phone_home
 
@@ -115,7 +109,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: GATK key file required to run with -et NO_ET
     inputBinding:
       prefix: --gatk_key
@@ -125,7 +118,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Tag to identify this GATK run as part of a group of runs
     inputBinding:
       prefix: --tag
@@ -135,7 +127,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Filters to apply to reads before analysis
     inputBinding:
       prefix: --read_filter
@@ -145,7 +136,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: One or more genomic intervals over which to operate
     inputBinding:
       prefix: --intervals
@@ -155,7 +145,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: One or more genomic intervals to exclude from processing
     inputBinding:
       prefix: --excludeIntervals
@@ -165,7 +154,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Set merging approach to use for combining interval inputs (UNION|INTERSECTION)
     inputBinding:
       prefix: --interval_set_rule
@@ -175,7 +163,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Interval merging rule for abutting intervals (ALL| OVERLAPPING_ONLY)
     inputBinding:
       prefix: --interval_merging
@@ -185,7 +172,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Amount of padding (in bp) to add to each interval
     inputBinding:
       prefix: --interval_padding
@@ -210,7 +196,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Stop execution cleanly as soon as maxRuntime has been reached
     inputBinding:
       prefix: --maxRuntime
@@ -220,7 +205,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Unit of time used by maxRuntime (NANOSECONDS|MICROSECONDS| MILLISECONDS|SECONDS|MINUTES|
       HOURS|DAYS)
     inputBinding:
@@ -231,8 +215,7 @@ inputs:
     - 'null'
     - type: array
       items: string
-
-    doc: Type of read downsampling to employ at a given locus (NONE| ALL_READS|BY_SAMPLE)
+    doc: Type of read downsampling to employ at a given locus (NONE|ALL_READS|BY_SAMPLE)
     inputBinding:
       prefix: --downsampling_type
 
@@ -241,7 +224,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Fraction of reads to downsample to
     inputBinding:
       prefix: --downsample_to_fraction
@@ -251,7 +233,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Target coverage threshold for downsampling to coverage
     inputBinding:
       prefix: --downsample_to_coverage
@@ -261,7 +242,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Type of BAQ calculation to apply in the engine (OFF| CALCULATE_AS_NECESSARY|
       RECALCULATE)
     inputBinding:
@@ -272,7 +252,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: BAQ gap open penalty
     inputBinding:
       prefix: --baqGapOpenPenalty
@@ -310,7 +289,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Assign a default base quality
     inputBinding:
       prefix: --defaultBaseQualities
@@ -320,7 +298,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Write GATK runtime performance log to this file
     inputBinding:
       prefix: --performanceLog
@@ -330,7 +307,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Input covariates table file for on-the-fly base quality score recalibration
     inputBinding:
       prefix: --BQSR
@@ -354,7 +330,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Don't recalibrate bases with quality scores less than this threshold (with
       -BQSR)
     inputBinding:
@@ -365,7 +340,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Global Qscore Bayesian prior to use for BQSR
     inputBinding:
       prefix: --globalQScorePrior
@@ -375,7 +349,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: How strict should we be with validation (STRICT|LENIENT| SILENT)
     inputBinding:
       prefix: --validation_strictness
@@ -399,7 +372,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Rename sample IDs on-the-fly at runtime using the provided mapping file
     inputBinding:
       prefix: --sample_rename_mapping_file
@@ -409,7 +381,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Enable unsafe operations - nothing will be checked at runtime (ALLOW_N_CIGAR_READS|
       ALLOW_UNINDEXED_BAM| ALLOW_UNSET_BAM_SORT_ORDER| NO_READ_ORDER_VERIFICATION|
       ALLOW_SEQ_DICT_INCOMPATIBILITY| LENIENT_VCF_PROCESSING|ALL)
@@ -419,8 +390,7 @@ inputs:
   sites_only:
     type: ['null', boolean]
     default: false
-    doc: Just output sites without genotypes (i.e. only the first 8 columns of the
-      VCF)
+    doc: Just output sites without genotypes (i.e. only the first 8 columns of the VCF)
     inputBinding:
       prefix: --sites_only
 
@@ -436,7 +406,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Compression level to use for writing BAM files (0 - 9, higher is more compressed)
     inputBinding:
       prefix: --bam_compression
@@ -470,7 +439,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Number of data threads to allocate to this analysis
     inputBinding:
       prefix: --num_threads
@@ -478,9 +446,8 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - int
+    default: 4
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
@@ -497,7 +464,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Total number of BAM file handles to keep open simultaneously
     inputBinding:
       prefix: --num_bam_file_handles
@@ -507,7 +473,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Exclude read groups based on tags
     inputBinding:
       prefix: --read_group_black_list
@@ -517,7 +482,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Pedigree files for samples
     inputBinding:
       prefix: --pedigree
@@ -527,7 +491,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Pedigree string for samples
     inputBinding:
       prefix: --pedigreeString
@@ -537,7 +500,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Validation strictness for pedigree information (STRICT| SILENT)
     inputBinding:
       prefix: --pedigreeValidationType
@@ -547,7 +509,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Type of IndexCreator to use for VCF/BCF indices (DYNAMIC_SEEK| DYNAMIC_SIZE|LINEAR|INTERVAL)
     inputBinding:
       prefix: --variant_index_type
@@ -557,7 +518,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Parameter to pass to the VCF/BCF IndexCreator
     inputBinding:
       prefix: --variant_index_parameter
@@ -567,7 +527,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Set the minimum level of logging
     inputBinding:
       prefix: --logging_level
@@ -577,7 +536,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Set the logging location
     inputBinding:
       prefix: --log_to_file
@@ -599,6 +557,7 @@ inputs:
     doc: A database of known polymorphic sites to skip over in the recalibration algorithm
     secondaryFiles:
     - .idx
+
   list:
     type: ['null', boolean]
     default: false
@@ -614,6 +573,7 @@ inputs:
         prefix: --covariate
     doc: One or more covariates to be used in the recalibration. Can be specified
       multiple times
+
   no_standard_covs:
     type: ['null', boolean]
     default: false
@@ -629,7 +589,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: How should we recalibrate solid bases in which the reference was inserted?
       Options = DO_NOTHING, SET_Q_ZERO, SET_Q_ZERO_BASE_N, or REMOVE_REF_BIAS (DO_NOTHING|
       SET_Q_ZERO|SET_Q_ZERO_BASE_N| REMOVE_REF_BIAS)
@@ -641,7 +600,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Defines the behavior of the recalibrator when it encounters no calls in the
       color space. Options = THROW_EXCEPTION, LEAVE_READ_UNRECALIBRATED, or PURGE_READ
       (THROW_EXCEPTION| LEAVE_READ_UNRECALIBRATED| PURGE_READ)
@@ -653,7 +611,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Size of the k-mer context to be used for base mismatches
     inputBinding:
       prefix: --mismatches_context_size

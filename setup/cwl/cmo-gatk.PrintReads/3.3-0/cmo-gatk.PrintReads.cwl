@@ -51,9 +51,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
+    ramMin: 36
     coresMin: 4
-
 
 doc: |
   None
@@ -153,7 +152,6 @@ inputs:
     - 'null'
     - type: array
       items: string
-
     doc: Reads arguments from the specified file
     inputBinding:
       prefix: --arg_file
@@ -551,7 +549,8 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - string
+    - int
+    default: 4
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread

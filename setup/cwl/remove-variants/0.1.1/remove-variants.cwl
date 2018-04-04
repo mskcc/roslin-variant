@@ -54,12 +54,12 @@ baseCommand:
 - "default"
 - --language
 - "python"
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
-
+    ramMin: 8
+    coresMin: 1
 
 doc: |
   Remove snps/indels from the output maf where a complex variant is called
