@@ -112,7 +112,7 @@ inputs:
     default: 0.01
     doc: Tumor variant frequency threshold
     inputBinding:
-      prefix: --variantfrequency
+      prefix: --variantfraction
 
   mq:
     type: ['null', int]

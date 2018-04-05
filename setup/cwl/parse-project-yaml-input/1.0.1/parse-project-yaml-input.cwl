@@ -64,8 +64,7 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
-
-
+        hotspot_vcf: File
   groups:
     type:
       type: array
@@ -274,10 +273,6 @@ outputs:
     type:
       type: array
       items: File
-  hotspot_vcf:
-    type:
-      type: array
-      items: File
   group_ids:
     type:
       type: array
@@ -290,6 +285,7 @@ outputs:
   fp_genotypes: File
   request_file: File
   pairing_file: File
+  hotspot_vcf: File
   grouping_file: File
   opt_dup_pix_dist: string
 
@@ -334,6 +330,7 @@ project_object['fp_intervals']=inputs.db_files.fp_intervals;
 project_object['fp_genotypes']=inputs.db_files.fp_genotypes;
 project_object['request_file']=inputs.db_files.request_file;
 project_object['pairing_file']=inputs.db_files.pairing_file;
+project_object['hotspot_vcf']=inputs.db_files.hotspot_vcf;
 project_object['grouping_file']=inputs.db_files.grouping_file;
 project_object['genome']=inputs.runparams.genome;
 project_object['project_prefix']=inputs.runparams.project_prefix;

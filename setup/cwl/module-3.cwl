@@ -76,8 +76,7 @@ inputs:
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
-    hotspot_vcf:
-        type: File
+    hotspot_vcf: File
 
 outputs:
 
@@ -241,6 +240,7 @@ steps:
             vardict_vcf: call_variants/vardict_vcf
             pindel_vcf: call_variants/pindel_vcf
             tumor_sample_name: tumor_sample_name
+            hotspot_vcf: hotspot_vcf
         out: [vardict_vcf_filtering_output, pindel_vcf_filtering_output, mutect_vcf_filtering_output]
         run:
             class: Workflow
@@ -249,6 +249,7 @@ steps:
                 mutect_callstats: File
                 vardict_vcf: File
                 pindel_vcf: File
+                hotspot_vcf: File
                 tumor_sample_name: string
             outputs:                
                 mutect_vcf_filtering_output:
