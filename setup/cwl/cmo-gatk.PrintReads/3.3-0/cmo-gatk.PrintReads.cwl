@@ -549,8 +549,7 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - int
-    default: 4
+    - string
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
