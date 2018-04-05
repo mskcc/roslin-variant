@@ -100,8 +100,9 @@ def get_sample_list(clinical_data_path):
 	sample_list.pop(0)
 	return sample_list
 
-def generate_maf_data(maf_directory,output_directory,maf_file_name,log_directory,script_path):
+def generate_maf_data(maf_directory,output_directory,maf_file_name,log_directory,script_path,pipeline_version_str):
 	maf_files_query_all = glob.glob(os.path.join(maf_directory,'*.maf'))
+	pipeline_version_str_arg = pipeline_version_str.replace(" ","_")
 	maf_files_query_list = [ single_maf for single_maf in maf_files_query_all if ".vep." not in single_maf]
 	maf_files_query = ' '.join(maf_files_query_list)
 	combined_output = maf_file_name.replace('.txt','.combined.txt')
@@ -115,7 +116,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,log_directory
 
 	retrieve_header_command = 'bsub -e '+maf_header_err_log+' "grep -h --regexp=^Hugo '+ maf_files_query + ' | head -n1 > ' + combined_output_path + '"'	
 	retrieve_data_command = 'bsub -e '+maf_err_log+' "grep -hEv '+ regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_path + '"'
-	convert_float_to_int_command = 'bsub -e '+float_to_int_err_log+' "python '+portal_float_to_int_script_path+' '+combined_output_path + '"'
+	convert_float_to_int_command = 'bsub -e '+float_to_int_err_log+' "python '+portal_float_to_int_script_path+' '+combined_output_path + ' ' + pipeline_version_str_arg + '"'
  
 	maf_header_stdout = subprocess.check_output(retrieve_header_command,shell=True)
 	header_command_id = re.findall("(\d{8})",maf_header_stdout)[0]
@@ -466,7 +467,7 @@ if __name__ == '__main__':
 	#clinical_data = generate_clinical_data(sample_info,clinical_config_data)
 	#patient_meta = generate_patient_meta(portal_config_data,patient_data_file)
 	#patient_data = generate_patient_data(sample_info,patient_config_data)	 
-	generate_maf_data(args.maf_directory,output_directory,maf_file_name,log_directory,args.script_path)
+	generate_maf_data(args.maf_directory,output_directory,maf_file_name,log_directory,args.script_path,version_str)
 	logger.info('Finished generating maf data')
 	generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,log_directory)
 	logger.info('Finished generating discrete copy number data')
