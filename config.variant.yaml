@@ -16,5 +16,5 @@ dependencies:
       min: 2.0.2
       max: 2.0.2
   cmo:
-    version: 1.9.7
+    version: 1.9.8
     install-path: /ifs/work/pi/cmo_package_archive/
