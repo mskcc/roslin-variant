@@ -46,7 +46,7 @@ baseCommand: [cmo_split_reads]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 12
+    ramMin: 24
     coresMin: 1
 
 
