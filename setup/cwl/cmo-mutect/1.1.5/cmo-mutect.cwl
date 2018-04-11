@@ -400,8 +400,7 @@ inputs:
   num_threads:
     type:
     - 'null'
-    - type: array
-      items: string
+    - string
     doc: How many data threads should be allocated to running this analysis.
     inputBinding:
       prefix: --num_threads
@@ -409,9 +408,8 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - type: array
-      items: string
-   
+    - string
+    default: '4'
     doc: How many CPU threads should be allocated per data thread to running this analysis?
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
