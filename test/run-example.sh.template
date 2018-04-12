@@ -15,5 +15,4 @@ roslin_submit.py \
     --id Proj_DEV_0002 \
     --path . \
     --workflow project-workflow.cwl \
-    --pipeline ${pipeline_name_version} \
-    --single-node
+    --pipeline ${pipeline_name_version}
