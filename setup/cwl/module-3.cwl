@@ -76,6 +76,7 @@ inputs:
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
+    hotspot_vcf: File
 
 outputs:
 
@@ -100,6 +101,9 @@ outputs:
     facets_seg:
         type: File
         outputSource: call_variants/facets_seg
+    facets_counts:
+        type: File
+        outputSource: call_variants/facets_counts
     mutect_vcf:
         type: File
         outputSource: call_variants/mutect_vcf
@@ -134,7 +138,7 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg]
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
         run:
             class: Workflow
             inputs:
@@ -180,6 +184,9 @@ steps:
                 facets_seg:
                     type: File
                     outputSource: facets/facets_seg_output
+                facets_counts:
+                    type: File
+                    outputSource: facets/facets_counts_output
             steps:
                 facets:
                     run: facets.cwl
@@ -188,7 +195,7 @@ steps:
                         tumor_bam: tumor_bam
                         tumor_sample_name: tumor_sample_name 
                         genome: genome
-                    out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output]
+                    out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
                     in:
@@ -221,6 +228,7 @@ steps:
                         input_file_tumor: tumor_bam
                         read_filter: mutect_rf
                         downsample_to_coverage: mutect_dcov
+                        intervals: bed
                         vcf:
                             valueFrom: ${ return inputs.input_file_tumor.basename.replace(".bam",".") + inputs.input_file_normal.basename.replace(".bam", ".mutect.vcf") }
                         out:
@@ -233,6 +241,7 @@ steps:
             vardict_vcf: call_variants/vardict_vcf
             pindel_vcf: call_variants/pindel_vcf
             tumor_sample_name: tumor_sample_name
+            hotspot_vcf: hotspot_vcf
         out: [vardict_vcf_filtering_output, pindel_vcf_filtering_output, mutect_vcf_filtering_output]
         run:
             class: Workflow
@@ -241,6 +250,7 @@ steps:
                 mutect_callstats: File
                 vardict_vcf: File
                 pindel_vcf: File
+                hotspot_vcf: File
                 tumor_sample_name: string
             outputs:                
                 mutect_vcf_filtering_output:
@@ -254,23 +264,26 @@ steps:
                     outputSource: pindel_filtering_step/vcf
             steps:
                 mutect_filtering_step:
-                    run: basic-filtering.mutect/0.1.8/basic-filtering.mutect.cwl
+                    run: basic-filtering.mutect/0.2.0/basic-filtering.mutect.cwl
                     in:
                         inputVcf: mutect_vcf
                         inputTxt: mutect_callstats
                         tsampleName: tumor_sample_name
+                        hotspotVcf: hotspot_vcf
                     out: [vcf]
                 pindel_filtering_step:
-                    run: basic-filtering.pindel/0.1.8/basic-filtering.pindel.cwl
+                    run: basic-filtering.pindel/0.2.0/basic-filtering.pindel.cwl
                     in:
                         inputVcf: pindel_vcf
                         tsampleName: tumor_sample_name
+                        hotspotVcf: hotspot_vcf
                     out: [vcf]
                 vardict_filtering_step:
-                    run: basic-filtering.vardict/0.1.8/basic-filtering.vardict.cwl
+                    run: basic-filtering.vardict/0.2.0/basic-filtering.vardict.cwl
                     in:
                         inputVcf: vardict_vcf
                         tsampleName: tumor_sample_name
+                        hotspotVcf: hotspot_vcf
                     out: [vcf]
     normalize:
         in:

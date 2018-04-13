@@ -10,7 +10,6 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-
 doap:release:
 - class: doap:Version
   doap:name: basic-filtering.somaticIndelDetector
@@ -54,8 +53,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
+    ramMin: 8
+    coresMin: 1
 
 
 doc: |

@@ -34,10 +34,6 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ run_ngs-filters.py --generate_cwl_tool
-# Help: $ run_ngs --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
@@ -51,12 +47,12 @@ baseCommand:
 - "default"
 - --language
 - "python"
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 24
-    coresMin: 4
-
+    coresMin: 1
 
 doc: |
   This tool flags false-positive somatic calls in a given MAF file
@@ -71,7 +67,6 @@ inputs:
 
   inputMaf:
     type: 
-
     - File
     doc: Input maf file which needs to be tagged
     inputBinding:
@@ -79,7 +74,6 @@ inputs:
 
   outputMaf:
     type: string
-
     doc: Output maf file name
     inputBinding:
       prefix: --output-maf

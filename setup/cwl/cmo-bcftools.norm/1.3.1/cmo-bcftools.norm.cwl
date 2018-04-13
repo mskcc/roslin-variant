@@ -47,8 +47,8 @@ baseCommand: [cmo_bcftools, norm]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20
-    coresMin: 2
+    ramMin: 16
+    coresMin: 1
 
 doc: |
   left-align and normalize indels

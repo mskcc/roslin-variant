@@ -41,9 +41,10 @@ baseCommand:
 - cmo_index
 - --version
 - "2.9"
+
 requirements:
   ResourceRequirement:
-    ramMin: 15
+    ramMin: 16
     coresMin: 1
 
 inputs:

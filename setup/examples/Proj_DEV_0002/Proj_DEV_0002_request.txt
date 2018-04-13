@@ -1,4 +1,5 @@
 Run_Pipeline: variants
+Pipelines: variants
 PI: soccin
 PI_Name: Nicholas D. Socci
 Investigator: donoghum
@@ -8,12 +9,7 @@ Data_Analyst_E-mail: webbera@mskcc.org
 ProjectID: Proj_DEV_0002
 ProjectFolder: /ifs/projects/BIC/variant/Proj_UTest02_s16
 Species: Human
-Assay: AgilentExon_51MB_b37_v3
-Pipelines: variants
+Assay: IMPACT468
 RunNumber: 2
 Reason_for_rerun: Unit test consistency check and measure pipeine indeterminism
 Comments: Use ABRA version of pipeline, re-run
-
-Charges::
-    CC/FN: CMO R&D
-    Variants_V1

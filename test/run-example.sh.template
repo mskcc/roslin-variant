@@ -3,6 +3,7 @@
 pipeline_name_version="PIPELINE_NAME/PIPELINE_VERSION"
 
 roslin_request_to_yaml.py \
+    --pipeline ${pipeline_name_version} \
     -m Proj_DEV_0002_sample_mapping.txt \
     -p Proj_DEV_0002_sample_pairing.txt \
     -g Proj_DEV_0002_sample_grouping.txt \
@@ -10,14 +11,8 @@ roslin_request_to_yaml.py \
     -o . \
     -f inputs.yaml
 
-# nohup roslin-runner.sh \
-#     -v ${pipeline_name_version} \
-#     -w project-workflow.cwl \
-#     -i inputs.yaml \
-#     -b lsf &
-
 roslin_submit.py \
-   --id Proj_DEV_0002 \
-   --path . \
-   --workflow project-workflow.cwl \
-   --pipeline ${pipeline_name_version}
+    --id Proj_DEV_0002 \
+    --path . \
+    --workflow project-workflow.cwl \
+    --pipeline ${pipeline_name_version}

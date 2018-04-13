@@ -3,11 +3,14 @@ import os
 import csv
 
 input_file = sys.argv[1]
+roslin_version_string = [2]
+roslin_version_line = "#VERSIONS: " + roslin_version_string.replace("_"," ")
 fixed_output_file = input_file.replace('.combined.txt','.txt')
 
 with open(input_file,'r') as maf_file, open(fixed_output_file,'w') as maf_file_fixed:
 	header = maf_file.readline().strip('\r\n').split('\t')
 	header_line = '\t'.join(header) + '\n'
+	maf_file_fixed.write(roslin_version_line)
 	maf_file_fixed.write(header_line)
 	ref_position = header.index('n_ref_count')
 	alt_position = header.index('n_alt_count')

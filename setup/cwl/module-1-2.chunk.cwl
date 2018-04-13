@@ -52,13 +52,13 @@ inputs:
       type: array
       items:
         type: array
-        items: File
+        items: string
   fastq2:
     type:
       type: array
       items:
         type: array
-        items: File
+        items: string
   adapter:
     type:
       type: array

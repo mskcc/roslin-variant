@@ -1,6 +1,6 @@
 name: variant
-version: 2.0.1
-description: Roslin Variant Pipeline v2.0.1
+version: 2.2.0
+description: Roslin Variant Pipeline v2.2.0
 root: /ifs/work/pi/roslin-pipelines
 binding:
   core: bin
@@ -13,8 +13,8 @@ binding:
 dependencies:
   core:
     version:
-      min: 2.0.0
-      max: 2.0.0
+      min: 2.0.2
+      max: 2.0.2
   cmo:
-    version: 1.9.4
+    version: 1.9.8
     install-path: /ifs/work/pi/cmo_package_archive/

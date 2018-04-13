@@ -49,7 +49,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
+    ramMin: 36
     coresMin: 8
 
 
@@ -62,8 +62,8 @@ inputs:
     doc: Number of threads (default - 4)
     inputBinding:
       prefix: --threads
-
     default: '8'
+
   bwa_ref:
     type: ['null', string]
     doc: bwa ref
