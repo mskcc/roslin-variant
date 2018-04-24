@@ -125,6 +125,8 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         assay = "IMPACT341_b37"
     if assay.find("IDT_Exome_v1_FP") > -1:
         assay = "IDT_Exome_v1_FP_b37"
+    if assay.find("IMPACT468+08390") > -1:
+        assay = "IMPACT468_08390"
 
     if assay in targets:
         return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
