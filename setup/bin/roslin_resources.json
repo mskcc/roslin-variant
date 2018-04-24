@@ -371,7 +371,7 @@
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.intervals",
             "targets_plus5bp_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets_plus5bp.ilist"
         },
-        "IDT_Exome_v1_FP": {
+        "IDT_Exome_v1_FP_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_intervals.intervals",
             "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.bed",
@@ -404,6 +404,12 @@
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals",
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
+        },
+        "IMPACT468_08390": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_intervals.intervals",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_b37_baits.ilist",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_b37_targets.ilist"
         },
         "Agilent_v4_51MB_Human": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
