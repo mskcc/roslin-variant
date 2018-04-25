@@ -77,24 +77,28 @@ def generate_clinical_data(clinical_data_path,clinical_output_path,coverage_valu
 	patient_data_file = patient_data_file_header + '\n' + patient_data_file_body
 	return {'patient_data_file':patient_data_file,'clinical_data_file':clinical_data_file,'sample_list':sample_list}
 
-def generate_legacy_clinical_data(clinical_data_path,clinical_output_path,coverage_values):
+def generate_legacy_clinical_data(clinical_data_path,clinical_output_path,coverage_values,msi_scores):
 	with open(clinical_data_path) as input_file, open(clinical_output_path,'w') as output_file:
 		writer = csv.writer(output_file, lineterminator='\n',dialect='excel-tab')
 		reader = csv.reader(input_file,dialect='excel-tab')
 		clinical_data = []
 		row = reader.next()
 		row.append('SAMPLE_COVERAGE')
+		row.append('MSI_SCORE')
 		clinical_data.append(row)
 		for row in reader:
+			print row
 			coverage_value = coverage_values[row[0]]
+			msi_score = msi_scores[row[0]]
 			row.append(coverage_value)
+			row.append(msi_score)
 			clinical_data.append(row)
 		writer.writerows(clinical_data)
 
 def get_sample_list(clinical_data_path):
 	sample_list = []
 	with open(clinical_data_path) as input_file:
-		reader = csv.reader(input_file)		
+		reader = csv.reader(input_file)
 		for row in reader:
 			sample_list.append(row[0])
 	sample_list.pop(0)
@@ -114,10 +118,10 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,log_directory
 	regexp_string = "--regexp='^(Hugo|#)'"
 	portal_float_to_int_script_path = os.path.join(script_path,'Roslin_Portal_Float_To_Int.py')
 
-	retrieve_header_command = 'bsub -e '+maf_header_err_log+' "grep -h --regexp=^Hugo '+ maf_files_query + ' | head -n1 > ' + combined_output_path + '"'	
+	retrieve_header_command = 'bsub -e '+maf_header_err_log+' "grep -h --regexp=^Hugo '+ maf_files_query + ' | head -n1 > ' + combined_output_path + '"'
 	retrieve_data_command = 'bsub -e '+maf_err_log+' "grep -hEv '+ regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_path + '"'
 	convert_float_to_int_command = 'bsub -e '+float_to_int_err_log+' "python '+portal_float_to_int_script_path+' '+combined_output_path + ' ' + pipeline_version_str_arg + '"'
- 
+
 	maf_header_stdout = subprocess.check_output(retrieve_header_command,shell=True)
 	header_command_id = re.findall("(\d{8})",maf_header_stdout)[0]
 	wait_for_job_to_finish(header_command_id,'maf header copy')
@@ -138,8 +142,8 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
 	fusion_filter_err_log = os.path.join(log_directory,'fusion_filter_err.txt')
 	fusion_filter_out_log = os.path.join(log_directory,'fusion_filter_out.txt')
 	fussion_script_path = os.path.join(script_path,'fusion_filter.py')
-	#create_file_command = 'touch '+output_path	
-	retrieve_header_command = 'bsub -e '+fusion_header_err_log+' "grep -h --regexp=^Hugo '+ fusion_files_query + ' | head -n1 > ' + combined_output_path + '"'	
+	#create_file_command = 'touch '+output_path
+	retrieve_header_command = 'bsub -e '+fusion_header_err_log+' "grep -h --regexp=^Hugo '+ fusion_files_query + ' | head -n1 > ' + combined_output_path + '"'
 	retrieve_data_command = 'bsub -e '+fusion_err_log+' "grep -hEv --regexp=^Hugo '+ fusion_files_query + ' >> ' + combined_output_path + '"'
 	filter_columns_command = 'bsub -e '+fusion_filter_err_log+' -o '+fusion_filter_out_log+' "python '+fussion_script_path+' '+combined_output_path + '"'
 	fusion_header_stdout = subprocess.check_output(retrieve_header_command,shell=True)
@@ -174,8 +178,8 @@ def generate_segmented_data(data_directory,output_directory,data_filename,log_di
 	output_path = os.path.join(output_directory,data_filename)
 	combined_output_path = os.path.join(output_directory,combined_output)
 	segmented_header_err_log = os.path.join(log_directory,'segmented_header_err.txt')
-	segmented_err_log = os.path.join(log_directory,'segmented_err.txt')		
-	retrieve_header_command = 'bsub -e '+segmented_header_err_log+' "grep -h --regexp=^ID '+ segmented_files_query + ' | head -n1 > ' + combined_output_path + '"'	
+	segmented_err_log = os.path.join(log_directory,'segmented_err.txt')
+	retrieve_header_command = 'bsub -e '+segmented_header_err_log+' "grep -h --regexp=^ID '+ segmented_files_query + ' | head -n1 > ' + combined_output_path + '"'
 	retrieve_data_command = 'bsub -e '+segmented_err_log+' "grep -hEv --regexp=^ID '+ segmented_files_query + ' >> ' + combined_output_path + '"'
 	segmented_header_stdout = subprocess.check_output(retrieve_header_command,shell=True)
 	header_command_id = re.findall("(\d{8})",segmented_header_stdout)[0]
@@ -234,10 +238,10 @@ def generate_case_lists(portal_config_data,sample_list,output_directory):
 	create_case_list_file(cases_sequenced_path,cases_sequenced_data)
 
 def generate_segmented_meta(portal_config_data, data_filename):
-	segmented_meta_data = {}	
+	segmented_meta_data = {}
 	segmented_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
 	segmented_meta_data['genetic_alteration_type'] = 'COPY_NUMBER_ALTERATION'
-	segmented_meta_data['datatype'] = 'SEG'	
+	segmented_meta_data['datatype'] = 'SEG'
 	segmented_meta_data['description'] = 'Segmented Data'
 	segmented_meta_data['reference_genome_id'] = 'hg19'
 	segmented_meta_data['data_filename'] = data_filename
@@ -248,27 +252,27 @@ def generate_study_meta(portal_config_data,pipeline_version_str):
 	study_meta_data['type_of_cancer'] = portal_config_data['TumorType'].lower()
 	study_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
 	study_meta_data['name'] = portal_config_data['ProjectTitle'] + '( '+portal_config_data['ProjectID']+' '+pipeline_version_str+' )'
-	study_meta_data['short_name'] =  portal_config_data['ProjectID'] 
+	study_meta_data['short_name'] =  portal_config_data['ProjectID']
 	study_meta_data['description'] = portal_config_data['ProjectDesc'].replace('\n', '')
 	study_meta_data['groups'] = 'PRISM'
-	#study_meta_data['add_global_case_list'] = True 
+	#study_meta_data['add_global_case_list'] = True
 	return study_meta_data
 
 def generate_discrete_copy_number_meta(portal_config_data, data_filename):
-	discrete_copy_number_meta_data = {}	
+	discrete_copy_number_meta_data = {}
 	discrete_copy_number_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
 	discrete_copy_number_meta_data['genetic_alteration_type'] = 'COPY_NUMBER_ALTERATION'
 	discrete_copy_number_meta_data['datatype'] = 'DISCRETE'
 	discrete_copy_number_meta_data['stable_id'] = 'cna'
 	discrete_copy_number_meta_data['show_profile_in_analysis_tab'] = True
 	discrete_copy_number_meta_data['profile_name'] = 'Discrete Copy Number Data'
-	discrete_copy_number_meta_data['profile_description'] = 'Discrete Copy Number Data'	
-	#discrete_copy_number_meta_data['description'] = 'copy_number Data'	
+	discrete_copy_number_meta_data['profile_description'] = 'Discrete Copy Number Data'
+	#discrete_copy_number_meta_data['description'] = 'copy_number Data'
 	discrete_copy_number_meta_data['data_filename'] = data_filename
 	return discrete_copy_number_meta_data
 
 def generate_mutation_meta(portal_config_data,maf_file_name):
-	mutation_meta_data = {}	
+	mutation_meta_data = {}
 	mutation_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
 	mutation_meta_data['genetic_alteration_type'] = 'MUTATION_EXTENDED'
 	mutation_meta_data['datatype'] = 'MAF'
@@ -280,7 +284,7 @@ def generate_mutation_meta(portal_config_data,maf_file_name):
 	return mutation_meta_data
 
 def generate_fusion_meta(portal_config_data,data_filename):
-	fusion_meta_data = {}	
+	fusion_meta_data = {}
 	fusion_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
 	fusion_meta_data['genetic_alteration_type'] = 'FUSION'
 	fusion_meta_data['datatype'] = 'FUSION'
@@ -311,11 +315,12 @@ def wait_for_job_to_finish(bjob_id,name):
 	job_string = name+' [' + bjob_id+']'
 	logger.info("Monitoring "+job_string)
 	bjob_command = "bjobs " + bjob_id + " | awk '{print $3}' | tail -1"
-	job_done = False
+	# job_done = False  #ts
+	job_done = True
 	while not job_done:
 		job_status = subprocess.check_output(bjob_command,shell=True).strip()
 		logger.info("Status: "+job_status)
-		status_string = ""				
+		status_string = ""
 		if job_status == "DONE":
 			job_done = True
 			status_string = name + " is done"
@@ -347,8 +352,9 @@ if __name__ == '__main__':
 	#parser.add_argument('--portal_config',required=True,help='The roslin portal config file')
 	parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
 	parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
+	parser.add_argument('--msi_directory',required=True,help='The directory containing files for msi files (will be inside analyses/msi/)')
 	parser.add_argument('--output_directory',required=False,help='Set the ouput directory for portal files')
-	parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')	
+	parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
 	args = parser.parse_args()
 	current_working_directory = os.getcwd()
 	#args_abspath = {}
@@ -357,11 +363,11 @@ if __name__ == '__main__':
 	project_id = ''
 	#work_book = open_workbook(args.manifest_file)
 	#sample_info = work_book.sheet_by_name('SampleInfo')
-	Is_Project_IMPACT = check_if_IMPACT(args.request_file) 
-	
+	Is_Project_IMPACT = check_if_IMPACT(args.request_file)
+
 	# Read yaml portal config file
 	#with open(args.column_info,'r') as column_info_file:
-	#	column_info_data = yaml.load(column_info_file)		
+	#	column_info_data = yaml.load(column_info_file)
 
 	# Get roslin config
 	with open(args.request_file,'r') as portal_config_file:
@@ -370,13 +376,13 @@ if __name__ == '__main__':
 		single_key = ''
 		for single_line in portal_config_file:
 			stripped_single_line = single_line.strip("\n\r")
-			split_stripped_single_line = stripped_single_line.split(':')			
+			split_stripped_single_line = stripped_single_line.split(':')
 			if ':' in single_line:
 				if single_key:
 				    portal_config_data[single_key] = single_value
 				    single_key = None
 				single_key = split_stripped_single_line[0]
-				single_value = split_stripped_single_line[1].strip()		
+				single_value = split_stripped_single_line[1].strip()
 			else:
 				single_value = single_value + stripped_single_line
 			#if stripped_single_line.contains(':'):
@@ -409,6 +415,21 @@ if __name__ == '__main__':
 				coverage_values[sample_value] = coverage_value
 	#	with io.StringIO(unicode(roslin_config_file_data,"utf-8")) as fixed_roslin_config_file:
 	#		roslin_config_data = imp.load_source('data','roslin_config_data',fixed_roslin_config_file)
+
+	# Read in msi scores
+	msi_scores = {}
+	for infile in glob.glob(os.path.join(args.msi_directory, '*.msi.txt')):
+		rootname = infile.split('/')[-1].split('.')[0]
+		with open(infile, 'r') as input_file:
+			header = input_file.readline().strip('\r\n').split('\t')
+			msiscore_position = header.index('%')
+			csv_reader = csv.reader(input_file,delimiter='\t')
+			for line in csv_reader:
+				if msi_scores.has_key(rootname):
+					print 'duplicate'
+				else:
+					msi_scores[rootname] = line[msiscore_position]
+
 	stable_id = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
 	maf_file_name =  'data_mutations_extended.txt'
 	fusion_file_name = 'data_fusions.txt'
@@ -422,11 +443,11 @@ if __name__ == '__main__':
 	clinical_meta_file = 'meta_clinical.txt'
 	patient_meta_file = 'meta_patient.txt'
 	mutation_meta_file = 'meta_mutations_extended.txt'
-	fusion_meta_file = 'meta_fusions.txt'	
+	fusion_meta_file = 'meta_fusions.txt'
 	portal_config_data['stable_id'] = stable_id
 
 	# Set work directory space to tmp or a specified ouput path
-	output_directory = None	 
+	output_directory = None
 	if not args.output_directory:
 		output_directory = tempfile.mkdtemp()
 	else:
@@ -437,14 +458,14 @@ if __name__ == '__main__':
 	#clinical_data = clinical_data_dict['clinical_data_file']
 	#patient_data = clinical_data_dict['patient_data_file']
 	#sample_list = clinical_data_dict['sample_list']
-	generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
+	generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values,msi_scores)
 	logger.info('Finished generating clinical data')
 	sample_list = get_sample_list(args.clinical_data)
 	generate_case_lists(portal_config_data,sample_list,output_directory)
 	logger.info('Finished generating case lists')
 
 	#with open(clinical_data_path,'w') as clinical_data_path_file:
-	#	clinical_data_path_file.write(clinical_data)	
+	#	clinical_data_path_file.write(clinical_data)
 
 	#clinical_config_data = column_info_data['Clinical']
 	#patient_config_data = column_info_data['Patient']
@@ -455,9 +476,9 @@ if __name__ == '__main__':
 		version_str = roslin_output_file.readline().rstrip('\r\n')
 
 	study_meta = generate_study_meta(portal_config_data,version_str)
-	logger.info('Finished generating study meta')	
+	logger.info('Finished generating study meta')
 	mutation_meta = generate_mutation_meta(portal_config_data,maf_file_name)
-	logger.info('Finished generating mutation meta')	
+	logger.info('Finished generating mutation meta')
 	discrete_copy_number_meta = generate_discrete_copy_number_meta(portal_config_data,discrete_copy_number_file)
 	logger.info('Finished generating discrete copy number meta')
 	segmented_data_meta = generate_segmented_meta(portal_config_data,segmented_data_file)
@@ -466,7 +487,7 @@ if __name__ == '__main__':
 	#clinical_meta = generate_clinical_meta(portal_config_data,clinical_data_file)
 	#clinical_data = generate_clinical_data(sample_info,clinical_config_data)
 	#patient_meta = generate_patient_meta(portal_config_data,patient_data_file)
-	#patient_data = generate_patient_data(sample_info,patient_config_data)	 
+	#patient_data = generate_patient_data(sample_info,patient_config_data)
 	generate_maf_data(args.maf_directory,output_directory,maf_file_name,log_directory,args.script_path,version_str)
 	logger.info('Finished generating maf data')
 	generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,log_directory)
@@ -477,7 +498,7 @@ if __name__ == '__main__':
 	study_meta_path = os.path.join(output_directory,study_meta_file)
 	#clinical_meta_path = os.path.join(output_directory,clinical_meta_file)
 	mutation_meta_path = os.path.join(output_directory,mutation_meta_file)
-	
+
 	discrete_copy_number_meta_path = os.path.join(output_directory,discrete_copy_number_meta_file)
 	segmented_data_meta_path = os.path.join(output_directory,segmented_data_meta_file)
 	#clinical_data_path = os.path.join(output_directory,clinical_data_file)
@@ -490,7 +511,7 @@ if __name__ == '__main__':
 		yaml.dump(study_meta,study_meta_path_file,default_flow_style=False, width=float("inf"))
 
 	with open(mutation_meta_path,'w') as mutation_meta_path_file:
-		yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False, width=float("inf"))	
+		yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False, width=float("inf"))
 
 	#with open(clinical_meta_path,'w') as clinical_meta_path_file:
 	#	yaml.dump(clinical_meta,clinical_meta_path_file,default_flow_style=False, width=float("inf"))

@@ -123,10 +123,6 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         assay = "IMPACT468_b37"
     if assay.find("IMPACT341") > -1:
         assay = "IMPACT341_b37"
-    if assay.find("IDT_Exome_v1_FP") > -1:
-        assay = "IDT_Exome_v1_FP_b37"
-    if assay.find("IMPACT468+08390") > -1:
-        assay = "IMPACT468_08390"
 
     if assay in targets:
         return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
@@ -219,24 +215,43 @@ if __name__ == "__main__":
     genome = "GRCh37"
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
 
+    #modified files dictionary
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
         'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
         'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
-        'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
-        'hapmap': {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])}, 
-        'dbsnp': {'class': 'File', 'path': str(REQUEST_FILES['dbsnp'])},
-        'indels_1000g': {'class': 'File', 'path': str(REQUEST_FILES['indels_1000g'])}, 
-        'snps_1000g': {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
-        'cosmic': {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
-        'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},
-        'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
-        'vep_data': str(REQUEST_FILES['vep_data']),
-        'curated_bams': curated_bams,
-        'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
-        'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
-        'ref_fasta':  str(REQUEST_FILES['ref_fasta'])
+        'request_file': {'class': 'File', 'path': os.path.realpath(args.request)}
     }
+    string_list = {'vep_data','ref_fasta'} #paths that are taken as "string" idk why
+    for key in REQUEST_FILES:
+        key = str(key)
+        if key == 'curated_bams':
+            files[key] = curated_bams
+        elif key in string_list:
+            files[key] = str(REQUEST_FILES[key])
+        else:
+            files[key] = {'class': 'File', 'path': str(REQUEST_FILES[key])}
+
+    #old files dictionary
+    # files = {
+    #     'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
+    #     'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
+    #     'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
+    #     'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
+    #     'hapmap': {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])},
+    #     'dbsnp': {'class': 'File', 'path': str(REQUEST_FILES['dbsnp'])},
+    #     'indels_1000g': {'class': 'File', 'path': str(REQUEST_FILES['indels_1000g'])},
+    #     'snps_1000g': {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
+    #     'cosmic': {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
+    #     'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},
+    #     'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
+    #     'vep_data': str(REQUEST_FILES['vep_data']),
+    #     'curated_bams': curated_bams,
+    #     'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
+    #     'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
+    #     'msi_sites': {'class': 'File', 'path': str(REQUEST_FILES['msi_sites'])},
+    #     'ref_fasta':  str(REQUEST_FILES['ref_fasta'])
+    # }
     files.update(intervals)
 
     sample_list = list()
