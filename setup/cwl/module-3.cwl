@@ -6,9 +6,12 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/200/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/200/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/200/roslin-core/2.0.0/schemas/doap.rdf
+# - http://dublincore.org/2012/06/14/dcterms.rdf
+# - http://xmlns.com/foaf/spec/20140114.rdf
+# - http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
@@ -41,10 +44,13 @@ dct:contributor:
     foaf:mbox: mailto:chunj@mskcc.org
   - class: foaf:Person
     foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org 
+    foaf:mbox: mailto:kumarn1@mskcc.org
   - class: foaf:Person
-    foaf:name: Allan Bolipata 
-    foaf:mbox: mailto:bolipatc@mskcc.org 
+    foaf:name: Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
+  - class: foaf:Person
+    foaf:name: Timothy Song
+    foaf:mbox: mailto:songt@mskcc.org
 
 
 cwlVersion: v1.0
@@ -77,7 +83,7 @@ inputs:
     mutect_rf: string[]
     refseq: File
     hotspot_vcf: File
-
+    msi_sites: File
 outputs:
 
     combine_vcf:
@@ -116,6 +122,9 @@ outputs:
     pindel_vcf:
         type: File
         outputSource: call_variants/pindel_vcf
+    msisensor_txt:
+        type: File
+        outputSource: call_variants/msisensor_txt
 
 steps:
 
@@ -138,7 +147,9 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
+            msi_sites: msi_sites
+        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, msisensor_txt]
+
         run:
             class: Workflow
             inputs:
@@ -153,6 +164,7 @@ steps:
                 mutect_rf: string[]
                 bed: File
                 refseq: File #file of refseq genes...
+                msi_sites: File
             outputs:
                 mutect_vcf:
                     type: File
@@ -187,13 +199,27 @@ steps:
                 facets_counts:
                     type: File
                     outputSource: facets/facets_counts_output
+                msisensor_txt:
+                    type: File
+                    outputSource: msisensor/output
             steps:
+                msisensor:
+                    run: msi-sensor/0.2/msisensor-msi.cwl
+                    in:
+                        d: msi_sites
+                        n: normal_bam
+                        t: tumor_bam
+                        tumor_sample_name: tumor_sample_name
+                        normal_sample_name: normal_sample_name
+                        o:
+                            valueFrom: ${ return inputs.tumor_sample_name +"."+inputs.normal_sample_name+".msi.txt" }
+                    out: [output]
                 facets:
                     run: facets.cwl
                     in:
                         normal_bam: normal_bam
                         tumor_bam: tumor_bam
-                        tumor_sample_name: tumor_sample_name 
+                        tumor_sample_name: tumor_sample_name
                         genome: genome
                     out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                 pindel:
@@ -252,7 +278,7 @@ steps:
                 pindel_vcf: File
                 hotspot_vcf: File
                 tumor_sample_name: string
-            outputs:                
+            outputs:
                 mutect_vcf_filtering_output:
                     type: File
                     outputSource: mutect_filtering_step/vcf

@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/200/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/200/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/200/roslin-core/2.0.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -100,6 +100,7 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
+        msi_sites: File
 
   groups:
     type:
@@ -153,6 +154,13 @@ inputs:
         items: string
 
 outputs:
+
+  #msisensor
+  msisensor_txt:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/msisensor_txt
 
   # bams & metrics
   bams:
@@ -286,14 +294,14 @@ outputs:
 steps:
 
   projparse:
-    run: parse-project-yaml-input/1.0.1/parse-project-yaml-input.cwl
+    run: parse-project-yaml-input/1.0.2/parse-project-yaml-input.cwl
     in:
       db_files: db_files
       groups: groups
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, msi_sites]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -352,8 +360,9 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
       hotspot_vcf: projparse/hotspot_vcf
-    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_counts]
-    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
+      msi_sites: projparse/msi_sites
+    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_counts, msisensor_txt]
+    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed, msi_sites]
     scatterMethod: dotproduct
 
   parse_pairs:
@@ -410,14 +419,14 @@ steps:
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
 
   create_portal_file_from_facets:
-    run: cmo-facets.geneLevel/1.5.6/cmo-facets.geneLevel.cwl 
+    run: cmo-facets.geneLevel/1.5.6/cmo-facets.geneLevel.cwl
     in:
       runparams: runparams
       filenames: variant_calling/facets_txt_hisens
       targetFile:
         valueFrom: ${ return "IMPACT468";}
-      method: 
+      method:
         valueFrom: ${ return "scna";}
-      outfilename: 
+      outfilename:
         valueFrom: ${ return inputs.runparams.project_prefix + ".portal.geneLevel.txt";}
     out: [ outfile ]
