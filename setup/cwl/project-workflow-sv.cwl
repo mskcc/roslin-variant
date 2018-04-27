@@ -254,9 +254,6 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/facets_counts
-  facets_portal:
-    type: File
-    outputSource: create_portal_file_from_facets/outfile
 
   # maf
   maf:
@@ -426,19 +423,6 @@ steps:
       pairing_file: projparse/pairing_file
 
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
-
-  create_portal_file_from_facets:
-    run: cmo-facets.geneLevel/1.5.6/cmo-facets.geneLevel.cwl 
-    in:
-      runparams: runparams
-      filenames: variant_calling/facets_txt_hisens
-      targetFile:
-        valueFrom: ${ return "IMPACT468";}
-      method:
-        valueFrom: ${ return "scna";}
-      outfilename:
-        valueFrom: ${ return inputs.runparams.project_prefix + ".portal.geneLevel.txt";}
-    out: [ outfile ]
 
   find_svs:
     run: module-6.cwl
