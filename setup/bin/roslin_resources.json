@@ -129,6 +129,10 @@
         "gatk": "/opt/common/CentOS_6-dev/cmo/keys/mskcc_gatk.key"
     },
     "programs": {
+        "QoRT": {
+            "1.1.8": "/opt/common/CentOS_6-dev/QoRT/1.1.8/QoRTs.jar",
+            "default": "/opt/common/CentOS_6-dev/QoRT/1.1.8/QoRTs.jar"
+        },
         "R": {
             "3.1.2": "/opt/common/CentOS_6/R/R-3.1.2/bin/",
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
@@ -137,17 +141,39 @@
             "2.12": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar",
             "default": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar"
         },
+        "analyzeFingerprint": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
+        },
         "basic-filtering": {
             "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh",
-            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh"
+            "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh"
         },
         "bcftools": {
             "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools",
             "default": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
         },
+        "bedtools": {
+            "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/",
+            "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
+        },
         "bwa": {
             "0.7.5a": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa",
             "default": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa"
+        },
+        "convertqualityscore": {
+            "1.1.8": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore",
+            "default": "/opt/common/CentOS_6-dev/ConvertQualityScore/default/ConvertQualityScore"
+        },
+        "cqs_metrics": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergeConvertQualityScoreMetrics.py"
+        },
+        "cutadapt": {
+            "1.1": "/usr/bin/cutadapt",
+            "1.9.1": "/usr/bin/cutadapt",
+            "default": "/usr/bin/cutadapt"
+        },
+        "cutadapt_metrics": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergeCutAdaptStats.py"
         },
         "delly": {
             "0.7.7": "/opt/common/CentOS_6-dev/delly/0.7.7/delly",
@@ -172,13 +198,25 @@
             "3.3-0": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar",
             "default": "/opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar"
         },
+        "gdc-client": {
+            "1.1.0": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client",
+            "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/gdc-client"
+        },
         "getbasecounts": {
             "1.4.0": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts",
             "default": "/opt/common/CentOS_6-dev/getbasecounts/1.4.0/GetBaseCounts"
         },
         "getbasecountsmultisample": {
-                "1.2.1": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample",
-                "default": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample"
+            "1.2.1": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample",
+            "default": "/opt/common/CentOS_6-dev/getbasecountsmultisample/v1.2.1/GetBaseCountsMultiSample"
+        },
+        "hotspot3d": {
+            "0.4": "/opt/common/CentOS_6-dev/hotspot3d/0.4/",
+            "default": "/opt/common/CentOS_6-dev/hotspot3d/0.4/"
+        },
+        "hotspots": {
+            "0.6.1": "/opt/common/CentOS_6-dev/hotspots/0.6.1/",
+            "default": "/opt/common/CentOS_6-dev/hotspots/0.6.1/"
         },
         "java": {
             "default": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java",
@@ -188,15 +226,34 @@
             "jdk1.8.0_31": "/opt/common/CentOS_6/java/jdk1.8.0_31/bin/java",
             "jre1.7.0_75": "/opt/common/CentOS_6/java/jre1.7.0_75/bin/java"
         },
+        "kallisto": {
+            "0.42.1": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto",
+            "default": "/opt/common/CentOS_6/kallisto/kallisto_linux-v0.42.1/kallisto"
+        },
         "list2bed": {
             "1.0.1": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py",
             "default": "/opt/common/CentOS_6-dev/list2bed/1.0.1/list2bed.py"
         },
+        "matlab": {
+            "R2014b": "/opt/common/CentOS_6-dev/matlab/R2014b/",
+            "default": "/opt/common/CentOS_6-dev/matlab/R2013a/v81/"
+        },
+        "mergeInsertSizeHistograms": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergeInsertSizeHistograms.py"
+        },
+        "mergePicardMetrics": {
+            "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
+        },
         "mutect": {
             "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
         },
+        "mutsig-cv": {
+            "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4",
+            "default": "/opt/common/CentOS_6-dev/mutsig/cv-1.4"
+        },
         "ngs-filters": {
-            "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py"
+            "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py",
+            "1.2.1": "/opt/common/CentOS_6-dev/ngs-filters/v1.2.1/run_ngs-filters.py"
         },
         "perl": {
             "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
@@ -211,6 +268,13 @@
         "pindel2vcf": {
             "0.2.5b8": "/opt/common/CentOS_6-dev/pindel/v0.2.5b8/pindel2vcf"
         },
+        "postprocess": {
+            "1.3.1": "/opt/common/CentOS_6-dev/postprocess/1.3.1",
+            "default": "/opt/common/CentOS_6-dev/postprocess/1.3.1/"
+        },
+        "ppflag-fixer": {
+            "default": "/opt/common/CentOS_6-dev/snp-pileup/ppflag-fixer"
+        },
         "python": {
             "default": "/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python"
         },
@@ -224,9 +288,19 @@
             "0.1.1": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py",
             "default": "/opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py"
         },
+        "replace-allele-counts": {
+            "0.1.0": "sing.sh replace-allele-counts 0.1.0",
+            "0.1.1": "sing.sh replace-allele-counts 0.1.1",
+            "0.2.0": "sing.sh replace-allele-counts 0.2.0",
+            "default": "sing.sh replace-allele-counts 0.1.0"
+        },
         "roslin-qc": {
             "0.5.9": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py",
             "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py"
+        },
+        "samstat": {
+            "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat",
+            "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
         },
         "samtools": {
             "0.1.19": "/opt/common/CentOS_6-dev/samtools/samtools-0.1.19/samtools",
@@ -238,8 +312,18 @@
         "htstools":{
             "0.1.1": "/opt/common/CentOS_6-dev/htstools/v0.1.1/runScript.sh"
         },
+        "seq-cna": {
+            "1.0.0": "sing.sh seq-cna 1.0.0"
+        },
         "snp-pileup": {
             "default": "/opt/common/CentOS_6-dev/snp-pileup/snp-pileup"
+        },
+        "split-reads": {
+            "1.0.0": "sing.sh split-reads 1.0.0"
+        },
+        "star": {
+            "2.4.1d": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR",
+            "default": "/opt/common/CentOS_6/star/STAR-STAR_2.4.1d/bin/Linux_x86_64/STAR"
         },
         "trimgalore": {
             "0.2.5.mod": "/opt/common/CentOS_6/trim_galore/Trim_Galore_v0.2.5_MOD/trim_galore",
@@ -253,16 +337,26 @@
             "1.5.1": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/",
             "default": "/opt/common/CentOS_6-dev/vardict/v1.5.1/vardict_328e00a/"
         },
+        "varscan": {
+            "2.3.9": "/opt/common/CentOS_6-dev/varscan/v2.3.9/VarScan.v2.3.9.jar",
+            "2.4.1": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar",
+            "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
+        },
         "vcf2maf": {
             "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/",
-            "1.6.15":"/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
-            "default": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/"
+            "1.6.15": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
+            "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/"
         },
         "vep": {
             "86": "/opt/common/CentOS_6-dev/vep/v86/",
-            "88": "/opt/common/CentOS_6-dev/vep/v88/",
-            "91":  "/opt/common/CentOS_6-dev/vep/v91/",
-            "default": "/opt/common/CentOS_6-dev/vep/v88/"
+            "91": "/opt/common/CentOS_6-dev/vep/v91/",
+            "default": "/opt/common/CentOS_6-dev/vep/v86/"
+        },
+        "vt": {
+            "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt",
+            "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
+            "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
+            "master": "/opt/common/CentOS_6-dev/vt/master/vt"
         }
     },
     "targets": {
@@ -277,7 +371,7 @@
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets.intervals",
             "targets_plus5bp_ilist": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_51MB_b37_v3/b37/AgilentExon_51MB_b37_v3_targets_plus5bp.ilist"
         },
-        "IDT_Exome_v1_FP": {
+        "IDT_Exome_v1_FP_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/FP_tiling_intervals.intervals",
             "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.bed",
@@ -311,6 +405,12 @@
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
         },
+        "IMPACT468_08390": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_intervals.intervals",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_b37_baits.ilist",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_b37_targets.ilist"
+        },
         "Agilent_v4_51MB_Human": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_intervals.intervals",
@@ -341,33 +441,91 @@
         "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
         "exac_filter": "/ifs/depot/pi/resources/request_files/exac_filter/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
         "vep_data": "/ifs/depot/pi/resources/vep/cache",
-        "curated_bams": [
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-1892-N_bc10_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44042-1-N_bc24_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44503-N_bc39_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43532-1-N_bc16_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-2615-N_bc12_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44056-1-N_bc23_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44315-1-N_bc30_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M11-3639-N_bc03_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44538-N_bc36_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43646-1-N_bc29_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-40685-N_bc34_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-0399-N_bc08_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43697-1-N_bc33_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M14-8322-2-N_bc14_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-41382-1-N_bc17_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M14-7594-1-N_bc21_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M11-1637-N_bc11_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M13-1083-N_bc06_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M11-1089-N_bc04_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/M12-0994-N_bc05_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S12-18799-N_bc38_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-43894-1-N_bc32_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
-            "/ifs/depot/pi/resources/request_files/curated_bams/std-normals-bam/VERSIONS/cv5/S14-44576-1-N_bc27_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam"
-        ],
-        "ffpe_normal_bams": "/ifs/depot/pi/resources/request_files/ffpe_normal_bams/Proj_06049_Pool_indelRealigned_recal_s_UD_ffpepool1_N.bam",
+        "curated_bams": {
+            "IMPACT410_b37": [
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M12-1892-N_bc10_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-44042-1-N_bc24_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-44503-N_bc39_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-43532-1-N_bc16_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M12-2615-N_bc12_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-44056-1-N_bc23_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-44315-1-N_bc30_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M11-3639-N_bc03_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-44538-N_bc36_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-43646-1-N_bc29_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-40685-N_bc34_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M12-0399-N_bc08_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-43697-1-N_bc33_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M14-8322-2-N_bc14_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-41382-1-N_bc17_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M14-7594-1-N_bc21_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M11-1637-N_bc11_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M13-1083-N_bc06_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M11-1089-N_bc04_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M12-0994-N_bc05_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S12-18799-N_bc38_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-43894-1-N_bc32_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/S14-44576-1-N_bc27_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam"
+            ],
+            "AgilentExon_51MB_b37_v3": [
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_A2_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_ACC18_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_AMB4_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_AMB5_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_ASCM4_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_ASCM6_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_ASCM9_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_BR1_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_087_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_099_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_112_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_116_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_117_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_120_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_122_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_123_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_124_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_125_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_bkm_129_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_020_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_038_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_042_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_045_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_055_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_063_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_080_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_082_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_crc_084_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_DS_puma_0002_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_EMC8_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_IDC16_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_IDC2_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_IDC44_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_IDC4_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_IDC8_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_IDC9_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_RG1_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_SK06_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK08_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK13_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK16_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK17_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK19_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK50_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK52_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK55_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK67_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK70_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_TK71_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_brca_1228_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_ffpepool1_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_usmt_1513_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_usmt_1572_N.bam",
+                "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_usmt_1814_N.bam"
+            ]
+        },
         "hotspot_list": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.txt",
+        "hotspot_vcf": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.vcf",
         "ref_fasta": "/ifs/depot/pi/resources/request_files/ref_fasta/b37.fasta"
     }
 }
