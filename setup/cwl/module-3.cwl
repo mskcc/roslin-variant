@@ -204,7 +204,7 @@ steps:
                     outputSource: msisensor/output
             steps:
                 msisensor:
-                    run: msi-sensor/0.2/msisensor-msi.cwl
+                    run: msisensor-msi/0.2/msisensor-msi.cwl
                     in:
                         d: msi_sites
                         n: normal_bam
