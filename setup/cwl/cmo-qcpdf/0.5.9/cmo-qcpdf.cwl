@@ -66,16 +66,22 @@ inputs:
       items:
         type: array
         items: File
-  trim_metrics_files:
+  clstats1:
     type:
       type: array
       items:
         type: array
         items:
           type: array
-          items:
-            type: array
-            items: File
+          items: File
+  clstats2:
+    type:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items: File
   files:
     type:
       type: array

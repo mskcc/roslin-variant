@@ -142,19 +142,13 @@ steps:
         tmp_dir: string
       outputs:
         clstats1:
-          type:
-            type: array
-            items: File
+          type: File
           outputSource: trim_galore/clstats1
         clstats2:
-          type:
-            type: array
-            items: File
+          type: File
           outputSource: trim_galore/clstats2
         bam:
-          type:
-             type: array
-             items: File
+          type: File
           outputSource: add_rg_id/bam
       steps:
         trim_galore:

@@ -58,41 +58,11 @@ inputs:
     type:
       type: record
       fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
         hotspot_list: File
         hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: File
-          secondaryFiles:
-              - ^.bai
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
@@ -100,7 +70,36 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
-
+  hapmap:
+    type: File
+    secondaryFiles:
+      - .idx
+  dbsnp:
+    type: File
+    secondaryFiles:
+      - .idx
+  indels_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  snps_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  cosmic:
+    type: File
+    secondaryFiles:
+      - .idx
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
+  curated_bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
   groups:
     type:
       type: array
@@ -162,24 +161,34 @@ outputs:
   bams:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     secondaryFiles:
       - ^.bai
     outputSource: group_process/bams
   clstats1:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items:
+          type: array
+          items: File
     outputSource: group_process/clstats1
   clstats2:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: group_process/clstats2
   md_metrics:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: group_process/md_metrics
 
   # vcf
@@ -237,17 +246,23 @@ outputs:
   facets_out:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_out
   facets_rdata:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_rdata
   facets_seg:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_seg
   facets_counts:
     type:
@@ -257,45 +272,45 @@ outputs:
 
   # maf
   maf:
-    type: File
+    type: File[]
     outputSource: filter/maf
 
   # qc
   as_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/as_metrics
   hs_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/hs_metrics
   insert_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/insert_metrics
   insert_pdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/insert_pdf
   per_target_coverage:
-    type: File
+    type: File[]
     outputSource: gather_metrics/per_target_coverage
   qual_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/qual_metrics
   qual_pdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/qual_pdf
   doc_basecounts:
-    type: File
+    type: File[]
     outputSource: gather_metrics/doc_basecounts
   gcbias_pdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/gcbias_pdf
   gcbias_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/gcbias_metrics
   gcbias_summary:
-    type: File
+    type: File[]
     outputSource: gather_metrics/gcbias_summary
   qcpdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/qc_files
 
 steps:
@@ -304,6 +319,13 @@ steps:
     run: parse-project-yaml-input/1.0.1/parse-project-yaml-input.cwl
     in:
       db_files: db_files
+      hapmap_inputs: hapmap
+      dbsnp_inputs: dbsnp
+      indels_1000g_inputs: indels_1000g
+      snps_1000g_inputs: snps_1000g
+      exac_filter_inputs: exac_filter
+      curated_bams_inputs: curated_bams
+      cosmic_inputs: cosmic
       groups: groups
       pairs: pairs
       samples: samples
@@ -348,6 +370,11 @@ steps:
       bams: group_process/bams
       pairs: pairs
       db_files: db_files
+      dbsnp_inputs: dbsnp
+      hapmap_inputs: hapmap
+      cosmic_inputs: cosmic
+      snps_1000g_inputs: snps_1000g
+      indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: group_process/covint_bed
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, vep_data, delly_type ]
@@ -406,8 +433,6 @@ steps:
     run: module-5.cwl
     in:
       aa_bams: group_process/bams
-      runparams: runparams
-      db_files: db_files
       bams:
         valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
       genome: projparse/genome
@@ -416,6 +441,8 @@ steps:
       fp_intervals: projparse/fp_intervals
       fp_genotypes: projparse/fp_genotypes
       md_metrics_files: group_process/md_metrics
+      clstats1: group_process/clstats1
+      clstats2: group_process/clstats2
       trim_metrics_files: [ group_process/clstats1, group_process/clstats2]
       project_prefix: projparse/project_prefix
       grouping_file: projparse/grouping_file

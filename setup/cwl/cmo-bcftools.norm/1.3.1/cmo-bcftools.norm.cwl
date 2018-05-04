@@ -156,8 +156,7 @@ inputs:
   fasta_ref:
     type:
     - 'null'
-    - type: enum
-      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
+    - string
     inputBinding:
       prefix: --fasta-ref
 

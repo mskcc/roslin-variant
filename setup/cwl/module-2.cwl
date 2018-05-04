@@ -73,21 +73,16 @@ inputs:
         type: File
         secondaryFiles:
             - .idx
-    rf: string[]
     covariates: string[]
     abra_scratch: string
     group: string
 
 outputs:
     covint_list:
-        type:
-            type: array
-            items: File
+        type: File
         outputSource: gatk_find_covered_intervals/fci_list
     covint_bed:
-        type:
-            type: array
-            items: File
+        type: File
         outputSource: list2bed/output_file
     outbams:
         type:
@@ -162,18 +157,14 @@ steps:
             class: Workflow
             inputs:
                 input_file:
-                    type:
-                        type: array
-                        items: File
+                    type: File
                 reference_sequence:
                     type: string
                 BQSR:
                     type: File
             outputs:
                 out:
-                    type:
-                        type: array
-                        items: File
+                    type: File
                     secondaryFiles:
                         - ^.bai
                     outputSource: gatk_print_reads/out_bam

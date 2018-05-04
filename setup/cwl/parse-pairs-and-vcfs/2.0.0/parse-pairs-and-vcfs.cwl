@@ -84,6 +84,8 @@ inputs:
       items:
         type: array
         items: File
+    secondaryFiles:
+      - ^.bai
   hotspot_list:
      type:
        type: array

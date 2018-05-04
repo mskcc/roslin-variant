@@ -80,8 +80,7 @@ inputs:
   ncbi_build:
     type:
     - 'null'
-    - type: enum
-      symbols: [GRCh37, GRCh38, GRCm38]
+    - string
     default: GRCh37
     doc: Genome build of variants in input
     inputBinding:
