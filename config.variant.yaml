@@ -18,3 +18,7 @@ dependencies:
   cmo:
     version: 1.9.8
     install-path: /ifs/work/pi/cmo_package_archive/
+  toil:
+    version: 3.15
+    install-path: /ifs/work/pi/toil_venv_archive/
+

@@ -56,6 +56,17 @@ def configure_setup_settings(settings):
             settings["dependencies"]["cmo"]["install-path"],
             settings["dependencies"]["cmo"]["version"],
             "lib/python2.7/site-packages"
+        ),
+        dependencies_toil_version=settings["dependencies"]["toil"]["version"],
+        dependencies_toil_bin_path=os.path.join(
+            settings["dependencies"]["toil"]["install-path"],
+            settings["dependencies"]["toil"]["version"],
+            "bin"
+        ),
+        dependencies_toil_python_path=os.path.join(
+            settings["dependencies"]["toil"]["install-path"],
+            settings["dependencies"]["toil"]["version"],
+            "lib/python2.7/site-packages"
         )
     )
 
