@@ -65,8 +65,7 @@ inputs:
   g:
     type:
     - 'null'
-    - type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    - string
     doc: genome fasta file
     inputBinding:
       prefix: --genome

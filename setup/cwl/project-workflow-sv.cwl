@@ -181,7 +181,9 @@ outputs:
       type: array
       items:
         type: array
-        items: File
+        items:
+          type: array
+          items: File
     outputSource: group_process/clstats2
   md_metrics:
     type:
@@ -215,23 +217,25 @@ outputs:
 
   # structural variants
   merged_file_unfiltered:
-    type: File
+    type: File[]
     outputSource: find_svs/merged_file_unfiltered
   merged_file:
-    type: File
+    type: File[]
     outputSource: find_svs/merged_file
   maf_file:
-    type: File
+    type: File[]
     outputSource: find_svs/maf_file
   portal_file:
-    type: File
+    type: File[]
     outputSource: find_svs/portal_file
 
   # facets
   facets_png:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_png
   facets_txt_hisens:
     type:

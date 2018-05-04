@@ -181,7 +181,9 @@ outputs:
       type: array
       items:
         type: array
-        items: File
+        items:
+          type: array
+          items: File
     outputSource: group_process/clstats2
   md_metrics:
     type:
