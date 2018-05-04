@@ -41,11 +41,11 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_qcpdf
+baseCommand: [cmo_qcpdf]
+
+arguments:
 - --version
 - 0.5.0
-arguments:
 - prefix: --globdir
   valueFrom: ${ return runtime.outdir; }
 

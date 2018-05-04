@@ -42,7 +42,10 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_bcftools, norm]
+baseCommand: [cmo_bcftools]
+
+arguments:
+- norm
 
 requirements:
   InlineJavascriptRequirement: {}

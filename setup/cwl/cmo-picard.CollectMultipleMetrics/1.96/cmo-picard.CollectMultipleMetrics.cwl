@@ -50,8 +50,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_picard
+baseCommand: [cmo_picard]
+
+arguments:
 - --cmd
 - CollectMultipleMetrics
 

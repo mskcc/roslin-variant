@@ -43,8 +43,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_gatk
+baseCommand: [cmo_gatk]
+
+arguments:
 - -T
 - CombineVariants
 - --version

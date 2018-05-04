@@ -34,8 +34,10 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: ["sing.sh", "samtools", "1.3.1"]
+baseCommand: [sing.sh]
 arguments:
+  - samtools
+  - "1.3.1"
   - id: samtools-command
     valueFrom: "view -bh"
 

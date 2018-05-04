@@ -37,8 +37,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_mutect
+baseCommand: [cmo_mutect]
+
+arguments:
 - --version
 - 1.1.5
 

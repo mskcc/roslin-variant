@@ -37,8 +37,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- sing.sh
+baseCommand: [sing.sh]
+
+arguments:
 - facets
 - 1.5.5
 - geneLevel

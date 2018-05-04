@@ -41,8 +41,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_vardict
+baseCommand: [cmo_vardict]
+
+arguments:
 - --version
 - 1.5.1
 

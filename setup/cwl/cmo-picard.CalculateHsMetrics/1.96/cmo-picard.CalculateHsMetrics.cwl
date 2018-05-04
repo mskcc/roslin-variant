@@ -57,8 +57,9 @@ requirements:
     ramMin: 16
     coresMin: 1
 
-baseCommand:
-- cmo_picard
+baseCommand: [cmo_picard]
+
+arguments:
 - --cmd
 - CalculateHsMetrics
 

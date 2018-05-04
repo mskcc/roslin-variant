@@ -41,8 +41,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_abra
+baseCommand: [cmo_abra]
+
+arguments:
 - --version
 - '2.07'
 

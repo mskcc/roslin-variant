@@ -41,8 +41,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_fillout
+baseCommand: [cmo_fillout]
+
+arguments:
 - --version
 - 1.2.1
 

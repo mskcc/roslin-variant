@@ -37,8 +37,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_delly
+baseCommand: [cmo_delly]
+
+arguments:
 - --version
 - 0.7.7
 - --cmd

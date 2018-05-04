@@ -41,8 +41,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_pindel
+baseCommand: [cmo_pindel]
+
+arguments:
 - --version
 - 0.2.5b8
 

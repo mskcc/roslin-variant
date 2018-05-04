@@ -42,8 +42,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_vcf2maf
+baseCommand: [cmo_vcf2maf]
+
+arguments:
 - --version
 - 1.6.14
 

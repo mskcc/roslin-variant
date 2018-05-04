@@ -45,8 +45,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- sing.sh
+baseCommand: [sing.sh]
+
+arguments:
 - replace-allele-counts
 - 0.1.0
 

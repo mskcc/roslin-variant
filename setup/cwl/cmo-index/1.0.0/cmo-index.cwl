@@ -37,8 +37,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_index
+baseCommand: [cmo_index]
+
+arguments:
 - --version
 - "2.9"
 

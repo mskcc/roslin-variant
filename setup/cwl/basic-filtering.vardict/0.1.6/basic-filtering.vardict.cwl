@@ -44,8 +44,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- sing.sh
+baseCommand: [sing.sh]
+
+arguments:
 - basic-filtering
 - 0.1.6
 - vardict

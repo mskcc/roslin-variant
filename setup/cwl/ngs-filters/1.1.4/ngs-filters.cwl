@@ -37,8 +37,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- sing.sh
+baseCommand: [sing.sh]
+
+arguments:
 - ngs-filters
 - 1.1.4
 

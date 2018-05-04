@@ -41,8 +41,9 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
+baseCommand: [tool.sh]
+
+arguments:
 - --tool
 - "htstools"
 - --version
