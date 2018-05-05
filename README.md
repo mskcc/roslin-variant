@@ -1,5 +1,3 @@
-# -- Outdated --
-
 # Roslin-targeted-variants
 
 Table of Contents:
