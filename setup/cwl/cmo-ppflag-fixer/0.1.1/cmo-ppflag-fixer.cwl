@@ -44,15 +44,20 @@ class: CommandLineTool
 baseCommand: [tool.sh]
 
 arguments:
-- --tool
-- "htstools"
-- --version
-- "0.1.1"
-- --language_version
-- "default"
-- --language
-- "bash"
-- ppflag-fixer
+- valueFrom: "htstools"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.1.1"
+  prefix: --version
+  position: 1
+- valueFrom: "default"
+  prefix: --language_version
+  position: 2
+- valueFrom: "bash"
+  prefix: --language
+  position: 3
+- valueFrom: "ppflag-fixer"
+  position: 4
 
 requirements:
   InlineJavascriptRequirement: {}

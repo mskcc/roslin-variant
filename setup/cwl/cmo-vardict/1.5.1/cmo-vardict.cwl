@@ -44,8 +44,8 @@ class: CommandLineTool
 baseCommand: [cmo_vardict]
 
 arguments:
-- --version
-- 1.5.1
+- valueFrom: "1.5.1"
+  prefix: --version
 
 requirements:
   InlineJavascriptRequirement: {}

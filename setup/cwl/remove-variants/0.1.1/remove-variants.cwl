@@ -47,14 +47,18 @@ class: CommandLineTool
 baseCommand: [tool.sh]
 
 arguments:
-- --tool
-- "remove-variants"
-- --version
-- "0.1.1"
-- --language_version
-- "default"
-- --language
-- "python"
+- valueFrom: "remove-variants"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.1.1"
+  prefix: --version
+  position: 1
+- valueFrom: "default"
+  prefix: --language_version
+  position: 2
+- valueFrom: "python"
+  prefix: --language
+  position: 3
 
 requirements:
   InlineJavascriptRequirement: {}

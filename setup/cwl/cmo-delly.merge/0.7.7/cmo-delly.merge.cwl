@@ -40,10 +40,10 @@ class: CommandLineTool
 baseCommand: [cmo_delly]
 
 arguments:
-- --version
-- 0.7.7
-- --cmd
-- merge
+- valueFrom: "0.7.7"
+  prefix: --version
+- valueFrom: "merge"
+  prefix: --cmd
 
 requirements:
   InlineJavascriptRequirement: {}

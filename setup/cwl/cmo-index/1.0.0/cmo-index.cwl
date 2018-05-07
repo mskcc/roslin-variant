@@ -40,8 +40,8 @@ class: CommandLineTool
 baseCommand: [cmo_index]
 
 arguments:
-- --version
-- "2.9"
+- valueFrom: "2.9"
+  prefix: --version
 
 requirements:
   ResourceRequirement:

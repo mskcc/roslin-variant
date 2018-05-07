@@ -49,10 +49,12 @@ class: CommandLineTool
 baseCommand: [cmo_gatk]
 
 arguments:
-- -T
-- DepthOfCoverage
-- --version
-- 3.3-0
+- valueFrom: "DepthOfCoverage"
+  prefix: -T
+  position: 0
+- valueFrom: "3.3-0"
+  prefix: --version
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}

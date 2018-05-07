@@ -45,8 +45,8 @@ class: CommandLineTool
 baseCommand: [cmo_vcf2maf]
 
 arguments:
-- --version
-- 1.6.15
+- valueFrom: "1.6.15"
+  prefix: --version
 
 requirements:
   InlineJavascriptRequirement: {}

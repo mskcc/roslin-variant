@@ -43,15 +43,20 @@ class: CommandLineTool
 baseCommand: [non-cmo.sh]
 
 arguments:
-- --tool
-- "facets"
-- --version
-- "1.5.6"
-- --language_version
-- "default"
-- --language
-- "python"
-- doFacets
+- valueFrom: "facets"
+  prefix: --tool
+  position: 0
+- valueFrom: "1.5.6"
+  prefix: --version
+  position: 1
+- valueFrom: "default"
+  prefix: --language_version
+  position: 2
+- valueFrom: "python"
+  prefix: --language
+  position: 3
+- valueFrom: "doFacets"
+  position: 4
 
 requirements:
   InlineJavascriptRequirement: {}

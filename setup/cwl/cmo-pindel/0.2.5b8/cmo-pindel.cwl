@@ -44,8 +44,8 @@ class: CommandLineTool
 baseCommand: [cmo_pindel]
 
 arguments:
-- --version
-- 0.2.5b8
+- valueFrom: "0.2.5b8"
+  prefix: --version
 
 requirements:
   InlineJavascriptRequirement: {}

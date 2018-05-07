@@ -44,10 +44,12 @@ class: CommandLineTool
 baseCommand: [cmo_gatk]
 
 arguments:
-- -T
-- PrintReads
-- --version
-- 3.3-0
+- valueFrom: "PrintReads"
+  prefix: -T
+  position: 0
+- valueFrom: "3.3-0"
+  prefix: --version
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}

@@ -43,14 +43,18 @@ class: CommandLineTool
 baseCommand: [tool.sh]
 
 arguments:
-- --tool
-- "ngs-filters"
-- --version
-- "1.2.1"
-- --language_version
-- "default"
-- --language
-- "python"
+- valueFrom: "ngs-filters"
+  prefix: --tool
+  position: 0
+- valueFrom: "1.2.1"
+  prefix: --version
+  position: 1
+- valueFrom: "default"
+  prefix: --language_version
+  position: 2
+- valueFrom: "python"
+  prefix: --language
+  position: 3
 
 requirements:
   InlineJavascriptRequirement: {}

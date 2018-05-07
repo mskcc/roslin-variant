@@ -44,8 +44,8 @@ class: CommandLineTool
 baseCommand: [cmo_fillout]
 
 arguments:
-- --version
-- 1.2.1
+- valueFrom: "1.2.1"
+  prefix: --version
 
 requirements:
   InlineJavascriptRequirement: {}

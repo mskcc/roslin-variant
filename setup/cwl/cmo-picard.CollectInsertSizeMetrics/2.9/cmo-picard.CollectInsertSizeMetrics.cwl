@@ -47,10 +47,13 @@ class: CommandLineTool
 baseCommand: [cmo_picard]
 
 arguments:
-- --cmd
-- CollectInsertSizeMetrics
-- --version
-- "2.9"
+- valueFrom: "CollectInsertSizeMetrics"
+  prefix: --cmd
+  position: 0
+- valueFrom: "2.9"
+  prefix: --version
+  position: 1
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

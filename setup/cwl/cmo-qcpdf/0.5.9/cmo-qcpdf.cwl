@@ -44,10 +44,10 @@ class: CommandLineTool
 baseCommand: [cmo_qcpdf]
 
 arguments:
-- --version
-- 0.5.9
-- prefix: --globdir
-  valueFrom: ${ return runtime.outdir; }
+- valueFrom: "0.5.9"
+  prefix: --version
+- valueFrom: ${ return runtime.outdir; }
+  prefix: --globdir
 
 requirements:
   InlineJavascriptRequirement: {}

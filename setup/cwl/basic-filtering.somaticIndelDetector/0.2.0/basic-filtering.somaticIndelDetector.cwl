@@ -46,15 +46,21 @@ class: CommandLineTool
 baseCommand: [tool.sh]
 
 arguments:
-- --tool
-- "basic-filtering"
-- --version
-- "0.2.0"
-- --language_version
-- "default"
-- --language
-- "bash"
-- sid
+- valueFrom: "basic-filtering"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.2.0"
+  prefix: --version
+  position: 1
+- valueFrom: "default"
+  prefix: --language_version
+  position: 2
+- valueFrom: "bash"
+  prefix: --language
+  position: 3
+- valueFrom: "sid"
+  position: 4
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

@@ -40,10 +40,10 @@ class: CommandLineTool
 baseCommand: [cmo_delly]
 
 arguments:
-- --version
-- 0.7.7
-- --cmd
-- call
+- valueFrom: "0.7.7"
+  prefix: --version
+- valueFrom: "call"
+  prefix: --cmd
 
 requirements:
   InlineJavascriptRequirement: {}

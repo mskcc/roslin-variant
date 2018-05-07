@@ -43,9 +43,9 @@ cwlVersion: cwl:v1.0
 class: CommandLineTool
 baseCommand: [cmo_bwa_mem]
 
-arguments:
-- --version
-- 0.7.5a
+arguments: 
+- valueFrom: "0.7.5a"
+  prefix: --version
 
 requirements:
   InlineJavascriptRequirement: {}
