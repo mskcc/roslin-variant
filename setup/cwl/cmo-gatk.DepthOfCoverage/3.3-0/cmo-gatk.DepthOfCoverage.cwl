@@ -47,7 +47,8 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_gatk]
-id: cmo-gatk(DepthOfCoverage)
+label: cmo-gatk(DepthOfCoverage)
+
 arguments:
 - valueFrom: "DepthOfCoverage"
   prefix: -T

@@ -45,7 +45,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_picard]
-id: cmo-picard(CollectInsertSizeMetrics)
+label: cmo-picard(CollectInsertSizeMetrics)
 
 arguments:
 - valueFrom: "CollectInsertSizeMetrics"

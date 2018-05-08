@@ -42,7 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-id: htstools(ppflag-fixer)
+label: htstools(ppflag-fixer)
 
 arguments:
 - valueFrom: "htstools"

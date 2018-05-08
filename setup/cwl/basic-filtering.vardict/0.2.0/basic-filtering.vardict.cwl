@@ -44,7 +44,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-id: basic-filtering(vardict)
+label: basic-filtering(vardict)
 
 arguments:
 - valueFrom: "basic-filtering"

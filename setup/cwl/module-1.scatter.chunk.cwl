@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+label: module-1(scatter-chunk)
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

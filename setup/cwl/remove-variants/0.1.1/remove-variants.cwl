@@ -45,7 +45,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-id: remove-variants
+label: remove-variants
 
 arguments:
 - valueFrom: "remove-variants"

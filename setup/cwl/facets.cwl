@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+label: facets
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

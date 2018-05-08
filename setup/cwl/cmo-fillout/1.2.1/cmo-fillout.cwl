@@ -42,7 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_fillout]
-id: cmo-fillout
+label: cmo-fillout
 
 arguments:
 - valueFrom: "1.2.1"

@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+label: sort-bams-by-pair
 requirements:
   - class: InlineJavascriptRequirement
 

@@ -45,7 +45,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_picard]
-id: cmo-picard(CollectGcBiasMetrics)
+label: cmo-picard(CollectGcBiasMetrics)
 
 arguments:
 - valueFrom: "CollectGcBiasMetrics"

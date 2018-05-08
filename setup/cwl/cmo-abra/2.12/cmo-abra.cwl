@@ -42,7 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_abra]
-id: cmo-abra
+label: cmo-abra
 
 arguments:
 - valueFrom: "2.12"
