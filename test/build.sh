@@ -77,7 +77,6 @@ cd $ROSLIN_CORE_BIN_PATH
 printf "\n----------Setting up virtualenv----------\n"
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
 /opt/common/CentOS_6-dev/python/python-2.7.10/bin/virtualenv virtualenv
-umask 000
 source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
 pip install -r $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
@@ -89,7 +88,6 @@ make develop extras=[cwl]
 cd $ROSLIN_CMO_INSTALL_PATH
 python setup.py install
 deactivate
-umask 002
 cd $ROSLIN_CORE_BIN_PATH
 # Run test
 printf "\n----------Running Test----------\n"
