@@ -46,7 +46,7 @@ arguments:
 
 requirements:
   ResourceRequirement:
-    ramMin: 16
+    ramMin: 16000
     coresMin: 1
 
 inputs:

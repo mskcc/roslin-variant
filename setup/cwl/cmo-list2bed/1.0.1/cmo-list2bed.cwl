@@ -43,7 +43,7 @@ label: cmo_list2bed
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 2
+    ramMin: 2000
     coresMin: 1
 
 doc: |

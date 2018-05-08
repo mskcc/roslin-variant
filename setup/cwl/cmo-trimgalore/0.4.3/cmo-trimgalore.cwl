@@ -47,7 +47,7 @@ label: cmo-trimgalore
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 12
+    ramMin: 12000
     coresMin: 1
 
 doc: |
