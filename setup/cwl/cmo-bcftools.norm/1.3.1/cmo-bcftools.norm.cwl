@@ -46,7 +46,8 @@ baseCommand: [cmo_bcftools]
 label: cmo-bcftools(norm)
 
 arguments:
-- norm
+- valueFrom: "norm"
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

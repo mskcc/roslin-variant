@@ -48,6 +48,7 @@ label: cmo-vcf2maf
 arguments:
 - valueFrom: "1.6.15"
   prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

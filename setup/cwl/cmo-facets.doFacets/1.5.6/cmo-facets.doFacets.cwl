@@ -49,15 +49,16 @@ arguments:
   position: 0
 - valueFrom: "1.5.6"
   prefix: --version
-  position: 1
+  position: 0
 - valueFrom: "default"
   prefix: --language_version
-  position: 2
+  position: 0
 - valueFrom: "python"
   prefix: --language
-  position: 3
+  position: 0
 - valueFrom: "doFacets"
-  position: 4
+  prefix: --cmd
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

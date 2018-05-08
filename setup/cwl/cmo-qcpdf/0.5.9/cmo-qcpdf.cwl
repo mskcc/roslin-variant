@@ -47,8 +47,10 @@ label: cmo-qcpdf
 arguments:
 - valueFrom: "0.5.9"
   prefix: --version
+  position: 0
 - valueFrom: ${ return runtime.outdir; }
   prefix: --globdir
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

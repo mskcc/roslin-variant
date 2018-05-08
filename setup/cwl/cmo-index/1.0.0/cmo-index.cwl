@@ -43,6 +43,7 @@ label: cmo-index
 arguments:
 - valueFrom: "2.9"
   prefix: --version
+  position: 0
 
 requirements:
   ResourceRequirement:

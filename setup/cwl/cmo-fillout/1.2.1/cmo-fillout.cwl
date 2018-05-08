@@ -47,6 +47,7 @@ label: cmo-fillout
 arguments:
 - valueFrom: "1.2.1"
   prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

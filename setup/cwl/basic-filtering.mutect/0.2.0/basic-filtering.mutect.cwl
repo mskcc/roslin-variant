@@ -52,15 +52,16 @@ arguments:
   position: 0
 - valueFrom: "0.2.0"
   prefix: --version
-  position: 1
+  position: 0
 - valueFrom: "default"
   prefix: --language_version
-  position: 2
+  position: 0
 - valueFrom: "bash"
   prefix: --language
-  position: 3
+  position: 0
 - valueFrom: "mutect"
-  position: 4
+  prefix: --cmd
+  position: 0
   
 requirements:
   InlineJavascriptRequirement: {}

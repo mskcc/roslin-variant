@@ -46,7 +46,7 @@ arguments:
   position: 0
 - valueFrom: "jdk1.6.0_45"
   prefix: --java-version
-  position: 1
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

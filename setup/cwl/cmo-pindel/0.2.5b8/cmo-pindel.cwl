@@ -47,6 +47,7 @@ label: cmo-pindel
 arguments:
 - valueFrom: "0.2.5b8"
   prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

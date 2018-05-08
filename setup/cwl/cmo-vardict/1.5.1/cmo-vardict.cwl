@@ -47,6 +47,7 @@ label: cmo-vardict
 arguments:
 - valueFrom: "1.5.1"
   prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

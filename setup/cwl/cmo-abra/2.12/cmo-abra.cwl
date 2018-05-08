@@ -47,6 +47,7 @@ label: cmo-abra
 arguments:
 - valueFrom: "2.12"
   prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

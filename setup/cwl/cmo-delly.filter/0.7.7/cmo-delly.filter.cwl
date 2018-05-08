@@ -43,8 +43,10 @@ label: cmo-delly(filter)
 arguments:
 - valueFrom: "0.7.7"
   prefix: --version
+  position: 0
 - valueFrom: "filter"
   prefix: --cmd
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

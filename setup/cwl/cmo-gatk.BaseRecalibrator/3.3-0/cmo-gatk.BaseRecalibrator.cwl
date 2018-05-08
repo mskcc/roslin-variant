@@ -46,7 +46,7 @@ arguments:
   position: 0
 - valueFrom: "3.3-0"
   prefix: --version
-  position: 1
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

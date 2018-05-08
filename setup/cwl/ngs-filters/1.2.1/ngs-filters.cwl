@@ -49,13 +49,13 @@ arguments:
   position: 0
 - valueFrom: "1.2.1"
   prefix: --version
-  position: 1
+  position: 0
 - valueFrom: "default"
   prefix: --language_version
-  position: 2
+  position: 0
 - valueFrom: "python"
   prefix: --language
-  position: 3
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}

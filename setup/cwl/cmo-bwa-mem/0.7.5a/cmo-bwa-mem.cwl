@@ -46,6 +46,7 @@ label: cmo-bwa-mem
 arguments: 
 - valueFrom: "0.7.5a"
   prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
