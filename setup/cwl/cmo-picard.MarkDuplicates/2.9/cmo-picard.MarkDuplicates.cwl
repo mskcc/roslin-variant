@@ -42,7 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_picard]
-label: cmo-picard(MarkDuplicates)
+label: cmo-picard-MarkDuplicates
 
 arguments:
 - valueFrom: "MarkDuplicates"

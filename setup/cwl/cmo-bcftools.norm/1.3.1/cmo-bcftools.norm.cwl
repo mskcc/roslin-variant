@@ -43,7 +43,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_bcftools]
-label: cmo-bcftools(norm)
+label: cmo-bcftools-norm
 
 arguments:
 - valueFrom: "norm"

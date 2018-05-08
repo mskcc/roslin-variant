@@ -44,7 +44,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-label: basic-filtering(somaticIndelDetector)
+label: basic-filtering-somaticIndelDetector
 
 arguments:
 - valueFrom: "basic-filtering"
