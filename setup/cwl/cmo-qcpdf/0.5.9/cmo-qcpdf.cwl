@@ -42,6 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_qcpdf]
+id: cmo-qcpdf
 
 arguments:
 - valueFrom: "0.5.9"

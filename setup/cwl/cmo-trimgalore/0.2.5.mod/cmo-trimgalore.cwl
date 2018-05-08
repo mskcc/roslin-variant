@@ -42,6 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_trimgalore]
+id: cmo-trimgalore
 
 requirements:
 - class: InlineJavascriptRequirement

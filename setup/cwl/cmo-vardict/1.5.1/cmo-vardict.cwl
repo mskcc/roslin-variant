@@ -42,6 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_vardict]
+id: cmo-vardict
 
 arguments:
 - valueFrom: "1.5.1"

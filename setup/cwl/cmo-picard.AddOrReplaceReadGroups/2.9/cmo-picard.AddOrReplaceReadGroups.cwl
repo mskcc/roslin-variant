@@ -42,6 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_picard]
+id: cmo-picard(AddOrReplaceReadGroups)
 
 arguments:
 - valueFrom: "AddOrReplaceReadGroups"

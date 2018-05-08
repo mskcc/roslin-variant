@@ -42,6 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_gatk]
+id: cmo-gatk(PrintReads)
 
 arguments:
 - valueFrom: "PrintReads"

@@ -38,6 +38,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_delly]
+id: cmo-delly(filter)
 
 arguments:
 - valueFrom: "0.7.7"

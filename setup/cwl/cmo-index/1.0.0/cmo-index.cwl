@@ -38,6 +38,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_index]
+id: cmo-index
 
 arguments:
 - valueFrom: "2.9"

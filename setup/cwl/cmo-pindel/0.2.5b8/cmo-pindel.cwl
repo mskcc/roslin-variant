@@ -42,6 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_pindel]
+id: cmo-pindel
 
 arguments:
 - valueFrom: "0.2.5b8"

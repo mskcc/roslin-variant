@@ -44,6 +44,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
+id: basic-filtering(pindel)
 
 arguments:
 - valueFrom: "basic-filtering"
