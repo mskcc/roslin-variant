@@ -244,6 +244,10 @@
         "mergePicardMetrics": {
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         },
+        "msisensor": {
+            "0.2": "/opt/common/CentOS_6-dev/msisensor/v0.2/msisensor",
+            "default": "/opt/common/CentOS_6-dev/msisensor/v0.2/msisensor"
+        },
         "mutect": {
             "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
         },

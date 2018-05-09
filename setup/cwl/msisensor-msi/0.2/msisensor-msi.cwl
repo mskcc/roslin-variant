@@ -6,13 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/pi/roslin-test/targeted-variants/169/roslin-core/2.0.0/schemas/dcterms.rdf
-- file:///ifs/work/pi/roslin-test/targeted-variants/169/roslin-core/2.0.0/schemas/foaf.rdf
-- file:///ifs/work/pi/roslin-test/targeted-variants/169/roslin-core/2.0.0/schemas/doap.rdf
-#$schemas:
-#- http://dublincore.org/2012/06/14/dcterms.rdf
-#- http://xmlns.com/foaf/spec/20140114.rdf
-#- http://usefulinc.com/ns/doap#
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
@@ -42,9 +38,25 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- msisensor
-- msi
+baseCommand: [tool.sh]
+label: msisensor
+
+arguments:
+- valueFrom: "msisensor"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.2"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "bash"
+  prefix: --language
+  position: 0
+- valueFrom: "msi"
+  prefix: --cmd
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
