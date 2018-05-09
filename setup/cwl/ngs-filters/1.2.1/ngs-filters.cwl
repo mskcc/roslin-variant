@@ -40,21 +40,27 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "ngs-filters"
-- --version
-- "1.2.1"
-- --language_version
-- "default"
-- --language
-- "python"
+baseCommand: [tool.sh]
+label: ngs-filters
+
+arguments:
+- valueFrom: "ngs-filters"
+  prefix: --tool
+  position: 0
+- valueFrom: "1.2.1"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "python"
+  prefix: --language
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 24
+    ramMin: 24000
     coresMin: 1
 
 doc: |
