@@ -3,8 +3,8 @@ import os
 import csv
 
 input_file = sys.argv[1]
-roslin_version_string = [2]
-roslin_version_line = "#VERSIONS: " + roslin_version_string.replace("_"," ")
+roslin_version_string = sys.argv[2]
+roslin_version_line = "#VERSIONS: " + roslin_version_string.replace("_"," ") + '\n'
 fixed_output_file = input_file.replace('.combined.txt','.txt')
 
 with open(input_file,'r') as maf_file, open(fixed_output_file,'w') as maf_file_fixed:
