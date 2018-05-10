@@ -44,21 +44,27 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "remove-variants"
-- --version
-- "0.1.1"
-- --language_version
-- "default"
-- --language
-- "python"
+baseCommand: [tool.sh]
+label: remove-variants
+
+arguments:
+- valueFrom: "remove-variants"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.1.1"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "python"
+  prefix: --language
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 doc: |

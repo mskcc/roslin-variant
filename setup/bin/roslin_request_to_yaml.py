@@ -220,7 +220,12 @@ if __name__ == "__main__":
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
         'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
         'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
-        'request_file': {'class': 'File', 'path': os.path.realpath(args.request)}
+        'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
+        'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},
+        'vep_data': str(REQUEST_FILES['vep_data']),
+        'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
+        'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
+        'ref_fasta':  str(REQUEST_FILES['ref_fasta'])
     }
     string_list = {'vep_data','ref_fasta'} #paths that are taken as "string" idk why
     for key in REQUEST_FILES:
@@ -299,6 +304,13 @@ if __name__ == "__main__":
         "samples": sample_list,
         "pairs": pairing_dict,
         "groups": grouping_dict.values(),
+        "curated_bams": curated_bams,
+        "hapmap": {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])},
+        "dbsnp": {'class': 'File', 'path': str(REQUEST_FILES['dbsnp'])},
+        "indels_1000g": {'class': 'File', 'path': str(REQUEST_FILES['indels_1000g'])},
+        "snps_1000g": {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
+        "cosmic": {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
+        'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
         "db_files": files,
     }
     params = {

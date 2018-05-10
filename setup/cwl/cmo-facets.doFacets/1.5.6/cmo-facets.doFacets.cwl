@@ -40,22 +40,30 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "facets"
-- --version
-- "1.5.6"
-- --language_version
-- "default"
-- --language
-- "python"
-- doFacets
+baseCommand: [tool.sh]
+label: cmo-facets-doFacets
+
+arguments:
+- valueFrom: "facets"
+  prefix: --tool
+  position: 0
+- valueFrom: "1.5.6"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "python"
+  prefix: --language
+  position: 0
+- valueFrom: "doFacets"
+  prefix: --cmd
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 doc: |
@@ -205,26 +213,26 @@ inputs:
 
 outputs:
   png_files:
-    type: File[]
+    type: File[]?
     outputBinding:
       glob: '*.png'
   txt_files_purity:
-    type: File 
+    type: File?
     outputBinding:
       glob: '*_purity.cncf.txt'
   txt_files_hisens:
-    type: File 
+    type: File? 
     outputBinding:
       glob: '*_hisens.cncf.txt'
   out_files:
-    type: File[]
+    type: File[]?
     outputBinding:
       glob: '*.out'
   rdata_files:
-    type: File[]
+    type: File[]?
     outputBinding:
       glob: '*.Rdata'
   seg_files:
-    type: File[]
+    type: File[]?
     outputBinding:
       glob: '*.seg'
