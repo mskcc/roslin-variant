@@ -98,7 +98,7 @@ def generate_legacy_clinical_data(clinical_data_path,clinical_output_path,covera
 def get_sample_list(clinical_data_path):
 	sample_list = []
 	with open(clinical_data_path) as input_file:
-		reader = csv.reader(input_file, dialect='excel-tab')
+		reader = csv.reader(input_file, dialect='excel-tab')		
 		for row in reader:
 			sample_list.append(row[0])
 	sample_list.pop(0)
