@@ -353,7 +353,7 @@ if __name__ == '__main__':
 	#parser.add_argument('--portal_config',required=True,help='The roslin portal config file')
 	parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
 	parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
-	parser.add_argument('--msi_directory',required=True,help='The directory containing files for msi files (will be inside analyses/msi/)')
+	parser.add_argument('--msi_directory',required=True,help='The directory containing files for msi files (will be inside analysis/msi/)')
 	parser.add_argument('--output_directory',required=False,help='Set the ouput directory for portal files')
 	parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
 	args = parser.parse_args()
