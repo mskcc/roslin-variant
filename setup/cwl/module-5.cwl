@@ -43,7 +43,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: module-5
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -73,85 +72,51 @@ inputs:
       items:
         type: array
         items: File
-  clstats1:
+  trim_metrics_files:
     type:
       type: array
       items:
         type: array
-        items:
-          type: array
-          items: File
-  clstats2:
-    type:
-      type: array
-      items:
-        type: array
-        items:
-          type: array
-          items: File
+        items: File
 
 
 outputs:
 
   as_metrics:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/as_metrics_files
   hs_metrics:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/hs_metrics_files
   insert_metrics:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/is_metrics
   insert_pdf:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/is_hist
   per_target_coverage:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/per_target_coverage
   qual_metrics:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/qual_metrics
   qual_pdf:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/qual_pdf
   doc_basecounts:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/doc_basecounts
   gcbias_pdf:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/gcbias_pdf
   gcbias_metrics:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/gcbias_metrics_files
   gcbias_summary:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: scatter_metrics/gcbias_summary
   qc_files:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: generate_pdf/qc_files
 
 
@@ -299,8 +264,7 @@ steps:
     in:
       files: scatter_metrics/as_metrics_files
       md_metrics_files: md_metrics_files
-      clstats1: clstats1
-      clstats2: clstats2
+      trim_metrics_files: trim_metrics_files
       gcbias_files:
         valueFrom: ${ return "*.gcbiasmetrics";}
       mdmetrics_files:

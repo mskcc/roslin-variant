@@ -40,7 +40,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: module-1-scatter-chunk
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -143,13 +142,19 @@ steps:
         tmp_dir: string
       outputs:
         clstats1:
-          type: File
+          type:
+            type: array
+            items: File
           outputSource: trim_galore/clstats1
         clstats2:
-          type: File
+          type:
+            type: array
+            items: File
           outputSource: trim_galore/clstats2
         bam:
-          type: File
+          type:
+             type: array
+             items: File
           outputSource: add_rg_id/bam
       steps:
         trim_galore:

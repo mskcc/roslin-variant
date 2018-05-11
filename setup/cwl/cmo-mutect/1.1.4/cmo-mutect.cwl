@@ -37,21 +37,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_mutect]
-label: cmo-mutect
-
-arguments:
-- valueFrom: "1.1.4"
-  prefix: --version
-  position: 0
-- valueFrom: "jdk1.6.0_45"
-  prefix: --java-version
-  position: 0
+baseCommand:
+- cmo_mutect
+- --version
+- "1.1.4"
+- --java-version
+- "jdk1.6.0_45"
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 24000
+    ramMin: 24
     coresMin: 1
 
 doc: |

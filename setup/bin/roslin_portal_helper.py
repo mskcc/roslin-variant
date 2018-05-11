@@ -249,10 +249,9 @@ def generate_segmented_meta(portal_config_data, data_filename):
 
 def generate_study_meta(portal_config_data,pipeline_version_str):
 	study_meta_data = {}
-	study_name = portal_config_data['ProjectTitle'] + ' ('+portal_config_data['ProjectID']+' '+pipeline_version_str+') '
 	study_meta_data['type_of_cancer'] = portal_config_data['TumorType'].lower()
 	study_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
-	study_meta_data['name'] = study_name
+	study_meta_data['name'] = portal_config_data['ProjectTitle'] + '( '+portal_config_data['ProjectID']+' '+pipeline_version_str+' )'
 	study_meta_data['short_name'] =  portal_config_data['ProjectID'] 
 	study_meta_data['description'] = portal_config_data['ProjectDesc'].replace('\n', '')
 	study_meta_data['groups'] = 'PRISM'

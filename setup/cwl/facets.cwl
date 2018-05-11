@@ -40,7 +40,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: facets
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -62,11 +61,11 @@ outputs:
     outputSource: facets/png_files
 
   facets_txt_output_purity:
-    type: File
+    type: File[]
     outputSource: facets/txt_files_purity
 
   facets_txt_output_hisens:
-    type: File
+    type: File[]
     outputSource: facets/txt_files_hisens
 
   facets_out_output:
@@ -82,7 +81,7 @@ outputs:
     outputSource: facets/seg_files
 
   facets_counts_output:
-    type: File
+    type: File[]
     outputSource: snp_pileup/out_file
 
 steps:

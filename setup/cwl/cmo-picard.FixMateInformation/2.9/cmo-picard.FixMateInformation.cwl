@@ -41,21 +41,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-label: cmo-picard-FixMateInformation
-
-arguments:
-- valueFrom: "FixMateInformation"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+baseCommand:
+- cmo_picard
+- --cmd
+- FixMateInformation
+- --version
+- "2.9"
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 24000
+    ramMin: 24
     coresMin: 1
 
 

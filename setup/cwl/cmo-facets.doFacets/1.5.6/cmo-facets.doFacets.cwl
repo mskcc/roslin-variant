@@ -40,30 +40,22 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [tool.sh]
-label: cmo-facets-doFacets
-
-arguments:
-- valueFrom: "facets"
-  prefix: --tool
-  position: 0
-- valueFrom: "1.5.6"
-  prefix: --version
-  position: 0
-- valueFrom: "default"
-  prefix: --language_version
-  position: 0
-- valueFrom: "python"
-  prefix: --language
-  position: 0
-- valueFrom: "doFacets"
-  prefix: --cmd
-  position: 0
+baseCommand:
+- non-cmo.sh
+- --tool
+- "facets"
+- --version
+- "1.5.6"
+- --language_version
+- "default"
+- --language
+- "python"
+- doFacets
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8000
+    ramMin: 8
     coresMin: 1
 
 doc: |

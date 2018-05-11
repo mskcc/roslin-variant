@@ -37,21 +37,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_delly]
-label: cmo-delly-call
-
-arguments:
-- valueFrom: "0.7.7"
-  prefix: --version
-  position: 0
-- valueFrom: "call"
-  prefix: --cmd
-  position: 0
+baseCommand:
+- cmo_delly
+- --version
+- 0.7.7
+- --cmd
+- call
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8000
+    ramMin: 8
     coresMin: 1
 
 doc: |
@@ -68,7 +64,8 @@ inputs:
   g:
     type:
     - 'null'
-    - string
+    - type: enum
+      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
     doc: genome fasta file
     inputBinding:
       prefix: --genome

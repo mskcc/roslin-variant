@@ -43,7 +43,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
-label: parse-pairs-and-vcfs
 requirements:
   - class: InlineJavascriptRequirement
 
@@ -85,8 +84,6 @@ inputs:
       items:
         type: array
         items: File
-    secondaryFiles:
-      - ^.bai
   hotspot_list:
      type:
        type: array

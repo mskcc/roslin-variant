@@ -37,21 +37,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_gatk]
-label: cmo-gatk-BaseRecalibrator
-
-arguments:
-- valueFrom: "BaseRecalibrator"
-  prefix: -T
-  position: 0
-- valueFrom: "3.3-0"
-  prefix: --version
-  position: 0
+baseCommand:
+- cmo_gatk
+- -T
+- BaseRecalibrator
+- --version
+- 3.3-0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 24000
+    ramMin: 24
     coresMin: 2
 
 doc: |
@@ -183,7 +179,8 @@ inputs:
   reference_sequence:
     type:
     - 'null'
-    - string
+    - type: enum
+      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
     inputBinding:
       prefix: --reference_sequence
 

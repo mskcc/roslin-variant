@@ -37,17 +37,14 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_index]
-label: cmo-index
-
-arguments:
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+baseCommand:
+- cmo_index
+- --version
+- "2.9"
 
 requirements:
   ResourceRequirement:
-    ramMin: 16000
+    ramMin: 16
     coresMin: 1
 
 inputs:
