@@ -40,7 +40,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: module-1-2-chunk
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -122,7 +121,7 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
-  group: string
+  group: string[]
   mutect_dcov: int
   mutect_rf: string[]
   covariates: string[]
@@ -143,16 +142,12 @@ outputs:
   clstats1:
     type:
       type: array
-      items:
-        type: array
-        items: File
+      items: File
     outputSource: mapping/clstats1
   clstats2:
     type:
       type: array
-      items:
-        type: array
-        items: File
+      items: File
     outputSource: mapping/clstats2
   md_metrics:
     type:
@@ -160,10 +155,14 @@ outputs:
       items: File
     outputSource: mapping/md_metrics
   covint_list:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: realignment/covint_list
   covint_bed:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: realignment/covint_bed
 
 steps:

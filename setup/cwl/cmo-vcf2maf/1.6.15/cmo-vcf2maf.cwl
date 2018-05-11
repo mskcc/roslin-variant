@@ -42,18 +42,15 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_vcf2maf]
-label: cmo-vcf2maf
-
-arguments:
-- valueFrom: "1.6.15"
-  prefix: --version
-  position: 0
+baseCommand:
+- cmo_vcf2maf
+- --version
+- 1.6.15
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8000
+    ramMin: 8
     coresMin: 2
 
 
@@ -83,7 +80,8 @@ inputs:
   ncbi_build:
     type:
     - 'null'
-    - string
+    - type: enum
+      symbols: [GRCh37, GRCh38, GRCm38]
     default: GRCh37
     doc: Genome build of variants in input
     inputBinding:

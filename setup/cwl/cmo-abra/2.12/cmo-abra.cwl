@@ -41,18 +41,15 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_abra]
-label: cmo-abra
-
-arguments:
-- valueFrom: "2.12"
-  prefix: --version
-  position: 0
+baseCommand:
+- cmo_abra
+- --version
+- '2.12'
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 36000
+    ramMin: 36
     coresMin: 8
 
 
@@ -132,7 +129,9 @@ inputs:
       prefix: --mapq
 
   ref:
-    type: string
+    type:
+      type: enum
+      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
     inputBinding:
       prefix: --reference_sequence
 

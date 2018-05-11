@@ -50,21 +50,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-label: cmo-picard-CollectAlignmentSummaryMetrics
-
-arguments:
-- valueFrom: "CollectAlignmentSummaryMetrics"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+baseCommand:
+- cmo_picard
+- --cmd
+- CollectAlignmentSummaryMetrics
+- --version
+- "2.9"
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16000
+    ramMin: 16
     coresMin: 1
 
 
@@ -148,7 +144,8 @@ inputs:
   R:
     type:
     - 'null'
-    - string
+    - type: enum
+      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
     inputBinding:
       prefix: --genome
 

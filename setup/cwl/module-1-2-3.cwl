@@ -40,7 +40,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: module-1-2-3
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
