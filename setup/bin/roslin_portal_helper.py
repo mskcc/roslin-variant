@@ -87,7 +87,6 @@ def generate_legacy_clinical_data(clinical_data_path,clinical_output_path,covera
 		row.append('MSI_SCORE')
 		clinical_data.append(row)
 		for row in reader:
-			print row
 			coverage_value = coverage_values[row[0]]
 			msi_score = msi_scores[row[0]]
 			row.append(coverage_value)
@@ -315,8 +314,7 @@ def wait_for_job_to_finish(bjob_id,name):
 	job_string = name+' [' + bjob_id+']'
 	logger.info("Monitoring "+job_string)
 	bjob_command = "bjobs " + bjob_id + " | awk '{print $3}' | tail -1"
-	# job_done = False  #ts
-	job_done = True
+	job_done = False
 	while not job_done:
 		job_status = subprocess.check_output(bjob_command,shell=True).strip()
 		logger.info("Status: "+job_status)
