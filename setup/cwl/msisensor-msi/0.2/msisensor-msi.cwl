@@ -37,26 +37,38 @@ dct:contributor:
 
 cwlVersion: cwl:v1.0
 
-class: CommandLineTool
-baseCommand: [tool.sh]
-label: msisensor
+# class: CommandLineTool
+# baseCommand: [tool.sh]
+# label: msisensor
 
-arguments:
-- valueFrom: "msisensor"
-  prefix: --tool
-  position: 0
-- valueFrom: "0.2"
-  prefix: --version
-  position: 0
-- valueFrom: "default"
-  prefix: --language_version
-  position: 0
-- valueFrom: "bash"
-  prefix: --language
-  position: 0
-- valueFrom: "msi"
-  prefix: --cmd
-  position: 0
+# arguments:
+# - valueFrom: "msisensor"
+#   prefix: --tool
+#   position: 0
+# - valueFrom: "0.2"
+#   prefix: --version
+#   position: 0
+# - valueFrom: "default"
+#   prefix: --language_version
+#   position: 0
+# - valueFrom: "bash"
+#   prefix: --language
+#   position: 0
+# - valueFrom: "msi"
+#   prefix: --cmd
+#   position: 0
+class: CommandLineTool
+baseCommand:
+- non-cmo.sh
+- --tool
+- "msi"
+- --version
+- "0.2"
+- --language_version
+- "default"
+- --language
+- "bash"
+- msisensor
 
 requirements:
   InlineJavascriptRequirement: {}
