@@ -37,21 +37,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_delly]
-label: cmo-delly-filter
-
-arguments:
-- valueFrom: "0.7.7"
-  prefix: --version
-  position: 0
-- valueFrom: "filter"
-  prefix: --cmd
-  position: 0
+baseCommand:
+- cmo_delly
+- --version
+- 0.7.7
+- --cmd
+- filter
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8000
+    ramMin: 8
     coresMin: 1
 
 doc: |

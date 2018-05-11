@@ -73,22 +73,6 @@ install-pipeline.sh -p $TempDir/$pipeline_name > $parentDir/$TestDir/deploy_stdo
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u jenkins
-# Setup virtualenv
-printf "\n----------Setting up virtualenv----------\n"
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
-/opt/common/CentOS_6-dev/python/python-2.7.10/bin/virtualenv virtualenv
-source virtualenv/bin/activate
-export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
-pip install -r $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
-# install toil
-cd $ROSLIN_TOIL_INSTALL_PATH
-make prepare
-make develop extras=[cwl]
-# install cmo
-cd $ROSLIN_CMO_INSTALL_PATH
-python setup.py install
-deactivate
-cd $ROSLIN_CORE_BIN_PATH
 # Run test
 printf "\n----------Running Test----------\n"
 cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
