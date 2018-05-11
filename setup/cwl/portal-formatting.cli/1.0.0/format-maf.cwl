@@ -94,7 +94,7 @@ steps:
                 - awk
                 - -F
                 - "\t"
-                - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } } { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}' 
+                - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } print "Hugo_Symbol\\tEntrez_Gene_Id\\tCenter\\tTumor_Sample_Barcode\\tFusion\\tMethod\\tFrame" } NR>1 { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}' 
             stdout: $(inputs.output_filename)
             inputs:
                 grepped_file:
