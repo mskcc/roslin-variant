@@ -61,14 +61,14 @@ class: CommandLineTool
 baseCommand:
 - non-cmo.sh
 - --tool
-- "msi"
+- "msisensor"
 - --version
 - "0.2"
 - --language_version
 - "default"
 - --language
 - "bash"
-- msisensor
+- msi
 
 requirements:
   InlineJavascriptRequirement: {}
