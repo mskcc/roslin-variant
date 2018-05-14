@@ -285,6 +285,9 @@
         "bash": {
             "default": "/bin/bash"
         },
+        "exec": {
+            "default": "exec"
+        },
         "qc": {
             "default": "/opt/common/CentOS_6-dev/qc/default"
         },

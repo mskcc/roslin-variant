@@ -51,7 +51,7 @@ cwlVersion: cwl:v1.0
 # - valueFrom: "default"
 #   prefix: --language_version
 #   position: 0
-# - valueFrom: "bash"
+# - valueFrom: "exec"
 #   prefix: --language
 #   position: 0
 # - valueFrom: "msi"
@@ -67,7 +67,7 @@ baseCommand:
 - --language_version
 - "default"
 - --language
-- "bash"
+- "exec"
 - msi
 
 requirements:
