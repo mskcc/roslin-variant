@@ -250,7 +250,7 @@ def generate_study_meta(portal_config_data,pipeline_version_str):
 	study_meta_data['name'] = portal_config_data['ProjectTitle'] + '( '+portal_config_data['ProjectID']+' '+pipeline_version_str+' )'
 	study_meta_data['short_name'] =  portal_config_data['ProjectID'] 
 	study_meta_data['description'] = portal_config_data['ProjectDesc'].replace('\n', '')
-	study_meta_data['groups'] = 'PRISM'
+	study_meta_data['groups'] = 'COMPONC;PRISM'
 	#study_meta_data['add_global_case_list'] = True 
 	return study_meta_data
 
