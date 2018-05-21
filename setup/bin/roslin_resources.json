@@ -297,6 +297,7 @@
         },
         "roslin-qc": {
             "0.5.9": "sing.sh roslin-qc 0.5.9",
+            "0.5.10": "sing.sh roslin-qc 0.5.10",
             "default": "sing.sh roslin-qc 0.5.9"
         },
         "samstat": {
