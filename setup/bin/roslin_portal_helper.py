@@ -265,14 +265,12 @@ def create_meta_clinical_files_new_format(datatype, filepath, study_id):
 def create_data_clinical_files_new_format(data_clinical_file):
     samples_file_txt = ""
     patients_file_txt = ""
-
     with open(data_clinical_file, 'rb') as f:
         reader = csv.DictReader(f, delimiter='\t')
         data = list(reader)
         header = data[0].keys()
         samples_header = get_samples_header(header)
         patients_header = get_patients_header(header)
-
         data_attr = set_attributes(header) 
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
         patients_file_txt = generate_file_txt(data, data_attr, patients_header)
