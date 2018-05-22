@@ -1,3 +1,5 @@
+# -- Outdated --
+
 # Roslin-targeted-variants
 
 Table of Contents:
@@ -42,7 +44,7 @@ To run the pipeline you need:
 - Python 2.7.x
 - Node.js 6.1.0
 - [Singularity 2.2.1](http://singularity.lbl.gov/release-2-2-1)
-- Toil
+- cwltoil
 - [cmo](https://github.com/mskcc/cmo)
 
 Luna already fulfills these requirements.

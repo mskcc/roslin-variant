@@ -40,7 +40,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
-label: parse-project-yaml-input
 requirements:
   - class: InlineJavascriptRequirement
 
@@ -49,11 +48,15 @@ inputs:
     type:
       type: record
       fields:
+        cosmic: File
+        dbsnp: File
+        hapmap: File
+        indels_1000g: File
         refseq: File
+        snps_1000g: File
         ref_fasta: string
+        exac_filter: File
         vep_data: string
-        hotspot_list: File
-        hotspot_vcf: File
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
@@ -62,36 +65,6 @@ inputs:
         request_file: File
         pairing_file: File
         hotspot_vcf: File
-  hapmap_inputs:
-    type: File
-    secondaryFiles:
-      - .idx
-  dbsnp_inputs:
-    type: File
-    secondaryFiles:
-      - .idx
-  indels_1000g_inputs:
-    type: File
-    secondaryFiles:
-      - .idx
-  snps_1000g_inputs:
-    type: File
-    secondaryFiles:
-      - .idx
-  cosmic_inputs:
-    type: File
-    secondaryFiles:
-      - .idx
-  exac_filter_inputs:
-    type: File
-    secondaryFiles:
-      - .tbi
-  curated_bams_inputs:
-    type:
-      type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
   groups:
     type:
       type: array
@@ -118,10 +91,6 @@ inputs:
         num_threads: int
         tmp_dir: string
         opt_dup_pix_dist: string
-        delly_type:
-          type:
-            type: array
-            items: string
   samples:
     type:
       type: array
@@ -223,7 +192,9 @@ outputs:
   tmp_dir:
     type:
       type: array
-      items: string
+      items:
+        type: array
+        items: string
   covariates:
     type:
       type: array
@@ -239,7 +210,7 @@ outputs:
   mutect_dcov:
     type:
       type: array
-      items: int
+      items: string
   num_cpu_threads_per_data_thread:
     type:
       type: array
@@ -251,9 +222,7 @@ outputs:
   abra_scratch:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
   genome:
     type:
       type: array
@@ -332,32 +301,26 @@ expression: "${var groups = inputs.groups;
              if (groups[i][j]==samples[k]['ID']) {
                  for (var key in samples[k]) {
                      if ( key in group_object) {
-                         group_object[key].push(samples[k][key]);
+                         group_object[key].push(samples[k][key])
                      } else {
-                         group_object[key]=[samples[k][key]];
+                         group_object[key]=[samples[k][key]]
                      }
                  }
              }
          }
      }
-     var additional_db_files = ['hapmap_inputs', 'dbsnp_inputs', 'indels_1000g_inputs', 'snps_1000g_inputs', 'cosmic_inputs', 'exac_filter_inputs', 'curated_bams_inputs'];
      for (key in inputs.runparams) {
-         group_object[key] = inputs.runparams[key];
+         group_object[key] = inputs.runparams[key]
      } for (key in inputs.db_files) {
-         group_object[key] = inputs.db_files[key];
+         group_object[key] = inputs.db_files[key]
      }
-     for ( var key_index in additional_db_files){
-        var key = additional_db_files[key_index];
-        var new_key = key.slice(0, -7);
-        group_object[new_key] = inputs[key];
-      }
      group_object['group_ids']='Group' + i.toString();
      for (key in group_object) {
          if (key in project_object) {
-             project_object[key].push(group_object[key]);
+             project_object[key].push(group_object[key])
          }
          else {
-             project_object[key]=[group_object[key]];
+             project_object[key]=[group_object[key]]
          }
      }
  }

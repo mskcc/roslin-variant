@@ -50,7 +50,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: module-3
 requirements:
     MultipleInputFeatureRequirement: {}
     ScatterFeatureRequirement: {}
@@ -70,12 +69,10 @@ inputs:
     tumor_sample_name: string
     dbsnp:
         type: File
-        secondaryFiles:
-            - .idx
+        secondaryFiles: ['^.vcf.idx']
     cosmic:
         type: File
-        secondaryFiles:
-            - .idx
+        secondaryFiles: ['^.vcf.idx']
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
@@ -87,7 +84,7 @@ outputs:
         type: File
         outputSource: combine/out_vcf
     facets_png:
-        type: File[]
+        type: File
         outputSource: call_variants/facets_png
     facets_txt_hisens:
         type: File
@@ -96,13 +93,13 @@ outputs:
         type: File
         outputSource: call_variants/facets_txt_purity
     facets_out:
-        type: File[]
+        type: File
         outputSource: call_variants/facets_out
     facets_rdata:
-        type: File[]
+        type: File
         outputSource: call_variants/facets_rdata
     facets_seg:
-        type: File[]
+        type: File
         outputSource: call_variants/facets_seg
     facets_counts:
         type: File
@@ -170,7 +167,7 @@ steps:
                     type: File
                     outputSource: pindel/output
                 facets_png:
-                    type: File[]
+                    type: File
                     outputSource: facets/facets_png_output
                 facets_txt_hisens:
                     type: File
@@ -179,13 +176,13 @@ steps:
                     type: File
                     outputSource: facets/facets_txt_output_purity
                 facets_out:
-                    type: File[]
+                    type: File
                     outputSource: facets/facets_out_output
                 facets_rdata:
-                    type: File[]
+                    type: File
                     outputSource: facets/facets_rdata_output
                 facets_seg:
-                    type: File[]
+                    type: File
                     outputSource: facets/facets_seg_output
                 facets_counts:
                     type: File

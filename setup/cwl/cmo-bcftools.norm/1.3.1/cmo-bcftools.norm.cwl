@@ -42,17 +42,12 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_bcftools]
-label: cmo-bcftools-norm
-
-arguments:
-- valueFrom: "norm"
-  position: 0
+baseCommand: [cmo_bcftools, norm]
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16000
+    ramMin: 16
     coresMin: 1
 
 doc: |
@@ -161,7 +156,8 @@ inputs:
   fasta_ref:
     type:
     - 'null'
-    - string
+    - type: enum
+      symbols: [GRCm38, ncbi36, mm9, GRCh37, GRCh38, hg18, hg19, mm10]
     inputBinding:
       prefix: --fasta-ref
 
