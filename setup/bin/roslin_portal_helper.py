@@ -37,48 +37,6 @@ def get_oncotree_info():
         oncotree_dict[oncotree_code] = single_onco_info
     return oncotree_dict
 
-def generate_clinical_data(clinical_data_path,clinical_output_path,coverage_values):
-    clinical_data = []
-    clinical_data_file_body = ''
-    clinical_data_file_header = '#SAMPLE_ID\tPATIENT_ID\tCOLLAB_ID\tSAMPLE_TYPE\tGENE_PANEL\tONCOTREE_CODE\tSAMPLE_CLASS\tSPECIMEN_PRESERVATION_TYPE\tTISSUE_SITE\tSAMPLE_COVERAGE\n#SAMPLE_ID\tPATIENT_ID\tCOLLAB_ID\tSAMPLE_TYPE\tGENE_PANEL\tONCOTREE_CODE\tSAMPLE_CLASS\tSPECIMEN_PRESERVATION_TYPE\tTISSUE_SITE\tSAMPLE COVERAGE\n#STRING\tSTRING\tSTRING\tSTRING\tSTRING\tSTRING\tSTRING\tSTRING\tSTRING\tNUMBER\n#1\t1\t1\t1\t1\t1\t1\t1\t1\t1\n'
-    patient_data_file_body = ''
-    patient_data_file_header = '#PATIENT_ID\tSEX\n#PATIENT_ID\tSEX\n#STRING\tSTRING\n#1\t1\n'
-    sample_list = []
-    patient_header_line = []
-    patient_header = ''
-    patient_data_dict = {}
-    with open(clinical_data_path,'r') as input_file:
-        header_line = input_file.readline().rstrip('\r\n').split('\t')
-        sex_index = header_line.index('SEX')
-        patient_id_index = header_line.index('PATIENT_ID')
-        patient_header_value = header_line[patient_id_index]
-        sex_header_value = header_line.pop(sex_index)
-        patient_header_line.append(patient_header_value)
-        patient_header_line.append(sex_header_value)
-        header = '\t'.join(header_line)
-        patient_header = '\t'.join(patient_header_line)
-        for single_line in input_file:
-            single_row_list = single_line.rstrip('\r\n').split('\t')
-            patient_id_value = single_row_list[patient_id_index]
-            sex_value = single_row_list.pop(sex_index)
-            patient_data_dict[patient_id_value] = sex_value
-            single_row = '\t'.join(single_row_list)
-            clinical_data.append(single_row)
-    clinical_data_file_header = clinical_data_file_header + header + '\tSAMPLE COVERAGE'
-    patient_data_file_header = patient_data_file_header + patient_header
-    for single_row in clinical_data:
-        single_row_items = single_row.split('\t')
-        sample_id_value = single_row_items[0]
-        sample_list.append(sample_id_value)
-        sample_coverage_value = coverage_values[sample_id_value]
-        clinical_data_file_body = clinical_data_file_body + single_row+'\t'+sample_coverage_value+'\n'
-    for single_patient in patient_data_dict:
-        single_patient_row = single_patient+'\t'+patient_data_dict[single_patient]+'\n'
-        patient_data_file_body = patient_data_file_body + single_patient_row
-    clinical_data_file = clinical_data_file_header + '\n' + clinical_data_file_body
-    patient_data_file = patient_data_file_header + '\n' + patient_data_file_body
-    return {'patient_data_file':patient_data_file,'clinical_data_file':clinical_data_file,'sample_list':sample_list}
-
 def generate_legacy_clinical_data(clinical_data_path,clinical_output_path,coverage_values):
     with open(clinical_data_path) as input_file, open(clinical_output_path,'w') as output_file:
         writer = csv.writer(output_file, lineterminator='\n',dialect='excel-tab')
@@ -102,19 +60,19 @@ def get_sample_list(clinical_data_path):
     sample_list.pop(0)
     return sample_list
 
-def generate_maf_data(maf_directory,output_directory,maf_file_name,log_directory,script_path,pipeline_version_str):
+def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,script_path,pipeline_version_str):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
     combined_output = maf_file_name.replace('.txt','.combined.txt')
-    combined_output_path = os.path.join(output_directory,combined_output)
+    combined_output_file = os.path.join(output_directory,combined_output)
     pipeline_version_str_arg = pipeline_version_str.replace(" ","_")
-    output_path = os.path.join(output_directory,maf_file_name)
+    portal_file = os.path.join(output_directory,maf_file_name)
     maf_log = os.path.join(log_directory,'generate_maf.log')
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
-    maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_path
-        + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_path
-        + '; python ' + maf_filter_script + ' ' + combined_output_path + ' ' + pipeline_version_str_arg + ' ' + output_path + '"')
+    maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
+        + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
+        + '; python ' + maf_filter_script + ' ' + combined_output_file + ' ' + pipeline_version_str_arg + ' ' + analysis_maf_file + ' ' + portal_file + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
@@ -264,22 +222,6 @@ def generate_fusion_meta(portal_config_data,data_filename):
     fusion_meta_data['data_filename'] = data_filename
     return fusion_meta_data
 
-def generate_clinical_meta(portal_config_data, clinical_file_name):
-    clinical_meta_data = {}
-    clinical_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
-    clinical_meta_data['genetic_alteration_type'] = 'CLINICAL'
-    clinical_meta_data['datatype'] ='SAMPLE_ATTRIBUTES'
-    clinical_meta_data['data_filename'] = clinical_file_name
-    return clinical_meta_data
-
-def generate_patient_meta(portal_config_data, patient_file_name):
-    patient_meta_data = {}
-    patient_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
-    patient_meta_data['genetic_alteration_type'] = 'CLINICAL'
-    patient_meta_data['datatype'] ='PATIENT_ATTRIBUTES'
-    patient_meta_data['data_filename'] = patient_file_name
-    return patient_meta_data
-
 def wait_for_jobs_to_finish(bjob_ids,name):
     job_string = name + ' [' + ','.join(bjob_ids) + ']'
     logger.info("Monitoring " + job_string)
@@ -312,6 +254,87 @@ def check_if_IMPACT(request_file_path):
                 Is_it_IMPACT = True
     return Is_it_IMPACT
 
+def create_meta_clinical_files_new_format(datatype, filepath, study_id):
+    filename = os.path.basename(filepath)
+    with open(filepath, 'wb') as output_file: 
+        output_file.write('cancer_study_identifier: %s\n' % study_id)
+        output_file.write('genetic_alteration_type: CLINICAL\n')
+        output_file.write('datatype: %s\n' % datatype)
+        output_file.write('data_filename: %s\n' % filename)
+
+def create_data_clinical_files_new_format(data_clinical_file):
+    samples_file_txt = ""
+    patients_file_txt = ""
+
+    with open(data_clinical_file, 'rb') as f:
+        reader = csv.DictReader(f, delimiter='\t')
+        data = list(reader)
+        header = data[0].keys()
+        samples_header = get_samples_header(header)
+        patients_header = get_patients_header(header)
+
+        data_attr = set_attributes(header) 
+        samples_file_txt = generate_file_txt(data, data_attr, samples_header)
+        patients_file_txt = generate_file_txt(data, data_attr, patients_header)
+
+    return samples_file_txt, patients_file_txt
+
+def get_samples_header(header):
+    temp_header = set(header)
+    temp_header.discard("SEX")
+    return temp_header
+
+def get_patients_header(header):
+    return {"PATIENT_ID", "SEX"}
+
+def set_attributes(data):
+    d = dict()
+    # This is a rough place for this; should move somewhere later
+    NUMBER_DATATYPE = set()
+    NUMBER_DATATYPE.add('SAMPLE_COVERAGE') 
+    for key in data:
+        d[key] = dict()
+        d[key]["desc"] = key
+        d[key]["datatype"] = "NUMBER" if key in NUMBER_DATATYPE else "STRING"
+        d[key]["priority"] = "1"
+    return d
+
+# Convert this stuff into an object later, because this is MESSY AS HELL
+def generate_file_txt(data, attr, header):
+    order = list()
+    row1 = "#"
+    row2 = "#"
+    row3 = "#"
+    row4 = "#"
+
+    row2_values = list()
+    row3_values = list()
+    row4_values = list()
+
+    for heading in header:
+        order.append(heading)
+        row2_values.append(attr[heading]['desc'])
+        row3_values.append(attr[heading]['datatype'])
+        row4_values.append(attr[heading]['priority'])
+
+    row1 = "#" + "\t".join(order) + "\n"
+    row2 = "#" + "\t".join(row2_values) + "\n"
+    row3 = "#" + "\t".join(row3_values) + "\n"
+    row4 = "#" + "\t".join(row4_values) + "\n"
+    
+    metadata = row1 + row2 + row3 + row4
+
+    data_str = "\t".join(order) + "\n"
+    for row in data:
+        temp_list = list()
+        for heading in order:
+            row_value = row[heading].strip()
+            temp_list.append(row_value)
+        data_str += "\t".join(temp_list) + "\n"
+   
+    file_txt = metadata + data_str
+    return file_txt
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help= True, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--clinical_data',required=True,help='The clinical file located with Roslin manifests')
@@ -322,7 +345,7 @@ if __name__ == '__main__':
     #parser.add_argument('--portal_config',required=True,help='The roslin portal config file')
     parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
-    parser.add_argument('--output_directory',required=False,help='Set the ouput directory for portal files')
+    parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
     args = parser.parse_args()
     current_working_directory = os.getcwd()
@@ -399,6 +422,10 @@ if __name__ == '__main__':
     patient_meta_file = 'meta_patient.txt'
     mutation_meta_file = 'meta_mutations_extended.txt'
     fusion_meta_file = 'meta_fusions.txt'
+    clinical_meta_samples_file = 'meta_clinical_samples.txt'
+    clinical_meta_patients_file = 'meta_clinical_patients.txt'
+    clinical_data_samples_file = 'data_clinical_samples.txt'
+    clinical_data_patients_file = 'data_clinical_patients.txt'
     portal_config_data['stable_id'] = stable_id
 
     # Set work directory space to tmp or a specified ouput path
@@ -408,22 +435,29 @@ if __name__ == '__main__':
     else:
         output_directory = args.output_directory
 
+    # ::TODO:: This analysis folder and analyst's MAF should be created during the workflow instead
+    analysis_dir = os.path.abspath(os.path.join(output_directory,os.pardir,'analysis'))
+    if not os.path.exists(analysis_dir):
+        os.makedirs(analysis_dir)
+    analysis_maf_file = os.path.join(analysis_dir, stable_id + '.muts.maf')
+
     clinical_data_path = os.path.join(output_directory,clinical_data_file)
-    #clinical_data_dict = generate_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
-    #clinical_data = clinical_data_dict['clinical_data_file']
-    #patient_data = clinical_data_dict['patient_data_file']
-    #sample_list = clinical_data_dict['sample_list']
     generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
+    # writing new format of data clinical files using legacy data in 'clinical_data_path'
+    data_clinical_samples_txt, data_clinical_patients_txt = create_data_clinical_files_new_format(clinical_data_path)
+    clinical_data_samples_output_path = os.path.join(output_directory, clinical_data_samples_file)
+    clinical_data_patients_output_path = os.path.join(output_directory, clinical_data_patients_file)
+    with open(clinical_data_samples_output_path, 'wb') as out:
+        out.write(data_clinical_samples_txt)
+    with open(clinical_data_patients_output_path, 'wb') as out:
+        out.write(data_clinical_patients_txt)
     logger.info('Finished generating clinical data')
+    logger.info('-- Including new format clinical data')
+
     sample_list = get_sample_list(args.clinical_data)
     generate_case_lists(portal_config_data,sample_list,output_directory)
     logger.info('Finished generating case lists')
 
-    #with open(clinical_data_path,'w') as clinical_data_path_file:
-    #    clinical_data_path_file.write(clinical_data)
-
-    #clinical_config_data = column_info_data['Clinical']
-    #patient_config_data = column_info_data['Patient']
     # Generate our files
     with open(args.roslin_output) as roslin_output_file:
         roslin_output_file.readline()
@@ -439,12 +473,8 @@ if __name__ == '__main__':
     segmented_data_meta = generate_segmented_meta(portal_config_data,segmented_data_file)
     logger.info('Finished generating segmented meta')
 
-    #clinical_meta = generate_clinical_meta(portal_config_data,clinical_data_file)
-    #clinical_data = generate_clinical_data(sample_info,clinical_config_data)
-    #patient_meta = generate_patient_meta(portal_config_data,patient_data_file)
-    #patient_data = generate_patient_data(sample_info,patient_config_data)
     job_ids = []
-    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,log_directory,args.script_path,version_str))
+    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str))
     logger.info('Submitted job to generate maf data')
     job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,facets_gene_cna_file,log_directory))
     logger.info('Submitted job to generate discrete copy number data')
@@ -452,14 +482,12 @@ if __name__ == '__main__':
     logger.info('Submitted job to generate segmented copy number data')
 
     study_meta_path = os.path.join(output_directory,study_meta_file)
-    #clinical_meta_path = os.path.join(output_directory,clinical_meta_file)
+    clinical_meta_samples_path = os.path.join(output_directory, clinical_meta_samples_file)
+    clinical_meta_patients_path = os.path.join(output_directory, clinical_meta_patients_file)
     mutation_meta_path = os.path.join(output_directory,mutation_meta_file)
 
     discrete_copy_number_meta_path = os.path.join(output_directory,discrete_copy_number_meta_file)
-    segmented_data_meta_path = os.path.join(output_directory,segmented_data_meta_file)
-    #clinical_data_path = os.path.join(output_directory,clinical_data_file)
-    patient_meta_path = os.path.join(output_directory,patient_meta_file)
-    patient_data_path = os.path.join(output_directory,patient_data_file)
+    segmented_data_meta_path = os.path.join(output_directory,segmented_data_meta_file) 
 
     logger.info('Writing meta files')
 
@@ -469,11 +497,8 @@ if __name__ == '__main__':
     with open(mutation_meta_path,'w') as mutation_meta_path_file:
         yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False, width=float("inf"))
 
-    #with open(clinical_meta_path,'w') as clinical_meta_path_file:
-    #    yaml.dump(clinical_meta,clinical_meta_path_file,default_flow_style=False, width=float("inf"))
-
-    #with open(patient_meta_path,'w') as patient_meta_path_file:
-    #    yaml.dump(patient_meta,patient_meta_path_file,default_flow_style=False, width=float("inf"))
+    create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, stable_id) 
+    create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, stable_id)  
 
     with open(discrete_copy_number_meta_path,'w') as discrete_copy_number_meta_path_file:
         yaml.dump(discrete_copy_number_meta,discrete_copy_number_meta_path_file,default_flow_style=False, width=float("inf"))
@@ -494,6 +519,3 @@ if __name__ == '__main__':
     # Now wait for any of the jobs submitted earlier to complete, before we exit
     wait_for_jobs_to_finish(job_ids, 'Data generation jobs')
     #os.chdir(current_working_directory)
-
-#    with open(patient_data_path,'w') as patient_data_path_file:
-#        patient_data_path_file.write(patient_data)
