@@ -437,7 +437,7 @@ if __name__ == '__main__':
     analysis_dir = os.path.abspath(os.path.join(output_directory,os.pardir,'analysis'))
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
-    analysis_maf_file = os.path.join(analysis_dir, stable_id + '.muts.maf')
+    analysis_maf_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
 
     clinical_data_path = os.path.join(output_directory,clinical_data_file)
     generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
