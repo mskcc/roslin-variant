@@ -60,19 +60,19 @@ def get_sample_list(clinical_data_path):
     sample_list.pop(0)
     return sample_list
 
-def generate_maf_data(maf_directory,output_directory,maf_file_name,log_directory,script_path,pipeline_version_str):
+def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,script_path,pipeline_version_str):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
     combined_output = maf_file_name.replace('.txt','.combined.txt')
-    combined_output_path = os.path.join(output_directory,combined_output)
+    combined_output_file = os.path.join(output_directory,combined_output)
     pipeline_version_str_arg = pipeline_version_str.replace(" ","_")
-    output_path = os.path.join(output_directory,maf_file_name)
+    portal_file = os.path.join(output_directory,maf_file_name)
     maf_log = os.path.join(log_directory,'generate_maf.log')
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
-    maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_path
-        + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_path
-        + '; python ' + maf_filter_script + ' ' + combined_output_path + ' ' + pipeline_version_str_arg + ' ' + output_path + '"')
+    maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
+        + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
+        + '; python ' + maf_filter_script + ' ' + combined_output_file + ' ' + pipeline_version_str_arg + ' ' + analysis_maf_file + ' ' + portal_file + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
@@ -266,7 +266,6 @@ def create_data_clinical_files_new_format(data_clinical_file):
     samples_file_txt = ""
     patients_file_txt = ""
 
-    print(data_clinical_file)
     with open(data_clinical_file, 'rb') as f:
         reader = csv.DictReader(f, delimiter='\t')
         data = list(reader)
@@ -274,8 +273,6 @@ def create_data_clinical_files_new_format(data_clinical_file):
         samples_header = get_samples_header(header)
         patients_header = get_patients_header(header)
 
-        print(header)
-        print(samples_header)
         data_attr = set_attributes(header) 
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
         patients_file_txt = generate_file_txt(data, data_attr, patients_header)
@@ -348,7 +345,7 @@ if __name__ == '__main__':
     #parser.add_argument('--portal_config',required=True,help='The roslin portal config file')
     parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
-    parser.add_argument('--output_directory',required=False,help='Set the ouput directory for portal files')
+    parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
     args = parser.parse_args()
     current_working_directory = os.getcwd()
@@ -438,6 +435,12 @@ if __name__ == '__main__':
     else:
         output_directory = args.output_directory
 
+    # ::TODO:: This analysis folder and analyst's MAF should be created during the workflow instead
+    analysis_dir = os.path.abspath(os.path.join(output_directory,os.pardir,'analysis'))
+    if not os.path.exists(analysis_dir):
+        os.makedirs(analysis_dir)
+    analysis_maf_file = os.path.join(analysis_dir, stable_id + '.muts.maf')
+
     clinical_data_path = os.path.join(output_directory,clinical_data_file)
     generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
     # writing new format of data clinical files using legacy data in 'clinical_data_path'
@@ -471,7 +474,7 @@ if __name__ == '__main__':
     logger.info('Finished generating segmented meta')
 
     job_ids = []
-    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,log_directory,args.script_path,version_str))
+    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str))
     logger.info('Submitted job to generate maf data')
     job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,facets_gene_cna_file,log_directory))
     logger.info('Submitted job to generate discrete copy number data')
