@@ -1,24 +1,14 @@
 #!/usr/bin/env python
 
-import argparse, os, sys
+import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, shutil, logging
 from xlrd import open_workbook
-import requests
-import yaml
-import tempfile
-import json
-import imp
-import subprocess
-import re
-import time
-import io
-import genPortalUUID
-import csv
-import shutil
-import glob
-import logging
+from tempfile import mkdtemp
+from datetime import date
 
+# Load some internal MSK libraries that we'll need here
 sys.path.append('/opt/common/CentOS_6-dev/cbioportal/v1.13.0/core/src/main/scripts/importer')
-import validateData as vd
+import validateData
+import genPortalUUID
 
 logger = logging.getLogger("roslin_portal_helper")
 logger.setLevel(logging.INFO)
@@ -64,7 +54,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
     combined_output = maf_file_name.replace('.txt','.combined.txt')
     combined_output_file = os.path.join(output_directory,combined_output)
-    pipeline_version_str_arg = pipeline_version_str.replace(" ","_")
+    pipeline_version_str_arg = pipeline_version_str.replace(' ','_')
     portal_file = os.path.join(output_directory,maf_file_name)
     maf_log = os.path.join(log_directory,'generate_maf.log')
     regexp_string = "--regexp='^(Hugo|#)'"
@@ -175,11 +165,11 @@ def generate_study_meta(portal_config_data,pipeline_version_str):
     study_meta_data = {}
     study_meta_data['type_of_cancer'] = portal_config_data['TumorType'].lower()
     study_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
-    study_meta_data['name'] = portal_config_data['ProjectTitle'] + '( '+portal_config_data['ProjectID']+' '+pipeline_version_str+' )'
+    study_meta_data['name'] = portal_config_data['ProjectTitle'] + ' (' + portal_config_data['ProjectID'] + ') [' + pipeline_version_str + ', ' + str(date.today()) + ']'
     study_meta_data['short_name'] =  portal_config_data['ProjectID']
     study_meta_data['description'] = portal_config_data['ProjectDesc'].replace('\n', '')
-    study_meta_data['groups'] = 'COMPONC;PRISM' # These are the groups that can access everything
-    # Find the PI that funded this project, and make sure their group will have access
+    study_meta_data['groups'] = 'PRISM;COMPONC;VIALEA' # These groups can access everything
+    # Find the PI that funded this project, and make sure their group has access too
     if 'PI' in portal_config_data and portal_config_data['PI'] is not 'NA':
         study_meta_data['groups'] += ';' + portal_config_data['PI'].upper()
     #study_meta_data['add_global_case_list'] = True
@@ -255,7 +245,7 @@ def check_if_IMPACT(request_file_path):
     return Is_it_IMPACT
 
 def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id):
-    with open(filepath, 'wb') as output_file: 
+    with open(filepath, 'wb') as output_file:
         output_file.write('cancer_study_identifier: %s\n' % study_id)
         output_file.write('genetic_alteration_type: CLINICAL\n')
         output_file.write('datatype: %s\n' % datatype)
@@ -270,7 +260,7 @@ def create_data_clinical_files_new_format(data_clinical_file):
         header = data[0].keys()
         samples_header = get_samples_header(header)
         patients_header = get_patients_header(header)
-        data_attr = set_attributes(header) 
+        data_attr = set_attributes(header)
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
         patients_file_txt = generate_file_txt(data, data_attr, patients_header)
 
@@ -288,7 +278,7 @@ def set_attributes(data):
     d = dict()
     # This is a rough place for this; should move somewhere later
     NUMBER_DATATYPE = set()
-    NUMBER_DATATYPE.add('SAMPLE_COVERAGE') 
+    NUMBER_DATATYPE.add('SAMPLE_COVERAGE')
     for key in data:
         d[key] = dict()
         d[key]["desc"] = key
@@ -318,7 +308,7 @@ def generate_file_txt(data, attr, header):
     row2 = "#" + "\t".join(row2_values) + "\n"
     row3 = "#" + "\t".join(row3_values) + "\n"
     row4 = "#" + "\t".join(row4_values) + "\n"
-    
+
     metadata = row1 + row2 + row3 + row4
 
     data_str = "\t".join(order) + "\n"
@@ -328,24 +318,30 @@ def generate_file_txt(data, attr, header):
             row_value = row[heading].strip()
             temp_list.append(row_value)
         data_str += "\t".join(temp_list) + "\n"
-   
+
     file_txt = metadata + data_str
     return file_txt
 
 # Replicating parameters expected by validateData.py
 def validate_portal_data(portal_output_directory):
     logger.info('---------- Running portal validator ----------')
-    logger.info('Study path: ' + portal_output_directory)
-    validator_args = argparse.Namespace(study_directory=portal_output_directory,
-            no_portal_checks=True,
-            url_server=None,
-            portal_info_dir=None,
-            html_table=None,
-            portal_properties=None,
-            error_file=None,
-            verbose=None,
-            relaxed_clinical_definitions=None)
-    exit_status = vd.main_validate(validator_args)
+    validator_args = argparse.Namespace(
+        study_directory=portal_output_directory,
+        no_portal_checks=True,
+        url_server=None,
+        portal_info_dir=None,
+        html_table=None,
+        portal_properties=None,
+        error_file=None,
+        verbose=None,
+        relaxed_clinical_definitions=None
+    )
+    try:
+        exit_status = validateData.main_validate(validator_args)
+    finally:
+        logging.shutdown()
+        del logging._handlerList[:]  # workaround for harmless exceptions on exit
+
     return exit_status
 
 if __name__ == '__main__':
@@ -418,8 +414,7 @@ if __name__ == '__main__':
                 if sample_value in coverage_values:
                     raise Exception("Duplicate coverages on sample " + sample_value + " of " + coverage_values[sample_value] + " and " + coverage_value)
                 coverage_values[sample_value] = coverage_value
-    #    with io.StringIO(unicode(roslin_config_file_data,"utf-8")) as fixed_roslin_config_file:
-    #        roslin_config_data = imp.load_source('data','roslin_config_data',fixed_roslin_config_file)
+
     stable_id = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
     maf_file_name =  'data_mutations_extended.txt'
     fusion_file_name = 'data_fusions.txt'
@@ -444,7 +439,7 @@ if __name__ == '__main__':
     # Set work directory space to tmp or a specified ouput path
     output_directory = None
     if not args.output_directory:
-        output_directory = tempfile.mkdtemp()
+        output_directory = mkdtemp()
     else:
         output_directory = args.output_directory
 
@@ -464,18 +459,17 @@ if __name__ == '__main__':
         out.write(data_clinical_samples_txt)
     with open(clinical_data_patients_output_path, 'wb') as out:
         out.write(data_clinical_patients_txt)
-    logger.info('Finished generating clinical data')
-    logger.info('-- Including new format clinical data')
+    logger.info('Finished generating clinical data, including in the new format')
 
     sample_list = get_sample_list(args.clinical_data)
     generate_case_lists(portal_config_data,sample_list,output_directory)
     logger.info('Finished generating case lists')
 
-    # Generate our files
+    # Extract the roslin version from the stdout log file
     with open(args.roslin_output) as roslin_output_file:
         roslin_output_file.readline()
         roslin_output_file.readline()
-        version_str = roslin_output_file.readline().rstrip('\r\n')
+        version_str = re.findall(r'^VERSIONS: (.*)$',roslin_output_file.readline())[0].rstrip('\r\n')
 
     study_meta = generate_study_meta(portal_config_data,version_str)
     logger.info('Finished generating study meta')
@@ -500,24 +494,24 @@ if __name__ == '__main__':
     mutation_meta_path = os.path.join(output_directory,mutation_meta_file)
 
     discrete_copy_number_meta_path = os.path.join(output_directory,discrete_copy_number_meta_file)
-    segmented_data_meta_path = os.path.join(output_directory,segmented_data_meta_file) 
+    segmented_data_meta_path = os.path.join(output_directory,segmented_data_meta_file)
 
     logger.info('Writing meta files')
 
     with open(study_meta_path,'w') as study_meta_path_file:
-        yaml.dump(study_meta,study_meta_path_file,default_flow_style=False, width=float("inf"))
+        yaml.dump(study_meta,study_meta_path_file,default_flow_style=False,width=float("inf"))
 
     with open(mutation_meta_path,'w') as mutation_meta_path_file:
-        yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False, width=float("inf"))
+        yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False,width=float("inf"))
 
-    create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, clinical_data_samples_file, stable_id) 
-    create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, clinical_data_patients_file, stable_id)  
+    create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, clinical_data_samples_file, stable_id)
+    create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, clinical_data_patients_file, stable_id)
 
     with open(discrete_copy_number_meta_path,'w') as discrete_copy_number_meta_path_file:
-        yaml.dump(discrete_copy_number_meta,discrete_copy_number_meta_path_file,default_flow_style=False, width=float("inf"))
+        yaml.dump(discrete_copy_number_meta,discrete_copy_number_meta_path_file,default_flow_style=False,width=float("inf"))
 
     with open(segmented_data_meta_path,'w') as segmented_data_meta_path_file:
-        yaml.dump(segmented_data_meta,segmented_data_meta_path_file,default_flow_style=False, width=float("inf"))
+        yaml.dump(segmented_data_meta,segmented_data_meta_path_file,default_flow_style=False,width=float("inf"))
 
     if Is_Project_IMPACT:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
@@ -525,19 +519,18 @@ if __name__ == '__main__':
         job_ids.append(generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path))
         logger.info('Submitted job to generate fusion data')
         fusion_meta_path = os.path.join(output_directory,fusion_meta_file)
-        logger.info('Writing fusion meta')
+        logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:
-            yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False, width=float("inf"))
+            yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))
 
     # Now wait for any of the jobs submitted earlier to complete
     wait_for_jobs_to_finish(job_ids, 'Data generation jobs')
 
-    validation_exit_status = validate_portal_data(output_directory) 
+    validation_exit_status = validate_portal_data(output_directory)
     logging.info("Portal exit status: %i" % validation_exit_status)
     if validation_exit_status == 0 or validation_exit_status == 3:
-        logger.info("Portal files are valid for upload.")
+        logger.info('Portal files are valid for upload.')
         # TODO: insert upload/file move to mercurial repo here
     else:
-        logger.info("Problems have occurred; files will not be uploaded to the portal.")
-
-    #os.chdir(current_working_directory)
+        logger.warning('Portal files are invalid; they will not be uploaded.')
+        # TODO: save the stdout from the validator, and save it somewhere
