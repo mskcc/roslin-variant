@@ -4,6 +4,7 @@ import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, s
 from xlrd import open_workbook
 from tempfile import mkdtemp
 from datetime import date
+from distutils.dir_util import copy_tree
 
 # Load some internal MSK libraries that we'll need here
 sys.path.append('/opt/common/CentOS_6-dev/cbioportal/v1.13.0/core/src/main/scripts/importer')
@@ -336,13 +337,16 @@ def validate_portal_data(portal_output_directory):
         verbose=None,
         relaxed_clinical_definitions=None
     )
-    try:
-        exit_status = validateData.main_validate(validator_args)
-    finally:
-        logging.shutdown()
-        del logging._handlerList[:]  # workaround for harmless exceptions on exit
-
+    exit_status = validateData.main_validate(validator_args)
     return exit_status
+
+def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
+    subdirs = stable_id.split("_")
+    first_dir = subdirs[1]
+    second_dir = subdirs[2]
+    full_path = os.path.join(mercurial_path,"") + first_dir + os.sep + second_dir + os.sep + project_name
+    logger.info("Creating directories in mercurial repo: %s" % full_path) 
+    return full_path
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help= True, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -356,15 +360,16 @@ if __name__ == '__main__':
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
     parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
+    parser.add_argument('--portal_repo',default='/ifs/work/pi/portal/bic-mskcc-roslin/pi', help="Location of the cBioportal repo. Set to default /ifs/work/pi/portal/bic-mskcc-roslin/pi/.")
     args = parser.parse_args()
     current_working_directory = os.getcwd()
     #args_abspath = {}
     #for single_arg in args:
     #    args_abspath[single_arg] = os.path.abspath(args[single_arg])
-    project_id = ''
     #work_book = open_workbook(args.manifest_file)
     #sample_info = work_book.sheet_by_name('SampleInfo')
     Is_Project_IMPACT = check_if_IMPACT(args.request_file)
+    mercurial_path = args.portal_repo
 
     # Read yaml portal config file
     #with open(args.column_info,'r') as column_info_file:
@@ -526,11 +531,18 @@ if __name__ == '__main__':
     # Now wait for any of the jobs submitted earlier to complete
     wait_for_jobs_to_finish(job_ids, 'Data generation jobs')
 
-    validation_exit_status = validate_portal_data(output_directory)
-    logging.info("Portal exit status: %i" % validation_exit_status)
-    if validation_exit_status == 0 or validation_exit_status == 3:
-        logger.info('Portal files are valid for upload.')
-        # TODO: insert upload/file move to mercurial repo here
-    else:
-        logger.warning('Portal files are invalid; they will not be uploaded.')
-        # TODO: save the stdout from the validator, and save it somewhere
+    try:
+        validation_exit_status = validate_portal_data(output_directory)
+        logger.info("Portal exit status: %i" % validation_exit_status)
+        if validation_exit_status == 0 or validation_exit_status == 3:
+            logger.info('Portal files are valid for upload.')
+            project_id = portal_config_data['ProjectID']
+            copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
+            logger.info("Copying portal files to %s" % copy_to_location)
+            copy_tree(output_directory, copy_to_location) 
+        else:
+            logger.warning('Portal files are invalid; they will not be uploaded.')
+            # TODO: save the stdout from the validator, and save it somewhere
+    finally:
+        logging.shutdown()
+        del logging._handlerList[:]  # workaround for harmless exceptions on exit
