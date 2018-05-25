@@ -19,7 +19,7 @@ with open(input_file,'rb') as infile:
         fusion = line[Fusion_position]
         # Skip fusions with genes missing Entrez IDs, because the portal can't handle those
         # Skip fusions that are actually just deletions fusing a gene to itself
-        if entrez_id <= 0 or not fusion or fusion.replace(' fusion', '') == '-'.join([gene,gene]):
+        if entrez_id == 0 or not fusion or '-' not in fusion or fusion.replace(' fusion', '') == '-'.join([gene,gene]):
             list_of_fusions_to_remove.append(fusion)
         new_line_values = line
         fixed_file_content.append(new_line_values)

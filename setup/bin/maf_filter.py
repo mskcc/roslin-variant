@@ -4,18 +4,21 @@ import sys, os, csv, re
 
 input_file = sys.argv[1]
 roslin_version_string = sys.argv[2]
-analyst_file = sys.argv[3]
-portal_file = sys.argv[4]
+is_impact = bool(sys.argv[3])
+analyst_file = sys.argv[4]
+portal_file = sys.argv[5]
 roslin_version_line = "# Versions: " + roslin_version_string.replace('_',' ') + "\n"
 
-# ::TODO:: Analyst MAF should be made during workflow, and we must only filter non-portal events
+# ::TODO:: Analyst MAF should be made during workflow, and only filter non-portal events in here
 with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf, open(portal_file,'wb') as portal_maf:
     header = input_maf.readline().strip('\r\n').split('\t')
-    header_line = '\t'.join(header) + '\n'
     analyst_maf.write(roslin_version_line)
     portal_maf.write(roslin_version_line)
-    analyst_maf.write(header_line)
-    portal_maf.write(header_line)
+    analyst_maf.write('\t'.join(header) + '\n')
+    # Rename HGVSp_Short to Amino_Acid_Change, so the portal will re-annotate with Genome Nexus
+    header[header.index('HGVSp_Short')] = 'Amino_Acid_Change'
+    # For the portal, provide only basic MAF columns plus read depths and allele counts
+    portal_maf.write('\t'.join(header[0:44]) + '\n')
     gene_col = header.index('Hugo_Symbol')
     entrez_id_col = header.index('Entrez_Gene_Id')
     pos_col = header.index('Start_Position')
@@ -23,6 +26,9 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
     mut_status_col = header.index('Mutation_Status')
     csq_col = header.index('Consequence')
     filter_col = header.index('FILTER')
+    hotspot_col = header.index('hotspot_whitelist')
+    tad_col = header.index('t_alt_count')
+    tdp_col = header.index('t_depth')
     maf_reader = csv.reader(input_maf,delimiter='\t')
     for line in maf_reader:
         # Skip uncalled events from cmo_fillout and any that failed false-positive filters
@@ -47,8 +53,12 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
         if re.match(r'|'.join(csq_keep), line[csq_col]) is not None or (line[gene_col] == 'TERT' and int(line[pos_col]) >= 1295141 and int(line[pos_col]) <= 1295340):
             analyst_maf.write('\t'.join(line) + '\n')
             # The portal also skips silent muts, genes without Entrez IDs, and intronic splice region muts
+            # For IMPACT data, we must also apply the official MSK-IMPACT depth/allele count cutoffs
             if re.match(r'synonymous_', line[csq_col]) is None and line[entrez_id_col] != 0 and splice_dist <= 2:
-                portal_maf.write('\t'.join(line) + '\n')
+                tumor_vaf = float(line[tad_col]) / float(line[tdp_col]) if line[tdp_col] else 0
+                if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))):
+                    continue
+                portal_maf.write('\t'.join(line[0:44]) + '\n')
 
 # The concatenated MAF can be enormous, so cleanup after
 os.remove(input_file)
