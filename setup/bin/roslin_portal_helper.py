@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
 import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, shutil, logging
-from xlrd import open_workbook
 from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
 
-# Load some internal MSK libraries that we'll need here
+# ::TODO:: We need some internal MSK libraries, but should get this path from roslin_resources.json
 sys.path.append('/opt/common/CentOS_6-dev/cbioportal/v1.13.0/core/src/main/scripts/importer')
 import validateData
 import genPortalUUID
@@ -51,7 +50,7 @@ def get_sample_list(clinical_data_path):
     sample_list.pop(0)
     return sample_list
 
-def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,script_path,pipeline_version_str):
+def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,script_path,pipeline_version_str,is_impact):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
     combined_output = maf_file_name.replace('.txt','.combined.txt')
     combined_output_file = os.path.join(output_directory,combined_output)
@@ -63,7 +62,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
 
     maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
         + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
-        + '; python ' + maf_filter_script + ' ' + combined_output_file + ' ' + pipeline_version_str_arg + ' ' + analysis_maf_file + ' ' + portal_file + '"')
+        + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_maf_file, portal_file]) + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
@@ -237,13 +236,13 @@ def wait_for_jobs_to_finish(bjob_ids,name):
         prev_job_status = job_status
         time.sleep(10)
 
-def check_if_IMPACT(request_file_path):
-    Is_it_IMPACT = False
+def check_if_impact(request_file_path):
+    is_impact = False
     with open(request_file_path) as request_file:
         for single_line in request_file:
             if "Assay:" in single_line and ("IMPACT" in single_line or "HemePACT" in single_line):
-                Is_it_IMPACT = True
-    return Is_it_IMPACT
+                is_impact = True
+    return is_impact
 
 def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id):
     with open(filepath, 'wb') as output_file:
@@ -264,6 +263,9 @@ def create_data_clinical_files_new_format(data_clinical_file):
         data_attr = set_attributes(header)
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
         patients_file_txt = generate_file_txt(data, data_attr, patients_header)
+
+    # Delete the legacy format clinical data, or else the importer ignores the new format
+    os.remove(data_clinical_file)
 
     return samples_file_txt, patients_file_txt
 
@@ -344,8 +346,9 @@ def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
     subdirs = stable_id.split("_")
     first_dir = subdirs[1]
     second_dir = subdirs[2]
-    full_path = os.path.join(mercurial_path,"") + first_dir + os.sep + second_dir + os.sep + project_name
-    logger.info("Creating directories in mercurial repo: %s" % full_path) 
+    project_name = re.sub(r'^Proj_', '', project_name)
+    full_path = os.path.join(mercurial_path, first_dir, second_dir, project_name)
+    logger.info("Creating directories in mercurial repo: %s" % full_path)
     return full_path
 
 if __name__ == '__main__':
@@ -353,27 +356,16 @@ if __name__ == '__main__':
     parser.add_argument('--clinical_data',required=True,help='The clinical file located with Roslin manifests')
     parser.add_argument('--sample_summary',required=True,help='The sample summary file generated from Roslin QC')
     parser.add_argument('--request_file',required=True, help='The request file for the roslin run')
-    #parser.add_argument('--column_info',required=True,help='The yaml configuration file containing portal column information')
     parser.add_argument('--roslin_output',required=True, help='The stdout of the roslin run')
-    #parser.add_argument('--portal_config',required=True,help='The roslin portal config file')
     parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
     parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
-    parser.add_argument('--portal_repo',default='/ifs/work/pi/portal/bic-mskcc-roslin/pi', help="Location of the cBioportal repo. Set to default /ifs/work/pi/portal/bic-mskcc-roslin/pi/.")
+    parser.add_argument('--portal_repo',default='/ifs/work/pi/portal/bic-mskcc-roslin/pi', help="Location of the cBioportal repo.")
     args = parser.parse_args()
     current_working_directory = os.getcwd()
-    #args_abspath = {}
-    #for single_arg in args:
-    #    args_abspath[single_arg] = os.path.abspath(args[single_arg])
-    #work_book = open_workbook(args.manifest_file)
-    #sample_info = work_book.sheet_by_name('SampleInfo')
-    Is_Project_IMPACT = check_if_IMPACT(args.request_file)
-    mercurial_path = args.portal_repo
-
-    # Read yaml portal config file
-    #with open(args.column_info,'r') as column_info_file:
-    #    column_info_data = yaml.load(column_info_file)
+    mercurial_path = args.portal_repo if args.portal_repo else None
+    project_is_impact = check_if_impact(args.request_file)
 
     # Get roslin config
     with open(args.request_file,'r') as portal_config_file:
@@ -486,7 +478,7 @@ if __name__ == '__main__':
     logger.info('Finished generating segmented meta')
 
     job_ids = []
-    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str))
+    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str,project_is_impact))
     logger.info('Submitted job to generate maf data')
     job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,facets_gene_cna_file,log_directory))
     logger.info('Submitted job to generate discrete copy number data')
@@ -518,7 +510,7 @@ if __name__ == '__main__':
     with open(segmented_data_meta_path,'w') as segmented_data_meta_path_file:
         yaml.dump(segmented_data_meta,segmented_data_meta_path_file,default_flow_style=False,width=float("inf"))
 
-    if Is_Project_IMPACT:
+    if project_is_impact:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
         job_ids.append(generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path))
@@ -537,9 +529,12 @@ if __name__ == '__main__':
         if validation_exit_status == 0 or validation_exit_status == 3:
             logger.info('Portal files are valid for upload.')
             project_id = portal_config_data['ProjectID']
-            copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
-            logger.info("Copying portal files to %s" % copy_to_location)
-            copy_tree(output_directory, copy_to_location) 
+            if mercurial_path:
+                copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
+                logger.info("Copying portal files to %s" % copy_to_location)
+                copy_tree(output_directory, copy_to_location)
+            else:
+                logger.info('Skipping upload because portal_repo argument is undefined')
         else:
             logger.warning('Portal files are invalid; they will not be uploaded.')
             # TODO: save the stdout from the validator, and save it somewhere
