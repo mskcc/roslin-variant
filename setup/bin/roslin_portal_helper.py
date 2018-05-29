@@ -427,8 +427,8 @@ if __name__ == '__main__':
     patient_meta_file = 'meta_patient.txt'
     mutation_meta_file = 'meta_mutations_extended.txt'
     fusion_meta_file = 'meta_fusions.txt'
-    clinical_meta_samples_file = 'meta_clinical_samples.txt'
-    clinical_meta_patients_file = 'meta_clinical_patients.txt'
+    clinical_meta_samples_file = 'meta_clinical_sample.txt'
+    clinical_meta_patients_file = 'meta_clinical_patient.txt'
     clinical_data_samples_file = 'data_clinical_samples.txt'
     clinical_data_patients_file = 'data_clinical_patients.txt'
     portal_config_data['stable_id'] = stable_id
