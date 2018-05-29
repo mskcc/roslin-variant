@@ -171,7 +171,7 @@ def generate_study_meta(portal_config_data,pipeline_version_str):
     study_meta_data['groups'] = 'PRISM;COMPONC;VIALEA' # These groups can access everything
     # Find the PI that funded this project, and make sure their group has access too
     if 'PI' in portal_config_data and portal_config_data['PI'] is not 'NA':
-        study_meta_data['groups'] += ';' + portal_config_data['PI'].upper()
+        study_meta_data['groups'] += ';' + portal_config_data['PI'].upper().replace(" ", "")
     #study_meta_data['add_global_case_list'] = True
     return study_meta_data
 
@@ -264,15 +264,16 @@ def create_data_clinical_files_new_format(data_clinical_file):
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
         patients_file_txt = generate_file_txt(data, data_attr, patients_header)
 
-    # Delete the legacy format clinical data, or else the importer ignores the new format
-    os.remove(data_clinical_file)
-
     return samples_file_txt, patients_file_txt
 
 def get_samples_header(header):
     temp_header = set(header)
     temp_header.discard("SEX")
-    return temp_header
+    samples_header = ["SAMPLE_ID", "PATIENT_ID"]
+    for header in temp_header:
+        if header not in samples_header:
+            samples_header.append(header)
+    return samples_header
 
 def get_patients_header(header):
     return {"PATIENT_ID", "SEX"}
@@ -429,8 +430,8 @@ if __name__ == '__main__':
     fusion_meta_file = 'meta_fusions.txt'
     clinical_meta_samples_file = 'meta_clinical_sample.txt'
     clinical_meta_patients_file = 'meta_clinical_patient.txt'
-    clinical_data_samples_file = 'data_clinical_samples.txt'
-    clinical_data_patients_file = 'data_clinical_patients.txt'
+    clinical_data_samples_file = 'data_clinical_sample.txt'
+    clinical_data_patients_file = 'data_clinical_patient.txt'
     portal_config_data['stable_id'] = stable_id
 
     # Set work directory space to tmp or a specified ouput path
@@ -449,14 +450,16 @@ if __name__ == '__main__':
     clinical_data_path = os.path.join(output_directory,clinical_data_file)
     generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
     # writing new format of data clinical files using legacy data in 'clinical_data_path'
-    data_clinical_samples_txt, data_clinical_patients_txt = create_data_clinical_files_new_format(clinical_data_path)
+    data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(clinical_data_path)
     clinical_data_samples_output_path = os.path.join(output_directory, clinical_data_samples_file)
     clinical_data_patients_output_path = os.path.join(output_directory, clinical_data_patients_file)
     with open(clinical_data_samples_output_path, 'wb') as out:
-        out.write(data_clinical_samples_txt)
+        out.write(data_clinical_sample_txt)
     with open(clinical_data_patients_output_path, 'wb') as out:
-        out.write(data_clinical_patients_txt)
+        out.write(data_clinical_patient_txt)
     logger.info('Finished generating clinical data, including in the new format')
+    logger.info('Removing legacy data_clinical.txt file.')
+    os.remove(clinical_data_path)
 
     sample_list = get_sample_list(args.clinical_data)
     generate_case_lists(portal_config_data,sample_list,output_directory)
