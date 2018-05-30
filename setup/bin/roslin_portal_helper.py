@@ -282,14 +282,17 @@ def get_patients_header(header):
 
 def set_attributes(data):
     d = dict()
-    # This is a rough place for this; should move somewhere later
+    # TODO: This is a rough place for these; should move somewhere later
     NUMBER_DATATYPE = set()
     NUMBER_DATATYPE.add('SAMPLE_COVERAGE')
+    ZERO_PRIORITY = set()
+    ZERO_PRIORITY.add('COLLAB_ID')
+
     for key in data:
         d[key] = dict()
         d[key]["desc"] = key
         d[key]["datatype"] = "NUMBER" if key in NUMBER_DATATYPE else "STRING"
-        d[key]["priority"] = "1"
+        d[key]["priority"] = "0" if key in ZERO_PRIORITY else "1"
     return d
 
 # Convert this stuff into an object later, because this is MESSY AS HELL
