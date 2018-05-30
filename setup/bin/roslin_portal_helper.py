@@ -74,32 +74,34 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
     fusion_log = os.path.join(log_directory,'generate_fusion.log')
     fusion_filter_script = os.path.join(script_path,'fusion_filter.py')
 
-    fusion_command = ('bsub -q controlR -We 0:59 -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
+    # This needs access to the internet because it queries the OncoKB API
+    fusion_command = ('bsub -R select[internet] -We 0:59 -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
         + '; grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
         + '; python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path + '"')
     bsub_stdout = subprocess.check_output(fusion_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
-def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,facets_filename,log_directory):
+def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,log_directory):
     discrete_copy_number_files_query = os.path.join(data_directory,'*_hisens.cncf.txt')
     output_path = os.path.join(output_directory,data_filename)
-    facets_output = os.path.join(output_directory,facets_filename)
     discrete_copy_number_log = os.path.join(log_directory,'generate_discrete_copy_number.log')
     scna_output_path = output_path.replace('.txt','.scna.txt')
 
     cna_command = ('bsub -q controlR -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
-        + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + facets_output
+        + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + gene_cna_file
         + '; mv ' + scna_output_path + ' ' + output_path + '"')
     bsub_stdout = subprocess.check_output(cna_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
-def generate_segmented_copy_number_data(data_directory,output_directory,data_filename,log_directory):
+def generate_segmented_copy_number_data(data_directory,output_directory,data_filename,analysis_seg_file,log_directory):
     segmented_files_query = os.path.join(data_directory,'*_hisens.seg')
     output_path = os.path.join(output_directory,data_filename)
     segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
 
+    # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in pipeline.
     seg_command = ('bsub -q controlR -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
-        + '; grep -hv --regexp=^ID ' + segmented_files_query + ' >> ' + output_path + '"')
+        + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
+        + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
     bsub_stdout = subprocess.check_output(seg_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
@@ -418,7 +420,6 @@ if __name__ == '__main__':
     maf_file_name =  'data_mutations_extended.txt'
     fusion_file_name = 'data_fusions.txt'
     discrete_copy_number_file = 'data_CNA.txt'
-    facets_gene_cna_file = stable_id + '_facets_cna.txt'
     segmented_data_file = stable_id + '_data_cna_hg19.seg'
     clinical_data_file = 'data_clinical.txt'
     patient_data_file = 'data_patient.txt'
@@ -447,6 +448,9 @@ if __name__ == '__main__':
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
     analysis_maf_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
+    analysis_gene_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.gene.cna.txt')
+    analysis_arm_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.arm.cna.txt')
+    analysis_seg_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.seg.cna.txt')
 
     clinical_data_path = os.path.join(output_directory,clinical_data_file)
     generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
@@ -484,9 +488,9 @@ if __name__ == '__main__':
     job_ids = []
     job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str,project_is_impact))
     logger.info('Submitted job to generate maf data')
-    job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,facets_gene_cna_file,log_directory))
+    job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory))
     logger.info('Submitted job to generate discrete copy number data')
-    job_ids.append(generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,log_directory))
+    job_ids.append(generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory))
     logger.info('Submitted job to generate segmented copy number data')
 
     study_meta_path = os.path.join(output_directory,study_meta_file)
