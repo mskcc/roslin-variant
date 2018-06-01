@@ -4,15 +4,11 @@ import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, s
 from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
-
-# ::TODO:: We need some internal MSK libraries, but should get this path from roslin_resources.json
-sys.path.append('/opt/common/CentOS_6-dev/cbioportal/v1.13.0/core/src/main/scripts/importer')
-import validateData
 import genPortalUUID
 
-logger = logging.getLogger("roslin_portal_helper")
+logger = logging.getLogger("roslin_analysis_helper")
 logger.setLevel(logging.INFO)
-log_file_handler = logging.FileHandler('roslin_portal_helper.log')
+log_file_handler = logging.FileHandler('roslin_analysis_helper.log')
 log_file_handler.setLevel(logging.INFO)
 log_formatter = logging.Formatter('%(asctime)s - %(message)s')
 log_file_handler.setFormatter(log_formatter)
@@ -367,12 +363,22 @@ if __name__ == '__main__':
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
     parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
-    parser.add_argument('--portal_repo',default='/ifs/work/pi/portal/bic-mskcc-roslin/pi', help="Location of the cBioportal repo.")
+    parser.add_argument('--disable_portal_repo_update', default=False, action='store_true', help='If not updating cbioportal, skips submitting request to update the Mercurial repo.')
     args = parser.parse_args()
     current_working_directory = os.getcwd()
-    mercurial_path = args.portal_repo if args.portal_repo else None
+    roslin_resources_path = os.path.join(args.script_path,'roslin_resources.json')
+    with open(roslin_resources_path) as roslin_resources_json:
+        roslin_resources_data = json.load(roslin_resources_json)
+    mercurial_path = None
+    if not args.disable_portal_repo_update:
+        if "portal" in roslin_resources_data["config"]:
+            importer_path = roslin_resources_data["config"]["portal"]["importer"]
+            mercurial_path = roslin_resources_data["config"]["portal"]["path"]
+            sys.path.append(importer_path)
+            import validateData            
+        else:
+            logger.warning("portal configuration is not set in the roslin_resources.json")    
     project_is_impact = check_if_impact(args.request_file)
-
     # Get roslin config
     with open(args.request_file,'r') as portal_config_file:
         portal_config_data = {}
@@ -395,7 +401,7 @@ if __name__ == '__main__':
                 #single_value = ''
                 #single_key = ''
         portal_config_data[single_key] = single_value
-    log_directory = os.path.join(os.getcwd(),'portal-log',portal_config_data['ProjectID'])
+    log_directory = os.path.join(os.getcwd(),'analysis-log',portal_config_data['ProjectID'])
     if os.path.exists(log_directory):
         shutil.rmtree(log_directory)
     os.makedirs(log_directory)

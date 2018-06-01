@@ -38,6 +38,10 @@
             "mongodb_uri": "mongodb://pitchfork.cbio.private:27017",
             "num_parallel_slicing_downloads": 10,
             "tmp_jobs_dir": "/ifs/res/pwg/gdc/jobs/"
+        },
+        "portal": {
+            "importer":"/opt/common/CentOS_6-dev/cbioportal/v1.13.0/core/src/main/scripts/importer",
+            "path": "/ifs/work/pi/portal/bic-mskcc-roslin/pi"
         }
     },
     "genomes": {
