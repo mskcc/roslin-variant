@@ -166,7 +166,7 @@ inputs:
 
   duplication_threshold:
     type: ['null', int]
-    default: 50
+    default: 80
 
     inputBinding:
       prefix: --duplication-threshold
