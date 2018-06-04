@@ -9,7 +9,6 @@ analyst_file = sys.argv[4]
 portal_file = sys.argv[5]
 roslin_version_line = "# Versions: " + roslin_version_string.replace('_',' ') + "\n"
 
-# ::TODO:: Analyst MAF should be made during workflow, and only filter non-portal events in here
 with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf, open(portal_file,'wb') as portal_maf:
     header = input_maf.readline().strip('\r\n').split('\t')
     analyst_maf.write(roslin_version_line)

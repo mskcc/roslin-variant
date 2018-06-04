@@ -94,7 +94,7 @@ def generate_segmented_copy_number_data(data_directory,output_directory,data_fil
     output_path = os.path.join(output_directory,data_filename)
     segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
 
-    # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in pipeline.
+    # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
     seg_command = ('bsub -q controlR -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
         + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
         + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
@@ -278,7 +278,7 @@ def get_patients_header(header):
 
 def set_attributes(data):
     d = dict()
-    # TODO: This is a rough place for these; should move somewhere later
+    # ::TODO:: This is a rough place for these; should move somewhere later
     NUMBER_DATATYPE = set()
     NUMBER_DATATYPE.add('SAMPLE_COVERAGE')
     ZERO_PRIORITY = set()
@@ -451,7 +451,6 @@ if __name__ == '__main__':
     else:
         output_directory = args.output_directory
 
-    # ::TODO:: This analysis folder and analyst's MAF should be created during the workflow instead
     analysis_dir = os.path.abspath(os.path.join(output_directory,os.pardir,'analysis'))
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
@@ -553,7 +552,7 @@ if __name__ == '__main__':
                 logger.info('Skipping upload because portal_repo argument is undefined')
         else:
             logger.warning('Portal files are invalid; they will not be uploaded.')
-            # TODO: save the stdout from the validator, and save it somewhere
+            # TODO: The stdout from the validator itself needs to be captured and saved somewhere
     finally:
         logging.shutdown()
         del logging._handlerList[:]  # workaround for harmless exceptions on exit
