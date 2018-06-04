@@ -3,13 +3,13 @@ FROM alpine:3.6
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
-      version.ngsfilters="1.1.4" \
+      version.ngsfilters="1.2.1" \
       version.r="3.3.3-r0" \
       version.alpine="3.6" \
-      source.ngsfilters="https://github.com/mskcc/ngs-filters/releases/tag/v1.1.4" \
+      source.ngsfilters="https://github.com/mskcc/ngs-filters/releases/tag/v1.2" \
       source.r="https://pkgs.alpinelinux.org/package/v3.5/community/x86_64/R"
 
-ENV NGS_FILTERS_VERSION 1.1.4
+ENV NGS_FILTERS_VERSION 1.2.1
 ENV R_VERSION 3.3.3-r0
 
 RUN apk add --update \

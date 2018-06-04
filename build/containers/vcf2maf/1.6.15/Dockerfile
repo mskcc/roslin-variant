@@ -3,7 +3,7 @@ FROM alpine:3.4
 LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       version.image="1.0.0" \
       version.vcf2maf="1.6.15" \
-      version.vep="86" \
+      version.vep="91" \
       version.htslib="1.5" \
       version.bcftools="1.5" \
       version.samtools="1.5" \
@@ -16,7 +16,7 @@ LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       source.samtools="https://github.com/samtools/samtools/releases/tag/1.5"
 
 ENV VCF2MAF_VERSION 1.6.15
-ENV VEP_VERSION 86
+ENV VEP_VERSION 91
 ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.5
 ENV SAMTOOLS_VERSION 1.5
