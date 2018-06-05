@@ -186,7 +186,6 @@ inputs:
 
   tmp_dir:
     type: ['null', string]
-    default: /scratch
     doc: Folder to retain intermediate VCFs after runtime
     inputBinding:
       prefix: --tmp-dir
