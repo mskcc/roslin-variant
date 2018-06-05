@@ -210,29 +210,30 @@ def generate_fusion_meta(portal_config_data,data_filename):
     fusion_meta_data['data_filename'] = data_filename
     return fusion_meta_data
 
+# ::TODO:: Remove dependency on LSF somehow, possibly by just running everything baremetal
 def wait_for_jobs_to_finish(bjob_ids,name):
     job_string = name + ' [' + ','.join(bjob_ids) + ']'
     logger.info("Monitoring " + job_string)
     bjob_command = "bjobs " + ' '.join(bjob_ids) + " | awk '{printf $3}'"
-    jobs_done = False
     prev_job_status = ''
-    while not jobs_done:
+    while True:
         job_status = subprocess.check_output(bjob_command,shell=True).strip()
-        status_string = ""
         if 'PEND' in job_status:
-            status_string = name + " pending"
+            logger.info(name + " pending") if prev_job_status != job_status else None
+            time.sleep(8)
         elif 'RUN' in job_status:
-            status_string = name + " running"
+            logger.info(name + " running") if prev_job_status != job_status else None
+            time.sleep(6)
         elif 'EXIT' in job_status:
-            jobs_done = True
-            status_string = name + " exit with error"
+            logger.warning(name + " exit with error")
+            return 1
         elif 'DONE' in job_status:
-            jobs_done = True
-            status_string = name + " done"
-        if prev_job_status != job_status:
-            logger.info(status_string)
+            logger.info(name + " done")
+            return 0
+        else:
+            logger.warning(name + " status unknown")
+            return 2
         prev_job_status = job_status
-        time.sleep(10)
 
 def check_if_impact(request_file_path):
     is_impact = False
@@ -328,7 +329,7 @@ def generate_file_txt(data, attr, header):
     file_txt = metadata + data_str
     return file_txt
 
-# Replicating parameters expected by validateData.py
+# Replicate parameters expected by cBioPortal validator subroutine, and call it
 def validate_portal_data(portal_output_directory):
     logger.info('---------- Running portal validator ----------')
     validator_args = argparse.Namespace(
@@ -342,6 +343,7 @@ def validate_portal_data(portal_output_directory):
         verbose=None,
         relaxed_clinical_definitions=None
     )
+    # ::TODO:: The stdout from the validator itself needs to be captured and saved somewhere
     exit_status = validateData.main_validate(validator_args)
     return exit_status
 
@@ -371,14 +373,13 @@ if __name__ == '__main__':
     with open(roslin_resources_path) as roslin_resources_json:
         roslin_resources_data = json.load(roslin_resources_json)
     mercurial_path = None
-    if not args.disable_portal_repo_update:
-        if "portal" in roslin_resources_data["config"]:
-            importer_path = roslin_resources_data["config"]["portal"]["importer"]
-            mercurial_path = roslin_resources_data["config"]["portal"]["path"]
-            sys.path.append(importer_path)
-            import validateData            
-        else:
-            logger.warning("portal configuration is not set in the roslin_resources.json")    
+    if "portal" in roslin_resources_data["config"]:
+        importer_path = roslin_resources_data["config"]["portal"]["importer"]
+        mercurial_path = roslin_resources_data["config"]["portal"]["path"]
+        sys.path.append(importer_path)
+        import validateData
+    else:
+        logger.warning("Portal validator/repo configuration not set in roslin_resources.json")
     project_is_impact = check_if_impact(args.request_file)
     # Get roslin config
     with open(args.request_file,'r') as portal_config_file:
@@ -537,23 +538,25 @@ if __name__ == '__main__':
             yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))
 
     # Now wait for any of the jobs submitted earlier to complete
-    wait_for_jobs_to_finish(job_ids, 'Data generation jobs')
+    if wait_for_jobs_to_finish(job_ids, 'Data generation jobs') != 0:
+        logger.error('One or more of the analysis/portal jobs failed.')
+        sys.exit(1)
 
     try:
         validation_exit_status = validate_portal_data(output_directory)
-        logger.info("Portal exit status: %i" % validation_exit_status)
+        logger.info("Portal validator exit status: %i" % validation_exit_status)
         if validation_exit_status == 0 or validation_exit_status == 3:
             logger.info('Portal files are valid for upload.')
-            project_id = portal_config_data['ProjectID']
-            if mercurial_path:
-                copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
-                logger.info("Copying portal files to %s" % copy_to_location)
-                copy_tree(output_directory, copy_to_location)
+            if args.disable_portal_repo_update:
+                logger.info("Skipping update of portal files in mercurial repo")
             else:
-                logger.info('Skipping upload because portal_repo argument is undefined')
+                project_id = portal_config_data['ProjectID']
+                copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
+                copy_tree(output_directory, copy_to_location)
+                logger.info("Copied portal files to %s" % copy_to_location)
         else:
-            logger.warning('Portal files are invalid; they will not be uploaded.')
-            # TODO: The stdout from the validator itself needs to be captured and saved somewhere
+            logger.error('Portal files are invalid; they will not be uploaded.')
+            sys.exit(2)
     finally:
         logging.shutdown()
         del logging._handlerList[:]  # workaround for harmless exceptions on exit
