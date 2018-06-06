@@ -17,7 +17,7 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
     # Rename HGVSp_Short to Amino_Acid_Change, so the portal will re-annotate with Genome Nexus
     header[header.index('HGVSp_Short')] = 'Amino_Acid_Change'
     # For the portal, provide only basic MAF columns plus read depths and allele counts
-    portal_maf.write('\t'.join(header[0:44]) + '\n')
+    portal_maf.write('\t'.join(header[0:45]) + '\n')
     gene_col = header.index('Hugo_Symbol')
     entrez_id_col = header.index('Entrez_Gene_Id')
     pos_col = header.index('Start_Position')
@@ -57,7 +57,7 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
                 tumor_vaf = float(line[tad_col]) / float(line[tdp_col]) if line[tdp_col] else 0
                 if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))):
                     continue
-                portal_maf.write('\t'.join(line[0:44]) + '\n')
+                portal_maf.write('\t'.join(line[0:45]) + '\n')
 
 # The concatenated MAF can be enormous, so cleanup after
 os.remove(input_file)
