@@ -112,9 +112,9 @@ steps:
       directory:
         default: "."
       purity_cval:
-        valueFrom: ${ return 500; }
-      cval:
         valueFrom: ${ return 100; }
+      cval:
+        valueFrom: ${ return 50; }
       tumor_id: tumor_sample_name
     out: [png_files, txt_files_purity, txt_files_hisens, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.6/cmo-facets.doFacets.cwl
