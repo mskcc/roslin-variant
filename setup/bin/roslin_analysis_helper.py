@@ -270,7 +270,7 @@ def get_samples_header(header):
     temp_header.discard("SEX")
     samples_header = ["SAMPLE_ID", "PATIENT_ID"]
     for header in temp_header:
-        if header not in samples_header:
+        if header not in samples_header and header != None:
             samples_header.append(header)
     return samples_header
 
