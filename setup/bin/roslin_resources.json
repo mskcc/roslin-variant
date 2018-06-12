@@ -349,14 +349,13 @@
             "default": "/opt/common/CentOS_6-dev/varscan/v2.4.1/VarScan.v2.4.1.jar"
         },
         "vcf2maf": {
-            "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/",
-            "1.6.15": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
-            "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/"
+            "1.6.12": "sing.sh vcf2maf 1.6.12",
+            "1.6.15": "sing.sh vcf2maf 1.6.15"
         },
         "vep": {
-            "86": "sing.sh vep 86",
-            "91": "sing.sh vep 91",
-            "default": "sing.sh vep 91"
+            "86": "/usr/bin/vep",
+            "91": "/usr/bin/vep",
+            "default": "/usr/bin/vep"
         },
         "vt": {
             "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt",

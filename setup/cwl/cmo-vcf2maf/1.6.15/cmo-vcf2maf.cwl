@@ -65,7 +65,7 @@ inputs:
     type:
     - 'null'
     - string
-    default: '86'
+    default: '91'
     doc: Version of VEP and its cache to use
     inputBinding:
       prefix: --vep-release

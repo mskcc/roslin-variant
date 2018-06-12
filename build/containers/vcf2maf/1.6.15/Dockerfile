@@ -30,13 +30,13 @@ RUN apk add --update \
       # install all the build-related tools
             && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} perl-dev=${PERL_VERSION} musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       # install system packages that the Perl modules will need
-            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev \
+            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev mariadb-dev \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
       # install perl libraries that VEP will need
             && cpanm --notest LWP LWP::Simple LWP::Protocol::https Archive::Extract Archive::Tar Archive::Zip \
             CGI DBI Encode version Time::HiRes DBD::mysql File::Copy::Recursive Perl::OSType Module::Metadata \
-            Sereal JSON Bio::Root::Version Set::IntervalTree PerlIO::gzip \
+            Sereal JSON Bio::Root::Version Set::IntervalTree PerlIO::gzip DBD::mysql \
       # install htslib (for vep)
             && cd /tmp && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
             && tar xvjf htslib-${HTSLIB_VERSION}.tar.bz2 \
@@ -48,7 +48,7 @@ RUN apk add --update \
             && unzip ${VEP_VERSION} \
       # install vep
             && cd /tmp/ensembl-vep-release-${VEP_VERSION}/ \
-            && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
+            && echo "n" | perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
             && cd /tmp && mv /tmp/ensembl-vep-release-${VEP_VERSION}/vep /usr/bin/vep \
       # install bcftools
             && cd /tmp && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
