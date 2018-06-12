@@ -2,14 +2,14 @@ FROM alpine:3.4
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
-      version.vep="91" \
+      version.vep="91.3" \
       version.htslib="1.4" \
       version.perl="5.22.3-r0" \
       version.alpine="3.4.x" \
-      source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
+      source.vep="http://dec2017.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.4"
 
-ENV VEP_VERSION 91
+ENV VEP_VERSION 91.3
 ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.4
 
@@ -26,7 +26,7 @@ RUN apk add --update \
             && ./configure \
             && make && make install \
       # download/unzip vep
-            && cd /tmp && wget https://github.com/Ensembl/ensembl-tools/archive/release/${VEP_VERSION}.zip \
+            && cd /tmp && wget https://github.com/Ensembl/ensembl-vep/archive/release/${VEP_VERSION}.zip \
             && unzip ${VEP_VERSION} \
       # install perl libs
             && cpanm File::Copy::Recursive \
@@ -45,11 +45,11 @@ RUN apk add --update \
             # Bio::DB::BigFile
             # LWP::Simple
       # install vep
-            && cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
+            && cd /tmp/ensembl-vep-release-${VEP_VERSION} \
             && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
-            && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
+            && cd /tmp && mv /tmp/ensembl-vep-release-${VEP_VERSION}/vep /usr/bin/vep \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 
-ENTRYPOINT ["perl", "/usr/bin/vep/variant_effect_predictor.pl"]
+ENTRYPOINT ["perl", "/usr/bin/vep"]
 CMD ["--help"]

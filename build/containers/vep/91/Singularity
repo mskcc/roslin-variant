@@ -24,12 +24,12 @@ Namespace:
 
 %runscript
 
-    exec perl /usr/bin/vep/variant_effect_predictor.pl "$@"
+    exec /usr/bin/vep "$@"
 
 %test
 
     # get actual output of the tool
-    perl /usr/bin/vep/variant_effect_predictor.pl --help | head -5 > /tmp/actual.diff.txt
+   /usr/bin/vep --help | head -5 > /tmp/actual.diff.txt
 
 # expected output
 cat > /tmp/expected.diff.txt << EOM
