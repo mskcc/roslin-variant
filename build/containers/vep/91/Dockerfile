@@ -51,5 +51,5 @@ RUN apk add --update \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 
-ENTRYPOINT ["perl", "/usr/bin/vep"]
+ENTRYPOINT ["/usr/bin/vep"]
 CMD ["--help"]
