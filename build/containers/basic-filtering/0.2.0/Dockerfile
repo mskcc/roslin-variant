@@ -19,10 +19,10 @@ RUN apk add --update \
             && cd /tmp/basicfiltering-${BASICFILTERING_VERSION} \
             && python setup.py install \
       # copy to /usr/bin
-            && cp ./pindel/filter_pindel.py /usr/bin/ \
-            && cp ./mutect/filter_mutect.py /usr/bin/ \
-            && cp ./vardict/filter_vardict.py /usr/bin/ \
-            && cp ./somaticindeldetector/filter_sid.py /usr/bin \
+            && cp filter_pindel.py /usr/bin/ \
+            && cp filter_mutect.py /usr/bin/ \
+            && cp filter_vardict.py /usr/bin/ \
+            && cp filter_sid.py /usr/bin \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 
