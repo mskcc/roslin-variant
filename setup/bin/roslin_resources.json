@@ -261,7 +261,7 @@
             "1.2.1": "sing.sh ngs-filters 1.2.1"
         },
         "perl": {
-            "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
+            "default": "sing-perl.sh"
         },
         "picard": {
             "2.9": "sing.sh picard 2.9",
