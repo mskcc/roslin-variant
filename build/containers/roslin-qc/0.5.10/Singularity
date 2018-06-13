@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: pipeline-roslin-qc:0.5.9
+From: pipeline-roslin-qc:0.5.10
 Registry: localhost:5000
 Namespace:
 
