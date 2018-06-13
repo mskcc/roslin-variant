@@ -13,8 +13,6 @@ RUN apk add --update \
             && apk add ca-certificates openssl \
       # for compilation
             && apk add build-base musl-dev python py-pip python-dev \
-      # fix numpy compilation issue
-            && ln -s /usr/include/locale.h /usr/include/xlocale.h \
       # download, unzip, install basic-filtering
             && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
             && unzip ${BASICFILTERING_VERSION}.zip \
