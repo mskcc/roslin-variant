@@ -49,7 +49,7 @@ RUN apk add --update \
       # install vep
             && cd /tmp/ensembl-vep-release-${VEP_VERSION}/ \
             && echo "n" | perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
-            && cd /tmp && mv /tmp/ensembl-vep-release-${VEP_VERSION}/vep /usr/bin/vep \
+            && cd /tmp && mv /tmp/ensembl-vep-release-${VEP_VERSION} /usr/bin/vep \
       # install bcftools
             && cd /tmp && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
             && tar xvjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
