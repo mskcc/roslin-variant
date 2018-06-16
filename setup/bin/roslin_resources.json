@@ -350,7 +350,8 @@
         },
         "vcf2maf": {
             "1.6.12": "sing.sh vcf2maf 1.6.12 ",
-            "1.6.15": "sing.sh vcf2maf 1.6.15 "
+            "1.6.15": "sing.sh vcf2maf 1.6.15 ",
+            "1.6.16": "sing.sh vcf2maf 1.6.16 "
         },
         "vep": {
             "86": "/usr/bin/vep",

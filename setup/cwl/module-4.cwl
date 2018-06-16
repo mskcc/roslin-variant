@@ -94,7 +94,7 @@ outputs:
 steps:
 
     vcf2maf:
-        run: cmo-vcf2maf/1.6.15/cmo-vcf2maf.cwl
+        run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl
         in:
             input_vcf: combine_vcf
             tumor_id: tumor_sample_name

@@ -2,20 +2,20 @@ FROM alpine:3.4
 
 LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       version.image="1.0.0" \
-      version.vcf2maf="1.6.15" \
+      version.vcf2maf="1.6.16" \
       version.vep="91.3" \
       version.htslib="1.5" \
       version.bcftools="1.5" \
       version.samtools="1.5" \
       version.perl="5.22.3-r0" \
       version.alpine="3.4.x" \
-      source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.15" \
+      source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.16" \
       source.vep="http://dec2017.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.5" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5" \
       source.samtools="https://github.com/samtools/samtools/releases/tag/1.5"
 
-ENV VCF2MAF_VERSION 1.6.15
+ENV VCF2MAF_VERSION 1.6.16
 ENV VEP_VERSION 91.3
 ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.5
