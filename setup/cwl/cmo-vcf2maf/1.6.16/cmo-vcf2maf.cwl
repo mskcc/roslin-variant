@@ -173,7 +173,7 @@ inputs:
 
   vep_data:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/cache
+    default: /ifs/depot/pi/resources/vep/cache
     doc: VEP's base cache/plugin directory
     inputBinding:
       prefix: --vep-data
