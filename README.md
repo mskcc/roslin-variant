@@ -1,4 +1,4 @@
-# Roslin-targeted-variants
+# Roslin-variants
 
 Table of Contents:
 
