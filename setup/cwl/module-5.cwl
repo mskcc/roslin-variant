@@ -1,4 +1,4 @@
-#!/usr/bin/env cwl-runner
+!/usr/bin/env cwl-runner
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -53,6 +53,53 @@ requirements:
 
 inputs:
 
+  db_files:
+    type:
+      type: record
+      fields:
+        hapmap:
+          type: File
+          secondaryFiles:
+            - .idx
+        dbsnp:
+          type: File
+          secondaryFiles:
+            - .idx
+        indels_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        snps_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        cosmic:
+          type: File
+          secondaryFiles:
+            - .idx
+        refseq: File
+        ref_fasta: string
+        vep_data: string
+        exac_filter:
+          type: File
+          secondaryFiles:
+            - .tbi
+        hotspot_list: File
+        hotspot_vcf: File
+        curated_bams:
+          type:
+            type: array
+            items: File
+          secondaryFiles:
+              - ^.bai
+        bait_intervals: File
+        target_intervals: File
+        fp_intervals: File
+        fp_genotypes: File
+        conpair_markers: File
+        grouping_file: File
+        request_file: File
+        pairing_file: File
   bams:
     type:
       type: array
@@ -89,7 +136,26 @@ inputs:
         items:
           type: array
           items: File
-
+  tumor_bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
+  normal_bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
+  tumor_sample_name:
+    type:
+      type: array
+      items: string
+  normal_sample_name:
+    type:
+      type: array
+      items: string
 
 outputs:
 
@@ -153,8 +219,18 @@ outputs:
       type: array
       items: File
     outputSource: generate_pdf/qc_files
-
-
+  concordance_txt:
+    type: File
+    outputSource: run-conpair/concordance_txt
+  concordance_pdf:
+    type: File
+    outputSource: run-conpair/concordance_pdf
+  contamination_txt:
+    type: File
+    outputSource: run-conpair/contamination_txt
+  contamination_pdf:
+    type: File
+    outputSource: run-conpair/contamination_pdf
 
 steps:
 
@@ -293,6 +369,22 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
+
+  run-conpair:
+    run: conpair/1.0.0/conpair-master.cwl
+    in:
+      db_files: db_files
+      ref:
+        valueFrom: ${ return inputs.db_files.ref_fasta; }
+      markers: 
+        valueFrom: ${ return inputs.db_files.conpair_markers; }
+      tumor_bams: tumor_bams
+      normal_bams: normal_bams
+      tumor_sample_name: tumor_sample_name
+      normal_sample_name: normal_sample_name
+      pairing_file:
+        valueFrom: ${ return inputs.db_files.pairing_file; }
+    out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
 
   generate_pdf:
     run: cmo-qcpdf/0.5.10/cmo-qcpdf.cwl
