@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -68,6 +68,7 @@ inputs:
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
+	conpair_markers: File
         grouping_file: File
         request_file: File
         pairing_file: File
@@ -304,6 +305,21 @@ outputs:
     type: File[]
     outputSource: gather_metrics/qc_files
 
+  # conpair output
+  concordance_txt:
+    type: File
+    outputSource: gather_metrics/concordance_txt
+  concordance_pdf:
+    type: File
+    outputSource: gather_metrics/concordance_pdf
+  contamination_txt:
+    type: File
+    outputSource: gather_metrics/contamination_txt
+  contamination_pdf:
+    type: File
+    outputSource: gather_metrics/contamination_pdf
+
+
 steps:
 
   projparse:
@@ -438,6 +454,8 @@ steps:
       grouping_file: projparse/grouping_file
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
-
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
-
+      tumor_bams: pairing/tumor_bams
+      normal_bams: pairing/normal_bams
+      normal_sample_name: pairing/normal_sample_ids
+      tumor_sample_name: pairing/tumor_sample_ids
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files, concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
