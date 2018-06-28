@@ -9,10 +9,10 @@ fixed_file_content = []
 
 # Fetch the latest list of known oncogenic fusions from OncoKB
 # ::TODO:: We need a data freeze of this in the repo, or we fail at reproducibility
-fusions = requests.get('http://oncokb.org/api/v1/variants/lookup?variant=fusion').json()
+fusions = requests.get('http://oncokb.org/internal/api/v1/variants/lookup?variant=fusion').json()
 oncokb_fusion = {}
 for fusion in fusions:
-    pair = re.sub(r'\s*Fusion[s]*$', '', fusion['name'], flags=re.IGNORECASE)
+    pair = re.sub(r'\s|Fusion[s]?|Intragenic', '', fusion['name'].encode('ascii','ignore'), flags=re.IGNORECASE)
     if pair:
         # Save GeneA-GeneB and GeneB-GeneA cuz they don't order genes alphabetically like Roslin
         pair_flipped = '-'.join(reversed(pair.split("-", 1)))
