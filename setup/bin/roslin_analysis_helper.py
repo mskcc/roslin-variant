@@ -63,7 +63,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
 def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
-    fusion_files_query = os.path.join(fusion_directory,'*.vep.portal.txt')
+    fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
     combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_path = os.path.join(output_directory,combined_output)
     output_path = os.path.join(output_directory,data_filename)
