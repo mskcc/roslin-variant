@@ -351,7 +351,9 @@ def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
     subdirs = stable_id.split("_")
     first_dir = subdirs[1]
     second_dir = subdirs[2]
-    project_name = re.sub(r'^Proj_', '', project_name)
+    # Ideally we want to remove the Proj_ prefix, but need to add a 'p' prefix instead so that we
+    # hide it from BIC's scripts that look for duplicate projects uploaded to the mercurial repo
+    project_name = re.sub(r'^Proj_', 'p', project_name)
     full_path = os.path.join(mercurial_path, first_dir, second_dir, project_name)
     logger.info("Creating directories in mercurial repo: %s" % full_path)
     return full_path
