@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-concordance.cwl
-  doap:revision: 1.0.0
+  doap:name: conpair-merge.cwl
+  doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -40,14 +40,13 @@ class: CommandLineTool
 baseCommand:
 - non-cmo.sh
 - --tool
-- "conpair_concordance"
+- "conpair_merge"
 - --version
-- "1.0.0"
+- "0.2"
 - --language_version
 - "default"
 - --language
 - "python"
-- --normal_homozygous_markers_only
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -59,37 +58,62 @@ doc: |
   None
 
 inputs:
-  tpileup:
+  pairing_file:
     type:
     - [File, string]
+    doc: sample pairing file
     inputBinding:
-      prefix: --tumor_pileup
-      
-  npileup:
-    type:
-    - [File, string]
-    inputBinding:
-      prefix: --normal_pileup
-      
-  markers:
-    type:
-    - [File, string]
-    inputBinding:
-      prefix: --markers
+      prefix: --pairing 
 
-  outfile:
+  cordlist:
+    type:
+      type: array
+      items: File
+    doc: Input concordance files
+    inputBinding:
+      prefix: --cordlist 
+
+  tamilist:
+    type:
+      type: array
+      items: File  
+    doc: Input contamination files
+    inputBinding:
+      prefix: --tamilist
+
+  file_prefix:
     type:
     - string
     inputBinding:
-      prefix: --outfile
+      prefix: --outpre
 
 outputs:
-  out_file:
+  concordance_txt:
     type: File
     outputBinding:
-      glob: |
-        ${
-          if (inputs.outfile)
-            return inputs.outfile;
-          return null;
-        }
+      glob: "*concordance.txt"
+
+  concordance_r:
+    type: File
+    outputBinding:
+      glob: "*concordance.R"
+
+  concordance_pdf:
+    type: File
+    outputBinding:
+      glob: "*concordance.pdf"
+
+  contamination_txt:
+    type: File
+    outputBinding:
+      glob: "*contamination.txt"
+
+  contamination_r:
+    type: File
+    outputBinding:
+      glob: "*contamination.R"
+
+  contamination_pdf:
+    type: File
+    outputBinding:
+      glob: "*contamination.pdf"

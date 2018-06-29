@@ -365,16 +365,20 @@
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
         },
         "conpair_pileup": {
-            "1.0.0": "/ifs/work/tangz/github/Conpair/scripts/run_gatk_pileup_for_sample.py"
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/run_gatk_pileup_for_sample.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/run_gatk_pileup_for_sample.py"
         },
         "conpair_concordance": {
-            "1.0.0": "/ifs/work/tangz/github/Conpair/scripts/verify_concordance.py"
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/verify_concordance.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/verify_concordance.py"
         },
         "conpair_contamination": {
-            "1.0.0": "/ifs/work/tangz/github/Conpair/scripts/estimate_tumor_normal_contamination.py"
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/estimate_tumor_normal_contamination.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/estimate_tumor_normal_contamination.py"
         },
         "conpair_merge": {
-            "1.0.0": "/ifs/work/tangz/test_conpair/conpair_merge.py"
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py"
         }
     },
     "targets": {

@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: conpair-pileup.cwl
-  doap:revision: 1.0.0
+  doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -42,7 +42,7 @@ baseCommand:
 - --tool
 - "conpair_pileup"
 - --version
-- "1.0.0"
+- "0.2"
 - --language_version
 - "default"
 - --language
@@ -68,12 +68,27 @@ inputs:
       - ^.dict
       - ^.fasta.fai
       
+  java_xmx:
+    type:
+    - 'null'
+    - type: array
+      items: string
+    doc: set up java -Xmx parameter
+    inputBinding:
+      prefix: --xmx_java
+      
   gatk:
     type:
     - [File, string, "null"]
     default: /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
     inputBinding:
       prefix: --gatk
+
+  markers_bed:
+    type:
+    - [File, string]
+    inputBinding:
+      prefix: --markers
       
   bam:
     type:
