@@ -61,8 +61,7 @@ def generateNameBasedPortalUUID(name,diffusion="",namespaceUUID=DIVISION_UUID):
         uu_diff=makeDirectoryString(uuid.uuid5(namespaceUUID,name).hex[:4])
     else:
         uu_diff=makeDirectoryString(uuid.uuid5(namespaceUUID,diffusion).hex[:4])
-    proj_name = 'p'+name
-    return (uu_diff+PATHSEP+proj_name,cvtToPortalStudyID(uu_diff,proj_name))
+    return (uu_diff+PATHSEP+name,cvtToPortalStudyID(uu_diff,name))
 
 def generateIGOBasedPortalUUID(igoRequest):
     #
