@@ -57,13 +57,12 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
             'start_', 'synonymous_', 'coding_sequence_', 'transcript_', 'exon_', 'initiator_codon_',
             'disruptive_inframe_', 'conservative_missense_', 'rare_amino_acid_', 'mature_miRNA_', 'TFBS_']
         if re.match(r'|'.join(csq_keep), line[csq_col]) is not None or (line[gene_col] == 'TERT' and int(line[pos_col]) >= 1295141 and int(line[pos_col]) <= 1295340):
+            # For IMPACT data, apply the MSK-IMPACT depth/allele-count/VAF/indel-length cutoffs
+            if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or var_length >= 30 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))):
+                continue
             analyst_maf.write('\t'.join(line) + '\n')
             # The portal also skips silent muts, genes without Entrez IDs, and intronic events
-            # For IMPACT data, we must also apply the official MSK-IMPACT depth/allele-count/VAF
-            # cutoffs, and also remove indels >=30bp
             if re.match(r'synonymous_|stop_retained_', line[csq_col]) is None and line[entrez_id_col] != 0 and splice_dist <= 2:
-                if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or var_length >= 30 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))):
-                    continue
                 portal_maf.write('\t'.join(line[0:45]) + '\n')
 
 # The concatenated MAF can be enormous, so cleanup after
