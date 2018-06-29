@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-pileup.cwl
-  doap:revision: 1.0.0
+  doap:name: conpair-master.cwl
+  doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -81,9 +81,17 @@ inputs:
       type: 
       - [File, string]
 
+  markers_bed:
+      type: 
+      - [File, string]
+
   pairing_file:
       type: 
       - [File, string]
+      
+  file_prefix:
+      type: 
+      - string
 
 outputs:
 
@@ -112,6 +120,7 @@ steps:
         normal_sample_name: normal_sample_name
         ref: ref
         markers: markers
+        markers_bed: markers_bed
      out: [ tpileout, npileout, contam_out ]
      scatter: [ tumor_bam, normal_bam, tumor_sample_name, normal_sample_name ]
      scatterMethod: dotproduct
@@ -128,6 +137,8 @@ steps:
                  - ^.dict
                  - ^.fasta.fai
            markers:
+                type: File
+           markers_bed:
                 type: File
            tumor_sample_name:
                 type: string
@@ -148,7 +159,10 @@ steps:
              run: conpair-pileup.cwl
              in:
                  bam: tumor_bam
-                 ref: ref                 
+                 ref: ref
+                 markers_bed: markers_bed
+                 java_xmx:
+                     valueFrom: ${ return ["24g"]; }
                  outfile:
                      valueFrom: ${ return inputs.bam.basename.replace(".bam", ".pileup"); }
              out: [out_file]
@@ -158,6 +172,9 @@ steps:
              in:
                  bam: normal_bam
                  ref: ref
+                 markers_bed: markers_bed
+                 java_xmx:
+                     valueFrom: ${ return ["24g"]; }
                  outfile:
                      valueFrom: ${ return inputs.bam.basename.replace(".bam", ".pileup"); }
              out: [out_file]
@@ -219,4 +236,5 @@ steps:
        pairing_file: pairing_file
        cordlist: run-concordance/concordance_out
        tamilist: run-pileups-contamination/contam_out
+       file_prefix: file_prefix
      out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]

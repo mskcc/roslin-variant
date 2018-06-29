@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair.cwl
-  doap:revision: 1.0.0
+  doap:name: conpair-contamination.cwl
+  doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -42,7 +42,7 @@ baseCommand:
 - --tool
 - "conpair_contamination"
 - --version
-- "1.0.0"
+- "0.2"
 - --language_version
 - "default"
 - --language

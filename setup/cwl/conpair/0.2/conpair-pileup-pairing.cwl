@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-pileup.cwl
-  doap:revision: 1.0.0
+  doap:name: conpair-pileup-pairing.cwl
+  doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
