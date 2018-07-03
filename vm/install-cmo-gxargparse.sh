@@ -17,7 +17,7 @@ sudo git clone https://github.com/mskcc/cmo.git ${DEST_PATH}/cmo-gxargparse/cmo
 sudo chown -R vagrant:vagrant ${DEST_PATH}/cmo-gxargparse/cmo
 
 # install dependencies
-sudo pip install --upgrade pip
+#sudo pip install --upgrade pip
 
 # install
 cd ${DEST_PATH}/cmo-gxargparse/cmo
