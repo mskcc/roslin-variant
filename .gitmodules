@@ -1,4 +1,4 @@
 [submodule "core"]
-	path = core
-	url = https://github.com/mskcc/roslin-core
-	branch = core_dev
+    path = core
+    url = https://github.com/mskcc/roslin-core
+    branch = dev
