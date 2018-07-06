@@ -5,7 +5,7 @@
 sudo apt-get install -y build-essential zlib1g-dev libbz2-dev liblzma-dev libcurl4-gnutls-dev
 
 # required to do cwl postprocess
-sudo pip install pyyaml ruamel.yaml
+sudo -H pip install pyyaml ruamel.yaml
 
 DEST_PATH="/usr/local/bin/"
 
@@ -17,7 +17,7 @@ sudo git clone https://github.com/mskcc/cmo.git ${DEST_PATH}/cmo-gxargparse/cmo
 sudo chown -R vagrant:vagrant ${DEST_PATH}/cmo-gxargparse/cmo
 
 # install dependencies
-sudo pip install --upgrade pip==9.0.3
+sudo -H pip install --upgrade pip==9.0.3
 
 # install
 cd ${DEST_PATH}/cmo-gxargparse/cmo
@@ -31,7 +31,7 @@ sudo git clone https://github.com/common-workflow-language/gxargparse.git ${DEST
 sudo chown -R vagrant:vagrant ${DEST_PATH}/cmo-gxargparse/gxargparse
 
 # install dependencies
-sudo pip install future
+sudo -H pip install future
 sudo apt-get install -y python-lxml
 
 # install
