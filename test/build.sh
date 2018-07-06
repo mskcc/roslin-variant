@@ -22,7 +22,7 @@ sed -i '$ d' ../Vagrantfile_test
 installDir=/ifs/work/pi/roslin-test/targeted-variants/$BUILD_NUMBER
 coreDir=$installDir/roslin-core
 sed -i "s|/ifs/work/pi/roslin-pipelines|${installDir}/roslin-pipelines|g" ../config.variant.yaml
-printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend" "$BUILD_NUMBER" >> ../Vagrantfile_test
+printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend\n" "$BUILD_NUMBER" >> ../Vagrantfile_test
 ## set vagrant path correctly
 currentDir=$PWD
 parentDir="$(dirname "$currentDir")"
@@ -46,8 +46,8 @@ exit 1
 fi
 printf "\n----------Setting up workspace----------\n"
 # Create the test dir where the pipeline will be installed
-mkdir $installDir
-mkdir $coreDir
+mkdir -p $installDir
+mkdir -p $coreDir
 printf "\n----------Installing Core----------\n"
 source core/config/settings.sh
 # Set test specific core
