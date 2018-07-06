@@ -22,4 +22,3 @@ apt-get -y update
 apt-get -y install docker-ce=${DOCKER_CE_VERSION}
 
 apt-cache madison docker-ce
-
