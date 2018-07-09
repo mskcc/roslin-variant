@@ -22,7 +22,7 @@ sed -i '$ d' ../Vagrantfile_test
 installDir=/ifs/work/pi/roslin-test/targeted-variants/$BUILD_NUMBER
 coreDir=$installDir/roslin-core
 sed -i "s|/ifs/work/pi/roslin-pipelines|${installDir}/roslin-pipelines|g" ../config.variant.yaml
-printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend" "$BUILD_NUMBER" >> ../Vagrantfile_test
+printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend\n" "$BUILD_NUMBER" >> ../Vagrantfile_test
 ## set vagrant path correctly
 currentDir=$PWD
 parentDir="$(dirname "$currentDir")"
@@ -31,8 +31,8 @@ export VAGRANT_VAGRANTFILE=Vagrantfile_test
 # Set tmp and test directory
 export TMPDIR="/srv/scratch/"
 export TMP="/srv/scratch/"
-# Estimated walltime <60min allows jobs in short queue i.e. much less time in PEND state
-export TOIL_LSF_ARGS='-S 1 -We 0:59'
+# Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
+export TOIL_LSF_ARGS='-S 1 -We 0:59 -R select[internet]'
 TempDir=/srv/scratch/$BUILD_NUMBER
 TestDir=test_output/$BUILD_NUMBER
 # Start vagrant to build the pipeline
@@ -46,8 +46,8 @@ exit 1
 fi
 printf "\n----------Setting up workspace----------\n"
 # Create the test dir where the pipeline will be installed
-mkdir $installDir
-mkdir $coreDir
+mkdir -p $installDir
+mkdir -p $coreDir
 printf "\n----------Installing Core----------\n"
 source core/config/settings.sh
 # Set test specific core

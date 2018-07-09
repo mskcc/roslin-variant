@@ -186,8 +186,6 @@ steps:
                         input_file: input_file
                         num_cpu_threads_per_data_thread:
                             default: "5"
-                        read_filter:
-                            valueFrom: ${ return ["BadCigar"]; }
                         emit_original_quals:
                             valueFrom: ${ return true; }
                         baq:
