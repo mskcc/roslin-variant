@@ -47,7 +47,7 @@
     "genomes": {
         "GRCh37": {
             "bedtools_genome": "/ifs/depot/pi/resources/genomes/GRCh37/bedtools_genome/human.b37.genome",
-            "bwa_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/bwa_fasta/b37.fasta",
+            "bwa_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta",
             "cosmic": {
                 "67": "/ifs/depot/pi/resources/genomes/GRCh37/cosmic/67/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
                 "74": "/ifs/depot/pi/resources/genomes/GRCh37/cosmic/74/CosmicCodingMuts_v74_b37_20151120.vcf"
@@ -94,7 +94,7 @@
         },
         "hg19": {
             "bedtools_genome": "/ifs/depot/pi/resources/genomes/hg19/bedtools_genome/human.hg19.genome",
-            "bwa_fasta": "/ifs/depot/pi/resources/genomes/hg19/bwa_fasta/hg19.fasta",
+            "bwa_fasta": "/ifs/depot/pi/resources/genomes/hg19/fasta/hg19.fasta",
             "cosmic": {
                 "67": "/ifs/depot/pi/resources/genomes/hg19/cosmic/67/CosmicCodingMuts_v67_20131024.vcf"
             },
