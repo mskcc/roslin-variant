@@ -102,10 +102,10 @@ def parse_request_file(rfile):
 
 
 def get_curated_bams(assay,REQUEST_FILES):
-    # Default to AgilentExon_51MB_b37_v3 BAMs. Use IMPACT410 BAMs for all IMPACT/HemePACT projects
+    # Default to AgilentExon_51MB_b37_v3 BAMs. Use IMPACT468 BAMs for all IMPACT/HemePACT projects
     json_curated_bams = REQUEST_FILES['curated_bams']['AgilentExon_51MB_b37_v3']
     if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
-        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT410_b37']
+        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
     array = []
     for bam in json_curated_bams:
         array.append({'class': 'File', 'path': str(bam)})
