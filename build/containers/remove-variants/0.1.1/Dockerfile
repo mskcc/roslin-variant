@@ -1,9 +1,9 @@
-FROM alpine:3.6
+FROM alpine:3.8
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.removevariants="0.1.1" \
-      version.alpine="3.6" \
+      version.alpine="3.8" \
       source.removevariants="https://github.com/mskcc/remove_variants/releases/tag/0.1.1"
 
 ENV REMOVEVARIANTS_VERSION 0.1.1
