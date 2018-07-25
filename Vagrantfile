@@ -15,12 +15,11 @@ Vagrant.configure("2") do |config|
       v.memory = "2048"
 	end
 
-  config.vm.hostname = "roslin"
+  config.vm.hostname = "roslin-variants"
 
   config.vm.provision "shell", path: "./vm/bootstrap.sh"
   config.vm.provision "shell", path: "./vm/install-python.sh"
   config.vm.provision "shell", path: "./vm/install-singularity.sh"
   config.vm.provision "shell", path: "./vm/install-docker.sh"
   config.vm.provision "shell", path: "./vm/install-docker-registry.sh"
-  config.vm.provision "shell", path: "./vm/install-cmo-gxargparse.sh", privileged: false
 end
