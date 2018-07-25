@@ -1,12 +1,12 @@
-FROM alpine:3.6
+FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.facets_suite="1.5.6" \
       version.facets="0.5.14"\
-      version.alpine="3.6" \
-      version.r="3.3.3-r0" \
+      version.alpine="3.8" \
+      version.r="3.5.1" \
       version.pctGCdata="0.2.0" \
       source.facets_suite="https://github.com/mskcc/facets-suite/releases/tag/1.5.6" \
       source.facets="https://github.com/mskcc/facets/archive/v0.5.14.tar.gz"\
@@ -14,7 +14,6 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV FACETS_SUITE_VERSION 1.5.6
 ENV FACETS_VERSION 0.5.14
-ENV R_VERSION 3.3.3-r0
 ENV PCTGCDATA 0.2.0
 
 # facets-suite is in a private repo. for now we will just copy from local rather than wget
@@ -31,7 +30,7 @@ RUN apk add --update \
     # install cairo and R package system dependencies
         && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 \
     # download and install R
-        && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
+        && apk add R R-dev \
     # download and unzip facets, facets-suite, pctGCdata
         && cd /tmp \
         # download Facets

@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.8
 
 LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       version.image="1.0.0" \
@@ -7,17 +7,17 @@ LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       version.htslib="1.5" \
       version.bcftools="1.5" \
       version.samtools="1.5" \
-      version.perl="5.22.3-r0" \
-      version.alpine="3.4.x" \
+      version.perl="5.26.2-r1" \
+      version.alpine="3.8" \
       source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.16" \
       source.vep="http://dec2017.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.5" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5" \
-      source.samtools="https://github.com/samtools/samtools/releases/tag/1.5"
+      source.samtools="https://github.com/samtools/samtools/releases/tag/1.5" \
+      source.perl="https://pkgs.alpinelinux.org/package/edge/main/aarch64/perl"
 
 ENV VCF2MAF_VERSION 1.6.16
 ENV VEP_VERSION 91.3
-ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.5
 ENV SAMTOOLS_VERSION 1.5
 ENV BCFTOOLS_VERSION 1.5
@@ -28,7 +28,7 @@ COPY run.sh /usr/bin/vcf2maf/run.sh
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} perl-dev=${PERL_VERSION} musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+            && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       # install system packages that the Perl modules will need
             && apk add expat-dev openssl-dev mariadb-dev libxml2-dev mariadb-dev \
       # install cpanminus

@@ -1,9 +1,9 @@
-FROM alpine:3.6
+FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.basicfiltering="0.2.0" \
-      version.alpine="3.6" \
+      version.alpine="3.8" \
       source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.2.0"
 
 ENV BASICFILTERING_VERSION 0.2.0
