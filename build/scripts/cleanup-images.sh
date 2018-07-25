@@ -7,7 +7,7 @@ source ./settings-build.sh
 source ./tools-utils.sh
 
 # delete singularity images created
-find ${CONTAINER_DIRECTORY}/ -name '*.img' -type f -delete
+find ${CONTAINER_DIRECTORY}/ -name '*.sqsh' -type f -delete
 
 # delete docker images whose name is not set
 sudo docker images --format '{{.Repository}}\t{{.ID}}' | grep "<none>" | awk -F'\t' '{ print $2 }' | xargs sudo docker rmi -f
