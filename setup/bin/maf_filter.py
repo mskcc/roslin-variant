@@ -11,12 +11,15 @@ roslin_version_line = "# Versions: " + roslin_version_string.replace('_',' ') + 
 
 with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf, open(portal_file,'wb') as portal_maf:
     header = input_maf.readline().strip('\r\n').split('\t')
+    # Skip all comment lines, and assume that the first line after them is the header
+    while header[0].startswith("#"):
+        header = input_maf.readline().strip('\r\n').split('\t')
     analyst_maf.write(roslin_version_line)
     portal_maf.write(roslin_version_line)
+    # The analyst MAF needs all the same columns as the input MAF (from vcf2maf, ngs-filters, etc.)
     analyst_maf.write('\t'.join(header) + '\n')
-    # Rename HGVSp_Short to Amino_Acid_Change, so the portal will re-annotate with Genome Nexus
+    # The portal MAF can be minimized since Genome Nexus re-annotates it when HGVSp_Short column is missing
     header[header.index('HGVSp_Short')] = 'Amino_Acid_Change'
-    # For the portal, provide only basic MAF columns plus read depths and allele counts
     portal_maf.write('\t'.join(header[0:45]) + '\n')
     gene_col = header.index('Hugo_Symbol')
     entrez_id_col = header.index('Entrez_Gene_Id')
