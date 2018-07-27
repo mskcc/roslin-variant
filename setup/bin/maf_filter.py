@@ -35,8 +35,8 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
     tdp_col = header.index('t_depth')
     maf_reader = csv.reader(input_maf,delimiter='\t')
     for line in maf_reader:
-        # Skip uncalled events from cmo_fillout and any that failed false-positive filters
-        if line[mut_status_col] == 'None' or line[filter_col] != 'PASS':
+        # Skip uncalled events and any that failed false-positive filters, except common_variant
+        if line[mut_status_col] == 'None' or line[filter_col] != 'PASS' and line[filter_col] != 'common_variant':
             continue
         # Skip events larger than 50bp with VAF<20%, some samples appear enriched for these
         var_length = len(line[ref_col]) if len(line[ref_col]) > len(line[alt_col]) else len(line[alt_col])
