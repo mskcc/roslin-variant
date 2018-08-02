@@ -1,9 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
 Vagrant.configure("2") do |config|
+  required_plugins = %w( vagrant-disksize )
+    required_plugins.each do |plugin|
+        unless Vagrant.has_plugin? plugin
+            system "vagrant plugin install #{plugin}"
+        end
+    end
 
   config.vm.box = "bento/ubuntu-16.04"
+  config.disksize.size = '50GB'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -16,7 +22,7 @@ Vagrant.configure("2") do |config|
 	end
 
   config.vm.hostname = "roslin-variants"
-
+  config.vm.provision "shell", path: "./vm/resize-disk.sh"
   config.vm.provision "shell", path: "./vm/bootstrap.sh"
   config.vm.provision "shell", path: "./vm/install-python.sh"
   config.vm.provision "shell", path: "./vm/install-singularity.sh"
