@@ -46,7 +46,6 @@ dct:contributor:
     foaf:name: Allan Bolipata 
     foaf:mbox: mailto:bolipatc@mskcc.org 
 
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -315,9 +314,9 @@ steps:
                     in:
                         vcf: mutect_vcf
                         output:
-                            default: "mutect-norm.vcf"
+                            default: "mutect-norm.vcf.gz"
                         output_type:
-                            default: "v"
+                            default: "z"
                         fasta_ref: genome
                     out: [vcf_output_file]
                 pindel_norm_step:
@@ -325,9 +324,9 @@ steps:
                     in:
                         vcf: pindel_vcf
                         output:
-                            default: "pindel-norm.vcf"
+                            default: "pindel-norm.vcf.gz"
                         output_type:
-                            default: "v"
+                            default: "z"
                         fasta_ref: genome
                     out: [vcf_output_file]
                 vardict_norm_step:
@@ -335,30 +334,65 @@ steps:
                     in:
                         vcf: vardict_vcf
                         output:
-                            default: "vardict-norm.vcf"
+                            default: "vardict-norm.vcf.gz"
                         output_type:
-                            default: "v"
+                            default: "z"
                         fasta_ref: genome
                     out: [vcf_output_file]
-
-    combine:
-        run: cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
+    index:
         in:
-            variants_mutect: normalize/mutect_vcf_norm_output
-            variants_vardict: normalize/vardict_vcf_norm_output
-            variants_pindel: normalize/pindel_vcf_norm_output
-            unsafe:
-                default: "ALLOW_SEQ_DICT_INCOMPATIBILITY"
-            genotypemergeoption:
-                default: "PRIORITIZE"
-            rod_priority_list:
-                default: ["VarDict", "MuTect", "Pindel"]
-            reference_sequence: genome
-            intervals:
-                valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
-            tumor_sample_name: tumor_sample_name
-            normal_sample_name: normal_sample_name
+            mutect_vcf: normalize/mutect_vcf_norm_output
+            vardict_vcf: normalize/vardict_vcf_norm_output
+            pindel_vcf: normalize/pindel_vcf_norm_output
+        out: [vardict_vcf_tbi_output, pindel_vcf_tbi_output, mutect_vcf_tbi_output]
+        run:
+            class: Workflow
+            inputs:
+                mutect_vcf: File
+                vardict_vcf: File
+                pindel_vcf: File
+            outputs:
+                mutect_vcf_tbi_output:
+                    type: File
+                    outputSource: mutect_index_step/tbi_file
+                vardict_vcf_tbi_output:
+                    type: File
+                    outputSource: vardict_index_step/tbi_file
+                pindel_vcf_tbi_output:
+                    type: File
+                    outputSource: pindel_index_step/tbi_file
+            steps:
+                mutect_index_step:
+                    run: cmo-bcftools.index/1.3.1/cmo-bcftools.index.cwl
+                    in:
+                        vcf: mutect_vcf
+                        tbi:
+                            default: True
+                    out: [tbi_file]
+                pindel_index_step:
+                    run: cmo-bcftools.index/1.3.1/cmo-bcftools.index.cwl
+                    in:
+                        vcf: pindel_vcf
+                        tbi:
+                            default: True
+                    out: [tbi_file]
+                vardict_norm_step:
+                    run: cmo-bcftools.index/1.3.1/cmo-bcftools.index.cwl
+                    in:
+                        vcf: vardict_vcf
+                        tbi:
+                            default: True
+                    out: [tbi_file]
+    concat:
+        run: cmo-bcftools.concat/1.3.1/cmo-bcftools.concat.cwl
+        in:
+            vcf_vardict: normalize/vardict_vcf_norm_output
+            vcf_mutect: normalize/mutect_vcf_norm_output
+            vcf_pindel: normalize/pindel_vcf_norm_output
+            allow_overlaps:
+                default: True
+            rm_dups:
+                default: "all"
             out:
                 valueFrom: ${ return inputs.tumor_sample_name +"."+inputs.normal_sample_name+".combined-variants.vcf" }
         out: [out_vcf]
-
