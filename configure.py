@@ -62,7 +62,7 @@ def get_deduplicated_binding_points(settings):
 def configure_setup_settings(settings,filtered_binding_point_list):
     "make /setup/config/settings.sh"
 
-    template = get_template("/vagrant/setup/config/settings.template.sh")
+    template = get_template("setup/config/settings.template.sh")
 
     # render
     content = template.render(
@@ -89,28 +89,65 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
     )
 
-    write_to_disk("/vagrant/setup/config/settings.sh", content)
+    write_to_disk("setup/config/settings.sh", content)
 
-def configure_build_settings(settings,filtered_binding_point_list):
+def configure_test_settings(settings):
+    template = get_template("setup/config/test-settings.template.sh")
+    test_env_str = ""
+    for single_env_key, single_env_val in settings["test"]["env"].items():
+        test_env_str = test_env_str + "export " + single_env_key + '="' + single_env_val + '"\n' 
+
+    content = template.render( test_root=settings["test"]["root"],
+        test_tmp=settings["test"]["tempDir"],        
+        test_run=settings["test"]["runMode"],
+        test_env=test_env_str
+    )
+
+    write_to_disk("setup/config/test-settings.sh", content)
+
+def configure_build_settings(settings):
+    template = get_template("setup/config/build-settings.template.sh")
+
+    content = template.render( build_images=settings["build"]["buildImages"],
+        build_vagrant=settings["build"]["vagrantSize"],
+        build_threads=settings["build"]["buildThreads"],
+        build_core=settings["build"]["installCore"]
+    )
+
+    write_to_disk("setup/config/build-settings.sh", content)
+
+def configure_container_settings(settings):
     "make /build/scripts/settings.sh"
 
-    template = get_template("/vagrant/build/scripts/settings-build.template.sh")
+    template = get_template("build/scripts/settings-build.template.sh")
 
     # ------------1
     content = template.render(
         version=settings["version"]
     )
 
-    write_to_disk("/vagrant/build/scripts/settings-build.sh", content)
+    write_to_disk("build/scripts/settings-build.sh", content)
 
     # ------------2
+
+    binding_points = [
+        os.path.join(settings["root"], settings["binding"]["core"]),
+        os.path.join(settings["root"], settings["binding"]["data"]),
+        os.path.join(settings["root"], settings["binding"]["output"]),
+        os.path.join(settings["root"], settings["binding"]["workspace"])
+    ]
+
+    for extra in settings["binding"]["extra"]:
+        binding_points.append(os.path.join(settings["root"], extra))
+
+    template = get_template("build/scripts/settings-container.template.sh")
 
     # render
     content = template.render(
         binding_points=" ".join(filtered_binding_point_list)  # to space-separated list
     )
 
-    write_to_disk("/vagrant/build/scripts/settings-container.sh", content)
+    write_to_disk("build/scripts/settings-container.sh", content)
 
 
 def main():
@@ -130,6 +167,10 @@ def main():
     configure_setup_settings(settings,filtered_binding_point_list)
 
     configure_build_settings(settings,filtered_binding_point_list)
+
+    configure_test_settings(settings)
+
+    configure_container_settings(settings)
 
 
 if __name__ == "__main__":

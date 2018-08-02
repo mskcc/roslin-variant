@@ -1,4 +1,4 @@
-name: variant
+name: variants
 version: 2.3.0
 description: Roslin Variant Pipeline v2.3.0
 root: /ifs/work/pi/roslin-pipelines
@@ -24,3 +24,14 @@ dependencies:
   singularity:
     version: 2.5.1
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-2.5.1/bin/singularity
+test:
+  root: /ifs/work/pi/roslin-test/
+  tempDir: /scratch  
+  runMode: singleMachine
+  env:
+    TOIL_LSF_ARGS: '-S 1 -We 0:59 -R select[internet]'
+build:
+  buildImages: true  
+  installCore: true
+  buildThreads: 4
+  vagrantSize: 50GB
