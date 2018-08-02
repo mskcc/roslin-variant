@@ -12,7 +12,7 @@ RUN apk add --update \
       # for wget
             && apk add ca-certificates openssl \
       # for compilation (pybedtools)
-            && apk add build-base musl-dev zlib-dev bzip2-dev xz-dev cython python py-pip python-dev\
+            && apk add build-base musl-dev zlib-dev bzip2-dev xz-dev cython cython-dev python py-pip python-dev\
       # install pybedtools
             && pip install pybedtools \
       # download, unzip list2bed
