@@ -4,4 +4,6 @@
 # use a space character as a delimiter if you need to define multiple bind points
 export TMPDIR="/scratch"
 export TMP="/scratch"
-export SINGULARITY_BIND_POINTS="/ifs/work/pi/roslin-test/31afdfef-c16f-4800-9b73-90495818500c/bin /ifs/work/pi/roslin-test/31afdfef-c16f-4800-9b73-90495818500c/resources /ifs/work/pi/roslin-test/31afdfef-c16f-4800-9b73-90495818500c/outputs /ifs/work/pi/roslin-test/31afdfef-c16f-4800-9b73-90495818500c/workspace /scratch /ifs"
+echo 'export TMPDIR="/scratch"' >>$SINGULARITY_ENVIRONMENT
+echo 'export TMP="/scratch"' >>$SINGULARITY_ENVIRONMENT
+export SINGULARITY_BIND_POINTS="/ifs/work/pi/roslin-pipelines/bin /ifs/work/pi/roslin-pipelines/resources /ifs/work/pi/roslin-pipelines/outputs /ifs/work/pi/roslin-pipelines/workspace /scratch /ifs"

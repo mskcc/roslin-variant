@@ -9,8 +9,8 @@ export ROSLIN_CORE_MIN_VERSION="{{ core_min_version }}"
 export ROSLIN_CORE_MAX_VERSION="{{ core_max_version }}"
 
 # Roslin pipeline root path
-ROSLIN_PIPELINE_ROOT="{{ pipeline_root }}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
-
+export ROSLIN_PIPELINE_ROOT="{{ pipeline_root }}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
+export ROSLIN_ROOT="{{ pipeline_root }}"
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
