@@ -51,7 +51,7 @@ mkdir -p $coreDir
 printf "\n----------Installing Core----------\n"
 source core/config/settings.sh
 # Set test specific core
-sed -i 's|'${ROSLIN_CORE_ROOT}'|'${coreDir}'|g' core/config/settings.sh
+sed -i "s|'${ROSLIN_CORE_ROOT}'|'${coreDir}'|g" core/config/settings.sh
 # Load roslin core and pipeline
 source core/config/settings.sh
 source setup/config/settings.sh
