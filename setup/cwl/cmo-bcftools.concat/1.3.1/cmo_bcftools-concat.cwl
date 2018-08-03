@@ -40,12 +40,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_bcftools, concat]
+baseCommand: [cmo_bcftools]
+label: cmo-bcftools-concat
+
+arguments:
+- valueFrom: "concat"
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 doc: |

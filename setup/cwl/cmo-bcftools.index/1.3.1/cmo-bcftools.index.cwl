@@ -40,12 +40,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_bcftools, index]
+baseCommand: [cmo_bcftools]
+label: cmo-bcftools-index
+
+arguments:
+- valueFrom: "index"
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 doc: |

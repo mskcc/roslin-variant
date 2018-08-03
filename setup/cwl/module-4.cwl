@@ -164,7 +164,7 @@ steps:
                     out: [fillout_out]
 
     ngs_filters:
-        run: ngs-filters/1.2.1/ngs-filters.cwl
+        run: ngs-filters/1.3/ngs-filters.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
