@@ -55,39 +55,41 @@ inputs:
   
   csi:
     type: ["null", boolean]
-    doc: generate CSI-format index for VCF/BCF files [default]
+    default: false
+    doc: generate CSI-format index for VCF/BCF files
     inputBinding:
       prefix: --csi 
 
   force:
     type: ["null", boolean]
-    doc: overwrite index if it already exists [default]
+    default: false
+    doc: overwrite index if it already exists
     inputBinding:
       prefix: --force 
 
   min_shift:
-    type: ["null", str]
+    type: ["null", string]
     doc: INT set minimal interval size for CSI indices to 2^INT [14]
     inputBinding:
       prefix: --min-shift 
 
   nrecords:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: print number of records based on existing index file
     inputBinding:
       prefix: --nrecords 
 
   stats:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: print per contig stats based on existing index file
     inputBinding:
       prefix: --stats 
 
   tbi:
     type: ["null", boolean]
-    default: False
+    default: true
     doc: generate TBI-format index for VCF files
     inputBinding:
       prefix: --tbi 
@@ -104,4 +106,5 @@ outputs:
   tbi_file:
     type: File
     outputBinding:
-      glob: "*.tbi"
+      glob: $(inputs.vcf.basename)
+    secondaryFiles: ["^.tbi", ".tbi"]

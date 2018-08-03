@@ -54,85 +54,85 @@ doc: |
 inputs:
   
   threads:
-    type: ["null", str]
+    type: ["null", string]
     doc: <int> Number of extra output compression threads [0]
     inputBinding:
       prefix: --threads 
 
   compact_PS:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: Do not output PS tag at each site, only at the start of a new phase set block.
     inputBinding:
       prefix: --compact-PS 
 
   remove_duplicates:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: Alias for -d none
     inputBinding:
       prefix: --remove-duplicates 
 
   ligate:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: Ligate phased VCFs by matching phase at overlapping haplotypes
     inputBinding:
       prefix: --ligate 
 
   output_type:
-    type: ["null", str]
+    type: ["null", string]
     doc: <b|u|z|v> b - compressed BCF, u - uncompressed BCF, z - compressed VCF, v - uncompressed VCF [v]
     inputBinding:
       prefix: --output-type 
 
   no_version:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: do not append version and command line to the header
     inputBinding:
       prefix: --no-version 
 
   naive:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: Concatenate BCF files without recompression (dangerous, use with caution)
     inputBinding:
       prefix: --naive 
 
   allow_overlaps:
     type: ["null", boolean]
-    default: False
+    default: false
     doc: First coordinate of the next file can precede last record of the current file.
     inputBinding:
       prefix: --allow-overlaps 
 
   min_PQ:
-    type: ["null", str]
+    type: ["null", string]
     doc: <int> Break phase set if phasing quality is lower than <int> [30]
     inputBinding:
       prefix: --min-PQ 
 
   regions_file:
-    type: ["null", str]
+    type: ["null", string]
     doc: <file> Restrict to regions listed in a file
     inputBinding:
       prefix: --regions-file 
 
   regions:
-    type: ["null", str]
+    type: ["null", string]
     doc: <region> Restrict to comma-separated list of regions
     inputBinding:
       prefix: --regions 
 
   rm_dups:
-    type: ["null", str]
+    type: ["null", string]
     doc: <string> Output duplicate records present in multiple files only once - <snps|indels|both|all|none>
     inputBinding:
       prefix: --rm-dups 
 
   output:
-    type: ["null", str]
+    type: ["null", string]
     doc: <file> Write output to a file [standard output]
     inputBinding:
       prefix: --output 

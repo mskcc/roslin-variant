@@ -370,32 +370,32 @@ steps:
                     in:
                         vcf: mutect_vcf
                         tbi:
-                            default: True
+                            default: true
                     out: [tbi_file]
                 pindel_index_step:
                     run: cmo-bcftools.index/1.3.1/cmo-bcftools.index.cwl
                     in:
                         vcf: pindel_vcf
                         tbi:
-                            default: True
+                            default: true
                     out: [tbi_file]
                 vardict_norm_step:
                     run: cmo-bcftools.index/1.3.1/cmo-bcftools.index.cwl
                     in:
                         vcf: vardict_vcf
                         tbi:
-                            default: True
+                            default: true
                     out: [tbi_file]
     concat:
         run: cmo-bcftools.concat/1.3.1/cmo-bcftools.concat.cwl
         in:
-            vcf_vardict: normalize/vardict_vcf_norm_output
-            vcf_mutect: normalize/mutect_vcf_norm_output
-            vcf_pindel: normalize/pindel_vcf_norm_output
+            vcf_vardict: index/vardict_vcf_tbi_output
+            vcf_mutect: index/mutect_vcf_tbi_output
+            vcf_pindel: index/pindel_vcf_tbi_output
             allow_overlaps:
-                default: True
+                default: true
             rm_dups:
                 default: "all"
-            out:
+            output:
                 valueFrom: ${ return inputs.tumor_sample_name +"."+inputs.normal_sample_name+".combined-variants.vcf" }
-        out: [out_vcf]
+        out: [concat_vcf_output_file]
