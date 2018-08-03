@@ -139,6 +139,7 @@
         },
         "R": {
             "3.1.2": "/opt/common/CentOS_6/R/R-3.1.2/bin/",
+            "3.2.2": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/",
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         },
         "abra": {
@@ -475,22 +476,16 @@
             "IMPACT468_b37": [
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_09679_N_bc0033_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S02_16546_N_bc0045_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_8_Normal_bc0088_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_1_Normal_bc0081_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_22228_N_bc0012_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S10_01068_N_bc0002_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_02667_N_B9_bc0037_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S08_05650_N_bc0015_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_18307_B7_bc0029_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S08_10625_N_bc0007_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_5_Normal_bc0085_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S10_10240_N_A3_bc0021_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S03_02466_N_bc0043_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S04_09381_N_A8_bc0042_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S09_20938_N_bc0090_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S04_19070_N_bc0063_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_16932_N_A13_bc0031_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_3_Normal_bc0083_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S11_16623_N_bc0025_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_2_Normal_bc0082_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20161220/Bam/s_RL532468_N_bc0086_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
@@ -516,7 +511,6 @@
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_UO336080_N_bc0004_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_SI113705_N_bc0011_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_MU746648_N_bc0057_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_HA837310_N_bc0065_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_QD226947_N_bc0033_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_XY075723_N_bc0113_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_PT015699_N_bc0094_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
