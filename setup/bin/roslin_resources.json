@@ -144,7 +144,8 @@
         },
         "abra": {
             "2.12": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar",
-            "default": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar"
+            "2.17": "/opt/common/CentOS_6-dev/abra/2.17/abra2-2.17.jar",
+            "default": "/opt/common/CentOS_6-dev/abra/2.17/abra2-2.17.jar"
         },
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
