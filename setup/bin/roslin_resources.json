@@ -151,8 +151,10 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         },
         "basic-filtering": {
-            "0.1.8": "sing.sh basic-filtering 0.1.8",
-            "0.2.0": "sing.sh basic-filtering 0.2.0"
+            "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh",
+            "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh",
+            "0.2.1": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh",
+            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh"
         },
         "bcftools": {
             "1.3.1": "sing.sh bcftools 1.3.1",
@@ -160,8 +162,9 @@
             "default": "sing.sh bcftools 1.3.1"
         },
         "bedtools": {
-            "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/",
-            "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
+            "default":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/",
+            "2.22.0":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.22.0/bin/",
+            "2.26.0":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/"
         },
         "bwa": {
             "0.7.5a": "sing.sh bwa 0.7.5a",
@@ -385,6 +388,16 @@
         "conpair_merge": {
             "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py",
             "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py"
+        },
+        "tabix": {
+            "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix",
+            "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/tabix",
+            "1.3.2": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix"
+        },
+        "bgzip": {
+            "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip",
+            "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/bgzip",
+            "1.3.2": "/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip"
         }
     },
     "targets": {
