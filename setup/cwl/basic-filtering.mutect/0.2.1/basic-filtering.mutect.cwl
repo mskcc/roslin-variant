@@ -73,7 +73,7 @@ inputs:
       prefix: --verbose
 
   inputVcf:
-    type: 
+    type:
     - string
     - File
     doc: Input vcf muTect file which needs to be filtered
@@ -81,7 +81,7 @@ inputs:
       prefix: --inputVcf
 
   inputTxt:
-    type: 
+    type:
     - string
     - File
     doc: Input txt muTect file which needs to be filtered
@@ -93,6 +93,14 @@ inputs:
     doc: Name of the tumor Sample
     inputBinding:
       prefix: --tsampleName
+
+  refFasta:
+    type:
+    - string
+    - File
+    doc: Reference genome in fasta format
+    inputBinding:
+      prefix: --refFasta
 
   dp:
     type: ['null', int]
