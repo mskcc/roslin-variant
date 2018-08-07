@@ -140,6 +140,15 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         print >>sys.stderr, "ERROR: Targets for Assay not found in roslin_resources.json: %s" % assay
         sys.exit(1)
 
+def get_facets_cval(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 50
+    return 100
+
+def get_facets_pcval(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 100
+    return 500
 
 def sort_fastqs_into_dict(files):
     sorted = dict()
@@ -221,6 +230,8 @@ if __name__ == "__main__":
     rf = ["BadCigar"]
     genome = "GRCh37"
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
+    facets_cval = get_facets_cval(assay)
+    facets_pcval = get_facets_pcval(assay)
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -301,7 +312,9 @@ if __name__ == "__main__":
         "tmp_dir": "/scratch/roslin/",
         "project_prefix": project_id,
         "opt_dup_pix_dist": "2500",
-        "delly_type": delly_type
+        "delly_type": delly_type,
+        "facets_cval": facets_cval,
+        "facets_pcval": facets_pcval
     }
     out_dict.update({"runparams": params})
     ofh = open(args.yaml_output_file, "wb")
