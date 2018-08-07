@@ -482,7 +482,7 @@
         "snps_1000g": "/ifs/depot/pi/resources/request_files/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf",
         "cosmic": "/ifs/depot/pi/resources/request_files/cosmic/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
         "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
-        "exac_filter": "/ifs/depot/pi/resources/request_files/exac_filter/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
+        "exac_filter": "/ifs/depot/pi/resources/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
         "vep_data": "/ifs/depot/pi/resources/vep/cache",
         "curated_bams": {
             "IMPACT410_b37": [
@@ -612,8 +612,8 @@
                 "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_usmt_1814_N.bam"
             ]
         },
-        "hotspot_list": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.txt",
-        "hotspot_vcf": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.vcf",
-        "ref_fasta": "/ifs/depot/pi/resources/request_files/ref_fasta/b37.fasta"
+        "hotspot_list": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt",
+        "hotspot_vcf": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf",
+        "ref_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
     }
 }
