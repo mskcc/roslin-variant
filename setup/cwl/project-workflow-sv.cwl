@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/281/roslin-core/2.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/281/roslin-core/2.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/281/roslin-core/2.0.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -128,6 +128,8 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        facets_pcval: int
+        facets_cval: int
         delly_type:
           type:
             type: array
@@ -355,6 +357,8 @@ steps:
   variant_calling:
     run: module-3.cwl
     in:
+      runparams: runparams
+      db_files: db_files
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: pairing/genome
@@ -367,6 +371,12 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
       hotspot_vcf: projparse/hotspot_vcf
+      ref_fasta: 
+        valueFrom: ${ return inputs.db_files.ref_fasta; }
+      facets_pcval:
+        valueFrom: ${ return inputs.runparams.facets_pcval; }
+      facets_cval:
+        valueFrom: ${ return inputs.runparams.facets_cval; }      
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
