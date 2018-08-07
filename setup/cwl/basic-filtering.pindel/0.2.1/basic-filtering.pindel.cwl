@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: basic-filtering.somaticIndelDetector
-  doap:revision: 0.1.7
+  doap:name: basic-filtering.pindel
+  doap:revision: 0.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -31,78 +31,71 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
+    foaf:name: Cyriac Kandoth
+    foaf:mbox: mailto:ckandoth@gmail.com
+  - class: foaf:Person
     foaf:name: Ronak H. Shah
     foaf:mbox: mailto:shahr2@mskcc.org
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ filter_sid.py --generate_cwl_tool
-# Help: $ filter_sid.py --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- basic-filtering
-- 0.1.7
-- sid
-
+- non-cmo.sh
+- --tool
+- "basic-filtering"
+- --version
+- "0.2.1"
+- --language_version
+- "default"
+- --language
+- "bash"
+- pindel
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
-    coresMin: 1
+    ramMin: 10
+    coresMin: 2
 
 
 doc: |
-  Filter indels from the output of SomaticIndelDetector in GATK v2.3-9
+  Filter indels from the output of pindel v0.2.5a7
 
 inputs:
   verbose:
     type: ['null', boolean]
     default: false
-    doc: make lots of noise
+    doc: More verbose logging to help with debugging
     inputBinding:
       prefix: --verbose
 
   inputVcf:
     type: 
-
     - string
     - File
-    doc: Input SomaticIndelDetector vcf file which needs to be filtered
+    doc: Input vcf freebayes file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
 
-  inputTxt:
-    type: 
-
-    - string
-    - File
-    doc: Input SomaticIndelDetector txt file which needs to be filtered
-    inputBinding:
-      prefix: --inputTxt
-
   tsampleName:
     type: string
-
     doc: Name of the tumor Sample
     inputBinding:
       prefix: --tsampleName
 
   dp:
     type: ['null', int]
-    default: 0
+    default: 5
     doc: Tumor total depth threshold
     inputBinding:
       prefix: --totaldepth
 
   ad:
     type: ['null', int]
-    default: 5
+    default: 3
     doc: Tumor allele depth threshold
     inputBinding:
       prefix: --alleledepth
@@ -119,14 +112,35 @@ inputs:
     default: 0.01
     doc: Tumor variant frequency threshold
     inputBinding:
-      prefix: --variantfrequency
+      prefix: --variantfraction
+
+  min:
+    type: ['null', int]
+    default: 0
+    doc: Minimum length of the indels
+    inputBinding:
+      prefix: --min_var_len
+
+  max:
+    type: ['null', int]
+    default: 200
+    doc: Max length of the indels
+    inputBinding:
+      prefix: --max_var_len
+
+  mhl:
+    type: ['null', int]
+    default: 5
+    doc: Max length of micro-homology at indel breakpoint
+    inputBinding:
+      prefix: --max_hom_len
 
   hotspotVcf:
     type:
     - 'null'
     - string
     - File
-    doc: Input bgzip / tabix indexed hotspot vcf file to used for filtering
+    doc: Input vcf file with hotspots that skip VAF ratio filter
     inputBinding:
       prefix: --hotspotVcf
 
@@ -152,7 +166,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.inputTxt)
-            return inputs.inputTxt.basename.replace(".txt","_STDfilter.txt");
+          if (inputs.inputVcf)
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.txt");
           return null;
         }

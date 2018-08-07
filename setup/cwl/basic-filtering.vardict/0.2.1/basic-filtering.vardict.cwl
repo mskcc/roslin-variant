@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: basic-filtering.somaticIndelDetector
-  doap:revision: 0.2.0
+  doap:name: basic-filtering.vardict
+  doap:revision: 0.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -48,12 +48,12 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.2.0"
+- "0.2.1"
 - --language_version
 - "default"
 - --language
 - "bash"
-- sid
+- vardict
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
@@ -62,7 +62,7 @@ requirements:
 
 
 doc: |
-  Filter indels from the output of SomaticIndelDetector in GATK v2.3-9
+  Filter snps/indels from the output of vardict v1.4.6
 
 inputs:
   verbose:
@@ -76,17 +76,9 @@ inputs:
     type: 
     - string
     - File
-    doc: Input SomaticIndelDetector vcf file which needs to be filtered
+    doc: Input vcf vardict file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
-
-  inputTxt:
-    type: 
-    - string
-    - File
-    doc: Input SomaticIndelDetector txt file which needs to be filtered
-    inputBinding:
-      prefix: --inputTxt
 
   tsampleName:
     type: string
@@ -122,6 +114,13 @@ inputs:
     inputBinding:
       prefix: --variantfraction
 
+  mq:
+    type: ['null', int]
+    default: 20
+    doc: Minimum variant call quality
+    inputBinding:
+      prefix: --minqual
+
   hotspotVcf:
     type:
     - 'null'
@@ -153,7 +152,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          if (inputs.inputTxt)
-            return inputs.inputTxt.basename.replace(".txt","_STDfilter.txt");
+          if (inputs.inputVcf)
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.txt");
           return null;
         }

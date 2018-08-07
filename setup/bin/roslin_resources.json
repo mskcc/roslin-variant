@@ -152,15 +152,18 @@
         },
         "basic-filtering": {
             "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh",
-            "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh"
+            "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh",
+            "0.2.1": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh",
+            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh"
         },
         "bcftools": {
             "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools",
             "default": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
         },
         "bedtools": {
-            "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/",
-            "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
+            "default":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/",
+            "2.22.0":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.22.0/bin/",
+            "2.26.0":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/"
         },
         "bwa": {
             "0.7.5a": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa",
@@ -368,6 +371,16 @@
             "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
+        },
+        "tabix": {
+            "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix",
+            "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/tabix",
+            "1.3.2": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix"
+        },
+        "bgzip": {
+            "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip",
+            "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/bgzip",
+            "1.3.2": "/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip"
         }
     },
     "targets": {
