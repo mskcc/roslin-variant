@@ -152,7 +152,7 @@ outputs:
       glob: |
         ${
           if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.vcf");
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.norm.vcf.gz");
           return null;
         }
   txt:
