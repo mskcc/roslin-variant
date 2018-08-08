@@ -344,9 +344,7 @@ steps:
             allow_overlaps:
                 valueFrom: ${ return true; }
             rm_dups:
-                valueFrom: ${ return "all"; } 
-            remove_duplicates:
-                valueFrom: ${ return true; }
+                valueFrom: ${ return "all"; }
             output:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
         out: [concat_vcf_output_file]
