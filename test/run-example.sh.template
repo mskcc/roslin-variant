@@ -16,5 +16,5 @@ roslin_submit.py \
     --path . \
     --workflow project-workflow.cwl \
     --single-node \
-    --leader-node control \
+    --leader-node short \
     --pipeline ${pipeline_name_version}
