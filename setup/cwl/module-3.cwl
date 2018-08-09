@@ -264,6 +264,7 @@ steps:
                 pindel_vcf: File
                 hotspot_vcf: File
                 tumor_sample_name: string
+                ref_fasta: string
             outputs:                
                 mutect_vcf_filtering_output:
                     type: File
