@@ -143,6 +143,8 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
+            facets_pcval: facets_pcval
+            facets_cval: facets_cval
         out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
         run:
             class: Workflow
@@ -158,6 +160,8 @@ steps:
                 mutect_rf: string[]
                 bed: File
                 refseq: File #file of refseq genes...
+                facets_pcval: int
+                facets_cval: int
             outputs:
                 mutect_vcf:
                     type: File
