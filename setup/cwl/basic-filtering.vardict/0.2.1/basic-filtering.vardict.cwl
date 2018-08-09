@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/pi/roslin-test/targeted-variants/292/roslin-core/2.0.4/schemas/dcterms.rdf
-- file:///ifs/work/pi/roslin-test/targeted-variants/292/roslin-core/2.0.4/schemas/foaf.rdf
-- file:///ifs/work/pi/roslin-test/targeted-variants/292/roslin-core/2.0.4/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
