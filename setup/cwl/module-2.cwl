@@ -119,7 +119,7 @@ steps:
                     ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
-        run: ./cmo-abra/2.12/cmo-abra.cwl
+        run: ./cmo-abra/2.17/cmo-abra.cwl
         in:
             in: bams
             ref: genome
