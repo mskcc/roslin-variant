@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: parse-project-yaml-input
-  doap:revision: 1.0.0
+  doap:revision: 1.0.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -122,6 +122,8 @@ inputs:
           type:
             type: array
             items: string
+        facets_pcval: int
+        facets_cval: int
   samples:
     type:
       type: array
@@ -319,7 +321,8 @@ outputs:
   hotspot_vcf: File
   grouping_file: File
   opt_dup_pix_dist: string
-
+  facets_pcval: int
+  facets_cval: int
 
 expression: "${var groups = inputs.groups;
                 var samples = inputs.samples;
@@ -372,6 +375,7 @@ project_object['grouping_file']=inputs.db_files.grouping_file;
 project_object['genome']=inputs.runparams.genome;
 project_object['project_prefix']=inputs.runparams.project_prefix;
 project_object['opt_dup_pix_dist']=inputs.runparams.opt_dup_pix_dist;
+project_object['facets_pcval']=inputs.runparams.facets_pcval;
+project_object['facets_cval']=inputs.runparams.facets_cval;
 return project_object;
 }"
-
