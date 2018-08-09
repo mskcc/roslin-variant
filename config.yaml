@@ -13,8 +13,8 @@ binding:
 dependencies:
   core:
     version:
-      min: 2.0.4
-      max: 2.0.4
+      min: 2.0.5
+      max: 2.0.5
   cmo:
     version: 1.9.10
     install-path: /ifs/work/pi/cmo_package_archive/

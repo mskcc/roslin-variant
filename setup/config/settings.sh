@@ -5,8 +5,8 @@ export ROSLIN_PIPELINE_NAME="variant"
 export ROSLIN_PIPELINE_VERSION="2.4.0"
 
 # which version of Roslin Core is required?
-export ROSLIN_CORE_MIN_VERSION="2.0.4"
-export ROSLIN_CORE_MAX_VERSION="2.0.4"
+export ROSLIN_CORE_MIN_VERSION="2.0.5"
+export ROSLIN_CORE_MAX_VERSION="2.0.5"
 
 # Roslin pipeline root path
 ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-pipelines/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
