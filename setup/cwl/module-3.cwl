@@ -347,10 +347,12 @@ steps:
         run: bcftools.concat/1.3.1/bcftools.concat.cwl
         in:
             vcf_files: create_vcf_file_array/vcf_files
+            tumor_sample_name: tumor_sample_name
+            normal_sample_name: normal_sample_name
             allow_overlaps:
                 valueFrom: ${ return true; }
             rm_dups:
                 valueFrom: ${ return "all"; }
             output:
-                valueFrom: ${ return tumor_sample_name + "." + normal_sample_name + ".combined-variants.vcf" }
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
         out: [concat_vcf_output_file]
