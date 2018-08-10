@@ -352,5 +352,5 @@ steps:
             rm_dups:
                 valueFrom: ${ return "all"; }
             output:
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
+                valueFrom: ${ return tumor_sample_name + "." + normal_sample_name + ".combined-variants.vcf" }
         out: [concat_vcf_output_file]
