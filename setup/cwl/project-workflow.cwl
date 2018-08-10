@@ -405,7 +405,7 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
       hotspot_vcf: projparse/hotspot_vcf
-      ref_fasta: projparse/ref_fasta
+      ref_fasta: projparse/ref_fasta_string
       facets_pcval: projparse/facets_pcval
       facets_cval: projparse/facets_cval
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_counts]
@@ -420,7 +420,7 @@ steps:
       combine_vcf: variant_calling/combine_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
-      ref_fasta: projparse/ref_fasta_string
+      ref_fasta: projparse/ref_fasta
       vep_data: projparse/vep_data
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
