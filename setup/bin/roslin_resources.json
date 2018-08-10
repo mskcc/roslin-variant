@@ -139,26 +139,31 @@
         },
         "R": {
             "3.1.2": "/opt/common/CentOS_6/R/R-3.1.2/bin/",
+            "3.2.2": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/",
             "default": "/opt/common/CentOS_6-dev/R/R-3.2.2/bin/"
         },
         "abra": {
             "2.12": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar",
-            "default": "/opt/common/CentOS_6-dev/abra/2.12/abra2-2.12.jar"
+            "2.17": "/opt/common/CentOS_6-dev/abra/2.17/abra2-2.17.jar",
+            "default": "/opt/common/CentOS_6-dev/abra/2.17/abra2-2.17.jar"
         },
         "analyzeFingerprint": {
             "default": "/opt/common/CentOS_6-dev/qc/default/analyzeFingerprint.py"
         },
         "basic-filtering": {
             "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh",
-            "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh"
+            "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh",
+            "0.2.1": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh",
+            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh"
         },
         "bcftools": {
             "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools",
             "default": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
         },
         "bedtools": {
-            "2.22.0": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/",
-            "default": "/opt/common/CentOS_6/bedtools/bedtools-2.22.0/bin/"
+            "default":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/",
+            "2.22.0":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.22.0/bin/",
+            "2.26.0":"/opt/common/CentOS_6-dev/bedtools/bedtools-2.26.0/bin/"
         },
         "bwa": {
             "0.7.5a": "/opt/common/CentOS_6/bwa/bwa-0.7.5a/bwa",
@@ -249,7 +254,9 @@
             "default": "/opt/common/CentOS_6-dev/qc/default/mergePicardMetrics.pl"
         },
         "mutect": {
-            "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
+            "1.1.4": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar",
+            "1.1.8": "/opt/common/CentOS_6-dev/mutect/v1.1.8/mutect.jar",
+            "default": "/opt/common/CentOS_6-dev/mutect/v1.1.4/mutect.jar"
         },
         "mutsig-cv": {
             "1.4": "/opt/common/CentOS_6-dev/mutsig/cv-1.4",
@@ -257,7 +264,9 @@
         },
         "ngs-filters": {
             "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py",
-            "1.2.1": "/opt/common/CentOS_6-dev/ngs-filters/v1.2.1/run_ngs-filters.py"
+            "1.2.1": "/opt/common/CentOS_6-dev/ngs-filters/v1.2.1/run_ngs-filters.py",
+            "1.3": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py",
+            "default": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py"
         },
         "perl": {
             "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
@@ -362,6 +371,16 @@
             "0.5772": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
+        },
+        "tabix": {
+            "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix",
+            "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/tabix",
+            "1.3.2": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix"
+        },
+        "bgzip": {
+            "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip",
+            "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/bgzip",
+            "1.3.2": "/opt/common/CentOS_6-dev/htslib/v1.3.2/bgzip"
         }
     },
     "targets": {
@@ -444,7 +463,7 @@
         "snps_1000g": "/ifs/depot/pi/resources/request_files/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf",
         "cosmic": "/ifs/depot/pi/resources/request_files/cosmic/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
         "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
-        "exac_filter": "/ifs/depot/pi/resources/request_files/exac_filter/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
+        "exac_filter": "/ifs/depot/pi/resources/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
         "vep_data": "/ifs/depot/pi/resources/vep/cache",
         "curated_bams": {
             "IMPACT410_b37": [
@@ -475,22 +494,16 @@
             "IMPACT468_b37": [
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_09679_N_bc0033_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S02_16546_N_bc0045_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_8_Normal_bc0088_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_1_Normal_bc0081_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_22228_N_bc0012_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S10_01068_N_bc0002_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_02667_N_B9_bc0037_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S08_05650_N_bc0015_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_18307_B7_bc0029_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S08_10625_N_bc0007_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_5_Normal_bc0085_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S10_10240_N_A3_bc0021_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S03_02466_N_bc0043_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S04_09381_N_A8_bc0042_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S09_20938_N_bc0090_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S04_19070_N_bc0063_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S07_16932_N_A13_bc0031_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_3_Normal_bc0083_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_S11_16623_N_bc0025_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170530/Bam/s_MCR_2_Normal_bc0082_Proj_08192_E_p1_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20161220/Bam/s_RL532468_N_bc0086_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
@@ -516,7 +529,6 @@
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_UO336080_N_bc0004_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_SI113705_N_bc0011_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_MU746648_N_bc0057_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
-                "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_HA837310_N_bc0065_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_QD226947_N_bc0033_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_XY075723_N_bc0113_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
                 "/ifs/work/socci/resources/StdNormal/Impact468/20170703/Bam/s_PT015699_N_bc0094_Proj_IMPACT468_DMP_201612_L000_mrg_cl_aln_srt_MD_IR_BR.bam",
@@ -581,8 +593,8 @@
                 "/ifs/depot/pi/resources/request_files/curated_bams/AgilentExon_51MB_b37_v3/Proj_WES_Blacklist_v1_indelRealigned_recal_s_UD_usmt_1814_N.bam"
             ]
         },
-        "hotspot_list": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.txt",
-        "hotspot_vcf": "/ifs/depot/pi/resources/request_files/hotspot_list/hotspot-list-union-v1-v2.vcf",
-        "ref_fasta": "/ifs/depot/pi/resources/request_files/ref_fasta/b37.fasta"
+        "hotspot_list": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt",
+        "hotspot_vcf": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf",
+        "ref_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
     }
 }

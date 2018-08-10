@@ -2,11 +2,11 @@ export ROSLIN_PIPELINE_DESCRIPTION="Roslin Variant Pipeline"
 
 # Roslin pipeline name/version
 export ROSLIN_PIPELINE_NAME="variant"
-export ROSLIN_PIPELINE_VERSION="2.0.1"
+export ROSLIN_PIPELINE_VERSION="2.4.0"
 
 # which version of Roslin Core is required?
-export ROSLIN_CORE_MIN_VERSION="2.0.0"
-export ROSLIN_CORE_MAX_VERSION="2.0.0"
+export ROSLIN_CORE_MIN_VERSION="2.0.5"
+export ROSLIN_CORE_MAX_VERSION="2.0.5"
 
 # Roslin pipeline root path
 ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-pipelines/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
@@ -36,6 +36,6 @@ export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
 export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 
 # cmo
-export ROSLIN_CMO_VERSION="1.9.4"
-export ROSLIN_CMO_BIN_PATH="/ifs/work/pi/cmo_package_archive/1.9.4/bin"
-export ROSLIN_CMO_PYTHON_PATH="/ifs/work/pi/cmo_package_archive/1.9.4/lib/python2.7/site-packages"
+export ROSLIN_CMO_VERSION="1.9.10"
+export ROSLIN_CMO_BIN_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/bin"
+export ROSLIN_CMO_PYTHON_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/lib/python2.7/site-packages"

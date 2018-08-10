@@ -31,8 +31,7 @@ export VAGRANT_VAGRANTFILE=Vagrantfile_test
 # Set tmp and test directory
 export TMPDIR="/srv/scratch/"
 export TMP="/srv/scratch/"
-# Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
-export TOIL_LSF_ARGS='-S 1 -We 0:59 -R select[internet]'
+export TOIL_LSF_ARGS='-S 1'
 TempDir=/srv/scratch/$BUILD_NUMBER
 TestDir=test_output/$BUILD_NUMBER
 # Start vagrant to build the pipeline
@@ -51,7 +50,7 @@ mkdir -p $coreDir
 printf "\n----------Installing Core----------\n"
 source core/config/settings.sh
 # Set test specific core
-sed -i 's|'${ROSLIN_CORE_ROOT}'|'${coreDir}'|g' core/config/settings.sh
+sed -i "s|${ROSLIN_CORE_ROOT}|${coreDir}|g" core/config/settings.sh
 # Load roslin core and pipeline
 source core/config/settings.sh
 source setup/config/settings.sh
