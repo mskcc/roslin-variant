@@ -290,8 +290,6 @@ outputs:
   hotspot_vcf: File
   grouping_file: File
   opt_dup_pix_dist: string
-  facets_pcval: int
-  facets_cval: int
   ref_fasta_string: string
 
 expression: "${var groups = inputs.groups;
@@ -340,7 +338,5 @@ project_object['ref_fasta_string']=inputs.db_files.ref_fasta;
 project_object['genome']=inputs.runparams.genome;
 project_object['project_prefix']=inputs.runparams.project_prefix;
 project_object['opt_dup_pix_dist']=inputs.runparams.opt_dup_pix_dist;
-project_object['facets_pcval']=inputs.runparams.facets_pcval;
-project_object['facets_cval']=inputs.runparams.facets_cval;
 return project_object;
 }"
