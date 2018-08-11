@@ -122,6 +122,8 @@ inputs:
           type:
             type: array
             items: string
+        facets_pcval: int
+        facets_cval: int
 
 outputs:
 
@@ -171,6 +173,14 @@ outputs:
     type:
       type: array
       items: string
+  facets_pcval:
+    type:
+      type: array
+      items: int
+  facets_cval: 
+    type:
+      type: array
+      items: int
   vep_data:
     type:
       type: array
