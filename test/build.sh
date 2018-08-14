@@ -83,7 +83,7 @@ sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-e
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example-sv.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example-sv.sh
 
-cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0002
+cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0003
 cp $parentDir/$TestDir/run-example.sh .
 cp $parentDir/$TestDir/run-example-sv.sh .
 
@@ -181,5 +181,5 @@ do
             exit 1
         fi
     fi
-    sleep 1m
+    sleep 2m
 done

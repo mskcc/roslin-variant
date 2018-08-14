@@ -173,4 +173,11 @@ inputs:
 
 outputs:
   concat_vcf_output_file:
-    type: stdout
+    type: File
+    outputBinding:
+      glob: |-
+        ${
+          if (inputs.output)
+            return inputs.output;
+          return null;
+        }
