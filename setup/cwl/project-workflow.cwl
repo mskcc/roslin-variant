@@ -97,7 +97,7 @@ inputs:
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
-	conpair_markers: File
+        conpair_markers: File
         grouping_file: File
         request_file: File
         pairing_file: File
