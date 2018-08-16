@@ -387,7 +387,7 @@
         "conpair_merge": {
             "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py",
             "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py"
-
+        },
         "tabix": {
             "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix",
             "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/tabix",
