@@ -119,7 +119,7 @@ steps:
                     ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
-        run: ./cmo-abra/2.12/cmo-abra.cwl
+        run: ./cmo-abra/2.17/cmo-abra.cwl
         in:
             in: bams
             ref: genome
@@ -186,8 +186,6 @@ steps:
                         input_file: input_file
                         num_cpu_threads_per_data_thread:
                             default: "5"
-                        read_filter:
-                            valueFrom: ${ return ["BadCigar"]; }
                         emit_original_quals:
                             valueFrom: ${ return true; }
                         baq:

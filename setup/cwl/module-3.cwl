@@ -46,7 +46,6 @@ dct:contributor:
     foaf:name: Allan Bolipata 
     foaf:mbox: mailto:bolipatc@mskcc.org 
 
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -77,12 +76,15 @@ inputs:
     mutect_rf: string[]
     refseq: File
     hotspot_vcf: File
+    ref_fasta: string
+    facets_pcval: int
+    facets_cval: int
 
 outputs:
 
     combine_vcf:
         type: File
-        outputSource: combine/out_vcf
+        outputSource: concat/concat_vcf_output_file
     facets_png:
         type: File
         outputSource: call_variants/facets_png
@@ -138,6 +140,8 @@ steps:
             mutect_rf: mutect_rf
             bed: bed
             refseq: refseq
+            facets_pcval: facets_pcval
+            facets_cval: facets_cval
         out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
         run:
             class: Workflow
@@ -153,6 +157,8 @@ steps:
                 mutect_rf: string[]
                 bed: File
                 refseq: File #file of refseq genes...
+                facets_pcval: int
+                facets_cval: int
             outputs:
                 mutect_vcf:
                     type: File
@@ -195,6 +201,8 @@ steps:
                         tumor_bam: tumor_bam
                         tumor_sample_name: tumor_sample_name 
                         genome: genome
+                        facets_pcval: facets_pcval
+                        facets_cval: facets_cval
                     out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
@@ -242,6 +250,7 @@ steps:
             pindel_vcf: call_variants/pindel_vcf
             tumor_sample_name: tumor_sample_name
             hotspot_vcf: hotspot_vcf
+            ref_fasta: ref_fasta
         out: [vardict_vcf_filtering_output, pindel_vcf_filtering_output, mutect_vcf_filtering_output]
         run:
             class: Workflow
@@ -252,113 +261,95 @@ steps:
                 pindel_vcf: File
                 hotspot_vcf: File
                 tumor_sample_name: string
+                ref_fasta: string
             outputs:                
                 mutect_vcf_filtering_output:
                     type: File
                     outputSource: mutect_filtering_step/vcf
+                    secondaryFiles:
+                        - .tbi
                 vardict_vcf_filtering_output:
                     type: File
                     outputSource: vardict_filtering_step/vcf
+                    secondaryFiles:
+                        - .tbi
                 pindel_vcf_filtering_output:
                     type: File
                     outputSource: pindel_filtering_step/vcf
+                    secondaryFiles:
+                        - .tbi
             steps:
                 mutect_filtering_step:
-                    run: basic-filtering.mutect/0.2.0/basic-filtering.mutect.cwl
+                    run: basic-filtering.mutect/0.2.1/basic-filtering.mutect.cwl
                     in:
                         inputVcf: mutect_vcf
                         inputTxt: mutect_callstats
                         tsampleName: tumor_sample_name
                         hotspotVcf: hotspot_vcf
+                        refFasta: ref_fasta
                     out: [vcf]
                 pindel_filtering_step:
-                    run: basic-filtering.pindel/0.2.0/basic-filtering.pindel.cwl
+                    run: basic-filtering.pindel/0.2.1/basic-filtering.pindel.cwl
                     in:
                         inputVcf: pindel_vcf
                         tsampleName: tumor_sample_name
                         hotspotVcf: hotspot_vcf
+                        refFasta: ref_fasta
                     out: [vcf]
                 vardict_filtering_step:
-                    run: basic-filtering.vardict/0.2.0/basic-filtering.vardict.cwl
+                    run: basic-filtering.vardict/0.2.1/basic-filtering.vardict.cwl
                     in:
                         inputVcf: vardict_vcf
                         tsampleName: tumor_sample_name
                         hotspotVcf: hotspot_vcf
+                        refFasta: ref_fasta
                     out: [vcf]
-    normalize:
+    
+    create_vcf_file_array:
         in:
-            mutect_vcf: filtering/mutect_vcf_filtering_output
-            vardict_vcf: filtering/vardict_vcf_filtering_output
-            pindel_vcf: filtering/pindel_vcf_filtering_output
-            genome: genome
-        out: [vardict_vcf_norm_output, pindel_vcf_norm_output, mutect_vcf_norm_output]
+            vcf_vardict: filtering/vardict_vcf_filtering_output 
+            vcf_mutect: filtering/mutect_vcf_filtering_output 
+            vcf_pindel: filtering/pindel_vcf_filtering_output  
+        out: [ vcf_files ]
         run:
-            class: Workflow
+            class: ExpressionTool
+            requirements:
+                - class: InlineJavascriptRequirement
             inputs:
-                mutect_vcf: File
-                vardict_vcf: File
-                pindel_vcf: File
-                genome: string
+                vcf_vardict:
+                    type: File
+                    secondaryFiles: 
+                        - .tbi
+                vcf_mutect:
+                    type: File
+                    secondaryFiles: 
+                        - .tbi
+                vcf_pindel: 
+                    type: File
+                    secondaryFiles: 
+                        - .tbi
             outputs:
-                mutect_vcf_norm_output:
-                    type: File
-                    outputSource: mutect_norm_step/vcf_output_file
-                vardict_vcf_norm_output:
-                    type: File
-                    outputSource: vardict_norm_step/vcf_output_file
-                pindel_vcf_norm_output:
-                    type: File
-                    outputSource: pindel_norm_step/vcf_output_file
-            steps:
-                mutect_norm_step:
-                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
-                    in:
-                        vcf: mutect_vcf
-                        output:
-                            default: "mutect-norm.vcf"
-                        output_type:
-                            default: "v"
-                        fasta_ref: genome
-                    out: [vcf_output_file]
-                pindel_norm_step:
-                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
-                    in:
-                        vcf: pindel_vcf
-                        output:
-                            default: "pindel-norm.vcf"
-                        output_type:
-                            default: "v"
-                        fasta_ref: genome
-                    out: [vcf_output_file]
-                vardict_norm_step:
-                    run: cmo-bcftools.norm/1.3.1/cmo-bcftools.norm.cwl
-                    in:
-                        vcf: vardict_vcf
-                        output:
-                            default: "vardict-norm.vcf"
-                        output_type:
-                            default: "v"
-                        fasta_ref: genome
-                    out: [vcf_output_file]
-
-    combine:
-        run: cmo-gatk.CombineVariants/3.3-0/cmo-gatk.CombineVariants.cwl
+                vcf_files:
+                    type:
+                        type: array
+                        items: File
+                    secondaryFiles: 
+                        - .tbi
+            expression: "${ var project_object = {};
+                project_object['vcf_files'] = [ inputs.vcf_vardict, inputs.vcf_mutect, inputs.vcf_pindel ];
+                return project_object;
+            }"
+            
+    concat:
+        run: bcftools.concat/1.3.1/bcftools.concat.cwl
         in:
-            variants_mutect: normalize/mutect_vcf_norm_output
-            variants_vardict: normalize/vardict_vcf_norm_output
-            variants_pindel: normalize/pindel_vcf_norm_output
-            unsafe:
-                default: "ALLOW_SEQ_DICT_INCOMPATIBILITY"
-            genotypemergeoption:
-                default: "PRIORITIZE"
-            rod_priority_list:
-                default: ["VarDict", "MuTect", "Pindel"]
-            reference_sequence: genome
-            intervals:
-                valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
+            vcf_files: create_vcf_file_array/vcf_files
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
-            out:
-                valueFrom: ${ return inputs.tumor_sample_name +"."+inputs.normal_sample_name+".combined-variants.vcf" }
-        out: [out_vcf]
-
+            allow_overlaps:
+                valueFrom: ${ return true; }
+            rm_dups:
+                valueFrom: ${ return "all"; }
+            output:
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
+        out: [concat_vcf_output_file]

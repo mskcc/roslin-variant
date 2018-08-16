@@ -102,10 +102,10 @@ def parse_request_file(rfile):
 
 
 def get_curated_bams(assay,REQUEST_FILES):
-    # Default to AgilentExon_51MB_b37_v3 BAMs. Use IMPACT410 BAMs for all IMPACT/HemePACT projects
+    # Default to AgilentExon_51MB_b37_v3 BAMs. Use IMPACT468 BAMs for all IMPACT/HemePACT projects
     json_curated_bams = REQUEST_FILES['curated_bams']['AgilentExon_51MB_b37_v3']
     if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
-        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT410_b37']
+        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
     array = []
     for bam in json_curated_bams:
         array.append({'class': 'File', 'path': str(bam)})
@@ -140,6 +140,15 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         print >>sys.stderr, "ERROR: Targets for Assay not found in roslin_resources.json: %s" % assay
         sys.exit(1)
 
+def get_facets_cval(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 50
+    return 100
+
+def get_facets_pcval(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 100
+    return 500
 
 def sort_fastqs_into_dict(files):
     sorted = dict()
@@ -221,6 +230,8 @@ if __name__ == "__main__":
     rf = ["BadCigar"]
     genome = "GRCh37"
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
+    facets_cval = get_facets_cval(assay)
+    facets_pcval = get_facets_pcval(assay)
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -301,7 +312,9 @@ if __name__ == "__main__":
         "tmp_dir": "/scratch/roslin/",
         "project_prefix": project_id,
         "opt_dup_pix_dist": "2500",
-        "delly_type": delly_type
+        "delly_type": delly_type,
+        "facets_cval": facets_cval,
+        "facets_pcval": facets_pcval
     }
     out_dict.update({"runparams": params})
     ofh = open(args.yaml_output_file, "wb")

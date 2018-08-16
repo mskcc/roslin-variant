@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: basic-filtering.somaticIndelDetector
-  doap:revision: 0.1.8
+  doap:name: basic-filtering.vardict
+  doap:revision: 0.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -31,15 +31,14 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
+    foaf:name: Cyriac Kandoth
+    foaf:mbox: mailto:ckandoth@gmail.com
+  - class: foaf:Person
     foaf:name: Ronak H. Shah
     foaf:mbox: mailto:shahr2@mskcc.org
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
-
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ filter_sid.py --generate_cwl_tool
-# Help: $ filter_sid.py --help_arg2cwl
 
 cwlVersion: cwl:v1.0
 
@@ -49,65 +48,62 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.1.8"
+- "0.2.1"
 - --language_version
 - "default"
 - --language
 - "bash"
-- sid
+- vardict
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
-    coresMin: 1
+    ramMin: 10
+    coresMin: 2
 
 
 doc: |
-  Filter indels from the output of SomaticIndelDetector in GATK v2.3-9
+  Filter snps/indels from the output of vardict v1.4.6
 
 inputs:
   verbose:
     type: ['null', boolean]
     default: false
-    doc: make lots of noise
+    doc: More verbose logging to help with debugging
     inputBinding:
       prefix: --verbose
 
   inputVcf:
-    type: 
-
+    type:
     - string
     - File
-    doc: Input SomaticIndelDetector vcf file which needs to be filtered
+    doc: Input vcf vardict file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
 
-  inputTxt:
-    type: 
-
-    - string
-    - File
-    doc: Input SomaticIndelDetector txt file which needs to be filtered
-    inputBinding:
-      prefix: --inputTxt
-
   tsampleName:
     type: string
-
     doc: Name of the tumor Sample
     inputBinding:
       prefix: --tsampleName
 
+  refFasta:
+    type:
+    - string
+    - File
+    doc: Reference genome in fasta format
+    inputBinding:
+      prefix: --refFasta
+
   dp:
     type: ['null', int]
-    default: 0
+    default: 5
     doc: Tumor total depth threshold
     inputBinding:
       prefix: --totaldepth
 
   ad:
     type: ['null', int]
-    default: 5
+    default: 3
     doc: Tumor allele depth threshold
     inputBinding:
       prefix: --alleledepth
@@ -124,14 +120,21 @@ inputs:
     default: 0.01
     doc: Tumor variant frequency threshold
     inputBinding:
-      prefix: --variantfrequency
+      prefix: --variantfraction
+
+  mq:
+    type: ['null', int]
+    default: 20
+    doc: Minimum variant call quality
+    inputBinding:
+      prefix: --minqual
 
   hotspotVcf:
     type:
     - 'null'
     - string
     - File
-    doc: Input bgzip / tabix indexed hotspot vcf file to used for filtering
+    doc: Input vcf file with hotspots that skip VAF ratio filter
     inputBinding:
       prefix: --hotspotVcf
 
@@ -149,15 +152,16 @@ outputs:
       glob: |
         ${
           if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.vcf");
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.norm.vcf.gz");
           return null;
         }
+    secondaryFiles: ["^.tbi", ".tbi"]
   txt:
     type: File
     outputBinding:
       glob: |
         ${
-          if (inputs.inputTxt)
-            return inputs.inputTxt.basename.replace(".txt","_STDfilter.txt");
+          if (inputs.inputVcf)
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.txt");
           return null;
         }

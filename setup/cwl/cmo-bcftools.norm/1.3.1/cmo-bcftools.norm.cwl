@@ -1,6 +1,5 @@
 #!/usr/bin/env cwl-runner
 
-
 $namespaces:
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -34,10 +33,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
-
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_bcftools norm --generate_cwl_tool
-# Help: $ cmo_bcftools norm --help_arg2cwl
+  - class: foaf:Person
+    foaf:name: Zuojian Tang
+    foaf:mbox: mailto:tangz@mskcc.org
 
 cwlVersion: cwl:v1.0
 
@@ -77,7 +75,7 @@ inputs:
 
   output_type:
     type: ['null', string]
-    doc: <type> 'b' compressed BCF; '' uncompressed BCF; 'z' compressed VCF; 'v' uncompressed
+    doc: <type> 'b' compressed BCF; 'u' uncompressed BCF; 'z' compressed VCF; 'v' uncompressed
       VCF [v]
     inputBinding:
       prefix: --output-type
@@ -163,8 +161,6 @@ inputs:
 
   vcf:
     type: 
-
-
     - string
     - File
     inputBinding:

@@ -129,6 +129,8 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        facets_pcval: int
+        facets_cval: int
   samples:
     type:
       type: array
@@ -306,7 +308,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -348,11 +350,13 @@ steps:
       db_files: db_files
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval]
 
   variant_calling:
     run: module-3.cwl
     in:
+      runparams: runparams
+      db_files: db_files
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: pairing/genome
@@ -365,8 +369,11 @@ steps:
       mutect_rf: pairing/mutect_rf
       refseq: pairing/refseq
       hotspot_vcf: projparse/hotspot_vcf
+      ref_fasta: projparse/ref_fasta_string
+      facets_pcval: pairing/facets_pcval
+      facets_cval: pairing/facets_cval
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_counts]
-    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
+    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
   parse_pairs:
