@@ -24,8 +24,6 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
     gene_col = header.index('Hugo_Symbol')
     entrez_id_col = header.index('Entrez_Gene_Id')
     pos_col = header.index('Start_Position')
-    ref_col = header.index('Reference_Allele')
-    alt_col = header.index('Tumor_Seq_Allele2')
     hgvsc_col = header.index('HGVSc')
     mut_status_col = header.index('Mutation_Status')
     csq_col = header.index('Consequence')
@@ -33,15 +31,14 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
     hotspot_col = header.index('hotspot_whitelist')
     tad_col = header.index('t_alt_count')
     tdp_col = header.index('t_depth')
+    set_col = header.index('set')
     maf_reader = csv.reader(input_maf,delimiter='\t')
     for line in maf_reader:
         # Skip uncalled events and any that failed false-positive filters, except common_variant
         if line[mut_status_col] == 'None' or line[filter_col] != 'PASS' and line[filter_col] != 'common_variant':
             continue
-        # Skip events larger than 50bp with VAF<20%, some samples appear enriched for these
-        var_length = len(line[ref_col]) if len(line[ref_col]) > len(line[alt_col]) else len(line[alt_col])
-        tumor_vaf = float(line[tad_col]) / float(line[tdp_col]) if line[tdp_col] else 0
-        if var_length > 50 and tumor_vaf < 0.2:
+        # Skip all events reported uniquely by Pindel
+        if line[set_col] == 'Pindel':
             continue
         # Skip splice region variants in non-coding genes, or those that are >3bp into introns
         splice_dist = 0
@@ -61,6 +58,7 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
             'disruptive_inframe_', 'conservative_missense_', 'rare_amino_acid_', 'mature_miRNA_', 'TFBS_']
         if re.match(r'|'.join(csq_keep), line[csq_col]) is not None or (line[gene_col] == 'TERT' and int(line[pos_col]) >= 1295141 and int(line[pos_col]) <= 1295340):
             # For IMPACT data, apply the MSK-IMPACT depth/allele-count/VAF/indel-length cutoffs
+            tumor_vaf = float(line[tad_col]) / float(line[tdp_col]) if line[tdp_col] else 0
             if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))):
                 continue
             analyst_maf.write('\t'.join(line) + '\n')
