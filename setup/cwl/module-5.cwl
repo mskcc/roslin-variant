@@ -97,6 +97,7 @@ inputs:
         fp_intervals: File
         fp_genotypes: File
         conpair_markers: File
+        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
@@ -371,17 +372,20 @@ steps:
           out: [out_file]
 
   run-conpair:
-    run: conpair/1.0.0/conpair-master.cwl
+    run: conpair/0.2/conpair-master.cwl
     in:
       db_files: db_files
       ref:
         valueFrom: ${ return inputs.db_files.ref_fasta; }
       markers: 
         valueFrom: ${ return inputs.db_files.conpair_markers; }
+      markers_bed: 
+        valueFrom: ${ return inputs.db_files.conpair_markers_bed; }
       tumor_bams: tumor_bams
       normal_bams: normal_bams
       tumor_sample_name: tumor_sample_name
       normal_sample_name: normal_sample_name
+      file_prefix: project_prefix
       pairing_file:
         valueFrom: ${ return inputs.db_files.pairing_file; }
     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
