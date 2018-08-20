@@ -58,6 +58,8 @@ inputs:
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
+        conpair_markers: File
+        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
@@ -317,6 +319,8 @@ outputs:
   target_intervals: File
   fp_genotypes: File
   request_file: File
+  conpair_markers: File
+  conpair_markers_bed: File
   pairing_file: File
   hotspot_vcf: File
   grouping_file: File
@@ -367,6 +371,8 @@ project_object['bait_intervals']=inputs.db_files.bait_intervals;
 project_object['target_intervals']=inputs.db_files.target_intervals;
 project_object['fp_intervals']=inputs.db_files.fp_intervals;
 project_object['fp_genotypes']=inputs.db_files.fp_genotypes;
+project_object['conpair_markers']=inputs.db_files.conpair_markers;
+project_object['conpair_markers_bed']=inputs.db_files.conpair_markers_bed;
 project_object['request_file']=inputs.db_files.request_file;
 project_object['pairing_file']=inputs.db_files.pairing_file;
 project_object['hotspot_vcf']=inputs.db_files.hotspot_vcf;
