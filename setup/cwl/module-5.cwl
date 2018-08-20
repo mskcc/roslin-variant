@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/dcterms.rdf
-- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/foaf.rdf
-- file:///ifs/work/pi/roslin-test/targeted-variants/237/roslin-core/2.0.0/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
@@ -309,8 +309,8 @@ steps:
             R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
-#            PER_TARGET_COVERAGE:
-#              valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
+            PER_TARGET_COVERAGE:
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".hstmetrics")}
             LEVEL:
               valueFrom: ${ return ["null", "SAMPLE"];}
           out: [out_file, per_target_out]
