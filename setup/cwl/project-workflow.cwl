@@ -98,6 +98,7 @@ inputs:
         fp_intervals: File
         fp_genotypes: File
         conpair_markers: File
+        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
@@ -308,7 +309,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -420,6 +421,8 @@ steps:
       target_intervals: projparse/target_intervals
       fp_intervals: projparse/fp_intervals
       fp_genotypes: projparse/fp_genotypes
+      conpair_markers: projparse/conpair_markers
+      conpair_markers_bed: projparse/conpair_markers_bed
       md_metrics_files: group_process/md_metrics
       trim_metrics_files: [ group_process/clstats1, group_process/clstats2]
       project_prefix: projparse/project_prefix
