@@ -100,11 +100,6 @@ inputs:
     inputBinding:
       prefix: --hsmetrics-files
 
-  hstmetrics_files:
-    type: string
-    inputBinding:
-      prefix: --hstmetrics-files
-
   qualmetrics_files:
     type: string
     inputBinding:
