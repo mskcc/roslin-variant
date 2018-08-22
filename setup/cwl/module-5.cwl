@@ -297,7 +297,7 @@ steps:
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".asmetrics")}
             LEVEL:
-              valueFrom: ${return ["null", "SAMPLE"]}
+              valueFrom: ${return ["ALL_READS"]}
           out: [out_file]
 
         hs_metrics:
@@ -312,7 +312,7 @@ steps:
             PER_TARGET_COVERAGE:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hstmetrics")}
             LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];}
+              valueFrom: ${ return ["ALL_READS"];}
           out: [out_file, per_target_out]
         insert_metrics:
           run: cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
@@ -323,7 +323,7 @@ steps:
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
             LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];}
+              valueFrom: ${ return ["ALL_READS"];}
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
