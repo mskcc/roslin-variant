@@ -409,6 +409,8 @@ steps:
         valueFrom: ${ return "*.ismetrics";}
       hsmetrics_files:
         valueFrom: ${ return "*.hsmetrics";}
+      hstmetrics_files:
+        valueFrom: ${ return "*.hstmetrics";}
       qualmetrics_files:
         valueFrom: ${ return "*.quality_by_cycle_metrics";}
       file_prefix: project_prefix
