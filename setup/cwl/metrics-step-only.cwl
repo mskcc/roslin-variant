@@ -101,6 +101,13 @@ inputs:
         request_file: File
         pairing_file: File
 
+  pairs:
+    type:
+      type: array
+      items:
+        type: array
+        items: string
+
   runparams:
     type:
       type: record
@@ -141,6 +148,7 @@ inputs:
         items:
           type: array
           items: File
+
   clstats2:
     type:
       type: array
@@ -151,6 +159,13 @@ inputs:
           items: File
 
   md_metrics:
+    type:
+      type: array
+      items: 
+        type: array
+        items: File
+
+  cov_int_bed:
     type:
       type: array
       items: 
@@ -197,7 +212,31 @@ outputs:
     type: File
     outputSource: gather_metrics/qc_files
 
+  # conpair output
+  concordance_txt:
+    type: file
+    outputsource: gather_metrics/concordance_txt
+  concordance_pdf:
+    type: file
+    outputsource: gather_metrics/concordance_pdf
+  contamination_txt:
+    type: file
+    outputsource: gather_metrics/contamination_txt
+  contamination_pdf:
+    type: file
+    outputsource: gather_metrics/contamination_pdf
+
 steps:
+
+  pairing:
+    run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
+    in:
+      bams: bams
+      pairs: pairs
+      db_files: db_files
+      runparams: runparams
+      beds: covint_bed
+    out: [ tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids ]
 
   gather_metrics:
     run: module-5.cwl
@@ -227,6 +266,8 @@ steps:
         valueFrom: ${ return inputs.db_files.request_file; }
       pairing_file:
         valueFrom: ${ return inputs.db_files.pairing_file; }
-
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
-
+      tumor_bams: pairing/tumor_bams
+      normal_bams: pairing/normal_bams
+      normal_sample_name: pairing/normal_sample_ids
+      tumor_sample_name: pairing/tumor_sample_ids
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files, concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]

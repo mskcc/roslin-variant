@@ -187,6 +187,20 @@ outputs:
         type: array
         items: File
     outputSource: group_process/md_metrics
+  cov_int_bed: 
+    type:
+      type: array
+      items: 
+        type: array
+        items: File
+    outputSource: group_process/cov_int_bed
+  cov_int_list: 
+    type:
+      type: array
+      items: 
+        type: array
+        items: File
+    outputSource: group_process/cov_int_list
 
 steps:
 
