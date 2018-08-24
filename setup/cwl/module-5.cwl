@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -126,26 +126,6 @@ inputs:
       items:
         type: array
         items: File
-  tumor_bams:
-    type:
-      type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
-  normal_bams:
-    type:
-      type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
-  tumor_sample_name:
-    type:
-      type: array
-      items: string
-  normal_sample_name:
-    type:
-      type: array
-      items: string
 
 outputs:
 
@@ -185,18 +165,6 @@ outputs:
   qc_files:
     type: File
     outputSource: generate_pdf/qc_files
-  concordance_txt:
-    type: File
-    outputSource: run-conpair/concordance_txt
-  concordance_pdf:
-    type: File
-    outputSource: run-conpair/concordance_pdf
-  contamination_txt:
-    type: File
-    outputSource: run-conpair/contamination_txt
-  contamination_pdf:
-    type: File
-    outputSource: run-conpair/contamination_pdf
 
 steps:
 
@@ -335,25 +303,6 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
-
-  run-conpair:
-    run: conpair/0.2/conpair-master.cwl
-    in:
-      db_files: db_files
-      ref:
-        valueFrom: ${ return inputs.db_files.ref_fasta; }
-      markers: 
-        valueFrom: ${ return inputs.db_files.conpair_markers; }
-      markers_bed: 
-        valueFrom: ${ return inputs.db_files.conpair_markers_bed; }
-      tumor_bams: tumor_bams
-      normal_bams: normal_bams
-      tumor_sample_name: tumor_sample_name
-      normal_sample_name: normal_sample_name
-      file_prefix: project_prefix
-      pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file; }
-    out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
 
   generate_pdf:
     run: cmo-qcpdf/0.5.10/cmo-qcpdf.cwl
