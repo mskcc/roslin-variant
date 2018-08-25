@@ -149,38 +149,27 @@ inputs:
           adapter: string
           adapter2: string
           bwa_output: string
+
+  bams:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    secondaryFiles: ^.bai
+
   pairs:
     type:
       type: array
       items:
         type: array
         items: string
+  covint_bed:
+    type: 
+      type: array
+      items: File
 
 outputs:
-
-  # bams & metrics
-  bams:
-    type:
-      type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
-    outputSource: group_process/bams
-  clstats1:
-    type:
-      type: array
-      items: File
-    outputSource: group_process/clstats1
-  clstats2:
-    type:
-      type: array
-      items: File
-    outputSource: group_process/clstats2
-  md_metrics:
-    type:
-      type: array
-      items: File
-    outputSource: group_process/md_metrics
 
   # vcf
   combine_vcf:
@@ -247,6 +236,16 @@ outputs:
     outputSource: variant_calling/facets_counts
 
 steps:
+
+  projparse:
+    run: parse-project-yaml-input/1.0.1/parse-project-yaml-input.cwl
+    in:
+      db_files: db_files
+      groups: groups
+      pairs: pairs
+      samples: samples
+      runparams: runparams
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl

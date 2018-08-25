@@ -73,11 +73,6 @@ inputs:
             - .idx
         refseq: File
         ref_fasta: string
-        ref_fasta_file:
-          type: File
-          secondaryFiles:
-            - ^.dict
-            - ^.fasta.fai
         vep_data: string
         exac_filter:
           type: File
@@ -141,6 +136,30 @@ inputs:
           type:
             type: array
             items: string
+  samples:
+    type:
+      type: array
+      items:
+        type: record
+        fields:
+          CN: string
+          LB: string
+          ID: string
+          PL: string
+          PU: string[]
+          R1: string[]
+          R2: string[]
+          RG_ID: string[]
+          adapter: string
+          adapter2: string
+          bwa_output: string
+  groups:
+    type:
+      type: array
+      items:
+        type: array
+        items: string
+
 outputs: 
   concordance_txt:
     type: File
@@ -157,6 +176,16 @@ outputs:
 
 steps:
 
+  projparse:
+    run: parse-project-yaml-input/1.0.1/parse-project-yaml-input.cwl
+    in:
+      db_files: db_files
+      groups: groups
+      pairs: pairs
+      samples: samples
+      runparams: runparams
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
     in:
@@ -170,20 +199,13 @@ steps:
   run-conpair:
     run: conpair/0.2/conpair-master.cwl
     in:
-      runparams: runparams
-      db_files: db_files
-      ref:
-        valueFrom: ${ return inputs.db_files.ref_fasta_file; }
-      markers: 
-        valueFrom: ${ return inputs.db_files.conpair_markers; }
-      markers_bed: 
-        valueFrom: ${ return inputs.db_files.conpair_markers_bed; }
+      ref: projparse/ref_fasta_string
+      markers: projparse/conpair_markers
+      markers_bed: projparse/conpair_markers_bed 
       tumor_bams: pairing/tumor_bams
       normal_bams: pairing/normal_bams
       tumor_sample_name: pairing/tumor_sample_ids
       normal_sample_name: pairing/normal_sample_ids
-      file_prefix: 
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-      pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file; }
+      file_prefix: projparse/project_prefix 
+      pairing_file: projparse/pairing_file
     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
