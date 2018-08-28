@@ -421,7 +421,7 @@ steps:
       normal_sample_name: parse_pairs/normal_id
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
-    out: [maf, portal_fillout]
+    out: [maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
 
