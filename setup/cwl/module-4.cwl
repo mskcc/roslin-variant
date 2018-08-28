@@ -87,9 +87,6 @@ outputs:
     maf:
         type: File
         outputSource: ngs_filters/output
-    portal_fillout:
-        type: File
-        outputSource: fillout_tumor_normal/portal_fillout
 
 steps:
 
