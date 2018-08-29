@@ -445,8 +445,8 @@
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals",
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals",
-            "conpair_markers": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/IMPACT468_genotypes_conpair.txt",
-            "conpair_markers_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/IMPACT468_genotypes_conpair.bed"
+            "conpair_markers": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt",
+            "conpair_markers_bed": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed"
         },
         "IMPACT468_08390": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
