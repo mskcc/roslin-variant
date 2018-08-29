@@ -132,9 +132,7 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
                 "target_intervals": {"class": "File", "path": str(targets[assay]['targets_list'])},
                 "fp_intervals": {"class": "File", "path": str(targets[assay]['FP_intervals'])},
-                "fp_genotypes": {"class": "File", "path": str(targets[assay]['FP_genotypes'])},
-                "conpair_markers": {"class": "File", "path": str(targets[assay]['conpair_markers'])},
-                "conpair_markers_bed": {"class": "File", "path": str(targets[assay]['conpair_markers_bed'])}
+                "fp_genotypes": {"class": "File", "path": str(targets[assay]['FP_genotypes'])}
     }
     else:
         print >>sys.stderr, "ERROR: Targets for Assay not found in roslin_resources.json: %s" % assay
@@ -183,6 +181,15 @@ def sort_fastqs_into_dict(files):
                     paired_by_sample[read].append(None)
     return paired_by_sample
 
+def calculate_abra_ram_size(grouping_dict):
+    group_larger_than_three_exists = False
+    for group in grouping_dict:
+        if len(grouping_dict[group]) > 3:
+            group_larger_than_three_exists = True
+    if group_larger_than_three_exists:
+        return 512
+    return 36
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
     parser.add_argument("-m", "--mapping", help="the mapping file", required=True)
@@ -203,6 +210,7 @@ if __name__ == "__main__":
     mapping_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
     grouping_dict = parse_grouping_file(args.grouping)
+    abra_ram_min = calculate_abra_ram_size(grouping_dict)
     output_yaml = dict()
     output_yaml['samples'] = mapping_dict
     output_yaml['pairs'] = pairing_dict
@@ -242,7 +250,9 @@ if __name__ == "__main__":
         'vep_data': str(REQUEST_FILES['vep_data']),
         'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
         'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
-        'ref_fasta':  str(REQUEST_FILES['ref_fasta'])
+        'ref_fasta':  str(REQUEST_FILES['ref_fasta']),
+        'conpair_markers': {'class': 'File', 'path': str(REQUEST_FILES['conpair_markers'])},
+        'conpair_markers_bed': {'class': 'File', 'path': str(REQUEST_FILES['conpair_markers_bed'])}
     }
     files.update(intervals)
 
@@ -302,6 +312,7 @@ if __name__ == "__main__":
     }
     params = {
         "abra_scratch": "/scratch/roslin/",
+        "abra_ram_min": abra_ram_min, 
         "genome": genome,
         "mutect_dcov": 50000,
         "mutect_rf": rf,

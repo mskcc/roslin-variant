@@ -445,9 +445,7 @@
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals",
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals",
-            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals",
-            "conpair_markers": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt",
-            "conpair_markers_bed": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed"
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
         },
         "IMPACT468_08390": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
@@ -485,6 +483,8 @@
         "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
         "exac_filter": "/ifs/depot/pi/resources/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
         "vep_data": "/ifs/depot/pi/resources/vep/cache",
+        "conpair_markers": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt",
+        "conpair_markers_bed": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed",
         "curated_bams": {
             "IMPACT410_b37": [
                 "/ifs/depot/pi/resources/request_files/curated_bams/IMPACT410_b37/M12-1892-N_bc10_IMPACTv5-VAL-FFPECTRL2014_L000_mrg_cl_aln_srt_MD_IR_FX_BR.bam",
