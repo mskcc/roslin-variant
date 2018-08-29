@@ -325,16 +325,16 @@ outputs:
   # conpair output
   concordance_txt:
     type: File
-    outputSource: gather_metrics/concordance_txt
+    outputSource: run_conpair/concordance_txt
   concordance_pdf:
     type: File
-    outputSource: gather_metrics/concordance_pdf
+    outputSource: run_conpair/concordance_pdf
   contamination_txt:
     type: File
-    outputSource: gather_metrics/contamination_txt
+    outputSource: run_conpair/contamination_txt
   contamination_pdf:
     type: File
-    outputSource: gather_metrics/contamination_pdf
+    outputSource: run_conpair/contamination_pdf
 
 steps:
 
@@ -478,12 +478,21 @@ steps:
       grouping_file: projparse/grouping_file
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files ]
+
+  run_conpair:
+    run: conpair/0.2/conpair-master.cwl
+    in:
+      ref: projparse/ref_fasta_string
+      markers: projparse/conpair_markers
+      markers_bed: projparse/conpair_markers_bed 
       tumor_bams: pairing/tumor_bams
       normal_bams: pairing/normal_bams
-      normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
-
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files, concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
+      normal_sample_name: pairing/normal_sample_ids
+      file_prefix: projparse/project_prefix 
+      pairing_file: projparse/pairing_file
+    out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
 
   find_svs:
     run: module-6.cwl

@@ -260,7 +260,7 @@ steps:
           outputSource: hs_metrics/out_file
         per_target_coverage:
           type: File
-          outputSource: hs_metrics/per_target_out
+          outputSource: hst_metrics/per_target_out
         is_metrics:
           type: File
           outputSource: insert_metrics/is_file
@@ -285,7 +285,7 @@ steps:
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".asmetrics")}
             LEVEL:
-              valueFrom: ${return ["ALL_READS"]}
+              valueFrom: ${return ["null", "SAMPLE"]}
           out: [out_file]
 
         hs_metrics:
@@ -297,11 +297,25 @@ steps:
             R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
+            LEVEL:
+              valueFrom: ${ return ["null", "SAMPLE"];} 
+          out: [out_file, per_target_out]
+
+        hst_metrics:
+          run: cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+          in:
+            BI: bait_intervals
+            TI: target_intervals
+            I: bam
+            R: genome
+            O:
+              valueFrom: ${ return "all_reads_hsmerics_dump.txt"; }
             PER_TARGET_COVERAGE:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hstmetrics")}
             LEVEL:
               valueFrom: ${ return ["ALL_READS"];}
-          out: [out_file, per_target_out]
+          out: [per_target_out]
+
         insert_metrics:
           run: cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
@@ -311,7 +325,7 @@ steps:
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
             LEVEL:
-              valueFrom: ${ return ["ALL_READS"];}
+              valueFrom: ${ return ["null", "SAMPLE"];}
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
