@@ -372,6 +372,22 @@
             "default": "/opt/common/CentOS_6-dev/vt/vt-0.5772/vt",
             "master": "/opt/common/CentOS_6-dev/vt/master/vt"
         },
+        "conpair_pileup": {
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/run_gatk_pileup_for_sample.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/run_gatk_pileup_for_sample.py"
+        },
+        "conpair_concordance": {
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/verify_concordance.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/verify_concordance.py"
+        },
+        "conpair_contamination": {
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/estimate_tumor_normal_contamination.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/estimate_tumor_normal_contamination.py"
+        },
+        "conpair_merge": {
+            "0.2": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py",
+            "default": "/opt/common/CentOS_6-dev/conpair/0.2/scripts/conpair_merge.py"
+        },
         "tabix": {
             "default": "/opt/common/CentOS_6-dev/htslib/v1.3.2/tabix",
             "1.3.1": "/opt/common/CentOS_6-dev/htslib/v1.3.1/tabix",
@@ -427,7 +443,9 @@
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals",
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals",
-            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals",
+            "conpair_markers": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/IMPACT468_genotypes_conpair.txt",
+            "conpair_markers_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/IMPACT468_genotypes_conpair.bed"
         },
         "IMPACT468_08390": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",

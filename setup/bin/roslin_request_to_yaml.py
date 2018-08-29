@@ -132,7 +132,10 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
                 "target_intervals": {"class": "File", "path": str(targets[assay]['targets_list'])},
                 "fp_intervals": {"class": "File", "path": str(targets[assay]['FP_intervals'])},
-                "fp_genotypes": {"class": "File", "path": str(targets[assay]['FP_genotypes'])}}
+                "fp_genotypes": {"class": "File", "path": str(targets[assay]['FP_genotypes'])},
+                "conpair_markers": {"class": "File", "path": str(targets[assay]['conpair_markers'])},
+                "conpair_markers_bed": {"class": "File", "path": str(targets[assay]['conpair_markers_bed'])}
+    }
     else:
         print >>sys.stderr, "ERROR: Targets for Assay not found in roslin_resources.json: %s" % assay
         sys.exit(1)

@@ -97,6 +97,8 @@ inputs:
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
+        conpair_markers: File
+        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
@@ -300,6 +302,20 @@ outputs:
     type: File
     outputSource: gather_metrics/qc_files
 
+  # conpair output
+  concordance_txt:
+    type: File
+    outputSource: run_conpair/concordance_txt
+  concordance_pdf:
+    type: File
+    outputSource: run_conpair/concordance_pdf
+  contamination_txt:
+    type: File
+    outputSource: run_conpair/contamination_txt
+  contamination_pdf:
+    type: File
+    outputSource: run_conpair/contamination_pdf
+
 steps:
 
   projparse:
@@ -310,7 +326,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -405,7 +421,7 @@ steps:
       normal_sample_name: parse_pairs/normal_id
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
-    out: [maf, portal_fillout]
+    out: [maf]
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
 
@@ -422,14 +438,29 @@ steps:
       target_intervals: projparse/target_intervals
       fp_intervals: projparse/fp_intervals
       fp_genotypes: projparse/fp_genotypes
+      conpair_markers: projparse/conpair_markers
+      conpair_markers_bed: projparse/conpair_markers_bed
       md_metrics_files: group_process/md_metrics
       trim_metrics_files: [ group_process/clstats1, group_process/clstats2]
       project_prefix: projparse/project_prefix
       grouping_file: projparse/grouping_file
       request_file: projparse/request_file
       pairing_file: projparse/pairing_file
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files ]
 
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files]
+  run_conpair:
+    run: conpair/0.2/conpair-master.cwl
+    in:
+      ref: projparse/ref_fasta_string
+      markers: projparse/conpair_markers
+      markers_bed: projparse/conpair_markers_bed 
+      tumor_bams: pairing/tumor_bams
+      normal_bams: pairing/normal_bams
+      tumor_sample_name: pairing/tumor_sample_ids
+      normal_sample_name: pairing/normal_sample_ids
+      file_prefix: projparse/project_prefix 
+      pairing_file: projparse/pairing_file
+    out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
 
   find_svs:
     run: module-6.cwl

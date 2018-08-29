@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -149,40 +149,34 @@ inputs:
           adapter: string
           adapter2: string
           bwa_output: string
+
+  bams:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    secondaryFiles: ^.bai
+
   pairs:
     type:
       type: array
       items:
         type: array
         items: string
+  covint_bed:
+    type: 
+      type: array
+      items: File
 
 outputs:
 
-  # bams & metrics
-  bams:
-    type:
-      type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
-    outputSource: group_process/bams
-  clstats1:
-    type:
-      type: array
-      items: File
-    outputSource: group_process/clstats1
-  clstats2:
-    type:
-      type: array
-      items: File
-    outputSource: group_process/clstats2
-  md_metrics:
-    type:
-      type: array
-      items: File
-    outputSource: group_process/md_metrics
-
   # vcf
+  combine_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/combine_vcf
   mutect_vcf:
     type:
       type: array
@@ -241,64 +235,6 @@ outputs:
       items: File
     outputSource: variant_calling/facets_counts
 
-  # maf
-  maf:
-    type: File
-    outputSource: filter/maf
-
-  # qc
-  as_metrics:
-    type: File
-    outputSource: gather_metrics/as_metrics
-  hs_metrics:
-    type: File
-    outputSource: gather_metrics/hs_metrics
-  insert_metrics:
-    type: File
-    outputSource: gather_metrics/insert_metrics
-  insert_pdf:
-    type: File
-    outputSource: gather_metrics/insert_pdf
-  per_target_coverage:
-    type: File
-    outputSource: gather_metrics/per_target_coverage
-  qual_metrics:
-    type: File
-    outputSource: gather_metrics/qual_metrics
-  qual_pdf:
-    type: File
-    outputSource: gather_metrics/qual_pdf
-  doc_basecounts:
-    type: File
-    outputSource: gather_metrics/doc_basecounts
-  gcbias_pdf:
-    type: File
-    outputSource: gather_metrics/gcbias_pdf
-  gcbias_metrics:
-    type: File
-    outputSource: gather_metrics/gcbias_metrics
-  gcbias_summary:
-    type: File
-    outputSource: gather_metrics/gcbias_summary
-  qcpdf:
-    type: File
-    outputSource: gather_metrics/qc_files
-
-  # conpair output
-  concordance_txt:
-    type: File
-    outputSource: run_conpair/concordance_txt
-  concordance_pdf:
-    type: File
-    outputSource: run_conpair/concordance_pdf
-  contamination_txt:
-    type: File
-    outputSource: run_conpair/contamination_txt
-  contamination_pdf:
-    type: File
-    outputSource: run_conpair/contamination_pdf
-
-
 steps:
 
   projparse:
@@ -311,47 +247,15 @@ steps:
       runparams: runparams
     out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
-  group_process:
-    run:  module-1-2.chunk.cwl
-    in:
-      fastq1: projparse/R1
-      fastq2: projparse/R2
-      adapter: projparse/adapter
-      adapter2: projparse/adapter2
-      bwa_output: projparse/bwa_output
-      add_rg_LB: projparse/LB
-      add_rg_PL: projparse/PL
-      add_rg_ID: projparse/RG_ID
-      add_rg_PU: projparse/PU
-      add_rg_SM: projparse/ID
-      add_rg_CN: projparse/CN
-      tmp_dir: projparse/tmp_dir
-      hapmap: projparse/hapmap
-      dbsnp: projparse/dbsnp
-      indels_1000g: projparse/indels_1000g
-      cosmic: projparse/cosmic
-      snps_1000g: projparse/snps_1000g
-      genome: projparse/genome
-      mutect_dcov: projparse/mutect_dcov
-      mutect_rf: projparse/mutect_rf
-      covariates: projparse/covariates
-      abra_scratch: projparse/abra_scratch
-      refseq: projparse/refseq
-      group: projparse/group_ids
-      opt_dup_pix_dist: projparse/opt_dup_pix_dist
-    out: [clstats1, clstats2, bams, md_metrics, covint_bed, covint_list]
-    scatter: [fastq1,fastq2,adapter,adapter2,bwa_output,add_rg_LB,add_rg_PL,add_rg_ID,add_rg_PU,add_rg_SM,add_rg_CN, tmp_dir, abra_scratch, dbsnp, hapmap, indels_1000g, cosmic, snps_1000g, mutect_dcov, mutect_rf, abra_scratch, refseq, covariates, group]
-    scatterMethod: dotproduct
-
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
     in:
-      bams: group_process/bams
+      bams: bams
       pairs: pairs
       db_files: db_files
       runparams: runparams
-      beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval]
+      beds: covint_bed
+    out: [ tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval ]
 
   variant_calling:
     run: module-3.cwl
@@ -376,71 +280,3 @@ steps:
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_counts]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
-
-  parse_pairs:
-    run: parse-pairs-and-vcfs/2.0.0/parse-pairs-and-vcfs.cwl
-    in:
-      bams: group_process/bams
-      pairs: pairs
-      combine_vcf: variant_calling/combine_vcf
-      genome: projparse/genome
-      exac_filter: projparse/exac_filter
-      ref_fasta: projparse/ref_fasta
-      vep_data: projparse/vep_data
-      curated_bams: projparse/curated_bams
-      hotspot_list: projparse/hotspot_list
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
-
-  filter:
-    run: module-4.cwl
-    in:
-      bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
-      genome: parse_pairs/srt_genome
-      ref_fasta: parse_pairs/srt_ref_fasta
-      exac_filter: parse_pairs/srt_exac_filter
-      vep_data: parse_pairs/srt_vep_data
-      tumor_sample_name: parse_pairs/tumor_id
-      normal_sample_name: parse_pairs/normal_id
-      curated_bams: parse_pairs/srt_curated_bams
-      hotspot_list: parse_pairs/srt_hotspot_list
-    out: [maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
-    scatterMethod: dotproduct
-
-  gather_metrics:
-    run: module-5.cwl
-    in:
-      aa_bams: group_process/bams
-      runparams: runparams
-      db_files: db_files
-      bams:
-        valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
-      genome: projparse/genome
-      bait_intervals: projparse/bait_intervals
-      target_intervals: projparse/target_intervals
-      fp_intervals: projparse/fp_intervals
-      fp_genotypes: projparse/fp_genotypes
-      conpair_markers: projparse/conpair_markers
-      conpair_markers_bed: projparse/conpair_markers_bed
-      md_metrics_files: group_process/md_metrics
-      trim_metrics_files: [ group_process/clstats1, group_process/clstats2]
-      project_prefix: projparse/project_prefix
-      grouping_file: projparse/grouping_file
-      request_file: projparse/request_file
-      pairing_file: projparse/pairing_file
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files ]
-
-  run_conpair:
-    run: conpair/0.2/conpair-master.cwl
-    in:
-      ref: projparse/ref_fasta_string
-      markers: projparse/conpair_markers
-      markers_bed: projparse/conpair_markers_bed 
-      tumor_bams: pairing/tumor_bams
-      normal_bams: pairing/normal_bams
-      tumor_sample_name: pairing/tumor_sample_ids
-      normal_sample_name: pairing/normal_sample_ids
-      file_prefix: projparse/project_prefix 
-      pairing_file: projparse/pairing_file
-    out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
