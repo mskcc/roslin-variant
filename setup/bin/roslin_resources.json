@@ -310,7 +310,7 @@
         "roslin-qc": {
             "0.5.9": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.9/generate_pdf.py",
             "0.5.10": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.10/generate_pdf.py",
-            "0.5.111": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.11/generate_pdf.py",
+            "0.5.11": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.11/generate_pdf.py",
             "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.10/generate_pdf.py"
         },
         "samstat": {
