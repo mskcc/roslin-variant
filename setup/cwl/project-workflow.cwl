@@ -348,6 +348,7 @@ steps:
   group_process:
     run:  module-1-2.chunk.cwl
     in:
+      runparams: runparams
       fastq1: projparse/R1
       fastq2: projparse/R2
       adapter: projparse/adapter

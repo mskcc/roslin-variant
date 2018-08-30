@@ -122,6 +122,11 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
+  runparams:
+    type:
+      type: record
+      fields:
+        abra_ram_min: int 
   abra_ram_min: int
   group: string[]
   mutect_dcov: int
@@ -192,6 +197,7 @@ steps:
   realignment:
     run: module-2.cwl
     in:
+      runparams: runparams
       bams: mapping/bam
       hapmap: hapmap
       dbsnp: dbsnp

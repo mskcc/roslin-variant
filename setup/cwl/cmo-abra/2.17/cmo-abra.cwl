@@ -52,7 +52,7 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: $(inputs.abra_ram_min)
+    ramMin: $(inputs.runparams.abra_ram_min)
     coresMin: 8
 
 doc: |
@@ -60,9 +60,11 @@ doc: |
 
 inputs:
 
-  abra_ram_min:
-    type: int
-    default: 36000
+  runparams:
+    type:
+      type: record
+      fields:
+        abra_ram_min: int
 
   threads:
     type: ['null', string]
