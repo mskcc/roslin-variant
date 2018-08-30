@@ -132,10 +132,12 @@ inputs:
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
         delly_type:
           type:
             type: array
             items: string
+
   samples:
     type:
       type: array
@@ -353,7 +355,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, abra_ram_min, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -380,6 +382,7 @@ steps:
       mutect_rf: projparse/mutect_rf
       covariates: projparse/covariates
       abra_scratch: projparse/abra_scratch
+      abra_ram_min: projparse/abra_ram_min
       refseq: projparse/refseq
       group: projparse/group_ids
       opt_dup_pix_dist: projparse/opt_dup_pix_dist

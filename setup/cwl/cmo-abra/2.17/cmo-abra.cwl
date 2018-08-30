@@ -52,14 +52,17 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 36000
+    ramMin: $(inputs.size)
     coresMin: 8
-
 
 doc: |
   None
 
 inputs:
+  size:
+    type: int
+    default: 36000
+
   threads:
     type: ['null', string]
     doc: Number of threads (default - 4)
@@ -147,7 +150,6 @@ inputs:
 
   out:
     type: 
-
       type: array
       items: string
     doc: Required list of output sam or bam file (s) separated by comma

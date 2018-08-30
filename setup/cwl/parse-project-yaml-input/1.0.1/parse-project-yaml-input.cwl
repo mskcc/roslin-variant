@@ -126,6 +126,7 @@ inputs:
             items: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
   samples:
     type:
       type: array
@@ -255,9 +256,11 @@ outputs:
   abra_scratch:
     type:
       type: array
-      items:
-        type: array
-        items: string
+      items: string
+  abra_ram_min:
+    type:
+      type: array
+      items: int
   genome:
     type:
       type: array

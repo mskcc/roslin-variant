@@ -122,7 +122,8 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
-  group: string
+  abra_ram_min: int
+  group: string[]
   mutect_dcov: int
   mutect_rf: string[]
   covariates: string[]
