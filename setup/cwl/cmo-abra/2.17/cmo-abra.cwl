@@ -49,7 +49,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: $(inputs.size)
+    ramMin: $(inputs.abra_ram_min)
     coresMin: 8
 
 
@@ -57,7 +57,8 @@ doc: |
   None
 
 inputs:
-  size:
+
+  abra_ram_min:
     type: int
     default: 36
 

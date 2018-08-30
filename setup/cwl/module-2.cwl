@@ -124,7 +124,7 @@ steps:
         in:
             in: bams
             ref: genome
-            size: abra_ram_min
+            abra_ram_min: abra_ram_min
             out:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
