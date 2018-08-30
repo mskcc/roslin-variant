@@ -121,6 +121,7 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
+  abra_ram_min: int
   group: string[]
   mutect_dcov: int
   mutect_rf: string[]

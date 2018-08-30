@@ -95,6 +95,7 @@ inputs:
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
   samples:
     type:
       type: array
@@ -227,6 +228,10 @@ outputs:
     type:
       type: array
       items: string
+  abra_ram_min:
+    type:
+      type: array
+      items: int
   genome:
     type:
       type: array
