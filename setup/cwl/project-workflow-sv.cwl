@@ -222,6 +222,23 @@ outputs:
       items: File
     outputSource: variant_calling/pindel_vcf
 
+  # norm vcf
+  vardict_norm_vcf:
+    type: File
+    outputSource: variant_calling/vardict_norm_vcf
+    secondaryFiles:
+      - .tbi
+  mutect_norm_vcf:
+    type: File
+    outputSource: variant_calling/mutect_norm_vcf
+    secondaryFiles:
+      - .tbi
+  pindel_norm_vcf:
+    type: File
+    outputSource: variant_calling/pindel_norm_vcf
+    secondaryFiles:
+      - .tbi
+
   # structural variants
   merged_file_unfiltered:
     type: File[]
@@ -426,7 +443,7 @@ steps:
       ref_fasta: projparse/ref_fasta_string
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
-    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf]
+    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, vardict_norm_vcf, mutect_norm_vcf, pindel_norm_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
