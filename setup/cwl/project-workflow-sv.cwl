@@ -224,17 +224,23 @@ outputs:
 
   # norm vcf
   vardict_norm_vcf:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: variant_calling/vardict_norm_vcf
     secondaryFiles:
       - .tbi
   mutect_norm_vcf:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: variant_calling/mutect_norm_vcf
     secondaryFiles:
       - .tbi
   pindel_norm_vcf:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: variant_calling/pindel_norm_vcf
     secondaryFiles:
       - .tbi
