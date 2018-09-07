@@ -84,9 +84,7 @@ inputs:
       type: array
       items:
         type: array
-        items: File
-    secondaryFiles:
-      - ^.bai
+        items: string
   hotspot_list:
      type:
        type: array
@@ -124,7 +122,7 @@ outputs:
   srt_curated_bams:
      type:
        type: array
-       items: File
+       items: string
   srt_hotspot_list: File
 
 expression: '${var bams= [];

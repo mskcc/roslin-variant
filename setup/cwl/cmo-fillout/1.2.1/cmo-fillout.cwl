@@ -69,12 +69,10 @@ inputs:
   bams:
     type:
       type: array
-      items: File
+      items: string
     doc: BAM files to fillout with
     inputBinding:
       prefix: --bams
-    secondaryFiles:
-    - ^.bai
 
   genome:
     type: string

@@ -91,9 +91,7 @@ inputs:
   curated_bams_inputs:
     type:
       type: array
-      items: File
-    secondaryFiles:
-      - ^.bai
+      items: string
   groups:
     type:
       type: array
@@ -306,7 +304,7 @@ outputs:
       type: array
       items:
         type: array
-        items: File
+        items: string
   hotspot_list:
     type:
       type: array

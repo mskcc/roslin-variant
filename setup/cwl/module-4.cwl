@@ -75,10 +75,7 @@ inputs:
     curated_bams:
         type:
             type: array
-            items: File
-        secondaryFiles:
-            - ^.bai
-
+            items: string
     hotspot_list:
         type: File
 
@@ -140,7 +137,7 @@ steps:
                 curated_bams:
                     type:
                         type: array
-                        items: File
+                        items: string
             outputs:
                 fillout_curated_bams:
                     type: File
