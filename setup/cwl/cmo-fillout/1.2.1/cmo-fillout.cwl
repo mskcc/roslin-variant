@@ -69,7 +69,7 @@ inputs:
   bams:
     type:
       type: array
-      items: string
+      items: [string, File]
     doc: BAM files to fillout with
     inputBinding:
       prefix: --bams
