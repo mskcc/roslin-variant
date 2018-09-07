@@ -277,7 +277,7 @@ outputs:
       type: array
       items:
         type: array
-        items: File
+        items: string
   hotspot_list:
     type:
       type: array

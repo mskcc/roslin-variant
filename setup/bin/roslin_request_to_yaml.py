@@ -108,7 +108,7 @@ def get_curated_bams(assay,REQUEST_FILES):
         json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
     array = []
     for bam in json_curated_bams:
-        array.append({'class': 'File', 'path': str(bam)})
+        array.append(str(bam))
 
     return array
 
