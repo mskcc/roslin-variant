@@ -118,6 +118,21 @@ outputs:
     pindel_vcf:
         type: File
         outputSource: call_variants/pindel_vcf
+    vardict_norm_vcf:
+        type: File
+        outputSource: filtering/vardict_vcf_filtering_output
+        secondaryFiles:
+            - .tbi
+    mutect_norm_vcf:
+        type: File
+        outputSource: filtering/mutect_vcf_filtering_output
+        secondaryFiles:
+            - .tbi
+    pindel_norm_vcf:
+        type: File
+        outputSource: filtering/pindel_vcf_filtering_output
+        secondaryFiles:
+            - .tbi
 
 steps:
 
