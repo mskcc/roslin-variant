@@ -90,9 +90,7 @@ inputs:
         curated_bams:
           type:
             type: array
-            items: File
-          secondaryFiles:
-              - ^.bai
+            items: string
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
