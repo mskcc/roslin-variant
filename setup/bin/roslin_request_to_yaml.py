@@ -102,14 +102,15 @@ def parse_request_file(rfile):
 
 
 def get_curated_bams(assay,REQUEST_FILES):
-    # Default to AgilentExon_51MB_b37_v3 BAMs. Use IMPACT468 BAMs for all IMPACT/HemePACT projects
-    json_curated_bams = REQUEST_FILES['curated_bams']['AgilentExon_51MB_b37_v3']
-    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
-        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
+    # Default to IMPACT468 BAMs for all projects except Agilent/IDTdna Exomes
+    json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
+    if assay.find("AgilentExon_51MB_b37_v3") > -1 or assay.find("Agilent_v4_51MB_Human") > -1:
+        json_curated_bams = REQUEST_FILES['curated_bams']['AgilentExon_51MB_b37_v3']
+    elif assay.find("IDT_Exome_v1_FP") > -1:
+        json_curated_bams = REQUEST_FILES['curated_bams']['IDT_Exome_v1_FP_b37']
     array = []
     for bam in json_curated_bams:
         array.append(str(bam))
-
     return array
 
 
