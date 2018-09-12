@@ -49,7 +49,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 36
+    ramMin: $(inputs.runparams.abra_ram_min)
     coresMin: 8
 
 
@@ -57,6 +57,13 @@ doc: |
   None
 
 inputs:
+
+  runparams:
+    type:
+      type: record
+      fields:
+        abra_ram_min: int
+
   threads:
     type: ['null', string]
     doc: Number of threads (default - 4)
@@ -144,7 +151,6 @@ inputs:
 
   out:
     type: 
-
       type: array
       items: string
     doc: Required list of output sam or bam file (s) separated by comma

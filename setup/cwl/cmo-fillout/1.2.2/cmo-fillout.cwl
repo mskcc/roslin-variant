@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-fillout
-  doap:revision: 1.2.1
+  doap:revision: 1.2.2
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -44,7 +44,7 @@ class: CommandLineTool
 baseCommand:
 - cmo_fillout
 - --version
-- 1.2.1
+- 1.2.2
 
 requirements:
   InlineJavascriptRequirement: {}

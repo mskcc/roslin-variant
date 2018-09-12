@@ -74,10 +74,7 @@ inputs:
     curated_bams:
         type:
             type: array
-            items: File
-        secondaryFiles:
-            - ^.bai
-
+            items: string
     hotspot_list:
         type: File
 
@@ -116,7 +113,7 @@ steps:
         out: [maf]
 
     fillout_tumor_normal:
-        run: cmo-fillout/1.2.1/cmo-fillout.cwl
+        run: cmo-fillout/1.2.2/cmo-fillout.cwl
         in:
             maf: remove_variants/maf
             bams: bams
@@ -139,14 +136,14 @@ steps:
                 curated_bams:
                     type:
                         type: array
-                        items: File
+                        items: string
             outputs:
                 fillout_curated_bams:
                     type: File
                     outputSource: fillout_curated_bams_step/fillout_out
             steps:
                 fillout_curated_bams_step:
-                    run: cmo-fillout/1.2.1/cmo-fillout.cwl
+                    run: cmo-fillout/1.2.2/cmo-fillout.cwl
                     in:
                         maf: maf
                         bams: curated_bams
