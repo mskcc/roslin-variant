@@ -196,6 +196,7 @@ do
  #   fi
 
     if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] #&& [ $jobTrackBoolRP == 0 ]
+    then
         store_test_logs
         store_test_logs_sv
  #       store_test_logs_run_pipeline
