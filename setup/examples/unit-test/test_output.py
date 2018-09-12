@@ -602,18 +602,6 @@ def test_fillout_curated_bams():
     assert_true(result['fillout']['size'] > 0)
 
 
-def test_fillout_ffpe_normal():
-    "fillout_ffpe_normal should generate the correct output"
-
-    result = read_result('./outputs/cmo-fillout.ffpe-normal.txt')
-
-    assert_result_exists(result)
-
-    # absolute minimum test
-    assert_equals(result['fillout']['basename'], 'DU874145-T.combined-variants.vep.rmv.maf.ffpe-normal.fillout')
-    assert_true(result['fillout']['size'] > 0)
-
-
 def test_ngs_filters():
     "ngs_filters should generate the correct output"
 
@@ -644,4 +632,3 @@ def test_module_4():
         assert_equals(lines[2], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_low_conf.R")
         assert_equals(lines[3], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_ffpe.R")
         assert_equals(lines[4], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_dmp.R")
-        assert_equals(lines[5], "#ngs-filters/applyFilter.sh VERSION=" + git_commit_hash + " FILTER=filter_ffpe_pool.R")

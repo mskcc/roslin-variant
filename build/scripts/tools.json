@@ -4,58 +4,47 @@
             "1.0.0"
         ],
         "bwa": [
-            "0.7.15",
-            "0.7.12",
             "0.7.5a"
         ],
         "samtools": [
             "1.3.1"
         ],
         "picard": [
-            "1.129",
-            "1.96"
+            "2.9"
         ],
         "trimgalore": [
-            "0.4.3",
             "0.2.5.mod"
         ],
         "gatk": [
-            "3.3-0",
-            "2.3-9"
+            "3.3-0"
         ],
         "abra": [
-            "0.92",
-            "2.07",
-            "2.08"
+            "2.12"
         ],
         "mutect": [
-            "1.1.4",
-            "1.1.5"
+            "1.1.4"
         ],
         "vardict": [
-            "1.4.6"
+            "1.5.1"
         ],
         "pindel": [
-            "0.2.5b8",
-            "0.2.5a7"
+            "0.2.5b8"
         ],
         "list2bed": [
             "1.0.1"
         ],
         "basic-filtering": [
-            "0.1.7",
             "0.1.8"
         ],
         "bcftools": [
-            "1.3.1",
-            "1.5"
+            "1.3.1"
         ],
         "vep": [
             "86"
         ],
         "vcf2maf": [
             "1.6.12",
-            "1.6.14"
+            "1.6.15"
         ],
         "getbasecountsmultisample": [
             "1.2.1"
@@ -70,12 +59,9 @@
             "0.2.0"
         ],
         "ngs-filters": [
-            "1.1.4"
+            "1.2"
         ],
         "@split-reads": [
-            "1.0.0"
-        ],
-        "seq-cna": [
             "1.0.0"
         ],
         "htstools": [
@@ -85,85 +71,10 @@
             "1.5.5"
         ],
         "roslin-qc": [
-            "0.5.5"
-        ]
-    },
-    "containerDependency": {
-        "bwa": [
-            "cmo_bwa_mem"
+            "0.5.9"
         ],
-        "trimgalore": [
-            "cmo_trimgalore"
-        ],
-        "picard": [
-            "cmo_picard.MarkDuplicates",
-            "cmo_picard.AddOrReplaceReadGroups",
-            "cmo_picard.FixMateInformation",
-            "cmo_picard.CollectMultipleMetrics",
-            "cmo_picard.CalculateHsMetrics",
-            "cmo_picard.CollectAlignmentSummaryMetrics",
-            "cmo_picard.CollectGcBiasMetrics",
-            "cmo_picard.CollectInsertSizeMetrics"
-        ],
-        "gatk": [
-            "cmo_gatk.FindCoveredIntervals",
-            "cmo_gatk.BaseRecalibrator",
-            "cmo_gatk.PrintReads",
-            "cmo_gatk.SomaticIndelDetector",
-            "cmo_gatk.CombineVariants",
-            "cmo_gatk.DepthOfCoverage"
-        ],
-        "abra": [
-            "cmo_abra"
-        ],
-        "list2bed": [
-            "cmo_list2bed"
-        ],
-        "mutect": [
-            "cmo_mutect"
-        ],
-        "pindel": [
-            "cmo_pindel"
-        ],
-        "vardict": [
-            "cmo_vardict"
-        ],
-        "basic-filtering": [
-            "basic-filtering.mutect",
-            "basic-filtering.vardict",
-            "basic-filtering.pindel",
-            "basic-filtering.somaticIndelDetector"
-        ],
-        "bcftools": [
-            "cmo_bcftools.norm"
-        ],
-        "vcf2maf": [
-            "cmo_vcf2maf"
-        ],
-        "@fillout": [
-            "cmo_fillout"
-        ],
-        "remove-variants": [
-            "remove-variants"
-        ],
-        "replace-allele-counts": [
-            "replace-allele-counts"
-        ],
-        "@split-reads": [
-            "cmo_split_reads"
-        ],
-        "ngs-filters": [
-            "ngs-filters"
-        ],
-        "htstools": [
-            "cmo_snp-pileup",
-            "cmo_ppflag-fixer"
-        ],
-        "facets": [
-            "cmo_facets.doFacets"
-        ],
-        "roslin-qc": [
-            "cmo_qcpdf"
+        "delly": [
+            "0.7.7"
         ]
     }
 }

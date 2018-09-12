@@ -83,13 +83,7 @@ inputs:
       type: array
       items:
         type: array
-        items: File
-  ffpe_normal_bams:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
+        items: string
   hotspot_list:
      type:
        type: array
@@ -127,11 +121,7 @@ outputs:
   srt_curated_bams:
      type:
        type: array
-       items: File
-  srt_ffpe_normal_bams:
-     type:
-       type: array
-       items: File
+       items: string
   srt_hotspot_list: File
 
 expression: '${var bams= [];
@@ -171,6 +161,5 @@ return {"tumor_id" : final_answers[arrays.length+1],
     "srt_vep_data": final_answers[arrays.length+3],
     "srt_bams": bams,
     "srt_hotspot_list": inputs.hotspot_list[0],
-    "srt_curated_bams":inputs.curated_bams[0],
-    "srt_ffpe_normal_bams":inputs.ffpe_normal_bams[0]};
+    "srt_curated_bams":inputs.curated_bams[0]};
 }'

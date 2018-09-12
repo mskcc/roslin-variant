@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-gatk:2.3-9
-Registry: http://localhost:5000
+From: pipeline-gatk:2.3-9
+Registry: localhost:5000
+Namespace:
 
 %setup
 

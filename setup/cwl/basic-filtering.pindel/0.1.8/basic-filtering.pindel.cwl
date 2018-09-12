@@ -45,16 +45,21 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- basic-filtering
-- 0.1.8
+- non-cmo.sh
+- --tool
+- "basic-filtering"
+- --version
+- "0.1.8"
+- --language_version
+- "default"
+- --language
+- "bash"
 - pindel
-
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
+    ramMin: 8
+    coresMin: 1
 
 
 doc: |

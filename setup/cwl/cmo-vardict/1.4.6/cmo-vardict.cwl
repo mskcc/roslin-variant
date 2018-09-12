@@ -49,8 +49,9 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 20
-    coresMin: 5
+    ramMin: 64
+    coresMin: 4
+
 
 doc: |
   None
@@ -325,8 +326,8 @@ inputs:
 
   th:
     type: ['null', string]
-    default: '5'
     doc: Threads count.
+    default: '4'
     inputBinding:
       prefix: -th
 

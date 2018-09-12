@@ -1,6 +1,7 @@
 Bootstrap: docker
-From: /pipeline-vcf2maf:1.6.12
-Registry: http://localhost:5000
+From: pipeline-vcf2maf:1.6.12
+Registry: localhost:5000
+Namespace:
 
 %setup
 

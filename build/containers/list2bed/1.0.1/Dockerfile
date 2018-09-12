@@ -1,9 +1,9 @@
-FROM python:2.7.13-alpine
+FROM alpine:3.6
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.list2bed="1.0.1" \
-      version.alpine="3.4.6" \
+      version.alpine="3.6" \
       source.list2bed="https://github.com/mskcc/list2bed/releases/tag/1.0.1"
 
 ENV LIST2BED_VERSION 1.0.1
@@ -12,7 +12,7 @@ RUN apk add --update \
       # for wget
             && apk add ca-certificates openssl \
       # for compilation (pybedtools)
-            && apk add build-base musl-dev zlib-dev bzip2-dev xz-dev cython \
+            && apk add build-base musl-dev zlib-dev bzip2-dev xz-dev cython python py-pip python-dev\
       # install pybedtools
             && pip install pybedtools \
       # download, unzip list2bed

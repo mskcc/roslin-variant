@@ -45,16 +45,21 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- remove-variants
-- 0.1.1
+- non-cmo.sh
+- --tool
+- "remove-variants"
+- --version
+- "0.1.1"
+- --language_version
+- "default"
+- --language
+- "python"
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
-
+    ramMin: 8
+    coresMin: 1
 
 doc: |
   Remove snps/indels from the output maf where a complex variant is called

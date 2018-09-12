@@ -52,13 +52,13 @@ inputs:
       type: array
       items:
         type: array
-        items: File
+        items: string
   fastq2:
     type:
       type: array
       items:
         type: array
-        items: File
+        items: string
   adapter:
     type:
       type: array
@@ -121,6 +121,12 @@ inputs:
     type: File
     secondaryFiles:
        - .idx
+  runparams:
+    type:
+      type: record
+      fields:
+        abra_ram_min: int 
+  abra_ram_min: int
   group: string[]
   mutect_dcov: int
   mutect_rf: string[]
@@ -190,6 +196,7 @@ steps:
   realignment:
     run: module-2.cwl
     in:
+      runparams: runparams
       bams: mapping/bam
       hapmap: hapmap
       dbsnp: dbsnp
@@ -197,6 +204,7 @@ steps:
       snps_1000g: snps_1000g
       covariates: covariates
       abra_scratch: abra_scratch
+      abra_ram_min: abra_ram_min
       group: group
       genome: genome
     out: [outbams, covint_list, covint_bed]

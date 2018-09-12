@@ -170,7 +170,7 @@ steps:
             genome: genome
           out: [bam]
         add_rg_id:
-          run: ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
+          run: ./cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
           in:
             I: bwa/bam
             O:
@@ -187,7 +187,7 @@ steps:
             TMP_DIR: tmp_dir
           out: [bam,bai]
         mark_duplicates:
-          run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+          run: ./cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
           in:
             I:
               source: add_rg_id/bam

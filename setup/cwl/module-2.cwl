@@ -75,8 +75,14 @@ inputs:
             - .idx
     rf: string[]
     covariates: string[]
+    abra_ram_min: int
     abra_scratch: string
     group: string
+    runparams:
+        type:
+            type: record
+            fields:
+                abra_ram_min: int 
 
 outputs:
     covint_list:
@@ -103,6 +109,8 @@ steps:
         in:
             group: group
             reference_sequence: genome
+            intervals:
+              valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
             input_file: bams
             out:
                 valueFrom: ${ return inputs.group + ".fci.list"; }
@@ -117,10 +125,12 @@ steps:
                     ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
-        run: ./cmo-abra/2.07/cmo-abra.cwl
+        run: ./cmo-abra/2.17/cmo-abra.cwl
         in:
+            runparams: runparams
             in: bams
             ref: genome
+            abra_ram_min: abra_ram_min
             out:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
@@ -128,48 +138,7 @@ steps:
             targets: list2bed/output_file
         out: [outbams]
 
-    parallel_fixmate:
-        in:
-            I: abra/outbams
-        out: [out]
-        scatter: [I]
-        scatterMethod: dotproduct
-        run:
-            class: Workflow
-            inputs:
-                I:
-                    type:
-                        type: array
-                        items: File
-            outputs:
-                out:
-                    type:
-                        type: array
-                        items: File
-                    outputSource: picard_fixmate_information/out_bam
-            steps:
-                picard_cleansam:
-                    run: ./cmo-picard.CleanSam/1.129/cmo-picard.CleanSam.cwl 
-                    in:
-                        I: I
-                        VALIDATION_STRINGENCY:
-                          valueFrom: ${ return "SILENT";}
-                        O:
-                            valueFrom: ${ return inputs.I.basename.replace(".bam", ".cs.bam"); }
-                    out: [out_bam]
 
-                picard_fixmate_information:
-                    run: ./cmo-picard.FixMateInformation/1.129/cmo-picard.FixMateInformation.cwl
-                    in:
-                        I: picard_cleansam/out_bam
-                        SO:
-                            default: "coordinate"
-                        VALIDATION_STRINGENCY:
-                            default: "LENIENT"
-                        O:
-                            valueFrom: |
-                                  ${ return inputs.I.basename.replace(".bam", ".fmi.bam"); }
-                    out: [out_bam]
 
     gatk_base_recalibrator:
         run: ./cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
@@ -179,7 +148,7 @@ steps:
             indels_1000g: indels_1000g
             snps_1000g: snps_1000g
             reference_sequence: genome
-            input_file: parallel_fixmate/out
+            input_file: abra/outbams
             knownSites:
                 valueFrom: ${return [inputs.dbsnp,inputs.hapmap, inputs.indels_1000g, inputs.snps_1000g]}
             covariate: covariates
@@ -191,7 +160,7 @@ steps:
 
     parallel_printreads:
         in:
-            input_file: parallel_fixmate/out
+            input_file: abra/outbams
             reference_sequence: genome
             BQSR: gatk_base_recalibrator/recal_matrix
         out: [out]
@@ -224,9 +193,7 @@ steps:
                         BQSR: BQSR
                         input_file: input_file
                         num_cpu_threads_per_data_thread:
-                            default: "6"
-                        read_filter:
-                            valueFrom: ${ return ["BadCigar"]; }
+                            default: "5"
                         emit_original_quals:
                             valueFrom: ${ return true; }
                         baq:

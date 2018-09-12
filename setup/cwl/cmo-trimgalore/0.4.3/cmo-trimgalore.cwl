@@ -46,8 +46,8 @@ baseCommand: [cmo_trimgalore]
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
+    ramMin: 12
+    coresMin: 1
 
 doc: |
   None

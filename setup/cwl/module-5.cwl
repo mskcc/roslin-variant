@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -52,6 +52,54 @@ requirements:
 
 inputs:
 
+  db_files:
+    type:
+      type: record
+      fields:
+        hapmap:
+          type: File
+          secondaryFiles:
+            - .idx
+        dbsnp:
+          type: File
+          secondaryFiles:
+            - .idx
+        indels_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        snps_1000g:
+          type: File
+          secondaryFiles:
+            - .idx
+        cosmic:
+          type: File
+          secondaryFiles:
+            - .idx
+        refseq: File
+        ref_fasta: string
+        vep_data: string
+        exac_filter:
+          type: File
+          secondaryFiles:
+            - .tbi
+        hotspot_list: File
+        hotspot_vcf: File
+        curated_bams:
+          type:
+            type: array
+            items: File
+          secondaryFiles:
+              - ^.bai
+        bait_intervals: File
+        target_intervals: File
+        fp_intervals: File
+        fp_genotypes: File
+        conpair_markers: File
+        conpair_markers_bed: File
+        grouping_file: File
+        request_file: File
+        pairing_file: File
   bams:
     type:
       type: array
@@ -78,7 +126,6 @@ inputs:
       items:
         type: array
         items: File
-
 
 outputs:
 
@@ -119,8 +166,6 @@ outputs:
     type: File
     outputSource: generate_pdf/qc_files
 
-
-
 steps:
 
   scatter_metrics:
@@ -160,7 +205,7 @@ steps:
           outputSource: hs_metrics/out_file
         per_target_coverage:
           type: File
-          outputSource: hs_metrics/per_target_out
+          outputSource: hst_metrics/per_target_out
         is_metrics:
           type: File
           outputSource: insert_metrics/is_file
@@ -179,7 +224,7 @@ steps:
 
       steps:
         as_metrics:
-          run: cmo-picard.CollectAlignmentSummaryMetrics/1.129/cmo-picard.CollectAlignmentSummaryMetrics.cwl
+          run: cmo-picard.CollectAlignmentSummaryMetrics/2.9/cmo-picard.CollectAlignmentSummaryMetrics.cwl
           in:
             I: bam
             O:
@@ -189,22 +234,35 @@ steps:
           out: [out_file]
 
         hs_metrics:
-          run: cmo-picard.CalculateHsMetrics/1.129/cmo-picard.CalculateHsMetrics.cwl
+          run: cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
           in:
             BI: bait_intervals
             TI: target_intervals
             I: bam
-#only for 1.96
-#            R: genome
+            R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
-#            PER_TARGET_COVERAGE:
-#              valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
             LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];}
+              valueFrom: ${ return ["null", "SAMPLE"];} 
           out: [out_file, per_target_out]
+
+        hst_metrics:
+          run: cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+          in:
+            BI: bait_intervals
+            TI: target_intervals
+            I: bam
+            R: genome
+            O:
+              valueFrom: ${ return "all_reads_hsmerics_dump.txt"; }
+            PER_TARGET_COVERAGE:
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".hstmetrics")}
+            LEVEL:
+              valueFrom: ${ return ["ALL_READS"];}
+          out: [per_target_out]
+
         insert_metrics:
-          run: cmo-picard.CollectInsertSizeMetrics/1.129/cmo-picard.CollectInsertSizeMetrics.cwl
+          run: cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
             I: bam
             H:
@@ -215,7 +273,7 @@ steps:
               valueFrom: ${ return ["null", "SAMPLE"];}
           out: [ is_file, is_hist]
         quality_metrics:
-          run: cmo-picard.CollectMultipleMetrics/1.129/cmo-picard.CollectMultipleMetrics.cwl
+          run: cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
           in:
             I: bam
             PROGRAM:
@@ -224,7 +282,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
           out: [qual_file, qual_hist]
         gcbias_metrics:
-          run: cmo-picard.CollectGcBiasMetrics/1.129/cmo-picard.CollectGcBiasMetrics.cwl
+          run: cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
           in:
             I: bam
             R: genome
@@ -261,7 +319,7 @@ steps:
           out: [out_file]
 
   generate_pdf:
-    run: cmo-qcpdf/0.5.5/cmo-qcpdf.cwl
+    run: cmo-qcpdf/0.5.11/cmo-qcpdf.cwl
     in:
       files: scatter_metrics/as_metrics_files
       md_metrics_files: md_metrics_files

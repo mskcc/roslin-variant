@@ -91,7 +91,7 @@ steps:
         out: [bam]
 
     cmo-picard.AddOrReplaceReadGroups:
-        run: ./cmo-picard.AddOrReplaceReadGroups/1.96/cmo-picard.AddOrReplaceReadGroups.cwl
+        run: ./cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
         in:
           I: cmo-bwa-mem/bam
           O: add_rg_output
@@ -107,7 +107,7 @@ steps:
         out: [bam, bai]
 
     cmo-picard.MarkDuplicates:
-        run: ./cmo-picard.MarkDuplicates/1.96/cmo-picard.MarkDuplicates.cwl
+        run: ./cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
         in:
           I:
             source: cmo-picard.AddOrReplaceReadGroups/bam

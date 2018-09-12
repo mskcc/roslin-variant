@@ -49,7 +49,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
+    ramMin: 32
     coresMin: 2
 
 doc: |
@@ -66,13 +66,11 @@ inputs:
   bams:
     type:
       type: array
-      items: File
+      items: [string, File]
     doc: BAM files to fillout with
     inputBinding:
       prefix: --bams
 
-    secondaryFiles:
-    - ^.bai
   genome:
     type:
       type: enum
@@ -103,7 +101,7 @@ inputs:
     type:
     - 'null'
     - int
-    default: 10
+    default: 4
     doc: Multithreaded GBCMS
     inputBinding:
       prefix: --n_threads

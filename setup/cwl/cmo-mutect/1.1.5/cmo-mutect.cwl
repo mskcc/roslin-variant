@@ -34,10 +34,6 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_mutect --generate_cwl_tool
-# Help: $ cmo_mutect --help_arg2cwl
-
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
@@ -49,9 +45,8 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 30
-    coresMin: 5
-
+    ramMin: 24
+    coresMin: 1
 
 doc: |
   None
@@ -157,8 +152,8 @@ inputs:
   intervals:
     type:
     - 'null'
-    - type: array
-      items: string
+    - string
+    - File
 
     doc: One or more genomic intervals over which to operate. Can be explicitly specified
       on the command line or in a file (including a rod file)
@@ -170,6 +165,7 @@ inputs:
     - 'null'
     - type: array
       items: string
+    - File
 
     doc: One or more genomic intervals to exclude from processing. Can be explicitly
       specified on the command line or in a file (including a rod file)
@@ -404,9 +400,7 @@ inputs:
   num_threads:
     type:
     - 'null'
-    - type: array
-      items: string
-
+    - string
     doc: How many data threads should be allocated to running this analysis.
     inputBinding:
       prefix: --num_threads
@@ -414,11 +408,8 @@ inputs:
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
-    - type: array
-      items: string
-
-    doc: How many CPU threads should be allocated per data thread to running this
-      analysis?
+    - string
+    doc: How many CPU threads should be allocated per data thread to running this analysis?
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
 

@@ -71,6 +71,7 @@ inputs:
         indels_1000g: File
         refseq: File
         snps_1000g: File
+        vep_data: string
   runparams:
     type:
       type: record
@@ -90,6 +91,12 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        delly_type:
+          type:
+            type: array
+            items: string
+        facets_pcval: int
+        facets_cval: int
 
 outputs:
 
@@ -139,13 +146,31 @@ outputs:
     type:
       type: array
       items: string
+  facets_pcval:
+    type:
+      type: array
+      items: int
+  facets_cval: 
+    type:
+      type: array
+      items: int
+  vep_data:
+    type:
+      type: array
+      items: string
+  delly_type:
+    type:
+      type: array
+      items: 
+        type: array
+        items: string
 
 expression: '${
 var samples = {};
 var sample_beds =[];
 var flattened_bams = [];
 var extra_shit = {};
-var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome"];
+var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data", "facets_pcval", "facets_cval"];
 for (var i = 0; i < inputs.bams.length; i++) {
     for (var j = 0; j < inputs.bams[i].length; j++) {
         flattened_bams.push(inputs.bams[i][j]);

@@ -48,8 +48,8 @@ requirements:
 
 inputs:
 
-  fastq1: File[]
-  fastq2: File[]
+  fastq1: string[]
+  fastq2: string[]
   adapter: string
   adapter2: string
   bwa_output: string
@@ -87,9 +87,9 @@ steps:
   chunking:
     hints:
       ResourceRequirement:
-        ramMin: 8
-        coresMin: 2
-    run: cmo-split-reads/1.0.0/cmo-split-reads.cwl
+        ramMin: 24
+        coresMin: 1
+    run: cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
       fastq1: fastq1
       fastq2: fastq2
@@ -177,7 +177,7 @@ steps:
             genome: genome
           out: [bam]
         add_rg_id:
-          run: ./cmo-picard.AddOrReplaceReadGroups/1.129/cmo-picard.AddOrReplaceReadGroups.cwl
+          run: ./cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
           in:
             I: bwa/bam
             O:
@@ -194,7 +194,7 @@ steps:
             TMP_DIR: tmp_dir
           out: [bam, bai]
   mark_duplicates:
-    run: ./cmo-picard.MarkDuplicates/1.129/cmo-picard.MarkDuplicates.cwl
+    run: ./cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
     in:
       group: group
       OPTICAL_DUPLICATE_PIXEL_DISTANCE: opt_dup_pix_dist

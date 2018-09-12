@@ -42,15 +42,21 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- sing.sh
-- htstools
-- 0.1.1
+- non-cmo.sh
+- --tool
+- "htstools"
+- --version
+- "0.1.1"
+- --language_version
+- "default"
+- --language
+- "bash"
 - ppflag-fixer
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 5
+    ramMin: 8
     coresMin: 1
 
 

@@ -33,6 +33,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
+  - class: foaf:Person
+    foaf:name: Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
 
 cwlVersion: v1.0
 
@@ -48,7 +51,10 @@ inputs:
 
     normal_bam: File
     tumor_bam: File
+    tumor_sample_name: string 
     genome: string
+    facets_pcval: int
+    facets_cval: int
 
 outputs:
 
@@ -56,9 +62,13 @@ outputs:
     type: File[]
     outputSource: facets/png_files
 
-  facets_txt_output:
+  facets_txt_output_purity:
     type: File[]
-    outputSource: facets/txt_files
+    outputSource: facets/txt_files_purity
+
+  facets_txt_output_hisens:
+    type: File[]
+    outputSource: facets/txt_files_hisens
 
   facets_out_output:
     type: File[]
@@ -72,49 +82,19 @@ outputs:
     type: File[]
     outputSource: facets/seg_files
 
+  facets_counts_output:
+    type: File[]
+    outputSource: snp_pileup/out_file
+
 steps:
-
-  ppflag_fixer:
-    in:
-      normal_bam: normal_bam
-      tumor_bam: tumor_bam
-    out: [normal_ppfixed_bam, tumor_ppfixed_bam]
-    run:
-      class: Workflow
-      inputs:
-        normal_bam: File
-        tumor_bam: File
-      outputs:
-        normal_ppfixed_bam:
-          type: File
-          outputSource: normal_ppflag_fixer/out_file
-        tumor_ppfixed_bam:
-          type: File
-          outputSource: tumor_ppflag_fixer/out_file
-      steps:
-        normal_ppflag_fixer:
-          run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
-          in:
-            input_file: normal_bam
-            output_file:
-              valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".ppfixed.bam"); }
-          out: [out_file]
-        tumor_ppflag_fixer:
-          run: cmo-ppflag-fixer/0.1.1/cmo-ppflag-fixer.cwl
-          in:
-            input_file: tumor_bam
-            output_file:
-              valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".ppfixed.bam"); }
-          out: [out_file]
-
   snp_pileup:
     in:
       vcf:
-        default: "/ifs/work/pi/resources/facets/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
+        default: "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
       output_file:
-        valueFrom: ${ return inputs.normal_bam.basename.replace(".ppfixed.bam", "") + "__" + inputs.tumor_bam.basename.replace(".ppfixed.bam", "") + ".dat.gz"; }
-      normal_bam: ppflag_fixer/normal_ppfixed_bam
-      tumor_bam: ppflag_fixer/tumor_ppfixed_bam
+        valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", "") + ".dat.gz"; }
+      normal_bam: normal_bam
+      tumor_bam: tumor_bam
       count_orphans:
         valueFrom: ${ return true; }
       gzip:
@@ -133,9 +113,8 @@ steps:
         valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
       directory:
         default: "."
-      purity_cval:
-        default: 100
-      cval:
-        default: 50
-    out: [png_files, txt_files, out_files, rdata_files, seg_files]
-    run: cmo-facets.doFacets/1.5.5/cmo-facets.doFacets.cwl
+      purity_cval: facets_pcval 
+      cval: facets_cval
+      tumor_id: tumor_sample_name
+    out: [png_files, txt_files_purity, txt_files_hisens, out_files, rdata_files, seg_files]
+    run: cmo-facets.doFacets/1.5.6/cmo-facets.doFacets.cwl

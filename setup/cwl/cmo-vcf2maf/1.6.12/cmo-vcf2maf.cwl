@@ -50,8 +50,9 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
-    coresMin: 5
+    ramMin: 8
+    coresMin: 2
+
 
 doc: |
   None
@@ -88,7 +89,7 @@ inputs:
 
   ref_fasta:
     type: ['null', string]
-    default: /ifs/depot/assemblies/H.sapiens/b37/b37.fasta
+    default: /ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta
     doc: Reference FASTA file
     inputBinding:
       prefix: --ref-fasta
@@ -140,7 +141,7 @@ inputs:
 
   custom_enst:
     type: ['null', string]
-    default: /usr/bin/vcf2maf/data/isoform_overrides_at_mskcc
+    default: /opt/common/CentOS_6-dev/vcf2maf/v1.6.12/data/isoform_overrides_at_mskcc
     doc: List of custom ENST IDs that override canonical selection
     inputBinding:
       prefix: --custom-enst
@@ -154,21 +155,20 @@ inputs:
 
   vep_path:
     type: ['null', string]
-    default: /usr/bin/vep/
+    default: /opt/common/CentOS_6-dev/vep/v86
     doc: Folder containing variant_effect_predictor.pl
     inputBinding:
       prefix: --vep-path
 
   vep_data:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/v86/
+    default: /opt/common/CentOS_6-dev/vep/cache
     doc: VEP's base cache/plugin directory
     inputBinding:
       prefix: --vep-data
 
   tmp_dir:
     type: ['null', string]
-    default: /scratch/<username>/...
     doc: Folder to retain intermediate VCFs after runtime
     inputBinding:
       prefix: --tmp-dir
@@ -212,9 +212,9 @@ inputs:
     doc: The non-TCGA VCF from exac.broadinstitute.org
     inputBinding:
       prefix: --filter-vcf
-
     secondaryFiles:
     - .tbi
+
   retain_info:
     type: ['null', string]
     doc: Comma-delimited names of INFO fields to retain as extra columns in MAF

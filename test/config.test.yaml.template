@@ -1,0 +1,21 @@
+name: test
+version: BUILD_VALUE
+description: Roslin Pipeline Test for BUILD_VALUE
+root: /ifs/work/pi/roslin-test/roslin-pipelines
+binding:
+  core: bin
+  data: resources
+  output: outputs
+  workspace: workspace
+  extra:
+    - /scratch
+    - /ifs
+dependencies:
+  core:
+    version:
+      min: 1.0.0
+      max: 1.0.0
+  cmo:
+    version: 1.9.3
+    install-path: /ifs/work/pi/cmo_package_archive/
+

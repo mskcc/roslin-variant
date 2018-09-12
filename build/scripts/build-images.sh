@@ -145,59 +145,77 @@ do
         abra) padding_size=100;; # fixme: because no longer alpine
         seq-cna) padding_size=50;;
         facets) padding_size=100;;
-        roslin-qc) padding_size=100;;
+        roslin-qc) padding_size=100;;  
+        delly) padding_size=100;;
     esac
 
     # calculate needed size for singularity image (estimate using docker image size)
-    size=$(get_docker_size_in_mib ${docker_image_full_name} ${padding_size})
+    # size=$(get_docker_size_in_mib ${docker_image_full_name} ${padding_size})
 
     # overwrite if already exists
-    sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
+    #sudo singularity create --force --size ${size} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
+    
+    sudo rm -rf /tmp/${tool_name}
+    mkdir /tmp/${tool_name}
+    mkdir /tmp/${tool_name}/${tool_version} 
 
     # bootstrap the image
-    sudo singularity bootstrap \
-        ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img \
+    sudo singularity build --sandbox --force \
+        /tmp/${tool_name}/${tool_version}/${tool_name} \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
-
+        
     # retrieve labels from docker image and save to labels.json
     sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
 
     # create /.roslin/ directory
-    sudo singularity exec --writable ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img mkdir /.roslin/
+    sudo singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
 
-    # copy labels.json to /.roslin/ inside the image
-    sudo singularity copy ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img /tmp/labels.json /.roslin/
+    if [ ! -f /tmp/labels.json ]; then
+       # Dangling Docker images              
+       echo "Did not get labels"
+    fi
+    if [ -f /tmp/labels.json ]; then
+       # copy labels.json to /.roslin/ inside the image
+       sudo cp /tmp/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/
+    fi    
 
-    # delete /tmp/labels.json
-    rm -rf /tmp/labels.json
+    # compress the image and build in non-shared directory 
+    # mmap does not like images being built on a shared directory
+   
+    sudo singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.img /tmp/${tool_name}/${tool_version}/${tool_name} 
+    sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.img ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
+    # delete tmp files
+    sudo rm -rf /tmp/labels.json
+    sudo rm -rf /tmp/${tool_name}
+
 
     # modify roslin_resources.json so that cmo in production can call sing.sh (singularity wrapper)
-    case ${tool_name} in
-        pindel)
-            # pindel needs special treament since pindel container has two executables "pindel" and "pindel2vcf"
-            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json pindel ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel"
-            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json pindel2vcf ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel2vcf"
-            ;;
-        vardict)
-            # vardict needs special treament since vardict container has one R script and one Perl script to be exposed
-            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json vardict ${tool_version} "sing.sh ${tool_name} ${tool_version} vardict"
-
-            # an extra space needed at the end because cmo will append either "testsomatic.R" or "var2vcf_paired.pl"
-            # and we need to make sure it's treated as an argument.
-            # e.g. sing.sh vardict 1.4.6 testsomatic.R
-            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json vardict_bin ${tool_version} "sing.sh ${tool_name} ${tool_version} "
-            ;;
-        vcf2maf)
-            # an extra space needed at the end because cmo will append "vcf2maf.pl"
-            # e.g. sing.sh vcf2maf 1.6.12 vcf2maf.pl
-            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json vcf2maf ${tool_version} "sing.sh ${tool_name} ${tool_version} "
-            ;;
-        roslin)
-            # do nothing
-            ;;
-        *)
-            python ./update_resource_def.py -f ../cwl-wrappers/roslin_resources.json ${tool_name} ${tool_version} "sing.sh ${tool_name} ${tool_version}"
-            ;;
-    esac
+#    case ${tool_name} in
+#        pindel)
+#            # pindel needs special treament since pindel container has two executables "pindel" and "pindel2vcf"
+#            python ./update_resource_def.py -f ../../setup/cwl/roslin_resources.json pindel ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel"
+#            python ./update_resource_def.py -f ../../setup/cwl/roslin_resources.json pindel2vcf ${tool_version} "sing.sh ${tool_name} ${tool_version} pindel2vcf"
+#            ;;
+#        vardict)
+#            # vardict needs special treament since vardict container has one R script and one Perl script to be exposed
+#            python ./update_resource_def.py -f ../../setup/cwl/roslin_resources.json vardict ${tool_version} "sing.sh ${tool_name} ${tool_version} vardict"
+#
+#            # an extra space needed at the end because cmo will append either "testsomatic.R" or "var2vcf_paired.pl"
+#            # and we need to make sure it's treated as an argument.
+#            # e.g. sing.sh vardict 1.4.6 testsomatic.R
+#            python ./update_resource_def.py -f ../../setup/cwl/roslin_resources.json vardict_bin ${tool_version} "sing.sh ${tool_name} ${tool_version} "
+#            ;;
+#        vcf2maf)
+#            # an extra space needed at the end because cmo will append "vcf2maf.pl"
+#            # e.g. sing.sh vcf2maf 1.6.12 vcf2maf.pl
+#            python ./update_resource_def.py -f ../../setup/cwl/roslin_resources.json vcf2maf ${tool_version} "sing.sh ${tool_name} ${tool_version} "
+#            ;;
+#        roslin)
+#            # do nothing
+#            ;;
+#        *)
+#            python ./update_resource_def.py -f ../../setup/cwl/roslin_resources.json ${tool_name} ${tool_version} "sing.sh ${tool_name} ${tool_version}"
+#            ;;
+#    esac
 
 done

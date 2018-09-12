@@ -1,0 +1,51 @@
+Bootstrap: docker
+From: pipeline-delly:0.7.7
+Registry: localhost:5000
+Namespace:
+
+%setup
+
+    # copy settings-container.sh from the host to the container
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+
+%post
+
+    # load the settings-container.sh which was copied in the %setup step
+    . /tmp/settings-container.sh
+    
+    # create an empty directory for each bind point defined
+    for dir in $SINGULARITY_BIND_POINTS
+    do
+        mkdir -p $dir
+    done
+
+    # remove settings-container.sh
+    rm -rf /tmp/settings-container.sh
+
+%runscript
+
+    exec /usr/local/bin/delly "$@"
+
+%test
+
+    # get actual output of the tool
+    /usr/local/bin/delly 2>&1 | head -9 > /tmp/actual.diff.txt
+
+# expected output
+cat > /tmp/expected.diff.txt << EOM
+**********************************************************************
+Program: Delly
+This is free software, and you are welcome to redistribute it under
+certain conditions (GPL); for license details use '-l'.
+This program comes with ABSOLUTELY NO WARRANTY; for details use '-w'.
+
+Delly (Version: 0.7.7)
+Contact: Tobias Rausch (rausch@embl.de)
+**********************************************************************
+EOM
+
+    # diff
+    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+
+    # delete tmp
+    rm -rf /tmp/*.diff.txt
