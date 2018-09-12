@@ -1,6 +1,6 @@
 name: variant
-version: 2.4.0
-description: Roslin Variant Pipeline v2.4.0
+version: 2.4.1
+description: Roslin Variant Pipeline v2.4.1
 root: /ifs/work/pi/roslin-pipelines
 binding:
   core: bin
