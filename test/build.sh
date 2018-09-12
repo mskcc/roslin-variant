@@ -76,16 +76,20 @@ cd $ROSLIN_CORE_BIN_PATH
 printf "\n----------Running Test----------\n"
 cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
 cp $parentDir/test/run-example-sv.sh.template $parentDir/$TestDir/run-example-sv.sh
+cp $parentDir/test/run-pipeline.sh.template $parentDir/$TestDir/run-pipeline.sh
 
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example.sh
+sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-pipeline.sh
 
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example-sv.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example-sv.sh
+sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-pipeline.sh
 
 cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0003
 cp $parentDir/$TestDir/run-example.sh .
 cp $parentDir/$TestDir/run-example-sv.sh .
+cp $parentDir/$TestDir/run-pipeline.sh .
 
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
@@ -107,32 +111,44 @@ function store_test_logs_sv {
     cp stdout.log $parentDir/$TestDir/test_stdout_sv.txt
 }
 
+function store_test_logs_run_pipeline {
+    cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/outputs
+    cd $(ls -d */ | tail -n 1)
+    cd $(ls -d */ | head -n 1)
+    cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
+    cp stdout.log $parentDir/$TestDir/test_stdout_run_pipeline.txt
+}
+
 pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
 pipelineLeaderIdSV=$(./run-example-sv.sh | egrep -o -m 1 '[0-9]{8}')
-printf "project-workflow.cwl pipelineLeaderId: $pipelineLeaderId\nproject-workflow-sv.cwl pipelineLeaderIdSV: $pipelineLeaderIdSV\n"
+pipelineLeaderIdRP=$(./run-pipeline.sh | egrep -o -m 1 '[0-9]{8}')
+printf "project-workflow.cwl pipelineLeaderId: $pipelineLeaderId\nproject-workflow-sv.cwl pipelineLeaderIdSV: $pipelineLeaderIdSV\nRun Pipeline: $pipelineLeaderIdRP\n"
 runningBool=1
 jobTrackBool=1
 jobTrackBoolSV=1
+jobTrackBoolRP=1
 
 while [ $runningBool != 0 ]
 do
     leaderStatus=$(bjobs $pipelineLeaderId | awk '{print $3}' | tail -1)
     leaderStatusSV=$(bjobs $pipelineLeaderIdSV | awk '{print $3}' | tail -1)
+    leaderStatusRP=$(bjobs $pipelineLeaderIdRP | awk '{print $3}' | tail -1)
 
-    printf "Regular: $leaderStatus; SV: $leaderStatusSV\n"
+    printf "Regular: $leaderStatus; SV: $leaderStatusSV; RP: $leaderStatusRP\n"
 
-    if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ]
+    if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ] && [ "$leaderStatusRP" == "DONE" ]
     then
-        printf "Both Jobs Finished Successfully\n"
+        printf "All Jobs Finished Successfully\n"
         store_test_logs
         store_test_logs_sv
+        store_test_logs_run_pipeline
         runningBool=0
     fi
 
     if [ $jobTrackBool != 0 ]
     then
         if [ "$leaderStatus" == "DONE" ] 
-        then 
+        then
             printf "Job Finished Successfully\n"
             store_test_logs
             jobTrackBool=0
@@ -159,25 +175,28 @@ do
         fi
     fi
 
-    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] 
+    if [ $jobTrackBoolRP != 0 ]
     then
-        if [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "EXIT" ]
+        if [ "$leaderStatusRP" == "DONE" ] 
         then
-            printf "Both Jobs Failed\n"
-            store_test_logs
-            store_test_logs_sv
-            exit 1    
-        elif [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "DONE" ]
+            printf "Job RP Finished Successfully\n"
+            store_test_logs_run_pipeline
+            jobTrackBoolRP=0
+        elif [ "$leaderStatusRP" == "EXIT" ]
         then
-            printf "Regular Workflow Failed; SV Workflow Finished Successfully\n"
-            store_test_logs
-            store_test_logs_sv
-            exit 1
-        elif [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "EXIT" ]
+            printf "Job RP Failed\n"
+            store_test_logs_run_pipeline
+            jobTrackBoolRP=0
+        fi
+    fi
+
+    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] && [ $jobTrackBoolRP == 0 ]
+        store_test_logs
+        store_test_logs_sv
+        store_test_logs_run_pipeline
+        if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ] || [ "$leaderStatusRP" == "EXIT" ]
         then
-            printf "Regular Workflow Finished Successfully; SV Workflow Failed\n"
-            store_test_logs
-            store_test_logs_sv
+            printf "One or more jobs failed; check logs\n"
             exit 1
         fi
     fi
