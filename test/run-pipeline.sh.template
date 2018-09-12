@@ -15,5 +15,5 @@ run_pipeline.py \
     --id Proj_DEV_0003 \
     --path . \
     --batch-system singleMachine \
-    --pipeline ${pipeline_name_version}
+    --pipeline ${pipeline_name_version} \
     --input-yaml inputs.yaml
