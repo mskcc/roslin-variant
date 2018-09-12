@@ -74,10 +74,12 @@ cd $ROSLIN_CORE_BIN_PATH
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u jenkins
 # Run test
 printf "\n----------Running Test----------\n"
+printf "Copying from template scripts...\n"
 cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
 cp $parentDir/test/run-example-sv.sh.template $parentDir/$TestDir/run-example-sv.sh
 cp $parentDir/test/run-pipeline.sh.template $parentDir/$TestDir/run-pipeline.sh
 
+printf "Adding pipeline names and versions...\n"
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example.sh
 
@@ -87,6 +89,7 @@ sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-e
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-pipeline.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-pipeline.sh
 
+printf "Moving to test directories...\n"
 cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0003
 cp $parentDir/$TestDir/run-example.sh .
 cp $parentDir/$TestDir/run-example-sv.sh .
@@ -120,6 +123,7 @@ function store_test_logs_run_pipeline {
     cp stdout.log $parentDir/$TestDir/test_stdout_run_pipeline.txt
 }
 
+printf "Monitoring job runs...\n"
 pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
 pipelineLeaderIdSV=$(./run-example-sv.sh | egrep -o -m 1 '[0-9]{8}')
 pipelineLeaderIdRP=$(./run-pipeline.sh | egrep -o -m 1 '[0-9]{8}')
@@ -148,7 +152,7 @@ do
 
     if [ $jobTrackBool != 0 ]
     then
-        if [ "$leaderStatus" == "DONE" ] 
+        if [ "$leaderStatus" == "DONE" ]
         then
             printf "Job Finished Successfully\n"
             store_test_logs
