@@ -25,11 +25,10 @@ roslin_request_to_yaml.py \
     -o . \
     -f inputs.yaml
 
-bsub -q control \
+bsub -q controlR \
     -P ${lsf_proj_name} \
     -J ${job_name} \
     -Jd ${job_desc} \
-    -M 34 \
     -oo ${work_dir}/stdout.log \
     -eo ${work_dir}/stderr.log \
     ${ROSLIN_CORE_BIN_PATH}/run_pipeline.py \
