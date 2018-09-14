@@ -140,7 +140,7 @@ do
     leaderStatusSV=$(bjobs $pipelineLeaderIdSV | awk '{print $3}' | tail -1)
     leaderStatusRP=$(bjobs $pipelineLeaderIdRP | awk '{print $3}' | tail -1)
 
-    printf "Regular: $leaderStatus; SV: $leaderStatusSV\n; RP: $leaderStatusRP\n"
+    printf "Regular: $leaderStatus; SV: $leaderStatusSV; RP: $leaderStatusRP\n"
 
     if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ] && [ "$leaderStatusRP" == "DONE" ]
     then

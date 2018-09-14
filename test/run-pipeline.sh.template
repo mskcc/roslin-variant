@@ -6,12 +6,12 @@ job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 lsf_proj_name="Proj_DEV_0003:${job_uuid}"
 job_name="leader:${lsf_proj_name}"
 job_desc=${job_name}
+
 echo "Roslin core config path: ${ROSLIN_CORE_CONFIG_PATH}"
 source ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh
 
 work_base_dir=${ROSLIN_PIPELINE_OUTPUT_PATH}
 work_dir=${work_base_dir}/`echo ${job_uuid} | cut -c1-8`/${job_uuid}
-curr_dir=`pwd` #TODO: this is needed for --path variable, which creates metadata files... look to remove in the future
 
 echo "Job Info: $job_desc"
 echo "Working Directory: ${work_dir}"
@@ -25,6 +25,13 @@ roslin_request_to_yaml.py \
     -o . \
     -f inputs.yaml
 
+init_project.py \
+    ---pipeline ${pipeline_name_version} \
+    --path . \
+    --id Proj_DEV_0003 \
+    --work-dir ${work_dir} \
+    --job-uuid ${job_uuid}
+
 bsub -q controlR \
     -P ${lsf_proj_name} \
     -J ${job_name} \
@@ -34,7 +41,7 @@ bsub -q controlR \
     ${ROSLIN_CORE_BIN_PATH}/run_pipeline.py \
         --id Proj_DEV_0003 \
         --job-uuid ${job_uuid} \
-        --path ${curr_dir} \
+        --work-dir ${work_dir} \
         --batch-system singleMachine \
         --pipeline ${pipeline_name_version} \
         --input-yaml inputs.yaml
