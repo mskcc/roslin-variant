@@ -48,7 +48,8 @@ def configure_setup_settings(settings):
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
         dependencies_cmo_install_path=os.path.join(
-            settings["dependencies"]["cmo"]["install-path"]
+            settings["dependencies"]["cmo"]["install-path"],
+            settings["dependencies"]["cmo"]["version"]
         ),
         dependencies_cmo_bin_path=os.path.join(
             settings["dependencies"]["cmo"]["install-path"],
