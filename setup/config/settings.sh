@@ -39,3 +39,7 @@ export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 export ROSLIN_CMO_VERSION="1.9.10"
 export ROSLIN_CMO_BIN_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/bin"
 export ROSLIN_CMO_PYTHON_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/lib/python2.7/site-packages"
+
+# toil
+export ROSLIN_TOIL_VERSION="3.15.1a1-MSK"
+export ROSLIN_TOIL_INSTALL_PATH="/ifs/work/pi/roslin-toil/3.15.1a1-MSK/toil/"
