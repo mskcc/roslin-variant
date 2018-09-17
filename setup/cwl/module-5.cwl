@@ -381,7 +381,7 @@ steps:
       clstats1: clstats1
       clstats2: clstats2
       gcbias_files:
-        valueFrom: ${ return "*.gcbiasmetrics";}
+        valueFrom: ${ return "*.hstmetrics";}
       mdmetrics_files:
         valueFrom: ${ return "*.md_metrics";}
       fingerprint_files:
