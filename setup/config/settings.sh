@@ -37,6 +37,7 @@ export ROSLIN_SINGULARITY_PATH="/usr/bin/singularity"
 
 # cmo
 export ROSLIN_CMO_VERSION="1.9.10"
+export ROSLIN_CMO_INSTALL_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/"
 export ROSLIN_CMO_BIN_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/bin"
 export ROSLIN_CMO_PYTHON_PATH="/ifs/work/pi/cmo_package_archive/1.9.10/lib/python2.7/site-packages"
 
