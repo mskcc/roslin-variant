@@ -25,8 +25,9 @@ roslin_request_to_yaml.py \
     -o . \
     -f inputs.yaml
 
+# push project info to db
 init_project.py \
-    ---pipeline ${pipeline_name_version} \
+    --pipeline ${pipeline_name_version} \
     --path . \
     --id Proj_DEV_0003 \
     --work-dir ${work_dir} \
