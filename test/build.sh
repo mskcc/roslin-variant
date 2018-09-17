@@ -201,6 +201,7 @@ do
         store_test_logs
         store_test_logs_sv
         store_test_logs_run_pipeline
+        runningBool=0
         if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ] || [ "$leaderStatusRP" == "EXIT" ]
         then
             printf "One or more jobs failed; check logs\n"
