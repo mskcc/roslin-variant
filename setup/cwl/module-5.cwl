@@ -325,7 +325,7 @@ steps:
       md_metrics_files: md_metrics_files
       trim_metrics_files: trim_metrics_files
       gcbias_files:
-        valueFrom: ${ return "*.gcbiasmetrics";}
+        valueFrom: ${ return "*.hstmetrics";}
       mdmetrics_files:
         valueFrom: ${ return "*.md_metrics";}
       fingerprint_files:
