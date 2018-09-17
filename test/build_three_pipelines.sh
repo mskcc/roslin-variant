@@ -72,38 +72,27 @@ install-pipeline.sh -p $TempDir/$pipeline_name > $parentDir/$TestDir/deploy_stdo
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u jenkins
-
-# Setup virtualenv
-printf "\n----------Setting up virtualenv----------\n"
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
-/opt/common/CentOS_6-dev/python/python-2.7.10/bin/virtualenv virtualenv
-source virtualenv/bin/activate
-export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
-pip install -r $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
-# install toil
-cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
-make prepare
-make develop extras=[cwl]
-# install cmo
-cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
-python setup.py install
-deactivate
-cd $ROSLIN_CORE_BIN_PATH
-
-
 # Run test
 printf "\n----------Running Test----------\n"
 printf "Copying from template scripts...\n"
+cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
+cp $parentDir/test/run-example-sv.sh.template $parentDir/$TestDir/run-example-sv.sh
 cp $parentDir/test/run-pipeline.sh.template $parentDir/$TestDir/run-pipeline.sh
 
 printf "Adding pipeline names and versions...\n"
+sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example.sh
+sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example.sh
+
+sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example-sv.sh
+sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example-sv.sh
+
 sed -i "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-pipeline.sh
 sed -i "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-pipeline.sh
 
 printf "Moving to test directories...\n"
 cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0003
+cp $parentDir/$TestDir/run-example.sh .
+cp $parentDir/$TestDir/run-example-sv.sh .
 cp $parentDir/$TestDir/run-pipeline.sh .
 
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
@@ -135,23 +124,61 @@ function store_test_logs_run_pipeline {
 }
 
 printf "Monitoring job runs...\n"
+pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
+pipelineLeaderIdSV=$(./run-example-sv.sh | egrep -o -m 1 '[0-9]{8}')
 pipelineLeaderIdRP=$(./run-pipeline.sh | egrep -o -m 1 '[0-9]{8}')
 
-printf "Run Pipeline: $pipelineLeaderIdRP\n"
+printf "project-workflow.cwl pipelineLeaderId: $pipelineLeaderId\nproject-workflow-sv.cwl pipelineLeaderIdSV: $pipelineLeaderIdSV\nRun Pipeline: $pipelineLeaderIdRP\n"
 runningBool=1
+jobTrackBool=1
+jobTrackBoolSV=1
 jobTrackBoolRP=1
 
 while [ $runningBool != 0 ]
 do
+    leaderStatus=$(bjobs $pipelineLeaderId | awk '{print $3}' | tail -1)
+    leaderStatusSV=$(bjobs $pipelineLeaderIdSV | awk '{print $3}' | tail -1)
     leaderStatusRP=$(bjobs $pipelineLeaderIdRP | awk '{print $3}' | tail -1)
 
-    printf "RP: $leaderStatusRP\n"
+    printf "Regular: $leaderStatus; SV: $leaderStatusSV; RP: $leaderStatusRP\n"
 
-    if [ "$leaderStatusRP" == "DONE" ]
+    if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ] && [ "$leaderStatusRP" == "DONE" ]
     then
         printf "All Jobs Finished Successfully\n"
+        store_test_logs
+        store_test_logs_sv
         store_test_logs_run_pipeline
         runningBool=0
+    fi
+
+    if [ $jobTrackBool != 0 ]
+    then
+        if [ "$leaderStatus" == "DONE" ]
+        then
+            printf "Job Finished Successfully\n"
+            store_test_logs
+            jobTrackBool=0
+        elif [ "$leaderStatus" == "EXIT" ] 
+        then
+            printf "Job Failed\n"
+            store_test_logs
+            jobTrackBool=0
+        fi
+    fi
+
+    if [ $jobTrackBoolSV != 0 ]
+    then
+        if [ "$leaderStatusSV" == "DONE" ] 
+        then
+            printf "Job SV Finished Successfully\n"
+            store_test_logs_sv
+            jobTrackBoolSV=0
+        elif [ "$leaderStatusSV" == "EXIT" ]
+        then
+            printf "Job SV Failed\n"
+            store_test_logs_sv
+            jobTrackBoolSV=0
+        fi
     fi
 
     if [ $jobTrackBoolRP != 0 ]
@@ -169,11 +196,13 @@ do
         fi
     fi
 
-    if [ $jobTrackBoolRP == 0 ]
+    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] && [ $jobTrackBoolRP == 0 ]
     then
+        store_test_logs
+        store_test_logs_sv
         store_test_logs_run_pipeline
         runningBool=0
-        if [ "$leaderStatusRP" == "EXIT" ]
+        if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ] || [ "$leaderStatusRP" == "EXIT" ]
         then
             printf "One or more jobs failed; check logs\n"
             exit 1
