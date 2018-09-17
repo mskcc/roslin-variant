@@ -47,6 +47,9 @@ def configure_setup_settings(settings):
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
+        dependencies_cmo_install_path=os.path.join(
+            settings["dependencies"]["cmo"]["install-path"]
+        ),
         dependencies_cmo_bin_path=os.path.join(
             settings["dependencies"]["cmo"]["install-path"],
             settings["dependencies"]["cmo"]["version"],
@@ -58,9 +61,7 @@ def configure_setup_settings(settings):
             "lib/python2.7/site-packages"
         ),
         dependencies_toil_version=settings["dependencies"]["toil"]["version"],
-        dependencies_toil_install_path=os.path.join(
-            settings["dependencies"]["toil"]["install-path"]
-        )
+        dependencies_toil_install_path=settings["dependencies"]["toil"]["install-path"] 
     )
 
     write_to_disk("/vagrant/setup/config/settings.sh", content)
