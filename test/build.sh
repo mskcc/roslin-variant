@@ -81,17 +81,19 @@ source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
 pip install -r $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
 # install toil
+printf "Installing toil..."
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
 make prepare
 make develop extras=[cwl]
 # install cmo
+printf "Installing cmo..."
 cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
 python setup.py install
 #deactivate
+printf "Moving cwd to $ROSLIN_CORE_BIN_PATH"
 cd $ROSLIN_CORE_BIN_PATH
-
 
 # Run test
 printf "\n----------Running Test----------\n"
