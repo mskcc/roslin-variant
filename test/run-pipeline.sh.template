@@ -45,4 +45,4 @@ bsub -q controlR \
         --work-dir ${work_dir} \
         --batch-system singleMachine \
         --pipeline ${pipeline_name_version} \
-        --input-yaml inputs.yaml
+        --input-yaml ${work_dir}/inputs.yaml
