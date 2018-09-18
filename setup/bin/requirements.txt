@@ -38,6 +38,7 @@ PyVCF==0.6.8
 PyYAML==3.12
 rdflib==4.2.2
 rdflib-jsonld==0.4.0
+redis==2.10.6
 requests==2.18.4
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.14.12
