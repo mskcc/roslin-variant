@@ -122,6 +122,8 @@ inputs:
           type:
             type: array
             items: string
+        facets_pcval: int
+        facets_cval: int
 
 outputs:
 
@@ -181,13 +183,21 @@ outputs:
       items: 
         type: array
         items: string
+  facets_pcval:
+    type:
+      type: array
+      items: int
+  facets_cval: 
+    type:
+      type: array
+      items: int
 
 expression: '${
 var samples = {};
 var sample_beds =[];
 var flattened_bams = [];
 var extra_stuff = {};
-var keys_of_interest=["cosmic_inputs", "refseq", "dbsnp_inputs", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data"];
+var keys_of_interest=["cosmic_inputs", "refseq", "dbsnp_inputs", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data", "facets_pcval", "facets_cval"];
 for (var i = 0; i < inputs.bams.length; i++) {
     for (var j = 0; j < inputs.bams[i].length; j++) {
         flattened_bams.push(inputs.bams[i][j]);

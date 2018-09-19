@@ -138,6 +138,7 @@ inputs:
           type:
             type: array
             items: string
+        abra_ram_min: int
   samples:
     type:
       type: array
@@ -193,7 +194,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [r1, r2, adapter, adapter2, bwa_output, lb, pl, rg_id, pu, id, cn, genome, tmp_dir, abra_scratch, abra_ram_min, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, abra_ram_min, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string, conpair_markers, conpair_markers_bed]
 
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
