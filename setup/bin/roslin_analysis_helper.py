@@ -63,7 +63,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
 def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
-    fusion_files_query = os.path.join(fusion_directory,'*.vep.portal.txt')
+    fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
     combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_path = os.path.join(output_directory,combined_output)
     output_path = os.path.join(output_directory,data_filename)
@@ -253,6 +253,7 @@ def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id
 def create_data_clinical_files_new_format(data_clinical_file):
     samples_file_txt = ""
     patients_file_txt = ""
+
     with open(data_clinical_file, 'rb') as f:
         reader = csv.DictReader(f, delimiter='\t')
         data = list(reader)
@@ -350,7 +351,9 @@ def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
     subdirs = stable_id.split("_")
     first_dir = subdirs[1]
     second_dir = subdirs[2]
-    project_name = re.sub(r'^Proj_', '', project_name)
+    # Ideally we want to remove the Proj_ prefix, but need to add a 'p' prefix instead so that we
+    # hide it from BIC's scripts that look for duplicate projects uploaded to the mercurial repo
+    project_name = re.sub(r'^Proj_', 'p', project_name)
     full_path = os.path.join(mercurial_path, first_dir, second_dir, project_name)
     logger.info("Creating directories in mercurial repo: %s" % full_path)
     return full_path
