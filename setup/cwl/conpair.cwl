@@ -46,50 +46,54 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
-
   db_files:
     type:
       type: record
       fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
+        bait_intervals: File
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
         hotspot_list: File
         hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: string
-        bait_intervals: File
         target_intervals: File
         fp_intervals: File
+        fp_genotypes: File
         grouping_file: File
         request_file: File
         pairing_file: File
+        conpair_markers: File
+        conpair_markers_bed: File
+  hapmap:
+    type: File
+    secondaryFiles:
+      - .idx
+  dbsnp:
+    type: File
+    secondaryFiles:
+      - .idx
+  indels_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  snps_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  cosmic:
+    type: File
+    secondaryFiles:
+      - .idx
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
+  curated_bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
   bams:
     type:
       type: array
