@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/targeted-variants/326/roslin-core/2.0.5/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -43,7 +43,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: module-5
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -90,61 +89,60 @@ inputs:
           type: array
           items: File
 
-
 outputs:
 
   as_metrics:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/as_metrics_files
   hs_metrics:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/hs_metrics_files
   insert_metrics:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/is_metrics
   insert_pdf:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/is_hist
   per_target_coverage:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/per_target_coverage
   qual_metrics:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/qual_metrics
   qual_pdf:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/qual_pdf
   doc_basecounts:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/doc_basecounts
   gcbias_pdf:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_pdf
   gcbias_metrics:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_metrics_files
   gcbias_summary:
-    type:
+    type: 
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_summary
@@ -153,8 +151,6 @@ outputs:
       type: array
       items: File
     outputSource: generate_pdf/qc_files
-
-
 
 steps:
 
@@ -195,7 +191,7 @@ steps:
           outputSource: hs_metrics/out_file
         per_target_coverage:
           type: File
-          outputSource: hs_metrics/per_target_out
+          outputSource: hst_metrics/per_target_out
         is_metrics:
           type: File
           outputSource: insert_metrics/is_file
@@ -232,11 +228,25 @@ steps:
             R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
-#            PER_TARGET_COVERAGE:
-#              valueFrom: ${ return inputs.I.basename.replace(".bam", ".per_target.hsmetrics")}
             LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];}
+              valueFrom: ${ return ["null", "SAMPLE"];} 
           out: [out_file, per_target_out]
+
+        hst_metrics:
+          run: cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+          in:
+            BI: bait_intervals
+            TI: target_intervals
+            I: bam
+            R: genome
+            O:
+              valueFrom: ${ return "all_reads_hsmerics_dump.txt"; }
+            PER_TARGET_COVERAGE:
+              valueFrom: ${ return inputs.I.basename.replace(".bam", ".hstmetrics")}
+            LEVEL:
+              valueFrom: ${ return ["ALL_READS"];}
+          out: [per_target_out]
+
         insert_metrics:
           run: cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
@@ -295,14 +305,14 @@ steps:
           out: [out_file]
 
   generate_pdf:
-    run: cmo-qcpdf/0.5.10/cmo-qcpdf.cwl
+    run: cmo-qcpdf/0.5.11/cmo-qcpdf.cwl
     in:
       files: scatter_metrics/as_metrics_files
       md_metrics_files: md_metrics_files
       clstats1: clstats1
       clstats2: clstats2
       gcbias_files:
-        valueFrom: ${ return "*.gcbiasmetrics";}
+        valueFrom: ${ return "*.hstmetrics";}
       mdmetrics_files:
         valueFrom: ${ return "*.md_metrics";}
       fingerprint_files:

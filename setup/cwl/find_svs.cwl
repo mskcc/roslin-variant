@@ -54,53 +54,56 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+
   db_files:
     type:
       type: record
       fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
+        bait_intervals: File
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
         hotspot_list: File
         hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: string 
-        bait_intervals: File
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
-        conpair_markers: File
-        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
+        conpair_markers: File
+        conpair_markers_bed: File
 
+  hapmap:
+    type: File
+    secondaryFiles:
+      - .idx
+  dbsnp:
+    type: File
+    secondaryFiles:
+      - .idx
+  indels_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  snps_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  cosmic:
+    type: File
+    secondaryFiles:
+      - .idx
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
+  curated_bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
   groups:
     type:
       type: array
@@ -193,6 +196,11 @@ steps:
       bams: bams
       pairs: pairs
       db_files: db_files
+      dbsnp_inputs: dbsnp
+      hapmap_inputs: hapmap
+      cosmic_inputs: cosmic
+      snps_1000g_inputs: snps_1000g
+      indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: covint_bed
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, delly_type ]

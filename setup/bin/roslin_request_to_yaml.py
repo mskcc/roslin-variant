@@ -110,7 +110,7 @@ def get_curated_bams(assay,REQUEST_FILES):
         json_curated_bams = REQUEST_FILES['curated_bams']['IDT_Exome_v1_FP_b37']
     array = []
     for bam in json_curated_bams:
-        array.append(str(bam))
+        array.append({'class': 'File', 'path': str(bam)})
     return array
 
 
