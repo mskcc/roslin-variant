@@ -54,54 +54,55 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+
   db_files:
     type:
       type: record
       fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
+        bait_intervals: File
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
         hotspot_list: File
         hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: File
-          secondaryFiles:
-              - ^.bai
-        bait_intervals: File
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
-        conpair_markers: File
-        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
+        conpair_markers: File
+        conpair_markers_bed: File
+  hapmap:
+    type: File
+    secondaryFiles:
+      - .idx
+  dbsnp:
+    type: File
+    secondaryFiles:
+      - .idx
+  indels_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  snps_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  cosmic:
+    type: File
+    secondaryFiles:
+      - .idx
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
+  curated_bams:
+    type:
+      type: array
+      items: File
+    secondaryFiles:
+      - ^.bai
 
   groups:
     type:
@@ -131,8 +132,13 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        delly_type:
+          type:
+            type: array
+            items: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
 
   samples:
     type:
@@ -180,20 +186,29 @@ outputs:
 
   # maf
   maf:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: filter/maf
 
 steps:
 
   projparse:
-    run: parse-project-yaml-input/1.0.1/parse-project-yaml-input.cwl
+    run: parse-project-yaml-input/1.0.2/parse-project-yaml-input.cwl
     in:
       db_files: db_files
+      hapmap_inputs: hapmap
+      dbsnp_inputs: dbsnp
+      indels_1000g_inputs: indels_1000g
+      snps_1000g_inputs: snps_1000g
+      exac_filter_inputs: exac_filter
+      curated_bams_inputs: curated_bams
+      cosmic_inputs: cosmic
       groups: groups
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, abra_ram_min, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
@@ -201,9 +216,14 @@ steps:
       bams: bams
       pairs: pairs
       db_files: db_files
+      dbsnp_inputs: dbsnp
+      hapmap_inputs: hapmap
+      cosmic_inputs: cosmic
+      snps_1000g_inputs: snps_1000g
+      indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, delly_type ]
 
   parse_pairs:
     run: parse-pairs-and-vcfs/2.0.0/parse-pairs-and-vcfs.cwl

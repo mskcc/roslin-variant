@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///ifs/work/pi/roslin-test/roslin-core/1.0.0/schemas/dcterms.rdf
+- file:///ifs/work/pi/roslin-test/roslin-core/1.0.0/schemas/foaf.rdf
+- file:///ifs/work/pi/roslin-test/roslin-core/1.0.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+label: flatten-array-fastq
 requirements:
   - class: InlineJavascriptRequirement
 

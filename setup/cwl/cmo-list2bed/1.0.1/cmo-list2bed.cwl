@@ -38,11 +38,12 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_list2bed]
+label: cmo_list2bed
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 2
+    ramMin: 2000
     coresMin: 1
 
 doc: |

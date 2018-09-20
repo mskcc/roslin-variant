@@ -41,18 +41,21 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_qcpdf
-- --version
-- 0.5.10
+baseCommand: [cmo_qcpdf]
+label: cmo-qcpdf
+
 arguments:
-- prefix: --globdir
-  valueFrom: ${ return runtime.outdir; }
+- valueFrom: "0.5.10"
+  prefix: --version
+  position: 0
+- valueFrom: ${ return runtime.outdir; }
+  prefix: --globdir
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4
+    ramMin: 4000
     coresMin: 1
 
 
@@ -66,16 +69,22 @@ inputs:
       items:
         type: array
         items: File
-  trim_metrics_files:
+  clstats1:
     type:
       type: array
       items:
         type: array
         items:
           type: array
-          items:
-            type: array
-            items: File
+          items: File
+  clstats1:
+    type:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items: File
   files:
     type:
       type: array

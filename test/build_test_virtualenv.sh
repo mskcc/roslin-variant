@@ -22,7 +22,7 @@ sed -i '$ d' ../Vagrantfile_test
 installDir=/ifs/work/pi/roslin-test/targeted-variants/$BUILD_NUMBER
 coreDir=$installDir/roslin-core
 sed -i "s|/ifs/work/pi/roslin-pipelines|${installDir}/roslin-pipelines|g" ../config.variant.yaml
-printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend" "$BUILD_NUMBER" >> ../Vagrantfile_test
+printf "  config.vm.provision \"shell\", run: \"always\", path: \"./test/build-images-and-cwl.sh\", args: \"%s\", privileged: false\nend\n" "$BUILD_NUMBER" >> ../Vagrantfile_test
 ## set vagrant path correctly
 currentDir=$PWD
 parentDir="$(dirname "$currentDir")"
@@ -31,8 +31,7 @@ export VAGRANT_VAGRANTFILE=Vagrantfile_test
 # Set tmp and test directory
 export TMPDIR="/srv/scratch/"
 export TMP="/srv/scratch/"
-# Estimated walltime <60min allows jobs in short queue i.e. much less time in PEND state
-export TOIL_LSF_ARGS='-S 1 -We 0:59'
+export TOIL_LSF_ARGS='-S 1'
 TempDir=/srv/scratch/$BUILD_NUMBER
 TestDir=test_output/$BUILD_NUMBER
 # Start vagrant to build the pipeline
@@ -46,12 +45,12 @@ exit 1
 fi
 printf "\n----------Setting up workspace----------\n"
 # Create the test dir where the pipeline will be installed
-mkdir $installDir
-mkdir $coreDir
+mkdir -p $installDir
+mkdir -p $coreDir
 printf "\n----------Installing Core----------\n"
 source core/config/settings.sh
 # Set test specific core
-sed -i 's|'${ROSLIN_CORE_ROOT}'|'${coreDir}'|g' core/config/settings.sh
+sed -i "s|${ROSLIN_CORE_ROOT}|${coreDir}|g" core/config/settings.sh
 # Load roslin core and pipeline
 source core/config/settings.sh
 source setup/config/settings.sh
@@ -73,6 +72,7 @@ install-pipeline.sh -p $TempDir/$pipeline_name > $parentDir/$TestDir/deploy_stdo
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u jenkins
+
 # Setup virtualenv
 printf "\n----------Setting up virtualenv----------\n"
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
@@ -81,17 +81,22 @@ source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
 pip install -r $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
 # install toil
+printf "Installing toil..."
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
 make prepare
 make develop extras=[cwl]
 # install cmo
+printf "Installing cmo..."
 cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
 python setup.py install
-deactivate
+#deactivate
+printf "Moving cwd to $ROSLIN_CORE_BIN_PATH"
 cd $ROSLIN_CORE_BIN_PATH
+
 # Run test
+printf "\n----------Running Test----------\n"
 printf "Copying from template scripts...\n"
 cp $parentDir/test/run-pipeline.sh.template $parentDir/$TestDir/run-pipeline.sh
 
@@ -107,6 +112,21 @@ export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+function store_test_logs {
+    cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/outputs
+    cd $(ls -d */|head -n 1)
+    cd $(ls -d */|head -n 1)
+    cp stderr.log $parentDir/$TestDir/test_stderr.txt
+    cp stdout.log $parentDir/$TestDir/test_stdout.txt
+}
+
+function store_test_logs_sv {
+    cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/outputs
+    cd $(ls -d */ | tail -n 1)
+    cd $(ls -d */ | head -n 1)
+    cp stderr.log $parentDir/$TestDir/test_stderr_sv.txt
+    cp stdout.log $parentDir/$TestDir/test_stdout_sv.txt
+}
 
 function store_test_logs_run_pipeline {
     cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/outputs
@@ -116,6 +136,7 @@ function store_test_logs_run_pipeline {
     cp stdout.log $parentDir/$TestDir/test_stdout_run_pipeline.txt
 }
 
+printf "Monitoring job runs...\n"
 pipelineLeaderIdRP=$(./run-pipeline.sh | egrep -o -m 1 '[0-9]{8}')
 
 printf "Run Pipeline: $pipelineLeaderIdRP\n"
@@ -162,3 +183,5 @@ do
     fi
     sleep 2m
 done
+
+deactivate

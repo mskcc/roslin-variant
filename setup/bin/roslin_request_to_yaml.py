@@ -110,7 +110,7 @@ def get_curated_bams(assay,REQUEST_FILES):
         json_curated_bams = REQUEST_FILES['curated_bams']['IDT_Exome_v1_FP_b37']
     array = []
     for bam in json_curated_bams:
-        array.append(str(bam))
+        array.append({'class': 'File', 'path': str(bam)})
     return array
 
 
@@ -247,15 +247,8 @@ if __name__ == "__main__":
         'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
         'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
         'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
-        'hapmap': {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])}, 
-        'dbsnp': {'class': 'File', 'path': str(REQUEST_FILES['dbsnp'])},
-        'indels_1000g': {'class': 'File', 'path': str(REQUEST_FILES['indels_1000g'])}, 
-        'snps_1000g': {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
-        'cosmic': {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
-        'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},
-        'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
+        'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},        
         'vep_data': str(REQUEST_FILES['vep_data']),
-        'curated_bams': curated_bams,
         'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
         'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
         'ref_fasta':  str(REQUEST_FILES['ref_fasta']),
@@ -309,7 +302,14 @@ if __name__ == "__main__":
         "samples": sample_list,
         "pairs": pairing_dict,
         "groups": grouping_dict.values(),
-        "db_files": files,
+        "curated_bams": curated_bams,
+        "hapmap": {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])},
+        "dbsnp": {'class': 'File', 'path': str(REQUEST_FILES['dbsnp'])},
+        "indels_1000g": {'class': 'File', 'path': str(REQUEST_FILES['indels_1000g'])},
+        "snps_1000g": {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
+        "cosmic": {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
+        'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
+        "db_files": files
     }
     params = {
         "abra_scratch": "/scratch/roslin/",

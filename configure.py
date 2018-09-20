@@ -3,6 +3,7 @@
 import os, sys
 import ruamel.yaml
 from jinja2 import Template
+import copy
 
 
 def read_from_disk(filename):
@@ -27,8 +28,38 @@ def get_template(filename):
     with open(filename) as template_file:
         return Template(template_file.read())
 
+def get_deduplicated_binding_points(settings):
 
-def configure_setup_settings(settings):
+    binding_points = [
+        os.path.join(settings["root"], settings["binding"]["core"]),
+        os.path.join(settings["root"], settings["binding"]["data"]),
+        os.path.join(settings["root"], settings["binding"]["output"]),
+        os.path.join(settings["root"], settings["binding"]["workspace"])
+    ]
+
+    for extra in settings["binding"]["extra"]:
+        binding_points.append(os.path.join(settings["root"], extra))
+
+    template = get_template("/vagrant/build/scripts/settings-container.template.sh")
+
+    # remove duplicate binding points
+
+    filtered_binding_point_list = copy.copy(binding_points)
+
+    for single_binding_point in binding_points:
+        for other_binding_point in binding_points:
+            first_binding_point  = os.path.realpath(single_binding_point)
+            second_binding_point = os.path.realpath(other_binding_point)
+            if first_binding_point != second_binding_point:
+                relative_path = os.path.relpath(first_binding_point,second_binding_point)
+                if os.pardir not in relative_path:
+                    if single_binding_point in filtered_binding_point_list:
+                        filtered_binding_point_list.remove(single_binding_point)
+
+    return filtered_binding_point_list
+
+
+def configure_setup_settings(settings,filtered_binding_point_list):
     "make /setup/config/settings.sh"
 
     template = get_template("/vagrant/setup/config/settings.template.sh")
@@ -46,23 +77,21 @@ def configure_setup_settings(settings):
         binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
+        binding_deduplicated=" ".join(filtered_binding_point_list)
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
-        dependencies_cmo_bin_path=os.path.join(
-            settings["dependencies"]["cmo"]["install-path"],
-            settings["dependencies"]["cmo"]["version"],
-            "bin"
+        dependencies_cmo_install_path=os.path.join(
+            settings["dependencies"]["cmo"]["install-path"]
         ),
-        dependencies_cmo_python_path=os.path.join(
-            settings["dependencies"]["cmo"]["install-path"],
-            settings["dependencies"]["cmo"]["version"],
-            "lib/python2.7/site-packages"
-        )
+        dependencies_toil_version=settings["dependencies"]["toil"]["version"],
+        dependencies_toil_install_path=os.path.join(
+            settings["dependencies"]["toil"]["install-path"]
+        ),
+        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
     )
 
     write_to_disk("/vagrant/setup/config/settings.sh", content)
 
-
-def configure_build_settings(settings):
+def configure_build_settings(settings,filtered_binding_point_list):
     "make /build/scripts/settings.sh"
 
     template = get_template("/vagrant/build/scripts/settings-build.template.sh")
@@ -76,21 +105,9 @@ def configure_build_settings(settings):
 
     # ------------2
 
-    binding_points = [
-        os.path.join(settings["root"], settings["binding"]["core"]),
-        os.path.join(settings["root"], settings["binding"]["data"]),
-        os.path.join(settings["root"], settings["binding"]["output"]),
-        os.path.join(settings["root"], settings["binding"]["workspace"])
-    ]
-
-    for extra in settings["binding"]["extra"]:
-        binding_points.append(os.path.join(settings["root"], extra))
-
-    template = get_template("/vagrant/build/scripts/settings-container.template.sh")
-
     # render
     content = template.render(
-        binding_points=" ".join(binding_points)  # to space-separated list
+        binding_points=" ".join(filtered_binding_point_list)  # to space-separated list
     )
 
     write_to_disk("/vagrant/build/scripts/settings-container.sh", content)
@@ -108,9 +125,11 @@ def main():
         ruamel.yaml.RoundTripLoader
     )
 
-    configure_setup_settings(settings)
+    filtered_binding_point_list = get_deduplicated_binding_points(settings)
 
-    configure_build_settings(settings)
+    configure_setup_settings(settings,filtered_binding_point_list)
+
+    configure_build_settings(settings,filtered_binding_point_list)
 
 
 if __name__ == "__main__":

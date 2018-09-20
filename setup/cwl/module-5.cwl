@@ -52,54 +52,6 @@ requirements:
 
 inputs:
 
-  db_files:
-    type:
-      type: record
-      fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
-        refseq: File
-        ref_fasta: string
-        vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
-        hotspot_list: File
-        hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: File
-          secondaryFiles:
-              - ^.bai
-        bait_intervals: File
-        target_intervals: File
-        fp_intervals: File
-        fp_genotypes: File
-        conpair_markers: File
-        conpair_markers_bed: File
-        grouping_file: File
-        request_file: File
-        pairing_file: File
   bams:
     type:
       type: array
@@ -120,50 +72,84 @@ inputs:
       items:
         type: array
         items: File
-  trim_metrics_files:
+  clstats1:
     type:
       type: array
       items:
         type: array
-        items: File
+        items:
+          type: array
+          items: File
+  clstats2:
+    type:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items: File
 
 outputs:
 
   as_metrics:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/as_metrics_files
   hs_metrics:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/hs_metrics_files
   insert_metrics:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/is_metrics
   insert_pdf:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/is_hist
   per_target_coverage:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/per_target_coverage
   qual_metrics:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/qual_metrics
   qual_pdf:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/qual_pdf
   doc_basecounts:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/doc_basecounts
   gcbias_pdf:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/gcbias_pdf
   gcbias_metrics:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/gcbias_metrics_files
   gcbias_summary:
-    type: File
+    type: 
+      type: array
+      items: File
     outputSource: scatter_metrics/gcbias_summary
   qc_files:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: generate_pdf/qc_files
 
 steps:
@@ -323,7 +309,8 @@ steps:
     in:
       files: scatter_metrics/as_metrics_files
       md_metrics_files: md_metrics_files
-      trim_metrics_files: trim_metrics_files
+      clstats1: clstats1
+      clstats2: clstats2
       gcbias_files:
         valueFrom: ${ return "*.hstmetrics";}
       mdmetrics_files:
