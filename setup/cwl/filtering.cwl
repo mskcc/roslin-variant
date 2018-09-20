@@ -132,8 +132,13 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        delly_type:
+          type:
+            type: array
+            items: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
 
   samples:
     type:
@@ -181,7 +186,9 @@ outputs:
 
   # maf
   maf:
-    type: File
+    type:
+      type: array
+      items: File
     outputSource: filter/maf
 
 steps:

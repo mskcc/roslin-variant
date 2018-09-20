@@ -302,7 +302,9 @@ outputs:
       type: array
       items:
         type: array
-        items: string
+        items: File
+    secondaryFiles:
+      - ^.bai
   hotspot_list:
     type:
       type: array

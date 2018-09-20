@@ -217,11 +217,11 @@ for (var i = 0; i < flattened_bams.length; i++) {
         }
         if(key in inputs) {
           var new_key = key.slice(0, -7);
-            if (!(key in extra_stuff)) {
+          if (!(new_key in extra_stuff)) {
                  extra_stuff[new_key]=[inputs[key]];
-            }else{
-                 extra_stuff[new_key].push(inputs[key]);
-            }
+          }else{
+               extra_stuff[new_key].push(inputs[key]);
+          }
         }
         if(key in inputs.db_files) {
             if (!(key in extra_stuff)) {
