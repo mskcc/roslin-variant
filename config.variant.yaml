@@ -1,6 +1,6 @@
 name: variant
-version: 2.2.2
-description: Roslin Variant Pipeline v2.2.2
+version: 2.4.1
+description: Roslin Variant Pipeline v2.5.0
 root: /ifs/work/pi/roslin-pipelines
 binding:
   core: bin
@@ -13,14 +13,11 @@ binding:
 dependencies:
   core:
     version:
-      min: 2.0.3
-      max: 2.0.3
+      min: 2.0.5
+      max: 2.0.5
   cmo:
-    version: 1.9.9
-    install-path: /ifs/work/pi/roslin-cmo/1.9.9/cmo/
+    version: 1.9.10
+    install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo
   toil:
     version: 3.15.1a1-MSK
     install-path: /ifs/work/pi/roslin-toil/3.15.1a1-MSK/toil/
-  singularity:
-    version: 2.5.1
-    install-path: /opt/common/CentOS_6-dev/singularity/singularity-2.5.1/bin/singularity
