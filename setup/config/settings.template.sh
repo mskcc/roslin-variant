@@ -40,6 +40,9 @@ export ROSLIN_SINGULARITY_PATH="{{ dependencies_singularity_install_path }}"
 # cmo
 export ROSLIN_CMO_VERSION="{{ dependencies_cmo_version }}"
 export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
+export ROSLIN_CMO_BIN_PATH="{{ dependencies_cmo_bin_path }}"
+export ROSLIN_CMO_PYTHON_PATH="{{ dependencies_cmo_python_path }}"
+
 # toil
 export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
 export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
