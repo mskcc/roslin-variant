@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+label: facets
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -53,8 +54,6 @@ inputs:
     tumor_bam: File
     tumor_sample_name: string 
     genome: string
-    facets_pcval: int
-    facets_cval: int
 
 outputs:
 
@@ -63,11 +62,11 @@ outputs:
     outputSource: facets/png_files
 
   facets_txt_output_purity:
-    type: File[]
+    type: File
     outputSource: facets/txt_files_purity
 
   facets_txt_output_hisens:
-    type: File[]
+    type: File
     outputSource: facets/txt_files_hisens
 
   facets_out_output:
@@ -83,7 +82,7 @@ outputs:
     outputSource: facets/seg_files
 
   facets_counts_output:
-    type: File[]
+    type: File
     outputSource: snp_pileup/out_file
 
 steps:
@@ -113,8 +112,10 @@ steps:
         valueFrom: ${ return inputs.counts_file.basename.replace(".dat.gz", ""); }
       directory:
         default: "."
-      purity_cval: facets_pcval 
-      cval: facets_cval
+      purity_cval:
+        valueFrom: ${ return 100; }
+      cval:
+        valueFrom: ${ return 50; }
       tumor_id: tumor_sample_name
     out: [png_files, txt_files_purity, txt_files_hisens, out_files, rdata_files, seg_files]
     run: cmo-facets.doFacets/1.5.6/cmo-facets.doFacets.cwl

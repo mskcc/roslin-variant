@@ -43,6 +43,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+label: parse-pairs-and-vcfs
 requirements:
   - class: InlineJavascriptRequirement
 
@@ -83,7 +84,9 @@ inputs:
       type: array
       items:
         type: array
-        items: string
+        items: File
+    secondaryFiles:
+      - ^.bai
   hotspot_list:
      type:
        type: array
@@ -121,7 +124,7 @@ outputs:
   srt_curated_bams:
      type:
        type: array
-       items: string
+       items: File
   srt_hotspot_list: File
 
 expression: '${var bams= [];

@@ -14,7 +14,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-vcf2maf
-  doap:revision: 1.6.15
+  doap:revision: 1.6.16
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -46,7 +46,7 @@ baseCommand: [cmo_vcf2maf]
 label: cmo-vcf2maf
 
 arguments:
-- valueFrom: "1.6.15"
+- valueFrom: "1.6.16"
   prefix: --version
   position: 0
 
@@ -165,15 +165,15 @@ inputs:
       prefix: --vcf-normal-id
 
   vep_path:
-    type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/v86
-    doc: Folder containing variant_effect_predictor.pl or vep binary
-    inputBinding:
-      prefix: --vep-path
+   type: ['null', string]
+   default: /opt/common/CentOS_6-dev/vep/v86
+   doc: Folder containing variant_effect_predictor.pl or vep binary
+   inputBinding:
+     prefix: --vep-path
 
   vep_data:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/cache
+    default: /opt/common/CentOS_6-dev/vep/v86
     doc: VEP's base cache/plugin directory
     inputBinding:
       prefix: --vep-data

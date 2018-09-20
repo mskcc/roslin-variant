@@ -58,39 +58,11 @@ inputs:
     type:
       type: record
       fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
         hotspot_list: File
         hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: string
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
@@ -167,40 +139,40 @@ outputs:
 
   # qc
   as_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/as_metrics
   hs_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/hs_metrics
   insert_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/insert_metrics
   insert_pdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/insert_pdf
   per_target_coverage:
-    type: File
+    type: File[]
     outputSource: gather_metrics/per_target_coverage
   qual_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/qual_metrics
   qual_pdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/qual_pdf
   doc_basecounts:
-    type: File
+    type: File[]
     outputSource: gather_metrics/doc_basecounts
   gcbias_pdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/gcbias_pdf
   gcbias_metrics:
-    type: File
+    type: File[]
     outputSource: gather_metrics/gcbias_metrics
   gcbias_summary:
-    type: File
+    type: File[]
     outputSource: gather_metrics/gcbias_summary
   qcpdf:
-    type: File
+    type: File[]
     outputSource: gather_metrics/qc_files
 
 steps:
@@ -224,7 +196,8 @@ steps:
       fp_genotypes:
         valueFrom: ${ return inputs.db_files.fp_genotypes; }
       md_metrics_files: md_metrics
-      trim_metrics_files: [ clstats1, clstats2 ]
+      clstats1: clstats1
+      clstats2: clstats2
       project_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
       grouping_file:

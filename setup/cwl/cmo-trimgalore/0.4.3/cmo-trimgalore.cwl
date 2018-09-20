@@ -42,11 +42,12 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_trimgalore]
+label: cmo-trimgalore
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 12
+    ramMin: 12000
     coresMin: 1
 
 doc: |
