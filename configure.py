@@ -78,6 +78,7 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
         binding_deduplicated=" ".join(filtered_binding_point_list)
+
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"]
         dependencies_cmo_install_path=os.path.join(
             settings["dependencies"]["cmo"]["install-path"]
