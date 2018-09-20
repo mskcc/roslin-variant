@@ -1,10 +1,10 @@
-FROM alpine:3.8
+FROM alpine:3.5
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.trimgalore="0.4.3" \
       version.cutadapt="1.12" \
-      version.alpine="3.8" \
+      version.alpine="3.5.x" \
       source.trimgalore="https://github.com/FelixKrueger/TrimGalore/releases/tag/0.4.3" \
       source.cutadapt="https://github.com/marcelm/cutadapt/releases/tag/v1.12"
 

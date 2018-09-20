@@ -1,9 +1,9 @@
-FROM alpine:3.8
+FROM alpine:3.5
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.bwa="0.7.5a" \
-      version.alpine="3.8" \
+      version.alpine="3.5.x" \
       source.bwa="https://github.com/lh3/bwa/releases/tag/0.7.5a"
 
 ENV BWA_VERSION 0.7.5a

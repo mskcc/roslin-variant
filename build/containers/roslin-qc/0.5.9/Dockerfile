@@ -1,13 +1,13 @@
-FROM alpine:3.8
+FROM alpine:3.6
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.roslin-qc="0.5.9" \
-      version.r="3.5.1" \
-      version.alpine="3.8" \
-      source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"
+      version.r="3.3.3-r0" \
+      version.alpine="3.6"
 
 ENV ROSLIN_QC_VERSION 0.5.9
+ENV R_VERSION 3.3.3-r0
 
 COPY install-packages.R /tmp/install-packages.R
 COPY roslin-qc-${ROSLIN_QC_VERSION}.tar.gz /tmp/roslin-qc-${ROSLIN_QC_VERSION}.tar.gz
@@ -19,7 +19,7 @@ RUN apk add --update \
     && apk add build-base musl-dev python py-pip python-dev py-setuptools\
     && cd /tmp \
         # install R
-        && apk add R R-dev \
+        && apk add R=${R_VERSION} R-dev=${R_VERSION} R-doc=${R_VERSION} \
         # install R dependencies
         && Rscript --vanilla install-packages.R \
         # install mysql connector

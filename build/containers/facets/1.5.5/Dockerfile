@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM python:2.7.13-alpine3.6
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
@@ -27,7 +27,7 @@ RUN apk add --update \
     # for wget
         && apk add ca-certificates openssl \
     # for compilation
-        && apk add build-base musl-dev python py-pip python-dev \
+        && apk add build-base musl-dev \
     # install cairo and R package system dependencies
         && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 \
     # download and install R

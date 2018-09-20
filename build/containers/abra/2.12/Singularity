@@ -11,7 +11,7 @@ Namespace:
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    . /tmp/settings-container.sh
     
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS

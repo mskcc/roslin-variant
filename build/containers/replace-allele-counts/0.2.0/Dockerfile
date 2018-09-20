@@ -1,9 +1,9 @@
-FROM alpine:3.8
+FROM alpine:3.6
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.replaceallelcounts="0.2.0" \
-      version.alpine="3.8" \
+      version.alpine="3.4.6" \
       source.replaceallelecounts="https://github.com/mskcc/replace_allele_counts/releases/tag/0.2.0"
 
 ENV REPLACEALLELECOUNTS_VERSION 0.2.0

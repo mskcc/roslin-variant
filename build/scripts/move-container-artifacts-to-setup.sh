@@ -40,4 +40,4 @@ tree ${output_root_dir}
 
 # get md5 checksum for all image files
 cd ${output_root_dir}
-find . -name "*.sqsh" -type f | xargs md5sum > ${output_root_dir}/checksum.dat
+find . -name "*.img" -type f | xargs md5sum > ${output_root_dir}/checksum.dat

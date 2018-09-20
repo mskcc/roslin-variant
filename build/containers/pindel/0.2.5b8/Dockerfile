@@ -1,10 +1,10 @@
-FROM alpine:3.8
+FROM alpine:3.5
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.pindel="0.2.5b8" \
       version.htslib="1.4" \
-      version.alpine="3.8" \
+      version.alpine="3.5.x" \
       source.pindel="https://github.com/genome/pindel/releases/tag/0.2.5b8" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.4"
 

@@ -1,9 +1,9 @@
-FROM alpine:3.8
+FROM alpine:3.6
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.list2bed="1.0.1" \
-      version.alpine="3.8" \
+      version.alpine="3.6" \
       source.list2bed="https://github.com/mskcc/list2bed/releases/tag/1.0.1"
 
 ENV LIST2BED_VERSION 1.0.1

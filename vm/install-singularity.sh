@@ -1,7 +1,9 @@
 #!/bin/bash
 
-SINGULARITY_VERSION="2.5.1"
+SINGULARITY_VERSION="2.4.2"
 SINGULARITY_INSTALL_TEMP_DIR="/tmp/singularity"
+
+sudo apt-get -y install build-essential autoconf automake libtool debootstrap
 
 mkdir -p ${SINGULARITY_INSTALL_TEMP_DIR} && cd $_
 
