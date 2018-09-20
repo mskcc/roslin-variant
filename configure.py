@@ -85,8 +85,7 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         dependencies_toil_version=settings["dependencies"]["toil"]["version"],
         dependencies_toil_install_path=os.path.join(
             settings["dependencies"]["toil"]["install-path"]
-        ),
-        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
+        )
     )
 
     write_to_disk("/vagrant/setup/config/settings.sh", content)
