@@ -136,9 +136,7 @@ inputs:
       prefix: --mapq
 
   ref:
-    type:
-      type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    type: ['null', string]
     inputBinding:
       prefix: --reference_sequence
 

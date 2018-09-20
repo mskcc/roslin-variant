@@ -77,6 +77,11 @@ inputs:
     covariates: string[]
     abra_scratch: string
     group: string
+    runparams:
+        type:
+            type: record
+            fields:
+                abra_ram_min: int
 
 outputs:
     covint_list:
@@ -117,6 +122,7 @@ steps:
     abra:
         run: ./cmo-abra/2.17/cmo-abra.cwl
         in:
+            runparams: runparams
             in: bams
             ref: genome
             out:
