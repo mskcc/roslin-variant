@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: basic-filtering.vardict
-  doap:revision: 0.2.0
+  doap:revision: 0.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -48,7 +48,7 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.2.0"
+- "0.2.1"
 - --language_version
 - "default"
 - --language
@@ -73,7 +73,7 @@ inputs:
       prefix: --verbose
 
   inputVcf:
-    type: 
+    type:
     - string
     - File
     doc: Input vcf vardict file which needs to be filtered
@@ -85,6 +85,14 @@ inputs:
     doc: Name of the tumor Sample
     inputBinding:
       prefix: --tsampleName
+
+  refFasta:
+    type:
+    - string
+    - File
+    doc: Reference genome in fasta format
+    inputBinding:
+      prefix: --refFasta
 
   dp:
     type: ['null', int]
@@ -144,9 +152,10 @@ outputs:
       glob: |
         ${
           if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.vcf");
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.norm.vcf.gz");
           return null;
         }
+    secondaryFiles: ["^.tbi", ".tbi"]
   txt:
     type: File
     outputBinding:

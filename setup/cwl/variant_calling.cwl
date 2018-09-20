@@ -131,8 +131,13 @@ inputs:
         tmp_dir: string
         project_prefix: string
         opt_dup_pix_dist: string
+        delly_type:
+          type:
+            type: array
+            items: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
   samples:
     type:
       type: array
@@ -226,7 +231,9 @@ outputs:
   facets_png:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_png
   facets_txt_hisens:
     type:
@@ -236,22 +243,31 @@ outputs:
   facets_txt_purity:
     type:
       type: array
+      items:
+        type: array
+        items: File
       items: File
     outputSource: variant_calling/facets_txt_purity
   facets_out:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_out
   facets_rdata:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_rdata
   facets_seg:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: variant_calling/facets_seg
   facets_counts:
     type:

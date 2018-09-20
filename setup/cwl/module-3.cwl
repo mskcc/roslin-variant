@@ -280,7 +280,7 @@ steps:
             outputs:                
                 mutect_vcf_filtering_output:
                     type: File
-                    outputSource: mutect_filtering_step/vcftect_filtering_step/vcf
+                    outputSource: mutect_filtering_step/vcf
                     secondaryFiles:
                         - .tbi
                 vardict_vcf_filtering_output:

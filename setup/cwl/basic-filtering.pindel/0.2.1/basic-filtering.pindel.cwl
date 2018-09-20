@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: basic-filtering.vardict
-  doap:revision: 0.2.0
+  doap:name: basic-filtering.pindel
+  doap:revision: 0.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -48,12 +48,12 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.2.0"
+- "0.2.1"
 - --language_version
 - "default"
 - --language
 - "bash"
-- vardict
+- pindel
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
@@ -62,7 +62,7 @@ requirements:
 
 
 doc: |
-  Filter snps/indels from the output of vardict v1.4.6
+  Filter indels from the output of pindel v0.2.5a7
 
 inputs:
   verbose:
@@ -73,10 +73,10 @@ inputs:
       prefix: --verbose
 
   inputVcf:
-    type: 
+    type:
     - string
     - File
-    doc: Input vcf vardict file which needs to be filtered
+    doc: Input vcf freebayes file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
 
@@ -85,6 +85,14 @@ inputs:
     doc: Name of the tumor Sample
     inputBinding:
       prefix: --tsampleName
+
+  refFasta:
+    type:
+    - string
+    - File
+    doc: Reference genome in fasta format
+    inputBinding:
+      prefix: --refFasta
 
   dp:
     type: ['null', int]
@@ -114,12 +122,26 @@ inputs:
     inputBinding:
       prefix: --variantfraction
 
-  mq:
+  min:
     type: ['null', int]
-    default: 20
-    doc: Minimum variant call quality
+    default: 0
+    doc: Minimum length of the indels
     inputBinding:
-      prefix: --minqual
+      prefix: --min_var_len
+
+  max:
+    type: ['null', int]
+    default: 200
+    doc: Max length of the indels
+    inputBinding:
+      prefix: --max_var_len
+
+  mhl:
+    type: ['null', int]
+    default: 5
+    doc: Max length of micro-homology at indel breakpoint
+    inputBinding:
+      prefix: --max_hom_len
 
   hotspotVcf:
     type:
@@ -144,9 +166,10 @@ outputs:
       glob: |
         ${
           if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.vcf");
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.norm.vcf.gz");
           return null;
         }
+    secondaryFiles: ["^.tbi", ".tbi"]
   txt:
     type: File
     outputBinding:

@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: basic-filtering.vardict
-  doap:revision: 0.2.0
+  doap:name: basic-filtering.mutect
+  doap:revision: 0.2.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -48,21 +48,21 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.2.0"
+- "0.2.1"
 - --language_version
 - "default"
 - --language
 - "bash"
-- vardict
+- mutect
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 10
+    ramMin: 16
     coresMin: 2
 
 
 doc: |
-  Filter snps/indels from the output of vardict v1.4.6
+  Filter snps from the output of muTect v1.14
 
 inputs:
   verbose:
@@ -73,18 +73,34 @@ inputs:
       prefix: --verbose
 
   inputVcf:
-    type: 
+    type:
     - string
     - File
-    doc: Input vcf vardict file which needs to be filtered
+    doc: Input vcf muTect file which needs to be filtered
     inputBinding:
       prefix: --inputVcf
+
+  inputTxt:
+    type:
+    - string
+    - File
+    doc: Input txt muTect file which needs to be filtered
+    inputBinding:
+      prefix: --inputTxt
 
   tsampleName:
     type: string
     doc: Name of the tumor Sample
     inputBinding:
       prefix: --tsampleName
+
+  refFasta:
+    type:
+    - string
+    - File
+    doc: Reference genome in fasta format
+    inputBinding:
+      prefix: --refFasta
 
   dp:
     type: ['null', int]
@@ -114,13 +130,6 @@ inputs:
     inputBinding:
       prefix: --variantfraction
 
-  mq:
-    type: ['null', int]
-    default: 20
-    doc: Minimum variant call quality
-    inputBinding:
-      prefix: --minqual
-
   hotspotVcf:
     type:
     - 'null'
@@ -144,15 +153,16 @@ outputs:
       glob: |
         ${
           if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.vcf");
+            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.norm.vcf.gz");
           return null;
         }
+    secondaryFiles: ["^.tbi", ".tbi"]
   txt:
     type: File
     outputBinding:
       glob: |
         ${
-          if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.txt");
+          if (inputs.inputTxt)
+            return inputs.inputTxt.basename.replace(".txt","_STDfilter.txt");
           return null;
         }
