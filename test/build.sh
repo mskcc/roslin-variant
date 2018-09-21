@@ -1,6 +1,7 @@
 #!/bin/bash
 # Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
 cd ..
+git submodule update --force
 source build-pipeline.sh -t -b $BUILD_NUMBER
 parentDir=$pwd
 TestDir=$TMPDIR/$BUILD_NUMBER
