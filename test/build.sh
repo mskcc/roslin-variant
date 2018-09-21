@@ -2,8 +2,9 @@
 # Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
 cd ..
 git submodule update --force
+testParentDir=$(pwd)
 source build-pipeline.sh -t -b $BUILD_NUMBER
-parentDir=$(pwd)
+
 TestDir=$TMPDIR/$BUILD_NUMBER
 # Run test
 printf "\n----------Running Test----------\n"
@@ -11,7 +12,8 @@ printf "\n----------Running Test----------\n"
 cd $ROSLIN_PIPELINE_ROOT/workspace/jenkins/examples/Proj_DEV_0003
 mv $parentDir/test/run-example.sh .
 mv $parentDir/test/run-example-sv.sh .
-source $parentDir/config/test-settings.sh
+source $parentDir/setup/config/test-settings.sh
+rm -f $parentDir/setup/config/test-settings.sh
 
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 
