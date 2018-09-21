@@ -10,7 +10,22 @@ export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/l
 export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
 export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+function finish {
+    # clean up
+    cd $parentDir
+    rm -f setup/config/build-settings.sh
+    rm -f setup/config/settings.sh
+    rm -f core/config/settings.sh
+    rm -f build/scripts/settings-container.sh
+    if [ ! -n "$TEST_MODE" ]
+    then
+        rm -f setup/config/test-settings.sh
+        rm -f test/run-example.sh
+        rm -f test/run-example-sv.sh
+    fi
 
+}
+trap finish INT TERM EXIT
 compareBool() {
     if [ $1 = "y" ] || [ $1 = "Y" ] || [ $1 = "yes" ] || [ $1 = "Yes" ] || [ $1 = "YES" ] || [ $1 =  "true" ] || [ $1 = "True" ] || [ $1 = "TRUE" ] || [ $1 = "on" ] || [ $1 = "On" ] || [ $1 = "ON" ]
     then
@@ -186,15 +201,3 @@ install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $USER
-# clean up
-cd $parentDir
-rm -f setup/config/build-settings.sh
-rm -f setup/config/settings.sh
-rm -f core/config/settings.sh
-rm -f build/scripts/settings-container.sh
-if [ ! -n "$TEST_MODE" ]
-then
-    rm -f setup/config/test-settings.sh
-    rm -f test/run-example.sh
-    rm -f test/run-example-sv.sh
-fi
