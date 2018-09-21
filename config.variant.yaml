@@ -19,7 +19,7 @@ dependencies:
     version: 1.9.10
     install-path: /ifs/work/pi/cmo_package_archive/
 test:
-  root: /ifs/work/pi/roslin-test/
+  root: /ifs/work/pi/roslin-test
   tempDir: /scratch  
   runArgs:  --single-node --leader-node controlR
   env:
