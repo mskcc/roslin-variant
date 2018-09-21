@@ -103,6 +103,17 @@ else
     fi
 fi
 
+if compareBool $INSTALL_CORE && [ -d "$coreDir" ]
+then
+    if [ ! -n "$FORCE" ]
+    then
+    echo "Core is already installed at: $coreDir, use -f to overwrite"
+    exit 1
+    else
+    rm -rf $coreDir
+    fi
+fi
+
 if [ -d "$ROSLIN_PIPELINE_ROOT" ]    
 then
     if [ ! -n "$FORCE" ]
