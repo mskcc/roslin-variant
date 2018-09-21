@@ -85,10 +85,12 @@ then
     source setup/config/test-settings.sh
     printf "Starting Build $BUILD_NUMBER\n"    
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
-    TempDir=$TMPDIR/$BUILD_NUMBER
-    TestDir=$TMPDIR/$BUILD_NUMBER
+    TempDir=test_output/$BUILD_NUMBER
+    TestDir=test_output/$BUILD_NUMBER
     sed -i "s|${ROSLIN_ROOT}|${installDir}|g" setup/config/settings.sh
+    sed -i "s|${ROSLIN_CORE_ROOT}|${coreDir}|g" core/config/settings.sh
     source setup/config/settings.sh
+    source core/config/settings.sh
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
@@ -142,6 +144,7 @@ then
     rm -rf $TempDir    
 fi
 
+cd $parentDir
 mkdir -p $TempDir
 
 if compareBool $BUILD_IMAGES
