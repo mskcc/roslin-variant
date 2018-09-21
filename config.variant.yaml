@@ -25,7 +25,7 @@ dependencies:
     version: 2.5.1
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-2.5.1/bin/singularity
 test:
-  root: /ifs/work/pi/roslin-test/
+  root: /ifs/work/pi/roslin-test
   tempDir: /scratch  
   runArgs: --single-node --leader-node largeHG
   env:
