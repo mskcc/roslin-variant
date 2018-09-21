@@ -11,23 +11,40 @@ export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentO
 export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+compareBool() {
+    if [ $1 = "y" ] || [ $1 = "Y" ] || [ $1 = "yes" ] || [ $1 = "Yes" ] || [ $1 = "YES" ] || [ $1 =  "true" ] || [ $1 = "True" ] || [ $1 = "TRUE" ] || [ $1 = "on" ] || [ $1 = "On" ] || [ $1 = "ON" ]
+    then
+        true
+    elif [ $1 = "n" ] || [ $1 = "N" ] || [ $1 = "no" ] || [ $1 = "No" ] || [ $1 = "NO" ] || [ $1 = "false" ] || [ $1 = "False" ] || [ $1 = "FALSE" ] || [ $1 = "off" ] || [ $1 = "Off" ] || [ $1 = "OFF" ]
+    then
+        false
+    else
+        echo "Invalid input: $1, Please use a yaml accepted value for true/false: y,Y,yes,Yes,YES,n,N,no,No,NO,true,True,TRUE,false,False,FALSE,on,On,ON,off,Off,OFF"
+        exit 1
+    fi    
+}
+
 usage()
 {
 cat << EOF
 USAGE: `basename $0` [options]
 build.sh
 OPTIONS:
-   -t      Build the pipeline for testing [optional]
-   -b      Specify a build id [required for testing]
+   -t                Build the pipeline for testing [optional]
+   -b [build_id]     Specify a build id [required for testing]
+   -f                Force overwrite [optional]
+   -h                Print help
 EOF
 }
 # genrate id for test build
 
-while getopts "tb:" OPTION
+while getopts "thb:f" OPTION
 do
     case $OPTION in
         t)TEST_MODE=true;;
         b)BUILD_NUMBER=$OPTARG;;
+        f)FORCE=true;;
+        h) usage; exit 0 ;;
         *) usage; exit 1 ;;
     esac
 done
@@ -40,59 +57,83 @@ then
 fi
 
 printf "\n----------Setting Up----------\n"
+#Script will exit if a command exits with nonzero exit value
+set -e
 
-virtualenv $TMPDIR/build-venv --no-site-packages
-source $TMPDIR/build-venv/bin/activate
+parentDir=$(pwd)
+
+virtualenv build-venv --no-site-packages
+source build-venv/bin/activate
 pip install -r build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
 python configure.py config.variant.yaml
-
-#Script will exit if a command exits with nonzero exit value
-set -e
-
 # load settings
 source setup/config/settings.sh
 source setup/config/build-settings.sh
-parentDir=$pwd
 
-echo $BUILD_THREADS
+cd core
+python configure.py config.core.yaml
+# load core settings
+source config/settings.sh
+cd ..
+coreDir=$ROSLIN_CORE_PATH
 
 if [ -n "$TEST_MODE" ]
-then    
+then   
     source ../setup/config/test-settings.sh
     printf "Starting Build $BUILD_NUMBER\n"    
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
     TempDir=$TMPDIR/$BUILD_NUMBER
     TestDir=$TMPDIR/$BUILD_NUMBER
-    coreDir=$installDir/roslin-core
+    
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
     TempDir=roslin-build-log
     TestDir=roslin-build-log
-    installDir=$ROSLIN_ROOT
-    coreDir=$installDir/roslin-core
-    buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -d -t $BUILD_THREADS"
-    if [ ! "$INSTALL_CORE" ] && [ ! -d "$coreDir" ] 
+    installDir=$ROSLIN_ROOT    
+    buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
+    if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ] 
     then
         >&2 echo "Could not find Core directory: $coreDir"
         exit 1
     fi
 fi
 
-echo $buildCommand
-
-
-
-if [ -d "$TempDir" ]
+if [ -d "$ROSLIN_PIPELINE_ROOT" ]    
 then
-    rm -rf $TempDir
-    mkdir -p $TempDir
+    if [ ! -n "$FORCE" ]
+    then
+    echo "Pipeline is already installed at: $ROSLIN_PIPELINE_ROOT, use -f to overwrite"
+    exit 1
+    else
+    rm -rf $ROSLIN_PIPELINE_ROOT
+    fi
 fi
 
-if [ $BUILD_IMAGES ]
+ROSLIN_CONFIG=${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
+
+if [ -d "$ROSLIN_CONFIG" ]    
+then
+    if [ ! -n "$FORCE" ]
+    then
+    echo "Pipeline is already linked to core at: $ROSLIN_CONFIG, use -f to overwrite"
+    exit 1
+    else
+    rm -rf $ROSLIN_CONFIG
+    fi
+fi
+# Make the directory to store the logs
+if [ -d "$TempDir" ]
+then
+    rm -rf $TempDir    
+fi
+
+mkdir -p $TempDir
+
+if compareBool $BUILD_IMAGES
 then
     sed -i -e "s/40GB/$VAGRANT_SIZE/g" Vagrantfile
     vagrant up
@@ -107,17 +148,15 @@ printf "\n----------Setting up workspace----------\n"
 mkdir -p $installDir
 mkdir -p $coreDir
 
-if [ $INSTALL_CORE ]
+# Install Core
+if compareBool $INSTALL_CORE
 then
-    printf "\n----------Installing Core----------\n"
-    core/configure.py core/config.core.yaml --testBuild
+    cd core
+    printf "\n----------Installing Core----------\n" 
+    cd bin/install
+    ./install-core.sh
 fi
-# Load roslin core and pipeline
-source core/config/settings.sh
-source setup/config/settings.sh
-# install core
-cd core/bin/install
-./install-core.sh
+
 printf "\n----------Compressing----------\n"
 # Compress pipeline
 cd $parentDir
@@ -127,15 +166,20 @@ deactivate
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
 mv $pipeline_name $TempDir
-cd $TempDir
 export PATH=$ROSLIN_CORE_BIN_PATH/install:$PATH
-install-pipeline.sh -p $TempDir/$pipeline_name > $parentDir/$TestDir/deploy_stdout.txt 2> $parentDir/$TestDir/deploy_stderr.txt
+install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $USER
 # clean up
-rm *-e
-rm setup/config/test-settings.sh
-rm setup/config/build-settings.sh
-rm setup/config/settings.sh
-rm core/config/settings.sh
+cd $parentDir
+rm -f setup/config/test-settings.sh
+rm -f setup/config/build-settings.sh
+rm -f setup/config/settings.sh
+rm -f core/config/settings.sh
+rm -f build/scripts/settings-container.sh
+if [ ! -n "$TEST_MODE" ]
+then
+    rm -f test/run-example.sh
+    rm -f test/run-example-sv.sh
+fi
