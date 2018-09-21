@@ -52,7 +52,7 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4000
+    ramMin: 4
     coresMin: 1
 
 
@@ -66,22 +66,16 @@ inputs:
       items:
         type: array
         items: File
-  clstats1:
+  trim_metrics_files:
     type:
       type: array
       items:
         type: array
         items:
           type: array
-          items: File
-  clstats2:
-    type:
-      type: array
-      items:
-        type: array
-        items:
-          type: array
-          items: File
+          items:
+            type: array
+            items: File
   files:
     type:
       type: array
