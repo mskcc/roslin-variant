@@ -129,6 +129,21 @@ inputs:
       type: array
       items: File
 
+  insert_metrics:
+    type:
+      type: array
+      items: File
+
+  doc_basecounts:
+    type:
+      type: array
+      items: File
+
+  qual_metrics:
+    type: 
+      type: array
+      items: File
+
   as_metrics:
     type:
       type: array
@@ -146,6 +161,30 @@ outputs:
   merged_hstmetrics:
     type: File
     outputSource: merge_hstmetrics/output
+
+  merged_insert_size_histograms:
+    type: File
+    outputSource: merge_insert_size_histograms/output
+
+  fingerprints_output:
+    type: File[]
+    outputSource: generate_fingerprint/output
+
+  fingerprint_summary:
+    type: File
+    outputSource: generate_fingerprint/fp_summary
+
+  qual_files_r:
+    type: File
+    outputSource: generate_qual_files/rqual_output
+
+  qual_files_o:
+    type: File
+    outputSource: generate_qual_files/oqual_output
+
+  cutadapt_summary:
+    type: File
+    outputSource: generate_cutadapt_summary/output
 
 steps:
 
@@ -175,3 +214,55 @@ steps:
         valueFrom: ${ return inputs.runparams.project_prefix + "_GcBiasMetrics.txt"; }
     out: [ output ]
     run: roslin-qc/merge-gcbias-metrics.cwl
+
+  merge_insert_size_histograms:
+    in:
+      runparams: runparams
+      files: insert_metrics
+      outfile_name:
+        valueFrom: ${ return inputs.runparams.project_prefix + "_InsertSizeMetrics_Histograms.txt"; }
+    out: [ output ]
+    run: roslin-qc/merge-insert-size-histograms.cwl
+
+  generate_fingerprint:
+    in:
+      db_files: db_files
+      runparams: runparams
+      files: doc_basecounts
+      file_prefix:
+         valueFrom: ${ return inputs.runparams.project_prefix; }
+      fp_genotypes: 
+         valueFrom: ${ return inputs.db_files.fp_genotypes; }
+      grouping_file:
+         valueFrom: ${ return inputs.db_files.grouping_file; }
+      pairing_file:
+         valueFrom: ${ return inputs.db_files.pairing_file; }
+    out: [ output, fp_summary ]
+    run: roslin-qc/generate-fingerprint.cwl
+
+  generate_qual_files:
+    in:
+      runparams: runparams
+      files: qual_metrics
+      rqual_output_filename: 
+        valueFrom: ${ return inputs.runparams.project_prefix + "_post_recal_MeanQualityByCycle.txt"; }
+      oqual_output_filename: 
+        valueFrom: ${ return inputs.runparams.project_prefix + "_pre_recal_MeanQualityByCycle.txt"; }
+    out: [ rqual_output, oqual_output ]
+    run: roslin-qc/generate-qual-files.cwl
+
+  generate_cutadapt_summary:
+    in:
+      runparams: runparams
+      db_files: db_files
+      clstats1: clstats1
+      clstats2: clstats2
+      output_filename:
+        valueFrom: ${ return inputs.runparams.project_prefix + "_CutAdaptStats.txt"; }
+      pairing_file:
+        valueFrom: ${ return inputs.db_files.pairing_file; }
+    out: [ output ]
+    run: roslin-qc/generate-cutadapt-summary.cwl
+
+ 
+  
