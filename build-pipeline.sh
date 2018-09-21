@@ -88,7 +88,7 @@ then
     TempDir=$TMPDIR/$BUILD_NUMBER
     TestDir=$TMPDIR/$BUILD_NUMBER
     sed -i "s|${ROSLIN_ROOT}|${installDir}|g" setup/config/settings.sh
-    source setup/config/test-settings.sh
+    source setup/config/settings.sh
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
