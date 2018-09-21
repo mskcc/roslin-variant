@@ -82,7 +82,7 @@ coreDir=$ROSLIN_CORE_PATH
 
 if [ -n "$TEST_MODE" ]
 then   
-    source ../setup/config/test-settings.sh
+    source setup/config/test-settings.sh
     printf "Starting Build $BUILD_NUMBER\n"    
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
     ROSLIN_ROOT=$installDir
