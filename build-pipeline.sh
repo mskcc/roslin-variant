@@ -85,6 +85,7 @@ then
     source ../setup/config/test-settings.sh
     printf "Starting Build $BUILD_NUMBER\n"    
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
+    ROSLIN_ROOT=$installDir
     TempDir=$TMPDIR/$BUILD_NUMBER
     TestDir=$TMPDIR/$BUILD_NUMBER
     
