@@ -68,12 +68,21 @@ def configure_test_settings(settings):
         test_env_str = test_env_str + "export " + single_env_key + '="' + single_env_val + '"\n' 
 
     content = template.render( test_root=settings["test"]["root"],
-        test_tmp=settings["test"]["tempDir"],        
-        test_run=settings["test"]["runMode"],
+        test_tmp=settings["test"]["tempDir"],
         test_env=test_env_str
     )
 
     write_to_disk("setup/config/test-settings.sh", content)
+
+    # Configure our example runs
+    run_example_template = get_template("test/run-example.template.sh")
+    run_example_content = run_example_template.render(pipeline_name=settings["name"],
+        pipeline_version=settings["version"],run_args=settings["test"]["runArgs"])
+    write_to_disk("test/run-example.sh",run_example_content)
+    run_example_sv_template = get_template("test/run-example-sv.template.sh")
+    run_example_sv_content = run_example_sv_template.render(pipeline_name=settings["name"],
+        pipeline_version=settings["version"],run_args=settings["test"]["runArgs"])
+    write_to_disk("test/run-example-sv.sh",run_example_sv_content)
 
 def configure_build_settings(settings):
     template = get_template("setup/config/build-settings.template.sh")

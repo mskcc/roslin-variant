@@ -1,7 +1,7 @@
 name: variants
 version: 2.3.0
 description: Roslin Variant Pipeline v2.3.0
-root: /ifs/work/pi/roslin-pipelines
+root: /ifs/work/pi/roslin-pipelines-dev
 binding:
   core: bin
   data: resources
@@ -21,11 +21,11 @@ dependencies:
 test:
   root: /ifs/work/pi/roslin-test/
   tempDir: /scratch  
-  runMode: singleMachine
+  runArgs: --single-node --leader-node largeHG
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59 -R select[internet]'
 build:
-  buildImages: true  
+  buildImages: false
   installCore: true
   buildThreads: 4
   vagrantSize: 50GB
