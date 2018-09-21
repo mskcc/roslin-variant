@@ -74,10 +74,7 @@ inputs:
     curated_bams:
         type:
             type: array
-            items: File
-        secondaryFiles:
-            - ^.bai
-
+            items: string
     hotspot_list:
         type: File
 
@@ -86,9 +83,6 @@ outputs:
     maf:
         type: File
         outputSource: ngs_filters/output
-    portal_fillout:
-        type: File
-        outputSource: fillout_tumor_normal/portal_fillout
 
 steps:
 
@@ -119,7 +113,7 @@ steps:
         out: [maf]
 
     fillout_tumor_normal:
-        run: cmo-fillout/1.2.1/cmo-fillout.cwl
+        run: cmo-fillout/1.2.2/cmo-fillout.cwl
         in:
             maf: remove_variants/maf
             bams: bams
@@ -142,14 +136,14 @@ steps:
                 curated_bams:
                     type:
                         type: array
-                        items: File
+                        items: string
             outputs:
                 fillout_curated_bams:
                     type: File
                     outputSource: fillout_curated_bams_step/fillout_out
             steps:
                 fillout_curated_bams_step:
-                    run: cmo-fillout/1.2.1/cmo-fillout.cwl
+                    run: cmo-fillout/1.2.2/cmo-fillout.cwl
                     in:
                         maf: maf
                         bams: curated_bams
@@ -163,7 +157,7 @@ steps:
                     out: [fillout_out]
 
     ngs_filters:
-        run: ngs-filters/1.2.1/ngs-filters.cwl
+        run: ngs-filters/1.3/ngs-filters.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name

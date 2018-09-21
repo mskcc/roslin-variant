@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: parse-project-yaml-input
-  doap:revision: 1.0.0
+  doap:revision: 1.0.1
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -61,6 +61,8 @@ inputs:
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
+        conpair_markers: File
+        conpair_markers_bed: File
         grouping_file: File
         request_file: File
         pairing_file: File
@@ -91,6 +93,9 @@ inputs:
         num_threads: int
         tmp_dir: string
         opt_dup_pix_dist: string
+        facets_pcval: int
+        facets_cval: int
+        abra_ram_min: int
   samples:
     type:
       type: array
@@ -223,6 +228,10 @@ outputs:
     type:
       type: array
       items: string
+  abra_ram_min:
+    type:
+      type: array
+      items: int
   genome:
     type:
       type: array
@@ -268,7 +277,7 @@ outputs:
       type: array
       items:
         type: array
-        items: File
+        items: string
   hotspot_list:
     type:
       type: array
@@ -284,11 +293,13 @@ outputs:
   target_intervals: File
   fp_genotypes: File
   request_file: File
+  conpair_markers: File
+  conpair_markers_bed: File
   pairing_file: File
   hotspot_vcf: File
   grouping_file: File
   opt_dup_pix_dist: string
-
+  ref_fasta_string: string
 
 expression: "${var groups = inputs.groups;
                 var samples = inputs.samples;
@@ -328,13 +339,15 @@ project_object['bait_intervals']=inputs.db_files.bait_intervals;
 project_object['target_intervals']=inputs.db_files.target_intervals;
 project_object['fp_intervals']=inputs.db_files.fp_intervals;
 project_object['fp_genotypes']=inputs.db_files.fp_genotypes;
+project_object['conpair_markers']=inputs.db_files.conpair_markers;
+project_object['conpair_markers_bed']=inputs.db_files.conpair_markers_bed;
 project_object['request_file']=inputs.db_files.request_file;
 project_object['pairing_file']=inputs.db_files.pairing_file;
 project_object['hotspot_vcf']=inputs.db_files.hotspot_vcf;
 project_object['grouping_file']=inputs.db_files.grouping_file;
+project_object['ref_fasta_string']=inputs.db_files.ref_fasta;
 project_object['genome']=inputs.runparams.genome;
 project_object['project_prefix']=inputs.runparams.project_prefix;
 project_object['opt_dup_pix_dist']=inputs.runparams.opt_dup_pix_dist;
 return project_object;
 }"
-

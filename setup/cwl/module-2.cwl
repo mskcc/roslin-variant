@@ -75,8 +75,14 @@ inputs:
             - .idx
     rf: string[]
     covariates: string[]
+    abra_ram_min: int
     abra_scratch: string
     group: string
+    runparams:
+        type:
+            type: record
+            fields:
+                abra_ram_min: int 
 
 outputs:
     covint_list:
@@ -119,10 +125,12 @@ steps:
                     ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
-        run: ./cmo-abra/2.12/cmo-abra.cwl
+        run: ./cmo-abra/2.17/cmo-abra.cwl
         in:
+            runparams: runparams
             in: bams
             ref: genome
+            abra_ram_min: abra_ram_min
             out:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
