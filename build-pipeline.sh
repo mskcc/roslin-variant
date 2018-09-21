@@ -87,8 +87,9 @@ then
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
     TempDir=test_output/$BUILD_NUMBER
     TestDir=test_output/$BUILD_NUMBER
+    TestCoreDir=$installDir/roslin-core
     sed -i "s|${ROSLIN_ROOT}|${installDir}|g" setup/config/settings.sh
-    sed -i "s|${ROSLIN_CORE_ROOT}|${coreDir}|g" core/config/settings.sh
+    sed -i "s|${ROSLIN_CORE_ROOT}|${TestCoreDir}|g" core/config/settings.sh
     source setup/config/settings.sh
     source core/config/settings.sh
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
