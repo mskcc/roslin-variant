@@ -5,18 +5,11 @@ parentDir=$pwd
 TestDir=$TMPDIR/$BUILD_NUMBER
 # Run test
 printf "\n----------Running Test----------\n"
-cp $parentDir/test/run-example.sh.template $parentDir/$TestDir/run-example.sh
-cp $parentDir/test/run-example-sv.sh.template $parentDir/$TestDir/run-example-sv.sh
-
-sed -i -e "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example.sh
-sed -i -e "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example.sh
-
-sed -i -e "s/PIPELINE_NAME/$ROSLIN_PIPELINE_NAME/g" $parentDir/$TestDir/run-example-sv.sh
-sed -i -e "s/PIPELINE_VERSION/$ROSLIN_PIPELINE_VERSION/g" $parentDir/$TestDir/run-example-sv.sh
 
 cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0002
-cp $parentDir/$TestDir/run-example.sh .
-cp $parentDir/$TestDir/run-example-sv.sh .
+mv $parentDir/test/run-example.sh .
+mv $parentDir/test/run-example-sv.sh .
+source $parentDir/config/test-settings.sh
 
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 
