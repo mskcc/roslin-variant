@@ -1,12 +1,13 @@
 #!/bin/bash
 # Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
+cd ..
 source build-pipeline.sh -t -b $BUILD_NUMBER
 parentDir=$pwd
 TestDir=$TMPDIR/$BUILD_NUMBER
 # Run test
 printf "\n----------Running Test----------\n"
 
-cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0002
+cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/workspace/jenkins/examples/Proj_DEV_0003
 mv $parentDir/test/run-example.sh .
 mv $parentDir/test/run-example-sv.sh .
 source $parentDir/config/test-settings.sh
