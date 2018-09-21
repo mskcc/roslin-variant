@@ -49,7 +49,7 @@ do
     esac
 done
 
-if [ -n "$TEST_MODE" ] && [ -z "$BUILD_NUMBER"]
+if [ -n "$TEST_MODE" ] && [ -z "$BUILD_NUMBER" ]
 then
     >&2 echo "No build number defined"
     usage;
