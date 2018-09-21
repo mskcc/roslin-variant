@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
     required_plugins.each do |plugin|
         unless Vagrant.has_plugin? plugin
             system "vagrant plugin install #{plugin}"
+            exec "vagrant #{ARGV.join' '}"
         end
     end
 
