@@ -17,7 +17,7 @@ LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       source.perl="https://pkgs.alpinelinux.org/package/edge/main/aarch64/perl"
 
 ENV VCF2MAF_VERSION 1.6.16
-ENV VEP_VERSION 91.3
+ENV VEP_VERSION 92
 ENV HTSLIB_VERSION 1.5
 ENV SAMTOOLS_VERSION 1.5
 ENV BCFTOOLS_VERSION 1.5
@@ -28,9 +28,9 @@ COPY run.sh /usr/bin/vcf2maf/run.sh
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+            && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       # install system packages that the Perl modules will need
-            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev mariadb-dev \
+            && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
       # install perl libraries that VEP will need

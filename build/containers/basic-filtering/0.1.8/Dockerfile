@@ -10,7 +10,7 @@ ENV BASICFILTERING_VERSION 0.1.8
 
 RUN apk add --update \
       # for wget
-            && apk add ca-certificates openssl \
+            && apk add ca-certificates openssl wget \
       # for compilation
             && apk add build-base musl-dev python py-pip python-dev \
       # fix numpy compilation issue
