@@ -79,186 +79,25 @@ inputs:
         facets_pcval: int
         facets_cval: int
 
-  clstats1:
-    type:
-      type: array
-      items:
-        type: array
-        items:
-          type: array
-          items: File
-
-  clstats2:
-    type:
-      type: array
-      items:
-        type: array
-        items:
-          type: array
-          items: File
-
-  md_metrics:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-
-  hs_metrics:
-    type:
-      type: array
-      items: File
-
-  per_target_coverage:
-    type:
-      type: array
-      items: File
-
-  insert_metrics:
-    type:
-      type: array
-      items: File
-
-  doc_basecounts:
-    type:
-      type: array
-      items: File
-
-  qual_metrics:
-    type: 
-      type: array
-      items: File
+  fingerprint_summary:
+      type: File
 
 outputs:
-  merged_mdmetrics:
-    type: File
-    outputSource: merge_mdmetrics/output
-
-  merged_hsmetrics:
-    type: File
-    outputSource: merge_hsmetrics/output
-
-  merged_hstmetrics:
-    type: File
-    outputSource: merge_hstmetrics/output
-
-  merged_insert_size_histograms:
-    type: File
-    outputSource: merge_insert_size_histograms/output
-
-  fingerprints_output:
-    type: File[]
-    outputSource: generate_fingerprint/output
-
-  fingerprint_summary:
-    type: File
-    outputSource: generate_fingerprint/fp_summary
-
-  qual_files_r:
-    type: File
-    outputSource: generate_qual_files/rqual_output
-
-  qual_files_o:
-    type: File
-    outputSource: generate_qual_files/oqual_output
-
-  cutadapt_summary:
-    type: File
-    outputSource: generate_cutadapt_summary/output
+ qc_files:
+   type: File[]
+   outputSource: generate_pdf/output 
 
 steps:
-
-  merge_mdmetrics:
+  generate_pdf:
     in:
       runparams: runparams
-      files: md_metrics
-      outfile_name: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_markDuplicatesMetrics.txt"; }
-    out: [ output ]
-    run: roslin-qc/merge-picard-metrics-markduplicates.cwl
-
-  merge_hsmetrics:
-    in:
-      runparams: runparams
-      files: hs_metrics
-      outfile_name: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_HsMetrics.txt"; }
-    out: [ output ]
-    run: roslin-qc/merge-picard-metrics-hsmetrics.cwl
-
-  merge_hstmetrics:
-    in:
-      runparams: runparams
-      files: per_target_coverage
-      outfile_name:
-        valueFrom: ${ return inputs.runparams.project_prefix + "_GcBiasMetrics.txt"; }
-    out: [ output ]
-    run: roslin-qc/merge-gcbias-metrics.cwl
-
-  merge_insert_size_histograms:
-    in:
-      runparams: runparams
-      files: insert_metrics
-      outfile_name:
-        valueFrom: ${ return inputs.runparams.project_prefix + "_InsertSizeMetrics_Histograms.txt"; }
-    out: [ output ]
-    run: roslin-qc/merge-insert-size-histograms.cwl
-
-  generate_fingerprint:
-    in:
-      db_files: db_files
-      runparams: runparams
-      files: doc_basecounts
+      db_files: db_files  
       file_prefix:
-         valueFrom: ${ return inputs.runparams.project_prefix; }
-      fp_genotypes: 
-         valueFrom: ${ return inputs.db_files.fp_genotypes; }
-      grouping_file:
-         valueFrom: ${ return inputs.db_files.grouping_file; }
-      pairing_file:
-         valueFrom: ${ return inputs.db_files.pairing_file; }
-    out: [ output, fp_summary ]
-    run: roslin-qc/generate-fingerprint.cwl
-
-  generate_qual_files:
-    in:
-      runparams: runparams
-      files: qual_metrics
-      rqual_output_filename: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_post_recal_MeanQualityByCycle.txt"; }
-      oqual_output_filename: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_pre_recal_MeanQualityByCycle.txt"; }
-    out: [ rqual_output, oqual_output ]
-    run: roslin-qc/generate-qual-files.cwl
-
-  generate_cutadapt_summary:
-    in:
-      runparams: runparams
-      db_files: db_files
-      clstats1: clstats1
-      clstats2: clstats2
-      output_filename:
-        valueFrom: ${ return inputs.runparams.project_prefix + "_CutAdaptStats.txt"; }
-      pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file; }
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+      request_file: 
+        valueFrom: ${ return inputs.db_files.request_file; }
+      fp_summary: fingerprint_summary
+      path:  # this is a hack; eventually have it so you pass the files directly instead of having it "glob" a path
+        valueFrom: ${ return "/ifs/work/bolipatc/sandbox_branch/roslin-pipelines/variant/build_387/workspace/project_run/all_files"; }
     out: [ output ]
-    run: roslin-qc/generate-cutadapt-summary.cwl
-
-#  generate_pdf:
-#    in:
-#      runparams: runparams
-#      db_files: db_files  
-#      file_prefix:
-#        valueFrom: ${ return inputs.runparams.project_prefix; }
-#      request_file: 
-#        valueFrom: ${ return inputs.db_files.request_file; }
-#      merged_mdmetrics: merge_mdmetrics/output
-#      merged_hsmetrics: merge_hsmetrics/output
-#      merged_hstmetrics: merge_hstmetrics/output   
-#      merged_insert_size_histograms: merge_insert_size_histograms/output    
-#      fingerprints_output: generate_fingerprint/output 
-#      qual_files_r: generate_qual_files/rqual_output 
-#      qual_files_o: generate_qual_files/oqual_output 
-#      cutadapt_summary: generate_cutadapt_summary/output
-#    out: [ output ]
-#    run: roslin-qc/generate-pdf.cwl
+    run: roslin-qc/generate-pdf.cwl
