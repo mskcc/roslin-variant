@@ -45,108 +45,116 @@ baseCommand:
 - cmo_qcpdf
 - --version
 - 0.5.11
-arguments:
-- prefix: --globdir
-  valueFrom: ${ return runtime.outdir; }
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 4
+    ramMin: 4000
     coresMin: 1
-
 
 doc: |
   None
 
 inputs:
+  globdir:
+    type: string
+    inputBinding:
+      prefix: --globdir
+
   md_metrics_files:
     type:
       type: array
       items:
         type: array
         items: File
-  trim_metrics_files:
+
+  clstats1:
     type:
       type: array
       items:
         type: array
         items:
           type: array
-          items:
-            type: array
-            items: File
+          items: File
+
+  clstats2:
+    type:
+      type: array
+      items:
+        type: array
+        items:
+          type: array
+          items: File
+
   files:
     type:
       type: array
       items: File
+
   gcbias_files:
     type: string
+    default: "*.hstmetrics"
     inputBinding:
       prefix: --gcbias-files
 
   mdmetrics_files:
     type: string
+    default: "*.md_metrics"
     inputBinding:
       prefix: --mdmetrics-files
 
   insertsize_files:
     type: string
+    default: "*.ismetrics"
     inputBinding:
       prefix: --insertsize-files
 
   hsmetrics_files:
     type: string
+    default: "*.hsmetrics"
     inputBinding:
       prefix: --hsmetrics-files
 
   qualmetrics_files:
     type: string
+    default: "*.quality_by_cycle_metrics"
     inputBinding:
       prefix: --qualmetrics-files
 
   fingerprint_files:
     type: string
+    default: "*_FP_base_counts.txt"
     inputBinding:
       prefix: --fingerprint-files
 
   trimgalore_files:
     type: string
+    default: "*_cl.stats"
     inputBinding:
       prefix: --trimgalore-files
 
   file_prefix:
     type: string
-
-
     inputBinding:
       prefix: --file-prefix
 
   fp_genotypes:
     type: File
-
-
     inputBinding:
       prefix: --fp-genotypes
 
   pairing_file:
     type: File
-
-
     inputBinding:
       prefix: --pairing-file
 
   grouping_file:
     type: File
-
-
     inputBinding:
       prefix: --grouping-file
 
   request_file:
     type: File
-
-
     inputBinding:
       prefix: --request-file
 

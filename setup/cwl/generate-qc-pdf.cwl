@@ -55,13 +55,6 @@ inputs:
         request_file: File
         pairing_file: File
 
-  pairs:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
-
   runparams:
     type:
       type: record
@@ -85,14 +78,6 @@ inputs:
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
-
-  bams:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    secondaryFiles: ^.bai
 
   clstats1:
     type:
@@ -141,11 +126,6 @@ inputs:
 
   qual_metrics:
     type: 
-      type: array
-      items: File
-
-  as_metrics:
-    type:
       type: array
       items: File
 
@@ -264,5 +244,21 @@ steps:
     out: [ output ]
     run: roslin-qc/generate-cutadapt-summary.cwl
 
- 
-  
+#  generate_pdf:
+#    in:
+#      runparams: runparams
+#      db_files: db_files  
+#      file_prefix:
+#        valueFrom: ${ return inputs.runparams.project_prefix; }
+#      request_file: 
+#        valueFrom: ${ return inputs.db_files.request_file; }
+#      merged_mdmetrics: merge_mdmetrics/output
+#      merged_hsmetrics: merge_hsmetrics/output
+#      merged_hstmetrics: merge_hstmetrics/output   
+#      merged_insert_size_histograms: merge_insert_size_histograms/output    
+#      fingerprints_output: generate_fingerprint/output 
+#      qual_files_r: generate_qual_files/rqual_output 
+#      qual_files_o: generate_qual_files/oqual_output 
+#      cutadapt_summary: generate_cutadapt_summary/output
+#    out: [ output ]
+#    run: roslin-qc/generate-pdf.cwl
