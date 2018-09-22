@@ -171,9 +171,6 @@ outputs:
   gcbias_summary:
     type: File[]
     outputSource: gather_metrics/gcbias_summary
-  qcpdf:
-    type: File[]
-    outputSource: gather_metrics/qc_files
 
 steps:
 
@@ -193,17 +190,8 @@ steps:
         valueFrom: ${ return inputs.db_files.target_intervals; }
       fp_intervals:
         valueFrom: ${ return inputs.db_files.fp_intervals; }
-      fp_genotypes:
-        valueFrom: ${ return inputs.db_files.fp_genotypes; }
       md_metrics_files: md_metrics
       clstats1: clstats1
       clstats2: clstats2
-      project_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-      grouping_file:
-        valueFrom: ${ return inputs.db_files.grouping_file; }
-      request_file:
-        valueFrom: ${ return inputs.db_files.request_file; }
-      pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file; }
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, qc_files ]
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ]
+
