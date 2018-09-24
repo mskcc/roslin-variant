@@ -33,6 +33,8 @@ function store_test_logs_sv {
     cp stdout.log $parentDir/$TestDir/test_stdout_sv.txt
 }
 
+chmod +x run-example.sh
+chmod +x run-example-sv.sh
 pipelineLeaderId=$(./run-example.sh | egrep -o -m 1 '[0-9]{8}')
 pipelineLeaderIdSV=$(./run-example-sv.sh | egrep -o -m 1 '[0-9]{8}')
 printf "project-workflow.cwl pipelineLeaderId: $pipelineLeaderId\nproject-workflow-sv.cwl pipelineLeaderIdSV: $pipelineLeaderIdSV\n"
