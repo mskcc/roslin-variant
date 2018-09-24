@@ -107,6 +107,7 @@ then
     sed -i "s|${ROSLIN_CORE_ROOT}|${TestCoreDir}|g" core/config/settings.sh
     source setup/config/settings.sh
     source core/config/settings.sh
+    coreDir=$ROSLIN_CORE_PATH
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
