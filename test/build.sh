@@ -5,7 +5,7 @@ git submodule update --force
 testParentDir=$(pwd)
 source build-pipeline.sh -t -b $BUILD_NUMBER
 
-TestDir=$TMPDIR/$BUILD_NUMBER
+TestDir=test_output/$BUILD_NUMBER
 # Run test
 printf "\n----------Running Test----------\n"
 
