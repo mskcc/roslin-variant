@@ -26,24 +26,6 @@ dct:creator:
     foaf:name: Christopher Harris
     foaf:mbox: mailto:harrisc2@mskcc.org
 
-dct:contributor:
-- class: foaf:Organization
-  foaf:name: Memorial Sloan Kettering Cancer Center
-  foaf:member:
-  - class: foaf:Person
-    foaf:name: Christopher Harris
-    foaf:mbox: mailto:harrisc2@mskcc.org
-  - class: foaf:Person
-    foaf:name: Jaeyoung Chun
-    foaf:mbox: mailto:chunj@mskcc.org
-  - class: foaf:Person
-    foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org
-  - class: foaf:Person
-    foaf:name: Allan Bolipata
-    foaf:mbox: mailto:bolipatc@mskcc.org
-
-
 cwlVersion: v1.0
 
 class: Workflow
@@ -171,6 +153,15 @@ outputs:
   gcbias_summary:
     type: File[]
     outputSource: gather_metrics/gcbias_summary
+  compiled_metrics_data:
+    type: Directory
+    outputSource: compile_directory_for_qcpdf/directory
+  generated_pdf:
+    type: File[]
+    outputSource: generate_pdf/output
+  generated_pdf_images_artifact_directory:
+    type: Directory
+    outputSource: generate_pdf/images_directory
 
 steps:
 
@@ -193,5 +184,62 @@ steps:
       md_metrics_files: md_metrics
       clstats1: clstats1
       clstats2: clstats2
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ]
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ] 
+
+  qc_merge:
+    run: ./roslin-qc/qc-merge.cwl
+    in:
+      db_files: db_files
+      runparams: runparams
+      clstats1: clstats1
+      clstats2: clstats2
+      md_metrics: md_metrics 
+      hs_metrics: gather_metrics/hs_metrics
+      per_target_coverage: gather_metrics/per_target_coverage
+      insert_metrics: gather_metrics/insert_metrics
+      doc_basecounts: gather_metrics/doc_basecounts
+      qual_metrics: gather_metrics/qual_metrics
+    out: [ merged_mdmetrics, merged_hsmetrics, merged_insert_size_histograms, fingerprint_summary, qual_files_r, qual_files_o, cutadapt_summary ]
+
+  compile_directory_for_qcpdf:
+    run: ./consolidate-files/consolidate-files.cwl
+    in:
+      files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary ]
+      output_directory_name:
+       valueFrom: ${ return "compiled_metrics_data"; }
+    out: [ directory ]
+
+  generate_pdf:
+    run: ./roslin-qc/generate-images.cwl
+    in:
+      runparams: runparams
+      db_files: db_files
+      data_dir: compile_directory_for_qcpdf/directory
+      file_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+    out: [ output, images_directory, project_summary, sample_summary ]
+
+  group_data:
+    run: ./consolidate-files/consolidate-files-mixed.cwl
+    in:
+      project_summary: generate_pdf/project_summary
+      sample_summary: generate_pdf/sample_summary
+      image_dir: generate_pdf/images_directory
+      output_directory_name: 
+        valueFrom: ${ return "prepped_files_for_stitching"; }
+      files:
+        valueFrom: ${ var all = new Array();  all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
+    out: [ directory ]
+ 
+  stitch_together_pdf:
+    run: ./roslin-qc/stitch-pdf.cwl
+    in: 
+      runparams: runparams
+      db_files: db_files
+      file_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+      request_file:
+        valueFrom: ${ return inputs.db_files.request_file; }
+      data_dir: group_data/directory
+    out: [ compiled_pdf ]
 

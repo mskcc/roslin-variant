@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-bcftools.concat
+  doap:name: generate-pdf
   doap:revision: 1.3.1
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -30,80 +30,96 @@ cwlVersion: cwl:v1.0
 
 requirements:
   InlineJavascriptRequirement: {}
+  InitialWorkDirRequirement:
+    listing: $(inputs.data_dir.listing)
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'qcPDF.pl' ]
+baseCommand: [ 'qc_summary.R' ]
 
 inputs:
 
-  version:
-    type: [ 'null', string ]
-    default: "1.0"
+  bin:
+    type: string
+    default: "/ifs/work/bolipatc/sandbox_branch/roslin-pipelines/variant/build_387/workspace/qcpdf"
     inputBinding:
-      prefix: -version
+      prefix: --bin 
+
+  data_dir:
+    type: Directory
+
+  output_dir: 
+    type: string
+    default: "images/"
+    inputBinding:
+      prefix: --output_dir 
+
+  path:
+    type: [ 'null', string ]
+    default: "."
+    inputBinding:
+      prefix: --path
 
   file_prefix:
     type: string
     inputBinding:
-      prefix: -pre
-
-  request_file:
-    type: File
-    inputBinding:
-      prefix: -request
-
-  path:
-    type: string
-    default: "."
-    inputBinding:
-      prefix: -path
+      prefix: --pre
 
   log:
     type: string
     default: "qcPDF.log"
     inputBinding:
-      prefix: -log
+      prefix: --logfile
 
   minor_contam_threshold:
     type: [ 'null', float ]
     default: 0.02
     inputBinding:
-      prefix: -minor_contam_threshold
+      prefix: --minor_contam_threshold
 
   major_contam_threshold:
     type: [ 'null', float ]
     default: 0.05
     inputBinding:
-      prefix: -major_contam_threshold
+      prefix: --major_contam_threshold
 
   duplication_threshold:
     type: ['null', int ]
     default: 80
     inputBinding:
-      prefix: -dup_rate_threshold
+      prefix: --dup_rate_threshold
 
   cov_warn_threshold:
     type: [ 'null', int ]
     default: 200
     inputBinding:
-      prefix: -cov_warn_threshold
+      prefix: --cov_warn_threshold
 
   cov_fail_threshold:
     type: [ 'null', int ]
     default: 50
     inputBinding:
-      prefix: -cov_fail_threshold
+      prefix: --cov_fail_threshold
 
 outputs:
   output:
-    type:
-      type: array
-      items: File
+    type: Directory
     outputBinding:
-      glob: |
-        ${
-            return "*";
-        }
+      glob: "." 
+
+  images_directory:
+    type: Directory
+    outputBinding:
+      glob: "images"
+
+  project_summary:
+    type: File
+    outputBinding:
+      glob: "*_ProjectSummary.txt"
+
+  sample_summary:
+    type: File
+    outputBinding:
+      glob: "*_SampleSummary.txt"
