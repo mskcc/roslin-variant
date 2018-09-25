@@ -77,7 +77,7 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
-        binding_deduplicated=" ".join(filtered_binding_point_list),
+        binding_deduplicated=" ".join(filtered_binding_point_list)
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
         dependencies_cmo_install_path=os.path.join(
             settings["dependencies"]["cmo"]["install-path"]
@@ -85,7 +85,8 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         dependencies_toil_version=settings["dependencies"]["toil"]["version"],
         dependencies_toil_install_path=os.path.join(
             settings["dependencies"]["toil"]["install-path"]
-        )
+        ),
+        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
     )
 
     write_to_disk("/vagrant/setup/config/settings.sh", content)

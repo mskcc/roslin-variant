@@ -6,8 +6,6 @@
 
 /build/containers/**/*.img
 /build/containers/**/*.img.bak
-/build/containers/**/*.sqsh
-/build/containers/**/*.sqsh.bak
 /build/cwl-wrappers/**/*.bak
 /build/tmp/**
 /build/scripts/error.*.txt
@@ -18,7 +16,6 @@
 /test/outputs
 /test/mock/stub
 /test/mock/**/*.img
-/test/mock/**/*.sqsh
 /test/helpers/bats*
 
 /cloud/dev/user-data.sh
@@ -27,17 +24,9 @@
 ###################
 *.pyc
 
-# Swap files #
-###################
-*.swp
-
 # Logs #
 ########
 *.log
-
-# Random VIM files #
-*.swp
-*.swo
 
 # OS generated files #
 ######################
@@ -49,3 +38,8 @@
 ehthumbs.db
 Thumbs.db
 test_output/*
+setup/config/settings.sh
+setup/config/build-settings.sh
+setup/config/test-settings.sh
+build-venv
+roslin-build-log
