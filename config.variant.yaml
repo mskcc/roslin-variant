@@ -19,20 +19,20 @@ dependencies:
     version: 1.9.10
     install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo
     archive-path: /ifs/work/pi/cmo_package_archive/
-  test:
-    root: /ifs/work/pi/roslin-test
-    tempDir: /scratch  
-    runArgs:  --single-node --leader-node controlR
-    env:
-      TOIL_LSF_ARGS: '-S 1'
-  build:
-    buildImages: false
-    installCore: true
-    buildThreads: 4
-    vagrantSize: 50GB
   singularity:
     version: 2.5.1
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-2.5.1/bin/singularity
   toil:
     version: 3.18.0a1-MSK
     install-path: /ifs/work/pi/roslin-toil/3.18.0a1-MSK/toil/
+test:
+  root: /ifs/work/pi/roslin-test
+  tempDir: /scratch  
+  runArgs:  --single-node --leader-node controlR
+  env:
+    TOIL_LSF_ARGS: '-S 1'
+build:
+  buildImages: false
+  installCore: true
+  buildThreads: 4
+  vagrantSize: 50GB
