@@ -1,12 +1,12 @@
-FROM python:2.7.13-alpine3.6
+FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.facets_suite="1.5.5" \
       version.facets="0.5.6"\
-      version.alpine="3.6" \
-      version.r="3.3.3-r0" \
+      version.alpine="3.8" \
+      version.r="3.5.0-r1" \
       version.pctGCdata="0.2.0" \
       source.facets_suite="https://github.com/mskcc/facets-suite/releases/tag/1.5.5" \
       source.facets="https://github.com/mskcc/facets/archive/v0.5.6.tar.gz"\
@@ -14,7 +14,7 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV FACETS_SUITE_VERSION 1.5.5
 ENV FACETS_VERSION 0.5.6
-ENV R_VERSION 3.3.3-r0
+ENV R_VERSION 3.5.0-r1
 ENV PCTGCDATA 0.2.0
 
 # facets-suite is in a private repo. for now we will just copy from local rather than wget
@@ -25,9 +25,9 @@ COPY install-packages.R /tmp/install-packages.R
 
 RUN apk add --update \
     # for wget
-        && apk add ca-certificates openssl \
+        && apk add ca-certificates openssl wget\
     # for compilation
-        && apk add build-base musl-dev \
+        && apk add build-base musl-dev python py-pip python-dev\
     # install cairo and R package system dependencies
         && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 \
     # download and install R

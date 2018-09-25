@@ -83,6 +83,8 @@ inputs:
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
+        qcpdf_jar_path: string
+        scripts_bin: string
 
   bams:
     type:
@@ -182,6 +184,8 @@ steps:
       runparams: runparams
       db_files: db_files
       data_dir: compile_directory_for_qcpdf/directory
+      bin: 
+        valueFrom: ${ return.inputs.runparams.scripts_bin; }
       file_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ output, images_directory, project_summary, sample_summary ]

@@ -43,7 +43,6 @@ inputs:
 
   bin:
     type: string
-    default: "/ifs/work/bolipatc/sandbox_branch/roslin-pipelines/variant/build_387/workspace/qcpdf"
     inputBinding:
       prefix: --bin 
 

@@ -157,10 +157,12 @@ do
     
     sudo rm -rf /tmp/${tool_name}
     mkdir /tmp/${tool_name}
-    mkdir /tmp/${tool_name}/${tool_version} 
+    mkdir /tmp/${tool_name}/${tool_version}
+
+    export SINGULARITY_NOHTTPS="y" 
 
     # bootstrap the image
-    sudo singularity build --sandbox --force \
+    sudo -E singularity build --sandbox --force \
         /tmp/${tool_name}/${tool_version}/${tool_name} \
         ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
         
@@ -168,7 +170,7 @@ do
     sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/labels.json
 
     # create /.roslin/ directory
-    sudo singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
+    sudo -E singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
 
     if [ ! -f /tmp/labels.json ]; then
        # Dangling Docker images              
@@ -182,7 +184,7 @@ do
     # compress the image and build in non-shared directory 
     # mmap does not like images being built on a shared directory
    
-    sudo singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.img /tmp/${tool_name}/${tool_version}/${tool_name} 
+    sudo -E singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.img /tmp/${tool_name}/${tool_version}/${tool_name} 
     sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.img ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img
     # delete tmp files
     sudo rm -rf /tmp/labels.json

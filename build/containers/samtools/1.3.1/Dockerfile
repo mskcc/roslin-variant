@@ -1,9 +1,9 @@
-FROM alpine:3.5
+FROM alpine:3.8
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.samtools="1.3.1" \
-      version.alpine="3.5.x" \
+      version.alpine="3.8" \
       source.samtools="https://github.com/samtools/samtools/releases/tag/1.3.1"
 
 ENV TOOL_VERSION 1.3.1

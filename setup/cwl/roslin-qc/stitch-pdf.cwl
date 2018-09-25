@@ -14,16 +14,17 @@ class: CommandLineTool
 baseCommand: 
 - java
 - -jar
-- "/ifs/work/bolipatc/sandbox_branch/roslin-pipelines/variant/build_387/workspace/qcpdf/QCPDF.jar"
+- $(inputs.runparams.qcpdf_jar_path)
 
 inputs:
 
+  runparams:
+    type: record
+    fields:
+      qcpdf_jar_path: string
+
   data_dir:
     type: Directory
-
-  bin:
-    type: string
-    default: "/ifs/work/bolipatc/sandbox_branch/roslin-pipelines/variant/build_387/workspace/qcpdf"
 
   request_file:
     type: File
