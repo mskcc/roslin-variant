@@ -209,7 +209,7 @@ cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
 /opt/common/CentOS_6-dev/python/python-2.7.10/bin/virtualenv virtualenv
 source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
-pip install -r $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
+pip install -r $installDir/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
 # install toil
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
