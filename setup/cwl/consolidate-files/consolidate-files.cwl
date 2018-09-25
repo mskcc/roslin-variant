@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-5
+  doap:name: consolidate-files
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper

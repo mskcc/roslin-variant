@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: project-workflow
+  doap:name: gather-metrics
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -120,51 +120,15 @@ inputs:
 outputs:
 
   # qc
-  as_metrics:
-    type: File[]
-    outputSource: gather_metrics/as_metrics
-  hs_metrics:
-    type: File[]
-    outputSource: gather_metrics/hs_metrics
-  insert_metrics:
-    type: File[]
-    outputSource: gather_metrics/insert_metrics
-  insert_pdf:
-    type: File[]
-    outputSource: gather_metrics/insert_pdf
-  per_target_coverage:
-    type: File[]
-    outputSource: gather_metrics/per_target_coverage
-  qual_metrics:
-    type: File[]
-    outputSource: gather_metrics/qual_metrics
-  qual_pdf:
-    type: File[]
-    outputSource: gather_metrics/qual_pdf
-  doc_basecounts:
-    type: File[]
-    outputSource: gather_metrics/doc_basecounts
-  gcbias_pdf:
-    type: File[]
-    outputSource: gather_metrics/gcbias_pdf
-  gcbias_metrics:
-    type: File[]
-    outputSource: gather_metrics/gcbias_metrics
-  gcbias_summary:
-    type: File[]
-    outputSource: gather_metrics/gcbias_summary
-  compiled_metrics_data:
-    type: Directory
-    outputSource: compile_directory_for_qcpdf/directory
-  generated_pdf:
-    type: Directory
-    outputSource: generate_pdf/output
   generated_pdf_images_artifact_directory:
     type: Directory
     outputSource: generate_pdf/images_directory
-  compiled_pdf:
+  metrics_txt_files:
     type: Directory
-    outputSource: stitch_together_pdf/compiled_pdf
+    outputSource: compile_directory_for_qcpdf/directory
+  pdf_report:
+    type: Directory
+    outputSource: rename_directory/directory
 
 steps:
 
@@ -246,3 +210,10 @@ steps:
       data_dir: group_data/directory
     out: [ compiled_pdf ]
 
+  rename_directory:
+    run: ./rename-directory/rename-directory.cwl
+    in:
+      output_directory_name: 
+        valueFrom: ${ return "compiled_pdf"; }
+      data_dir: stitch_together_pdf/compiled_pdf
+    out: [ directory ]

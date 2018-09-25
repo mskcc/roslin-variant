@@ -69,6 +69,6 @@ inputs:
 outputs:
   compiled_pdf:
     type: Directory 
-    basename: "compiled_pdf"
     outputBinding:
       glob: "."
+ 
