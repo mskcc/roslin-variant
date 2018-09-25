@@ -46,7 +46,6 @@ def configure_setup_settings(settings):
         binding_output=settings["binding"]["output"],
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
-        dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
         dependencies_cmo_bin_path=os.path.join(
             settings["dependencies"]["cmo"]["archive-path"],
             settings["dependencies"]["cmo"]["version"],
