@@ -157,11 +157,14 @@ outputs:
     type: Directory
     outputSource: compile_directory_for_qcpdf/directory
   generated_pdf:
-    type: File[]
+    type: Directory
     outputSource: generate_pdf/output
   generated_pdf_images_artifact_directory:
     type: Directory
     outputSource: generate_pdf/images_directory
+  compiled_pdf:
+    type: Directory
+    outputSource: stitch_together_pdf/compiled_pdf
 
 steps:
 
