@@ -204,7 +204,7 @@ if __name__ == "__main__":
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = os.path.join(ROSLIN_PATH, "scripts")
-    qcpdf_jar_path = os.path.join(scripts_dir, "QCPDF.jar")
+    qcpdf_jar_path = os.path.join(scripts_bin, "QCPDF.jar")
     ROSLIN_RESOURCES = json.load(open(ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json", 'r'))
     REQUEST_FILES = ROSLIN_RESOURCES["request_files"]
     (assay, project_id) = parse_request_file(args.request)
