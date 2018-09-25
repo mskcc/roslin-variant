@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pipeline_name_version="PIPELINE_NAME/PIPELINE_VERSION"
+pipeline_name_version={{ pipeline_name }}/{{ pipeline_version }}
 
 job_uuid=`python -c 'import uuid; print str(uuid.uuid1())'`
 lsf_proj_name="Proj_DEV_0003:${job_uuid}"
