@@ -18,6 +18,7 @@ dependencies:
   cmo:
     version: 1.9.10
     install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo
+    archive-path: /ifs/work/pi/cmo_package_archive/
   test:
     root: /ifs/work/pi/roslin-test
     tempDir: /scratch  
