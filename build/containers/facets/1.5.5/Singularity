@@ -39,6 +39,7 @@ Namespace:
 
 %test
 
+    python /usr/bin/facets-suite/facets doFacets
     # get actual output from facets doFacets
     python /usr/bin/facets-suite/facets doFacets 2>&1 | head -1 > /tmp/actual_doFacets.diff.txt
 

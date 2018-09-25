@@ -2,15 +2,6 @@
 
 import sys
 import subprocess
-import yaml
-
-
-def get_config():
-    "read config.yaml into the yaml object and return it"
-
-    with open("config.yaml", "r") as file_handle:
-        return yaml.load(file_handle.read())
-
 
 def compress(output_filename):
     "compress"
@@ -31,10 +22,12 @@ def compress(output_filename):
 
 def main():
     "main function"
+    if len(sys.argv) < 2:
+	print "USAGE: compress.py pipeline_name"
+        exit()
 
-    config = get_config()
-    pipeline_name = config["name"]
-    pipeline_version = config["version"]
+    pipeline_name = sys.argv[1]
+    pipeline_version = sys.argv[2]
 
     output_filename = "roslin-{}-pipeline-v{}.tgz".format(
         pipeline_name,

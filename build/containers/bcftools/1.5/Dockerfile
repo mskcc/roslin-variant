@@ -1,9 +1,9 @@
-FROM alpine:3.5
+FROM alpine:3.8
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.bcftools="1.5" \
-      version.alpine="3.5.x" \
+      version.alpine="3.8" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5"
 
 ENV BCFTOOLS_VERSION 1.5
