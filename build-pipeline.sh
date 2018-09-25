@@ -109,6 +109,8 @@ then
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
+    # Create the test dir where the pipeline will be installed
+    mkdir -p $installDir
 else
     printf "Starting Build\n"
     TempDir=roslin-build-log
@@ -175,8 +177,6 @@ fi
 
 printf "\n----------Setting up workspace----------\n"
 
-# Create the test dir where the pipeline will be installed
-mkdir -p $installDir
 mkdir -p $coreDir
 
 # Install Core

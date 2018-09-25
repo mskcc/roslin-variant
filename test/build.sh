@@ -17,7 +17,7 @@ rm -f $parentDir/setup/config/test-settings.sh
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 
 function store_test_logs_run_pipeline {
-    cd $installDir/roslin-pipelines/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/outputs
+    cd $ROSLIN_PIPELINE_ROOT/outputs 
     cd $(ls -d */ | tail -n 1)
     cd $(ls -d */ | head -n 1)
     cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
