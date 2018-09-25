@@ -59,12 +59,7 @@ def configure_setup_settings(settings):
         dependencies_toil_install_path=os.path.join(
             settings["dependencies"]["toil"]["install-path"]
         ),
-        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"],
-        dependencies_cmo_python_path=os.path.join(
-            settings["dependencies"]["cmo"]["install-path"],
-            settings["dependencies"]["cmo"]["version"],
-            "lib/python2.7/site-packages"
-        )
+        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
     )
 
     write_to_disk("setup/config/settings.sh", content)
