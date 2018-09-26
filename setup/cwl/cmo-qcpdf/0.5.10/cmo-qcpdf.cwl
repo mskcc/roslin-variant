@@ -77,7 +77,7 @@ inputs:
         items:
           type: array
           items: File
-  clstats1:
+  clstats2:
     type:
       type: array
       items:
