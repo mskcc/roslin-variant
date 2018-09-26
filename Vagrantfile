@@ -22,12 +22,11 @@ Vagrant.configure("2") do |config|
       v.memory = "2048"
 	end
 
-  config.vm.hostname = "roslin-variants"
+  config.vm.hostname = "roslin-variant"
   config.vm.provision "shell", path: "./vm/resize-disk.sh"
   config.vm.provision "shell", path: "./vm/bootstrap.sh"
   config.vm.provision "shell", path: "./vm/install-python.sh"
   config.vm.provision "shell", path: "./vm/install-singularity.sh"
   config.vm.provision "shell", path: "./vm/install-docker.sh"
   config.vm.provision "shell", path: "./vm/install-docker-registry.sh"
-  config.vm.provision "shell", path: "./vm/install-cmo.sh", privileged: false
 end
