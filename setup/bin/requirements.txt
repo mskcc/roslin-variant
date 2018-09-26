@@ -7,7 +7,7 @@ CacheControl==0.11.7
 certifi==2018.1.18
 chardet==3.0.4
 cwltest==1.0.20180209171722
-cwltool==1.0.20180403145700
+cwltool==1.0.20180820141117
 dill==0.2.7.1
 docker==2.5.1
 docker-pycreds==0.2.2
