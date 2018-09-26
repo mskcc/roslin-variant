@@ -125,29 +125,16 @@ def configure_build_settings(settings):
 
     write_to_disk("setup/config/build-settings.sh", content)
 
-def configure_container_settings(settings):
+def configure_container_settings(settings,filtered_binding_point_list):
     "make /build/scripts/settings.sh"
 
     template = get_template("build/scripts/settings-build.template.sh")
 
-    # ------------1
     content = template.render(
         version=settings["version"]
     )
 
     write_to_disk("build/scripts/settings-build.sh", content)
-
-    # ------------2
-
-    binding_points = [
-        os.path.join(settings["root"], settings["binding"]["core"]),
-        os.path.join(settings["root"], settings["binding"]["data"]),
-        os.path.join(settings["root"], settings["binding"]["output"]),
-        os.path.join(settings["root"], settings["binding"]["workspace"])
-    ]
-
-    for extra in settings["binding"]["extra"]:
-        binding_points.append(os.path.join(settings["root"], extra))
 
     template = get_template("build/scripts/settings-container.template.sh")
 
@@ -179,7 +166,7 @@ def main():
 
     configure_test_settings(settings)
 
-    configure_container_settings(settings)
+    configure_container_settings(settings,filtered_binding_point_list)
 
 
 if __name__ == "__main__":
