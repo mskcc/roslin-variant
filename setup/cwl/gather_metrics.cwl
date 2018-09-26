@@ -185,7 +185,7 @@ steps:
       db_files: db_files
       data_dir: compile_directory_for_qcpdf/directory
       bin: 
-        valueFrom: ${ return.inputs.runparams.scripts_bin; }
+        valueFrom: ${ return inputs.runparams.scripts_bin; }
       file_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ output, images_directory, project_summary, sample_summary ]
