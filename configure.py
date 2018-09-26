@@ -40,7 +40,7 @@ def get_deduplicated_binding_points(settings):
     for extra in settings["binding"]["extra"]:
         binding_points.append(os.path.join(settings["root"], extra))
 
-    template = get_template("/vagrant/build/scripts/settings-container.template.sh")
+    template = get_template("build/scripts/settings-container.template.sh")
 
     # remove duplicate binding points
 
