@@ -1,6 +1,6 @@
 name: variant
-version: 2.4.1
-description: Roslin Variant Pipeline v2.4.1
+version: 2.4.2
+description: Roslin Variant Pipeline v2.4.2
 root: /ifs/work/pi/roslin-pipelines
 binding:
   core: bin
@@ -13,8 +13,8 @@ binding:
 dependencies:
   core:
     version:
-      min: 2.0.5
-      max: 2.0.5
+      min: 2.0.6
+      max: 2.0.6
   cmo:
     version: 1.9.10
     install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo/
@@ -27,9 +27,9 @@ dependencies:
 test:
   root: /ifs/work/pi/roslin-test
   tempDir: /scratch  
-  runArgs: --single-node --leader-node largeHG
+  runArgs: --single-node --leader-node controlR
   env:
-    TOIL_LSF_ARGS: '-S 1 -We 0:59 -R select[internet]'
+    TOIL_LSF_ARGS: '-S 1'
 build:
   buildImages: false
   installCore: true

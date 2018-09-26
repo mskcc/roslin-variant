@@ -9,13 +9,11 @@ roslin_request_to_yaml.py \
     -g Proj_DEV_0003_sample_grouping.txt \
     -r Proj_DEV_0003_request.txt \
     -o . \
-    -f inputs.yaml \
-    {{ run_args }}
+    -f inputs.yaml
 
 roslin_submit.py \
     --id Proj_DEV_0003 \
     --path . \
     --workflow project-workflow.cwl \
-    --single-node \
-    --leader-node controlR \
-    --pipeline ${pipeline_name_version}
+    --pipeline ${pipeline_name_version} \
+    {{ run_args }}
