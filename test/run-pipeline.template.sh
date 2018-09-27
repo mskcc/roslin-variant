@@ -43,6 +43,6 @@ bsub -q controlR \
         --id Proj_DEV_0003 \
         --job-uuid ${job_uuid} \
         --work-dir ${work_dir} \
-        --batch-system singleMachine \
+        --batch-system lsf \
         --pipeline ${pipeline_name_version} \
         --input-yaml ${work_dir}/inputs.yaml

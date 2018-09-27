@@ -22,6 +22,7 @@ function store_test_logs {
     cd $ROSLIN_PIPELINE_ROOT/outputs
     cd $(ls -d */|head -n 1)
     cd $(ls -d */|head -n 1)
+    print "Storing project-workflow.cwl logs..."
     cp stderr.log $parentDir/$TestDir/test_stderr.txt
     cp stdout.log $parentDir/$TestDir/test_stdout.txt
 }
@@ -30,6 +31,7 @@ function store_test_logs_sv {
     cd $ROSLIN_PIPELINE_ROOT/outputs
     cd $(ls -d */ | tail -n 1)
     cd $(ls -d */ | head -n 1)
+    print "Storing project-workflow-sv.cwl logs..."
     cp stderr.log $parentDir/$TestDir/test_stderr_sv.txt
     cp stdout.log $parentDir/$TestDir/test_stdout_sv.txt
 }
@@ -38,6 +40,7 @@ function store_test_logs_run_pipeline {
     cd $ROSLIN_PIPELINE_ROOT/outputs 
     cd $(ls -d */ | tail -n 1)
     cd $(ls -d */ | head -n 1)
+    print "Storing run_pipeline.py logs..."
 #    cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
     cp stdout.log $parentDir/$TestDir/test_stdout_run_pipeline.txt
 }
@@ -60,13 +63,12 @@ do
 
     printf "Regular: $leaderStatus; SV: $leaderStatusSV; RP: $leaderStatusRP\n"
 
-    store_test_logs
-    store_test_logs_sv
-    store_test_logs_run_pipeline
-
     if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ] && [ "$leaderStatusRP" == "DONE" ]
     then
         printf "All Jobs Finished Successfully\n"
+        store_test_logs
+        store_test_logs_sv
+        store_test_logs_run_pipeline
         runningBool=0
     fi
 
@@ -78,6 +80,9 @@ do
             `bkill $leaderStatusRP`
         fi
         runningBool=0
+        store_test_logs
+        store_test_logs_sv
+        store_test_logs_run_pipeline
         exit 1
     fi
     sleep 1m

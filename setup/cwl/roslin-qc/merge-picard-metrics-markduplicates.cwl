@@ -35,7 +35,7 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'mergePicardMetrics.pl', '-metrics' ]
+baseCommand: [ 'mergePicardMetrics.py' ]
 stdout: $(inputs.outfile_name)
 inputs:
   files:
@@ -45,7 +45,7 @@ inputs:
         type: array
         items: File
     inputBinding:
-      position: 1
+      prefix: --files
   outfile_name: 
     type: string
 outputs:
