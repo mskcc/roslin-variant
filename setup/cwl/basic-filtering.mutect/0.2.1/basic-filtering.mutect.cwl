@@ -44,7 +44,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- non-cmo.sh
+- tool.sh
 - --tool
 - "basic-filtering"
 - --version
@@ -57,7 +57,7 @@ baseCommand:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16
+    ramMin: 16000
     coresMin: 2
 
 

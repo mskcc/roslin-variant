@@ -47,7 +47,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: ['bcftools', 'concat']
-#- non-cmo.sh
+#- tool.sh
 #- --tool
 #- "bcftools"
 #- --version
@@ -62,7 +62,7 @@ stdout: $(inputs.output)
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 doc: |

@@ -188,8 +188,8 @@ def calculate_abra_ram_size(grouping_dict):
         if len(grouping_dict[group]) > 3:
             group_larger_than_three_exists = True
     if group_larger_than_three_exists:
-        return 512
-    return 36
+        return 512000
+    return 36000
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
@@ -203,6 +203,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
+    scripts_bin = os.path.join(ROSLIN_PATH, "scripts")
+    qcpdf_jar_path = os.path.join(scripts_bin, "QCPDF.jar")
     ROSLIN_RESOURCES = json.load(open(ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json", 'r'))
     REQUEST_FILES = ROSLIN_RESOURCES["request_files"]
     (assay, project_id) = parse_request_file(args.request)
@@ -326,7 +328,9 @@ if __name__ == "__main__":
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
         "facets_cval": facets_cval,
-        "facets_pcval": facets_pcval
+        "facets_pcval": facets_pcval,
+        "scripts_bin": scripts_bin, 
+        "qcpdf_jar_path": {'class': 'File', 'path': qcpdf_jar_path }
     }
     out_dict.update({"runparams": params})
     ofh = open(args.yaml_output_file, "wb")

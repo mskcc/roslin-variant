@@ -61,11 +61,6 @@ inputs:
   bait_intervals: File
   target_intervals: File
   fp_intervals: File
-  fp_genotypes: File
-  grouping_file: File
-  pairing_file: File
-  request_file: File
-  project_prefix: string
   md_metrics_files:
     type:
       type: array
@@ -146,11 +141,6 @@ outputs:
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_summary
-  qc_files:
-    type:
-      type: array
-      items: File
-    outputSource: generate_pdf/qc_files
 
 steps:
 
@@ -304,30 +294,3 @@ steps:
               valueFrom: ${ return true; }
           out: [out_file]
 
-  generate_pdf:
-    run: cmo-qcpdf/0.5.11/cmo-qcpdf.cwl
-    in:
-      files: scatter_metrics/as_metrics_files
-      md_metrics_files: md_metrics_files
-      clstats1: clstats1
-      clstats2: clstats2
-      gcbias_files:
-        valueFrom: ${ return "*.hstmetrics";}
-      mdmetrics_files:
-        valueFrom: ${ return "*.md_metrics";}
-      fingerprint_files:
-        valueFrom: ${ return "*_FP_base_counts.txt";}
-      trimgalore_files:
-        valueFrom: ${ return "*_cl.stats";}
-      insertsize_files:
-        valueFrom: ${ return "*.ismetrics";}
-      hsmetrics_files:
-        valueFrom: ${ return "*.hsmetrics";}
-      qualmetrics_files:
-        valueFrom: ${ return "*.quality_by_cycle_metrics";}
-      file_prefix: project_prefix
-      fp_genotypes: fp_genotypes
-      pairing_file: pairing_file
-      grouping_file: grouping_file
-      request_file: request_file
-    out: [qc_files]

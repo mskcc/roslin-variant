@@ -24,10 +24,6 @@
 ###################
 *.pyc
 
-# Swap files #
-###################
-*.swp
-
 # Logs #
 ########
 *.log
@@ -42,3 +38,8 @@
 ehthumbs.db
 Thumbs.db
 test_output/*
+setup/config/settings.sh
+setup/config/build-settings.sh
+setup/config/test-settings.sh
+build-venv
+roslin-build-log

@@ -9,8 +9,8 @@ export ROSLIN_CORE_MIN_VERSION="{{ core_min_version }}"
 export ROSLIN_CORE_MAX_VERSION="{{ core_max_version }}"
 
 # Roslin pipeline root path
-ROSLIN_PIPELINE_ROOT="{{ pipeline_root }}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
-
+export ROSLIN_PIPELINE_ROOT="{{ pipeline_root }}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
+export ROSLIN_ROOT="{{ pipeline_root }}"
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
@@ -37,9 +37,8 @@ export ROSLIN_SINGULARITY_PATH="/opt/common/CentOS_6-dev/singularity/singularity
 
 # cmo
 export ROSLIN_CMO_VERSION="{{ dependencies_cmo_version }}"
-export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 export ROSLIN_CMO_BIN_PATH="{{ dependencies_cmo_bin_path }}"
-export ROSLIN_CMO_PYTHON_PATH="{{ dependencies_cmo_python_path }}"
+export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 
 # toil
 export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
