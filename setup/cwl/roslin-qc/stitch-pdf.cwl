@@ -14,15 +14,9 @@ class: CommandLineTool
 baseCommand: 
 - java
 - -jar
-- $(inputs.runparams.qcpdf_jar_path)
+- QCPDF.jar
 
 inputs:
-
-  runparams:
-    type:
-      type: record
-      fields:
-        qcpdf_jar_path: string
 
   data_dir:
     type: Directory
@@ -70,7 +64,7 @@ inputs:
 
 outputs:
   compiled_pdf:
-    type: Directory 
+    type: File
     outputBinding:
-      glob: "."
+      glob: "*.pdf"
  

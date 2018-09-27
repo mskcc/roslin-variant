@@ -83,7 +83,7 @@ inputs:
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
-        qcpdf_jar_path: string
+        qcpdf_jar_path: File
         scripts_bin: string
 
   bams:
@@ -129,8 +129,8 @@ outputs:
     type: Directory
     outputSource: compile_directory_for_qcpdf/directory
   pdf_report:
-    type: Directory
-    outputSource: rename_directory/directory
+    type: File
+    outputSource: stitch_together_pdf/compiled_pdf
 
 steps:
 
@@ -193,13 +193,14 @@ steps:
   group_data:
     run: ./consolidate-files/consolidate-files-mixed.cwl
     in:
+      runparams: runparams
       project_summary: generate_pdf/project_summary
       sample_summary: generate_pdf/sample_summary
       image_dir: generate_pdf/images_directory
       output_directory_name: 
         valueFrom: ${ return "prepped_files_for_stitching"; }
       files:
-        valueFrom: ${ var all = new Array();  all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
+        valueFrom: ${ var all = new Array();  all.push(inputs.runparams.qcpdf_jar_path); all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
     out: [ directory ]
  
   stitch_together_pdf:
@@ -213,11 +214,3 @@ steps:
         valueFrom: ${ return inputs.db_files.request_file; }
       data_dir: group_data/directory
     out: [ compiled_pdf ]
-
-  rename_directory:
-    run: ./rename-directory/rename-directory.cwl
-    in:
-      output_directory_name: 
-        valueFrom: ${ return "compiled_pdf"; }
-      data_dir: stitch_together_pdf/compiled_pdf
-    out: [ directory ]

@@ -330,7 +330,7 @@ if __name__ == "__main__":
         "facets_cval": facets_cval,
         "facets_pcval": facets_pcval,
         "scripts_bin": scripts_bin, 
-        "qcpdf_jar_path": qcpdf_jar_path
+        "qcpdf_jar_path": {'class': 'File', 'path': qcpdf_jar_path }
     }
     out_dict.update({"runparams": params})
     ofh = open(args.yaml_output_file, "wb")
