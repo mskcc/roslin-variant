@@ -109,10 +109,9 @@ then
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
-    # Create the test dir where the pipeline will be installed
-    mkdir -p $installDir
 else
     printf "Starting Build\n"
+    installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME
     TempDir=roslin-build-log
     TestDir=roslin-build-log
     buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
@@ -177,6 +176,7 @@ fi
 
 printf "\n----------Setting up workspace----------\n"
 
+mkdir -p $installDir
 mkdir -p $coreDir
 
 # Install Core
@@ -206,10 +206,11 @@ cd $ROSLIN_CORE_BIN_PATH
 # Setup virtualenv
 printf "\n----------Setting up virtualenv----------\n"
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
-/opt/common/CentOS_6-dev/python/python-2.7.10/bin/virtualenv virtualenv
+virtualenv virtualenv
 source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
-pip install -r $installDir/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/bin/scripts/requirements.txt
+cd $parentDir
+pip install -r build/run_requirements.txt
 # install toil
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
