@@ -19,9 +19,10 @@ baseCommand:
 inputs:
 
   runparams:
-    type: record
-    fields:
-      qcpdf_jar_path: string
+    type:
+      type: record
+      fields:
+        qcpdf_jar_path: string
 
   data_dir:
     type: Directory
