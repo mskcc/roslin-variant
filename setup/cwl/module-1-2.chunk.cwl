@@ -205,7 +205,6 @@ steps:
       snps_1000g: snps_1000g
       covariates: covariates
       abra_scratch: abra_scratch
-      abra_ram_min: abra_ram_min
       group: group
       genome: genome
     out: [outbams, covint_list, covint_bed]
