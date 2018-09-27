@@ -38,7 +38,7 @@ function store_test_logs_run_pipeline {
     cd $ROSLIN_PIPELINE_ROOT/outputs 
     cd $(ls -d */ | tail -n 1)
     cd $(ls -d */ | head -n 1)
-    cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
+#    cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
     cp stdout.log $parentDir/$TestDir/test_stdout_run_pipeline.txt
 }
 
@@ -73,8 +73,12 @@ do
     if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ] || [ "$leaderStatusRP" == "EXIT" ]
     then
         printf "One or more of the jobs have failed\n"
-        exit 1
+        if [ "$leaderStatusRP" != "EXIT" ]
+        then
+            `bkill $leaderStatusRP`
+        fi
         runningBool=0
+        exit 1
     fi
     sleep 1m
 done
