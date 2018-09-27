@@ -314,9 +314,9 @@ outputs:
   generated_pdf_images_artifact_directory:
     type: Directory
     outputSource: gather_metrics/generated_pdf_images_artifact_directory
-  metric_txt_files:
+  metrics_txt_files:
     type: Directory
-    outputSource: gather_metrics/metric_txt_files
+    outputSource: gather_metrics/metrics_txt_files
   pdf_report:
     type: File
     outputSource: gather_metrics/pdf_report
@@ -401,7 +401,7 @@ steps:
       indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval, delly_type, vep_data]
 
   variant_calling:
     run: module-3.cwl

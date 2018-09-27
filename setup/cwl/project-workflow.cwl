@@ -300,9 +300,9 @@ outputs:
   generated_pdf_images_artifact_directory:
     type: Directory
     outputSource: gather_metrics/generated_pdf_images_artifact_directory
-  metric_txt_files:
+  metrics_txt_files:
     type: Directory
-    outputSource: gather_metrics/metric_txt_files
+    outputSource: gather_metrics/metrics_txt_files
   pdf_report:
     type: File
     outputSource: gather_metrics/pdf_report
