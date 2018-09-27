@@ -367,7 +367,6 @@ steps:
       mutect_rf: projparse/mutect_rf
       covariates: projparse/covariates
       abra_scratch: projparse/abra_scratch
-      abra_ram_min: projparse/abra_ram_min
       refseq: projparse/refseq
       group: projparse/group_ids
       opt_dup_pix_dist: projparse/opt_dup_pix_dist
