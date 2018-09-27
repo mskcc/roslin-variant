@@ -82,8 +82,7 @@ inputs:
 
   input_file:
     type:
-    - 'null'
-    - type: array
+      type: array
       items: File
       inputBinding:
         prefix: --input_file
