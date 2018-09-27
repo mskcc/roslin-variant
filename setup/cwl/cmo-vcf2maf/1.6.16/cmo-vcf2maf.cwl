@@ -65,7 +65,7 @@ inputs:
     type:
     - 'null'
     - string
-    default: '91'
+    default: '92'
     doc: Version of VEP and its cache to use
     inputBinding:
       prefix: --vep-release
@@ -73,8 +73,7 @@ inputs:
   species:
     type:
     - 'null'
-    - type: enum
-      symbols: [homo_sapiens, mus_musculus]
+    - string
     default: homo_sapiens
     doc: Species of variants in input
     inputBinding:
@@ -152,7 +151,7 @@ inputs:
 
   custom_enst:
     type: ['null', string]
-    default: /usr/bin/vcf2maf/data/isoform_overrides_at_mskcc
+    default: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc
     doc: List of custom ENST IDs that override canonical selection
     inputBinding:
       prefix: --custom-enst
