@@ -254,7 +254,9 @@ outputs:
   abra_scratch:
     type:
       type: array
-      items: string
+      items:
+        type: array
+        items: string
   genome:
     type:
       type: array
