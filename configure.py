@@ -81,12 +81,12 @@ def configure_test_settings(settings):
 
 
     run_example_template = get_template("test/run-example.template.sh")
-    run_example_content = run_example_template.render(example_name=settings["name"],
+    run_example_content = run_example_template.render(pipeline_name=settings["name"],
         example_version=settings["version"],run_args=settings["test"]["runArgs"])
     write_to_disk("test/run-example.sh",run_example_content)
 
     run_example_sv_template = get_template("test/run-example-sv.template.sh")
-    run_example_sv_content = run_example_sv_template.render(example_sv_name=settings["name"],
+    run_example_sv_content = run_example_sv_template.render(pipeline_name=settings["name"],
         example_sv_version=settings["version"],run_args=settings["test"]["runArgs"])
     write_to_disk("test/run-example-sv.sh",run_example_sv_content)
 
