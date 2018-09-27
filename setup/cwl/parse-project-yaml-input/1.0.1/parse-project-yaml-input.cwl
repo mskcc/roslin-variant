@@ -255,10 +255,6 @@ outputs:
     type:
       type: array
       items: string
-  abra_ram_min:
-    type:
-      type: array
-      items: int
   genome:
     type:
       type: array

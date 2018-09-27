@@ -75,7 +75,6 @@ inputs:
         secondaryFiles:
             - .idx
     covariates: string[]
-    abra_ram_min: int
     abra_scratch: string
     group: string
     runparams:
