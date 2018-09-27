@@ -125,7 +125,6 @@ steps:
             runparams: runparams
             in: bams
             ref: genome
-            abra_ram_min: abra_ram_min
             out:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
