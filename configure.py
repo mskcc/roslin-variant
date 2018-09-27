@@ -78,6 +78,18 @@ def configure_test_settings(settings):
     write_to_disk("setup/config/test-settings.sh", content)
 
     # Configure our example runs
+
+
+    run_example_template = get_template("test/run-example.template.sh")
+    run_example_content = run_example_template.render(example_name=settings["name"],
+        example_version=settings["version"],run_args=settings["test"]["runArgs"])
+    write_to_disk("test/run-example.sh",run_example_content)
+
+    run_example-sv_template = get_template("test/run-example-sv.template.sh")
+    run_example-sv_content = run_example-sv_template.render(example-sv_name=settings["name"],
+        example-sv_version=settings["version"],run_args=settings["test"]["runArgs"])
+    write_to_disk("test/run-example-sv.sh",run_example-sv_content)
+
     run_pipeline_template = get_template("test/run-pipeline.template.sh")
     run_pipeline_content = run_pipeline_template.render(pipeline_name=settings["name"],
         pipeline_version=settings["version"],run_args=settings["test"]["runArgs"])
