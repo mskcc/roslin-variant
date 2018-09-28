@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+label: sort-bams-by-pair
 requirements:
   - class: InlineJavascriptRequirement
 
@@ -65,13 +66,38 @@ inputs:
     type:
       type: record
       fields:
-        cosmic: File
-        dbsnp: File
-        hapmap: File
-        indels_1000g: File
         refseq: File
-        snps_1000g: File
+        ref_fasta: string
         vep_data: string
+        hotspot_list: File
+        hotspot_vcf: File
+        bait_intervals: File
+        target_intervals: File
+        fp_intervals: File
+        fp_genotypes: File
+        grouping_file: File
+        request_file: File
+        pairing_file: File
+  hapmap_inputs:
+    type: File
+    secondaryFiles:
+      - .idx
+  dbsnp_inputs:
+    type: File
+    secondaryFiles:
+      - .idx
+  indels_1000g_inputs:
+    type: File
+    secondaryFiles:
+      - .idx
+  snps_1000g_inputs:
+    type: File
+    secondaryFiles:
+      - .idx
+  cosmic_inputs:
+    type: File
+    secondaryFiles:
+      - .idx
   runparams:
     type:
       type: record
@@ -91,6 +117,7 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        opt_dup_pix_dist: string
         delly_type:
           type:
             type: array
@@ -135,7 +162,7 @@ outputs:
   mutect_dcov:
     type:
       type: array
-      items: string
+      items: int
   mutect_rf:
     type:
       type: array
@@ -146,14 +173,6 @@ outputs:
     type:
       type: array
       items: string
-  facets_pcval:
-    type:
-      type: array
-      items: int
-  facets_cval: 
-    type:
-      type: array
-      items: int
   vep_data:
     type:
       type: array
@@ -164,13 +183,21 @@ outputs:
       items: 
         type: array
         items: string
+  facets_pcval:
+    type:
+      type: array
+      items: int
+  facets_cval: 
+    type:
+      type: array
+      items: int
 
 expression: '${
 var samples = {};
 var sample_beds =[];
 var flattened_bams = [];
-var extra_shit = {};
-var keys_of_interest=["cosmic", "refseq", "dbsnp", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data", "facets_pcval", "facets_cval"];
+var extra_stuff = {};
+var keys_of_interest=["cosmic_inputs", "refseq", "dbsnp_inputs", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data", "facets_pcval", "facets_cval"];
 for (var i = 0; i < inputs.bams.length; i++) {
     for (var j = 0; j < inputs.bams[i].length; j++) {
         flattened_bams.push(inputs.bams[i][j]);
@@ -182,17 +209,25 @@ for (var i = 0; i < flattened_bams.length; i++) {
     for (var x=0; x< keys_of_interest.length; x++) {
         var key = keys_of_interest[x];
         if(key in inputs.runparams) {
-            if (!(key in extra_shit)) {
-                extra_shit[key]=[inputs.runparams[key]]
+            if (!(key in extra_stuff)) {
+                extra_stuff[key]=[inputs.runparams[key]]
             }else{
-                extra_shit[key].push(inputs.runparams[key]);
+                extra_stuff[key].push(inputs.runparams[key]);
             }
         }
+        if(key in inputs) {
+          var new_key = key.slice(0, -7);
+          if (!(new_key in extra_stuff)) {
+                 extra_stuff[new_key]=[inputs[key]];
+          }else{
+               extra_stuff[new_key].push(inputs[key]);
+          }
+        }
         if(key in inputs.db_files) {
-            if (!(key in extra_shit)) {
-                extra_shit[key]=[inputs.db_files[key]];
+            if (!(key in extra_stuff)) {
+                extra_stuff[key]=[inputs.db_files[key]];
             }else{
-                extra_shit[key].push(inputs.db_files[key]);
+                extra_stuff[key].push(inputs.db_files[key]);
             }
         }
     }
@@ -212,8 +247,8 @@ for (var i=0; i < inputs.pairs.length; i++) {
     }
 }
 var final_json= {"tumor_bams": tumor_bams, "normal_bams": normal_bams, "tumor_sample_ids": tumor_sample_ids, "normal_sample_ids": normal_sample_ids, "covint_bed": sample_beds};
-for (var key in extra_shit) {
-    final_json[key]=extra_shit[key];
+for (var key in extra_stuff) {
+    final_json[key]=extra_stuff[key];
 }
 return final_json;
 }'

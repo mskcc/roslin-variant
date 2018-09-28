@@ -41,15 +41,18 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_pindel
-- --version
-- 0.2.5b8
+baseCommand: [cmo_pindel]
+label: cmo-pindel
+
+arguments:
+- valueFrom: "0.2.5b8"
+  prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 36
+    ramMin: 36000
     coresMin: 4
 
 doc: |
@@ -363,9 +366,7 @@ inputs:
 
   fasta:
     type:
-    - 'null'
-    - type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    - string
     default: GRCh37
 
     inputBinding:

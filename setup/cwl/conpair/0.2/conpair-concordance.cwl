@@ -37,28 +37,39 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "conpair_concordance"
-- --version
-- "0.2"
-- --language_version
-- "default"
-- --language
-- "python"
-- --normal_homozygous_markers_only
+baseCommand: [tool.sh]
+label: conpair-concordance
+
+arguments:
+- valueFrom: "conpair_concordance"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.2"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "python"
+  prefix: --language
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16
+    ramMin: 16000
     coresMin: 1
 
 doc: |
   None
 
 inputs:
+  normal_homozygous:
+    type: boolean
+    default: true
+    inputBinding:
+      prefix: --normal_homozygous_markers_only
+
   tpileup:
     type:
     - [File, string]

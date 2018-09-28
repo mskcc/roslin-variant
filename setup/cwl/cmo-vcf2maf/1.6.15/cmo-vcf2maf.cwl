@@ -14,7 +14,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-vcf2maf
-  doap:revision: 1.6.14
+  doap:revision: 1.6.15
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -42,15 +42,18 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_vcf2maf
-- --version
-- 1.6.15
+baseCommand: [cmo_vcf2maf]
+label: cmo-vcf2maf
+
+arguments:
+- valueFrom: "1.6.15"
+  prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 2
 
 
@@ -62,7 +65,7 @@ inputs:
     type:
     - 'null'
     - string
-    default: '86'
+    default: '91'
     doc: Version of VEP and its cache to use
     inputBinding:
       prefix: --vep-release
@@ -70,8 +73,7 @@ inputs:
   species:
     type:
     - 'null'
-    - type: enum
-      symbols: [homo_sapiens, mus_musculus]
+    - string
     default: homo_sapiens
     doc: Species of variants in input
     inputBinding:
@@ -80,8 +82,7 @@ inputs:
   ncbi_build:
     type:
     - 'null'
-    - type: enum
-      symbols: [GRCh37, GRCh38, GRCm38]
+    - string
     default: GRCh37
     doc: Genome build of variants in input
     inputBinding:
@@ -164,7 +165,7 @@ inputs:
 
   vep_path:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/v86
+    default: /opt/common/CentOS_6-dev/vep/v92
     doc: Folder containing variant_effect_predictor.pl
     inputBinding:
       prefix: --vep-path

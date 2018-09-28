@@ -43,6 +43,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+label: module-6
 requirements:
     MultipleInputFeatureRequirement: {}
     ScatterFeatureRequirement: {}
@@ -158,9 +159,7 @@ steps:
                         - ^.bcf.csi
                     outputSource: delly_call/sv_file
                 delly_filtered_sv:
-                    type: 
-                        type: array
-                        items: File
+                    type: File
                     outputBinding:
                         glob: '*.pass.bcf'
                     secondaryFiles:
@@ -247,7 +246,7 @@ steps:
                 merged_file: 
                     type: stdout
     convert_vcf2maf:
-        run: cmo-vcf2maf/1.6.15/cmo-vcf2maf.cwl 
+        run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
         in:
             vep_data: vep_data
             normal_id: normal_sample_name

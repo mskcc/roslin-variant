@@ -29,5 +29,4 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "./vm/install-singularity.sh"
   config.vm.provision "shell", path: "./vm/install-docker.sh"
   config.vm.provision "shell", path: "./vm/install-docker-registry.sh"
-  config.vm.provision "shell", path: "./vm/install-cmo.sh", privileged: false
 end

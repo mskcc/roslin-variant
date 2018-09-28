@@ -37,21 +37,27 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "conpair_merge"
-- --version
-- "0.2"
-- --language_version
-- "default"
-- --language
-- "python"
+baseCommand: [tool.sh]
+label: conpair-merge
+
+arguments:
+- valueFrom: "conpair_merge"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.2"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "python"
+  prefix: --language
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16
+    ramMin: 16000
     coresMin: 1
 
 doc: |

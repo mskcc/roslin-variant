@@ -11,7 +11,6 @@ roslin_request_to_yaml.py \
     -o . \
     -f inputs.yaml
 
-
 roslin_submit.py \
     --id Proj_DEV_0003 \
     --path . \

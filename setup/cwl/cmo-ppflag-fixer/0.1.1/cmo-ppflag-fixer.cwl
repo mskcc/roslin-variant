@@ -41,22 +41,30 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "htstools"
-- --version
-- "0.1.1"
-- --language_version
-- "default"
-- --language
-- "bash"
-- ppflag-fixer
+baseCommand: [tool.sh]
+label: htstools-ppflag-fixer
+
+arguments:
+- valueFrom: "htstools"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.1.1"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "bash"
+  prefix: --language
+  position: 0
+- valueFrom: "ppflag-fixer"
+  prefix: --cmd
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 

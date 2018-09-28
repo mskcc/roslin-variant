@@ -41,15 +41,17 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_bwa_mem
-- --version
-- 0.7.5a
+baseCommand: [cmo_bwa_mem]
+label: cmo-bwa-mem
+arguments: 
+- valueFrom: "0.7.5a"
+  prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16
+    ramMin: 16000
     coresMin: 4
 
 doc: |
@@ -57,9 +59,7 @@ doc: |
 
 inputs:
   genome:
-    type:
-      type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    type: string
     inputBinding:
       prefix: --genome
 

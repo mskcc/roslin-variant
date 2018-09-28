@@ -41,17 +41,21 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_picard
-- --cmd
-- AddOrReplaceReadGroups
-- --version
-- "2.9"
+baseCommand: [cmo_picard]
+label: cmo-picard-AddOrReplaceReadGroups
+
+arguments:
+- valueFrom: "AddOrReplaceReadGroups"
+  prefix: --cmd
+  position: 0
+- valueFrom: "2.9"
+  prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 8
+    ramMin: 8000
     coresMin: 1
 
 doc: |

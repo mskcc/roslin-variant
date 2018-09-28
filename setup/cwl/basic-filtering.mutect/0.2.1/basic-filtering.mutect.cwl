@@ -43,23 +43,31 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "basic-filtering"
-- --version
-- "0.2.1"
-- --language_version
-- "default"
-- --language
-- "bash"
-- mutect
+baseCommand: [tool.sh]
+label: basic-filtering-mutect
+
+arguments:
+- valueFrom: "basic-filtering"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.2.1"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "bash"
+  prefix: --language
+  position: 0
+- valueFrom: "mutect"
+  prefix: --cmd
+  position: 0
+  
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 16
+    ramMin: 16000
     coresMin: 2
-
 
 doc: |
   Filter snps from the output of muTect v1.14

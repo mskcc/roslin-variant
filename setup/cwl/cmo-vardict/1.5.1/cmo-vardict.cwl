@@ -41,15 +41,18 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_vardict
-- --version
-- 1.5.1
+baseCommand: [cmo_vardict]
+label: cmo-vardict
+
+arguments:
+- valueFrom: "1.5.1"
+  prefix: --version
+  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 32
+    ramMin: 32000
     coresMin: 4
 
 

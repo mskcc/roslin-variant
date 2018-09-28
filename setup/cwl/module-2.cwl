@@ -43,6 +43,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+label: module-2
 requirements:
     MultipleInputFeatureRequirement: {}
     ScatterFeatureRequirement: {}
@@ -73,9 +74,7 @@ inputs:
         type: File
         secondaryFiles:
             - .idx
-    rf: string[]
     covariates: string[]
-    abra_ram_min: int
     abra_scratch: string
     group: string
     runparams:
@@ -86,14 +85,10 @@ inputs:
 
 outputs:
     covint_list:
-        type:
-            type: array
-            items: File
+        type: File
         outputSource: gatk_find_covered_intervals/fci_list
     covint_bed:
-        type:
-            type: array
-            items: File
+        type: File
         outputSource: list2bed/output_file
     outbams:
         type:
@@ -130,7 +125,6 @@ steps:
             runparams: runparams
             in: bams
             ref: genome
-            abra_ram_min: abra_ram_min
             out:
                 valueFrom: |
                     ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
@@ -170,18 +164,14 @@ steps:
             class: Workflow
             inputs:
                 input_file:
-                    type:
-                        type: array
-                        items: File
+                    type: File
                 reference_sequence:
                     type: string
                 BQSR:
                     type: File
             outputs:
                 out:
-                    type:
-                        type: array
-                        items: File
+                    type: File
                     secondaryFiles:
                         - ^.bai
                     outputSource: gatk_print_reads/out_bam
