@@ -65,7 +65,7 @@ inputs:
     type:
     - 'null'
     - string
-    default: '92'
+    default: '91'
     doc: Version of VEP and its cache to use
     inputBinding:
       prefix: --vep-release
@@ -165,7 +165,7 @@ inputs:
 
   vep_path:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/v92
+    default: /opt/common/CentOS_6-dev/vep/v91
     doc: Folder containing variant_effect_predictor.pl or vep binary
     inputBinding:
       prefix: --vep-path
