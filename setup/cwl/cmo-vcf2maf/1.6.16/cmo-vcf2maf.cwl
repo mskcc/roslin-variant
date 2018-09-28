@@ -165,7 +165,7 @@ inputs:
 
   vep_path:
     type: ['null', string]
-    default: /usr/bin/vep
+    default: /opt/common/CentOS_6-dev/vep/v92
     doc: Folder containing variant_effect_predictor.pl or vep binary
     inputBinding:
       prefix: --vep-path
