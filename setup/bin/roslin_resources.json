@@ -366,7 +366,8 @@
         "vep": {
             "86": "/opt/common/CentOS_6-dev/vep/v86/",
             "91": "/opt/common/CentOS_6-dev/vep/v91/",
-            "default": "/opt/common/CentOS_6-dev/vep/v86/"
+            "92": "/opt/common/CentOS_6-dev/vep/v92/",
+            "default": "/opt/common/CentOS_6-dev/vep/v92/"
         },
         "vt": {
             "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt",
