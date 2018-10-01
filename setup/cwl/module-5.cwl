@@ -293,4 +293,3 @@ steps:
             printBaseCounts:
               valueFrom: ${ return true; }
           out: [out_file]
-

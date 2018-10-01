@@ -18,7 +18,6 @@ dependencies:
   cmo:
     version: 1.9.10
     install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo
-    archive-path: /ifs/work/pi/cmo_package_archive/
   singularity:
     version: 2.5.1
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-2.5.1/bin/singularity

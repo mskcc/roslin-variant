@@ -13,6 +13,7 @@ cd $ROSLIN_PIPELINE_ROOT/workspace/jenkins/examples/Proj_DEV_0003
 mv $parentDir/test/run-example.sh .
 mv $parentDir/test/run-example-sv.sh .
 mv $parentDir/test/run-pipeline.sh .
+
 source $parentDir/setup/config/test-settings.sh
 rm -f $parentDir/setup/config/test-settings.sh
 

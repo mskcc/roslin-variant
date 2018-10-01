@@ -176,6 +176,7 @@ fi
 
 printf "\n----------Setting up workspace----------\n"
 
+# Create the test dir where the pipeline will be installed
 mkdir -p $installDir
 mkdir -p $coreDir
 
