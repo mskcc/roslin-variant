@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pipeline_name_version="PIPELINE_NAME/PIPELINE_VERSION"
+pipeline_name_version={{ pipeline_name }}/{{ pipeline_version }}
 
 #roslin_request_to_yaml.py \
 #    --pipeline ${pipeline_name_version} \
@@ -15,6 +15,5 @@ roslin_submit.py \
     --id Proj_DEV_0003 \
     --path . \
     --workflow project-workflow-sv.cwl \
-    --single-node \
-    --leader-node controlR \
-    --pipeline ${pipeline_name_version}
+    --pipeline ${pipeline_name_version} \
+    {{ run_args }}
