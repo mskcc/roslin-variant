@@ -91,7 +91,6 @@ inputs:
 
   ref_fasta:
     type: ['null', string]
-    default: /ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta
     doc: Reference FASTA file
     inputBinding:
       prefix: --ref-fasta
@@ -173,7 +172,6 @@ inputs:
 
   vep_data:
     type: ['null', string]
-    default: /opt/common/CentOS_6-dev/vep/v86
     doc: VEP's base cache/plugin directory
     inputBinding:
       prefix: --vep-data

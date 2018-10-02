@@ -64,6 +64,9 @@ inputs:
     genome: string
     delly_type: string[] 
     vep_data: string
+    ref_fasta: string
+    vep_path: string
+    custom_enst: string
 
 outputs:
 
@@ -249,6 +252,9 @@ steps:
         run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
         in:
             vep_data: vep_data
+            vep_path: vep_path
+            ref_fasta: ref_fasta
+            custom_enst: custom_enst
             normal_id: normal_sample_name
             tumor_id: tumor_sample_name
             vcf_normal_id: normal_sample_name

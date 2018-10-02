@@ -62,6 +62,8 @@ inputs:
         bait_intervals: File
         refseq: File
         ref_fasta: string
+        vep_path: string
+        custom_enst: string
         vep_data: string
         hotspot_list: File
         hotspot_vcf: File

@@ -51,6 +51,8 @@ inputs:
         bait_intervals: File
         refseq: File
         ref_fasta: string
+        vep_path: string
+        custom_enst: string
         vep_data: string
         hotspot_list: File
         hotspot_vcf: File
@@ -290,6 +292,14 @@ outputs:
       type: array
       items: File
   ref_fasta:
+    type:
+      type: array
+      items: string
+  vep_path:
+    type:
+      type: array
+      items: string
+  custom_enst:
     type:
       type: array
       items: string

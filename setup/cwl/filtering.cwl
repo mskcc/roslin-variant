@@ -62,6 +62,8 @@ inputs:
         bait_intervals: File
         refseq: File
         ref_fasta: string
+        vep_path: string
+        custom_enst: string
         vep_data: string
         hotspot_list: File
         hotspot_vcf: File
@@ -208,7 +210,7 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, abra_ram_min, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, abra_ram_min, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, vep_path, custom_enst, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
 
   pairing:
     run: sort-bams-by-pair/1.0.0/sort-bams-by-pair.cwl
@@ -223,7 +225,7 @@ steps:
       indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, delly_type ]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, ref_fasta, vep_path, delly_type ]
 
   parse_pairs:
     run: parse-pairs-and-vcfs/2.0.0/parse-pairs-and-vcfs.cwl
@@ -234,10 +236,12 @@ steps:
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
+      vep_path: projparse/vep_path
+      custom_enst: projparse/custom_enst
       vep_data: projparse/vep_data
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
+    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
@@ -246,6 +250,8 @@ steps:
       combine_vcf: parse_pairs/srt_combine_vcf
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
+      vep_path: parse_pairs/srt_vep_path
+      custom_enst: parse_pairs/srt_custom_enst
       exac_filter: parse_pairs/srt_exac_filter
       vep_data: parse_pairs/srt_vep_data
       tumor_sample_name: parse_pairs/tumor_id
@@ -253,5 +259,5 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
+    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, vep_path, custom_enst]
     scatterMethod: dotproduct

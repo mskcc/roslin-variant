@@ -62,6 +62,8 @@ inputs:
         bait_intervals: File
         refseq: File
         ref_fasta: string
+        vep_path: string
+        custom_enst: string
         vep_data: string
         hotspot_list: File
         hotspot_vcf: File
@@ -203,7 +205,7 @@ steps:
       indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, delly_type ]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, delly_type, ref_fasta, vep_path, custom_enst ]
 
   find_svs:
     run: module-6.cwl
@@ -212,6 +214,9 @@ steps:
       normal_bam: pairing/normal_bams
       genome: pairing/genome
       vep_data: pairing/vep_data
+      ref_fasta: pairing/ref_fasta
+      vep_path: pairing/vep_path
+      custom_enst: pairing/custom_enst
       normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
       delly_type: pairing/delly_type

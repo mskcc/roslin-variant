@@ -69,6 +69,14 @@ inputs:
     type:
       type: array
       items: string
+  vep_path:
+    type:
+      type: array
+      items: string
+  custom_enst:
+    type:
+      type: array
+      items: string
   combine_vcf:
     type:
       type: array
@@ -108,6 +116,14 @@ outputs:
      type:
        type: array
        items: string
+  srt_vep_path:
+    type:
+      type: array
+      items: string
+  srt_custom_enst:
+    type:
+      type: array
+      items: string
   srt_genome: string
   srt_exac_filter:
      type:
@@ -136,7 +152,7 @@ expression: '${var bams= [];
  var pairs = inputs.pairs;
  var arrays = [combine_vcf];
  var final_answers = [];
- for (var m=0; m < arrays.length+6; m++) {
+ for (var m=0; m < arrays.length+8; m++) {
      final_answers[m]=new Array();
  }
   for (var i=0; i < pairs.length; i++) {
@@ -154,12 +170,16 @@ expression: '${var bams= [];
  final_answers[arrays.length+3].push(inputs.vep_data[0]);
  final_answers[arrays.length+4].push(inputs.exac_filter[0]);
  final_answers[arrays.length+5].push(inputs.ref_fasta[0]);
+ final_answers[arrays.length+6].push(inputs.vep_path[0]);
+ final_answers[arrays.length+7].push(inputs.custom_enst[0]);
 }
 return {"tumor_id" : final_answers[arrays.length+1],
     "normal_id" : final_answers[arrays.length+2],
     "srt_combine_vcf" : final_answers[0],    
     "srt_genome": inputs.genome,
     "srt_ref_fasta":final_answers[arrays.length+5],
+    "srt_vep_path":final_answers[arrays.length+6],
+    "srt_custom_enst":final_answers[arrays.length+7],
     "srt_exac_filter": final_answers[arrays.length+4],
     "srt_vep_data": final_answers[arrays.length+3],
     "srt_bams": bams,

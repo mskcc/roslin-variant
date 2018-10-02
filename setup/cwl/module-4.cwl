@@ -65,6 +65,8 @@ inputs:
 
     genome: string
     ref_fasta: string
+    vep_path: string
+    custom_enst: string
 
     exac_filter:
         type: File
@@ -103,8 +105,10 @@ steps:
             vcf_normal_id: normal_sample_name
             ncbi_build: genome
             filter_vcf: exac_filter
-            vep_data: vep_data
+            vep_data: vep_data            
             ref_fasta: ref_fasta
+            vep_path: vep_path
+            custom_enst: custom_enst
             retain_info:
                 default: "set,TYPE,FAILURE_REASON"
             output_maf:
@@ -120,7 +124,7 @@ steps:
         out: [maf]
 
     fillout_tumor_normal:
-        run: cmo-fillout/1.2.1/cmo-fillout.cwl
+        run: cmo-fillout/1.2.2/cmo-fillout.cwl
         in:
             maf: remove_variants/maf
             bams: bams
@@ -150,7 +154,7 @@ steps:
                     outputSource: fillout_curated_bams_step/fillout_out
             steps:
                 fillout_curated_bams_step:
-                    run: cmo-fillout/1.2.1/cmo-fillout.cwl
+                    run: cmo-fillout/1.2.2/cmo-fillout.cwl
                     in:
                         maf: maf
                         bams: curated_bams
@@ -164,7 +168,7 @@ steps:
                     out: [fillout_out]
 
     ngs_filters:
-        run: ngs-filters/1.2.1/ngs-filters.cwl
+        run: ngs-filters/1.3/ngs-filters.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
