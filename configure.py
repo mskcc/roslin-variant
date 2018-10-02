@@ -32,6 +32,10 @@ def configure_setup_settings(settings):
     "make /setup/config/settings.sh"
 
     template = get_template("setup/config/settings.template.sh")
+    run_env_str = ""
+
+    for single_env_key, single_env_val in settings["env"].items():
+        run_env_str = run_env_str + "export " + single_env_key + '="' + single_env_val + '"\n'
 
     # render
     content = template.render(
@@ -41,6 +45,7 @@ def configure_setup_settings(settings):
         core_min_version=settings["dependencies"]["core"]["version"]["min"],
         core_max_version=settings["dependencies"]["core"]["version"]["max"],
         pipeline_root=settings["root"],
+        run_env=run_env_str,
         binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
         binding_output=settings["binding"]["output"],

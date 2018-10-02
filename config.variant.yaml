@@ -10,6 +10,8 @@ binding:
   extra:
     - /scratch
     - /ifs
+env:
+  TOIL_LSF_ARGS: '-S 1 -We 0:59'
 dependencies:
   core:
     version:
