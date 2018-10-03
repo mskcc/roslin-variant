@@ -29,11 +29,11 @@ dependencies:
 test:
   root: /ifs/work/pi/roslin-test
   tempDir: /scratch  
-  runArgs:  --leader-node controlR
+  runArgs:  --single-node --leader-node controlR
   env:
-    TOIL_LSF_ARGS: '-S 1 -We 0:59'
+    TOIL_LSF_ARGS: '-S 1'
 build:
-  buildImages: false
+  buildImages: true
   installCore: true
   buildThreads: 4
-  vagrantSize: 50GB
+  vagrantSize: 80GB
