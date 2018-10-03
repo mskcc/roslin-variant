@@ -47,7 +47,7 @@ baseCommand:
 - "default"
 - --language
 - "python"
-
+id: conpair-contamination
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

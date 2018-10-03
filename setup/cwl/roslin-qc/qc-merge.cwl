@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-5
+  doap:name: qc-merge
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -29,6 +29,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: Workflow
+id: qc-merge
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

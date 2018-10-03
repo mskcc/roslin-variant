@@ -29,6 +29,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: Workflow
+id: gather-metrics
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

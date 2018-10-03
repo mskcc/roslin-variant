@@ -54,6 +54,7 @@ baseCommand:
 - --language
 - "bash"
 - vardict
+id: basic-filtering-vardict
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

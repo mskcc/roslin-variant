@@ -54,6 +54,7 @@ baseCommand:
 - --language
 - "bash"
 - mutect
+id: basic-filtering-mutect
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

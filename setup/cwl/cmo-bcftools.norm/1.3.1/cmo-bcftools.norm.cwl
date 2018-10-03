@@ -42,12 +42,8 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_bcftools]
-label: cmo-bcftools-norm
-
-arguments:
-- valueFrom: "norm"
-  position: 0
+baseCommand: [cmo_bcftools, norm]
+id: cmo-bcftools-norm
 
 requirements:
   InlineJavascriptRequirement: {}

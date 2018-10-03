@@ -45,6 +45,7 @@ baseCommand:
 - cmo_qcpdf
 - --version
 - 0.5.11
+id: cmo-qcpdf
 
 requirements:
   InlineJavascriptRequirement: {}

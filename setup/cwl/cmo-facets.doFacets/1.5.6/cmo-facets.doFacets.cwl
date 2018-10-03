@@ -41,7 +41,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-label: cmo-facets-doFacets
+id: cmo-facets-doFacets
 
 arguments:
 - valueFrom: "facets"

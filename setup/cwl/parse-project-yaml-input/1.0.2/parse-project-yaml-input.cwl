@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+id: parse-project-yaml-input
 requirements:
   - class: InlineJavascriptRequirement
 

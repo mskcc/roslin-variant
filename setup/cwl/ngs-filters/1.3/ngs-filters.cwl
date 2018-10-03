@@ -50,11 +50,12 @@ baseCommand:
 - "default"
 - --language
 - "python"
+id: ngs-filters
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 36
+    ramMin: 36000
     coresMin: 1
 
 doc: |

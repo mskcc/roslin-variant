@@ -13,7 +13,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-5
+  doap:name: conpair
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -38,6 +38,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+id: conpair
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

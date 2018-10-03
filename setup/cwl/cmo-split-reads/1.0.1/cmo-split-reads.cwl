@@ -42,7 +42,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_split_reads]
-label: cmo-split-reads
+id: cmo-split-reads
 
 requirements:
   InlineJavascriptRequirement: {}

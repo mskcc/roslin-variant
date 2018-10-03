@@ -40,7 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
-label: flatten-array-bam
+id: flatten-array-bam
 requirements:
   - class: InlineJavascriptRequirement
 

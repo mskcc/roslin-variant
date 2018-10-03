@@ -41,6 +41,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_bcftools, concat]
+id: cmo-bcftools-concat
 
 requirements:
   InlineJavascriptRequirement: {}

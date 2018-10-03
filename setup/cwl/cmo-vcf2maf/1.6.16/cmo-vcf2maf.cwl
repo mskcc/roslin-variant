@@ -43,7 +43,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_vcf2maf]
-label: cmo-vcf2maf
+id: cmo-vcf2maf
 
 arguments:
 - valueFrom: "1.6.16"

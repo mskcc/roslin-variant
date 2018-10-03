@@ -51,7 +51,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_picard]
-label: cmo-picard-CollectHsMetrics
+id: cmo-picard-CollectHsMetrics
 
 arguments:
 - valueFrom: "CollectHsMetrics"

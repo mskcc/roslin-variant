@@ -29,6 +29,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: ExpressionTool
+id: rename-directory
 
 requirements:
   - class: InlineJavascriptRequirement

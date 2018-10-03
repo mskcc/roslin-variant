@@ -38,7 +38,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_gatk]
-label: cmo-gatk-FindCoveredIntervals
+id: cmo-gatk-FindCoveredIntervals
 
 arguments:
 - valueFrom: "FindCoveredIntervals"

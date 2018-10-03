@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-bcftools.concat
-  doap:revision: 1.3.1
+  doap:name: generate-qual-files
+  doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -36,6 +36,7 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [ 'mergeMeanQualityHistograms.py' ]
+id: generate-qual-files
 inputs:
   files:
     type: 

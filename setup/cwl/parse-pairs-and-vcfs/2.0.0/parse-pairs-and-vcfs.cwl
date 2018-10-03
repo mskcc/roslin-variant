@@ -43,7 +43,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
-label: parse-pairs-and-vcfs
+id: parse-pairs-and-vcfs
 requirements:
   - class: InlineJavascriptRequirement
 

@@ -38,7 +38,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_mutect]
-label: cmo-mutect
+id: cmo-mutect
 
 arguments:
 - valueFrom: "1.1.4"

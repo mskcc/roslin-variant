@@ -47,6 +47,7 @@ baseCommand:
 - "default"
 - --language
 - "python"
+id: conpair-pileup
 
 requirements:
   InlineJavascriptRequirement: {}

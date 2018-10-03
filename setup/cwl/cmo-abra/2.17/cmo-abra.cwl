@@ -45,6 +45,7 @@ baseCommand:
 - cmo_abra
 - --version
 - '2.17'
+id: cmo-abra
 
 requirements:
   InlineJavascriptRequirement: {}

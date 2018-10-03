@@ -37,6 +37,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: ExpressionTool
+id: consolidate-files-mixed
 
 requirements:
   - class: InlineJavascriptRequirement

@@ -45,7 +45,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-label: htstools-snp-pileup
+id: htstools-snp-pileup
 
 arguments:
 - valueFrom: "htstools"

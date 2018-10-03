@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: project-workflow
+  doap:name: find_svs
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -47,6 +47,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+id: find_svs
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

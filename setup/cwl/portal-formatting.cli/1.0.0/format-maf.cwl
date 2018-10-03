@@ -43,7 +43,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
-label: format-maf
+id: format-maf
 requirements:
     MultipleInputFeatureRequirement: {}
     ScatterFeatureRequirement: {}

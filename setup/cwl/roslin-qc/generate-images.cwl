@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: generate-pdf
-  doap:revision: 1.3.1
+  doap:name: generate-images
+  doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -38,6 +38,7 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [ 'qc_summary.R' ]
+id: generate-images
 
 inputs:
 

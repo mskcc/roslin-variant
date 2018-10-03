@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: project-workflow
+  doap:name: alignment
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -47,6 +47,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+id: alignment 
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}

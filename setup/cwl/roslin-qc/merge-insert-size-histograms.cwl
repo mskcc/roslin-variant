@@ -12,8 +12,8 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-bcftools.concat
-  doap:revision: 1.3.1
+  doap:name: merge-insert-size-histograms
+  doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -36,6 +36,7 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [ 'mergeInsertSizeHistograms.py' ]
+id: merge-insert-size-histograms
 stdout: $(inputs.outfile_name)
 inputs:
   files:

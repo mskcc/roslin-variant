@@ -48,6 +48,7 @@ baseCommand:
 - --language
 - "python"
 - --normal_homozygous_markers_only
+id: conpair-concordance
 
 requirements:
   InlineJavascriptRequirement: {}

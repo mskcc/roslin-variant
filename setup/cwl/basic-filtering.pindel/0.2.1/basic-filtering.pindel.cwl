@@ -54,6 +54,7 @@ baseCommand:
 - --language
 - "bash"
 - pindel
+id: basic-filtering-pindel
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

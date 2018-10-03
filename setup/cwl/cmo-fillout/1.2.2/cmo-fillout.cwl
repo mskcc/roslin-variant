@@ -45,11 +45,12 @@ baseCommand:
 - cmo_fillout
 - --version
 - 1.2.2
+id: cmo-fillout
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 32
+    ramMin: 32000
     coresMin: 2
 
 doc: |

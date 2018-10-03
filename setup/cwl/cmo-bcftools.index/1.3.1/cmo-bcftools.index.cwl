@@ -41,7 +41,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_bcftools, index]
-
+id: cmo-bcftools-index
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

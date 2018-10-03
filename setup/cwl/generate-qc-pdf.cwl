@@ -13,7 +13,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-5
+  doap:name: generate-qc-pdf
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -30,6 +30,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: Workflow
+id: generate-qc-pdf
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
