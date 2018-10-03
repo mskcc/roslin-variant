@@ -118,4 +118,4 @@ steps:
       cval: facets_cval
       tumor_id: tumor_sample_name
     out: [png_files, txt_files_purity, txt_files_hisens, out_files, rdata_files, seg_files]
-    run: cmo-facets.doFacets/1.5.6/cmo-facets.doFacets.cwl
+    run: facets.doFacets/1.5.6/facets.doFacets.cwl
