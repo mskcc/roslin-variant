@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-qcpdf
-  doap:revision: 0.5.10
+  doap:revision: 0.5.11
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
