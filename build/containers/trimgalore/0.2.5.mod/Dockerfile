@@ -21,22 +21,5 @@ RUN apk add --update python py-pip perl gcc python-dev musl-dev \
       && pip install --upgrade cutadapt==${CUTADAPT_VERSION} \
       && rm -rf /var/cache/apk/*
 
-# using trim_galore_v0.2.5.mod.tgz -------------------------------------------------------
-
-# COPY trim_galore_v${TRIM_GALORE_VERSION}.tgz /tmp/trim_galore_v${TRIM_GALORE_VERSION}/
-
-# # gcc python-dev musl-dev required by cutadapt
-# RUN apk add --update python py-pip perl gcc python-dev musl-dev \
-#       && cd /tmp/trim_galore_v${TRIM_GALORE_VERSION} \
-#       && tar xvzf trim_galore_v${TRIM_GALORE_VERSION}.tgz \
-#       && mv /tmp/trim_galore_v${TRIM_GALORE_VERSION}/trim_galore /usr/bin/ \
-#       && rm -rf /tmp/trim_galore_v${TRIM_GALORE_VERSION} \
-#       && cd / \
-#       && pip install --upgrade cutadapt==${CUTADAPT_VERSION} \
-#       && rm -rf /var/cache/apk/*
-
-#-----------------------------------------------------------------------------------------
-
-      
 ENTRYPOINT ["/usr/bin/trim_galore"]
 CMD ["--help"]

@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.10
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \

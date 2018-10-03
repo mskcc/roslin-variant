@@ -19,6 +19,7 @@ RUN apk add --update python py-pip perl gcc python-dev musl-dev \
       && mv /tmp/trim_galore /usr/bin/ \
       && pip install --upgrade cutadapt==${CUTADAPT_VERSION} \
       && rm -rf /var/cache/apk/*
-      
+
+
 ENTRYPOINT ["/usr/bin/trim_galore"]
 CMD ["--help"]

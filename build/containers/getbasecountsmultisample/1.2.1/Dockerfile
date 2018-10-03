@@ -1,9 +1,9 @@
-FROM alpine:3.4
+FROM alpine:3.8
 
 LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.getBaseCountsMultiSample="1.2.1" \
-      version.alpine="3.4.x" \
+      version.alpine="3.8" \
       source.getBaseCountsMultiSample="https://github.com/zengzheng123/GetBaseCountsMultiSample/releases/tag/v1.2.1"
 
 ENV GET_BASE_COUNTS_MULTI_SAMPLE_VERSION 1.2.1
