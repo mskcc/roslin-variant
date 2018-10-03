@@ -46,18 +46,15 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand: ['bcftools', 'concat']
-#- tool.sh
-#- --tool
-#- "bcftools"
-#- --version
-#- "1.3.1"
-#- --language_version
-#- "default"
-#- --language
-#- "exec"
-#- "concat"
-stdout: $(inputs.output)
+baseCommand:
+- tool.sh
+- --tool
+- "bcftools"
+- --version
+- "1.3.1"
+- --cmd
+- "concat"
+id: bcftools-concat
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -167,6 +164,7 @@ inputs:
         items: File
     secondaryFiles: 
         - .tbi
+        - ^.bcf.csi
     doc: Array of vcf files to be concatenated into one vcf
     inputBinding:
         position: 1

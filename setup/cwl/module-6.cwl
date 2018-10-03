@@ -190,64 +190,38 @@ steps:
                         o: 
                             valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
                     out: [ sv_file ]
+        run: bcftools.concat/1.3.1/bcftools.concat.cwl
+        in:
+            vcf_files: create_vcf_file_array/vcf_files
+            tumor_sample_name: tumor_sample_name
+            normal_sample_name: normal_sample_name
+            allow_overlaps:
+                valueFrom: ${ return true; }
+            rm_dups:
+                valueFrom: ${ return "all"; }
+            output:
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
+        out: [concat_vcf_output_file]
     merge_with_bcftools_unfiltered:
         in: 
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
-            bcf_files: call_sv_by_delly/delly_sv
-            output_filename: 
+            allow_overlaps:
+                valueFrom: ${ return true; }
+            vcf_files: call_sv_by_delly/delly_sv
+            output:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; } 
         out: [ merged_file_unfiltered ]
-        run:
-            class: CommandLineTool
-            baseCommand: ["bcftools", "concat", "-a"] 
-            stdout: $(inputs.output_filename)
-            inputs:   
-                bcf_files: 
-                    type: 
-                        type: array
-                        items: File
-                    secondaryFiles:
-                        - ^.bcf.csi
-                    inputBinding:
-                        position: 2
-                output_filename: 
-                    type: string
-                    inputBinding:
-                        prefix: --output
-                        position: 1
-            outputs: 
-                merged_file_unfiltered:
-                    type: stdout
     merge_with_bcftools:
         in: 
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
-            pass_bcf_files: call_sv_by_delly/delly_filtered_sv
-            output_filename: 
+            allow_overlaps:
+                valueFrom: ${ return true; }
+            vcf_files: call_sv_by_delly/delly_filtered_sv
+            output:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; } 
         out: [ merged_file ]
-        run:
-            class: CommandLineTool
-            baseCommand: ["bcftools", "concat", "-a"] 
-            stdout: $(inputs.output_filename)
-            inputs:   
-                pass_bcf_files: 
-                    type: 
-                        type: array
-                        items: File
-                    secondaryFiles:
-                        - ^.bcf.csi
-                    inputBinding:
-                        position: 2
-                output_filename: 
-                    type: string
-                    inputBinding:
-                        prefix: --output
-                        position: 1
-            outputs: 
-                merged_file: 
-                    type: stdout
     convert_vcf2maf:
         run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
         in:
