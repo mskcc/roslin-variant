@@ -1,11 +1,11 @@
-FROM ubuntu:18.10
+FROM ubuntu:18.04
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       contributor="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.htstools="0.1.1" \
       version.htslib="1.5" \
-      version.ubuntu="16.04" \
+      version.ubuntu="18.04" \
       source.htstools="https://github.com/mskcc/htstools/releases/tag/snp_pileup_0.1.1" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.5"
 
