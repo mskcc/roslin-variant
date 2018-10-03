@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
     end
 
   config.vm.box = "bento/ubuntu-16.04"
-  config.disksize.size = '50GB'
+  config.disksize.size = '40GB'
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
