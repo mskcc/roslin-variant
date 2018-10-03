@@ -66,6 +66,7 @@ inputs:
         vep_data: string
         hotspot_list: File
         hotspot_vcf: File
+        facets_snps: string
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
@@ -409,7 +410,7 @@ steps:
       indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: group_process/covint_bed
-    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval, delly_type, vep_data, ref_fasta, vep_path, custom_enst]
+    out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval, delly_type, vep_data, ref_fasta, vep_path, custom_enst, facets_snps]
 
   variant_calling:
     run: module-3.cwl
@@ -431,8 +432,9 @@ steps:
       ref_fasta: projparse/ref_fasta_string
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
+      facets_snps: pairing/facets_snps
     out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf, pindel_norm_vcf]
-    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
+    scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, facets_snps, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
   parse_pairs:

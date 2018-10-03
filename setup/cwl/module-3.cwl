@@ -80,6 +80,7 @@ inputs:
     ref_fasta: string
     facets_pcval: int
     facets_cval: int
+    facets_snps: string
 
 outputs:
 
@@ -158,6 +159,7 @@ steps:
             refseq: refseq
             facets_pcval: facets_pcval
             facets_cval: facets_cval
+            facets_snps: facets_snps
         out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
         run:
             class: Workflow
@@ -175,6 +177,7 @@ steps:
                 refseq: File #file of refseq genes... of refseq genes...
                 facets_pcval: int
                 facets_cval: int
+                facets_snps: strings
             outputs:
                 mutect_vcf:
                     type: File
@@ -219,6 +222,7 @@ steps:
                         genome: genome
                         facets_pcval: facets_pcval
                         facets_cval: facets_cval
+                        facets_snps: facets_snps
                     out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                 pindel:
                     run: cmo-pindel/0.2.5b8/cmo-pindel.cwl

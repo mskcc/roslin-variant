@@ -69,6 +69,7 @@ inputs:
         refseq: File
         ref_fasta: string
         vep_path: string
+        facets_snps: string
         custom_enst: string
         vep_data: string
         hotspot_list: File
@@ -187,6 +188,10 @@ outputs:
     type:
       type: array
       items: string
+  facets_snps:
+    type:
+      type: array
+      items: string
   custom_enst:
     type:
       type: array
@@ -211,7 +216,7 @@ var samples = {};
 var sample_beds =[];
 var flattened_bams = [];
 var extra_stuff = {};
-var keys_of_interest=["cosmic_inputs", "refseq", "dbsnp_inputs", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data", "ref_fasta", "vep_path", "custom_enst","facets_pcval", "facets_cval"];
+var keys_of_interest=["cosmic_inputs", "refseq", "dbsnp_inputs", "mutect_rf", "mutect_dcov", "genome",  "delly_type", "vep_data", "ref_fasta", "vep_path","facets_snps","custom_enst","facets_pcval", "facets_cval"];
 for (var i = 0; i < inputs.bams.length; i++) {
     for (var j = 0; j < inputs.bams[i].length; j++) {
         flattened_bams.push(inputs.bams[i][j]);

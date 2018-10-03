@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-facets.doFacets
+  doap:name: facets.doFacets
   doap:revision: 1.5.6
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -41,7 +41,7 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]
-id: cmo-facets-doFacets
+id: facets-doFacets
 
 arguments:
 - valueFrom: "facets"

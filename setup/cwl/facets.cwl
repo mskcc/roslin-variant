@@ -56,6 +56,7 @@ inputs:
     genome: string
     facets_pcval: int
     facets_cval: int
+    facets_snps: string
 
 outputs:
 
@@ -90,8 +91,7 @@ outputs:
 steps:
   snp_pileup:
     in:
-      vcf:
-        default: "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz"
+      vcf: facets_snps
       output_file:
         valueFrom: ${ return inputs.normal_bam.basename.replace(".bam", "") + "__" + inputs.tumor_bam.basename.replace(".bam", "") + ".dat.gz"; }
       normal_bam: normal_bam
