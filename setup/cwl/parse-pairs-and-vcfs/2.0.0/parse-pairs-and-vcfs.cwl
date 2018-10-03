@@ -152,10 +152,15 @@ expression: '${var bams= [];
  var pairs = inputs.pairs;
  var arrays = [combine_vcf];
  var final_answers = [];
- for (var m=0; m < arrays.length+8; m++) {
+ var extra_outputs = [];
+ var num_extra_outputs = 8; 
+ for (var m=0; m < arrays.length; m++) {
      final_answers[m]=new Array();
  }
-  for (var i=0; i < pairs.length; i++) {
+ for (var m=0; m < num_extra_outputs; m++) {
+     extra_outputs[m]=new Array();
+ }
+ for (var i=0; i < pairs.length; i++) {
       var tumor_id = pairs[i][0];
        var normal_id = pairs[i][1];
        for(var j=0; j < pairs.length; j++) {
@@ -165,23 +170,23 @@ expression: '${var bams= [];
                }
            }
        }
- final_answers[arrays.length+1].push(tumor_id);
- final_answers[arrays.length+2].push(normal_id);
- final_answers[arrays.length+3].push(inputs.vep_data[0]);
- final_answers[arrays.length+4].push(inputs.exac_filter[0]);
- final_answers[arrays.length+5].push(inputs.ref_fasta[0]);
- final_answers[arrays.length+6].push(inputs.vep_path[0]);
- final_answers[arrays.length+7].push(inputs.custom_enst[0]);
+ extra_outputs[1].push(tumor_id);
+ extra_outputs[2].push(normal_id);
+ extra_outputs[3].push(inputs.vep_data[0]);
+ extra_outputs[4].push(inputs.exac_filter[0]);
+ extra_outputs[5].push(inputs.ref_fasta[0]);
+ extra_outputs[6].push(inputs.vep_path[0]);
+ extra_outputs[7].push(inputs.custom_enst[0]);
 }
-return {"tumor_id" : final_answers[arrays.length+1],
-    "normal_id" : final_answers[arrays.length+2],
+return {"tumor_id" : extra_outputs[1],
+    "normal_id" : extra_outputs[2],
     "srt_combine_vcf" : final_answers[0],    
     "srt_genome": inputs.genome,
-    "srt_ref_fasta":final_answers[arrays.length+5],
-    "srt_vep_path":final_answers[arrays.length+6],
-    "srt_custom_enst":final_answers[arrays.length+7],
-    "srt_exac_filter": final_answers[arrays.length+4],
-    "srt_vep_data": final_answers[arrays.length+3],
+    "srt_ref_fasta":extra_outputs[5],
+    "srt_vep_path":extra_outputs[6],
+    "srt_custom_enst":extra_outputs[7],
+    "srt_exac_filter": extra_outputs[4],
+    "srt_vep_data": extra_outputs[3],
     "srt_bams": bams,
     "srt_hotspot_list": inputs.hotspot_list[0],
     "srt_curated_bams":inputs.curated_bams[0]};
