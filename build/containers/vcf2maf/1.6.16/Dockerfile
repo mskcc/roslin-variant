@@ -3,21 +3,21 @@ FROM alpine:3.8
 LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       version.image="1.0.0" \
       version.vcf2maf="1.6.16" \
-      version.vep="91.3" \
+      version.vep="92.0" \
       version.htslib="1.5" \
       version.bcftools="1.5" \
       version.samtools="1.5" \
       version.perl="5.26.2-r1" \
       version.alpine="3.8" \
       source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.16" \
-      source.vep="http://dec2017.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
+      source.vep="https://github.com/Ensembl/ensembl-vep/releases/tag/release%2F92.0" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.5" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5" \
       source.samtools="https://github.com/samtools/samtools/releases/tag/1.5" \
       source.perl="https://pkgs.alpinelinux.org/package/edge/main/aarch64/perl"
 
 ENV VCF2MAF_VERSION 1.6.16
-ENV VEP_VERSION 92
+ENV VEP_VERSION 92.0
 ENV HTSLIB_VERSION 1.5
 ENV SAMTOOLS_VERSION 1.5
 ENV BCFTOOLS_VERSION 1.5
