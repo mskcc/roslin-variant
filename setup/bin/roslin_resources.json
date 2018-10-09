@@ -343,7 +343,7 @@
         "cosmic": "/ifs/depot/pi/resources/request_files/cosmic/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
         "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
         "exac_filter": "/ifs/depot/pi/resources/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
-        "vep_data": "/ifs/depot/pi/resources/vep/cache",
+        "vep_data": "/opt/common/CentOS_6-dev/vep/cache",
         "conpair_markers": "/usr/bin/conpair/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt",
         "conpair_markers_bed": "/usr/bin/conpair/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed",
         "curated_bams": {
