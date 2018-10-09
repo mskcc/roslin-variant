@@ -159,7 +159,7 @@ def main():
     "main function"
 
     if len(sys.argv) < 2:
-    print "USAGE: config.py configuration_file.yaml"
+        print "USAGE: config.py configuration_file.yaml"
     exit()
 
     settings = ruamel.yaml.load(
