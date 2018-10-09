@@ -160,7 +160,7 @@ def main():
 
     if len(sys.argv) < 2:
         print "USAGE: config.py configuration_file.yaml"
-    exit()
+        exit()
 
     settings = ruamel.yaml.load(
         read_from_disk(sys.argv[1]),
