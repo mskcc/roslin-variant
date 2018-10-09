@@ -8,8 +8,6 @@ export LSF_ENVDIR=/common/lsf/conf
 export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
 # Set python env
 export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
-export NVM_DIR=/ifs/work/pi/roslin-test/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 function finish {
     # clean up
     cd $parentDir
@@ -204,22 +202,26 @@ cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 ./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $USER
 
-# Setup virtualenv
-printf "\n----------Setting up virtualenv----------\n"
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
+printf "\n----------Setting up----------\n"
+cd $ROSLIN_PIPELINE_DATA_PATH
+HOME_TEMP=$HOME
+export HOME=$ROSLIN_PIPELINE_DATA_PATH
+# Setup node
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+# setup virtualenv
 virtualenv virtualenv
 source virtualenv/bin/activate
-export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
+export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
 cd $parentDir
 pip install -r build/run_requirements.txt
 # install toil
-cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/toil
+cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/toil
+cd $ROSLIN_PIPELINE_DATA_PATH/toil
 make prepare
 make develop extras=[cwl]
 # install cmo
-cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
-cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/cmo
+cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/cmo
+cd $ROSLIN_PIPELINE_DATA_PATH/cmo
 python setup.py install
 deactivate
 cd $ROSLIN_CORE_BIN_PATH

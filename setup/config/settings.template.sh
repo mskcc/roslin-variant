@@ -43,4 +43,13 @@ export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 # toil
 export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
 export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
+
+# node
+export NVM_DIR="$ROSLIN_PIPELINE_DATA_PATH/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Load the virtualenv
+source $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate
+
+# Run environment
 {{ run_env }}
