@@ -367,7 +367,7 @@
             "86": "/opt/common/CentOS_6-dev/vep/v86/",
             "91": "/opt/common/CentOS_6-dev/vep/v91/",
             "92": "/opt/common/CentOS_6-dev/vep/v92/",
-            "default": "/opt/common/CentOS_6-dev/vep/v92/"
+            "default": "/opt/common/CentOS_6-dev/vep/v86/"
         },
         "vt": {
             "0.57": "/opt/common/CentOS_6-dev/vt/vt-0.57/vt",
@@ -461,6 +461,30 @@
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.ilist",
             "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.bed",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.ilist"
+        },
+        "AgilentExon_v2": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_targets.ilist"
+        },
+        "AgilentExon_v5": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_targets.ilist"
+        },
+        "IlluminaExome_38MB": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.ilist"
         },
         "HemePACT_v3": {
             "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",
