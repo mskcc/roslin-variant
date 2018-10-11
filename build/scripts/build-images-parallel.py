@@ -53,10 +53,13 @@ def build_parallel(threads,tool_json,debug_mode):
     job_list = construct_jobs(tool_json,status_queue)    
     pool = Pool(threads)
     build_results = pool.map_async(build_image,job_list)
+    total_number_of_jobs = len(job_list)
+    total_processed = 0
     while build_results.ready() == False:
         single_item = status_queue.get()
         if single_item['status'] == 0:
-            logger.info("["+single_item['name']+"] " + single_item["image_id"] + " finished building")
+            total_processed = total_processed + 1
+            logger.info("["+single_item['name']+"] " + single_item["image_id"] + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
             if debug_mode == True:
                 verbose_logging(single_item)
         else:
