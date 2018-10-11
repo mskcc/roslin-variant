@@ -31,7 +31,7 @@ do
 
     mkdir -p ${tool_output_dir}
 
-    cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.img ${tool_output_dir}
+    cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ${tool_output_dir}
 
 done
 
@@ -40,4 +40,4 @@ tree ${output_root_dir}
 
 # get md5 checksum for all image files
 cd ${output_root_dir}
-find . -name "*.sqsh" -type f | xargs md5sum > ${output_root_dir}/checksum.dat
+find . -name "*.sif" -type f | xargs md5sum > ${output_root_dir}/checksum.dat

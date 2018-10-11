@@ -163,8 +163,8 @@ do
     # compress the image and build in non-shared directory 
     # mmap does not like images being built on a shared directory   
 
-    sudo -E singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.sqsh /tmp/${tool_name}/${tool_version}/${tool_name}
-    sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.sqsh ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sqsh
+    sudo -E singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.sif /tmp/${tool_name}/${tool_version}/${tool_name}
+    sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
     # delete tmp files
     sudo rm -rf /tmp/labels.json
     sudo rm -rf /tmp/${tool_name}
