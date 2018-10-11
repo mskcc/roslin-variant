@@ -1,7 +1,6 @@
 FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
-      contributor="Jaeyoung Chun (chunj@mskcc.org)" \
       version.image="1.0.0" \
       version.facets_suite="1.5.6" \
       version.facets="0.5.14"\

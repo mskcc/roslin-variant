@@ -1,6 +1,6 @@
 FROM alpine:3.8
 
-LABEL maintainer="Jaeyoung Chun (chunj@mskcc.org)" \
+LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.pindel="0.2.5b8" \
       version.htslib="1.4" \

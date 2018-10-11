@@ -1,6 +1,7 @@
 FROM alpine:3.8
 
 LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
+      contributor="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.vcf2maf="1.6.16" \
       version.vep="92.0" \
