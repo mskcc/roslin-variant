@@ -43,8 +43,6 @@ inputs:
       fields:
         refseq: File
         ref_fasta: string
-        vep_path: string
-        custom_enst: string
         vep_data: string
         hotspot_list: File
         hotspot_vcf: File
@@ -171,12 +169,15 @@ steps:
       insert_metrics: gather_metrics/insert_metrics
       doc_basecounts: gather_metrics/doc_basecounts
       qual_metrics: gather_metrics/qual_metrics
-    out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprint_summary, qual_files_r, qual_files_o, cutadapt_summary ]
+    out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, qual_files_r, qual_files_o, cutadapt_summary ]
 
   compile_directory_for_qcpdf:
     run: ./consolidate-files/consolidate-files.cwl
     in:
-      files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary ]
+      merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary ]
+      fp_output: qc_merge/fingerprints_output
+      files: 
+         valueFrom: ${ return inputs.merged_files.concat(inputs.fp_output); }
       output_directory_name:
        valueFrom: ${ return "compiled_metrics_data"; }
     out: [ directory ]
