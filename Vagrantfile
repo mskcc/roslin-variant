@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.memory = "2048"
-	end
+  end
 
   config.vm.hostname = "roslin-variant"
   config.vm.provision "shell", path: "./vm/resize-disk.sh"
@@ -29,5 +29,4 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "./vm/install-singularity.sh"
   config.vm.provision "shell", path: "./vm/install-docker.sh"
   config.vm.provision "shell", path: "./vm/install-docker-registry.sh"
-  config.vm.provision "shell", path: "./vm/install-cmo.sh", privileged: false
 end

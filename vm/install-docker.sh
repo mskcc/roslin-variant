@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#DOCKER_ENGINE_VERSION="1.13.1-0~ubuntu-xenial"
-DOCKER_CE_VERSION="17.12.0~ce-0~ubuntu"
+DOCKER_CE_VERSION="18.03.1~ce-0~ubuntu"
 
 apt-get install -y --no-install-recommends \
     apt-transport-https \
