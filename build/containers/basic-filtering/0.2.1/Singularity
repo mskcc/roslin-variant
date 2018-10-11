@@ -22,6 +22,11 @@ Namespace:
     # remove settings-container.sh
     rm -rf /tmp/settings-container.sh
 
+%environment
+
+    # set resources for cmo
+    export CMO_RESOURCE_CONFIG=/etc/conf.d/basic-filtering-resources.json
+
 %runscript
 
     # disable per-user site-packages before run

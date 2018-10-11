@@ -4,10 +4,19 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.basicfiltering="0.2.1" \
       version.alpine="3.8" \
-      source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.2.1"
+      version.cmo="1.9.10" \
+      version.bcftools="1.5" \
+      source.cmo="https://github.com/mskcc/cmo/releases/tag/1.9.10" \
+      source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.2.1" \
+      source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5"
 
+COPY basic-filtering-resources.json /etc/conf.d/basic-filtering-resources.json
+
+ENV CMO_RESOURCE_CONFIG /etc/conf.d/basic-filtering-resources.json
 ENV BASICFILTERING_VERSION 0.2.1
 ENV HTSLIB_VERSION 1.5
+ENV CMO_VERSION 1.9.10
+ENV BCFTOOLS_VERSION 1.5
 
 RUN apk add --update \
       # install all the build-related tools
@@ -19,6 +28,17 @@ RUN apk add --update \
             && cd /tmp/htslib-${HTSLIB_VERSION} \
             && ./configure \
             && make && make install \
+      # download, unzip, install bcftools
+            && cd /tmp \
+            && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
+            && tar xjvf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
+            && cd /tmp/bcftools-${BCFTOOLS_VERSION} \
+            && make && make prefix=/usr install \
+      # download, unzip, install cmo
+            && cd /tmp && wget https://github.com/mskcc/cmo/archive/${CMO_VERSION}.zip \
+            && unzip ${CMO_VERSION}.zip \
+            && cd /tmp/cmo-${CMO_VERSION} \
+            && python setup.py install \
       # download, unzip, install basic-filtering
             && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
             && unzip ${BASICFILTERING_VERSION}.zip \
