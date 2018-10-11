@@ -1,23 +1,29 @@
 #!/bin/bash
 
-SINGULARITY_VERSION="2.4.2"
+SINGULARITY_VERSION="v3.0.0"
 SINGULARITY_INSTALL_TEMP_DIR="/tmp/singularity"
-
-sudo apt-get -y install build-essential autoconf automake libtool debootstrap
 
 mkdir -p ${SINGULARITY_INSTALL_TEMP_DIR} && cd $_
 
-wget --no-check-certificate --content-disposition https://github.com/singularityware/singularity/releases/download/${SINGULARITY_VERSION}/singularity-${SINGULARITY_VERSION}.tar.gz
-tar xvzf singularity-${SINGULARITY_VERSION}.tar.gz
-rm -rf singularity-${SINGULARITY_VERSION}.tar.gz
-cd singularity-${SINGULARITY_VERSION}
-./autogen.sh
-./configure --prefix=/usr/local
+# instal go
+wget https://dl.google.com/go/go1.11.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.11.1.linux-amd64.tar.gz
+export GOPATH=${SINGULARITY_INSTALL_TEMP_DIR}/go_dir
+export PATH=/usr/local/go/bin:${PATH}:${GOPATH}/bin
+mkdir -p $GOPATH/src/github.com/sylabs
+
+# install singularity
+cd $GOPATH/src/github.com/sylabs
+git clone https://github.com/sylabs/singularity.git
+cd singularity
+git checkout v3.0.0
+go get -u github.com/golang/dep/cmd/dep
+./mconfig
+cd ./builddir
 make
-make install
+sudo make install
 
 # install singularity client that allows to programatically control singularity
 sudo pip install singularity
 
 rm -rf ${SINGULARITY_INSTALL_TEMP_DIR}
-
