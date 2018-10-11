@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-trimgalore:0.2.5.mod
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: trimgalore:0.2.5.mod
 
 %setup
 

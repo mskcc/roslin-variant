@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-gatk:3.3-0
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: gatk:3.3-0
 
 %setup
 

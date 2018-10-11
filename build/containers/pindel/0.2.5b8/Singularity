@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-pindel:0.2.5b8
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: pindel:0.2.5b8
 
 %setup
 

@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-mutect:1.1.4
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: mutect:1.1.4
 
 %setup
 

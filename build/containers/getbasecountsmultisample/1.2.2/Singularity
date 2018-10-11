@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-getbasecountsmultisample:1.2.2
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: getbasecountsmultisample:1.2.2
 
 %setup
 

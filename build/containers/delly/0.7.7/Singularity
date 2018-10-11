@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-delly:0.7.7
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: delly:0.7.7
 
 %setup
 

@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-bwa:0.7.5a
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: bwa:0.7.5a
 
 %setup
 

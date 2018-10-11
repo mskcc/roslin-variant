@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-list2bed:1.0.1
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: list2bed:1.0.1
 
 %setup
 

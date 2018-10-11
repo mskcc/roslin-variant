@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-ngs-filters:1.3
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: ngs-filters:1.3
 
 %setup
 

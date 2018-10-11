@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-conpair:0.2
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: conpair:0.2
 
 %setup
 

@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-vcf2maf:1.6.16
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: vcf2maf:1.6.16
 
 %setup
 

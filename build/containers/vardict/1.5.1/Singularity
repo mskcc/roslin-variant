@@ -1,7 +1,5 @@
-Bootstrap: docker
-From: pipeline-vardict:1.5.1
-Registry: localhost:5000
-Namespace:
+Bootstrap: docker-daemon
+From: vardict:1.5.1
 
 %setup
 

@@ -1,8 +1,5 @@
-Bootstrap: docker
-From: pipeline-facets:1.5.6
-Registry: localhost:5000
-Namespace:
-
+Bootstrap: docker-daemon
+From: facets:1.5.6
 
 %setup
 
