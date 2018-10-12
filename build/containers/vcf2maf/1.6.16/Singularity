@@ -20,11 +20,23 @@ From: vcf2maf:1.6.16
     # remove settings-container.sh
     rm -rf /tmp/settings-container.sh
 
+%environment
+
+    # Set home env
+    export HOME=/usr/local/bin/
+    # Set path
+    export PATH=/usr/local/bin/:$PATH
+
 %runscript
 
     exec /usr/bin/vcf2maf/run.sh "$@"
 
 %test
+
+    # Set home env
+    export HOME=/usr/local/bin/
+    # Set path
+    export PATH=/usr/local/bin/:$PATH
 
     # get actual output of the tool
     perl /usr/bin/vcf2maf/vcf2vcf.pl --help | head -2 > /tmp/actual.diff.txt
@@ -48,4 +60,4 @@ EOM
     diff /tmp/actual.diff.txt /tmp/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt
+    rm -rf /tmp/*.diff.txt    
