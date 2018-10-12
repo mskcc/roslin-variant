@@ -7,7 +7,7 @@ from multiprocessing.dummy import Pool, current_process
 import logging
 from subprocess import Popen, PIPE
 import sys
-from queue import Queue
+from Queue import Queue
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
