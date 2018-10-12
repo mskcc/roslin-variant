@@ -3,6 +3,10 @@
 SINGULARITY_VERSION="v3.0.0"
 SINGULARITY_INSTALL_TEMP_DIR="/tmp/singularity"
 
+# Install system dependencies
+
+apt-get -y install libssl-dev uuid-dev libgpgme11-dev squashfs-tools libseccomp-dev pkg-config
+
 mkdir -p ${SINGULARITY_INSTALL_TEMP_DIR} && cd $_
 
 # instal go
