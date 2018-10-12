@@ -60,4 +60,4 @@ EOM
     diff /tmp/actual.diff.txt /tmp/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt    
+    rm -rf /tmp/*.diff.txt
