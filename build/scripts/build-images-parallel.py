@@ -12,10 +12,14 @@ from Queue import Queue
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
 log_file_handler = logging.FileHandler('build_images_parallel.log')
+log_stream_handler = logging.StreamHandler()
 log_file_handler.setLevel(logging.INFO)
+log_stream_handler.setLevel(logging.INFO)
 log_formatter = logging.Formatter('%(asctime)s - %(message)s')
 log_file_handler.setFormatter(log_formatter)
+log_stream_handler.setFormatter(log_formatter)
 logger.addHandler(log_file_handler)
+logger.addHandler(log_stream_handler)
 
 def construct_jobs(tool_json,status_queue):
     job_list = []    
