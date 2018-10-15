@@ -140,6 +140,7 @@ inputs:
             type: array
             items: string
         abra_ram_min: int
+        gatk_jar_path: string
   samples:
     type:
       type: array
@@ -215,6 +216,7 @@ steps:
   run-conpair:
     run: conpair/0.2/conpair-master.cwl
     in:
+      gatk_jar_path: ${ return inputs.runparams.gatk_jar_path }
       ref: projparse/ref_fasta_string
       markers: projparse/conpair_markers
       markers_bed: projparse/conpair_markers_bed 

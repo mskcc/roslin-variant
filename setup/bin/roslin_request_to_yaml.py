@@ -205,6 +205,7 @@ if __name__ == "__main__":
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = os.path.join(ROSLIN_PATH, "scripts")
     qcpdf_jar_path = os.path.join(scripts_bin, "QCPDF.jar")
+    gatk_jar_path = ROSLIN_RESOURCES["programs"]["gatk"]["default"]
     ROSLIN_RESOURCES = json.load(open(ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json", 'r'))
     REQUEST_FILES = ROSLIN_RESOURCES["request_files"]
     (assay, project_id) = parse_request_file(args.request)
@@ -333,7 +334,8 @@ if __name__ == "__main__":
         "facets_cval": facets_cval,
         "facets_pcval": facets_pcval,
         "scripts_bin": scripts_bin, 
-        "qcpdf_jar_path": {'class': 'File', 'path': qcpdf_jar_path }
+        "qcpdf_jar_path": {'class': 'File', 'path': qcpdf_jar_path },
+        "gatk_jar_path": gatk_jar_path
     }
     out_dict.update({"runparams": params})
     ofh = open(args.yaml_output_file, "wb")

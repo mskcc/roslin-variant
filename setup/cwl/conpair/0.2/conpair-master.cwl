@@ -81,7 +81,9 @@ inputs:
   markers:
       type: 
       - [File, string]
-
+  gatk_jar_path:
+      type:
+      - [File, string]
   markers_bed:
       type: 
       - [File, string]
@@ -122,6 +124,7 @@ steps:
         ref: ref
         markers: markers
         markers_bed: markers_bed
+        gatk_jar_path: gatk_jar_path
      out: [ tpileout, npileout, contam_out ]
      scatter: [ tumor_bam, normal_bam, tumor_sample_name, normal_sample_name ]
      scatterMethod: dotproduct
@@ -145,6 +148,7 @@ steps:
                 type: string
            normal_sample_name:
                 type: string
+           gatk_jar_path: string
         outputs:
            tpileout: 
                 type: File
@@ -161,6 +165,7 @@ steps:
              in:
                  bam: tumor_bam
                  ref: ref
+                 gatk: gatk_jar_path
                  markers_bed: markers_bed
                  java_xmx:
                      valueFrom: ${ return ["24g"]; }
@@ -173,6 +178,7 @@ steps:
              in:
                  bam: normal_bam
                  ref: ref
+                 gatk: gatk_jar_path
                  markers_bed: markers_bed
                  java_xmx:
                      valueFrom: ${ return ["24g"]; }

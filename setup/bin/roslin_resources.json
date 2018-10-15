@@ -164,7 +164,7 @@
         },
         "gatk": {
             "3.3-0": "sing.sh gatk 3.3-0",
-            "default": "sing.sh gatk 3.3-0"
+            "default": "/usr/bin/gatk.jar"
         },
         "getbasecountsmultisample": {
             "1.2.2": "sing.sh getbasecountsmultisample 1.2.2",

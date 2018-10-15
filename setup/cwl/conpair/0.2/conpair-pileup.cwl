@@ -81,7 +81,6 @@ inputs:
   gatk:
     type:
     - [File, string, "null"]
-    default: /opt/common/CentOS_6/gatk/GenomeAnalysisTK-3.3-0/GenomeAnalysisTK.jar
     inputBinding:
       prefix: --gatk
 
