@@ -53,31 +53,20 @@ inputs:
     secondaryFiles:
       - ^.dict
       - ^.fasta.fai
- 
   tumor_bams:
     type:
         type: array
         items: File
     secondaryFiles:
       - ^.bai
-
   normal_bams:
     type:
         type: array
         items: File
     secondaryFiles:
       - ^.bai
-
-  normal_sample_name:
-    type:
-        type: array
-        items: string
-
-  tumor_sample_name:
-    type:
-        type: array
-        items: string
-
+  normal_sample_name: string[]
+  tumor_sample_name: string[]
   markers:
       type: 
       - [File, string]
@@ -87,14 +76,11 @@ inputs:
   markers_bed:
       type: 
       - [File, string]
-
   pairing_file:
       type: 
       - [File, string]
-      
-  file_prefix:
-      type: 
-      - string
+  file_prefix: string
+
 
 outputs:
 
@@ -131,24 +117,18 @@ steps:
      run:
         class: Workflow
         inputs:
-           tumor_bam: 
-              type: File
-           normal_bam:
-               type: File
+           tumor_bam: File
+           normal_bam: File
            ref:
                type: File
                secondaryFiles:
                  - ^.dict
                  - ^.fasta.fai
-           markers:
-                type: File
-           markers_bed:
-                type: File
-           tumor_sample_name:
-                type: string
-           normal_sample_name:
-                type: string
            gatk_jar_path: string
+           markers: File
+           markers_bed: File
+           tumor_sample_name: string
+           normal_sample_name: string
         outputs:
            tpileout: 
                 type: File
@@ -216,12 +196,9 @@ steps:
      run: 
         class: Workflow
         inputs:
-            tpileup:
-                type: File
-            npileup:
-                type: File
-            markers:
-                type: File
+            tpileup: File
+            npileup: File
+            markers: File
         outputs:
             concordance_out: 
                 type: File

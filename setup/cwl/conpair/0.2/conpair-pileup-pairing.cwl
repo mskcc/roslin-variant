@@ -44,26 +44,12 @@ requirements:
 
 inputs:
 
-  tpileups:
-    type:
-        type: array
-        items: File
-
-  npileups:
-    type:
-        type: array
-        items: File
+  tpileups: File[]
+  npileups: File[]
 
 outputs:
-  tpileup_ordered:
-    type:
-        type: array
-        items: File
-
-  npileup_ordered:
-    type:
-        type: array
-        items: File
+  tpileup_ordered: File[]
+  npileup_ordered: File[]
 
 expression: '${ 
 function dict_files(pileup_data) {
