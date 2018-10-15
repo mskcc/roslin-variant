@@ -8,6 +8,7 @@ import logging
 from subprocess import Popen, PIPE
 import sys
 from Queue import Queue
+import atexit
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
@@ -31,6 +32,14 @@ def construct_jobs(tool_json,status_queue):
             single_job = (image_name,image_version,status_queue)
             job_list.append(single_job)
     return job_list
+
+def cleanup_vagrant():
+    command = ["/vagrant/build/scripts/cleanup-vagrant.sh"]
+    process = Popen(command, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = process.communicate()
+    logger.info("---------- Cleaning up ----------")
+    logger.info(stdout)
+    logger.info(stderr)
 
 def build_image(image_job):
     image_name = image_job[0]

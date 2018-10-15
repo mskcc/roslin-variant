@@ -106,13 +106,6 @@ function get_docker_size_in_mib {
     echo ${size}
 }
 
-function clean_up_docker_images {
-    sudo find /var/tmp/* -name "docker-tar*"  -exec rm {} \;
-    sudo find /tmp/* -depth -not -name "vagrant-shell" -not -path '*/\.*' -exec rm -r {} \;
-}
-
-trap clean_up_docker_images INT TERM EXIT
-
 for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
 do
     tool_name=$(get_tool_name $tool_info)
