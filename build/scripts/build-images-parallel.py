@@ -130,4 +130,5 @@ def main():
 
 
 if __name__ == "__main__":
-	main()
+    atexit.register(cleanup_vagrant)
+    main()
