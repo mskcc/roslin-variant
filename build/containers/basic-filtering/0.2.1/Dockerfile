@@ -20,7 +20,7 @@ ENV BCFTOOLS_VERSION 1.5
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add build-base musl-dev python py-pip python-dev ca-certificates openssl gcc g++ make git curl curl-dev wget gzip musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+            && apk add build-base musl-dev python py-pip python-dev ca-certificates openssl gcc g++ make git curl curl-dev wget gzip musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev subversion \
       # download, unzip, install htslib
             && cd /tmp \
             && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
