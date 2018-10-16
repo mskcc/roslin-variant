@@ -7,8 +7,10 @@ from multiprocessing.dummy import Pool, current_process
 import logging
 from subprocess import Popen, PIPE
 import sys
+import os
 from Queue import Queue
 import atexit
+import shutil
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
@@ -33,13 +35,24 @@ def construct_jobs(tool_json,status_queue):
             job_list.append(single_job)
     return job_list
 
+def cleanup_directory(path_to_directory):
+    directory = path_to_directory
+    for single_file in os.listdir(directory):
+        single_file_path = os.path.join(directory, single_file)
+        try:
+            if os.path.isfile(single_file_path):
+                os.unlink(single_file_path)
+            elif os.path.isdir(single_file_path):
+                shutil.rmtree(single_file_path)
+        except Exception as e:
+            logger.info("---------- Got Exception ----------")
+            logger.info(e)
+
+@atexit.register
 def cleanup_vagrant():
-    command = ["/vagrant/build/scripts/cleanup-vagrant.sh"]
-    process = Popen(command, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = process.communicate()
     logger.info("---------- Cleaning up ----------")
-    logger.info(stdout)
-    logger.info(stderr)
+    cleanup_directory("/var/tmp")
+    cleanup_directory("/tmp")
 
 def build_image(image_job):
     image_name = image_job[0]
@@ -78,7 +91,8 @@ def build_parallel(threads,tool_json,debug_mode):
         else:
             status_message = "["+single_item['name']+"] " + single_item["image_id"] + " failed to build"
             verbose_logging(single_item)
-            logger.info(status_message)            
+            logger.info(status_message)
+            pool.terminate()            
             sys.exit(status_message) 
     pool.close()
     pool.join()
@@ -130,5 +144,4 @@ def main():
 
 
 if __name__ == "__main__":
-    atexit.register(cleanup_vagrant)
     main()
