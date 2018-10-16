@@ -40,13 +40,14 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "conpair_contamination"
+- "conpair"
 - --version
 - "0.2"
 - --language_version
 - "default"
 - --language
 - "python"
+- contamination
 id: conpair-contamination
 requirements:
   InlineJavascriptRequirement: {}

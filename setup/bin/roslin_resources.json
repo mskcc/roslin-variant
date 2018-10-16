@@ -238,21 +238,9 @@
             "91": "/usr/bin/vep",
             "default": "/usr/bin/vep"
         },
-        "conpair_pileup": {
-            "0.2": "sing.sh conpair 0.2 pileup",
-            "default": "sing.sh conpair 0.2 pileup"
-        },
-        "conpair_concordance": {
-            "0.2": "sing.sh conpair 0.2 concordance",
-            "default": "sing.sh conpair 0.2 concordance"
-        },
-        "conpair_contamination": {
-            "0.2": "sing.sh conpair 0.2 contamination",
-            "default": "sing.sh conpair 0.2 contamination"
-        },
-        "conpair_merge": {
-            "0.2": "sing.sh conpair 0.2 merge",
-            "default": "sing.sh conpair 0.2 merge"
+        "conpair": {
+            "0.2": "sing.sh conpair 0.2",
+            "default": "sing.sh conpair 0.2"
         },
         "tabix": {
             "default": "/usr/local/bin/tabix"

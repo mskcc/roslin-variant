@@ -40,13 +40,14 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "conpair_merge"
+- "conpair"
 - --version
 - "0.2"
 - --language_version
 - "default"
 - --language
 - "python"
+- merge
 id: conpair-merge
 
 requirements:

@@ -40,13 +40,14 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "conpair_concordance"
+- "conpair"
 - --version
 - "0.2"
 - --language_version
 - "default"
 - --language
 - "python"
+- concordance
 - --normal_homozygous_markers_only
 id: conpair-concordance
 

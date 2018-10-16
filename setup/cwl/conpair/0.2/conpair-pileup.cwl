@@ -40,13 +40,14 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "conpair_pileup"
+- "conpair"
 - --version
 - "0.2"
 - --language_version
 - "default"
 - --language
 - "python"
+- pileup
 id: conpair-pileup
 
 requirements:
