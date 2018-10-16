@@ -9,7 +9,6 @@ from subprocess import Popen, PIPE
 import sys
 import os
 from Queue import Queue
-import atexit
 import shutil
 
 logger = logging.getLogger("build_images_parallel")
@@ -48,7 +47,6 @@ def cleanup_directory(path_to_directory):
             logger.info("---------- Got Exception ----------")
             logger.info(e)
 
-@atexit.register
 def cleanup_vagrant():
     logger.info("---------- Cleaning up ----------")
     cleanup_directory("/var/tmp")
@@ -92,11 +90,13 @@ def build_parallel(threads,tool_json,debug_mode):
             status_message = "["+single_item['name']+"] " + single_item["image_id"] + " failed to build"
             verbose_logging(single_item)
             logger.info(status_message)
+            cleanup_vagrant()
             pool.terminate()            
             sys.exit(status_message) 
     pool.close()
     pool.join()
     logger.info("---------- Finished building images ----------")
+    cleanup_vagrant()
 
 def move_images():
     command=["move-container-artifacts-to-setup.sh"]
