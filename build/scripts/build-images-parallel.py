@@ -90,8 +90,8 @@ def build_parallel(threads,tool_json,debug_mode):
             status_message = "["+single_item['name']+"] " + single_item["image_id"] + " failed to build"
             verbose_logging(single_item)
             logger.info(status_message)
+            pool.terminate()
             cleanup_vagrant()
-            pool.terminate()            
             sys.exit(status_message) 
     pool.close()
     pool.join()
