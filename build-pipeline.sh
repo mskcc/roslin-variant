@@ -41,7 +41,7 @@ function finish {
     rm -f setup/config/settings.sh
     rm -f core/config/settings.sh
     rm -f build/scripts/settings-container.sh
-    if [ ! -n "$TEST_MODE" ]
+    if [ -n "$TEST_MODE" ]
     then
         rm -f setup/config/test-settings.sh
         rm -f test/run-example.sh
