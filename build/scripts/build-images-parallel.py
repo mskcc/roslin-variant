@@ -9,7 +9,6 @@ from subprocess import Popen, PIPE
 import sys
 import os
 from Queue import Queue
-import shutil
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
@@ -33,24 +32,6 @@ def construct_jobs(tool_json,status_queue):
             single_job = (image_name,image_version,status_queue)
             job_list.append(single_job)
     return job_list
-
-def cleanup_directory(path_to_directory):
-    directory = path_to_directory
-    for single_file in os.listdir(directory):
-        single_file_path = os.path.join(directory, single_file)
-        try:
-            if os.path.isfile(single_file_path):
-                os.unlink(single_file_path)
-            elif os.path.isdir(single_file_path):
-                shutil.rmtree(single_file_path)
-        except Exception as e:
-            logger.info("---------- Got Exception ----------")
-            logger.info(e)
-
-def cleanup_vagrant():
-    logger.info("---------- Cleaning up ----------")
-    cleanup_directory("/var/tmp")
-    cleanup_directory("/tmp")
 
 def build_image(image_job):
     image_name = image_job[0]
@@ -91,12 +72,10 @@ def build_parallel(threads,tool_json,debug_mode):
             verbose_logging(single_item)
             logger.info(status_message)
             pool.terminate()
-            cleanup_vagrant()
             sys.exit(status_message) 
     pool.close()
     pool.join()
     logger.info("---------- Finished building images ----------")
-    cleanup_vagrant()
 
 def move_images():
     command=["move-container-artifacts-to-setup.sh"]

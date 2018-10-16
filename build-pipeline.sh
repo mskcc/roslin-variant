@@ -8,22 +8,6 @@ export LSF_ENVDIR=/common/lsf/conf
 export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
 # Set python env
 export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
-function finish {
-    # clean up
-    cd $parentDir
-    rm -f setup/config/build-settings.sh
-    rm -f setup/config/settings.sh
-    rm -f core/config/settings.sh
-    rm -f build/scripts/settings-container.sh
-    if [ ! -n "$TEST_MODE" ]
-    then
-        rm -f setup/config/test-settings.sh
-        rm -f test/run-example.sh
-        rm -f test/run-example-sv.sh
-    fi
-
-}
-trap finish INT TERM EXIT
 compareBool() {
     if [ $1 = "y" ] || [ $1 = "Y" ] || [ $1 = "yes" ] || [ $1 = "Yes" ] || [ $1 = "YES" ] || [ $1 =  "true" ] || [ $1 = "True" ] || [ $1 = "TRUE" ] || [ $1 = "on" ] || [ $1 = "On" ] || [ $1 = "ON" ]
     then
@@ -49,7 +33,28 @@ OPTIONS:
    -h                Print help
 EOF
 }
-# genrate id for test build
+
+function finish {
+    # clean up
+    cd $parentDir
+    rm -f setup/config/build-settings.sh
+    rm -f setup/config/settings.sh
+    rm -f core/config/settings.sh
+    rm -f build/scripts/settings-container.sh
+    if [ ! -n "$TEST_MODE" ]
+    then
+        rm -f setup/config/test-settings.sh
+        rm -f test/run-example.sh
+        rm -f test/run-example-sv.sh
+    fi
+    if compareBool $BUILD_IMAGES
+    then
+        # Cleanup vagrant
+        cleanupCommand="cd /vagrant/build/scripts/;sudo ./cleanup-vagrant.sh"
+        vagrant ssh -- -t "$cleanupCommand"
+    fi
+}
+trap finish INT TERM EXIT
 
 while getopts "thb:f" OPTION
 do
@@ -106,13 +111,13 @@ then
     source setup/config/settings.sh
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
-    buildCommand="cd /vagrant/build/scripts/;sudo python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
+    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
     installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME
     TempDir=roslin-build-log
     TestDir=roslin-build-log
-    buildCommand="cd /vagrant/build/scripts/;sudo python build-images-parallel.py -t $BUILD_THREADS"
+    buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
     if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ] 
     then
         >&2 echo "Could not find Core directory: $coreDir"
