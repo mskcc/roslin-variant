@@ -134,9 +134,8 @@ do
     # sudo docker login
     sudo docker push ${docker_image_full_name}
 
-    sudo rm -rf /tmp/${tool_name}
-    mkdir /tmp/${tool_name}
-    mkdir /tmp/${tool_name}/${tool_version}
+    sudo rm -rf /tmp/${tool_name}/${tool_version}
+    mkdir -p /tmp/${tool_name}/${tool_version}
 
     export SINGULARITY_NOHTTPS="y"
     # bootstrap the image
@@ -147,7 +146,7 @@ do
     # create /.roslin/ directory
     sudo -E singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
     # retrieve labels from docker image and save to labels.json
-    sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
+    sudo docker inspect ${tool_info} | sudo jq .[0].Config.Labels > /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
 
     # compress the image and build in non-shared directory 
     # mmap does not like images being built on a shared directory   
@@ -155,7 +154,6 @@ do
     sudo -E singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.sif /tmp/${tool_name}/${tool_version}/${tool_name}
     sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
     # delete tmp files
-    sudo rm -rf /tmp/labels.json
-    sudo rm -rf /tmp/${tool_name}
+    sudo rm -rf /tmp/${tool_name}/${tool_version}
 
 done
