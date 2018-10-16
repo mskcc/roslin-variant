@@ -26,8 +26,8 @@ From: conpair:0.2
     export PYTHONNOUSERSITE="set"
 
     case $1 in
-        pileup) shift; exec python /usr/bin/conpair/scripts/conpair/run_gatk_pileup_for_sample.py "$@" ;;
-        concordance) shift; exec python /usr/bin/conpair/scripts/conpair/verify_concordance.py "$@" ;;
+        pileup) shift; exec python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py "$@" ;;
+        concordance) shift; exec python /usr/bin/conpair/scripts/verify_concordance.py "$@" ;;
         contamination) shift; exec python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py "$@" ;;
         merge) shift; exec python /usr/bin/conpair/scripts/conpair_merge.py "$@" ;;
         *) echo "Please use either pileup, concordance, contamination, merge"; exit 1 ;;
@@ -36,9 +36,9 @@ From: conpair:0.2
 %test
 
     # get actual output from pileup
-        python /usr/bin/conpair/scripts/conpair/run_gatk_pileup_for_sample.py --help > /tmp/actual_pileup.diff.txt
+        python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py --help > /tmp/actual_pileup.diff.txt
     # get actual output from concordance
-        python /usr/bin/conpair/scripts/conpair/verify_concordance.py --help > /tmp/actual_concordance.diff.txt
+        python /usr/bin/conpair/scripts/verify_concordance.py --help > /tmp/actual_concordance.diff.txt
     # get actual output from contamination
         python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py > /tmp/actual_contamination.diff.txt
     # get actual output from merge

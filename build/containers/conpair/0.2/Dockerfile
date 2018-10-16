@@ -4,10 +4,13 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.conpair="0.2" \
       version.alpine="3.8" \
+      version.gatk="3.3-0" \
+      source.gatk="https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af" \
       source.conpair="https://github.com/mskcc/Conpair/releases/tag/0.2" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"      
 
 ENV CONPAIR_VERSION 0.2
+ENV GATK_VERSION 3.3-0
 
 COPY install-packages.R /tmp/install-packages.R
 COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar
@@ -29,9 +32,9 @@ RUN apk add --update \
         && apk add openjdk8-jre-base \
          # download and unzip conpair
         && cd /tmp && wget https://github.com/mskcc/Conpair/archive/${CONPAIR_VERSION}.tar.gz \
-        && tar xvzf Conpair-${CONPAIR_VERSION}.tar.gz \
+        && tar xvzf ${CONPAIR_VERSION}.tar.gz \
         # install conpair
-        && cp /tmp/Conpair-${CONPAIR_VERSION}/* /usr/bin/conpair \
+        && cp -r /tmp/Conpair-${CONPAIR_VERSION}/* /usr/bin/conpair \
         # clean up
         && rm -rf /tmp/*
 
