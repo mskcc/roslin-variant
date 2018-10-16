@@ -106,13 +106,13 @@ then
     source setup/config/settings.sh
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
-    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
+    buildCommand="cd /vagrant/build/scripts/;sudo python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
     installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME
     TempDir=roslin-build-log
     TestDir=roslin-build-log
-    buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
+    buildCommand="cd /vagrant/build/scripts/;sudo python build-images-parallel.py -t $BUILD_THREADS"
     if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ] 
     then
         >&2 echo "Could not find Core directory: $coreDir"
