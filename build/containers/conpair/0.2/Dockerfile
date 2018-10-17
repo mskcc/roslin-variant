@@ -34,10 +34,10 @@ RUN apk add --update \
         && cd /tmp && wget https://github.com/mskcc/Conpair/archive/${CONPAIR_VERSION}.tar.gz \
         && tar xvzf ${CONPAIR_VERSION}.tar.gz \
         # install conpair
-        && cp -r /tmp/Conpair-${CONPAIR_VERSION}/* /usr/bin/conpair \
+        && mv /tmp/Conpair-${CONPAIR_VERSION} /usr/bin/conpair \
         # clean up
         && rm -rf /tmp/*
 
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/sh"]

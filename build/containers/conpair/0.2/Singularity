@@ -36,122 +36,24 @@ From: conpair:0.2
 %test
 
     # get actual output from pileup
-        python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py --help > /srv/actual_pileup.diff.txt
+        python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
     # get actual output from concordance
-        python /usr/bin/conpair/scripts/verify_concordance.py --help > /srv/actual_concordance.diff.txt
+        python /usr/bin/conpair/scripts/verify_concordance.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
     # get actual output from contamination
-        python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py > /srv/actual_contamination.diff.txt
+        python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
     # get actual output from merge
-        python /usr/bin/conpair/scripts/conpair_merge.py --help > /srv/actual_merge.diff.txt
+        python /usr/bin/conpair/scripts/conpair_merge.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
 
     # expected outut from pileup output
-    cat > /srv/expected_pileup.diff.txt << EOM
+    cat > /srv/expected.diff.txt << EOM
 Usage: run_gatk_pileup_for_sample.py [options]
-
-Program to run GATK Pileup on a single sample
-
-Options:
-  --version             show program's version number and exit
-  -h, --help            show this help message and exit
-  -B BAM, --bam=BAM     BAMFILE [mandatory field]
-  -O OUTFILE, --outfile=OUTFILE
-                        OUTPUT FILE (PILEUP) [mandatory field]
-  -D CONPAIR_DIR, --conpair_dir=CONPAIR_DIR
-                        CONPAIR DIR [$CONPAIR_DIR by default]
-  -R REFERENCE, --reference=REFERENCE
-                        REFERENCE GENOME [GRCh37 by default]
-  -M MARKERS, --markers=MARKERS
-                        MARKER FILE [GRCh37-default]
-  -G GATK, --gatk=GATK  GATK JAR [$GATK by default]
-  -J JAVA, --java=JAVA  PATH to JAVA [java by default]
-  -t TEMP_DIR_JAVA, --temp_dir_java=TEMP_DIR_JAVA
-                        temporary directory to set -Djava.io.tmpdir
-  -m XMX_JAVA, --xmx_java=XMX_JAVA
-                        Xmx java memory setting [default: 12g]
-  --remove_chr_prefix   REMOVE CHR PREFIX FROM THE CHROMOSOME COLUMN IN THE
-                        OUTPUT FILE [false by default]
-EOM
-    # expected outut from concordance output
-    cat > /srv/expected_concordance.diff.txt << EOM
 Usage: verify_concordance.py [options]
-
-Program to verify tumor-normal sample concordance
-
-Options:
-  --version             show program's version number and exit
-  -h, --help            show this help message and exit
-  -T TUMOR_PILEUP, --tumor_pileup=TUMOR_PILEUP
-                        TUMOR PILEUP FILE [mandatory field]
-  -N NORMAL_PILEUP, --normal_pileup=NORMAL_PILEUP
-                        NORMAL PILEUP FILE [mandatory field]
-  -M MARKERS, --markers=MARKERS
-                        MARKER FILE [Conpair-GRCh37-default]
-  -C MIN_COV, --min_cov=MIN_COV
-                        MIN COVERAGE TO CALL GENOTYPE [default: 10]
-  -O OUTFILE, --outfile=OUTFILE
-                        TXT OUTPUT FILE [stdout by default]
-  -Q MIN_MAPPING_QUALITY, --min_mapping_quality=MIN_MAPPING_QUALITY
-                        MIN MAPPING QUALITY [default: 10]
-  -B MIN_BASE_QUALITY, --min_base_quality=MIN_BASE_QUALITY
-                        MIN BASE QUALITY [default: 20]
-  -H, --normal_homozygous_markers_only
-                        USE ONLY MARKERS THAT ARE HOMOZYGOUS IN THE NORMAL
-                        SAMPLE (concordance will not be affected by CNV)
-EOM
-    # expected outut from contamination output
-    cat > /srv/expected_contamination.diff.txt << EOM
 Usage: estimate_tumor_normal_contamination.py [options]
-
-Program to estimate tumor-normal sample contamination
-
-Options:
-  --version             show program's version number and exit
-  -h, --help            show this help message and exit
-  -T TUMOR_PILEUP, --tumor_pileup=TUMOR_PILEUP
-                        TUMOR PILEUP FILE [mandatory field]
-  -N NORMAL_PILEUP, --normal_pileup=NORMAL_PILEUP
-                        NORMAL PILEUP FILE [mandatory field]
-  -D CONPAIR_DIR, --conpair_dir=CONPAIR_DIR
-                        CONPAIR DIR [default: $CONPAIR_DIR]
-  -M MARKERS, --markers=MARKERS
-                        MARKER FILE [default: markers for GRCh37 from
-                        $CONPAIR_DIR/data/markers/ ]
-  -O OUTFILE, --outfile=OUTFILE
-                        TXT OUTPUT FILE [default: stdout]
-  -G GRID, --grid=GRID  GRID INTERVAL [default: 0.01]
-  -Q MIN_MAPPING_QUALITY, --min_mapping_quality=MIN_MAPPING_QUALITY
-                        MIN MAPPING QUALITY [default: 10]
-EOM
-    # expected outut from merge output
-    cat > /srv/expected_merge.diff.txt << EOM
 usage: conpair_merge.py [options]
-
-This tool helps to merge concordance/contamination results into table and
-generate plots in PDF format.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -p INPAIR, --pairing INPAIR
-                        sample pairing file
-  -cl CORDLIST [CORDLIST ...], --cordlist CORDLIST [CORDLIST ...]
-                        A list of concordance.txt files
-  -tl TAMILIST [TAMILIST ...], --tamilist TAMILIST [TAMILIST ...]
-                        A list of contamination.txt files
-  -op OUTPRE, --outpre OUTPRE
-                        Prefix name for output files
-  -o OUTDIR, --output OUTDIR
-                        Output directory that contains summarized tables and
-                        plots
 EOM
 
-    # diff pileup
-    diff /srv/actual_pileup.diff.txt /srv/expected_pileup.diff.txt
-    # diff concordance
-    diff /srv/actual_concordance.diff.txt /srv/expected_concordance.diff.txt
-    # diff contamination
-    diff /srv/actual_contamination.diff.txt /srv/expected_contamination.diff.txt
-    # diff pileup
-    diff /srv/actual_merge.diff.txt /srv/expected_merge.diff.txt
+    # diff
+    diff /srv/actual.diff.txt /srv/expected.diff.txt
 
     # delete tmp files
     rm -rf /srv/*.diff.txt
