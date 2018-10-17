@@ -148,7 +148,7 @@ do
         currentDir=$(pwd)
         cd /tmp/${tool_name}/${tool_version}
         cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif .
-	singularity exec ${tool_name}.sif bash -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
+	singularity exec ${tool_name}.sif sh -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
 	rm ${tool_name}.sif
         cd $currentDir
         dockerIdPath=/tmp/${tool_name}/${tool_version}/dockerId.json
