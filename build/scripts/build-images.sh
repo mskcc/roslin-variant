@@ -138,6 +138,28 @@ do
     mkdir -p /tmp/${tool_name}/${tool_version}
 
     export SINGULARITY_NOHTTPS="y"
+    # retrieve labels from docker image and save to labels.json
+    sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/${tool_name}/${tool_version}/labels.json
+    sudo docker inspect ${tool_info} | jq .[0].Id > /tmp/${tool_name}/${tool_version}/dockerId.json
+    sudo docker inspect ${tool_info} | jq .[0] > /tmp/${tool_name}/${tool_version}/dockerMeta.json
+
+    if [ -f ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ]
+    then
+        currentDir=$(pwd)
+        cd /tmp/${tool_name}/${tool_version}
+        cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif .
+        singularity exec ${tool_name}.sif cat /.roslin/dockerId.json > singularityDockerId.json 2>/dev/null
+        rm ${tool_name}.sif
+        cd $currentDir
+        dockerIdPath=/tmp/${tool_name}/${tool_version}/dockerId.json
+        singularitydockerIdPath=/tmp/${tool_name}/${tool_version}/singularityDockerId.json
+        dockerId=$(cat singularitydockerIdPath)
+        if cmp -s "$dockerIdPath" "$singularitydockerIdPath" ; then
+            echo "Using cached singularity image: ${dockerId}"
+            continue
+        fi
+    fi
+
     # bootstrap the image
     sudo -E singularity build --sandbox --force \
         /tmp/${tool_name}/${tool_version}/${tool_name} \
@@ -145,9 +167,10 @@ do
 
     # create /.roslin/ directory
     sudo -E singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
-    # retrieve labels from docker image and save to labels.json
-    sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/${tool_name}/${tool_version}/labels.json
+
     sudo mv /tmp/${tool_name}/${tool_version}/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
+    sudo mv /tmp/${tool_name}/${tool_version}/dockerId.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerId.json
+    sudo mv /tmp/${tool_name}/${tool_version}/dockerMeta.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerMeta.json
 
     # compress the image and build in non-shared directory 
     # mmap does not like images being built on a shared directory   
