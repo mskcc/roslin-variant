@@ -148,12 +148,12 @@ do
         currentDir=$(pwd)
         cd /tmp/${tool_name}/${tool_version}
         cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif .
-        singularity exec ${tool_name}.sif cat /.roslin/dockerId.json > singularityDockerId.json 2>/dev/null
-        rm ${tool_name}.sif
+	singularity exec ${tool_name}.sif bash -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
+	rm ${tool_name}.sif
         cd $currentDir
         dockerIdPath=/tmp/${tool_name}/${tool_version}/dockerId.json
         singularitydockerIdPath=/tmp/${tool_name}/${tool_version}/singularityDockerId.json
-        dockerId=$(cat singularitydockerIdPath)
+        dockerId=$(cat $singularitydockerIdPath)
         if cmp -s "$dockerIdPath" "$singularitydockerIdPath" ; then
             echo "Using cached singularity image: ${dockerId}"
             continue
