@@ -4,12 +4,12 @@ From: facets:1.5.6
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    source /srv/settings-container.sh
 
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: facets:1.5.6
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %runscript
 
@@ -37,15 +37,15 @@ From: facets:1.5.6
 %test
 
     # get actual output from facets doFacets
-    python /usr/bin/facets-suite/facets doFacets 2>&1 | head -1 > /tmp/actual_doFacets.diff.txt
+    python /usr/bin/facets-suite/facets doFacets 2>&1 | head -1 > /srv/actual_doFacets.diff.txt
 
     # expected facets output
-    cat > /tmp/expected_doFacets.diff.txt << EOM
+    cat > /srv/expected_doFacets.diff.txt << EOM
 usage: facets doFacets [-h] [-c CVAL] [-s SNP_NBHD] [-n NDEPTH] [-m MIN_NHET]
 EOM
 
     # diff facets
-    diff /tmp/actual_doFacets.diff.txt /tmp/expected_doFacets.diff.txt
+    diff /srv/actual_doFacets.diff.txt /srv/expected_doFacets.diff.txt
 
     # delete tmp files
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt

@@ -4,12 +4,12 @@ From: conpair:0.2
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    source /srv/settings-container.sh
 
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: conpair:0.2
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %runscript
 
@@ -36,16 +36,16 @@ From: conpair:0.2
 %test
 
     # get actual output from pileup
-        python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py --help > /tmp/actual_pileup.diff.txt
+        python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py --help > /srv/actual_pileup.diff.txt
     # get actual output from concordance
-        python /usr/bin/conpair/scripts/verify_concordance.py --help > /tmp/actual_concordance.diff.txt
+        python /usr/bin/conpair/scripts/verify_concordance.py --help > /srv/actual_concordance.diff.txt
     # get actual output from contamination
-        python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py > /tmp/actual_contamination.diff.txt
+        python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py > /srv/actual_contamination.diff.txt
     # get actual output from merge
-        python /usr/bin/conpair/scripts/conpair_merge.py --help > /tmp/actual_merge.diff.txt
+        python /usr/bin/conpair/scripts/conpair_merge.py --help > /srv/actual_merge.diff.txt
 
     # expected outut from pileup output
-    cat > /tmp/expected_pileup.diff.txt << EOM
+    cat > /srv/expected_pileup.diff.txt << EOM
 Usage: run_gatk_pileup_for_sample.py [options]
 
 Program to run GATK Pileup on a single sample
@@ -72,7 +72,7 @@ Options:
                         OUTPUT FILE [false by default]
 EOM
     # expected outut from concordance output
-    cat > /tmp/expected_concordance.diff.txt << EOM
+    cat > /srv/expected_concordance.diff.txt << EOM
 Usage: verify_concordance.py [options]
 
 Program to verify tumor-normal sample concordance
@@ -99,7 +99,7 @@ Options:
                         SAMPLE (concordance will not be affected by CNV)
 EOM
     # expected outut from contamination output
-    cat > /tmp/expected_contamination.diff.txt << EOM
+    cat > /srv/expected_contamination.diff.txt << EOM
 Usage: estimate_tumor_normal_contamination.py [options]
 
 Program to estimate tumor-normal sample contamination
@@ -123,7 +123,7 @@ Options:
                         MIN MAPPING QUALITY [default: 10]
 EOM
     # expected outut from merge output
-    cat > /tmp/expected_merge.diff.txt << EOM
+    cat > /srv/expected_merge.diff.txt << EOM
 usage: conpair_merge.py [options]
 
 This tool helps to merge concordance/contamination results into table and
@@ -145,13 +145,13 @@ optional arguments:
 EOM
 
     # diff pileup
-    diff /tmp/actual_pileup.diff.txt /tmp/expected_pileup.diff.txt
+    diff /srv/actual_pileup.diff.txt /srv/expected_pileup.diff.txt
     # diff concordance
-    diff /tmp/actual_concordance.diff.txt /tmp/expected_concordance.diff.txt
+    diff /srv/actual_concordance.diff.txt /srv/expected_concordance.diff.txt
     # diff contamination
-    diff /tmp/actual_contamination.diff.txt /tmp/expected_contamination.diff.txt
+    diff /srv/actual_contamination.diff.txt /srv/expected_contamination.diff.txt
     # diff pileup
-    diff /tmp/actual_merge.diff.txt /tmp/expected_merge.diff.txt
+    diff /srv/actual_merge.diff.txt /srv/expected_merge.diff.txt
 
     # delete tmp files
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt

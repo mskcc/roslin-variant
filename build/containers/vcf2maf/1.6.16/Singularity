@@ -4,12 +4,12 @@ From: vcf2maf:1.6.16
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    source /srv/settings-container.sh
 
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: vcf2maf:1.6.16
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %environment
 
@@ -39,13 +39,13 @@ From: vcf2maf:1.6.16
     export PATH=/usr/local/bin/:$PATH
 
     # get actual output of the tool
-    perl /usr/bin/vcf2maf/vcf2vcf.pl --help | head -2 > /tmp/actual.diff.txt
-    perl /usr/bin/vcf2maf/vcf2maf.pl --help | head -2 >> /tmp/actual.diff.txt
-    perl /usr/bin/vcf2maf/maf2maf.pl --help | head -2 >> /tmp/actual.diff.txt
-    perl /usr/bin/vcf2maf/maf2vcf.pl --help | head -2 >> /tmp/actual.diff.txt
+    perl /usr/bin/vcf2maf/vcf2vcf.pl --help | head -2 > /srv/actual.diff.txt
+    perl /usr/bin/vcf2maf/vcf2maf.pl --help | head -2 >> /srv/actual.diff.txt
+    perl /usr/bin/vcf2maf/maf2maf.pl --help | head -2 >> /srv/actual.diff.txt
+    perl /usr/bin/vcf2maf/maf2vcf.pl --help | head -2 >> /srv/actual.diff.txt
 
 # expected output
-cat > /tmp/expected.diff.txt << EOM
+cat > /srv/expected.diff.txt << EOM
 Usage:
      perl vcf2vcf.pl --help
 Usage:
@@ -57,7 +57,7 @@ Usage:
 EOM
 
     # diff
-    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+    diff /srv/actual.diff.txt /srv/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt

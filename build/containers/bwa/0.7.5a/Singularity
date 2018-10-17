@@ -4,12 +4,12 @@ From: bwa:0.7.5a
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    source /srv/settings-container.sh
     
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: bwa:0.7.5a
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %runscript
 
@@ -27,10 +27,10 @@ From: bwa:0.7.5a
 %test
 
     # get actual output of the tool
-    /usr/bin/bwa 2>&1 | head -4 > /tmp/actual.diff.txt
+    /usr/bin/bwa 2>&1 | head -4 > /srv/actual.diff.txt
 
 # expected output
-cat > /tmp/expected.diff.txt << EOM
+cat > /srv/expected.diff.txt << EOM
 
 Program: bwa (alignment via Burrows-Wheeler transformation)
 Version: 0.7.5a-r405
@@ -38,7 +38,7 @@ Contact: Heng Li <lh3@sanger.ac.uk>
 EOM
 
     # diff
-    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+    diff /srv/actual.diff.txt /srv/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt

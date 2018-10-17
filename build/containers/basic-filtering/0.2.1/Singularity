@@ -4,12 +4,12 @@ From: basic-filtering:0.2.1
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    source /srv/settings-container.sh
 
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: basic-filtering:0.2.1
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %environment
 
@@ -40,13 +40,13 @@ From: basic-filtering:0.2.1
 %test
 
     # get actual output of the tool
-    python /usr/bin/basicfiltering/filter_pindel.py 2>&1 | head -1 >> /tmp/actual.diff.txt
-    python /usr/bin/basicfiltering/filter_mutect.py 2>&1 | head -1 >> /tmp/actual.diff.txt
-    python /usr/bin/basicfiltering/filter_vardict.py 2>&1 | head -1 >> /tmp/actual.diff.txt
-    python /usr/bin/basicfiltering/filter_sid.py 2>&1 | head -1 >> /tmp/actual.diff.txt
+    python /usr/bin/basicfiltering/filter_pindel.py 2>&1 | head -1 >> /srv/actual.diff.txt
+    python /usr/bin/basicfiltering/filter_mutect.py 2>&1 | head -1 >> /srv/actual.diff.txt
+    python /usr/bin/basicfiltering/filter_vardict.py 2>&1 | head -1 >> /srv/actual.diff.txt
+    python /usr/bin/basicfiltering/filter_sid.py 2>&1 | head -1 >> /srv/actual.diff.txt
 
 # expected output
-cat > /tmp/expected.diff.txt << EOM
+cat > /srv/expected.diff.txt << EOM
 usage: filter_pindel.py [options]
 usage: filter_mutect.py [options]
 usage: filter_vardict.py [options]
@@ -54,7 +54,7 @@ usage: filter_sid.py [options]
 EOM
 
     # diff
-    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+    diff /srv/actual.diff.txt /srv/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt

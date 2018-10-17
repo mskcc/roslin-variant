@@ -4,12 +4,12 @@ From: delly:0.7.7
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    . /tmp/settings-container.sh
+    . /srv/settings-container.sh
     
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: delly:0.7.7
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %runscript
 
@@ -27,10 +27,10 @@ From: delly:0.7.7
 %test
 
     # get actual output of the tool
-    /usr/local/bin/delly 2>&1 | head -9 > /tmp/actual.diff.txt
+    /usr/local/bin/delly 2>&1 | head -9 > /srv/actual.diff.txt
 
 # expected output
-cat > /tmp/expected.diff.txt << EOM
+cat > /srv/expected.diff.txt << EOM
 **********************************************************************
 Program: Delly
 This is free software, and you are welcome to redistribute it under
@@ -43,7 +43,7 @@ Contact: Tobias Rausch (rausch@embl.de)
 EOM
 
     # diff
-    diff /tmp/actual.diff.txt /tmp/expected.diff.txt
+    diff /srv/actual.diff.txt /srv/expected.diff.txt
 
     # delete tmp
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt

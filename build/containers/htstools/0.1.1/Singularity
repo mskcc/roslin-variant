@@ -4,12 +4,12 @@ From: htstools:0.1.1
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    . /tmp/settings-container.sh
+    . /srv/settings-container.sh
 
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: htstools:0.1.1
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %runscript
 
@@ -32,12 +32,12 @@ From: htstools:0.1.1
 %test
 
     # get actual output from snp-pileup
-    /usr/bin/snp-pileup --help > /tmp/actual_snp_pileup.diff.txt
+    /usr/bin/snp-pileup --help > /srv/actual_snp_pileup.diff.txt
     # get actual output from ppflag-fixer
-    /usr/bin/ppflag-fixer --help > /tmp/actual_ppflag_fixer.diff.txt
+    /usr/bin/ppflag-fixer --help > /srv/actual_ppflag_fixer.diff.txt
 
     # expected snp-pileup output
-    cat > /tmp/expected_snp_pileup.diff.txt << EOM
+    cat > /srv/expected_snp_pileup.diff.txt << EOM
 Usage: snp-pileup [OPTION...] <vcf file> <output file> <sequence files...>
 
   -A, --count-orphans        Do not discard anomalous read pairs.
@@ -65,7 +65,7 @@ for any corresponding short options.
 EOM
 
     # expected ppflag-fixer output
-    cat > /tmp/expected_ppflag_fixer.diff.txt << EOM
+    cat > /srv/expected_ppflag_fixer.diff.txt << EOM
 Usage: ppflag-fixer [OPTION...] <input file> <output file>
 
   -m, --max-tlen=LENGTH      Sets a maximum bound of LENGTH on all fragments;
@@ -81,11 +81,11 @@ for any corresponding short options.
 EOM
 
     # diff snp-pileup
-    diff /tmp/actual_snp_pileup.diff.txt /tmp/expected_snp_pileup.diff.txt
+    diff /srv/actual_snp_pileup.diff.txt /srv/expected_snp_pileup.diff.txt
 
     # diff ppflag-fixer
-    diff /tmp/actual_ppflag_fixer.diff.txt /tmp/expected_ppflag_fixer.diff.txt
+    diff /srv/actual_ppflag_fixer.diff.txt /srv/expected_ppflag_fixer.diff.txt
 
     # delete tmp files
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt
 

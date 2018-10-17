@@ -4,12 +4,12 @@ From: roslin-qc:0.5.11
 %setup
 
     # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/tmp
+    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
 
 %post
 
     # load the settings-container.sh which was copied in the %setup step
-    source /tmp/settings-container.sh
+    source /srv/settings-container.sh
 
     # create an empty directory for each bind point defined
     for dir in $SINGULARITY_BIND_POINTS
@@ -18,7 +18,7 @@ From: roslin-qc:0.5.11
     done
 
     # remove settings-container.sh
-    rm -rf /tmp/settings-container.sh
+    rm -rf /srv/settings-container.sh
 
 %runscript
 
@@ -29,15 +29,15 @@ From: roslin-qc:0.5.11
 %test
 
     # get actual output from generate_pdf
-        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /tmp/actual_generate_pdf.diff.txt
+        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /srv/actual_generate_pdf.diff.txt
 
     # expected generate_pdf output
-    cat > /tmp/expected_generate_pdf.diff.txt << EOM
+    cat > /srv/expected_generate_pdf.diff.txt << EOM
 usage: generate_pdf.py [-h] [--gcbias-files GCBIAS_FILES]
 EOM
 
     # diff generate_pdf
-    diff /tmp/actual_generate_pdf.diff.txt /tmp/expected_generate_pdf.diff.txt
+    diff /srv/actual_generate_pdf.diff.txt /srv/expected_generate_pdf.diff.txt
 
     # delete tmp files
-    rm -rf /tmp/*.diff.txt
+    rm -rf /srv/*.diff.txt
