@@ -49,16 +49,12 @@ export NVM_DIR="$ROSLIN_PIPELINE_DATA_PATH/.nvm"
 if [ -d $NVM_DIR ]
 then
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-else
-	echo "NVM directory not found"
 fi
 
 # Load the virtualenv
 if [ -e $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate ]
 then
 	source $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate
-else
-	echo "virtualenv directory not found"
 fi
 # Run environment
 {{ run_env }}
