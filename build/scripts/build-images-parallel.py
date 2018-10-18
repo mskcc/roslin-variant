@@ -78,7 +78,7 @@ def build_parallel(threads,tool_json,debug_mode):
     logger.info("---------- Finished building images ----------")
 
 def move_images():
-    command=["move-container-artifacts-to-setup.sh"]
+    command=["/vagrant/build/scripts/move-container-artifacts-to-setup.sh"]
     process = Popen(command, stdout=PIPE, stderr=PIPE)
     logger.info("---------- Moving Images ----------")    
     stdout, stderr = process.communicate()
