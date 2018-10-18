@@ -28,16 +28,17 @@ export ROSLIN_PIPELINE_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_output }}
 # workspace
 export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_workspace }}"
 
+# deduplicated bind points (space separated)
+export ROSLIN_BIND_PATH="{{ binding_deduplicated }}"
 #<--
 
 # path to singularity executable
 # singularity is expected to be found at the same location regardless of the nodes you're on
 # override this if you want to test a different version of singularity.
-export ROSLIN_SINGULARITY_PATH="/opt/common/CentOS_6-dev/singularity/singularity-2.4.2/bin/singularity"
+export ROSLIN_SINGULARITY_PATH="{{ dependencies_singularity_install_path }}"
 
 # cmo
 export ROSLIN_CMO_VERSION="{{ dependencies_cmo_version }}"
-export ROSLIN_CMO_BIN_PATH="{{ dependencies_cmo_bin_path }}"
 export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 
 # toil
