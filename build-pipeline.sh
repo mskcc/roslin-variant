@@ -212,6 +212,7 @@ cd $ROSLIN_PIPELINE_DATA_PATH
 HOME_TEMP=$HOME
 export HOME=$ROSLIN_PIPELINE_DATA_PATH
 # Setup node
+mkdir .nvm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 export HOME=$HOME_TEMP
 # setup virtualenv
