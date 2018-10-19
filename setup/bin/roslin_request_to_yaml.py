@@ -205,11 +205,11 @@ if __name__ == "__main__":
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = os.path.join(ROSLIN_PATH, "scripts")
     qcpdf_jar_path = os.path.join(scripts_bin, "QCPDF.jar")
-    gatk_jar_path = ROSLIN_RESOURCES["programs"]["gatk"]["default"]
     ROSLIN_RESOURCES = json.load(open(ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json", 'r'))
     REQUEST_FILES = ROSLIN_RESOURCES["request_files"]
     (assay, project_id) = parse_request_file(args.request)
     intervals = get_baits_and_targets(assay,ROSLIN_RESOURCES)
+    gatk_jar_path = str(ROSLIN_RESOURCES["programs"]["gatk"]["default"])
     curated_bams = get_curated_bams(assay,REQUEST_FILES)
     mapping_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
