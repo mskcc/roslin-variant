@@ -80,6 +80,11 @@ inputs:
       type: 
       - [File, string]
   file_prefix: string
+  runparams:
+    type:
+      type: record
+      fields:
+        gatk_jar_path: string
 
 
 outputs:
@@ -125,8 +130,8 @@ steps:
                  - ^.dict
                  - ^.fasta.fai
            gatk_jar_path: string
-           markers: File
-           markers_bed: File
+           markers: string
+           markers_bed: string
            tumor_sample_name: string
            normal_sample_name: string
         outputs:

@@ -82,7 +82,7 @@ inputs:
             - ^.bai
 
     hotspot_list:
-        type: File
+        type: string
 
 outputs:
 

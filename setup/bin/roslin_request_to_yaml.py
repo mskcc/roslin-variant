@@ -252,14 +252,14 @@ if __name__ == "__main__":
         'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
         'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},        
         'vep_data': str(REQUEST_FILES['vep_data']),
-        'hotspot_list': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list'])},
-        'hotspot_vcf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_vcf'])},
-        'facets_snps': str(REQUEST_FILES['genomes'][genome]['facets_snps']),
+        'hotspot_list': str(REQUEST_FILES['hotspot_list']),
+        'hotspot_vcf': str(REQUEST_FILES['hotspot_vcf']),
+        'facets_snps': str(ROSLIN_RESOURCES['genomes'][genome]['facets_snps']),
         'custom_enst': str(REQUEST_FILES['custom_enst']),
         'vep_path': str(REQUEST_FILES['vep_path']),
         'ref_fasta':  str(REQUEST_FILES['ref_fasta']),
-        'conpair_markers': {'class': 'File', 'path': str(REQUEST_FILES['conpair_markers'])},
-        'conpair_markers_bed': {'class': 'File', 'path': str(REQUEST_FILES['conpair_markers_bed'])}
+        'conpair_markers': str(REQUEST_FILES['conpair_markers']),
+        'conpair_markers_bed': str(REQUEST_FILES['conpair_markers_bed'])
     }
     files.update(intervals)
 

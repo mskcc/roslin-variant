@@ -55,16 +55,16 @@ inputs:
         vep_path: string
         custom_enst: string
         vep_data: string
-        hotspot_list: File
-        hotspot_vcf: File
+        hotspot_list: string
+        hotspot_vcf: string
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
         grouping_file: File
         request_file: File
         pairing_file: File
-        conpair_markers: File
-        conpair_markers_bed: File
+        conpair_markers: string
+        conpair_markers_bed: string
   hapmap_inputs:
     type: File
     secondaryFiles:
@@ -319,7 +319,7 @@ outputs:
   hotspot_list:
     type:
       type: array
-      items: File
+      items: string
   group_ids:
     type:
       type: array
@@ -331,10 +331,10 @@ outputs:
   target_intervals: File
   fp_genotypes: File
   request_file: File
-  conpair_markers: File
-  conpair_markers_bed: File
+  conpair_markers: string
+  conpair_markers_bed: string
   pairing_file: File
-  hotspot_vcf: File
+  hotspot_vcf: string
   grouping_file: File
   opt_dup_pix_dist: string
   ref_fasta_string: string

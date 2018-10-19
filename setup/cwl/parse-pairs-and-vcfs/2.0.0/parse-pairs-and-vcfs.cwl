@@ -98,7 +98,7 @@ inputs:
   hotspot_list:
      type:
        type: array
-       items: File
+       items: string
 outputs:
   tumor_id:
      type:
@@ -141,7 +141,7 @@ outputs:
      type:
        type: array
        items: File
-  srt_hotspot_list: File
+  srt_hotspot_list: string
 
 expression: '${var bams= [];
  for (var i=0; i< inputs.bams.length; i++) {

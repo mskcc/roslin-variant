@@ -76,7 +76,7 @@ inputs:
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
-    hotspot_vcf: File
+    hotspot_vcf: string
     ref_fasta: string
     facets_pcval: int
     facets_cval: int
@@ -279,7 +279,7 @@ steps:
                 mutect_callstats: File
                 vardict_vcf: File
                 pindel_vcf: File
-                hotspot_vcf: File
+                hotspot_vcf: string
                 tumor_sample_name: string
                 ref_fasta: string
             outputs:                

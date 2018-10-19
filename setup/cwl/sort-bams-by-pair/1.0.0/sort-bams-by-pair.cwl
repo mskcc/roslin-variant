@@ -72,8 +72,8 @@ inputs:
         facets_snps: string
         custom_enst: string
         vep_data: string
-        hotspot_list: File
-        hotspot_vcf: File
+        hotspot_list: string
+        hotspot_vcf: string
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
