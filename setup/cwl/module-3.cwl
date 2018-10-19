@@ -177,7 +177,7 @@ steps:
                 refseq: File #file of refseq genes... of refseq genes...
                 facets_pcval: int
                 facets_cval: int
-                facets_snps: strings
+                facets_snps: string
             outputs:
                 mutect_vcf:
                     type: File
