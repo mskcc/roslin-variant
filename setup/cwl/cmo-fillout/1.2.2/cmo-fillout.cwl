@@ -73,9 +73,7 @@ inputs:
       prefix: --bams
 
   genome:
-    type:
-      type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    type: string
     doc: Reference assembly of BAM files, e.g. hg19/grch37/b37
     inputBinding:
       prefix: --genome
