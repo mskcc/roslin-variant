@@ -137,8 +137,8 @@
             "default": "/usr/bin/R"
         },
         "abra": {
-            "2.17": "sing.sh abra 2.12",
-            "default": "sing.sh abra 2.12"
+            "2.17": "sing.sh abra 2.17",
+            "default": "sing.sh abra 2.17"
         },
         "basic-filtering": {
             "0.2.1": "sing.sh basic-filtering 0.2.1",
