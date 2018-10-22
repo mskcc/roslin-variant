@@ -1,13 +1,4 @@
 #!/bin/bash
-# path to lsf commands
-# Set LSF env
-export LSF_LIBDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib
-export LSF_SERVERDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc
-export LSF_BINDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
-export LSF_ENVDIR=/common/lsf/conf
-export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
-# Set python env
-export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
 compareBool() {
     if [ $1 = "y" ] || [ $1 = "Y" ] || [ $1 = "yes" ] || [ $1 = "Yes" ] || [ $1 = "YES" ] || [ $1 =  "true" ] || [ $1 = "True" ] || [ $1 = "TRUE" ] || [ $1 = "on" ] || [ $1 = "On" ] || [ $1 = "ON" ]
     then
