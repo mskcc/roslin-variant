@@ -23,49 +23,77 @@ compareBool() {
 
 usage()
 {
+USAGE=true
 cat << EOF
 USAGE: `basename $0` [options]
 build.sh
 OPTIONS:
    -t                Build the pipeline for testing [optional]
+   -c                Clean the working directory for building
    -b [build_id]     Specify a build id [required for testing]
    -f                Force overwrite [optional]
    -h                Print help
 EOF
 }
 
+parentDir=$(pwd)
+
 function finish {
-    # clean up
-    cd $parentDir
-    rm -f setup/config/build-settings.sh
-    rm -f setup/config/settings.sh
-    rm -f core/config/settings.sh
-    rm -f build/scripts/settings-container.sh
-    if [ -n "$TEST_MODE" ]
+    if [ ! -n "$USAGE" ]
     then
-        rm -f setup/config/test-settings.sh
-        rm -f test/run-example.sh
-        rm -f test/run-example-sv.sh
-    fi
-    if compareBool $BUILD_IMAGES
-    then
-        # Cleanup vagrant
-        cleanupCommand="cd /vagrant/build/scripts/;sudo ./cleanup-vagrant.sh"
-        vagrant ssh -- -t "$cleanupCommand"
+        # clean up
+        cd $parentDir
+        rm -f setup/config/build-settings.sh
+        rm -f setup/config/settings.sh
+        rm -f core/config/settings.sh
+        rm -f build/scripts/settings-container.sh
+        if [ -n "$TEST_MODE" ]
+        then
+            rm -f setup/config/test-settings.sh
+            rm -f test/run-example.sh
+            rm -f test/run-example-sv.sh
+            if [ -n "$CLEAN" ]
+            then
+                rm -rf test_output/$BUILD_NUMBER
+            fi
+        else
+            if [ -n "$CLEAN" ]
+            then
+                rm -rf roslin-build-log
+            fi
+        fi
+        if [ -n "$BUILD_IMAGES" ]
+        then
+            if compareBool $BUILD_IMAGES
+            then
+                # Cleanup vagrant
+                echo "Cleaning up vagrant..."
+                cleanupCommand="cd /vagrant/build/scripts/;sudo ./cleanup-vagrant.sh"
+                vagrant ssh -- -t "$cleanupCommand"
+            fi
+        fi
     fi
 }
 trap finish INT TERM EXIT
 
-while getopts "thb:f" OPTION
+while getopts "tchb:f" OPTION
 do
     case $OPTION in
         t)TEST_MODE=true;;
+        c)CLEAN=true;;
         b)BUILD_NUMBER=$OPTARG;;
         f)FORCE=true;;
         h) usage; exit 0 ;;
         *) usage; exit 1 ;;
     esac
 done
+
+if [ -n "$CLEAN" ]
+then
+    echo "Cleaning up..."
+    rm -rf build-venv
+    exit 0
+fi
 
 if [ -n "$TEST_MODE" ] && [ -z "$BUILD_NUMBER" ]
 then
@@ -77,8 +105,6 @@ fi
 printf "\n----------Setting Up----------\n"
 #Script will exit if a command exits with nonzero exit value
 set -e
-
-parentDir=$(pwd)
 
 virtualenv build-venv --no-site-packages
 source build-venv/bin/activate
