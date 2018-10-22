@@ -11,7 +11,7 @@ ENV ABRA_VERSION 2.17
 
 # install abra
 RUN apk add --update \
-      && apk add build-base musl-dev zlib-dev openjdk8-jre\
+      && apk add build-base musl-dev zlib-dev openjdk8-jre libc6-compat \
       && cd /tmp && wget https://github.com/mozack/abra2/releases/download/v${ABRA_VERSION}/abra2-${ABRA_VERSION}.jar \
       && mv /tmp/abra2-${ABRA_VERSION}.jar /usr/bin/abra.jar \
       && rm -rf /tmp/*
