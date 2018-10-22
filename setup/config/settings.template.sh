@@ -59,3 +59,5 @@ then
 fi
 # Run environment
 {{ run_env }}
+
+echo "Loaded Roslin Pipeline - $ROSLIN_PIPELINE_NAME ( $ROSLIN_PIPELINE_VERSION )"
