@@ -35,7 +35,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'mergeInsertSizeHistograms.py' ]
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- mergeInsertSizeHistograms
 id: merge-insert-size-histograms
 stdout: $(inputs.outfile_name)
 inputs:

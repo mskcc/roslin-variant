@@ -35,7 +35,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'analyzeFingerprint.py' ]
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- analyzeFingerprint
 id: generate-fingerprint
 inputs:
   files:

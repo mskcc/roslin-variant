@@ -37,10 +37,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: 
-- java
-- -jar
-- QCPDF.jar
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- stitch_pdf
 id: stitch-pdf
 
 inputs:

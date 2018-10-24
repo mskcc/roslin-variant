@@ -35,7 +35,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'mergeGcBiasMetrics.py' ]
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- mergeGcBiasMetrics
 id: merge-gcbias-metrics
 stdout: $(inputs.outfile_name)
 inputs:

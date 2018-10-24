@@ -35,7 +35,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'mergeMeanQualityHistograms.py' ]
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- mergeMeanQualityHistograms
 id: generate-qual-files
 inputs:
   files:

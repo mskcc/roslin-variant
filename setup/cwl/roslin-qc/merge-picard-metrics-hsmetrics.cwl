@@ -35,7 +35,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'mergePicardMetrics.py' ]
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- mergePicardMetrics
 id: merge-picard-metrics-hsmetrics
 stdout: $(inputs.outfile_name)
 inputs:

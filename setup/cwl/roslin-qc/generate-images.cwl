@@ -37,7 +37,14 @@ requirements:
     coresMin: 1
 
 class: CommandLineTool
-baseCommand: [ 'qc_summary.R' ]
+baseCommand:
+- tool.sh
+- --tool
+- "roslin-qc"
+- --version
+- "0.6.0"
+- --cmd
+- qc_summary
 id: generate-images
 
 inputs:
