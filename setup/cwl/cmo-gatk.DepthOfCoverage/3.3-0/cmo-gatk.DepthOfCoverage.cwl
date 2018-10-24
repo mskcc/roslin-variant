@@ -67,31 +67,6 @@ doc: |
   None
 
 inputs:
-  version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default, 3.3-0, 3.4-0, 2.3-9, 3.2-2]
-    default: default
-
-    inputBinding:
-      prefix: --version
-
-  java_version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default, jdk1.8.0_25, jdk1.7.0_75, jdk1.8.0_31, jre1.7.0_75]
-    default: default
-
-    inputBinding:
-      prefix: --java-version
-
-  cmd:
-    type: ['null', string]
-    inputBinding:
-      prefix: --cmd
-
   java_args:
     type: ['null', string]
     default: -Xmx48g -Xms256m -XX:-UseGCOverheadLimit
