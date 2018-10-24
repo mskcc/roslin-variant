@@ -104,6 +104,10 @@ steps:
         in:
             group: group
             reference_sequence: genome
+            coverage_threshold:
+              valueFrom: ${ return ["3"];}
+            minBaseQuality:
+              valueFrom: ${ return ["20"];}
             intervals:
               valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
             input_file: bams
@@ -184,8 +188,6 @@ steps:
                         input_file: input_file
                         num_cpu_threads_per_data_thread:
                             default: "5"
-                        read_filter:
-                            valueFrom: ${ return ["BadCigar"]; }
                         emit_original_quals:
                             valueFrom: ${ return true; }
                         baq:

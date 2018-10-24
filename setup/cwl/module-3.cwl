@@ -174,7 +174,7 @@ steps:
                 mutect_dcov: int
                 mutect_rf: string[]
                 bed: File
-                refseq: File #file of refseq genes... of refseq genes...
+                refseq: File #file of refseq genes...
                 facets_pcval: int
                 facets_cval: int
                 facets_snps: string

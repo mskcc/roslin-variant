@@ -44,6 +44,11 @@ class: CommandLineTool
 baseCommand: [cmo_trimgalore]
 id: cmo-trimgalore
 
+arguments:
+- valueFrom: "0.2.5.mod"
+  prefix: --version
+  position: 0
+
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
@@ -57,15 +62,6 @@ doc: |
   None
 
 inputs:
-  version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default]
-    default: default
-
-    inputBinding:
-      prefix: --version
 
   quality:
     type: ['null', string]
