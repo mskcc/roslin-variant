@@ -192,7 +192,7 @@ steps:
                     out: [ sv_file ]
         run: bcftools.concat/1.3.1/bcftools.concat.cwl
         in:
-            vcf_files: create_vcf_file_array/vcf_files
+            vcf_files_csi: call_sv_by_delly/delly_sv
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             allow_overlaps:

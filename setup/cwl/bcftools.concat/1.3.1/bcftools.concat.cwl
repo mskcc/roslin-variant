@@ -158,13 +158,24 @@ inputs:
     inputBinding:
       prefix: --file-list 
 
-  vcf_files:
+  vcf_files_tbi:
     type:
-        type: array
+      - 'null'
+      - type: array
         items: File
     secondaryFiles: 
         - .tbi
-        - ^.bcf.csi
+    doc: Array of vcf files to be concatenated into one vcf
+    inputBinding:
+        position: 1
+
+  vcf_files_csi:
+    type:
+      - 'null'
+      - type: array
+        items: File
+    secondaryFiles:
+      - ^.bcf.csi
     doc: Array of vcf files to be concatenated into one vcf
     inputBinding:
         position: 1
