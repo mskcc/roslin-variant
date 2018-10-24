@@ -69,10 +69,12 @@ inputs:
     tumor_sample_name: string
     dbsnp:
         type: File
-        secondaryFiles: ['^.vcf.idx']
+        secondaryFiles:
+            - .idx
     cosmic:
         type: File
-        secondaryFiles: ['^.vcf.idx']
+        secondaryFiles:
+            - .idx
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
