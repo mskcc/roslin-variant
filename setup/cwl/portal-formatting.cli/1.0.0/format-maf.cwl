@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: module-3
+  doap:name: format-maf
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
