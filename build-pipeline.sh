@@ -99,7 +99,7 @@ set -e
 
 virtualenv build-venv --no-site-packages
 source build-venv/bin/activate
-pip install -r build/build_requirements.txt
+python -m pip install -r build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
@@ -239,7 +239,7 @@ virtualenv virtualenv
 source virtualenv/bin/activate
 export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
 cd $parentDir
-pip install -r build/run_requirements.txt
+python -m pip install -r build/run_requirements.txt
 # install toil
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/toil
 cd $ROSLIN_PIPELINE_DATA_PATH/toil
