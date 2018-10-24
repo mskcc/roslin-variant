@@ -230,5 +230,5 @@ steps:
       file_prefix: projparse/project_prefix 
       pairing_file: projparse/pairing_file
       gatk_jar_path:
-        valueFrom: ${ inputs.runparams.gatk_jar_path; }
+        valueFrom: ${ return inputs.runparams.gatk_jar_path; }
     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
