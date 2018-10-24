@@ -49,12 +49,14 @@ export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
 export NVM_DIR="$ROSLIN_PIPELINE_DATA_PATH/.nvm"
 if [ -d $NVM_DIR ]
 then
+	echo "Loading Node..."
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 fi
 
 # Load the virtualenv
 if [ -e $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate ]
 then
+	echo "Loading Virtualenv..."
 	source $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate
 fi
 # Run environment
