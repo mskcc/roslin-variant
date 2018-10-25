@@ -238,6 +238,7 @@
         "vep": {
             "86": "/usr/bin/vep",
             "91": "/usr/bin/vep",
+            "92": "/usr/bin/vep",
             "default": "/usr/bin/vep"
         },
         "conpair": {
