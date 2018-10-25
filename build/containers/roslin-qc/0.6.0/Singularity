@@ -27,15 +27,15 @@ From: roslin-qc:0.6.0
     case $1 in
         mergeCutAdaptStats) shift; exec python /usr/bin/mergeCutAdaptStats.py "$@" ;;
         analyzeFingerprint) shift; exec python /usr/bin/analyzeFingerprint.py "$@" ;;
-        qc_summary) shift; exec Rscript qc_summary.R 
+        qc_summary) shift; exec Rscript /usr/bin/qc_summary.R "$@" ;;
         mergeMeanQualityHistograms) shift; exec python /usr/bin/mergeMeanQualityHistograms.py "$@" ;;
         mergeGcBiasMetrics) shift; exec python /usr/bin/mergeGcBiasMetrics.py "$@" ;;
         mergeInsertSizeHistograms) shift; exec python /usr/bin/mergeInsertSizeHistograms.py "$@" ;;
         mergePicardMetrics) shift; exec python /usr/bin/mergePicardMetrics.py "$@" ;; 
-        stitch_pdf) shift; exec java -jar QCPDF.jar "$@" ;;
+        stitch_pdf) shift; exec java -jar /usr/bin/QCPDF.jar "$@" ;;
         generate_pdf) shift; exec python /usr/bin/generate_pdf.py "$@" ;; 
         *) echo "mergeCutAdaptStats, analyzeFingerprint, qc_summary, mergeMeanQualityHistograms, mergeGcBiasMetrics, mergeInsertSizeHistograms, mergePicardMetrics, stitch_pdf, or generate_pdf?"; exit 1 ;;
-
+    esac
 %test
 
     # get actual output from generate_pdf

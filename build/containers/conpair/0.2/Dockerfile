@@ -12,8 +12,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 ENV CONPAIR_VERSION 0.2
 ENV GATK_VERSION 3.3-0
 
-COPY install-packages.R /tmp/install-packages.R
 COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar
+COPY install-packages.R /tmp/install-packages.R
 
 RUN apk add --update \
     # for wget

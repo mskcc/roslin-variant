@@ -9,8 +9,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV ROSLIN_QC_VERSION 0.6.0
 
-COPY install-packages.R /tmp/install-packages.R
 COPY roslin-qc-${ROSLIN_QC_VERSION}.tar.gz /tmp/roslin-qc-${ROSLIN_QC_VERSION}.tar.gz
+COPY install-packages.R /tmp/install-packages.R
 
 RUN apk add --update \
     # for wget
@@ -36,10 +36,10 @@ RUN apk add --update \
         && tar xvzf roslin-qc-${ROSLIN_QC_VERSION}.tar.gz \
         # FIX ALL THESE WRONG FILE PATHS
         && cd roslin-qc-${ROSLIN_QC_VERSION} \
-        && sed -i[.bak] "s/opt\/common\/CentOS_6-dev\//usr\//g" *.pl \
-        && sed -i[.bak] "s/opt\/common\/CentOS_6\/python\/python-2.7.8\//usr\/local\//g" *.py \
-        && sed -i[.bak] "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
-        && sed -i[.bak] "s/opt\/common\//usr\/local\//g" *.py \
+        && sed -i "s/opt\/common\/CentOS_6-dev\//usr\//g" *.pl \
+        && sed -i "s/opt\/common\/CentOS_6\/python\/python-2.7.8\//usr\/local\//g" *.py \
+        && sed -i "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
+        && sed -i "s/opt\/common\//usr\/local\//g" *.py \
         # Install perl dependency needed
         && perl -MCPAN -e 'install Tie::IxHash' \
         # send scripts to the bin directory
