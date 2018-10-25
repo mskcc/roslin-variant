@@ -44,7 +44,7 @@ arguments:
 - valueFrom: "1.1.4"
   prefix: --version
   position: 0
-- valueFrom: "jdk1.6.0_45"
+- valueFrom: "7"
   prefix: --java-version
   position: 0
 
