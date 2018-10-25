@@ -55,8 +55,12 @@ inputs:
 
     tumor_bam:
         type: File
+        secondaryFiles:
+            - .bai
     normal_bam:
         type: File
+        secondaryFiles:
+            - .bai
     normal_sample_name:
         type: string
     tumor_sample_name:
@@ -88,10 +92,10 @@ outputs:
         outputSource: call_sv_by_delly/delly_filtered_sv
    merged_file:
         type: File
-        outputSource: merge_with_bcftools/merged_file
+        outputSource: merge_with_bcftools/concat_vcf_output_file
    merged_file_unfiltered:
         type: File
-        outputSource: merge_with_bcftools_unfiltered/merged_file_unfiltered
+        outputSource: merge_with_bcftools_unfiltered/concat_vcf_output_file
    maf_file:
         type: File
         outputSource: convert_vcf2maf/output
@@ -148,9 +152,15 @@ steps:
         run:
             class: Workflow
             inputs:
-                tumor_bam: File
+                tumor_bam:
+                    type: File
+                    secondaryFiles:
+                        - .bai
+                normal_bam:
+                    type: File
+                    secondaryFiles:
+                        - .bai
                 genome: string
-                normal_bam: File
                 normal_sample_name: string
                 tumor_sample_name: string
                 delly_type: string
@@ -190,38 +200,28 @@ steps:
                         o: 
                             valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
                     out: [ sv_file ]
-        run: bcftools.concat/1.3.1/bcftools.concat.cwl
-        in:
-            vcf_files_csi: call_sv_by_delly/delly_sv
-            tumor_sample_name: tumor_sample_name
-            normal_sample_name: normal_sample_name
-            allow_overlaps:
-                valueFrom: ${ return true; }
-            rm_dups:
-                valueFrom: ${ return "all"; }
-            output:
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
-        out: [concat_vcf_output_file]
     merge_with_bcftools_unfiltered:
+        run: bcftools.concat/1.3.1/bcftools.concat.cwl
         in: 
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             allow_overlaps:
                 valueFrom: ${ return true; }
-            vcf_files: call_sv_by_delly/delly_sv
+            vcf_files_csi: call_sv_by_delly/delly_sv
             output:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; } 
-        out: [ merged_file_unfiltered ]
+        out: [ concat_vcf_output_file ]
     merge_with_bcftools:
+        run: bcftools.concat/1.3.1/bcftools.concat.cwl
         in: 
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             allow_overlaps:
                 valueFrom: ${ return true; }
-            vcf_files: call_sv_by_delly/delly_filtered_sv
+            vcf_files_csi: call_sv_by_delly/delly_filtered_sv
             output:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; } 
-        out: [ merged_file ]
+        out: [ concat_vcf_output_file ]
     convert_vcf2maf:
         run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
         in:
@@ -233,7 +233,7 @@ steps:
             tumor_id: tumor_sample_name
             vcf_normal_id: normal_sample_name
             vcf_tumor_id: tumor_sample_name
-            input_vcf: merge_with_bcftools/merged_file
+            input_vcf: merge_with_bcftools/concat_vcf_output_file
             output_maf: 
                 valueFrom: $(inputs.input_vcf.basename.replace('vcf','vep.maf'))
         out: [ output ]
