@@ -140,7 +140,6 @@ inputs:
         facets_pcval: int
         facets_cval: int
         abra_ram_min: int
-        qcpdf_jar_path: File
         scripts_bin: string
         gatk_jar_path: string
 

@@ -88,7 +88,6 @@ inputs:
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
-        qcpdf_jar_path: File
         scripts_bin: string
 
   bams:
@@ -208,7 +207,7 @@ steps:
       output_directory_name: 
         valueFrom: ${ return "prepped_files_for_stitching"; }
       files:
-        valueFrom: ${ var all = new Array();  all.push(inputs.runparams.qcpdf_jar_path); all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
+        valueFrom: ${ var all = new Array(); all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
     out: [ directory ]
  
   stitch_together_pdf:
