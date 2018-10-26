@@ -30,9 +30,9 @@ dependencies:
 test:
   root: /ifs/work/pi/roslin-test
   tempDir: /scratch  
-  runArgs:  --single-node --leader-node controlR
+  runArgs:  --leader-node controlR
   env:
-    TOIL_LSF_ARGS: '-S 1'
+    TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:
   buildImages: true
   installCore: true
