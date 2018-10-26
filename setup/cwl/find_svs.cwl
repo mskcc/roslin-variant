@@ -55,28 +55,27 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-
   db_files:
     type:
       type: record
       fields:
-        bait_intervals: File
         refseq: File
         ref_fasta: string
         vep_path: string
         custom_enst: string
         vep_data: string
-        hotspot_list: File
-        hotspot_vcf: File
+        hotspot_list: string
+        hotspot_vcf: string
+        facets_snps: string
+        bait_intervals: File
         target_intervals: File
         fp_intervals: File
         fp_genotypes: File
+        conpair_markers: string
+        conpair_markers_bed: string
         grouping_file: File
         request_file: File
         pairing_file: File
-        conpair_markers: File
-        conpair_markers_bed: File
-
   hapmap:
     type: File
     secondaryFiles:

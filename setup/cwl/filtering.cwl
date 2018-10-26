@@ -55,7 +55,6 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
-
   db_files:
     type:
       type: record
