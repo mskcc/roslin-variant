@@ -221,5 +221,5 @@ steps:
       tumor_sample_name: pairing/tumor_sample_ids
       delly_type: pairing/delly_type
     out: [ merged_file, merged_file_unfiltered, maf_file, portal_file ]
-    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data ]
+    scatter: [  tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data, ref_fasta, vep_path, custom_enst]
     scatterMethod: dotproduct
