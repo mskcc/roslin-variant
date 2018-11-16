@@ -129,9 +129,12 @@ outputs:
   generated_pdf_images_artifact_directory:
     type: Directory
     outputSource: generate_pdf/images_directory
-  metrics_txt_files:
+  qc_merged_files:
     type: Directory
     outputSource: compile_directory_for_qcpdf/directory
+  compiled_metrics_data:
+    type: Directory
+    outputSource: group_data/directory
   pdf_report:
     type: File
     outputSource: stitch_together_pdf/compiled_pdf
@@ -182,7 +185,7 @@ steps:
       files: 
          valueFrom: ${ return inputs.merged_files.concat(inputs.fp_output); }
       output_directory_name:
-       valueFrom: ${ return "compiled_metrics_data"; }
+       valueFrom: ${ return "qc_merged_files"; }
     out: [ directory ]
 
   generate_pdf:
@@ -205,7 +208,7 @@ steps:
       sample_summary: generate_pdf/sample_summary
       image_dir: generate_pdf/images_directory
       output_directory_name: 
-        valueFrom: ${ return "prepped_files_for_stitching"; }
+        valueFrom: ${ return "compiled_metrics_data"; }
       files:
         valueFrom: ${ var all = new Array(); all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
     out: [ directory ]
