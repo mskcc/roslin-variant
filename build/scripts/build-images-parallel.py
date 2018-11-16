@@ -86,7 +86,7 @@ def move_images():
     if stdout:
         logger.info(stdout)
     if stderr:
-        logger.ingo(stderr)
+        logger.info(stderr)
     if exit_code != 0:
         status_message = "Moving Images Failed"
         logger.info(status_message)
