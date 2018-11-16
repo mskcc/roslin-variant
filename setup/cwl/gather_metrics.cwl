@@ -126,9 +126,6 @@ inputs:
 outputs:
 
   # qc
-  generated_pdf_images_artifact_directory:
-    type: Directory
-    outputSource: generate_pdf/images_directory
   qc_merged_files:
     type: Directory
     outputSource: compile_directory_for_qcpdf/directory
