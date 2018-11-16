@@ -320,12 +320,12 @@ outputs:
     outputSource: filter/maf
 
   # qc
-  generated_pdf_images_artifact_directory:
+  qc_merged_files:
     type: Directory
-    outputSource: gather_metrics/generated_pdf_images_artifact_directory
-  metrics_txt_files:
+    outputSource: gather_metrics/qc_merged_files
+  compiled_metrics_data:
     type: Directory
-    outputSource: gather_metrics/metrics_txt_files
+    outputSource: gather_metrics/compiled_metrics_data
   pdf_report:
     type: File
     outputSource: gather_metrics/pdf_report
@@ -482,7 +482,7 @@ steps:
       md_metrics: group_process/md_metrics
       clstats1: group_process/clstats1
       clstats2: group_process/clstats2
-    out: [ generated_pdf_images_artifact_directory, metrics_txt_files, pdf_report ] 
+    out: [ qc_merged_files, compiled_metrics_data, pdf_report ] 
 
   run_conpair:
     run: conpair.cwl
