@@ -33,8 +33,7 @@ init_project.py \
     --work-dir ${work_dir} \
     --job-uuid ${job_uuid}
 
-bsub -q controlR \
-    -P ${lsf_proj_name} \
+bsub -P ${lsf_proj_name} \
     -J ${job_name} \
     -Jd ${job_desc} \
     -oo ${work_dir}/stdout.log \
