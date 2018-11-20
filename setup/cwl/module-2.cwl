@@ -82,6 +82,7 @@ inputs:
             type: record
             fields:
                 abra_ram_min: int
+                tmp_dir: string
 
 outputs:
     covint_list:
@@ -103,6 +104,9 @@ steps:
         run: ./cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
         in:
             group: group
+            runparams: runparams
+            java_temp: 
+              valueFrom: ${ return inputs.runparams.tmp_dir; }
             reference_sequence: genome
             coverage_threshold:
               valueFrom: ${ return ["3"];}

@@ -127,6 +127,7 @@ inputs:
       type: record
       fields:
         abra_ram_min: int 
+        tmp_dir: string
   group: string
   mutect_dcov: int
   mutect_rf: string[]
