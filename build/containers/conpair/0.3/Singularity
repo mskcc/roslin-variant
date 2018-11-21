@@ -41,15 +41,12 @@ From: conpair:0.3
         python /usr/bin/conpair/scripts/verify_concordance.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
     # get actual output from contamination
         python /usr/bin/conpair/scripts/estimate_tumor_normal_contamination.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
-    # get actual output from merge
-        python /usr/bin/conpair/scripts/conpair_merge.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
 
     # expected outut from pileup output
     cat > /srv/expected.diff.txt << EOM
 Usage: run_gatk_pileup_for_sample.py [options]
 Usage: verify_concordance.py [options]
 Usage: estimate_tumor_normal_contamination.py [options]
-usage: conpair_merge.py [options]
 EOM
 
     # diff
