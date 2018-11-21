@@ -91,19 +91,19 @@ outputs:
 
   concordance_txt:
       type: File
-      outputSource: run-merge-conpair/concordance_txt
+      outputSource: run-concordance/concordance_txt
 
   concordance_pdf:
       type: File
-      outputSource: run-merge-conpair/concordance_pdf
+      outputSource: run-concordance/concordance_pdf
 
   contamination_txt:
       type: File
-      outputSource: run-merge-conpair/contamination_txt
+      outputSource: run-contaminations/contamination_txt
 
   contamination_pdf:
       type: File
-      outputSource: run-merge-conpair/contamination_pdf
+      outputSource: run-contaminations/contamination_pdf
 
 steps:
    run-pileups-contamination:
@@ -171,59 +171,26 @@ steps:
                      valueFrom: ${ return inputs.bam.basename.replace(".bam", ".pileup"); }
              out: [out_file]
 
-           contamination:
-             run: conpair-contamination.cwl
-             in:
-                 tpileup: run-pileup-tumor/out_file
-                 npileup: run-pileup-normal/out_file
-                 markers: markers
-                 normal_sample_name: normal_sample_name
-                 tumor_sample_name: tumor_sample_name
-                 outfile:
-                     valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".contamination.txt"; }
-             out: [out_file]
-
-   pair-pileups:
-     run: conpair-pileup-pairing.cwl
-     in:
-        tpileups: run-pileups-contamination/tpileout
-        npileups: run-pileups-contamination/npileout
-     out: [ tpileup_ordered, npileup_ordered ]
-
-   run-concordance:
+   run-contaminations:
+     run: conpair-contaminations.cwl
      in:
         tpileup: pair-pileups/tpileup_ordered
         npileup: pair-pileups/npileup_ordered
         markers: markers
-     out: [ concordance_out ]
-     scatter: [tpileup, npileup]
-     scatterMethod: dotproduct
-     run: 
-        class: Workflow
-        inputs:
-            tpileup: File
-            npileup: File
-            markers: File
-        outputs:
-            concordance_out: 
-                type: File
-                outputSource: process-pileups/out_file
-        steps:
-            process-pileups:
-               run: conpair-concordance.cwl
-               in:
-                 tpileup: tpileup
-                 npileup: npileup
-                 markers: markers
-                 outfile:
-                    valueFrom: ${ return inputs.tpileup.basename + "." + inputs.npileup.basename + ".concordance.txt"; }
-               out: [out_file]
+        pairing_file: pairing_file
+        output_directory_name:
+          valueFrom: ${ return "conpair_contaminations"; }
+        output_prefix: file_prefix
+     out: [ outdir ]
 
-   run-merge-conpair:
-     run: conpair-merge.cwl
+   run-concordance:
+     run: conpair-concordances.cwl
      in:
-       pairing_file: pairing_file
-       cordlist: run-concordance/concordance_out
-       tamilist: run-pileups-contamination/contam_out
-       file_prefix: file_prefix
-     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
+        tpileup: pair-pileups/tpileup_ordered
+        npileup: pair-pileups/npileup_ordered
+        markers: markers
+        pairing_file: pairing_file
+        output_directory_name:
+          valueFrom: ${ return "conpair_concordances"; }
+        output_prefix: file_prefix
+     out: [ outdir ]
