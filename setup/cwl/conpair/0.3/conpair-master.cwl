@@ -160,6 +160,13 @@ steps:
                      valueFrom: ${ return inputs.bam.basename.replace(".bam", ".pileup"); }
              out: [out_file]
 
+   pair-pileups:
+     run: conpair-pileup-pairing.cwl
+     in:
+        tpileups: run-pileups-contamination/tpileout
+        npileups: run-pileups-contamination/npileout
+     out: [ tpileup_ordered, npileup_ordered ]
+
    run-contaminations:
      run: conpair-contaminations.cwl
      in:
