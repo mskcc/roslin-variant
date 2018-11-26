@@ -44,8 +44,8 @@ From: conpair:0.3
     # expected outut from pileup output
     cat > /srv/expected.diff.txt << EOM
 Usage: run_gatk_pileup_for_sample.py [options]
-Usage: verify_concordances.py [options]
-Usage: estimate_tumor_normal_contaminations.py [options]
+usage: verify_concordances.py [options]
+usage: estimate_tumor_normal_contaminations.py [options]
 EOM
  
     # diff
