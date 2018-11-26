@@ -313,18 +313,12 @@ outputs:
     outputSource: gather_metrics/pdf_report
 
   # conpair output
-  concordance_txt:
+  concordance_dir:
     type: File
-    outputSource: run_conpair/concordance_txt
-  concordance_pdf:
+    outputSource: run_conpair/concordance_dir
+  contamination_dir:
     type: File
-    outputSource: run_conpair/concordance_pdf
-  contamination_txt:
-    type: File
-    outputSource: run_conpair/contamination_txt
-  contamination_pdf:
-    type: File
-    outputSource: run_conpair/contamination_pdf
+    outputSource: run_conpair/contamination_dir
 
 
 steps:
@@ -483,4 +477,4 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ] 
+    out: [ contamination_dir, concordance_dir ] 

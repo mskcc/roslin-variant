@@ -89,21 +89,13 @@ inputs:
 
 outputs:
 
-  concordance_txt:
+  concordance_dir:
       type: File
-      outputSource: run-concordance/concordance_txt
+      outputSource: run-concordance/outdir
 
-  concordance_pdf:
+  contamination_dir:
       type: File
-      outputSource: run-concordance/concordance_pdf
-
-  contamination_txt:
-      type: File
-      outputSource: run-contaminations/contamination_txt
-
-  contamination_pdf:
-      type: File
-      outputSource: run-contaminations/contamination_pdf
+      outputSource: run-contaminations/outdir
 
 steps:
    run-pileups-contamination:
@@ -141,9 +133,6 @@ steps:
            npileout: 
                 type: File
                 outputSource: run-pileup-normal/out_file
-           contam_out:
-                type: File
-                outputSource: contamination/out_file
         steps:
            run-pileup-tumor:
              run: conpair-pileup.cwl
