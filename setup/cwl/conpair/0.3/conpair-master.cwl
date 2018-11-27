@@ -108,7 +108,7 @@ steps:
         markers: markers
         markers_bed: markers_bed
         gatk_jar_path: gatk_jar_path
-     out: [ tpileout, npileout, contam_out ]
+     out: [ tpileout, npileout ]
      scatter: [ tumor_bam, normal_bam, tumor_sample_name, normal_sample_name ]
      scatterMethod: dotproduct
      run:
