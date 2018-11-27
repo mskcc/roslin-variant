@@ -42,7 +42,7 @@ baseCommand:
 - --tool
 - "conpair"
 - --version
-- "0.2"
+- "0.3"
 - --language_version
 - "default"
 - --language
