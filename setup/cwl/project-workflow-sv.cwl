@@ -332,10 +332,10 @@ outputs:
 
   # conpair output
   concordance_dir:
-    type: File
+    type: Directory
     outputSource: run_conpair/concordance_dir
   contamination_dir:
-    type: File
+    type: Directory
     outputSource: run_conpair/contamination_dir
 
 
