@@ -90,11 +90,11 @@ inputs:
 outputs:
 
   concordance_dir:
-      type: File
+      type: Directory
       outputSource: run-concordance/outdir
 
   contamination_dir:
-      type: File
+      type: Directory
       outputSource: run-contaminations/outdir
 
 steps:

@@ -63,13 +63,15 @@ doc: |
 inputs:
   tpileup:
     type:
-    - [File, string]
+      type: array
+      items: File
     inputBinding:
       prefix: --tumor_pileup
 
   npileup:
     type:
-    - [File, string]
+      type: array
+      items: File
     inputBinding:
       prefix: --normal_pileup
       
