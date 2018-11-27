@@ -128,13 +128,13 @@ then
     source setup/config/settings.sh
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
-    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
+    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build_images_parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
     installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME
     TempDir=roslin-build-log
     TestDir=roslin-build-log
-    buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
+    buildCommand="cd /vagrant/build/scripts/;python build_images_parallel.py -t $BUILD_THREADS"
     if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ] 
     then
         >&2 echo "Could not find Core directory: $coreDir"
@@ -192,6 +192,11 @@ then
     # Start building the pipeline
     printf "\n----------Building----------\n"
     vagrant ssh -- -t "$buildCommand"
+else
+    # Get pipeline images from docker hub repo
+    # Installs to $ROSLIN_PIPELINE_BIN_PATH/img/<tool location>
+    printf "\n----------Building singularity images from Docker Hub pull----------\n"
+    python build/scripts/build_images_parallel_singularity.py -t $BUILD_THREADS
 fi
 
 printf "\n----------Setting up workspace----------\n"
