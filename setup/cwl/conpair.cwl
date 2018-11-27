@@ -170,10 +170,10 @@ inputs:
 
 outputs: 
   concordance_dir:
-    type: File
+    type: Directory
     outputSource: run-conpair/concordance_dir
   contamination_dir:
-    type: File
+    type: Directory
     outputSource: run-conpair/contamination_dir
 
 steps:
