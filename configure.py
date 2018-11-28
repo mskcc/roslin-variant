@@ -129,7 +129,8 @@ def configure_build_settings(settings):
     content = template.render( build_images=settings["build"]["buildImages"],
         build_vagrant=settings["build"]["vagrantSize"],
         build_threads=settings["build"]["buildThreads"],
-        build_core=settings["build"]["installCore"]
+        build_core=settings["build"]["installCore"],
+        pull_dockerfiles=settings["build"]["pullDockerfiles"]
     )
 
     write_to_disk("setup/config/build-settings.sh", content)

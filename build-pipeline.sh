@@ -192,6 +192,14 @@ then
     # Start building the pipeline
     printf "\n----------Building----------\n"
     vagrant ssh -- -t "$buildCommand"
+else
+    # Get pipeline images from docker hub repo
+    # Installs to $ROSLIN_PIPELINE_BIN_PATH/img/<tool location>
+    if compareBool $PULL_DOCKERFILES
+    then
+      printf "\n----------Building singularity images from Docker Hub pull----------\n"
+      python build/scripts/build_images_parallel_singularity_only.py -t $BUILD_THREADS
+    fi
 fi
 
 printf "\n----------Setting up workspace----------\n"
