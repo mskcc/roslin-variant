@@ -65,7 +65,7 @@ do
         printf "One or more of the jobs have failed\n"
         runningBool=0
         store_test_logs
-        store_test_logs_sv#
+        store_test_logs_sv
         exit 1
     fi
     sleep 1m
