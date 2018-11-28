@@ -73,7 +73,7 @@ do
         runningBool=0
     fi
 
-    if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ]# || [ "$leaderStatusRP" == "EXIT" ]
+    if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ] # || [ "$leaderStatusRP" == "EXIT" ]
     then
         printf "One or more of the jobs have failed\n"
 #        if [ "$leaderStatusRP" != "EXIT" ]
