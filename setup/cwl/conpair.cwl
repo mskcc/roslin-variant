@@ -169,12 +169,9 @@ inputs:
         items: string
 
 outputs: 
-  concordance_dir:
+  conpair_output_dir:
     type: Directory
-    outputSource: run-conpair/concordance_dir
-  contamination_dir:
-    type: Directory
-    outputSource: run-conpair/contamination_dir
+    outputSource: run-conpair/conpair_output_dir
 
 steps:
 
@@ -225,4 +222,4 @@ steps:
       pairing_file: projparse/pairing_file
       gatk_jar_path:
         valueFrom: ${ return inputs.runparams.gatk_jar_path; }
-    out: [ contamination_dir, concordance_dir ]
+    out: [ conpair_output_dir ]

@@ -91,15 +91,14 @@ inputs:
 
   output_directory_name:
     type: string
+    default: "."
     prefix: --outdir
 
 outputs:
-  outdir:
-    type: Directory
+  outfiles:
+    type: File[] 
     outputBinding:
       glob: |
         ${
-          if (inputs.output_directory_name)
-            return inputs.output_directory_name;
-          return null;
+          return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
         }

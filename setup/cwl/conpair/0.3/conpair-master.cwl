@@ -89,13 +89,9 @@ inputs:
 
 outputs:
 
-  concordance_dir:
-      type: Directory
-      outputSource: run-concordance/outdir
-
-  contamination_dir:
-      type: Directory
-      outputSource: run-contaminations/outdir
+  conpair_output_dir:
+      type: Directory 
+      outputSource: put-conpair-files-into-directory/directory
 
 steps:
    run-pileups-contamination:
@@ -167,17 +163,15 @@ steps:
         npileups: run-pileups-contamination/npileout
      out: [ tpileup_ordered, npileup_ordered ]
 
-   run-contaminations:
+   run-contamination:
      run: conpair-contaminations.cwl
      in:
         tpileup: pair-pileups/tpileup_ordered
         npileup: pair-pileups/npileup_ordered
         markers: markers
         pairing_file: pairing_file
-        output_directory_name:
-          valueFrom: ${ return "conpair_contaminations"; }
         output_prefix: file_prefix
-     out: [ outdir ]
+     out: [ outfiles ]
 
    run-concordance:
      run: conpair-concordances.cwl
@@ -186,7 +180,16 @@ steps:
         npileup: pair-pileups/npileup_ordered
         markers: markers
         pairing_file: pairing_file
-        output_directory_name:
-          valueFrom: ${ return "conpair_concordances"; }
         output_prefix: file_prefix
-     out: [ outdir ]
+     out: [ outfiles ]
+
+   put-conpair-files-into-directory:
+     in:
+       concordance_files: run-concordance/outfiles
+       contamination_files: run-contamination/outfiles
+       files:
+         valueFrom: ${ return inputs.concordance_files.concat(inputs.contamination_files); }
+       output_directory_name:
+         valueFrom: ${ return "conpair_output_files"; }
+     out: [ directory ]
+     run: consolidate-conpair-files.cwl
