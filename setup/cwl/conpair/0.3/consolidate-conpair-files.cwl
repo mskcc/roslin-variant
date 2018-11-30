@@ -5,10 +5,10 @@ $namespaces:
   foaf: http://xmlns.com/foaf/0.1/
   doap: http://usefulinc.com/ns/doap#
 
-$schemas:
-- file:///juno/work/pi/roslin-pipelines/2.5.0-su/roslin-core/2.0.6/schemas/dcterms.rdf
-- file:///juno/work/pi/roslin-pipelines/2.5.0-su/roslin-core/2.0.6/schemas/foaf.rdf
-- file:///juno/work/pi/roslin-pipelines/2.5.0-su/roslin-core/2.0.6/schemas/doap.rdf
+$schemas: 
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
