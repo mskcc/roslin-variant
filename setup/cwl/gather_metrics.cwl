@@ -157,6 +157,8 @@ steps:
       md_metrics_files: md_metrics
       clstats1: clstats1
       clstats2: clstats2
+      tmp_dir:
+        valueFrom: ${ return inputs.runparams.tmp_dir; }
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ] 
 
   qc_merge:

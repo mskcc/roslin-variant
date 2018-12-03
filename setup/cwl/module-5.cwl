@@ -84,6 +84,7 @@ inputs:
         items:
           type: array
           items: File
+  tmp_dir: string
 
 outputs:
 
@@ -152,6 +153,7 @@ steps:
       bait_intervals: bait_intervals
       target_intervals: target_intervals
       fp_intervals: fp_intervals
+      tmp_dir: tmp_dir
     out: [as_metrics_files, hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts, gcbias_pdf, gcbias_metrics_files, gcbias_summary]
     scatter: [bam]
     scatterMethod: dotproduct
@@ -163,6 +165,7 @@ steps:
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
+        tmp_dir: string
       outputs:
         gcbias_pdf:
           type: File
@@ -208,6 +211,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".asmetrics")}
             LEVEL:
               valueFrom: ${return ["null", "SAMPLE"]}
+            TMP_DIR: tmp_dir
           out: [out_file]
 
         hs_metrics:
@@ -221,6 +225,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
             LEVEL:
               valueFrom: ${ return ["null", "SAMPLE"];} 
+            TMP_DIR: tmp_dir
           out: [out_file, per_target_out]
 
         hst_metrics:
@@ -236,6 +241,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hstmetrics")}
             LEVEL:
               valueFrom: ${ return ["ALL_READS"];}
+            TMP_DIR: tmp_dir
           out: [per_target_out]
 
         insert_metrics:
@@ -248,6 +254,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
             LEVEL:
               valueFrom: ${ return ["null", "SAMPLE"];}
+	    TMP_DIR: tmp_dir
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
@@ -257,6 +264,7 @@ steps:
               valueFrom: ${return ["null","MeanQualityByCycle"]}
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
+            TMP_DIR: tmp_dir
           out: [qual_file, qual_hist]
         gcbias_metrics:
           run: cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
@@ -269,6 +277,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.pdf")}
             S:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
+            TMP_DIR: tmp_dir
           out: [pdf, out_file, summary]
 
         doc:
@@ -293,4 +302,5 @@ steps:
               valueFrom: ${ return true; }
             printBaseCounts:
               valueFrom: ${ return true; }
+            java_temp: tmp_dir
           out: [out_file]
