@@ -254,7 +254,7 @@ steps:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".ismetrics")}
             LEVEL:
               valueFrom: ${ return ["null", "SAMPLE"];}
-	    TMP_DIR: tmp_dir
+            TMP_DIR: tmp_dir
           out: [ is_file, is_hist]
         quality_metrics:
           run: cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
