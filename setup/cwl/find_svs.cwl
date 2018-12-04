@@ -210,6 +210,7 @@ steps:
   find_svs:
     run: module-6.cwl
     in:
+      runparams: runparams
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: pairing/genome

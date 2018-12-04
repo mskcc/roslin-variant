@@ -71,6 +71,11 @@ inputs:
     ref_fasta: string
     vep_path: string
     custom_enst: string
+    runparams:
+        type:
+            type: record
+            fields:
+                tmp_dir: string
 
 outputs:
 
@@ -225,6 +230,9 @@ steps:
     convert_vcf2maf:
         run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
         in:
+            runparams: runparams
+            tmp_dir:
+                valueFrom: ${ return inputs.runparams.tmp_dir; }
             vep_data: vep_data
             vep_path: vep_path
             ref_fasta: ref_fasta
