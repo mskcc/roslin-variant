@@ -13,6 +13,7 @@ binding:
     - /opt
 env:
   TOIL_LSF_ARGS: '-S 1 -We 0:59'
+  TMPDIR: '/scratch'
 dependencies:
   core:
     version:
