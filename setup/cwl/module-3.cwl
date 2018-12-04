@@ -62,7 +62,7 @@ inputs:
     runparams:
         type: record
         fields:
-          temp_dir: string
+          tmp_dir: string
     tumor_bam:
         type: File
     normal_bam:
