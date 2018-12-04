@@ -318,7 +318,7 @@ if __name__ == "__main__":
         "db_files": files
     }
     params = {
-        "abra_scratch": "/scratch/roslin/",
+        "abra_scratch": "/scratch",
         "abra_ram_min": abra_ram_min, 
         "genome": genome,
         "mutect_dcov": 50000,
@@ -327,7 +327,7 @@ if __name__ == "__main__":
         "covariates": covariates,
         "emit_original_quals": True,
         "num_threads": 10,
-        "tmp_dir": "/scratch/roslin/",
+        "tmp_dir": "/scratch",
         "project_prefix": project_id,
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
