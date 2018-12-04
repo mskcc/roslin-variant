@@ -60,9 +60,10 @@ requirements:
 inputs:
 
     runparams:
-        type: record
-        fields:
-          tmp_dir: string
+        type:
+            type: record
+            fields:
+                tmp_dir: string
     tumor_bam:
         type: File
     normal_bam:
