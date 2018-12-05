@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, shutil, logging
+import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, shutil, logging, glob
+import pandas as pd
 from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
@@ -56,7 +57,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
-    maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
+    maf_command = ('bsub -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
         + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
         + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_maf_file, portal_file]) + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
@@ -83,7 +84,7 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
     discrete_copy_number_log = os.path.join(log_directory,'generate_discrete_copy_number.log')
     scna_output_path = output_path.replace('.txt','.scna.txt')
 
-    cna_command = ('bsub -q controlR -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
+    cna_command = ('bsub -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
         + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + gene_cna_file
         + '; mv ' + scna_output_path + ' ' + output_path + '"')
     bsub_stdout = subprocess.check_output(cna_command,shell=True)
@@ -95,7 +96,7 @@ def generate_segmented_copy_number_data(data_directory,output_directory,data_fil
     segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
 
     # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
-    seg_command = ('bsub -q controlR -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
+    seg_command = ('bsub -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
         + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
         + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
     bsub_stdout = subprocess.check_output(seg_command,shell=True)
@@ -358,6 +359,42 @@ def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
     logger.info("Creating directories in mercurial repo: %s" % full_path)
     return full_path
 
+def generate_facets_summary(facets_directory,facets_summary_output):
+    hisens_out_files = glob.glob(os.path.join(facets_directory,'*hisens.out'))
+    if len(hisens_out_files) != 0:
+        filedictlist = []
+        for f in hisens_out_files:
+            filedict = {}
+            with open(f) as myfile:
+                for line in myfile:
+                    if '=' in line:
+                        line = line.strip()
+                        key, var = line.partition("=")[::2]
+                        if '#' in key:
+                            key = key.replace('#','').strip()
+                        filedict[key] = var.strip()
+            filedictlist.append(filedict)
+        with open(facets_summary_output,'w') as outfile:
+            outfile.write('TumorId\tdipLogR\tloglik\tPloidy\tPurity\tFacets_version\tcval\tdipt\tgenome\tmin.nhet\tndepth\tpurity_cval\tSeed\tsnp.nbhd\tunmatched\n')
+            for sample in filedictlist:
+                printlist = [sample['tumor_id'],
+                    sample['dipLogR'],
+                    sample['loglik'],
+                    sample['Ploidy'],
+                    sample['Purity'],
+                    sample['Facets version'],
+                    sample['cval'],
+                    sample['dipt'],
+                    sample['genome'],
+                    sample['min.nhet'],
+                    sample['ndepth'],
+                    sample['purity_cval'],
+                    sample['Seed'],
+                    sample['snp.nbhd'],
+                    sample['unmatched']]
+                printlist = '\t'.join(printlist)
+                outfile.write(printlist+'\n')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help= True, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--clinical_data',required=True,help='The clinical file located with Roslin manifests')
@@ -543,6 +580,45 @@ if __name__ == '__main__':
     if wait_for_jobs_to_finish(job_ids, 'Data generation jobs') != 0:
         logger.error('One or more of the analysis/portal jobs failed.')
         sys.exit(1)
+
+    # all jobs should be finished by now. Creating the results folder
+    ############# results begin ############
+    results_dir = os.path.abspath(os.path.join(output_directory, os.pardir, 'results'))
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
+
+    # results/variants
+    if not os.path.exists(os.path.join(results_dir, 'variants')):
+        os.makedirs(os.path.join(results_dir, 'variants'))
+    try:
+        shutil.copy(analysis_maf_file, os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.analysis.maf'))
+        shutil.copy(os.path.join(output_directory, maf_file_name), os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.portal.maf'))
+    except IOError:
+        logger.error('Could not populate results/variants')
+    # results/copy_number
+    if not os.path.exists(os.path.join(results_dir, 'copy_number')):
+        os.makedirs(os.path.join(results_dir, 'copy_number'))
+    subprocess.call(['convert', os.path.join(args.facets_directory, '*hisen*png'), os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID']+'.hisens.cncf.pdf')])
+    hisens_cncf_files = glob.glob(os.path.join(args.facets_directory, '*hisens*.cncf.txt'))
+    if len(hisens_cncf_files) != 0:
+        hicndf = pd.concat((pd.read_csv(f, header=0, na_filter=False, sep='\t') for f in hisens_cncf_files))
+        hicndf.to_csv(os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.cncf.txt'), sep='\t', index=False)
+    try:
+        shutil.copy(os.path.join(analysis_dir, portal_config_data['ProjectID']+'.gene.cna.txt'), os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.gene.cna.txt'))
+        shutil.copy(os.path.join(analysis_dir, portal_config_data['ProjectID']+'.seg.cna.txt'), os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.seg.cna.txt'))
+    except IOError:
+        logger.error('Could not populate results/copy_number')
+
+    generate_facets_summary(args.facets_directory, os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.facets_summary.txt'))
+    # results/rearrangements
+    if project_is_impact:
+        if not os.path.exists(os.path.join(results_dir, 'rearrangements')):
+            os.makedirs(os.path.join(results_dir, 'rearrangements'))
+        try:
+            shutil.copy(os.path.join(output_directory, 'data_fusions.txt'), os.path.join(results_dir, 'rearrangements', portal_config_data['ProjectID'] + '.fusions.txt'))
+        except IOError:
+            logger.error('Could not populate results/copy_number')
+    ######## results ended ############
 
     try:
         validation_exit_status = validate_portal_data(output_directory)
