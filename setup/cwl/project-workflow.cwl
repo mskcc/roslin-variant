@@ -428,6 +428,7 @@ steps:
   filter:
     run: module-4.cwl
     in:
+      runparams: runparams
       bams: parse_pairs/srt_bams
       combine_vcf: parse_pairs/srt_combine_vcf
       genome: parse_pairs/srt_genome

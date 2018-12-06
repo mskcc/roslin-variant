@@ -50,6 +50,12 @@ requirements:
 
 inputs:
 
+    runparams:
+        type:
+            type: record
+            fields:
+                tmp_dir: string
+
     bams:
         type:
             type: array
@@ -98,6 +104,9 @@ steps:
     vcf2maf:
         run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl
         in:
+            runparams: runparams
+            tmp_dir:
+                valueFrom: ${ return inputs.runparams.tmp_dir; }
             input_vcf: combine_vcf
             tumor_id: tumor_sample_name
             vcf_tumor_id: tumor_sample_name
