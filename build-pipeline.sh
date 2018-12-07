@@ -128,7 +128,7 @@ then
     source setup/config/settings.sh
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
-    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build_images_parallel.py -d -t $BUILD_THREADS -n" #-n to build from scratch
+    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build_images_parallel.py -d -t $BUILD_THREADS" 
 else
     printf "Starting Build\n"
     installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME

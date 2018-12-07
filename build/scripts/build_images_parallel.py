@@ -40,7 +40,7 @@ def build_image(image_job):
     image_id_str = str(image_name) + " version " + str(image_version)
     logger.info("Building " + image_id_str)
     image_id = str(image_name) + ':' + str(image_version)
-    command = ["/vagrant/build/scripts/build-images.sh","-t",image_id]    
+    command = ["/vagrant/build/scripts/build-images.sh","-n","-t",image_id] #-n to build images out of cache always   
     process = Popen(command, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate()
     exit_code = process.returncode 
