@@ -20,8 +20,12 @@ Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.memory = "2048"
-      v.force_host_vm = "true"
   end
+  
+  config.vm.provider "docker" do |d|
+      d.force_host_vm = true
+  end
+
 
   config.vm.hostname = "roslin-variant"
   config.vm.provision "shell", path: "./vm/resize-disk.sh"
