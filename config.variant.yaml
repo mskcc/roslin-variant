@@ -38,5 +38,5 @@ build:
   buildImages: true
   pullDockerfiles: false
   installCore: true
-  buildThreads: 4 
+  buildThreads: 4
   vagrantSize: 80GB
