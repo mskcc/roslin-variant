@@ -40,7 +40,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.0"
+- "0.5.12"
 - --cmd
 - mergeGcBiasMetrics
 id: merge-gcbias-metrics
