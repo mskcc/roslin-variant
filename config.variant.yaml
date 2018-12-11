@@ -35,8 +35,8 @@ test:
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:
-  buildImages: false
+  buildImages: true
   pullDockerfiles: false
   installCore: true
-  buildThreads: 1
+  buildThreads: 4
   vagrantSize: 80GB
