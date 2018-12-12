@@ -11,7 +11,7 @@ echo "Roslin core config path: ${ROSLIN_CORE_CONFIG_PATH}"
 source ${ROSLIN_CORE_CONFIG_PATH}/${pipeline_name_version}/settings.sh
 
 work_base_dir=${ROSLIN_PIPELINE_OUTPUT_PATH}
-work_dir=${work_base_dir}/`echo ${job_uuid} | cut -c1-8`/${job_uuid}
+work_dir=${work_base_dir}/run-pipeline-output-`echo ${job_uuid} | cut -c1-8`/${job_uuid}
 
 echo "Job Info: $job_desc"
 echo "Working Directory: ${work_dir}"

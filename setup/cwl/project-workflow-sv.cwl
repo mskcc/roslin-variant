@@ -103,10 +103,6 @@ inputs:
   curated_bams:
     type:
       type: array
-      items: string
-  curated_bams:
-    type:
-      type: array
       items: File
     secondaryFiles:
       - ^.bai
