@@ -54,5 +54,5 @@ Sphinx==1.5.5
 stubserver==1.0.1
 subprocess32==3.5.2
 typing==3.6.4
-urllib3==1.22
+urllib3==1.23
 websocket-client==0.47.0
