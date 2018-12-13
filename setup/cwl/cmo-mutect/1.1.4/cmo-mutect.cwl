@@ -44,7 +44,7 @@ arguments:
 - valueFrom: "1.1.4"
   prefix: --version
   position: 0
-- valueFrom: "7"
+- valueFrom: "6"
   prefix: --java-version
   position: 0
 

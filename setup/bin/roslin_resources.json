@@ -172,7 +172,7 @@
         },
         "java": {
             "default": "sing-java.sh",
-            "7": "sing-java.sh"
+            "6": "sing-java.sh"
         },
         "list2bed": {
             "1.0.1": "sing.sh list2bed 1.0.1",

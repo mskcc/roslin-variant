@@ -4,7 +4,7 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.mutect="1.1.4" \
       version.alpine="3.8" \
-      version.java="7" \
+      version.java="6" \
       source.mutect="https://github.com/broadinstitute/mutect/releases/tag/1.1.4"
 
 ENV MUTECT_VERSION 1.1.4
