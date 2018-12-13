@@ -34,6 +34,7 @@ init_project.py \
     --job-uuid ${job_uuid}
 
 bsub -P ${lsf_proj_name} \
+    -M 48G \
     -J ${job_name} \
     -Jd ${job_desc} \
     -oo ${work_dir}/stdout.log \
