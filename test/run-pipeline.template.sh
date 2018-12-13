@@ -33,7 +33,7 @@ init_project.py \
     --work-dir ${work_dir} \
     --job-uuid ${job_uuid}
 
-# units for -M in GB 
+# units for -M in GB
 bsub -P ${lsf_proj_name} \
     -M 48 \
     -J ${job_name} \
