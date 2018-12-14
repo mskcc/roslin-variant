@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-pileup.cwl
+  doap:name: conpair-concordance.cwl
   doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -42,13 +42,14 @@ baseCommand:
 - --tool
 - "conpair"
 - --version
-- "0.3"
+- "0.3.1"
 - --language_version
 - "default"
 - --language
 - "python"
-- pileup
-id: conpair-pileup
+- concordance
+- --normal_homozygous_markers_only
+id: conpair-concordance
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -60,58 +61,47 @@ doc: |
   None
 
 inputs:
+  tpileup:
+    type:
+      type: array
+      items: File
+    inputBinding:
+      prefix: --tumor_pileup
 
-  ref:
+  npileup:
     type:
-    - [File, string]
+      type: array
+      items: File
     inputBinding:
-      prefix: --reference
-    secondaryFiles:
-      - ^.dict
-      - ^.fasta.fai
+      prefix: --normal_pileup
       
-  java_xmx:
-    type:
-    - 'null'
-    - type: array
-      items: string
-    doc: set up java -Xmx parameter
-    inputBinding:
-      prefix: --xmx_java
-      
-  gatk:
-    type:
-    - [File, string, "null"]
-    inputBinding:
-      prefix: --gatk
-
-  markers_bed:
+  markers:
     type:
     - [File, string]
     inputBinding:
       prefix: --markers
-      
-  bam:
-    type:
-    - [File, string]
-    inputBinding:
-      prefix: --bam
-    secondaryFiles:
-      - ^.bai
 
-  outfile:
-    type:
-    - string
+  output_prefix:
+    type: string
     inputBinding:
-      prefix: --outfile
+      prefix: --outpre
+
+  pairing_file:
+    type: File
+    inputBinding:
+      prefix: --pairing
+
+  output_directory_name:
+    type: string
+    default: "."
+    inputBinding:
+      prefix: --outdir
 
 outputs:
-  out_file:
-    type: File
+  outfiles:
+    type: File[] 
     outputBinding:
       glob: |
         ${
-          if (inputs.outfile)
-            return inputs.outfile;
-          return null;
+          return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
         }

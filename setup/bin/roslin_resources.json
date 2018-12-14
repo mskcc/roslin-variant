@@ -242,8 +242,8 @@
             "default": "/usr/bin/vep"
         },
         "conpair": {
-            "0.3": "sing.sh conpair 0.3",
-            "default": "sing.sh conpair 0.3"
+            "0.3.1": "sing.sh conpair 0.3.1",
+            "default": "sing.sh conpair 0.3.1"
         },
         "tabix": {
             "default": "/usr/local/bin/tabix"

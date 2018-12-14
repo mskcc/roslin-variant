@@ -208,7 +208,7 @@ steps:
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, facets_pcval, facets_cval, covint_bed, vep_data, delly_type ]
 
   run-conpair:
-    run: conpair/0.3/conpair-master.cwl
+    run: conpair/0.3.1/conpair-master.cwl
     in:
       runparams: runparams
       ref: projparse/ref_fasta_string

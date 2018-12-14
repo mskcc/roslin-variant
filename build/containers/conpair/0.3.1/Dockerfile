@@ -2,14 +2,14 @@ FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
-      version.conpair="0.3" \
+      version.conpair="0.3.1" \
       version.alpine="3.8" \
       version.gatk="3.3-0" \
       source.gatk="https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af" \
-      source.conpair="https://github.com/mskcc/Conpair/releases/tag/0.3" \
+      source.conpair="https://github.com/mskcc/Conpair/releases/tag/0.3.1" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"      
 
-ENV CONPAIR_VERSION 0.3
+ENV CONPAIR_VERSION 0.3.1
 ENV GATK_VERSION 3.3-0
 
 COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar

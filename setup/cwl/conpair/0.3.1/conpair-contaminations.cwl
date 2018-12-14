@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-concordance.cwl
+  doap:name: conpair-contamination.cwl
   doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -31,8 +31,8 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Zuojian Tang
-    foaf:mbox: mailto:tangz@mskcc.org
+    foaf:name: Christopher Harris
+    foaf:mbox: mailto:harrisc2@mskcc.org
 
 cwlVersion: cwl:v1.0
 
@@ -42,15 +42,13 @@ baseCommand:
 - --tool
 - "conpair"
 - --version
-- "0.3"
+- "0.3.1"
 - --language_version
 - "default"
 - --language
 - "python"
-- concordance
-- --normal_homozygous_markers_only
-id: conpair-concordance
-
+- contamination
+id: conpair-contamination
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
@@ -67,7 +65,7 @@ inputs:
       items: File
     inputBinding:
       prefix: --tumor_pileup
-
+      
   npileup:
     type:
       type: array
@@ -81,21 +79,20 @@ inputs:
     inputBinding:
       prefix: --markers
 
-  output_prefix:
-    type: string
-    inputBinding:
-      prefix: --outpre
-
   pairing_file:
     type: File
     inputBinding:
       prefix: --pairing
 
+  output_prefix:
+    type: string
+    inputBinding:
+      prefix: --outpre
+
   output_directory_name:
     type: string
     default: "."
-    inputBinding:
-      prefix: --outdir
+    prefix: --outdir
 
 outputs:
   outfiles:
@@ -103,5 +100,5 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
         }
