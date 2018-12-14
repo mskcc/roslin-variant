@@ -40,7 +40,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.5.12"
+- "0.6.0"
 - --cmd
 - mergeInsertSizeHistograms
 id: merge-insert-size-histograms

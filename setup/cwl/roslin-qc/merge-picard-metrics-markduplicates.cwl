@@ -40,7 +40,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.5.12"
+- "0.6.0"
 - --cmd
 - mergePicardMetrics
 id: merge-picard-metrics-markduplicates
