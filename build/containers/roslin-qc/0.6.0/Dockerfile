@@ -13,7 +13,7 @@ COPY install-packages.R /tmp/install-packages.R
 
 RUN apk add --update \
     # for wget
-#    && apk add ca-certificates openssl \
+    && apk add ca-certificates openssl \
     # for compilation
     && apk add build-base musl-dev python py-pip python-dev py-setuptools git \
     && cd /tmp \
