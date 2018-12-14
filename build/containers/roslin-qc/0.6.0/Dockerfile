@@ -13,9 +13,9 @@ COPY install-packages.R /tmp/install-packages.R
 
 RUN apk add --update \
     # for wget
-    && apk add ca-certificates openssl \
+#    && apk add ca-certificates openssl \
     # for compilation
-    && apk add build-base musl-dev python py-pip python-dev py-setuptools\
+    && apk add build-base musl-dev python py-pip python-dev py-setuptools git \
     && cd /tmp \
         # install R
         && apk add R R-dev \
@@ -25,7 +25,7 @@ RUN apk add --update \
         && pip install mysql-connector==2.1.4 \
         # install texmf-dist
         && apk add texmf-dist \
-        # install texmf-dist-latextra
+        # install texmf-dist-latexextra
         && apk add texmf-dist-latexextra \
         # install pandas
         && pip install django==1.11 \
