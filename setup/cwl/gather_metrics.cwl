@@ -126,6 +126,9 @@ inputs:
 outputs:
 
   # qc
+  compiled_intermediates_directory:
+    type: Directory
+    outputSource: compile_intermediates_directory/directory
   qc_merged_files:
     type: Directory
     outputSource: compile_directory_for_qcpdf/directory
@@ -175,6 +178,17 @@ steps:
       doc_basecounts: gather_metrics/doc_basecounts
       qual_metrics: gather_metrics/qual_metrics
     out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, qual_files_r, qual_files_o, cutadapt_summary ]
+
+  compile_intermediates_directory:
+    run: ./consolidate-files/consolidate-files.cwl
+    in:
+      md_metrics: md_metrics
+      data_files: [ gather_metrics/hs_metrics, gather_metrics/per_target_coverage, gather_metrics/insert_metrics, gather_metrics/doc_basecounts, gather_metrics/qual_metrics ]
+      files:
+        valueFrom: ${ return inputs.data_files.flat().concat(inputs.md_metrics.flat()); }
+      output_directory_name: 
+        valueFrom: ${ return "gather_metrics_intermediates"; }
+    out: [ directory ]
 
   compile_directory_for_qcpdf:
     run: ./consolidate-files/consolidate-files.cwl

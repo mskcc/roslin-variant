@@ -302,6 +302,9 @@ outputs:
     outputSource: filter/maf
 
   # qc
+  compiled_intermediates_directory:
+    type: Directory
+    outputSource: gather_metrics/compiled_intermediates_directory
   qc_merged_files:
     type: Directory
     outputSource: gather_metrics/qc_merged_files
@@ -455,7 +458,7 @@ steps:
       md_metrics: group_process/md_metrics
       clstats1: group_process/clstats1
       clstats2: group_process/clstats2
-    out: [ qc_merged_files, compiled_metrics_data, pdf_report ] 
+    out: [ compiled_intermediates_directory, qc_merged_files, compiled_metrics_data, pdf_report ] 
 
   run_conpair:
     run: conpair.cwl
