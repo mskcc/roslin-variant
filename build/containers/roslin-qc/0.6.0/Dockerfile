@@ -23,6 +23,8 @@ RUN apk add --update \
         && Rscript --vanilla install-packages.R \
         # install mysql connector
         && pip install mysql-connector==2.1.4 \
+        # install texlive
+        && apk add texlive \
         # install texmf-dist
         && apk add texmf-dist \
         # install texmf-dist-latexextra
