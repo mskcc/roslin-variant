@@ -42,7 +42,7 @@ baseCommand:
 - --version
 - "0.6.0"
 - --cmd
-- mergeInsertSizeHistograms
+- merge_insert_size_histograms
 id: merge-insert-size-histograms
 stdout: $(inputs.outfile_name)
 inputs:

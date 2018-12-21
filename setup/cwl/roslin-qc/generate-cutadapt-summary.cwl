@@ -42,7 +42,7 @@ baseCommand:
 - --version
 - "0.6.0"
 - --cmd
-- mergeCutAdaptStats
+- merge_cut_adapt_stats
 id: generate-cutadapt-summary.cwl
 inputs:
 

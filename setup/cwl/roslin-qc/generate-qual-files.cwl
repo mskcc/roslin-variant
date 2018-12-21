@@ -42,7 +42,7 @@ baseCommand:
 - --version
 - "0.6.0"
 - --cmd
-- mergeMeanQualityHistograms
+- merge_mean_quality_histograms
 id: generate-qual-files
 inputs:
   files:

@@ -42,7 +42,7 @@ baseCommand:
 - --version
 - "0.6.0"
 - --cmd
-- analyzeFingerprint
+- analyze_fingerprint
 id: generate-fingerprint
 inputs:
   files:

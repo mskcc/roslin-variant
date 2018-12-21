@@ -42,7 +42,7 @@ baseCommand:
 - --version
 - "0.6.0"
 - --cmd
-- mergeGcBiasMetrics
+- merge_gc_bias_metrics
 id: merge-gcbias-metrics
 stdout: $(inputs.outfile_name)
 inputs:

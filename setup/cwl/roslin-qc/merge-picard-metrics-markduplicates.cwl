@@ -42,7 +42,7 @@ baseCommand:
 - --version
 - "0.6.0"
 - --cmd
-- mergePicardMetrics
+- merge_picard_metrics
 id: merge-picard-metrics-markduplicates
 stdout: $(inputs.outfile_name)
 inputs:
