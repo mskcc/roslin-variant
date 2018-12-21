@@ -15,8 +15,6 @@ RUN apk add --update \
     # for compilation
     && apk add build-base musl-dev python py-pip python-dev py-setuptools git \
     && cd /tmp \
-        # install R
-        && apk add R R-dev \
         # install mysql connector
         && pip install mysql-connector==2.1.4 \
         # install texlive
@@ -29,6 +27,8 @@ RUN apk add --update \
         && pip install django==1.11 \
         && pip install dbconfig \
         && pip install pandas \
+        # install R
+        && apk add R R-dev \
         # install pylatex
         && pip install pylatex \
         # install python dependencies

@@ -35,7 +35,8 @@ From: roslin-qc:0.6.0
         stitch_pdf) shift; exec java -jar /usr/bin/QCPDF.jar "$@" ;;
         generate_pdf) shift; exec python /usr/bin/generate_pdf.py "$@" ;; 
         genlatex) shift; exec python /usr/bin/genlatex.py "$@" ;; 
-        *) echo "mergeCutAdaptStats, analyzeFingerprint, qc_summary, mergeMeanQualityHistograms, mergeGcBiasMetrics, mergeInsertSizeHistograms, mergePicardMetrics, stitch_pdf, or genlatex"; exit 1 ;;
+        hotspots_in_normals) shift; exec python /usr/bin/hotspots_in_normals.py "$@" ;; 
+        *) echo "mergeCutAdaptStats, analyzeFingerprint, qc_summary, mergeMeanQualityHistograms, mergeGcBiasMetrics, mergeInsertSizeHistograms, mergePicardMetrics, stitch_pdf, hotspots_in_normals, or genlatex"; exit 1 ;;
     esac
 %test
 
