@@ -43,7 +43,7 @@ RUN apk add --update \
         && sed -i "s/opt\/common\/CentOS_6-dev\//usr\//g" *.pl \
         && sed -i "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
         && R -e "install.packages('corrplot', repos='http://cran.wustl.edu')" \
-        && R -e "install.packages(c('ggplot2','gplots','scales','reshape','plyr','RColorBrewer','optparse'), repos='http://cran.us.r-project.org')" \
+        && R -e "install.packages(c('ggplot2','gplots','scales','reshape','plyr','RColorBrewer','optparse','ggforce'), repos='http://cran.us.r-project.org')" \
         && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \ 
         # Install perl dependency needed
         && perl -MCPAN -e 'install Tie::IxHash' \
