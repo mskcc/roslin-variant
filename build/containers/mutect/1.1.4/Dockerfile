@@ -10,7 +10,7 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 ENV MUTECT_VERSION 1.1.4
 
 RUN apk add --update \
-      && apk add build-base musl-dev zlib-dev openjdk7-jre
+      && apk add build-base musl-dev zlib-dev openjdk6-jre
 
 COPY mutect-${MUTECT_VERSION}.jar /usr/bin/mutect.jar
 
