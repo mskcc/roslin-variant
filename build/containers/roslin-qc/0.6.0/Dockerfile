@@ -9,6 +9,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV ROSLIN_QC_VERSION 0.6.0
 
+ENV PATH "$PATH:/bin"
+
 RUN apk add --update \
     # for wget
     && apk add ca-certificates openssl \
