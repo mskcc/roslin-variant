@@ -47,6 +47,7 @@ inputs:
         custom_enst: string
         vep_data: string
         hotspot_list: string
+        hotspot_list_maf: string
         hotspot_vcf: string
         facets_snps: string
         bait_intervals: File
@@ -123,8 +124,6 @@ inputs:
         type: array
         items: File
 
-  hotspots_list_maf: string
-
 outputs:
 
   # qc
@@ -186,11 +185,13 @@ steps:
     in:
       aa_bams: bams
       runparams: runparams
+      db_files: db_files
       bams:
         valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
       genome:
         valueFrom: ${ return inputs.runparams.genome; }
-      maf: hotspots_list_maf
+      maf:
+        valueFrom: ${ return inputs.db_files.hotspot_list_maf; }
       output_format:
         valueFrom: ${ return "1"; }
       output: 
