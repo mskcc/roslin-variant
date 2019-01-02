@@ -3,7 +3,7 @@
 # To generate again: $ run_ngs-filters.py --generate_cwl_tool
 # Help: $ run_ngs --help_arg2cwl
 
-cwlVersion: "cwl:v1.0"
+cwlVersion: "v1.0"
 
 class: CommandLineTool
 baseCommand: ['run_ngs-filters.py']
