@@ -123,6 +123,8 @@ inputs:
         type: array
         items: File
 
+  hotspots_list_maf: string
+
 outputs:
 
   # qc
@@ -162,7 +164,7 @@ steps:
       clstats2: clstats2
       tmp_dir:
         valueFrom: ${ return inputs.runparams.tmp_dir; }
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ] 
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ]
 
   qc_merge:
     run: ./roslin-qc/qc-merge.cwl
@@ -179,6 +181,35 @@ steps:
       qual_metrics: gather_metrics/qual_metrics
     out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, qual_files_r, qual_files_o, cutadapt_summary ]
 
+  hotspots_fillout:
+    run: ./cmo-fillout/1.2.2/cmo-fillout.cwl
+    in:
+      aa_bams: bams
+      runparams: runparams
+      bams:
+        valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
+      genome:
+        valueFrom: ${ return inputs.runparams.genome; }
+      maf: hotspots_list_maf
+      output_format:
+        valueFrom: ${ return "1"; }
+      output: 
+        valueFrom: ${ return "tmp_file_output_discard"; }
+      project_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+    out: [ portal_fillout ]
+
+  run_hotspots_in_normals:
+    run: ./roslin-qc/create-hotspots-in-normals.cwl
+    in:
+      runparams: runparams
+      fillout_file: hotspots_fillout/portal_fillout
+      project_prefix: 
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+      pairing_file:
+        valueFrom: ${ return inputs.runparams.pairing_file; }
+    out: [ hs_in_normals ]
+
   compile_intermediates_directory:
     run: ./consolidate-files/consolidate-files.cwl
     in:
@@ -193,7 +224,7 @@ steps:
   compile_directory_for_qcpdf:
     run: ./consolidate-files/consolidate-files.cwl
     in:
-      merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary ]
+      merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary, run_hotspots_in_normals/hs_in_normals ]
       fp_output: qc_merge/fingerprints_output
       files: 
          valueFrom: ${ return inputs.merged_files.concat(inputs.fp_output); }
