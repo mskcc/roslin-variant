@@ -16,10 +16,10 @@ RUN apk add --update \
       # download, unzip, install
             && cd /tmp && wget https://github.com/mskcc/remove_variants/archive/${REMOVEVARIANTS_VERSION}.zip \
             && unzip ${REMOVEVARIANTS_VERSION}.zip \
-            && cd /tmp/remove_variants-${REMOVEVARIANTS_VERSION} \
+            && cd /tmp/remove-variants-${REMOVEVARIANTS_VERSION} \
             && python setup.py install \
       # copy to /usr/bin
-            && cp /tmp/remove_variants-${REMOVEVARIANTS_VERSION}/remove_variants.py /usr/bin/ \
+            && cp /tmp/remove-variants-${REMOVEVARIANTS_VERSION}/remove_variants.py /usr/bin/ \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 
