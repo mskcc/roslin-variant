@@ -33,6 +33,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
+  - class: foaf:Person
+    foaf:name: C. Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
 
 # This tool description was generated automatically by argparse2cwl ver. 0.3.1
 # To generate again: $ cmo_fillout -o FILENAME --generate_cwl_tool
