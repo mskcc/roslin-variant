@@ -103,5 +103,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          return null;
         }

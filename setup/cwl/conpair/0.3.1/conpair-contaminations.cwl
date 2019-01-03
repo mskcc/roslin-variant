@@ -100,5 +100,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
+          return null;
         }
