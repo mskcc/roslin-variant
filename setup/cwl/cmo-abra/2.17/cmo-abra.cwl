@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_abra -o FILENAME --generate_cwl_tool
 # Help: $ cmo_abra  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

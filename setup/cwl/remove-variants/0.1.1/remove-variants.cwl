@@ -41,7 +41,7 @@ dct:contributor:
 # To generate again: $ remove_variants.py --generate_cwl_tool
 # Help: $ remove_variants.py --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]

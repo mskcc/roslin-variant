@@ -41,7 +41,7 @@ dct:contributor:
 # To generate again: $ cmo_snp-pileup --generate_cwl_tool
 # Help: $ cmo_snp --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand: [tool.sh]

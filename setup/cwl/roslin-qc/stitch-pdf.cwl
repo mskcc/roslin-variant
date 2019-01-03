@@ -25,7 +25,7 @@ dct:creator:
   - class: foaf:Person
     foaf:name: Allan Bolipata
     foaf:mbox: mailto:bolipatc@mskcc.org
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 requirements:
   InlineJavascriptRequirement: {}

@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_pindel -o FILENAME --generate_cwl_tool
 # Help: $ cmo_pindel  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_pindel]
