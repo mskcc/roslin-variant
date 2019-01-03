@@ -194,8 +194,6 @@ steps:
         valueFrom: ${ return inputs.db_files.hotspot_list_maf; }
       output_format:
         valueFrom: ${ return "1"; }
-      output: 
-        valueFrom: ${ return "tmp_file_output_discard"; }
       project_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ portal_fillout ]
