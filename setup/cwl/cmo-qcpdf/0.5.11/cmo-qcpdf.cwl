@@ -38,7 +38,7 @@ dct:contributor:
 # To generate again: $ cmo_qcpdf -o FILENAME --generate_cwl_tool
 # Help: $ cmo_qcpdf  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

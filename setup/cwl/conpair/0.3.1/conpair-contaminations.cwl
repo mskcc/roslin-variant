@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Christopher Harris
     foaf:mbox: mailto:harrisc2@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

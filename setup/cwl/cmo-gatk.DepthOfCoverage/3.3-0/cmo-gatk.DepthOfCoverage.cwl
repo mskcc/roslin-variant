@@ -43,7 +43,7 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_gatk]

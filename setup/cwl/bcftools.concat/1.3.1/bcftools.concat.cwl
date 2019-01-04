@@ -43,7 +43,7 @@ dct:contributor:
     foaf:name: Cyriac Kandoth
     foaf:mbox: mailto:ckandoth@gmail.com
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

@@ -53,30 +53,27 @@ hotspot_txt="/opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v
 # Locate the VCFs for all callers and the additional TXT file for MuTect
 mutect_txt=${dir}/vcf/${tum}*${nrm}*.mutect.txt
 mutect_vcf=${dir}/vcf/${tum}*${nrm}*.mutect.vcf
-pindel_vcf=${dir}/vcf/${tum}*${nrm}*.pindel.vcf
 vardict_vcf=${dir}/vcf/${tum}*${nrm}*.vardict.vcf
-if [[ -s ${mutect_txt} && -s ${mutect_vcf} && -s ${pindel_vcf} && -s ${vardict_vcf} ]]
+if [ -s ${mutect_txt} ] && [ -s ${mutect_vcf} ] && [ -s ${vardict_vcf} ]
 then echo STATUS: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering
-else echo ERROR: ${tum}/${nrm}: Unable to find necessary files at: ${dir}/vcf; exit 1
+else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs at: ${dir}/vcf; exit 1
 fi
 
 # Run the appropriate basicfiltering script for each variant caller's VCF
 ${vcf_filter} mutect --inputVcf ${mutect_vcf} --inputTxt ${mutect_txt} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
-${vcf_filter} pindel --inputVcf ${pindel_vcf} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
 ${vcf_filter} vardict --inputVcf ${vardict_vcf} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
-rm -f ${dir}/vcf/${tum}*${nrm}*.{mutect,pindel,vardict}_STDfilter.{txt,vcf}
+rm -f ${dir}/vcf/${tum}*${nrm}*.{mutect,vardict}_STDfilter.{txt,vcf}
 
 mutect_vcf_gz=${dir}/vcf/${tum}*${nrm}*.mutect_STDfilter.norm.vcf.gz
-pindel_vcf_gz=${dir}/vcf/${tum}*${nrm}*.pindel_STDfilter.norm.vcf.gz
 vardict_vcf_gz=${dir}/vcf/${tum}*${nrm}*.vardict_STDfilter.norm.vcf.gz
-if [[ -s ${mutect_vcf_gz} && -s ${pindel_vcf_gz} && -s ${vardict_vcf_gz} ]]
+if [ -s ${mutect_vcf_gz} ] && [ -s ${vardict_vcf_gz} ]
 then echo STATUS: ${tum}/${nrm}: Merging filtered VCFs using bcftools concat
 else echo ERROR: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering; exit 1
 fi
 
 # Run bcftools concat to merge and deduplicate events from multiple variant callers
 concat_vcf=${dir}/vcf/${tum}.${nrm}.combined-variants.vcf
-${bcftools} concat --allow-overlaps --rm-dups all --output ${concat_vcf} ${vardict_vcf_gz} ${mutect_vcf_gz} ${pindel_vcf_gz}
+${bcftools} concat --allow-overlaps --rm-dups all --output ${concat_vcf} ${vardict_vcf_gz} ${mutect_vcf_gz}
 
 if [ -s ${concat_vcf} ]
 then echo STATUS: ${tum}/${nrm}: Converting merged VCF into MAF using vcf2maf
@@ -105,7 +102,7 @@ fi
 bams=${dir}/bam/*.bam
 for bam in bams
 do
-    if [ -s ${bam%.bam}.bai && ! -s ${bam}.bai ]
+    if [ -s ${bam%.bam}.bai ] && [ ! -s ${bam}.bai ]
     then cp ${bam%.bam}.bai ${bam}.bai
     fi
 done
