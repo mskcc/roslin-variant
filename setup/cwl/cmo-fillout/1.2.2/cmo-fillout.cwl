@@ -41,7 +41,7 @@ dct:contributor:
 # To generate again: $ cmo_fillout -o FILENAME --generate_cwl_tool
 # Help: $ cmo_fillout  --help_arg2cwl
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -61,7 +61,7 @@ doc: |
 
 inputs:
   maf:
-    type: [ string, File ]
+    type: File
     doc: MAF file on which to fillout
     inputBinding:
       prefix: --maf

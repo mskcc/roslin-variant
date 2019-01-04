@@ -24,18 +24,18 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Zuojian Tang
-    foaf:mbox: mailto:tangz@mskcc.org
+    foaf:name: C. Allan Bolipata
+    foaf:mbox: bolipatc@mskcc.org
 
 dct:contributor:
 - class: foaf:Organization
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Zuojian Tang
-    foaf:mbox: mailto:tangz@mskcc.org
+    foaf:name: C. Allan Bolipata
+    foaf:mbox: bolipatc@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:

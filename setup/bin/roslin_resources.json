@@ -466,7 +466,7 @@
             ]
         },
         "hotspot_list": "/usr/bin/ngs-filters/data/hotspot-list-union-v1-v2.txt",
-        "hotspot_list_maf": "/usr/bin/hotspot-list-union-v1-v2.maf",
+        "hotspot_list_maf": "/ifs/depot/pi/resources/roslin-qc/hotspot-list-union-v1-v2.maf",
         "hotspot_vcf": "/usr/bin/basicfiltering/data/hotspot-list-union-v1-v2.vcf",
         "custom_enst": "/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc",
         "vep_path": "/usr/bin/vep",

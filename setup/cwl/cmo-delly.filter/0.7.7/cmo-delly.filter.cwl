@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Nikhil Kumar
     foaf:mbox: mailto:kumarn1@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_delly]

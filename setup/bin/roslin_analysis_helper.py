@@ -47,23 +47,23 @@ def get_sample_list(clinical_data_path):
     sample_list.pop(0)
     return sample_list
 
-def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,script_path,pipeline_version_str,is_impact):
+def generate_maf_data(maf_directory,output_directory,data_filename,analysis_mut_file,log_directory,script_path,pipeline_version_str,is_impact):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
-    combined_output = maf_file_name.replace('.txt','.combined.txt')
+    combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_file = os.path.join(output_directory,combined_output)
     pipeline_version_str_arg = pipeline_version_str.replace(' ','_')
-    portal_file = os.path.join(output_directory,maf_file_name)
+    portal_file = os.path.join(output_directory,data_filename)
     maf_log = os.path.join(log_directory,'generate_maf.log')
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
     maf_command = ('bsub -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
         + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
-        + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_maf_file, portal_file]) + '"')
+        + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file]) + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
-def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
+def generate_fusion_data(fusion_directory,output_directory,data_filename,analysis_sv_file,log_directory,script_path):
     fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
     combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_path = os.path.join(output_directory,combined_output)
@@ -71,10 +71,10 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
     fusion_log = os.path.join(log_directory,'generate_fusion.log')
     fusion_filter_script = os.path.join(script_path,'fusion_filter.py')
 
-    # This needs access to the internet because it queries the OncoKB API
-    fusion_command = ('bsub -R select[internet] -We 0:59 -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
+    fusion_command = ('bsub -We 0:59 -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
         + '; grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
-        + '; python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path + '"')
+        + '; python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path
+        + '; cp ' + output_path + ' ' + analysis_sv_file + '"')
     bsub_stdout = subprocess.check_output(fusion_command,shell=True)
     return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
 
@@ -187,7 +187,7 @@ def generate_discrete_copy_number_meta(portal_config_data, data_filename):
     discrete_copy_number_meta_data['data_filename'] = data_filename
     return discrete_copy_number_meta_data
 
-def generate_mutation_meta(portal_config_data,maf_file_name):
+def generate_mutation_meta(portal_config_data,data_filename):
     mutation_meta_data = {}
     mutation_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
     mutation_meta_data['genetic_alteration_type'] = 'MUTATION_EXTENDED'
@@ -196,7 +196,7 @@ def generate_mutation_meta(portal_config_data,maf_file_name):
     mutation_meta_data['show_profile_in_analysis_tab'] = True
     mutation_meta_data['profile_description'] = 'Mutation data'
     mutation_meta_data['profile_name'] = 'Mutations'
-    mutation_meta_data['data_filename'] = maf_file_name
+    mutation_meta_data['data_filename'] = data_filename
     return mutation_meta_data
 
 def generate_fusion_meta(portal_config_data,data_filename):
@@ -495,7 +495,8 @@ if __name__ == '__main__':
     analysis_dir = os.path.abspath(os.path.join(output_directory,os.pardir,'analysis'))
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
-    analysis_maf_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
+    analysis_mut_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
+    analysis_sv_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.svs.maf')
     analysis_gene_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.gene.cna.txt')
     analysis_arm_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.arm.cna.txt')
     analysis_seg_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.seg.cna.txt')
@@ -534,7 +535,7 @@ if __name__ == '__main__':
     logger.info('Finished generating segmented meta')
 
     job_ids = []
-    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str,project_is_impact))
+    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,args.script_path,version_str,project_is_impact))
     logger.info('Submitted job to generate maf data')
     job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory))
     logger.info('Submitted job to generate discrete copy number data')
@@ -569,7 +570,7 @@ if __name__ == '__main__':
     if project_is_impact:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
-        job_ids.append(generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path))
+        job_ids.append(generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,analysis_sv_file,log_directory,args.script_path))
         logger.info('Submitted job to generate fusion data')
         fusion_meta_path = os.path.join(output_directory,fusion_meta_file)
         logger.info('Writing fusion meta file')
@@ -591,7 +592,7 @@ if __name__ == '__main__':
     if not os.path.exists(os.path.join(results_dir, 'variants')):
         os.makedirs(os.path.join(results_dir, 'variants'))
     try:
-        shutil.copy(analysis_maf_file, os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.analysis.maf'))
+        shutil.copy(analysis_mut_file, os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.analysis.maf'))
         shutil.copy(os.path.join(output_directory, maf_file_name), os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.portal.maf'))
     except IOError:
         logger.error('Could not populate results/variants')

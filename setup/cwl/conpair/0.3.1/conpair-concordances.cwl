@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Zuojian Tang
     foaf:mbox: mailto:tangz@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -103,5 +103,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          return null;
         }

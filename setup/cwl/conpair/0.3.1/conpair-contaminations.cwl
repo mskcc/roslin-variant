@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Christopher Harris
     foaf:mbox: mailto:harrisc2@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -100,5 +100,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
+          return null;
         }
