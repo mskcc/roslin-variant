@@ -61,7 +61,7 @@ doc: |
 
 inputs:
   maf:
-    type: [ string, File ]
+    type: File
     doc: MAF file on which to fillout
     inputBinding:
       prefix: --maf
