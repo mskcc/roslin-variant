@@ -5,9 +5,13 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.roslin-qc="0.6.0" \
       version.alpine="3.8" \
       source.roslin-qc="https://github.com/mskcc/roslin-qc/tree/master" \
-      source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"
+      source.getbasecountsmultisample="https://github.com/zengzheng123/GetBaseCountsMultiSample" \
+      source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R" \
+      source.bamtools="https://github.com/pezmaster31/bamtools"
 
 ENV ROSLIN_QC_VERSION 0.6.0
+ENV GETBASECOUNTSMULTISAMPLE_VERSION 1.2.2
+ENV BAMTOOLS_VERSION 2.5.1
 
 ENV PATH "$PATH:/bin"
 
@@ -15,7 +19,7 @@ RUN apk add --update \
     # for wget
     && apk add ca-certificates openssl \
     # for compilation
-    && apk add build-base musl-dev python py-pip python-dev py-setuptools git \
+    && apk add build-base musl-dev python py-pip python-dev py-setuptools git cmake jsoncpp zlib-dev \
     && cd /tmp \
         # install mysql connector
         && pip install mysql-connector==2.1.4 \
@@ -37,6 +41,8 @@ RUN apk add --update \
         && pip install fnmatch2 argparse \
         # install java and perl
         && apk add openjdk8-jre-base perl \
+        && wget https://github.com/zengzheng123/GetBaseCountsMultiSample/archive/v${GETBASECOUNTSMULTISAMPLE_VERSION}.tar.gz \
+        && tar xvzf v${GETBASECOUNTSMULTISAMPLE_VERSION}.tar.gz \
         # copy current roslin-qc
         && git clone https://github.com/mskcc/roslin-qc.git \
         && cp -R roslin-qc/* /usr/bin/ \
@@ -49,6 +55,20 @@ RUN apk add --update \
         && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \ 
         # Install perl dependency needed
         && perl -MCPAN -e 'install Tie::IxHash' \
+        # build and install bamtools
+        && cd /tmp/GetBaseCountsMultiSample-${GETBASECOUNTSMULTISAMPLE_VERSION}/bamtools-master \
+        && rm -r build/ \
+        && mkdir build \
+        && cd build/ \
+        && cmake -DCMAKE_CXX_FLAGS=-std=c++03 .. \
+        && make \
+        && make install \
+        # copy libbamtools to /usr/lib/
+        && cp ../lib/libbamtools.so.2.3.0 /usr/lib/ \
+        # install getbasecountsmultisample
+        && cd /tmp/GetBaseCountsMultiSample-${GETBASECOUNTSMULTISAMPLE_VERSION} \
+        && make \
+        && mv GetBaseCountsMultiSample /usr/bin/ \
         # clean up
         && rm -rf /tmp/*
 
