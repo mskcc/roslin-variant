@@ -65,7 +65,7 @@ inputs:
         custom_enst: string
         vep_data: string
         hotspot_list: string
-        hotspot_list_maf: string
+        hotspot_list_maf: File
         hotspot_vcf: string
         facets_snps: string
         bait_intervals: File
