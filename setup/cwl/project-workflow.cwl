@@ -303,18 +303,12 @@ outputs:
     outputSource: filter/maf
 
   # qc
-  compiled_intermediates_directory:
+  gather_metrics_files:
     type: Directory
-    outputSource: gather_metrics/compiled_intermediates_directory
+    outputSource: gather_metrics/gather_metrics_files
   qc_merged_files:
     type: Directory
-    outputSource: gather_metrics/qc_merged_files
-  compiled_metrics_data:
-    type: Directory
-    outputSource: gather_metrics/compiled_metrics_data
-  pdf_report:
-    type: File
-    outputSource: gather_metrics/pdf_report
+    outputSource: gather_metrics/qc_merged_and_hotspots_directory
 
   # conpair output
   conpair_output_dir:
@@ -459,7 +453,7 @@ steps:
       md_metrics: group_process/md_metrics
       clstats1: group_process/clstats1
       clstats2: group_process/clstats2
-    out: [ compiled_intermediates_directory, qc_merged_files, compiled_metrics_data, pdf_report ] 
+    out: [ gather_metrics_files, qc_merged_and_hotspots_directory ] 
 
   run_conpair:
     run: conpair.cwl

@@ -159,6 +159,10 @@ outputs:
     type: File
     outputSource: generate_fingerprint/fp_summary
 
+  minor_contam_output:
+    type: File
+    outputSource: generate_fingerprint/minor_contam_output
+
   qual_files_r:
     type: File
     outputSource: generate_qual_files/rqual_output
@@ -222,7 +226,7 @@ steps:
          valueFrom: ${ return inputs.db_files.grouping_file; }
       pairing_file:
          valueFrom: ${ return inputs.db_files.pairing_file; }
-    out: [ output, fp_summary ]
+    out: [ output, fp_summary, minor_contam_output ]
     run: ./generate-fingerprint.cwl
 
   generate_qual_files:

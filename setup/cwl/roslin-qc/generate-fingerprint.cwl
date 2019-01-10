@@ -90,3 +90,11 @@ outputs:
         ${
             return inputs.file_prefix + "_FingerprintSummary.txt";
         }
+
+  minor_contam_output:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+            return inputs.file_prefix + "_MinorContamination.txt";
+        }

@@ -23,8 +23,8 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Christopher Harris
-    foaf:mbox: mailto:harrisc2@mskcc.org
+    foaf:name: C. Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
 
 cwlVersion: v1.0
 
@@ -37,6 +37,7 @@ requirements:
   InlineJavascriptRequirement: {}
 
 inputs:
+
   db_files:
     type:
       type: record
@@ -47,7 +48,7 @@ inputs:
         custom_enst: string
         vep_data: string
         hotspot_list: string
-        hotspot_list_maf: string
+        hotspot_list_maf: File
         hotspot_vcf: string
         facets_snps: string
         bait_intervals: File
@@ -59,6 +60,7 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
+
   pairs:
     type:
       type: array
@@ -120,25 +122,76 @@ inputs:
   md_metrics:
     type:
       type: array
-      items: 
+      items:
         type: array
         items: File
 
 outputs:
 
+  as_metrics:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/as_metrics
+  hs_metrics:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/hs_metrics
+  insert_metrics:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/insert_metrics
+  insert_pdf:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/insert_pdf
+  per_target_coverage:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/per_target_coverage
+  qual_metrics:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/qual_metrics
+  qual_pdf:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/qual_pdf
+  doc_basecounts:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/doc_basecounts
+  gcbias_pdf:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/gcbias_pdf
+  gcbias_metrics:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/gcbias_metrics
+  gcbias_summary:
+    type:
+      type: array
+      items: File
+    outputSource: gather_metrics/gcbias_summary
+
   # qc
-  compiled_intermediates_directory:
+  gather_metrics_files:
     type: Directory
     outputSource: compile_intermediates_directory/directory
-  qc_merged_files:
+   
+  qc_merged_and_hotspots_directory:
     type: Directory
-    outputSource: compile_directory_for_qcpdf/directory
-  compiled_metrics_data:
-    type: Directory
-    outputSource: group_data/directory
-  pdf_report:
-    type: File
-    outputSource: stitch_together_pdf/compiled_pdf
+    outputSource: qc_merge_and_hotspots/qc_merged_directory
 
 steps:
 
@@ -150,9 +203,9 @@ steps:
       db_files: db_files
       bams:
         valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
-      genome: 
+      genome:
         valueFrom: ${ return inputs.runparams.genome; }
-      bait_intervals: 
+      bait_intervals:
         valueFrom: ${ return inputs.db_files.bait_intervals; }
       target_intervals:
         valueFrom: ${ return inputs.db_files.target_intervals; }
@@ -165,50 +218,6 @@ steps:
         valueFrom: ${ return inputs.runparams.tmp_dir; }
     out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary ]
 
-  qc_merge:
-    run: ./roslin-qc/qc-merge.cwl
-    in:
-      db_files: db_files
-      runparams: runparams
-      clstats1: clstats1
-      clstats2: clstats2
-      md_metrics: md_metrics 
-      hs_metrics: gather_metrics/hs_metrics
-      per_target_coverage: gather_metrics/per_target_coverage
-      insert_metrics: gather_metrics/insert_metrics
-      doc_basecounts: gather_metrics/doc_basecounts
-      qual_metrics: gather_metrics/qual_metrics
-    out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, qual_files_r, qual_files_o, cutadapt_summary ]
-
-  hotspots_fillout:
-    run: ./cmo-fillout/1.2.2/cmo-fillout.cwl
-    in:
-      aa_bams: bams
-      runparams: runparams
-      db_files: db_files
-      bams:
-        valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
-      genome:
-        valueFrom: ${ return inputs.runparams.genome; }
-      maf:
-        valueFrom: ${ return inputs.db_files.hotspot_list_maf; }
-      output_format:
-        valueFrom: ${ return "1"; }
-      project_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-    out: [ portal_fillout ]
-
-  run_hotspots_in_normals:
-    run: ./roslin-qc/create-hotspots-in-normals.cwl
-    in:
-      runparams: runparams
-      fillout_file: hotspots_fillout/portal_fillout
-      project_prefix: 
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-      pairing_file:
-        valueFrom: ${ return inputs.runparams.pairing_file; }
-    out: [ hs_in_normals ]
-
   compile_intermediates_directory:
     run: ./consolidate-files/consolidate-files.cwl
     in:
@@ -216,54 +225,24 @@ steps:
       data_files: [ gather_metrics/hs_metrics, gather_metrics/per_target_coverage, gather_metrics/insert_metrics, gather_metrics/doc_basecounts, gather_metrics/qual_metrics ]
       files:
         valueFrom: ${ return inputs.data_files.flat().concat(inputs.md_metrics.flat()); }
-      output_directory_name: 
-        valueFrom: ${ return "gather_metrics_intermediates"; }
-    out: [ directory ]
-
-  compile_directory_for_qcpdf:
-    run: ./consolidate-files/consolidate-files.cwl
-    in:
-      merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary, run_hotspots_in_normals/hs_in_normals ]
-      fp_output: qc_merge/fingerprints_output
-      files: 
-         valueFrom: ${ return inputs.merged_files.concat(inputs.fp_output); }
       output_directory_name:
-       valueFrom: ${ return "qc_merged_files"; }
+        valueFrom: ${ return "gather_metrics_files"; }
     out: [ directory ]
 
-  generate_pdf:
-    run: ./roslin-qc/generate-images.cwl
+  qc_merge_and_hotspots:
+    run: ./roslin-qc/qc-merge-and-hotspots.cwl
     in:
+      aa_bams: bams
       runparams: runparams
       db_files: db_files
-      data_dir: compile_directory_for_qcpdf/directory
-      bin: 
-        valueFrom: ${ return inputs.runparams.scripts_bin; }
-      file_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-    out: [ output, images_directory, project_summary, sample_summary ]
-
-  group_data:
-    run: ./consolidate-files/consolidate-files-mixed.cwl
-    in:
-      runparams: runparams
-      project_summary: generate_pdf/project_summary
-      sample_summary: generate_pdf/sample_summary
-      image_dir: generate_pdf/images_directory
-      output_directory_name: 
-        valueFrom: ${ return "compiled_metrics_data"; }
-      files:
-        valueFrom: ${ var all = new Array(); all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
-    out: [ directory ]
- 
-  stitch_together_pdf:
-    run: ./roslin-qc/stitch-pdf.cwl
-    in: 
-      runparams: runparams
-      db_files: db_files
-      file_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-      request_file:
-        valueFrom: ${ return inputs.db_files.request_file; }
-      data_dir: group_data/directory
-    out: [ compiled_pdf ]
+      clstats1: clstats1
+      clstats2: clstats2
+      bams:
+        valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
+      hs_metrics: gather_metrics/hs_metrics
+      md_metrics: md_metrics
+      per_target_coverage: gather_metrics/per_target_coverage
+      insert_metrics: gather_metrics/insert_metrics
+      doc_basecounts: gather_metrics/doc_basecounts
+      qual_metrics: gather_metrics/qual_metrics
+    out: [ qc_merged_directory ]
