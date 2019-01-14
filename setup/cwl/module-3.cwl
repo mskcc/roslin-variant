@@ -45,6 +45,9 @@ dct:contributor:
   - class: foaf:Person
     foaf:name: Allan Bolipata 
     foaf:mbox: mailto:bolipatc@mskcc.org 
+  - class: foaf:Person
+    foaf:name: Sinisa Ivkovic
+    foaf:mbox: mailto:ivkovics@mskcc.org
 
 cwlVersion: v1.0
 
@@ -69,6 +72,8 @@ inputs:
     normal_bam:
         type: File
     genome: string
+    genome_file:
+        type: File
     bed: File
     normal_sample_name: string
     tumor_sample_name: string
@@ -159,6 +164,7 @@ steps:
             tumor_bam: index/tumor_bam
             normal_bam: index/normal_bam
             genome: genome
+            genome_file: genome_file
             normal_sample_name: normal_sample_name
             tumor_sample_name: tumor_sample_name
             dbsnp: dbsnp
@@ -176,6 +182,7 @@ steps:
             inputs:
                 tumor_bam: File
                 genome: string
+                genome_file: File
                 normal_bam: File
                 normal_sample_name: string
                 tumor_sample_name: string
@@ -246,9 +253,9 @@ steps:
                         output_prefix: tumor_sample_name
                     out: [output]
                 vardict:
-                    run: cmo-vardict/1.5.1/cmo-vardict.cwl
+                    run: vardict/1.5.1/vardict.cwl
                     in:
-                        G: genome
+                        G: genome_file
                         b: tumor_bam
                         b2: normal_bam
                         N: tumor_sample_name
