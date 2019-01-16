@@ -262,13 +262,14 @@ def create_data_clinical_files_new_format(data_clinical_file):
         patients_header = get_patients_header(header)
         data_attr = set_attributes(header)
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
-        patients_file_txt = generate_file_txt(data, data_attr, patients_header)
+        patients_file_txt = generate_patient_file_txt(data, data_attr, patients_header)
 
     return samples_file_txt, patients_file_txt
 
 def get_samples_header(header):
     temp_header = set(header)
-    temp_header.discard("SEX")
+    for element in get_patients_header(header):
+        temp_header.discard(element)
     samples_header = ["SAMPLE_ID", "PATIENT_ID"]
     for header in temp_header:
         if header not in samples_header and header != None:
@@ -276,7 +277,7 @@ def get_samples_header(header):
     return samples_header
 
 def get_patients_header(header):
-    return {"PATIENT_ID", "SEX"}
+    return {"PATIENT_ID", "SEX"} #to do AGE and other additional patient-specific fields
 
 def set_attributes(data):
     d = dict()
@@ -320,6 +321,50 @@ def generate_file_txt(data, attr, header):
 
     data_str = "\t".join(order) + "\n"
     for row in data:
+        temp_list = list()
+        for heading in order:
+            row_value = row[heading].strip()
+            temp_list.append(row_value)
+        data_str += "\t".join(temp_list) + "\n"
+
+    file_txt = metadata + data_str
+    return file_txt
+
+
+def generate_patient_file_txt(data, attr, header):
+    order = list()
+    row1 = "#"
+    row2 = "#"
+    row3 = "#"
+    row4 = "#"
+
+    row2_values = list()
+    row3_values = list()
+    row4_values = list()
+
+    for heading in header:
+        order.append(heading)
+        row2_values.append(attr[heading]['desc'])
+        row3_values.append(attr[heading]['datatype'])
+        row4_values.append(attr[heading]['priority'])
+
+    row1 = "#" + "\t".join(order) + "\n"
+    row2 = "#" + "\t".join(row2_values) + "\n"
+    row3 = "#" + "\t".join(row3_values) + "\n"
+    row4 = "#" + "\t".join(row4_values) + "\n"
+
+    metadata = row1 + row2 + row3 + row4
+
+    data_str = "\t".join(order) + "\n"
+    uniqlist = []
+    newdata = []
+    for row in data:
+        if row['PATIENT_ID'] in uniqlist:
+            pass
+        else:
+            uniqlist.append(row['PATIENT_ID'])
+            newdata.append(row)
+    for row in newdata:
         temp_list = list()
         for heading in order:
             row_value = row[heading].strip()
