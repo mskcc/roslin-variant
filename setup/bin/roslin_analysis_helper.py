@@ -56,7 +56,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
-    maf_command = ('bsub -q controlR -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
+    maf_command = ('bsub -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
         + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
         + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_maf_file, portal_file]) + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
@@ -83,7 +83,7 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
     discrete_copy_number_log = os.path.join(log_directory,'generate_discrete_copy_number.log')
     scna_output_path = output_path.replace('.txt','.scna.txt')
 
-    cna_command = ('bsub -q controlR -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
+    cna_command = ('bsub -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
         + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + gene_cna_file
         + '; mv ' + scna_output_path + ' ' + output_path + '"')
     bsub_stdout = subprocess.check_output(cna_command,shell=True)
@@ -95,7 +95,7 @@ def generate_segmented_copy_number_data(data_directory,output_directory,data_fil
     segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
 
     # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
-    seg_command = ('bsub -q controlR -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
+    seg_command = ('bsub -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
         + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
         + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
     bsub_stdout = subprocess.check_output(seg_command,shell=True)
