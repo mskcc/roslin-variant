@@ -329,6 +329,10 @@ outputs:
     type: Directory
     outputSource: run_conpair/conpair_output_dir
 
+  consolidated_results:
+    type: Directory
+    outputSource: consolidate_results/directory
+
 steps:
 
   projparse:
@@ -457,6 +461,23 @@ steps:
     scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, vep_path, custom_enst, exac_filter, vep_data]
     scatterMethod: dotproduct
 
+  find_svs:
+    run: module-6.cwl
+    in:
+      runparams: runparams
+      tumor_bam: pairing/tumor_bams
+      normal_bam: pairing/normal_bams
+      genome: pairing/genome
+      vep_data: pairing/vep_data
+      ref_fasta: pairing/ref_fasta
+      vep_path: pairing/vep_path
+      custom_enst: pairing/custom_enst
+      normal_sample_name: pairing/normal_sample_ids
+      tumor_sample_name: pairing/tumor_sample_ids
+      delly_type: pairing/delly_type
+    out: [ merged_file, merged_file_unfiltered, maf_file, portal_file ]
+    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data, ref_fasta, vep_path, custom_enst ]
+    scatterMethod: dotproduct
 
   gather_metrics:
     run: gather_metrics.cwl
@@ -487,22 +508,26 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ conpair_output_dir ]
+    out: [ conpair_output_dir ] 
 
-  find_svs:
-    run: module-6.cwl
+  generate_images:
+    run: roslin-qc/generate-images.cwl
     in:
       runparams: runparams
-      tumor_bam: pairing/tumor_bams
-      normal_bam: pairing/normal_bams
-      genome: pairing/genome
-      vep_data: pairing/vep_data
-      ref_fasta: pairing/ref_fasta
-      vep_path: pairing/vep_path
-      custom_enst: pairing/custom_enst
-      normal_sample_name: pairing/normal_sample_ids
-      tumor_sample_name: pairing/tumor_sample_ids
-      delly_type: pairing/delly_type
-    out: [ merged_file, merged_file_unfiltered, maf_file, portal_file ]
-    scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data, ref_fasta, vep_path, custom_enst]
-    scatterMethod: dotproduct
+      db_files: db_files
+      data_dir:  gather_metrics/qc_merged_and_hotspots_directory
+      bin:
+        valueFrom: ${ return inputs.runparams.scripts_bin; }
+      file_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+    out: [ output, images_directory, project_summary, sample_summary ]
+
+  consolidate_results:
+    run: consolidate-files/consolidate-directories.cwl
+    in:
+      runparams: runparams
+      output_directory_name:
+        valueFrom: ${ return "consolidated_metrics_data"; }
+      directories: [ run_conpair/conpair_output_dir, gather_metrics/gather_metrics_files, gather_metrics/qc_merged_and_hotspots_directory, generate_images/output ]
+    out: [ directory ]
+

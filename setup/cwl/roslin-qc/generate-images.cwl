@@ -1,5 +1,4 @@
 
-
 $namespaces:
   dct: http://purl.org/dc/terms/
   foaf: http://xmlns.com/foaf/0.1/
@@ -23,7 +22,7 @@ dct:creator:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Allan Bolipata
+    foaf:name: C. Allan Bolipata
     foaf:mbox: mailto:bolipatc@mskcc.org
 
 cwlVersion: v1.0
@@ -40,9 +39,9 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "roslin-qc"
+- "qc-summary"
 - --version
-- "0.6.0"
+- "0.1.0"
 - --cmd
 - qc_summary
 id: generate-images
@@ -51,6 +50,7 @@ inputs:
 
   bin:
     type: string
+    default: "/usr/bin/"
     inputBinding:
       prefix: --bin 
 
