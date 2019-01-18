@@ -213,6 +213,10 @@
             "0.6.0": "sing.sh roslin-qc 0.6.0",
             "default": "sing.sh roslin-qc 0.6.0"
         },
+        "qc-summary": {
+            "0.1.0": "sing.sh qc-summary 0.1.0",
+            "default": "sing.sh qc-summary 0.1.0"
+        },
         "samtools": {
             "1.3.1": "sing.sh samtools 1.3.1",
             "default": "sing.sh samtools 1.3.1"
