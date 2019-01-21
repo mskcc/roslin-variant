@@ -63,7 +63,7 @@ do
 
     printf "Regular: $leaderStatus; SV: $leaderStatusSV;\n" #RP: $leaderStatusRP\n"
 
-    if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ] ] #&& [ "$leaderStatusRP" == "DONE" ]
+    if [ "$leaderStatus" == "DONE" ] && [ "$leaderStatusSV" == "DONE" ]  #&& [ "$leaderStatusRP" == "DONE" ]
     then
         printf "All Jobs Finished Successfully\n"
         store_test_logs
@@ -72,13 +72,13 @@ do
         runningBool=0
     fi
 
-    if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ] ]# || [ "$leaderStatusRP" == "EXIT" ]
+    if [ "$leaderStatus" == "EXIT" ] || [ "$leaderStatusSV" == "EXIT" ]  # || [ "$leaderStatusRP" == "EXIT" ]
     then
         printf "One or more of the jobs have failed\n"
-        if [ "$leaderStatusRP" != "EXIT" ]
-        then
-            `bkill $leaderStatusRP`
-        fi
+#        if [ "$leaderStatusRP" != "EXIT" ]
+#        then
+#            `bkill $leaderStatusRP`
+#        fi
         runningBool=0
         store_test_logs
         store_test_logs_sv
