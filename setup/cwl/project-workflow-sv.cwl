@@ -345,7 +345,6 @@ outputs:
     type: File[]
     outputSource: gather_metrics/qc_files
 
-  # conpair output
   concordance_txt:
     type: File
     outputSource: run_conpair/concordance_txt
@@ -358,6 +357,9 @@ outputs:
   contamination_pdf:
     type: File
     outputSource: run_conpair/contamination_pdf
+  cdna_contam_output:
+    type: File?
+    outputSource: run_cdna_contam_check/cdna_contam_output
 
 steps:
 
@@ -531,3 +533,12 @@ steps:
     out: [ merged_file, merged_file_unfiltered, maf_file, portal_file ]
     scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data ]
     scatterMethod: dotproduct
+
+  run_cdna_contam_check:
+    run: roslin-qc/create-cdna-contam.cwl
+    in:
+      runparams: runparams
+      input_mafs: find_svs/maf_file
+      project_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+    out: [ cdna_contam_output ]
