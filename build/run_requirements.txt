@@ -8,3 +8,5 @@ ruamel.ordereddict==0.4.13
 ruamel.yaml==0.14.12
 PyYAML==3.13
 argparse==1.4.0
+pytest==4.1.1
+pytest-xdist==1.26.0
