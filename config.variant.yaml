@@ -14,6 +14,7 @@ binding:
 env:
   TOIL_LSF_ARGS: '-S 1 -We 0:59'
   TMPDIR: '/scratch'
+  TMP: '/scratch'
 dependencies:
   core:
     version:
@@ -30,7 +31,7 @@ dependencies:
     install-path: /ifs/work/pi/roslin-toil/3.18.0a1-MSK
 test:
   root: /ifs/work/pi/roslin-test
-  tempDir: /scratch  
+  tempDir: /ifs/work/pi/roslin-test/scratch/
   runArgs: ''
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
