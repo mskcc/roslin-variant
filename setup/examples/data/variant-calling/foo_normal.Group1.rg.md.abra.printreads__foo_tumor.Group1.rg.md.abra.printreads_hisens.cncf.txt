@@ -1,0 +1,2 @@
+ID	chrom	loc.start	loc.end	seg	num.mark	nhet	cnlr.median	mafR	segclust	cnlr.median.clust	mafR.clust	cf	tcn	lcn	cf.em	tcn.em	lcn.em
+foo_tumor	17	7569650	80783009	1	914	71	-0.126251165936107	-0.00650967974425286	1	-0.126251165936107	-0.00650967974425286	1	2	1	1	2	1

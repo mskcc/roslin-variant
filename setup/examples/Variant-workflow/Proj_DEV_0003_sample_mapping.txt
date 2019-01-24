@@ -1,0 +1,4 @@
+_1	foo_normal	foo_normal	../data/fastq/DU874145-N	PE
+_1	foo_tumor	foo_tumor	../data/fastq/DU874145-T	PE
+_1	bar_normal	bar_normal	../data/fastq/DU874145-N	PE
+_1	bar_tumor	bar_tumor	../data/fastq/DU874145-T	PE

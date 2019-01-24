@@ -1,0 +1,73 @@
+export LSF_LIBDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib
+export LSF_SERVERDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc
+export LSF_BINDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
+export LSF_ENVDIR=/common/lsf/conf
+export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
+# Set python env
+export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
+export ROSLIN_PIPELINE_DESCRIPTION="Roslin Variant Pipeline v2.5.0"
+
+# Roslin pipeline name/version
+export ROSLIN_PIPELINE_NAME="variant"
+export ROSLIN_PIPELINE_VERSION="2.5.0"
+
+# which version of Roslin Core is required?
+export ROSLIN_CORE_MIN_VERSION="2.0.6"
+export ROSLIN_CORE_MAX_VERSION="2.0.6"
+
+# Roslin pipeline root path
+export ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-test/variant/521/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
+export ROSLIN_ROOT="/ifs/work/pi/roslin-test/variant/521"
+#--> the following paths will be supplied to singularity as bind points
+
+# binaries, executables, scripts
+export ROSLIN_PIPELINE_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/bin"
+
+# reference data (e.g. genome assemblies)
+export ROSLIN_PIPELINE_DATA_PATH="${ROSLIN_PIPELINE_ROOT}/resources"
+
+# other paths that we'd like to bind (space separated)
+export ROSLIN_EXTRA_BIND_PATH="/scratch /ifs /opt"
+
+# output path
+export ROSLIN_PIPELINE_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/outputs"
+
+# workspace
+export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
+
+# deduplicated bind points (space separated)
+export ROSLIN_BIND_PATH="/scratch /ifs /opt"
+#<--
+
+# path to singularity executable
+# singularity is expected to be found at the same location regardless of the nodes you're on
+# override this if you want to test a different version of singularity.
+export ROSLIN_SINGULARITY_PATH="/opt/common/CentOS_6-dev/singularity/singularity-3.0.0/bin/singularity"
+
+# cmo
+export ROSLIN_CMO_VERSION="1.9.10"
+export ROSLIN_CMO_INSTALL_PATH="/ifs/work/pi/roslin-cmo/1.9.10/cmo"
+
+# toil
+export ROSLIN_TOIL_VERSION="3.17.0"
+export ROSLIN_TOIL_INSTALL_PATH="/ifs/work/pi/roslin-toil/3.17.0-release/"
+
+# node
+export NVM_DIR="$ROSLIN_PIPELINE_DATA_PATH/.nvm"
+if [ -d $NVM_DIR ]
+then
+	echo "Loading Node..."
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+fi
+
+# Load the virtualenv
+if [ -e $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate ]
+then
+	echo "Loading Virtualenv..."
+	source $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate
+fi
+# Run environment
+export TOIL_LSF_ARGS="-S 1 -We 0:59"
+
+
+echo "Loaded Roslin Pipeline - $ROSLIN_PIPELINE_NAME ( $ROSLIN_PIPELINE_VERSION )"

@@ -1,0 +1,456 @@
+{
+    "combine_vcf": [
+        {
+            "checksum": "sha1$21573bf5a57d4d7dc853ef7e85b7ef663c5819e5", 
+            "basename": "foo_tumor.foo_normal.combined-variants.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "foo_tumor.foo_normal.combined-variants", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.foo_normal.combined-variants.vcf", 
+            "class": "File", 
+            "size": 49414
+        }, 
+        {
+            "checksum": "sha1$ef6193b96f357abb42ee46394747a3315b609f3d", 
+            "basename": "bar_tumor.bar_normal.combined-variants.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "bar_tumor.bar_normal.combined-variants", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.bar_normal.combined-variants.vcf", 
+            "class": "File", 
+            "size": 49414
+        }
+    ], 
+    "vardict_norm_vcf": [
+        {
+            "checksum": "sha1$02385681a3538a721562779d436921344d816bf5", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz", 
+            "nameext": ".gz", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict_STDfilter.norm.vcf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$5d174fd31886462752dfb7344b409eac1fc3f722", 
+                    "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz.tbi", 
+                    "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz", 
+                    "nameext": ".tbi", 
+                    "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz.tbi", 
+                    "class": "File", 
+                    "size": 657
+                }
+            ], 
+            "class": "File", 
+            "size": 7449
+        }, 
+        {
+            "checksum": "sha1$37a76ccedab5636006fd4d80d040c67a1ed3c0c5", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz", 
+            "nameext": ".gz", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict_STDfilter.norm.vcf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$5d174fd31886462752dfb7344b409eac1fc3f722", 
+                    "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz.tbi", 
+                    "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz", 
+                    "nameext": ".tbi", 
+                    "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict_STDfilter.norm.vcf.gz.tbi", 
+                    "class": "File", 
+                    "size": 657
+                }
+            ], 
+            "class": "File", 
+            "size": 7449
+        }
+    ], 
+    "facets_seg": [
+        [
+            {
+                "checksum": "sha1$3fd4ccf471950bca29b41555fab592156db96049", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.seg", 
+                "nameext": ".seg", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.seg", 
+                "class": "File", 
+                "size": 98
+            }, 
+            {
+                "checksum": "sha1$be906f5a45f49ed9df6334075894e1c13cac4ee7", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.seg", 
+                "nameext": ".seg", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.seg", 
+                "class": "File", 
+                "size": 97
+            }
+        ], 
+        [
+            {
+                "checksum": "sha1$f77190f3095acc91e1b33376ba6cd142f9f2e2c3", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.seg", 
+                "nameext": ".seg", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.seg", 
+                "class": "File", 
+                "size": 98
+            }, 
+            {
+                "checksum": "sha1$8b67ad6e826991a24fa037c1db8ce03daec2a711", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.seg", 
+                "nameext": ".seg", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.seg", 
+                "class": "File", 
+                "size": 97
+            }
+        ]
+    ], 
+    "facets_counts": [
+        {
+            "checksum": "sha1$568247f746f5ba03bd1791b5329168d67e70e030", 
+            "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads.dat.gz", 
+            "nameext": ".gz", 
+            "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads.dat", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads.dat.gz", 
+            "class": "File", 
+            "size": 80579
+        }, 
+        {
+            "checksum": "sha1$568247f746f5ba03bd1791b5329168d67e70e030", 
+            "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads.dat.gz", 
+            "nameext": ".gz", 
+            "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads.dat", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads.dat.gz", 
+            "class": "File", 
+            "size": 80579
+        }
+    ], 
+    "facets_png": [
+        [
+            {
+                "checksum": "sha1$98fe67ad1132708f67dadb7bf7e1eb342b080e12", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.CNCF.png", 
+                "nameext": ".png", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.CNCF", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.CNCF.png", 
+                "class": "File", 
+                "size": 34777
+            }, 
+            {
+                "checksum": "sha1$c517a2cb9b1de7c6ddc7bce46753a714688118c7", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.CNCF.png", 
+                "nameext": ".png", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.CNCF", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.CNCF.png", 
+                "class": "File", 
+                "size": 34831
+            }
+        ], 
+        [
+            {
+                "checksum": "sha1$98fe67ad1132708f67dadb7bf7e1eb342b080e12", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.CNCF.png", 
+                "nameext": ".png", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.CNCF", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.CNCF.png", 
+                "class": "File", 
+                "size": 34777
+            }, 
+            {
+                "checksum": "sha1$c517a2cb9b1de7c6ddc7bce46753a714688118c7", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.CNCF.png", 
+                "nameext": ".png", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.CNCF", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.CNCF.png", 
+                "class": "File", 
+                "size": 34831
+            }
+        ]
+    ], 
+    "vardict_vcf": [
+        {
+            "checksum": "sha1$b8fe5ea30d8fc344a72137f5bd1988ab8d86e90a", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.vardict.vcf", 
+            "class": "File", 
+            "size": 395448
+        }, 
+        {
+            "checksum": "sha1$24839cbe8e49d79c82063aa1daf71290da9072bc", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.vardict.vcf", 
+            "class": "File", 
+            "size": 395448
+        }
+    ], 
+    "facets_txt_hisens": [
+        {
+            "checksum": "sha1$188fa59fa4cd366992e2c3f777b2814a89210ae3", 
+            "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.cncf.txt", 
+            "nameext": ".txt", 
+            "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.cncf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.cncf.txt", 
+            "class": "File", 
+            "size": 264
+        }, 
+        {
+            "checksum": "sha1$48fd7725fb1dacc0b1c1c092829fba59f3b44128", 
+            "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.cncf.txt", 
+            "nameext": ".txt", 
+            "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.cncf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.cncf.txt", 
+            "class": "File", 
+            "size": 264
+        }
+    ], 
+    "facets_txt_purity": [
+        {
+            "checksum": "sha1$1730f89380616c2bb7f1cd14a99cdeb2cb8c9895", 
+            "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.cncf.txt", 
+            "nameext": ".txt", 
+            "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.cncf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.cncf.txt", 
+            "class": "File", 
+            "size": 262
+        }, 
+        {
+            "checksum": "sha1$f8a0c866a1b948ffbf9a47183f7a38e0fb1557b2", 
+            "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.cncf.txt", 
+            "nameext": ".txt", 
+            "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.cncf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.cncf.txt", 
+            "class": "File", 
+            "size": 262
+        }
+    ], 
+    "pindel_norm_vcf": [
+        {
+            "checksum": "sha1$752cf88659ca86ef7def98018f80580fe8e38a51", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz", 
+            "nameext": ".gz", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel_STDfilter.norm.vcf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$55ffd0745d990064d86a949ba25a10d61ae526be", 
+                    "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz.tbi", 
+                    "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz", 
+                    "nameext": ".tbi", 
+                    "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz.tbi", 
+                    "class": "File", 
+                    "size": 549
+                }
+            ], 
+            "class": "File", 
+            "size": 3523
+        }, 
+        {
+            "checksum": "sha1$b156d4983ed3635f16853d363fc910c67ec1cdec", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz", 
+            "nameext": ".gz", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel_STDfilter.norm.vcf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$aa8dd374ccc638f67399705a913ce72fb59cd692", 
+                    "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz.tbi", 
+                    "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz", 
+                    "nameext": ".tbi", 
+                    "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel_STDfilter.norm.vcf.gz.tbi", 
+                    "class": "File", 
+                    "size": 549
+                }
+            ], 
+            "class": "File", 
+            "size": 3524
+        }
+    ], 
+    "facets_out": [
+        [
+            {
+                "checksum": "sha1$b57eb34328c14fb05ab7cf4f85c6c54fa9a1a6e6", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.out", 
+                "nameext": ".out", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.out", 
+                "class": "File", 
+                "size": 568
+            }, 
+            {
+                "checksum": "sha1$b64a2dfaeb4c91f2b86985739fcad301d4851c5a", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.out", 
+                "nameext": ".out", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.out", 
+                "class": "File", 
+                "size": 568
+            }
+        ], 
+        [
+            {
+                "checksum": "sha1$584de9edf2a6787b3ec06767b5aff3f93e882f21", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.out", 
+                "nameext": ".out", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.out", 
+                "class": "File", 
+                "size": 568
+            }, 
+            {
+                "checksum": "sha1$160f421bcf7255a89d0986fa039edd677578c00d", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.out", 
+                "nameext": ".out", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.out", 
+                "class": "File", 
+                "size": 568
+            }
+        ]
+    ], 
+    "mutect_vcf": [
+        {
+            "checksum": "sha1$0122fad9f66343694abd10d4cb34c2f3a14672d1", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect.vcf", 
+            "class": "File", 
+            "size": 32120
+        }, 
+        {
+            "checksum": "sha1$f970c3fc20a519f44e6f2ed8f3788a5e1ec629e8", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect.vcf", 
+            "class": "File", 
+            "size": 32120
+        }
+    ], 
+    "mutect_norm_vcf": [
+        {
+            "checksum": "sha1$1b46a14685c11988dd7f51704cc569a6dd34ffed", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz", 
+            "nameext": ".gz", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect_STDfilter.norm.vcf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$58d84a890f7d829ef97d54186e25e1ae8aa66b7b", 
+                    "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz.tbi", 
+                    "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz", 
+                    "nameext": ".tbi", 
+                    "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz.tbi", 
+                    "class": "File", 
+                    "size": 191
+                }
+            ], 
+            "class": "File", 
+            "size": 3200
+        }, 
+        {
+            "checksum": "sha1$e6358b59367dd23068a029a3acb050e19d763b3f", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz", 
+            "nameext": ".gz", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect_STDfilter.norm.vcf", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz", 
+            "secondaryFiles": [
+                {
+                    "checksum": "sha1$814db54d2db42734844f509cd0176e411d98afcc", 
+                    "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz.tbi", 
+                    "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz", 
+                    "nameext": ".tbi", 
+                    "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect_STDfilter.norm.vcf.gz.tbi", 
+                    "class": "File", 
+                    "size": 191
+                }
+            ], 
+            "class": "File", 
+            "size": 3196
+        }
+    ], 
+    "mutect_callstats": [
+        {
+            "checksum": "sha1$2380766393a5e22eba99829c2a824e4819c0b0c9", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect.txt", 
+            "nameext": ".txt", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.mutect.txt", 
+            "class": "File", 
+            "size": 140092
+        }, 
+        {
+            "checksum": "sha1$95e826d2f96c4cd201c286747af36a37b769a46c", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect.txt", 
+            "nameext": ".txt", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.mutect.txt", 
+            "class": "File", 
+            "size": 140092
+        }
+    ], 
+    "pindel_vcf": [
+        {
+            "checksum": "sha1$54f2becb03ef8f8bc4a3270e93b540a7eb1e3a81", 
+            "basename": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_tumor.Group1.rg.md.abra.printreads.foo_normal.Group1.rg.md.abra.printreads.pindel.vcf", 
+            "class": "File", 
+            "size": 243496
+        }, 
+        {
+            "checksum": "sha1$9b0b2c7a73ba7eb2e1f7de6b9e1688e4e60f36b1", 
+            "basename": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel.vcf", 
+            "nameext": ".vcf", 
+            "nameroot": "bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel", 
+            "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_tumor.Group0.rg.md.abra.printreads.bar_normal.Group0.rg.md.abra.printreads.pindel.vcf", 
+            "class": "File", 
+            "size": 243496
+        }
+    ], 
+    "facets_rdata": [
+        [
+            {
+                "checksum": "sha1$be6f9ef84fea5ec7e173d8182db5a4bd3eed417b", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.Rdata", 
+                "nameext": ".Rdata", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_hisens.Rdata", 
+                "class": "File", 
+                "size": 27934
+            }, 
+            {
+                "checksum": "sha1$512bbfd013efddf7dcaa81cb99a138ac3ff74d02", 
+                "basename": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.Rdata", 
+                "nameext": ".Rdata", 
+                "nameroot": "foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/foo_normal.Group1.rg.md.abra.printreads__foo_tumor.Group1.rg.md.abra.printreads_purity.Rdata", 
+                "class": "File", 
+                "size": 28011
+            }
+        ], 
+        [
+            {
+                "checksum": "sha1$9903a0a1841cde4610388727f759d5802aca6b0c", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.Rdata", 
+                "nameext": ".Rdata", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_hisens.Rdata", 
+                "class": "File", 
+                "size": 27935
+            }, 
+            {
+                "checksum": "sha1$75c303b31680d81eeaae63b785c55452fec31962", 
+                "basename": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.Rdata", 
+                "nameext": ".Rdata", 
+                "nameroot": "bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity", 
+                "location": "file:///ifs/work/pi/roslin-test/variant/521/variant/2.5.0/outputs/1780973c/1780973c-19db-11e9-8165-9418820b30f0/outputs/Variant-calling/bar_normal.Group0.rg.md.abra.printreads__bar_tumor.Group0.rg.md.abra.printreads_purity.Rdata", 
+                "class": "File", 
+                "size": 28012
+            }
+        ]
+    ]
+}

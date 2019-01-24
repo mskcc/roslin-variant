@@ -1,0 +1,55 @@
+
+SUMMARISING RUN PARAMETERS
+==========================
+Input filename: /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stgf1745622-87f3-426e-8c0f-7e755a841a0a/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
+Quality Phred score cutoff: 1
+Quality encoding type selected: ASCII+33
+Adapter sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG'
+Maximum trimming error rate: 0.1 (default)
+Optional adapter 2 sequence (only used for read 2 of paired-end files): 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT'
+Minimum required adapter overlap (stringency): 1 bp
+Minimum required sequence length for both reads before a sequence pair gets removed: 25 bp
+Output file will be GZIP compressed
+
+
+cutadapt version 1.1
+Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stgf1745622-87f3-426e-8c0f-7e755a841a0a/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
+Maximum error rate: 10.00%
+   Processed reads: 148338
+     Trimmed reads: 48585 ( 32.8%)
+   Total basepairs:     13327715 (13.3 Mbp)
+ Trimmed basepairs:        65469 (0.1 Mbp) (0.49% of total)
+   Too short reads: 0 (  0.0% of processed reads)
+    Too long reads: 0 (  0.0% of processed reads)
+        Total time:      4.58 s
+     Time per read:      0.03 ms
+
+=== Adapter 1 ===
+
+Adapter 'AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT', length 58, was trimmed 48585 times.
+
+Lengths of removed sequences
+length	count	expected
+1	33691	37084.5
+2	13350	9271.1
+3	1268	2317.8
+4	207	579.4
+5	43	144.9
+6	6	36.2
+7	5	9.1
+8	3	2.3
+9	6	0.6
+10	3	0.1
+11	1	0.0
+12	1	0.0
+29	1	0.0
+
+
+RUN STATISTICS FOR INPUT FILE: /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stgf1745622-87f3-426e-8c0f-7e755a841a0a/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
+=============================================
+148338 sequences processed in total
+Sequences removed because they became shorter than the length cutoff of 25 bp:	0 (0.0%)
+
+Total number of sequences analysed for the sequence pair length validation: 148338
+
+Number of sequence pairs removed because at least one read was shorter than the length cutoff (25 bp): 0 (0.00%)
