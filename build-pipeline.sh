@@ -257,5 +257,4 @@ make develop extras=[cwl]
 cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/cmo
 cd $ROSLIN_PIPELINE_DATA_PATH/cmo
 python setup.py install
-deactivate
 cd $ROSLIN_CORE_BIN_PATH
