@@ -345,6 +345,7 @@ steps:
         out: [ vcf_files ]
         run:
             class: ExpressionTool
+            id: create-vcf-file-array
             requirements:
                 - class: InlineJavascriptRequirement
             inputs:
