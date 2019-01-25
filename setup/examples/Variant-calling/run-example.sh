@@ -15,7 +15,7 @@ roslin_request_to_yaml.py \
 roslin_submit.py \
     --name ${pipeline_name} \
     --version ${pipeline_version} \
-    --id Proj_DEV_0003 \
+    --id Proj_DEV_0003_VariantCalling \
     --inputs inputs.yaml \
     --path . \
     --workflow VariantCalling \
