@@ -8,7 +8,7 @@ from shutil import copyfile
 ROSLIN_CORE_BIN_PATH = os.environ['ROSLIN_CORE_BIN_PATH']
 sys.path.append(ROSLIN_CORE_BIN_PATH)
 from core_utils  import run_command_realtime, print_error
-test_dir = os.path.join(os.environ['parentDir'],os.environ['TestDir'])
+test_dir = os.environ['LOG_TEST']
 
 def move_logs(folder_name,log_folder):
     for root, dirs, files in os.walk(log_folder):
