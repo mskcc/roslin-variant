@@ -173,6 +173,13 @@ outputs:
     type: Directory
     outputSource: run-conpair/conpair_output_dir
 
+  contamination_pdf:
+    type: File
+    outputSource: run-conpair/contamination_pdf
+  concordance_pdf:
+    type: File
+    outputSource: run-conpair/concordance_pdf
+
 steps:
 
   projparse:
@@ -222,4 +229,4 @@ steps:
       pairing_file: projparse/pairing_file
       gatk_jar_path:
         valueFrom: ${ return inputs.runparams.gatk_jar_path; }
-    out: [ conpair_output_dir ]
+    out: [ conpair_output_dir, concordance_pdf, contamination_pdf ]

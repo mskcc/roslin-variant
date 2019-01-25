@@ -315,6 +315,14 @@ outputs:
     type: Directory
     outputSource: run_conpair/conpair_output_dir
 
+  concordance_pdf:
+    type: File
+    outputSource: run_conpair/concordance_pdf
+
+  contamination_pdf:
+    type: File
+    outputSource: run_conpair/contamination_pdf
+
 steps:
 
   projparse:
@@ -472,4 +480,4 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ conpair_output_dir ] 
+    out: [ conpair_output_dir, contamination_pdf, concordance_pdf ] 
