@@ -85,7 +85,7 @@ inputs:
     prefix: -G
   secondaryFiles:
   - .fai
-  type: File?
+  type: File[]
 - default: false
   doc: Print this help page
   id: H

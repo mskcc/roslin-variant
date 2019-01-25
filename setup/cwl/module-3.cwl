@@ -73,7 +73,7 @@ inputs:
         type: File
     genome: string
     genome_file:
-        type: File
+        type: File[]
     bed: File
     normal_sample_name: string
     tumor_sample_name: string
@@ -182,7 +182,7 @@ steps:
             inputs:
                 tumor_bam: File
                 genome: string
-                genome_file: File
+                genome_file: File[]
                 normal_bam: File
                 normal_sample_name: string
                 tumor_sample_name: string

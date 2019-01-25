@@ -37,7 +37,8 @@ inputs:
   type: File?
 - id: b
   type: File?
-- id: C
+- default: true
+  id: C
   type: boolean?
 - id: D
   type: boolean?
@@ -116,7 +117,7 @@ inputs:
 - id: vcf
   type: string?
 - id: G
-  type: File?
+  type: File[]
 - id: f_1
   type: string?
 label: vardict
