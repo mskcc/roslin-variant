@@ -13,6 +13,8 @@ cd $ROSLIN_PIPELINE_WORKSPACE_PATH/$USER/examples
 source $parentDir/setup/config/test-settings.sh
 rm -f $parentDir/setup/config/test-settings.sh
 
+export TMPDIR_TEST=$TMPDIR
+
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
 chmod +x */run-example.sh
 pytest -n 5 roslin_workflows_test.py
