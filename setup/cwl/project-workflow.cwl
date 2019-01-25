@@ -113,6 +113,7 @@ inputs:
       items:
         type: array
         items: string
+  genome_file: File[]
   runparams:
     type:
       type: record
@@ -123,8 +124,7 @@ inputs:
             type: array
             items: string
         emit_original_quals: boolean
-        genome: string
-        genome_file: File[]
+        genome: string 
         mutect_dcov: int
         mutect_rf:
           type:
