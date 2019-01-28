@@ -41,7 +41,7 @@ From: conpair:0.3.1
     # get actual output from contamination
         python /usr/bin/conpair/scripts/estimate_tumor_normal_contaminations.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
 
-    # expected outut from pileup output
+    # expected output from pileup output
     cat > /srv/expected.diff.txt << EOM
 Usage: run_gatk_pileup_for_sample.py [options]
 usage: verify_concordances.py [options]
