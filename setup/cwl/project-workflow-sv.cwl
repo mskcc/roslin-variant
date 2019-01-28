@@ -551,4 +551,3 @@ steps:
 #        valueFrom: ${ return "consolidated_metrics_data"; }
 #      directories: [ run_conpair/conpair_output_dir, gather_metrics/gather_metrics_files, gather_metrics/qc_merged_and_hotspots_directory, generate_images/output ]
 #    out: [ directory ]
-
