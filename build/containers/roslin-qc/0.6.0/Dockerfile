@@ -32,7 +32,7 @@ RUN apk add --update \
         # install pandas
         && pip install django==1.11 \
         && pip install dbconfig \
-        && pip install pandas \
+        && pip install pandas==0.23.4 \
         # install R
         && apk add R R-dev \
         # install pylatex
