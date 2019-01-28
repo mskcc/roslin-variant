@@ -21,6 +21,7 @@ def move_logs(folder_name,log_folder):
                 file_basename_no_ext = os.path.splitext(file_basename)[0]
                 new_file_name = str(folder_name) + "_" + str(file_prefix) + file_basename_no_ext + ".txt"
                 new_file_path = os.path.join(test_dir,new_file_name)
+                single_file_path = os.path.join(root,single_file)
                 copyfile(single_file,new_file_path)
 
 def run_test(folder_name):
