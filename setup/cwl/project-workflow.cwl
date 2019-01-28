@@ -323,6 +323,10 @@ outputs:
     type: File
     outputSource: run_conpair/contamination_pdf
 
+#  consolidated_results:
+#    type: Directory
+#    outputSource: consolidate_results/directory
+
 steps:
 
   projparse:
