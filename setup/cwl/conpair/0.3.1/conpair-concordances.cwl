@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Zuojian Tang
     foaf:mbox: mailto:tangz@mskcc.org
 
-cwlVersion: v1.0
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -105,5 +105,15 @@ outputs:
         ${
           if (inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*")
             return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          return null;
+        }
+
+  pdf:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.pdf")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.pdf";
           return null;
         }
