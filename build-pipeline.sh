@@ -9,7 +9,7 @@ compareBool() {
     else
         echo "Invalid input: $1, Please use a yaml accepted value for true/false: y,Y,yes,Yes,YES,n,N,no,No,NO,true,True,TRUE,false,False,FALSE,on,On,ON,off,Off,OFF"
         exit 1
-    fi    
+    fi
 }
 
 usage()
@@ -116,9 +116,9 @@ cd ..
 coreDir=$ROSLIN_CORE_PATH
 
 if [ -n "$TEST_MODE" ]
-then   
+then
     source setup/config/test-settings.sh
-    printf "Starting Build $BUILD_NUMBER\n"    
+    printf "Starting Build $BUILD_NUMBER\n"
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
     TempDir=test_output/$BUILD_NUMBER
     TestDir=test_output/$BUILD_NUMBER
@@ -128,14 +128,14 @@ then
     source setup/config/settings.sh
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
-    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build_images_parallel.py -d -t $BUILD_THREADS" 
+    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build_images_parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
     installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME
     TempDir=roslin-build-log
     TestDir=roslin-build-log
     buildCommand="cd /vagrant/build/scripts/;python build_images_parallel.py -t $BUILD_THREADS"
-    if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ] 
+    if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ]
     then
         >&2 echo "Could not find Core directory: $coreDir"
         exit 1
@@ -153,7 +153,7 @@ then
     fi
 fi
 
-if [ -d "$ROSLIN_PIPELINE_ROOT" ]    
+if [ -d "$ROSLIN_PIPELINE_ROOT" ]
 then
     if [ ! -n "$FORCE" ]
     then
@@ -166,7 +166,7 @@ fi
 
 ROSLIN_CONFIG=${ROSLIN_CORE_CONFIG_PATH}/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}
 
-if [ -d "$ROSLIN_CONFIG" ]    
+if [ -d "$ROSLIN_CONFIG" ]
 then
     if [ ! -n "$FORCE" ]
     then
@@ -179,7 +179,7 @@ fi
 # Make the directory to store the logs
 if [ -d "$TempDir" ]
 then
-    rm -rf $TempDir    
+    rm -rf $TempDir
 fi
 
 cd $parentDir
@@ -212,7 +212,7 @@ mkdir -p $coreDir
 if compareBool $INSTALL_CORE
 then
     cd core
-    printf "\n----------Installing Core----------\n" 
+    printf "\n----------Installing Core----------\n"
     cd bin/install
     ./install-core.sh
 fi
