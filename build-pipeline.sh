@@ -99,7 +99,7 @@ set -e
 
 virtualenv build-venv --no-site-packages
 source build-venv/bin/activate
-pip install --ignore-installed --requirement build/build_requirements.txt
+pip install --requirement build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
@@ -257,6 +257,6 @@ cd $ROSLIN_PIPELINE_DATA_PATH/cmo
 python setup.py install
 #install requirements
 cd $parentDir
-pip install --requirement build/run_requirements.txt
+pip install --ignore-installed --requirement build/run_requirements.txt
 deactivate
 cd $ROSLIN_CORE_BIN_PATH
