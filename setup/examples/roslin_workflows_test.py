@@ -69,34 +69,34 @@ def test_alignment():
     run_test("Alignment")
 
 def test_alignment_post():
-    run_test('Alignment-post')
+    run_test('Alignment_post')
 
 def test_gather_metrics():
-    run_test('Gather-metrics')
+    run_test('Gather_metrics')
 
 def test_conpair():
     run_test('Conpair')
 
 def test_variant_calling():
-    run_test('Variant-calling')
+    run_test('Variant_calling')
 
 def test_variant_calling_post():
-    run_test('Variant-calling-post')
+    run_test('Variant_calling_post')
 
 def test_structural_varaints():
-    run_test('Structural-variants')
+    run_test('Structural_variants')
 
 def test_filtering():
     run_test('Filtering')
 
 def test_variant_workflow():
-    run_test('Variant-workflow')
+    run_test('Variant_workflow')
 
 def test_variant_workflow_SV():
-    run_test('Variant-workflow-SV')
+    run_test('Variant_workflow_SV')
 
 def test_legacy_variant_workflow():
-    run_test('Legacy-variant-workflow')
+    run_test('Legacy_variant_workflow')
 
 def test_legacy_variant_workflow_SV():
-    run_test('Legacy-variant-workflow-SV')
+    run_test('Legacy_variant_workflow_SV')
