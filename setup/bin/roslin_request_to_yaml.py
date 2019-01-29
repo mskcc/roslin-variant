@@ -241,7 +241,6 @@ if __name__ == "__main__":
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
     rf = ["BadCigar"]
     genome = "GRCh37"
-    genome_file = {'class': 'File', 'path': ROSLIN_RESOURCES['request_files']['genome_file']}
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
@@ -318,7 +317,7 @@ if __name__ == "__main__":
         "cosmic": {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
         "exac_filter": {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
         "db_files": files,
-        "genome_file": genome_file
+        "genome_file": {'class': 'File', 'path': str(REQUEST_FILES['genome_file'])}
     }
     params = {
         "abra_scratch": "/scratch",
