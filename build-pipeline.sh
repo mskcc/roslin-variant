@@ -258,5 +258,6 @@ python setup.py install
 #install requirements
 cd $parentDir
 pip install --ignore-installed --requirement build/run_requirements.txt
+pip install pathlib2==2.3.2
 deactivate
 cd $ROSLIN_CORE_BIN_PATH
