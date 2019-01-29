@@ -99,7 +99,7 @@ set -e
 
 virtualenv build-venv --no-site-packages
 source build-venv/bin/activate
-pip install --requirement build/build_requirements.txt
+pip install --ignore-installed --requirement build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
