@@ -113,6 +113,7 @@ inputs:
       items:
         type: array
         items: string
+  genome_file: File[]
   runparams:
     type:
       type: record
@@ -123,7 +124,7 @@ inputs:
             type: array
             items: string
         emit_original_quals: boolean
-        genome: string
+        genome: string 
         mutect_dcov: int
         mutect_rf:
           type:
@@ -402,6 +403,7 @@ steps:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: pairing/genome
+      genome_file: genome_file
       bed: pairing/covint_bed
       normal_sample_name: pairing/normal_sample_ids
       tumor_sample_name: pairing/tumor_sample_ids
