@@ -1,0 +1,14 @@
+Run_Pipeline: variants
+Pipelines: variants
+PI: soccin
+PI_Name: Nick D Socci
+Investigator: kandothc
+Investigator_Name: Cyriac Kandoth
+Data_Analyst: Amy Webber
+Data_Analyst_E-mail: webbera@mskcc.org
+ProjectID: Legacy_variant_workflow_SV
+ProjectFolder: /ifs/projects/BIC/variant/Proj_UTest03
+Species: Human
+Assay: IMPACT468
+RunNumber: 3
+Reason_for_rerun: Unit test consistency check and measure pipeline indeterminism

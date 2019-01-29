@@ -5,20 +5,19 @@ pipeline_version=${ROSLIN_PIPELINE_VERSION}
 
 roslin_request_to_yaml.py \
     --pipeline ${pipeline_name}/${pipeline_version} \
-    -m Conpair_sample_mapping.txt \
-    -p Conpair_sample_pairing.txt \
-    -g Conpair_sample_grouping.txt \
-    -r Conpair_request.txt \
+    -m Variant_workflow_sample_mapping.txt \
+    -p Variant_workflow_sample_pairing.txt \
+    -g Variant_workflow_sample_grouping.txt \
+    -r Variant_workflow_request.txt \
     -o . \
     -f inputs.yaml
 
 roslin_submit.py \
     --name ${pipeline_name} \
     --version ${pipeline_version} \
-    --id Conpair \
+    --id Variant_workflow \
     --inputs inputs.yaml \
     --path . \
-    --workflow Conpair \
+    --workflow VariantWorkflow \
     --batch-system singleMachine \
-    --foreground-mode \
-    --use_alignment_meta alignment-input-meta.json
+    --foreground-mode
