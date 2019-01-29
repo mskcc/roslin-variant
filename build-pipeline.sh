@@ -97,7 +97,7 @@ printf "\n----------Setting Up----------\n"
 #Script will exit if a command exits with nonzero exit value
 set -e
 
-virtualenv build-venv --no-site-packages
+virtualenv build-venv
 source build-venv/bin/activate
 pip install --requirement build/build_requirements.txt
 
@@ -243,11 +243,11 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | 
 nvm install node
 export HOME=$HOME_TEMP
 # setup virtualenv
-virtualenv --system-site-packages virtualenv
+virtualenv virtualenv
 source virtualenv/bin/activate
 export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
 cd $parentDir
-pip install --ignore-installed --requirement build/run_requirements.txt
+pip install --requirement build/run_requirements.txt
 # install toil
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/toil
 cd $ROSLIN_PIPELINE_DATA_PATH/toil
