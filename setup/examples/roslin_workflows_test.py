@@ -16,14 +16,15 @@ def cleanup():
         submission_data = {}
         user_examples_path = os.path.dirname(os.path.realpath(__file__))
         test_path = os.path.join(user_examples_path,single_folder)
-        os.chdir(test_path)
-        with open("submission.json","r") as submission_file:
-            submission_data = json.load(submission_file)
-        project_name = submission_data['project_id']
-        project_uuid = submission_data['project_uuid']
-        pipeline_name = submission_data['pipeline_name']
-        pipeline_version = submission_data['pipeline_version']
-        send_user_kill_signal(project_name,project_uuid,pipeline_name,pipeline_version,True)
+        submission_file_path = os.path.join(test_path,"submission.json")
+        if os.path.exists(submission_file_path):
+            with open(submission_file_path,"r") as submission_file:
+                submission_data = json.load(submission_file)
+            project_name = submission_data['project_id']
+            project_uuid = submission_data['project_uuid']
+            pipeline_name = submission_data['pipeline_name']
+            pipeline_version = submission_data['pipeline_version']
+            send_user_kill_signal(project_name,project_uuid,pipeline_name,pipeline_version,True)
 
 atexit.register(cleanup)
 
@@ -53,15 +54,19 @@ def run_test(folder_name):
     stderr_file = str(folder_name) + 'leader_stderr.txt'
     stdout_file_path = os.path.join(test_path,stdout_file)
     stderr_file_path = os.path.join(test_path,stderr_file)
-    output = run_command(run_example_command,stdout_file_path,stderr_file_path,True,False)
-    with open("submission.json","r") as submission_file:
-        submission_data = json.load(submission_file)
-    log_folder = submission_data['log_dir']
-    new_stdout_file_path = os.path.join(test_dir,stdout_file)
-    new_stderr_file_path = os.path.join(test_dir,stderr_file)
-    copyfile(stdout_file_path,new_stdout_file_path)
-    copyfile(stderr_file_path,new_stderr_file_path)
-    move_logs(folder_name,log_folder)
+    output = run_command(run_example_command,stdout_file_path,stderr_file_path,False,True)
+    submission_file_path = os.path.join(test_path,"submission.json")
+    if os.path.exists(submission_file_path):
+        with open(submission_file_path,"r") as submission_file:
+            submission_data = json.load(submission_file)
+        log_folder = submission_data['log_dir']
+        new_stdout_file_path = os.path.join(test_dir,stdout_file)
+        new_stderr_file_path = os.path.join(test_dir,stderr_file)
+        if os.path.exists(stdout_file_path):
+            copyfile(stdout_file_path,new_stdout_file_path)
+        if os.path.exists(stderr_file_path):
+            copyfile(stderr_file_path,new_stderr_file_path)
+        move_logs(folder_name,log_folder)
     assert output
     assert output['errorcode'] == 0
 
