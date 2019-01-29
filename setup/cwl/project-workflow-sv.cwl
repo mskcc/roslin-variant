@@ -329,6 +329,18 @@ outputs:
     type: Directory
     outputSource: run_conpair/conpair_output_dir
 
+  concordance_pdf:
+    type: File
+    outputSource: run_conpair/concordance_pdf
+
+  contamination_pdf:
+    type: File
+    outputSource: run_conpair/contamination_pdf
+
+  cdna_contam_output:
+    type: File?
+    outputSource: run_cdna_contam_check/cdna_contam_output
+
 #  consolidated_results:
 #    type: Directory
 #    outputSource: consolidate_results/directory
@@ -489,7 +501,7 @@ steps:
       md_metrics: group_process/md_metrics
       clstats1: group_process/clstats1
       clstats2: group_process/clstats2
-    out: [ gather_metrics_files, qc_merged_and_hotspots_directory ] 
+    out: [ gather_metrics_files, qc_merged_and_hotspots_directory ]
 
   run_conpair:
     run: conpair.cwl
@@ -508,7 +520,7 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ conpair_output_dir ] 
+    out: [ conpair_output_dir, concordance_pdf, contamination_pdf ]
 
 #  generate_images:
 #    run: roslin-qc/generate-images.cwl
@@ -530,4 +542,3 @@ steps:
 #        valueFrom: ${ return "consolidated_metrics_data"; }
 #      directories: [ run_conpair/conpair_output_dir, gather_metrics/gather_metrics_files, gather_metrics/qc_merged_and_hotspots_directory, generate_images/output ]
 #    out: [ directory ]
-

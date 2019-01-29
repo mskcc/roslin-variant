@@ -26,8 +26,8 @@ RUN apk add --update \
         # install R dependencies
         && Rscript --vanilla install-packages.R \
         # install numpy and scipy
-        && pip install numpy \
-        && pip install scipy \
+        && pip install numpy==1.15.4 \
+        && pip install scipy==1.1.0 \
         # install java
         && apk add openjdk8-jre-base \
          # download and unzip conpair

@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Christopher Harris
     foaf:mbox: mailto:harrisc2@mskcc.org
 
-cwlVersion: v1.0
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -102,5 +102,15 @@ outputs:
         ${
           if (inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*")
             return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
+          return null;
+        }
+
+  pdf:
+    type: File
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.pdf")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.pdf";
           return null;
         }
