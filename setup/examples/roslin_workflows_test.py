@@ -8,7 +8,11 @@ from shutil import copyfile
 ROSLIN_CORE_BIN_PATH = os.environ['ROSLIN_CORE_BIN_PATH']
 sys.path.append(ROSLIN_CORE_BIN_PATH)
 from core_utils  import run_command, print_error, send_user_kill_signal
-test_dir = os.environ['LOG_TEST']
+test_dir = ''
+if 'LOG_TEST' in os.environ:
+    test_dir = os.environ['LOG_TEST']
+else:
+    test_dir = os.getcwd()
 test_list = []
 
 def cleanup():
