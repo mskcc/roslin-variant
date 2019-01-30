@@ -259,5 +259,6 @@ python setup.py install
 cd $parentDir
 pip install --ignore-installed --requirement build/run_requirements.txt
 pip install pathlib2==2.3.2
+pip install schema-salad==2.7.20180905124720
 deactivate
 cd $ROSLIN_CORE_BIN_PATH
