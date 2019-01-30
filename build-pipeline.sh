@@ -243,7 +243,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | 
 nvm install node
 export HOME=$HOME_TEMP
 # setup virtualenv
-virtualenv virtualenv
+virtualenv --system-site-packages virtualenv
 source virtualenv/bin/activate
 export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
 # install toil
