@@ -26,7 +26,7 @@ def cleanup():
             pipeline_version = submission_data['pipeline_version']
             send_user_kill_signal(project_name,project_uuid,pipeline_name,pipeline_version,True)
 
-atexit.register(cleanup)
+#atexit.register(cleanup)
 
 def move_logs(folder_name,log_folder):
     for root, dirs, files in os.walk(log_folder):
