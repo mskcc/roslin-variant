@@ -19,7 +19,7 @@ roslin_submit.py \
     --inputs inputs.yaml \
     --path . \
     --workflow VariantCalling \
-    --batch-system singleMachine \
+    --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
     --foreground-mode \
     --test-mode \
     --use_alignment_meta alignment-input-meta.json

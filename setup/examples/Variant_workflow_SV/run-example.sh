@@ -19,6 +19,6 @@ roslin_submit.py \
     --inputs inputs.yaml \
     --path . \
     --workflow VariantWorkflowSV \
-    --batch-system singleMachine \
+    --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
     --test-mode \
     --foreground-mode
