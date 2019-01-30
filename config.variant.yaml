@@ -31,6 +31,7 @@ dependencies:
     install-path: /ifs/work/pi/roslin-toil/3.18.0a1-MSK
 test:
   root: /ifs/work/pi/roslin-test
+  batchsystem: singleMachine
   tempDir: /ifs/work/pi/roslin-test/scratch/
   runArgs: ''
   env:
