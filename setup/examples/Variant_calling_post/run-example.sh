@@ -21,5 +21,6 @@ roslin_submit.py \
     --workflow VariantCallingPost \
     --batch-system singleMachine \
     --foreground-mode \
+    --test-mode \
     --use_alignment_meta alignment-input-meta.json \
     --use_variant_calling_meta variant-calling-input-meta.json

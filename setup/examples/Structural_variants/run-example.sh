@@ -21,4 +21,5 @@ roslin_submit.py \
     --workflow StructuralVariants \
     --batch-system singleMachine \
     --foreground-mode \
+    --test-mode \
     --use_alignment_meta alignment-input-meta.json

@@ -20,4 +20,5 @@ roslin_submit.py \
     --path . \
     --workflow LegacyVariantWorkflowSV \
     --batch-system singleMachine \
+    --test-mode \
     --foreground-mode
