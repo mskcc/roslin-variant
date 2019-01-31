@@ -54,8 +54,8 @@ def run_test(folder_name):
     test_path = os.path.join(user_examples_path,folder_name)
     os.chdir(test_path)
     run_example_command = ['./run-example.sh']
-    stdout_file = str(folder_name) + 'leader_stdout.txt'
-    stderr_file = str(folder_name) + 'leader_stderr.txt'
+    stdout_file = str(folder_name) + '_leader_stdout.txt'
+    stderr_file = str(folder_name) + '_leader_stderr.txt'
     stdout_file_path = os.path.join(test_path,stdout_file)
     stderr_file_path = os.path.join(test_path,stderr_file)
     output = run_command(run_example_command,stdout_file_path,stderr_file_path,False,True)
