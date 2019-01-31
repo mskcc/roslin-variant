@@ -337,9 +337,9 @@ outputs:
     type: File
     outputSource: run_conpair/contamination_pdf
 
-  cdna_contam_output:
-    type: File?
-    outputSource: run_cdna_contam_check/cdna_contam_output
+#  cdna_contam_output:
+#    type: File?
+#    outputSource: run_cdna_contam_check/cdna_contam_output
 
 #  consolidated_results:
 #    type: Directory
