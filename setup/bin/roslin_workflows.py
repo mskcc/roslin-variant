@@ -110,7 +110,8 @@ class VariantWorkflow(RoslinWorkflow):
 		alignment_post_job.addFollowOn(gather_metrics_job)
 		alignment_post_job.addFollowOn(conpair_job)
 		if workflow_params['run_sv']:
-			alignment_post_job.addFollowOn(sv_job)
+			structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job(alignment_post_params)
+			alignment_post_job.addFollowOn(structural_variants_job)
 		alignment_job.addFollowOn(alignment_post_job)		
 		variant_calling_post_job.addFollowOn(filtering_job)
 		variant_calling_job.addFollowOn(variant_calling_post_job)
