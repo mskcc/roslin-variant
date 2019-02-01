@@ -44,7 +44,7 @@ die "ERROR: Provided BAM not found or is empty!\n" unless( -s $bam_file );
 mkdir $output_dir unless( -d $output_dir );
 
 # If FASTQs were already created, warn the user. We'll skip Picard but create the @RG info files
-my ( $skip_picard, %fq_info ) = ( 0, ());
+my ( $skip_picard, $rg_tag, %fq_info ) = ( 0, "PU", ());
 my @fq_files = glob( "$output_dir/rg*/*.fastq.gz" );
 if( @fq_files ) {
     warn "WARNING: Will not replace existing FASTQs in $output_dir, but might rename them\n";
@@ -67,8 +67,7 @@ foreach my $rg_line ( @rg_lines ) {
 
     # Parse out the easy things first
     my %rg = map{split( /:/, $_, 2 )} split( /\t/, $rg_line );
-    my ( $platform, $library, $insert_size, $date, $center, $description ) = map{$rg{$_} ? $rg{$_} : ""} qw( PL LB PI DT CN DS );
-    $sample_id = $rg{SM} unless( $sample_id );
+    my ( $sample_id_from_bam, $platform, $library, $insert_size, $date, $center, $description ) = map{$rg{$_} ? $rg{$_} : ""} qw( SM PL LB PI DT CN DS );
 
     # Do some cleanup and standardization of terms used
     $platform = lc( $platform );
@@ -100,15 +99,22 @@ foreach my $rg_line ( @rg_lines ) {
           ( $rg{ID} and $rg{ID} =~ m/^\d+_UNC\S+_[AB]?([A-Z0-9]{7}XX)[_.](\d+)[_.]trimmed$/ )) {
         ( $flowcell_id, $lane, $index ) = map{$_ ? $_ : ""} ( $1, $2, $3 );
         $center = "UNC";
+        $rg_tag = "ID";
+    }
+    # Handle ridiculous BAMs made by ridiculous people
+    elsif( !$rg{PU} and $rg{ID} ) {
+        ( $flowcell_id, $lane, $index ) = ( $rg{ID}, 0, 0 );
+        $rg_tag = "ID";
     }
     else {
-        die "ERROR: Cannot parse \@RG: $rg_line\nfrom BAM: $bam_file\n";
+        die "ERROR: Cannot parse flowcell/lane/index from \@RG line:\n$rg_line\n";
     }
 
     # Figure out what Picard would name this FASTQ, and retain structured info for renaming later
-    my $fq_name = $flowcell_id . ( $lane ? ".$lane" : "" ) . ( $index ? "-$index" : "" );
-    $flowcell_id = uc( $flowcell_id ); # There's at least 1 instance where this was lowercase
-    $fq_info{$fq_name} = "$flowcell_id,$lane,$sample_id,,$index,$description,,,,,$platform,$library,$insert_size,$date,$center";
+    my $fq_name = $flowcell_id . ( $lane ? ".$lane" : "" );
+    $flowcell_id = uc( $flowcell_id ); # Saw at least 1 instance where this was lowercase
+    $sample_id = $sample_id_from_bam unless( $sample_id );
+    $fq_info{$fq_name} = "$flowcell_id,$lane,$sample_id,$sample_id_from_bam,$index,$description,,,,,$platform,$library,$insert_size,$date,$center";
 
     # Write all this info into the SampleSheet
     $sheet_fh->print( $fq_info{$fq_name} . "\n" );
@@ -118,7 +124,7 @@ warn "STATUS: Parsed " . scalar( @rg_lines ) . " \@RG lines from BAM and wrote t
 
 # Unless FASTQs already exist, use Picard to revert BQ scores, and create FASTQs; then zip em up
 unless( $skip_picard ) {
-    my $cmd = "$java_bin -Xmx6g -jar $picard_jar RevertSam TMP_DIR=/scratch INPUT=$bam_file OUTPUT=/dev/stdout SANITIZE=true COMPRESSION_LEVEL=0 VALIDATION_STRINGENCY=SILENT | java -Xmx6g -jar $picard_jar SamToFastq TMP_DIR=/scratch INPUT=/dev/stdin OUTPUT_PER_RG=true OUTPUT_DIR=$output_dir VALIDATION_STRINGENCY=SILENT";
+    my $cmd = "$java_bin -Xmx6g -jar $picard_jar RevertSam TMP_DIR=/scratch INPUT=$bam_file OUTPUT=/dev/stdout SANITIZE=true COMPRESSION_LEVEL=0 VALIDATION_STRINGENCY=SILENT | java -Xmx6g -jar $picard_jar SamToFastq TMP_DIR=/scratch INPUT=/dev/stdin OUTPUT_PER_RG=true RG_TAG=$rg_tag OUTPUT_DIR=$output_dir VALIDATION_STRINGENCY=SILENT";
     print "RUNNING: $cmd\n";
     print `$cmd`;
     print "RUNNING: gzip $output_dir/*.fastq\n";
@@ -133,16 +139,17 @@ my $mapping_fh = IO::File->new( "$output_dir/sample_mapping.txt", ">" );
 foreach my $fq_name( keys %fq_info ) {
     $rg_idx++;
     mkdir "$output_dir/rg$rg_idx" unless( -d "$output_dir/rg$rg_idx" );
-    # $flowcell_id,$lane,$sample_id,,$index,$description,,,,,$platform,$library
-    my ( $lane, $sample_id, $index, $library ) = (split( ",", $fq_info{$fq_name} ))[1,2,4,11];
+    my ( $lane, $sample_id, $sample_id_from_bam, $index, $library ) = (split( ",", $fq_info{$fq_name} ))[1,2,3,4,11];
     my $padded_lane_id = sprintf( "L%03d", ( $lane ? $lane : "0" ));
-    my @fqs_to_rename = glob( "$output_dir/$fq_name*.fastq.gz $output_dir/rg*/$fq_name*.fastq.gz $output_dir/$sample_id*$padded_lane_id*.fastq.gz $output_dir/rg*/$sample_id*$padded_lane_id*.fastq.gz" );
-    my $new_name = "$output_dir/rg$rg_idx/$sample_id" . ( $index ? "_$index" : "" ) . "_$padded_lane_id";
+    my @fqs_to_rename = glob( "$output_dir/$fq_name*.fastq.gz $output_dir/rg$rg_idx/$fq_name*.fastq.gz $output_dir/$sample_id_from_bam*$padded_lane_id*.fastq.gz $output_dir/rg$rg_idx/$sample_id_from_bam*$padded_lane_id*.fastq.gz" );
+    my $new_name = "$output_dir/rg$rg_idx/$sample_id_from_bam" . ( $index ? "_$index" : "" ) . "_$padded_lane_id";
     foreach my $fq_to_rename ( @fqs_to_rename ) {
-        print `mv $fq_to_rename $new_name\_R1_001.fastq.gz` if( $fq_to_rename =~ m/_1.fastq.gz$/ or $fq_to_rename =~ m/_R1_001.fastq.gz$/ );
-        print `mv $fq_to_rename $new_name\_R2_001.fastq.gz` if( $fq_to_rename =~ m/_2.fastq.gz$/ or $fq_to_rename =~ m/_R2_001.fastq.gz$/ );
+        print `mv -f $fq_to_rename $new_name\_R1_001.fastq.gz` if(( $fq_to_rename =~ m/_1.fastq.gz$/ or $fq_to_rename =~ m/_R1_001.fastq.gz$/ ) and $fq_to_rename ne "$new_name\_R1_001.fastq.gz" );
+        print `mv -f $fq_to_rename $new_name\_R2_001.fastq.gz` if(( $fq_to_rename =~ m/_2.fastq.gz$/ or $fq_to_rename =~ m/_R2_001.fastq.gz$/ ) and $fq_to_rename ne "$new_name\_R2_001.fastq.gz" );
     }
-    my $mapping_line = join( "\t", $library, $sample_id, $fq_name, abs_path( "$output_dir/rg$rg_idx" ), ( $paired_end ? "PE" : "SE" ));
+    # ::TODO:: Stop hardcoding library name as "_1" after refactoring Roslin QC
+    #my $mapping_line = join( "\t", $library, $sample_id, $fq_name, abs_path( "$output_dir/rg$rg_idx" ), ( $paired_end ? "PE" : "SE" ));
+    my $mapping_line = join( "\t", "_1", $sample_id, $fq_name, abs_path( "$output_dir/rg$rg_idx" ), ( $paired_end ? "PE" : "SE" ));
     $mapping_fh->print(  "$mapping_line\n" );
 }
 $mapping_fh->close;
