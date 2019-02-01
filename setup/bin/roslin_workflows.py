@@ -42,61 +42,6 @@ class VariantWorkflow(RoslinWorkflow):
 		self.params['run_sv'] = False
 
 	def run_pipeline(self):
-		'''workflow_params = self.params
-		job_params = self.set_default_job_params()
-		workflow_output_directory = workflow_params['output_dir']
-
-		alignment_job_params = copy.deepcopy(job_params)
-		alignment_job_params['cwl'] = "alignment.cwl"
-		alignment_job = self.create_job(self.run_cwl,workflow_params,alignment_job_params,'Alignment')
-
-		alignment_post_job_params = copy.deepcopy(job_params)		
-		alignment_post_job_params['parent_output_meta_json'] = alignment_job.job_params['output_meta_json']
-		alignment_post_job_yaml_path = os.path.join(workflow_output_directory,'post-alignment.yaml')
-		alignment_post_job_params['input_yaml'] = alignment_post_job_yaml_path
-		alignment_post_job = self.create_job(self.get_input_yaml_from_job,workflow_params,alignment_post_job_params,'Alignment-post')
-
-		gather_metrics_job_params = copy.deepcopy(job_params)
-		gather_metrics_job_params['cwl'] = 'gather_metrics.cwl'
-		gather_metrics_job_params['input_yaml'] = alignment_post_job_yaml_path
-		gather_metrics_job = self.create_job(self.run_cwl,workflow_params,gather_metrics_job_params,'Gather-metrics')
-
-		conpair_job_params = copy.deepcopy(job_params)
-		conpair_job_params['cwl'] = 'conpair.cwl'
-		conpair_job_params['input_yaml'] = alignment_post_job_yaml_path
-		conpair_job = self.create_job(self.run_cwl,workflow_params,conpair_job_params,'Conpair')
-
-		variant_calling_job_params = copy.deepcopy(job_params)
-		variant_calling_job_params['cwl'] = 'variant_calling.cwl'
-		variant_calling_job_params['input_yaml'] = alignment_post_job_yaml_path
-		variant_calling_job = self.create_job(self.run_cwl,workflow_params,variant_calling_job_params,'Variant-calling')
-
-		variant_calling_post_job_params = copy.deepcopy(job_params)
-		variant_calling_post_job_params['parent_output_meta_json'] = variant_calling_job.job_params['output_meta_json']
-		variant_calling_post_job_yaml_path = os.path.join(workflow_output_directory,'post-variant-calling.yaml')
-		variant_calling_post_job_params['parent_input_yaml_list'] = [alignment_post_job_yaml_path]
-		variant_calling_post_job_params['input_yaml'] = variant_calling_post_job_yaml_path		
-		variant_calling_post_job = self.create_job(self.get_input_yaml_from_job,workflow_params,variant_calling_post_job_params,'Variant-calling-post')
-
-		filtering_job_params = copy.deepcopy(job_params)
-		filtering_job_params['cwl'] = 'filtering.cwl'
-		filtering_job_params['input_yaml'] = variant_calling_post_job_yaml_path
-		filtering_job = self.create_job(self.run_cwl,workflow_params,filtering_job_params,'Filtering')
-
-		alignment_post_job.addFollowOn(gather_metrics_job)
-		alignment_post_job.addFollowOn(conpair_job)
-		alignment_job.addFollowOn(alignment_post_job)		
-		variant_calling_post_job.addFollowOn(filtering_job)
-		variant_calling_job.addFollowOn(variant_calling_post_job)
-		alignment_job.addFollowOn(variant_calling_job)
-
-		if workflow_params['run_sv']:
-			sv_params = copy.deepcopy(job_params)
-			sv_params['cwl'] = "find_svs.cwl"
-			sv_job = self.create_job(self.run_cwl,workflow_params,sv_params,'Structural-Variants')
-			alignment_job.addFollowOn(sv_job)
-
-		return alignment_job'''
 		workflow_params = self.params
 		alignment_job, alignment_params = Alignment(workflow_params).get_job()
 		alignment_post_job, alignment_post_params = AlignmentPost(workflow_params).get_job(alignment_params)
