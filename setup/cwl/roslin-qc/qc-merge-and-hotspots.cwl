@@ -260,7 +260,7 @@ steps:
   compiled_output_directory:
     run: ../consolidate-files/consolidate-files.cwl
     in: 
-      merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/minor_contam_output, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary, run_hotspots_in_normals/hs_in_normals ]
+      merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/minor_contam_output, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary, run_hotspots_in_normals/hs_in_normals, run_minor_contam_binlist/minor_contam_freqlist ]
       fp_output: qc_merge/fingerprints_output 
       files: 
          valueFrom: ${ return inputs.merged_files.concat(inputs.fp_output); }

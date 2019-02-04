@@ -243,7 +243,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | 
 nvm install node
 export HOME=$HOME_TEMP
 # setup virtualenv
-virtualenv virtualenv
+virtualenv --system-site-packages virtualenv
 source virtualenv/bin/activate
 export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
 # install toil
@@ -257,6 +257,8 @@ cd $ROSLIN_PIPELINE_DATA_PATH/cmo
 python setup.py install
 #install requirements
 cd $parentDir
-pip install --requirement build/run_requirements.txt
+pip install --ignore-installed --requirement build/run_requirements.txt
+pip install pathlib2==2.3.2
+pip install schema-salad==2.7.20180905124720
 deactivate
 cd $ROSLIN_CORE_BIN_PATH

@@ -41,7 +41,7 @@ function store_test_logs_run_pipeline {
     cd $(ls -d */ | tail -n 1)
     cd $(ls -d */ | head -n 1)
     printf "Storing run_pipeline.py logs..."
-#    cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
+    cp stderr.log $parentDir/$TestDir/test_stderr_run_pipeline.txt
     cp stdout.log $parentDir/$TestDir/test_stdout_run_pipeline.txt
 }
 

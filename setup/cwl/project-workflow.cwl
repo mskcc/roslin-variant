@@ -316,6 +316,18 @@ outputs:
     type: Directory
     outputSource: run_conpair/conpair_output_dir
 
+  concordance_pdf:
+    type: File
+    outputSource: run_conpair/concordance_pdf
+
+  contamination_pdf:
+    type: File
+    outputSource: run_conpair/contamination_pdf
+
+#  consolidated_results:
+#    type: Directory
+#    outputSource: consolidate_results/directory
+
 steps:
 
   projparse:
@@ -474,4 +486,25 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ conpair_output_dir ] 
+    out: [ conpair_output_dir, contamination_pdf, concordance_pdf ] 
+
+#  generate_images:
+#    run: roslin-qc/generate-images.cwl
+#    in:
+#      runparams: runparams
+#      db_files: db_files
+#      data_dir:  gather_metrics/qc_merged_and_hotspots_directory
+#      bin:
+#        valueFrom: ${ return inputs.runparams.scripts_bin; }
+#      file_prefix:
+#        valueFrom: ${ return inputs.runparams.project_prefix; }
+#    out: [ output, images_directory, project_summary, sample_summary ]
+#
+#  consolidate_results:
+#    run: consolidate-files/consolidate-directories.cwl
+#    in:
+#      runparams: runparams
+#      output_directory_name:
+#        valueFrom: ${ return "consolidated_metrics_data"; }
+#      directories: [ run_conpair/conpair_output_dir, gather_metrics/gather_metrics_files, gather_metrics/qc_merged_and_hotspots_directory, generate_images/output ]
+#    out: [ directory ]

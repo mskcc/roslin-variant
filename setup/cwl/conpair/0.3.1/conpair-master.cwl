@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Zuojian Tang
     foaf:mbox: mailto:tangz@mskcc.org
 
-cwlVersion: v1.0
+cwlVersion: cwl:v1.0
 
 class: Workflow
 id: conpair-master
@@ -92,6 +92,14 @@ outputs:
   conpair_output_dir:
       type: Directory 
       outputSource: put-conpair-files-into-directory/directory
+
+  contamination_pdf:
+      type: File
+      outputSource: run-contamination/pdf
+
+  concordance_pdf:
+      type: File
+      outputSource: run-concordance/pdf
 
 steps:
    run-pileups-contamination:
@@ -171,7 +179,7 @@ steps:
         markers: markers
         pairing_file: pairing_file
         output_prefix: file_prefix
-     out: [ outfiles ]
+     out: [ outfiles, pdf ]
 
    run-concordance:
      run: conpair-concordances.cwl
@@ -181,7 +189,7 @@ steps:
         markers: markers
         pairing_file: pairing_file
         output_prefix: file_prefix
-     out: [ outfiles ]
+     out: [ outfiles, pdf ]
 
    put-conpair-files-into-directory:
      in:
