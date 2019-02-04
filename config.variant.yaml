@@ -27,8 +27,8 @@ dependencies:
     version: 3.0.0
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-3.0.0/bin/singularity
   toil:
-    version: 3.18.0a1-MSK
-    install-path: /ifs/work/pi/roslin-toil/3.18.0a1-MSK
+    version: 3.18.0-release
+    install-path: /ifs/work/pi/roslin-toil/3.18.0-release
 test:
   root: /ifs/work/pi/roslin-test
   batchsystem: singleMachine
