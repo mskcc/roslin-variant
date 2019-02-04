@@ -20,5 +20,6 @@ roslin_submit.py \
     --path . \
     --workflow LegacyVariantWorkflowSV \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
+    --cwl-batch-system ${ROSLIN_TEST_CWL_BATCHSYSTEM} \
     --test-mode \
     --foreground-mode

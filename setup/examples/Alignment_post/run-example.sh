@@ -20,6 +20,7 @@ roslin_submit.py \
     --path . \
     --workflow AlignmentPost \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
+    --cwl-batch-system ${ROSLIN_TEST_CWL_BATCHSYSTEM} \
     --foreground-mode \
     --test-mode \
     --use_alignment_meta alignment-input-meta.json
