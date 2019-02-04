@@ -105,6 +105,7 @@ def configure_test_settings(settings):
     content = template.render( test_root=settings["test"]["root"],
         test_tmp=settings["test"]["tempDir"],
         test_batchsystem=settings["test"]["batchsystem"],
+        test_cwl_batchsystem=settings["test"]["cwlBatchsystem"],
         test_env=test_env_str
     )
 
