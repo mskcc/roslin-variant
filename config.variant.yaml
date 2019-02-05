@@ -32,7 +32,7 @@ dependencies:
 test:
   root: /ifs/work/pi/roslin-test
   batchsystem: singleMachine
-  cwlBatchsystem: LSF
+  cwlBatchsystem: singleMachine
   tempDir: /ifs/work/pi/roslin-test/scratch/
   runArgs: ''
   env:
