@@ -1,6 +1,6 @@
 FROM alpine:3.4
 
-LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
+LABEL maintainer="C. Allan Bolipata (bolipatc@mskcc.org)" \
       version.image="1.0.0" \
       version.vcf2maf="1.6.16" \
       version.vep="86" \
