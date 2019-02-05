@@ -244,8 +244,8 @@ class Filtering(RoslinWorkflow):
 class HelloWorld(RoslinWorkflow):
 
 	def run_pipeline(self):
-		def helloWorld(self,params,job_params):
-			pass
+		def helloWorld(params,job_params):
+			return "Hello, world!"
 		default_job_params = self.set_default_job_params()
 		j1 = self.create_job(helloWorld,self.params,default_job_params,"first")
 		j2 = self.create_job(helloWorld,self.params,default_job_params,"second")
