@@ -30,11 +30,11 @@ RUN apk add --update \
       # install all the build-related tools
             && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} perl-dev=${PERL_VERSION} musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       # install system packages that the Perl modules will need
-            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev \
+            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev db db-dev perl-gd \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
       # install perl libraries that VEP will need
-            && cpanm --notest LWP LWP::Simple LWP::Protocol::https Archive::Extract Archive::Tar Archive::Zip \
+            && cpanm --notest BerkeleyDB DB_File LWP LWP::Simple LWP::Protocol::https Archive::Extract Archive::Tar Archive::Zip \
             CGI DBI Encode version Time::HiRes DBD::mysql File::Copy::Recursive Perl::OSType Module::Metadata \
             Sereal JSON Bio::Root::Version Set::IntervalTree PerlIO::gzip \
       # install htslib (for vep)
