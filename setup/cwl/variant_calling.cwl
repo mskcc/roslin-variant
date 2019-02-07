@@ -56,8 +56,6 @@ requirements:
 
 inputs:
 
-  genome_file: File[]
-
   db_files:
     type:
       type: record
@@ -318,7 +316,6 @@ steps:
   variant_calling:
     run: module-3.cwl
     in:
-      genome_file: genome_file
       runparams: runparams
       db_files: db_files
       tumor_bam: pairing/tumor_bams

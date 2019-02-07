@@ -330,7 +330,6 @@
             "targets_list":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v4/b37/HemePACT_v4_b37_targets.ilist"
         }
     },
-    
     "request_files": {
         "hapmap": "/ifs/depot/pi/resources/request_files/hapmap/hapmap_3.3.b37.vcf",
         "dbsnp": "/ifs/depot/pi/resources/request_files/dbsnp/dbsnp_138.b37.excluding_sites_after_129.vcf",
@@ -475,7 +474,6 @@
         "hotspot_vcf": "/usr/bin/basicfiltering/data/hotspot-list-union-v1-v2.vcf",
         "custom_enst": "/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc",
         "vep_path": "/usr/bin/vep",
-        "genome_file": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta",
         "ref_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
     }
 }

@@ -153,7 +153,6 @@ inputs:
     secondaryFiles:
        - .idx
   genome: string
-  genome_file: File[]
   mutect_dcov: int
   mutect_rf: string[]
   covariates: string[]
@@ -270,7 +269,6 @@ steps:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: genome
-      genome_file: genome_file
       bed: realignment/covint_bed
       normal_sample_id: pairing/normal_sample_ids
       tumor_sample_id: pairing/tumor_sample_ids

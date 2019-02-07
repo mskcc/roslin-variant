@@ -315,9 +315,8 @@ if __name__ == "__main__":
         "indels_1000g": {'class': 'File', 'path': str(REQUEST_FILES['indels_1000g'])},
         "snps_1000g": {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
         "cosmic": {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
-        "exac_filter": {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
-        "db_files": files,
-        "genome_file": {'class': 'File', 'path': str(REQUEST_FILES['genome_file'])}
+        'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
+        "db_files": files
     }
     params = {
         "abra_scratch": "/scratch",

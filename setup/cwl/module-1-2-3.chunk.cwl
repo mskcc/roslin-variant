@@ -98,8 +98,6 @@ inputs:
       items: string
   tmp_dir: string
   genome: string
-  genome_file:
-    type: File[]
   hapmap:
     type: File
     secondaryFiles:
@@ -223,7 +221,6 @@ steps:
       tumor_bam: pairing/tumor_bams
       normal_bam: pairing/normal_bams
       genome: genome
-      genome_file: genome_file
       bed: realignment/covint_bed
       normal_sample_id: pairing/normal_sample_ids
       tumor_sample_id: pairing/tumor_sample_ids
