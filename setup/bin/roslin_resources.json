@@ -492,6 +492,14 @@
             "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.bed",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.ilist"
         },
+        "SeqCap_EZ_Exome_v3": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_targets.ilist"
+        },
         "HemePACT_v3": {
             "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",
             "FP_intervals":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_intervals.intervals",
