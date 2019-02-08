@@ -235,6 +235,8 @@ steps:
                 valueFrom: ${ return inputs.runparams.tmp_dir; }
             vep_data: vep_data
             vep_path: vep_path
+            vep_release:
+                valueFrom: ${ return "86"; } # SVs have issues with vep 92 - moving to 86 for compatibility
             ref_fasta: ref_fasta
             custom_enst: custom_enst
             normal_id: normal_sample_name
