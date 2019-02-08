@@ -43,22 +43,25 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- non-cmo.sh
-- --tool
-- "basic-filtering"
-- --version
-- "0.2.1"
-- --language_version
-- "default"
-- --language
-- "bash"
-- pindel
-requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 10
-    coresMin: 2
+baseCommand: [tool.sh]
+label: basic-filtering-pindel
+
+arguments:
+- valueFrom: "basic-filtering"
+  prefix: --tool
+  position: 0
+- valueFrom: "0.2.1"
+  prefix: --version
+  position: 0
+- valueFrom: "default"
+  prefix: --language_version
+  position: 0
+- valueFrom: "bash"
+  prefix: --language
+  position: 0
+- valueFrom: "pindel"
+  prefix: --cmd
+  position: 0
 
 
 doc: |

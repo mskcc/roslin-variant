@@ -37,6 +37,7 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: ExpressionTool
+label: conpair-pileup-pairing
 
 requirements:
   InlineJavascriptRequirement: {}

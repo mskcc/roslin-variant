@@ -41,10 +41,19 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_fillout
-- --version
-- 1.2.2
+baseCommand: [cmo_fillout]
+label: cmo-fillout
+
+arguments:
+- valueFrom: "1.2.2"
+  prefix: --version
+  position: 0
+
+requirements:
+  InlineJavascriptRequirement: {}
+  ResourceRequirement:
+    ramMin: 32000
+    coresMin: 2
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -72,9 +81,7 @@ inputs:
       prefix: --bams
 
   genome:
-    type:
-      type: enum
-      symbols: [GRCm38, hg19, ncbi36, mm9, GRCh37, mm10, hg18, GRCh38]
+    type: string
     doc: Reference assembly of BAM files, e.g. hg19/grch37/b37
     inputBinding:
       prefix: --genome

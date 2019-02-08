@@ -42,13 +42,19 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand: [cmo_trimgalore]
+label: cmo-trimgalore
+
+arguments:
+- valueFrom: "0.2.5.mod"
+  prefix: --version
+  position: 0
 
 requirements:
 - class: InlineJavascriptRequirement
   expressionLib:
   - var getBaseName = function(inputFile) { return inputFile.basename; };
 - class: ResourceRequirement
-  ramMin: 12
+  ramMin: 12000
   coresMin: 1 
 
 
@@ -56,16 +62,6 @@ doc: |
   None
 
 inputs:
-  version:
-    type:
-    - 'null'
-    - type: enum
-      symbols: [default]
-    default: default
-
-    inputBinding:
-      prefix: --version
-
   quality:
     type: ['null', string]
     doc: Trim low-quality ends from reads in addition to adapter removal. For RRBS

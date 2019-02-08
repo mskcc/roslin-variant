@@ -40,6 +40,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: Workflow
+label: module-1-2-chunk
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -126,8 +127,7 @@ inputs:
       type: record
       fields:
         abra_ram_min: int 
-  abra_ram_min: int
-  group: string[]
+  group: string
   mutect_dcov: int
   mutect_rf: string[]
   covariates: string[]
@@ -148,12 +148,16 @@ outputs:
   clstats1:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: mapping/clstats1
   clstats2:
     type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     outputSource: mapping/clstats2
   md_metrics:
     type:
@@ -161,14 +165,10 @@ outputs:
       items: File
     outputSource: mapping/md_metrics
   covint_list:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: realignment/covint_list
   covint_bed:
-    type:
-      type: array
-      items: File
+    type: File
     outputSource: realignment/covint_bed
 
 steps:
@@ -204,7 +204,6 @@ steps:
       snps_1000g: snps_1000g
       covariates: covariates
       abra_scratch: abra_scratch
-      abra_ram_min: abra_ram_min
       group: group
       genome: genome
     out: [outbams, covint_list, covint_bed]
