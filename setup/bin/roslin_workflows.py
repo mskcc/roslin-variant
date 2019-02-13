@@ -22,23 +22,37 @@ def get_post_variant_calling_requirement():
 
 class LegacyVariantWorkflow(RoslinWorkflow):
 
+	def configure(self):
+		super().configure()
+		output_config = {"bam": [{"patterns": ["*.bam","*.bai"]}],
+						 "vcf": [{"patterns": ["outputs/*.vcf","outputs/*.norm.vcf.gz","outputs/*.norm.vcf.gz.tbi","outputs/*.mutect.txt"]}],
+						 "maf": [{"patterns": ["outputs/*.maf","outputs/*.portal.txt"]}],
+						 "qc":  [{"patterns": ["outputs/consolidated_metrics_data/*","outputs/consolidated_metrics_data/images/*"]}],
+						 "log": [{"patterns": ["outputs/log/*","stdout.log","stderr.log","run-profile.json","run-results.json","outputs/output-meta.json","outputs/settings"]}],
+						 "inputs": [{"patterns": ["inputs.yaml","*_request.txt","*_sample_grouping.txt","*_sample_mapping.txt","*_sample_pairing.txt","*_sample_data_clinical.txt"]}],
+						 "facets": [{"patterns": ["outputs/*_hisens.CNCF.png","outputs/*_hisens.cncf.txt","outputs/*_hisens.out","outputs/*_hisens.Rdata","outputs/*_hisens.seg","outputs/*_purity.CNCF.png","outputs/*_purity.cncf.txt","outputs/*_purity.out","outputs/*_purity.Rdata","outputs/*_purity.seg","outputs/*dat.gz"]}]}
+		self.update_copy_outputs_config(output_config)
+
 	def run_pipeline(self):
 		default_job_params = self.set_default_job_params()
 		default_job_params['cwl'] = "project-workflow.cwl"
 		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,"ProjectWorkflow")
+		workflow_job = self.copy_workflow_outputs(workflow_job)
 		return workflow_job
 
-class LegacyVariantWorkflowSV(RoslinWorkflow):
+class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
 
 	def run_pipeline(self):
 		default_job_params = self.set_default_job_params()
 		default_job_params['cwl'] = "project-workflow-sv.cwl"
 		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,"ProjectWorkflowSV")
+		workflow_job = self.copy_workflow_outputs(workflow_job)
 		return workflow_job
 
 class VariantWorkflow(RoslinWorkflow):
 
 	def configure(self):
+		super.configure()
 		self.params['run_sv'] = False
 
 	def run_pipeline(self):
@@ -52,35 +66,62 @@ class VariantWorkflow(RoslinWorkflow):
 		structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job(alignment_post_params)
 		filtering_job, filtering_params = Filtering(workflow_params).get_job(variant_calling_post_params)
 
-		alignment_post_job.addFollowOn(gather_metrics_job)
-		alignment_post_job.addFollowOn(conpair_job)
-		variant_calling_post_job.addFollowOn(filtering_job)
-		variant_calling_job.addFollowOn(variant_calling_post_job)
-		alignment_post_job.addFollowOn(variant_calling_job)
+		alignment_post_job.addChild(gather_metrics_job)
+		alignment_post_job.addChild(conpair_job)
+		variant_calling_post_job.addChild(filtering_job)
+		variant_calling_job.addChild(variant_calling_post_job)
+		alignment_post_job.addChild(variant_calling_job)
 		if workflow_params['run_sv']:
 			structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job(alignment_post_params)
-			alignment_post_job.addFollowOn(structural_variants_job)
-		alignment_job.addFollowOn(alignment_post_job)
-
+			alignment_post_job.addChild(structural_variants_job)
+		alignment_job.addChild(alignment_post_job)
+		alignment_job = self.copy_workflow_outputs(alignment_job)
 		return alignment_job
 
 
 class VariantWorkflowSV(VariantWorkflow):
 
 	def configure(self):
+		super().configure()
 		self.params['run_sv'] = True
 
 class Alignment(RoslinWorkflow):
 
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Alignment'
+		subworkflow_filename = 'alignment.cwl'
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		subworkflow_output_path = os.path.join("outputs",subworkflow_output)
+		subworkflow_log_path = os.path.join(subworkflow_output_path,"logs")
+		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "folder": subworkflow_output_path}],
+						 "log": [{"patterns": ["cwltoil.log"], "folder": subworkflow_log_path, "subfolder": subworkflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "folder": subworkflow_output_path, "subfolder": subworkflow_output}] }
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
+
 	def run_pipeline(self):
 		workflow_params = self.params
 		alignment_job, alignment_params = Alignment(workflow_params).get_job()
+		alignment_job = self.copy_workflow_outputs(alignment_job)
 		return alignment_job
 
 	def get_job(self):
-		return self.create_workflow(None,None,'alignment.cwl','Alignment')
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
+		return self.create_workflow(None,None,subworkflow_filename,subworkflow_output)
 
 class AlignmentPost(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Alignment-post'
+		subworkflow_filename = None
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		output_config = {"log": [{"patterns": ["post-alignment.yaml"], "folder": "outputs", "subfolder": subworkflow_output}]}
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -88,6 +129,7 @@ class AlignmentPost(RoslinWorkflow):
 		alignment_meta = workflow_params['alignment_meta']
 		alignment_info = {'output_meta_json':alignment_meta,'input_yaml':workflow_inputs}
 		alignment_post_job, alignment_post_params = AlignmentPost(workflow_params).get_job(alignment_info)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -96,12 +138,31 @@ class AlignmentPost(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,alignment_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		parent_job_params = [alignment_job_params]
 		workflow_output_directory = self.params['output_dir']
 		job_yaml_path = os.path.join(workflow_output_directory,'post-alignment.yaml')
-		return self.create_workflow(parent_job_params,job_yaml_path,None,'Alignment-post')
+		return self.create_workflow(parent_job_params,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class GatherMetrics(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Gather-metrics'
+		subworkflow_filename = 'gather_metrics.cwl'
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		subworkflow_output_path = os.path.join("outputs",subworkflow_output)
+		qc_merged_path = os.path.join(subworkflow_output_path,"qc_merged_directory")
+		gather_metrics_files_path = os.path.join(subworkflow_output_path,"gather_metrics_files")
+		subworkflow_log_path = os.path.join(subworkflow_output_path,"log")
+		output_config = {"qc": [{"patterns": ["*.pdf","*.summary","*.gcbiasmetrics","*.asmetrics"], "folder": subworkflow_output_path},
+								{"patterns": ["*metrics","*.txt"], "folder": subworkflow_output_path},
+								{"patterns": ["*.txt"], "folder": qc_merged_path}],
+						 "log": [{"patterns": ["cwltoil.log"], "folder": subworkflow_log_path, "subfolder": subworkflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "folders": subworkflow_output_path, "subfolder": subworkflow_output}] }
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -110,7 +171,8 @@ class GatherMetrics(RoslinWorkflow):
 		alignment_info = {'output_meta_json':alignment_meta,'input_yaml':workflow_inputs}
 		alignment_post_job, alignment_post_params = AlignmentPost(workflow_params).get_job(alignment_info)
 		gather_metrics_job, gather_metrics_params = GatherMetrics(workflow_params).get_job(alignment_post_params)
-		alignment_post_job.addFollowOn(gather_metrics_job)
+		alignment_post_job.addChild(gather_metrics_job)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -119,10 +181,26 @@ class GatherMetrics(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,alignment_post_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		job_yaml_path = alignment_post_job_params['input_yaml']
-		return self.create_workflow(None,job_yaml_path,'gather_metrics.cwl','Gather-metrics')
+		return self.create_workflow(None,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class Conpair(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Conpair'
+		subworkflow_filename = 'conpair.cwl'
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		subworkflow_output_path = os.path.join("outputs",subworkflow_output)
+		conpair_output_path = os.path.join(subworkflow_output_path,"conpair_output_files")
+		subworkflow_log_path = os.path.join(subworkflow_output_path,"log")
+		output_config = {"qc": [{"patterns": ["*.pdf","*.txt"], "folder": conpair_output_path}],
+						 "log": [{"patterns": ["cwltoil.log"], "folder": subworkflow_log_path, "subfolder": subworkflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "folders": subworkflow_output_path, "subfolder": subworkflow_output}] }
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -131,7 +209,8 @@ class Conpair(RoslinWorkflow):
 		alignment_info = {'output_meta_json':alignment_meta,'input_yaml':workflow_inputs}
 		alignment_post_job, alignment_post_params = AlignmentPost(workflow_params).get_job(alignment_info)
 		conpair_job, conpair_params = Conpair(workflow_params).get_job(alignment_post_params)
-		alignment_post_job.addFollowOn(conpair_job)
+		alignment_post_job.addChild(conpair_job)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -140,10 +219,26 @@ class Conpair(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,alignment_post_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		job_yaml_path = alignment_post_job_params['input_yaml']
-		return self.create_workflow(None,job_yaml_path,'conpair.cwl','Conpair')
+		return self.create_workflow(None,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class VariantCalling(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Variant-calling'
+		subworkflow_filename = 'variant_calling.cwl'
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		subworkflow_output_path = os.path.join("outputs",subworkflow_output)
+		subworkflow_log_path = os.path.join(subworkflow_output_path,"log")
+		output_config = {"vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "folder": subworkflow_output}],
+						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "folder": subworkflow_output}],
+         				 "log": [{"patterns": ["cwltoil.log"], "folder": subworkflow_log_path, "subfolder": subworkflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "folders": subworkflow_output_path, "subfolder": subworkflow_output}]}
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -152,7 +247,8 @@ class VariantCalling(RoslinWorkflow):
 		alignment_info = {'output_meta_json':alignment_meta,'input_yaml':workflow_inputs}
 		alignment_post_job, alignment_post_params = AlignmentPost(workflow_params).get_job(alignment_info)
 		variant_calling_job, variant_calling_params = VariantCalling(workflow_params).get_job(alignment_post_params)
-		alignment_post_job.addFollowOn(variant_calling_job)
+		alignment_post_job.addChild(variant_calling_job)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -161,10 +257,21 @@ class VariantCalling(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,alignment_post_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		job_yaml_path = alignment_post_job_params['input_yaml']
-		return self.create_workflow(None,job_yaml_path,'variant_calling.cwl','Variant-calling')
+		return self.create_workflow(None,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class VariantCallingPost(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Variant-calling-post'
+		subworkflow_filename = None
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		output_config = {"log": [{"patterns": ["post-variant-calling.yaml"], "folder": "outputs", "subfolder": subworkflow_output}]}
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -176,7 +283,8 @@ class VariantCallingPost(RoslinWorkflow):
 		alignment_input_yaml = alignment_post_params['input_yaml']
 		variant_calling_info = {'output_meta_json':variant_calling_meta,'input_yaml':alignment_input_yaml}
 		variant_calling_post_job, variant_calling_post_params = VariantCallingPost(workflow_params).get_job(variant_calling_info)
-		alignment_post_job.addFollowOn(variant_calling_post_job)
+		alignment_post_job.addChild(variant_calling_post_job)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -187,12 +295,28 @@ class VariantCallingPost(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,variant_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		parent_job_params = [variant_job_params]
 		workflow_output_directory = self.params['output_dir']
 		job_yaml_path = os.path.join(workflow_output_directory,'post-variant-calling.yaml')
-		return self.create_workflow(parent_job_params,job_yaml_path,None,'Variant-calling-post')
+		return self.create_workflow(parent_job_params,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class StructuralVariants(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Structural-variants'
+		subworkflow_filename = 'find_svs.cwl'
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		subworkflow_output_path = os.path.join("outputs",subworkflow_output)
+		subworkflow_log_path = os.path.join(subworkflow_output_path,"log")
+		output_config = {"vcf": [{"patterns": ["*.vcf"], "folder": subworkflow_output}],
+         				 "maf": [{"patterns": ["*.maf","*.portal.txt"], "folder": subworkflow_output}],
+         				 "log": [{"patterns": ["cwltoil.log"], "folder": subworkflow_log_path, "subfolder": subworkflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "folders": subworkflow_output_path, "subfolder": subworkflow_output}]}
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -201,7 +325,8 @@ class StructuralVariants(RoslinWorkflow):
 		alignment_info = {'output_meta_json':alignment_meta,'input_yaml':workflow_inputs}
 		alignment_post_job, alignment_post_params = AlignmentPost(workflow_params).get_job(alignment_info)
 		structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job(alignment_post_params)
-		alignment_post_job.addFollowOn(structural_variants_job)
+		alignment_post_job.addChild(structural_variants_job)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -210,10 +335,25 @@ class StructuralVariants(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,alignment_post_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		job_yaml_path = alignment_post_job_params['input_yaml']
-		return self.create_workflow(None,job_yaml_path,'find_svs.cwl','Structural-variants')
+		return self.create_workflow(None,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class Filtering(RoslinWorkflow):
+
+	def configure(self):
+		super().configure()
+		subworkflow_output = 'Filtering'
+		subworkflow_filename = 'filtering.cwl'
+		subworkflow_name = self.__class__.__name__
+		subworkflow_info = {'output':subworkflow_output,'filename':subworkflow_filename}
+		subworkflow_output_path = os.path.join("outputs",subworkflow_output)
+		subworkflow_log_path = os.path.join(subworkflow_output_path,"log")
+		output_config = {"maf": [{"patterns": ["*.maf"], "folder": subworkflow_output}],
+         				 "log": [{"patterns": ["cwltoil.log"], "folder": subworkflow_log_path, "subfolder": subworkflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "folders": subworkflow_output_path, "subfolder": subworkflow_output}]}
+		self.params['sub_workflows'][subworkflow_name] = subworkflow
+		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -226,8 +366,9 @@ class Filtering(RoslinWorkflow):
 		variant_calling_info = {'output_meta_json':variant_calling_meta,'input_yaml':alignment_input_yaml}
 		variant_calling_post_job, variant_calling_post_params = VariantCallingPost(workflow_params).get_job(variant_calling_info)
 		filtering_job, filtering_params = Filtering(workflow_params).get_job(variant_calling_post_params)
-		variant_calling_post_job.addFollowOn(filtering_job)
-		alignment_post_job.addFollowOn(variant_calling_post_job)
+		variant_calling_post_job.addChild(filtering_job)
+		alignment_post_job.addChild(variant_calling_post_job)
+		alignment_post_job = self.copy_workflow_outputs(alignment_post_job)
 		return alignment_post_job
 
 	def add_requirement(self,parser):
@@ -238,8 +379,9 @@ class Filtering(RoslinWorkflow):
 		return (parser, requirement_list)
 
 	def get_job(self,variant_post_job_params):
+		subworkflow_filename, subworkflow_output = self.get_subworkflow_info()
 		job_yaml_path = variant_post_job_params['input_yaml']
-		return self.create_workflow(None,job_yaml_path,'filtering.cwl','Filtering')
+		return self.create_workflow(None,job_yaml_path,subworkflow_filename,subworkflow_output)
 
 class HelloWorld(RoslinWorkflow):
 
