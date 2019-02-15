@@ -17,6 +17,7 @@ roslin_submit.py \
     --version ${pipeline_version} \
     --id Conpair \
     --inputs inputs.yaml \
+    --output ${ROSLIN_PIPELINE_OUTPUT_PATH} \
     --path . \
     --workflow Conpair \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \

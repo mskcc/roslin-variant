@@ -17,6 +17,7 @@ roslin_submit.py \
     --version ${pipeline_version} \
     --id Variant_workflow \
     --inputs inputs.yaml \
+    --output ${ROSLIN_PIPELINE_OUTPUT_PATH} \
     --path . \
     --workflow VariantWorkflow \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
