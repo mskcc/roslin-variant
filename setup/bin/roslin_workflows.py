@@ -25,28 +25,59 @@ class LegacyVariantWorkflow(RoslinWorkflow):
 
 	def configure(self):
 		super().configure()
-		output_config = {"bam": [{"patterns": ["*.bam","*.bai"]}],
-						 "vcf": [{"patterns": ["outputs/*.vcf","outputs/*.norm.vcf.gz","outputs/*.norm.vcf.gz.tbi","outputs/*.mutect.txt"]}],
-						 "maf": [{"patterns": ["outputs/*.maf","outputs/*.portal.txt"]}],
-						 "qc":  [{"patterns": ["outputs/consolidated_metrics_data/*","outputs/consolidated_metrics_data/images/*"]}],
-						 "log": [{"patterns": ["outputs/log/*","stdout.log","stderr.log","run-profile.json","run-results.json","outputs/output-meta.json","outputs/settings"]}],
-						 "inputs": [{"patterns": ["inputs.yaml","*_request.txt","*_sample_grouping.txt","*_sample_mapping.txt","*_sample_pairing.txt","*_sample_data_clinical.txt"]}],
-						 "facets": [{"patterns": ["outputs/*_hisens.CNCF.png","outputs/*_hisens.cncf.txt","outputs/*_hisens.out","outputs/*_hisens.Rdata","outputs/*_hisens.seg","outputs/*_purity.CNCF.png","outputs/*_purity.cncf.txt","outputs/*_purity.out","outputs/*_purity.Rdata","outputs/*_purity.seg","outputs/*dat.gz"]}]}
+		workflow_output = 'ProjectWorkflow'
+		workflow_filename = 'project-workflow.cwl'
+		workflow_name = self.__class__.__name__
+		workflow_info = {'output':workflow_output,'filename':workflow_filename}
+		workflow_output_path = os.path.join("outputs",workflow_output)
+		workflow_log_path = os.path.join(workflow_output_path,"logs")
+		self.params['workflows'][workflow_name] = workflow_info
+		self.update_copy_outputs_config(output_config)
+		super().configure()
+		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output}],
+						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
+						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
+						 "qc":  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output}],
+						 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}],
+						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output}]}
 		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
 		default_job_params = self.set_default_job_params()
-		default_job_params['cwl'] = "project-workflow.cwl"
-		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,"ProjectWorkflow")
+		workflow_filename, workflow_output = self.get_workflow_info()
+		default_job_params['cwl'] = workflow_filename
+		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,workflow_output)
 		workflow_job = self.copy_workflow_outputs(workflow_job)
 		return workflow_job
 
 class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
 
+	def configure(self):
+		super().configure()
+		workflow_output = 'ProjectWorkflowSV'
+		workflow_filename = 'project-workflow-sv.cwl'
+		workflow_name = self.__class__.__name__
+		workflow_info = {'output':workflow_output,'filename':workflow_filename}
+		workflow_output_path = os.path.join("outputs",workflow_output)
+		workflow_log_path = os.path.join(workflow_output_path,"logs")
+		self.params['workflows'][workflow_name] = workflow_info
+		self.update_copy_outputs_config(output_config)
+		super().configure()
+		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output}],
+						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
+						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
+						 "qc":  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output}],
+						 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
+						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}],
+						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output}]}
+		self.update_copy_outputs_config(output_config)
+
 	def run_pipeline(self):
 		default_job_params = self.set_default_job_params()
-		default_job_params['cwl'] = "project-workflow-sv.cwl"
-		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,"ProjectWorkflowSV")
+		workflow_filename, workflow_output = self.get_workflow_info()
+		default_job_params['cwl'] = workflow_filename
+		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,workflow_output)
 		workflow_job = self.copy_workflow_outputs(workflow_job)
 		return workflow_job
 
