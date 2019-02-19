@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
 # Update package manager and install the minimal packages needed to test Roslin
-sudo yum update -q -y
-sudo yum install -y tree jq python-pip
+sudo yum -y update
 
 # Set environment variables that roslin needs to find tools/data
 source ${HOME}/.bashrc
-if [ -z ${CMO_RESOURCE_CONFIG} ]; then
-    echo -e "\nexport CMO_RESOURCE_CONFIG=/vagrant/setup/bin/roslin_resources.json" >> ${HOME}/.bashrc
-fi
+echo -e "\nexport PATH=/opt/common/CentOS_6-dev/bin/current:/opt/common/CentOS_6-dev/python/python-2.7.10/bin:$PATH" >> ${HOME}/.bashrc
+echo -e "\n[ -z "$BASH_VERSION" ] && exec /bin/bash -l" >> ${HOME}/.profile
