@@ -473,7 +473,7 @@ steps:
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
       vep_data: parse_pairs/srt_vep_data
-      tumor_sample_name: parse_pairs/tumor_id 
+      tumor_sample_name: parse_pairs/tumor_id
       normal_sample_name: parse_pairs/normal_id
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
@@ -509,12 +509,12 @@ steps:
     in:
       ref: projparse/ref_fasta_string
       markers: projparse/conpair_markers
-      markers_bed: projparse/conpair_markers_bed 
+      markers_bed: projparse/conpair_markers_bed
       tumor_bams: pairing/tumor_bams
       normal_bams: pairing/normal_bams
       tumor_sample_name: pairing/tumor_sample_ids
       normal_sample_name: pairing/normal_sample_ids
-      file_prefix: projparse/project_prefix 
+      file_prefix: projparse/project_prefix
       pairing_file: projparse/pairing_file
     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
 
