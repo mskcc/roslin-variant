@@ -22,4 +22,5 @@ From: roslin:1.0.0
 
 %runscript
 
+
     exec cat /welcome.txt
