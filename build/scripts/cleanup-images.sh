@@ -7,7 +7,7 @@ source ./settings-build.sh
 source ./tools-utils.sh
 
 # delete singularity images created
-find ${CONTAINER_DIRECTORY}/ -name '*.sqsh' -type f -delete
+find ${CONTAINER_DIRECTORY}/ -name '*.sif' -type f -delete
 
 # delete docker images whose name is not set
 sudo docker images --format '{{.Repository}}\t{{.ID}}' | grep "<none>" | awk -F'\t' '{ print $2 }' | xargs sudo docker rmi -f
@@ -20,5 +20,3 @@ do
     sudo docker images ${DOCKER_REPO_NAME}/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info} --format '{{.ID}}' | xargs sudo docker rmi -f
     sudo docker images localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info} --format '{{.ID}}' | xargs sudo docker rmi -f
 done
-
-# fixme: delete from docker hub
