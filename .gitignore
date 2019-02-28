@@ -43,3 +43,4 @@ setup/config/build-settings.sh
 setup/config/test-settings.sh
 build-venv
 roslin-build-log
+*.sif
