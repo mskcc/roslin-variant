@@ -3,6 +3,7 @@
 
 import json
 import argparse
+import os
 
 
 def is_available(tools, name, version):
@@ -25,33 +26,11 @@ def get_name_version(tools):
                 tool_name=tool_name,
                 tool_version=tool_version)
 
-
-def get_name_version_cmo(tools):
-    """return all tool name-version-cmo combinations"""
-
-    for tool_name in tools["containerDependency"]:
-        for cmo_wrapper in tools["containerDependency"][tool_name]:
-            for tool_version in tools["programs"][tool_name]:
-                print "{tool_name}:{tool_version}:{cmo_wrapper}".format(
-                    tool_name=tool_name,
-                    tool_version=tool_version,
-                    cmo_wrapper=cmo_wrapper)
-
-
 def main():
     """main function"""
 
     parser = argparse.ArgumentParser(description='tools_utils')
     subparsers = parser.add_subparsers()
-
-    parser.add_argument(
-        '-f',
-        action='store',
-        dest='filename',
-        help='Filename of the JSON tools definition',
-        default='tools.json'
-    )
-
     parser_is_tool_avail = subparsers.add_parser("is_available")
     parser_is_tool_avail.add_argument("name", type=str)
     parser_is_tool_avail.add_argument("version", type=str)
@@ -60,16 +39,14 @@ def main():
     parser_get_name_version = subparsers.add_parser("get_name_version")
     parser_get_name_version.set_defaults(func="get_name_version")
 
-    parser_get_name_version_cmo = subparsers.add_parser("get_name_version_cmo")
-    parser_get_name_version_cmo.set_defaults(func="get_name_version_cmo")
-
     params = parser.parse_args()
 
-    with open(params.filename, "r") as file_in:
+    script_path = os.path.dirname(os.path.realpath(__file__))
+    tool_path = os.path.abspath(os.path.join(script_path,os.pardir,"tools.json"))
+
+    with open(tool_path, "r") as file_in:
         tools = json.load(file_in)
-        if params.func == "get_name_version_cmo":
-            get_name_version_cmo(tools)
-        elif params.func == "get_name_version":
+        if params.func == "get_name_version":
             get_name_version(tools)
         elif params.func == "is_available":
             is_available(tools, params.name, params.version)
