@@ -7,6 +7,9 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.java="8" \
       source.abra="https://github.com/mozack/abra2/releases/tag/v2.17"
 
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
+
 ENV ABRA_VERSION 2.17
 
 # install abra
@@ -16,5 +19,5 @@ RUN apk add --update \
       && mv /tmp/abra2-${ABRA_VERSION}.jar /usr/bin/abra.jar \
       && rm -rf /tmp/*
 
-ENTRYPOINT ["java", "-jar", "/usr/bin/abra.jar"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

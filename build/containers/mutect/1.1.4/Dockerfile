@@ -9,5 +9,8 @@ LABEL maintainer="C. Allan Bolipata (bolipatc@mskcc.org)" \
 ENV MUTECT_VERSION 1.1.4
 
 COPY mutect-${MUTECT_VERSION}.jar /usr/bin/mutect.jar
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
-CMD ["java", "-jar", "/usr/bin/mutect.jar", "--help"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

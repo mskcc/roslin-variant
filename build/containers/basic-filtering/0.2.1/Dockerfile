@@ -11,6 +11,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5"
 
 COPY basic-filtering-resources.json /etc/conf.d/basic-filtering-resources.json
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 ENV CMO_RESOURCE_CONFIG /etc/conf.d/basic-filtering-resources.json
 ENV BASICFILTERING_VERSION 0.2.1
@@ -52,4 +54,5 @@ RUN apk add --update \
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

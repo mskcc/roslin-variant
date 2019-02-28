@@ -1,55 +1,10 @@
 Bootstrap: docker-daemon
 From: conpair:0.3.1
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    source /srv/settings-container.sh
-
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
-    # disable per-user site-packages before run
-    export PYTHONNOUSERSITE="set"
-
-    case $1 in
-        pileup) shift; exec python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py "$@" ;;
-        concordance) shift; exec python /usr/bin/conpair/scripts/verify_concordances.py "$@" ;;
-        contamination) shift; exec python /usr/bin/conpair/scripts/estimate_tumor_normal_contaminations.py "$@" ;;
-        *) echo "Please use either pileup, concordance, contamination, merge"; exit 1 ;;
-    esac
+    exec /usr/bin/runscript.sh
 
 %test
 
-    # get actual output from pileup
-        python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
-    # get actual output from concordance
-        python /usr/bin/conpair/scripts/verify_concordances.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
-    # get actual output from contamination
-        python /usr/bin/conpair/scripts/estimate_tumor_normal_contaminations.py --help 2>&1 | head -1 >> /srv/actual.diff.txt
-
-    # expected output from pileup output
-    cat > /srv/expected.diff.txt << EOM
-Usage: run_gatk_pileup_for_sample.py [options]
-usage: verify_concordances.py [options]
-usage: estimate_tumor_normal_contaminations.py [options]
-EOM
- 
-    # diff
-    diff /srv/actual.diff.txt /srv/expected.diff.txt
-
-    # delete tmp files
-    rm -rf /srv/*.diff.txt
+    exec /run_test.sh

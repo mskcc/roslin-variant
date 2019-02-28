@@ -1,26 +1,10 @@
 Bootstrap: docker-daemon
 From: roslin:1.0.0
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    source /srv/settings-container.sh
-
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
+    exec /usr/bin/runscript.sh
 
-    exec cat /welcome.txt
+%test
+
+    exec /run_test.sh

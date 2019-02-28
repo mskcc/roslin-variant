@@ -1,43 +1,10 @@
 Bootstrap: docker-daemon
 From: list2bed:1.0.1
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    source /srv/settings-container.sh
-    
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
-    # disable per-user site-packages before run
-    export PYTHONNOUSERSITE="set"
-    python /usr/bin/list2bed.py "$@"
+    exec /usr/bin/runscript.sh
 
 %test
 
-    # get actual output of the tool
-    python /usr/bin/list2bed.py 2>&1 | head -1 > /srv/actual.diff.txt
-
-# expected output
-cat > /srv/expected.diff.txt << EOM
-usage: list2bed.py [-h] -i INPUT_FILE -o OUTPUT_FILE [-ns]
-EOM
-
-    # diff
-    diff /srv/actual.diff.txt /srv/expected.diff.txt
-
-    # delete tmp
-    rm -rf /srv/*.diff.txt
+    exec /run_test.sh

@@ -11,6 +11,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 ENV TRIM_GALORE_VERSION 0.2.5.mod
 ENV CUTADAPT_VERSION 1.1
 
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 # MUST set permissions to 755 in the source data!!!!
 # https://github.com/docker/docker/issues/1295
 COPY trim_galore.pl /usr/bin/trim_galore
@@ -21,5 +23,5 @@ RUN apk add --update python py-pip perl gcc python-dev musl-dev \
       && pip install --upgrade cutadapt==${CUTADAPT_VERSION} \
       && rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/usr/bin/trim_galore"]
-CMD ["--help"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

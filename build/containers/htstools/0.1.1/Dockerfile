@@ -11,6 +11,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 ENV HTSTOOLS_VERSION 0.1.1
 ENV HTSLIB_VERSION 1.5
 
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # install all the build-related tools
@@ -43,4 +45,5 @@ RUN apk add --update \
 
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

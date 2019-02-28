@@ -1,44 +1,10 @@
 Bootstrap: docker-daemon
 From: qc-summary:0.1.0
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    . /srv/settings-container.sh
-
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
-    case $1 in
-        qc_summary) shift; exec Rscript /usr/bin/qc_summary.R "$@" ;;
-        generate_pdf) shift; exec python /usr/bin/generate_pdf.py "$@" ;; 
-        *) echo "qc_summary or generate_pdf"; exit 1 ;;
-    esac
+    exec /usr/bin/runscript.sh
+
 %test
 
-    # get actual output from generate_pdf
-        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /srv/actual_generate_pdf.diff.txt
-
-    # expected generate_pdf output
-    cat > /srv/expected_generate_pdf.diff.txt << EOM
-usage: generate_pdf.py [-h] [--gcbias-files GCBIAS_FILES]
-EOM
-
-    # diff generate_pdf
-    diff /srv/actual_generate_pdf.diff.txt /srv/expected_generate_pdf.diff.txt
-
-    # delete tmp files
-    rm -rf /srv/*.diff.txt
+    exec /run_test.sh

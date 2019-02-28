@@ -1,44 +1,10 @@
 Bootstrap: docker-daemon
 From: mutect:1.1.4
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    . /srv/settings-container.sh
-    
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
-    # just run java so that caller can pass java options
-    # exec java -jar /usr/bin/mutect.jar "$@"
-    exec java "$@"
+    exec /usr/bin/runscript.sh
 
 %test
 
-    # get actual output of the tool
-    java -jar /usr/bin/mutect.jar --help | head -2 > /srv/actual.diff.txt
-
-# expected output
-cat > /srv/expected.diff.txt << EOM
----------------------------------------------------------------------------------
-The Genome Analysis Toolkit (GATK) v2.2-25-g2a68eab, Compiled 2012/11/08 10:30:02
-EOM
-
-    # diff
-    diff /srv/actual.diff.txt /srv/expected.diff.txt
-
-    # delete tmp
-    rm -rf /srv/*.diff.txt
+    exec /run_test.sh

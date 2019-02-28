@@ -1,3 +1,5 @@
 *
 !gatk-3.3-0.jar
 !install-packages.R
+!runscript.sh
+!run_test.sh

@@ -7,6 +7,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.list2bed="https://github.com/mskcc/list2bed/releases/tag/1.0.1"
 
 ENV LIST2BED_VERSION 1.0.1
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # for wget
@@ -26,4 +28,5 @@ RUN apk add --update \
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["python", "/usr/bin/list2bed.py"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

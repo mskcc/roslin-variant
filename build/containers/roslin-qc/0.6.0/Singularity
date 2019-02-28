@@ -1,58 +1,10 @@
 Bootstrap: docker-daemon
 From: roslin-qc:0.6.0
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    source /srv/settings-container.sh
-
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
-    # disable per-user site-packages before run
-    export PYTHONNOUSERSITE="set"
-    case $1 in
-        merge_cut_adapt_stats) shift; exec python /usr/bin/merge_cut_adapt_stats.py "$@" ;;
-        analyze_fingerprint) shift; exec python /usr/bin/analyze_fingerprint.py "$@" ;;
-        qc_summary) shift; exec Rscript /usr/bin/qc_summary.R "$@" ;;
-        merge_mean_quality_histograms) shift; exec python /usr/bin/merge_mean_quality_histograms.py "$@" ;;
-        merge_gc_bias_metrics) shift; exec python /usr/bin/merge_gc_bias_metrics.py "$@" ;;
-        merge_insert_size_histograms) shift; exec python /usr/bin/merge_insert_size_histograms.py "$@" ;;
-        merge_picard_metrics) shift; exec python /usr/bin/merge_picard_metrics.py "$@" ;; 
-        stitch_pdf) shift; exec java -jar /usr/bin/QCPDF.jar "$@" ;;
-        generate_pdf) shift; exec python /usr/bin/generate_pdf.py "$@" ;; 
-        genlatex) shift; exec python /usr/bin/genlatex.py "$@" ;; 
-        create_cdna_contam) shift; exec python /usr/bin/create_cdna_contam.py "$@" ;; 
-        create_minor_contam_binlist) shift; exec python /usr/bin/create_minor_contam_binlist.py "$@" ;;
-        create_hotspots_in_normal) shift; exec python /usr/bin/create_hotspots_in_normals.py "$@" ;; 
-        getbasecountsmultisample) shift; exec /usr/bin/GetBaseCountsMultiSample "$@" ;;
-        *) echo "merge_cut_adapt_stats, analyze_fingerprint, qc_summary, merge_mean_quality_histograms, merge_gc_bias_metrics, merge_insert_size_histograms, merge_picard_metrics, stitch_pdf, hotspots_in_normals, or genlatex"; exit 1 ;;
-    esac
+    exec /usr/bin/runscript.sh
+
 %test
 
-    # get actual output from generate_pdf
-        python /usr/bin/generate_pdf.py 2>&1 | head -1 > /srv/actual_generate_pdf.diff.txt
-
-    # expected generate_pdf output
-    cat > /srv/expected_generate_pdf.diff.txt << EOM
-usage: generate_pdf.py [-h] [--gcbias-files GCBIAS_FILES]
-EOM
-
-    # diff generate_pdf
-    diff /srv/actual_generate_pdf.diff.txt /srv/expected_generate_pdf.diff.txt
-
-    # delete tmp files
-    rm -rf /srv/*.diff.txt
+    exec /run_test.sh

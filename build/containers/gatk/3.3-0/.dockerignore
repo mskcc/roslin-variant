@@ -1,2 +1,4 @@
 *
 !gatk-3.3-0.jar
+!runscript.sh
+!run_test.sh

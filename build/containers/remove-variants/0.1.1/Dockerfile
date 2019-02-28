@@ -7,6 +7,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.removevariants="https://github.com/mskcc/remove_variants/releases/tag/0.1.1"
 
 ENV REMOVEVARIANTS_VERSION 0.1.1
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # for wget
@@ -26,5 +28,5 @@ RUN apk add --update \
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["python", "/usr/bin/remove_variants.py"]
-CMD ["--help"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

@@ -9,6 +9,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"
 
 ENV NGS_FILTERS_VERSION 1.3
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # for wget and bash
@@ -36,5 +38,5 @@ COPY .git-commit-hash /usr/bin/ngs-filters/
 # disable per-user site-packages
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["python", "/usr/bin/ngs-filters/run_ngs-filters.py"]
-CMD ["--help"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

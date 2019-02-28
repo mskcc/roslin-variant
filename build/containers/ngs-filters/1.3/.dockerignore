@@ -1,2 +1,4 @@
 *
 !.git-commit-hash
+!runscript.sh
+!run_test.sh

@@ -22,7 +22,8 @@ ENV HTSLIB_VERSION 1.5
 ENV SAMTOOLS_VERSION 1.5
 ENV BCFTOOLS_VERSION 1.5
 
-COPY run.sh /usr/bin/vcf2maf/run.sh
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 # http://www.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html
 
@@ -68,5 +69,6 @@ RUN apk add --update \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 
-ENTRYPOINT ["sh", "/usr/bin/vcf2maf/run.sh"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]
 

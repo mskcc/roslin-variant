@@ -1,2 +1,4 @@
 *
 !install-packages.R
+!runscript.sh
+!run_test.sh

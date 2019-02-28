@@ -7,6 +7,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.bwa="https://github.com/lh3/bwa/releases/tag/0.7.5a"
 
 ENV BWA_VERSION 0.7.5a
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # install build tools and dependencies
@@ -28,4 +30,5 @@ RUN apk add --update \
             && rm -rf /var/cache/apk/* /tmp/* \
             && apk del deps
 
-ENTRYPOINT ["/usr/bin/bwa"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

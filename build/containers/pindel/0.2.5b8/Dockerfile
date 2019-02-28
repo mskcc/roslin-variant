@@ -10,6 +10,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV PINDEL_VERSION 0.2.5b8
 ENV HTSLIB_VERSION 1.4
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 # required for compiling htslib : zlib-dev bzip2-dev xz-dev ncurses-dev
 RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev curl-dev \
@@ -30,5 +32,5 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev curl-dev \
       && mv /tmp/pindel-${PINDEL_VERSION}/pindel2vcf4tcga /usr/bin \
       && rm -rf /var/cache/apk/* /tmp/*
 
-ENTRYPOINT ["/usr/bin/pindel"]
-CMD ["-h"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

@@ -9,6 +9,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"
 
 ENV TOOL_VERSION 2.9.0
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       && apk add ca-certificates openssl \
@@ -19,4 +21,5 @@ RUN apk add --update \
       && mv /tmp/picard.jar /usr/bin/picard-tools/picard.jar \
       && rm -rf /var/cache/apk/* /tmp/*
 
-ENTRYPOINT ["java", "-jar", "/usr/bin/picard-tools/picard.jar"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

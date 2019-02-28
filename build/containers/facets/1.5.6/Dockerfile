@@ -17,9 +17,10 @@ ENV PCTGCDATA 0.2.0
 
 # facets-suite is in a private repo. for now we will just copy from local rather than wget
 COPY facets-suite-${FACETS_SUITE_VERSION}.tar.gz /tmp/facets-suite-${FACETS_SUITE_VERSION}.tar.gz
-
 # copy script that installs R packages
 COPY install-packages.R /tmp/install-packages.R
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
     # for wget
@@ -65,4 +66,5 @@ RUN apk add --update \
 ENV PYTHONNOUSERSITE set
 ENV FACETS_OVERRIDE_EXITCODE set
 
-ENTRYPOINT ["sh"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

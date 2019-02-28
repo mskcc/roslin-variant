@@ -1,49 +1,10 @@
 Bootstrap: docker-daemon
 From: trimgalore:0.2.5.mod
 
-%setup
-
-    # copy settings-container.sh from the host to the container
-    cp /vagrant/build/scripts/settings-container.sh $SINGULARITY_ROOTFS/srv
-
-%post
-
-    # load the settings-container.sh which was copied in the %setup step
-    source /srv/settings-container.sh
-    
-    # create an empty directory for each bind point defined
-    for dir in $SINGULARITY_BIND_POINTS
-    do
-        mkdir -p $dir
-    done
-
-    # remove settings-container.sh
-    rm -rf /srv/settings-container.sh
-
 %runscript
 
-    exec /usr/bin/trim_galore "$@"
+    exec /usr/bin/runscript.sh
 
 %test
 
-    # get actual output of the tool
-    /usr/bin/trim_galore --version > /srv/actual.diff.txt
-    /usr/bin/cutadapt --version >> /srv/actual.diff.txt
-
-# expected output
-cat > /srv/expected.diff.txt << EOM
-
-                          Quality-/Adapter-/RRBS-Trimming
-                               (powered by Cutadapt)
-                                  version 0.2.5
-
-                             Last update: 18 10 2012
-
-1.1
-EOM
-
-    # diff
-    diff /srv/actual.diff.txt /srv/expected.diff.txt
-
-    # delete tmp
-    rm -rf /srv/*.diff.txt
+    exec /run_test.sh

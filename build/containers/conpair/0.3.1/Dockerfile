@@ -7,13 +7,15 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.gatk="3.3-0" \
       source.gatk="https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af" \
       source.conpair="https://github.com/mskcc/Conpair/releases/tag/0.3.1" \
-      source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"      
+      source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R"
 
 ENV CONPAIR_VERSION 0.3.1
 ENV GATK_VERSION 3.3-0
 
 COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar
 COPY install-packages.R /tmp/install-packages.R
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
     # for wget
@@ -40,4 +42,5 @@ RUN apk add --update \
 
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

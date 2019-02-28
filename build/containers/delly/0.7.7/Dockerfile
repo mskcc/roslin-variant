@@ -21,6 +21,9 @@ ENV SAMTOOLS_VERSION 1.6
 ENV BOOST_ROOT /usr
 ENV SEQTK_ROOT /opt/htslib
 
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
+
 RUN apk add --update --no-cache ncurses \
     && apk add --virtual=deps --update --no-cache ncurses-dev musl-dev git g++ make zlib-dev \
     && apk add build-base asciidoc bzip2-dev xz-dev boost-dev \
@@ -55,10 +58,5 @@ RUN apk add --update --no-cache ncurses \
     && install -p /opt/delly/src/delly /usr/local/bin/ \
     && install -p /opt/delly/src/cov /usr/local/bin/
 
-#RUN addgroup -S -g 1000 ubuntu
-#RUN adduser -S -g -u 1000 ubuntu ubuntu 
-#USER ubuntu
-
-# by default /bin/bash is executed
-#CMD ["/bin/bash"]
-ENTRYPOINT ["/usr/local/bin/delly"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

@@ -9,10 +9,13 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV GATK_VERSION 3.3-0
 
+COPY runscript.sh /usr/bin/runscript.sh
+
 RUN apk add --update \
       && apk add build-base musl-dev zlib-dev openjdk8-jre
 
 COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar
+COPY run_test.sh /run_test.sh
 
-ENTRYPOINT ["java", "-jar", "/usr/bin/gatk.jar"]
-CMD ["--help"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

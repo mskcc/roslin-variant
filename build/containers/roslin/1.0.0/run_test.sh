@@ -1,5 +1,5 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh help | head -1 > /srv/actual.diff.txt
+exec /usr/bin/runscript.sh help > /srv/actual.diff.txt
 
 # expected output
 cat > /srv/expected.diff.txt << EOM
@@ -12,7 +12,10 @@ cat > /srv/expected.diff.txt << EOM
 EOM
 
 # diff
-diff /srv/actual.diff.txt /srv/expected.diff.txt
-
-# delete tmp
-rm -rf /srv/*.diff.txt
+exitCode=0
+if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt
+then
+	diff /srv/actual.diff.txt /srv/expected.diff.txt
+	exitCode=1
+fi
+exit $exitCode

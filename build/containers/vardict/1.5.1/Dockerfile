@@ -12,7 +12,9 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV VARDICT_VERSION 1.5.1
 
-# R only avail in Alpine 3.5 community
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
+
 RUN apk add --update \
       && apk add ca-certificates openssl bash perl \
       && apk add openjdk8-jre-base \
@@ -25,4 +27,5 @@ RUN apk add --update \
 COPY testsomatic.R /usr/bin/vardict/
 COPY var2vcf_paired.pl /usr/bin/vardict/
 
-ENTRYPOINT ["/usr/bin/vardict/bin/VarDict"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

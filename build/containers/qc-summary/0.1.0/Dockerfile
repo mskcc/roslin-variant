@@ -11,6 +11,9 @@ ENV ROCKER_VERSION 3.5.1
 
 ENV PATH "$PATH:/bin"
 
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
+
 RUN apt -y update && apt -y install git perl build-essential python libudunits2-dev \
     && cd /tmp \
         # copy current roslin-qc
@@ -22,10 +25,11 @@ RUN apt -y update && apt -y install git perl build-essential python libudunits2-
         && sed -i "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
         && R -e "install.packages('corrplot', repos='http://cran.wustl.edu')" \
         && R -e "install.packages(c('ggplot2','gplots','scales','reshape','plyr','RColorBrewer','optparse','ggforce'), repos='http://cran.us.r-project.org')" \
-        && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \ 
+        && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
         # Install perl dependency needed
         && perl -MCPAN -e 'install Tie::IxHash' \
         # clean up
         && rm -rf /tmp/*
 
-ENTRYPOINT ["R", "/usr/bin/qc_summary.R"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

@@ -3,6 +3,8 @@ FROM alpine:3.8
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.roslin-qc="0.6.0" \
+      version.getbasecountsmultisample="1.2.2" \
+      version.bamtools="2.5.1" \
       version.alpine="3.8" \
       source.roslin-qc="https://github.com/mskcc/roslin-qc/tree/master" \
       source.getbasecountsmultisample="https://github.com/zengzheng123/GetBaseCountsMultiSample" \
@@ -14,6 +16,9 @@ ENV GETBASECOUNTSMULTISAMPLE_VERSION 1.2.2
 ENV BAMTOOLS_VERSION 2.5.1
 
 ENV PATH "$PATH:/bin"
+
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
     # for wget
@@ -52,7 +57,7 @@ RUN apk add --update \
         && sed -i "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
         && R -e "install.packages('corrplot', repos='http://cran.wustl.edu')" \
         && R -e "install.packages(c('ggplot2','gplots','scales','reshape','plyr','RColorBrewer','optparse','ggforce'), repos='http://cran.us.r-project.org')" \
-        && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \ 
+        && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
         # Install perl dependency needed
         && perl -MCPAN -e 'install Tie::IxHash' \
         # build and install bamtools
@@ -74,4 +79,5 @@ RUN apk add --update \
 
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["python", "/usr/bin/generate_pdf.py"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]

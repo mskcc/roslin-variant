@@ -7,6 +7,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.3.1"
 
 ENV BCFTOOLS_VERSION 1.3.1
+COPY runscript.sh /usr/bin/runscript.sh
+COPY run_test.sh /run_test.sh
 
 RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev \
     && apk add ca-certificates openssl \
@@ -16,5 +18,5 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev \
     && make && make prefix=/usr install \
     && rm -rf /var/cache/apk/* /tmp/*
 
-ENTRYPOINT ["/usr/bin/bcftools"]
-CMD ["--help"]
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]
