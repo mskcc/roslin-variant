@@ -6,15 +6,11 @@ from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
 import genPortalUUID
+import traceback
+
 
 logger = logging.getLogger("roslin_analysis_helper")
-logger.setLevel(logging.INFO)
-log_file_handler = logging.FileHandler('roslin_analysis_helper.log')
-log_file_handler.setLevel(logging.INFO)
-log_formatter = logging.Formatter('%(asctime)s - %(message)s')
-log_file_handler.setFormatter(log_formatter)
-
-logger.addHandler(log_file_handler)
+old_jobs_folder = "oldJobs"
 
 def get_oncotree_info():
     oncotree = requests.get('http://oncotree.mskcc.org/oncotree/api/tumorTypes?flat=true&deprecated=false').json()
@@ -400,66 +396,62 @@ def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
     logger.info("Creating directories in mercurial repo: %s" % full_path)
     return full_path
 
-def generate_facets_summary(facets_directory,facets_summary_output):
-    hisens_out_files = glob.glob(os.path.join(facets_directory,'*hisens.out'))
-    if len(hisens_out_files) != 0:
-        filedictlist = []
-        for f in hisens_out_files:
-            filedict = {}
-            with open(f) as myfile:
-                for line in myfile:
-                    if '=' in line:
-                        line = line.strip()
-                        key, var = line.partition("=")[::2]
-                        if '#' in key:
-                            key = key.replace('#','').strip()
-                        filedict[key] = var.strip()
-            filedictlist.append(filedict)
-        with open(facets_summary_output,'w') as outfile:
-            outfile.write('TumorId\tdipLogR\tloglik\tPloidy\tPurity\tFacets_version\tcval\tdipt\tgenome\tmin.nhet\tndepth\tpurity_cval\tSeed\tsnp.nbhd\tunmatched\n')
-            for sample in filedictlist:
-                printlist = [sample['tumor_id'],
-                    sample['dipLogR'],
-                    sample['loglik'],
-                    sample['Ploidy'],
-                    sample['Purity'],
-                    sample['Facets version'],
-                    sample['cval'],
-                    sample['dipt'],
-                    sample['genome'],
-                    sample['min.nhet'],
-                    sample['ndepth'],
-                    sample['purity_cval'],
-                    sample['Seed'],
-                    sample['snp.nbhd'],
-                    sample['unmatched']]
-                printlist = '\t'.join(printlist)
-                outfile.write(printlist+'\n')
+def find_unique_name_in_dir(root_name,directory):
+    current_num = 1
+    found_unique_name = False
+    unique_name = ""
+    new_name = root_name
+    while not found_unique_name:
+        current_path = os.path.join(directory,new_name)
+        if os.path.exists(current_path):
+            new_name = root_name + str(current_num)
+            current_num = current_num + 1
+        else:
+            found_unique_name = True
+            unique_name = new_name
+    return new_name
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help= True, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--clinical_data',required=True,help='The clinical file located with Roslin manifests')
-    parser.add_argument('--sample_summary',required=True,help='The sample summary file generated from Roslin QC')
     parser.add_argument('--request_file',required=True, help='The request file for the roslin run')
-    parser.add_argument('--roslin_output',required=True, help='The stdout of the roslin run')
     parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
-    parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
-    parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
-    parser.add_argument('--disable_portal_repo_update', default=False, action='store_true', help='If not updating cbioportal, skips submitting request to update the Mercurial repo.')
+    parser.add_argument('--result_directory',required=False,help='The result directory for roslin run')
+    parser.add_argument('--log_directory',required=False,help='Set the log directory')
+    parser.add_argument('--clinical_data',required=False,help='The clinical file located with Roslin manifests')
+    parser.add_argument('--sample_summary',required=False,help='The sample summary file generated from Roslin QC')
+    parser.add_argument('--debug',action="store_true",required=False, help="Run the analysis helper in debug mode")
     args = parser.parse_args()
+    script_path = os.path.realpath(__file__)
     current_working_directory = os.getcwd()
-    roslin_resources_path = os.path.join(args.script_path,'roslin_resources.json')
-    with open(roslin_resources_path) as roslin_resources_json:
-        roslin_resources_data = json.load(roslin_resources_json)
-    mercurial_path = None
-    if "portal" in roslin_resources_data["config"]:
-        importer_path = roslin_resources_data["config"]["portal"]["importer"]
-        mercurial_path = roslin_resources_data["config"]["portal"]["path"]
-        sys.path.append(importer_path)
-        import validateData
+    log_directory = current_working_directory
+    if parser.log_directory:
+        log_directory = parser.log_directory
+    if parser.debug:
+        logger.setLevel(logging.DEBUG)
     else:
-        logger.warning("Portal validator/repo configuration not set in roslin_resources.json")
+        logger.setLevel(logging.INFO)
+    # handle duplicate logs
+    log_file_path = os.path.join(log_directory,'roslin_analysis_helper.log')
+    if os.path.exists(log_file_path):
+        log_error_folder = os.path.join(log_directory,old_jobs_folder)
+        if not os.path.exists(log_error_folder):
+            os.mkdir(log_error_folder)
+        archive_log = find_unique_name_in_dir(log_file_path,log_error_folder)
+        log_failed = os.path.join(log_error_folder,archive_log)
+        shutil.move(log_file_path,log_failed)
+    logger.propagate = False
+    log_file_handler = logging.FileHandler(log_file_path)
+    log_file_handler.setLevel(logging.INFO)
+    log_formatter = logging.Formatter('%(asctime)s - %(message)s')
+    log_file_handler.setFormatter(log_formatter)
+    logger.addHandler(log_file_handler)
+
+    if args.clinical_data and not args.sample_summary:
+        logger.error("You need to specify the sample_summary when using clinical data")
+
     project_is_impact = check_if_impact(args.request_file)
     # Get roslin config
     with open(args.request_file,'r') as portal_config_file:
@@ -477,17 +469,7 @@ if __name__ == '__main__':
                 single_value = split_stripped_single_line[1].strip()
             else:
                 single_value = single_value + stripped_single_line
-            #if stripped_single_line.contains(':'):
-                #new_value = single_value.replace('"','')
-                #portal_config_data[single_key] = new_value
-                #single_value = ''
-                #single_key = ''
         portal_config_data[single_key] = single_value
-    log_directory = os.path.join(os.getcwd(),'analysis-log',portal_config_data['ProjectID'])
-    if os.path.exists(log_directory):
-        shutil.rmtree(log_directory)
-    os.makedirs(log_directory)
-    #os.chdir(log_directory)
 
     logger.info('---------- Creating Portal files for project: '+portal_config_data['ProjectID'] + ' ----------')
 
