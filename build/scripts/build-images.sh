@@ -6,15 +6,15 @@ source ./settings-build.sh
 # load utils
 source ./tools-utils.sh
 
-# flag for building docker images only
-BUILD_DOCKER_IMAGE_ONLY=0
-
-# padding size (in megabytes)
-# Singularity requires little more space than what Docker needs
-PADDING_SIZE=20
+function finish {
+    # clean up
+    rm -rf $TMP_DIRECTORY
+}
+trap finish INT TERM EXIT
 
 # by default, we will utilize docker cache to build images, which runs faster
 BUILD_NO_CACHE="false"
+DOCKER_REPO_TOOLNAME_PREFIX="roslin-variant"
 
 usage()
 {
@@ -27,32 +27,53 @@ OPTIONS:
    -t      List of tools to build (comma-separated list)
            All pre-defined tools will be built if -t is not specified.
 
-           Example: $0 -t bwa:0.7.12,picard:1.129
+           Example: $0 -t bwa:0.7.5a,picard:2.9
 
-   -d      Build docker images only
-           This will exclude the docker push, convert to singularity steps.
+   -d      Build docker images
+
+   -s      Build singularity images
+
+   -r      Docker registry name
+           Example: "mskcc" for dockerhub or "localhost:5000" for local registry
+
+   -p      Push to docker registry
 
    -z      Show list of tools that be built
 
-   -s      Override the padding size (default=${PADDING_SIZE} MiB)
-
    -n      No cache: images will be built from scratch
+
+   -h      Print help
 
 EOF
 }
 
-while getopts “t:dzs:nh” OPTION
+while getopts “t:dsr:pznh” OPTION
 do
     case $OPTION in
         t) SELECTED_TOOLS_TO_BUILD=$OPTARG ;;
-        d) BUILD_DOCKER_IMAGE_ONLY=1 ;;
+        d) BUILD_DOCKER_IMAGE="1" ;;
+        s) BUILD_SINGULARITY_IMAGE="1" ;;
+        r) DOCKER_REGISTRY_NAME=$OPTARG ;;
+        p) PUSH_TO_DOCKER_REGISTRY="1" ;;
         z) for tool in $(get_tools_name_version); do echo $tool; done; exit 1 ;;
-        s) PADDING_SIZE=$OPTARG ;;
         n) BUILD_NO_CACHE="true" ;;
         h) usage; exit 1 ;;
         *) usage; exit 1 ;;
     esac
 done
+
+if [ "$PUSH_TO_DOCKER_REGISTRY" == "1" ]
+then
+    if [ -z $DOCKER_REGISTRY_NAME ]
+    then
+        echo "Please specify the -r parameter when using the -p flag"
+    else
+        if [[ $DOCKER_REGISTRY_NAME != *"localhost"* ]]
+        then
+            ./docker-login.sh
+        fi
+    fi
+fi
 
 # check if the specified tool are supported one.
 for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
@@ -71,40 +92,6 @@ then
     SELECTED_TOOLS_TO_BUILD=$(get_tools_name_version)
 fi
 
-function convert_to_mib {
-    local mib=$1
-    if [ $2 = "KB" ]
-    then
-        # if less than 1 MiB, just return 1 MiB
-        mib=1
-    fi
-
-    if [ $2 = "GB" ]
-    then
-        # if GiB, convert to MiB
-        mib=`echo "$1 * 1000" | bc -l`
-    fi
-    echo $mib
-}
-
-function get_docker_size_in_mib {
-    # get docker image size for a given name $1
-    # if there are more than two images found for a given name, we will use the first appearing one
-    # returned string would look like '3.98 MB'
-    local size_string=`sudo docker images $1 --format "{{.Size}}" | head -1`
-
-    # split at the space char, take the numeric portion, add extra 20 MiB ($PADDING_SIZE), and round up
-    # fixme: round up done using python script
-    local size=`echo ${size_string} | awk -F' ' '{ print $1 }' | python -c "print int(round(float(raw_input()) + $2))"`
-
-    # split at the space char, take the unit portion (e.g. B, KB, MB, GB)
-    local size_unit=`echo ${size_string} | awk -F' ' '{ print $2 }'`
-
-    # express in MiB
-    size=$(convert_to_mib ${size} ${size_unit})
-
-    echo ${size}
-}
 
 for tool_info in $(echo $SELECTED_TOOLS_TO_BUILD | sed "s/,/ /g")
 do
@@ -118,66 +105,107 @@ do
     fi
 
     echo "Building: ${tool_name} (version ${tool_version})"
-
-    docker_image_full_name="localhost:5000/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
-
-    # add --quiet to make it less verbose
-    sudo docker build --no-cache=${BUILD_NO_CACHE} -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
-
-    if [ $BUILD_DOCKER_IMAGE_ONLY -eq 1 ]
+    if [ -n "$DOCKER_REGISTRY_NAME" ]
     then
-        continue
+        docker_image_registry="${DOCKER_REGISTRY_NAME}/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
+        docker_image_registry_url="docker://${docker_image_registry}"
     fi
 
-    sudo docker tag ${tool_info} ${docker_image_full_name}
-
-    # sudo docker login
-    sudo docker push ${docker_image_full_name}
-
-    sudo rm -rf /tmp/${tool_name}/${tool_version}
-    mkdir -p /tmp/${tool_name}/${tool_version}
-
-    export SINGULARITY_NOHTTPS="y"
-    # retrieve labels from docker image and save to labels.json
-    sudo docker inspect ${tool_info} | jq .[0].Config.Labels > /tmp/${tool_name}/${tool_version}/labels.json
-    sudo docker inspect ${tool_info} | jq .[0].Id > /tmp/${tool_name}/${tool_version}/dockerId.json
-    sudo docker inspect ${tool_info} | jq .[0] > /tmp/${tool_name}/${tool_version}/dockerMeta.json
-
-    if [ -f ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ]
+    if [ "$BUILD_DOCKER_IMAGE" == "1" ]
     then
-        currentDir=$(pwd)
-        cd /tmp/${tool_name}/${tool_version}
-        cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif .
-	singularity exec ${tool_name}.sif sh -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
-	rm ${tool_name}.sif
-        cd $currentDir
-        dockerIdPath=/tmp/${tool_name}/${tool_version}/dockerId.json
-        singularitydockerIdPath=/tmp/${tool_name}/${tool_version}/singularityDockerId.json
-        dockerId=$(cat $singularitydockerIdPath)
-        if cmp -s "$dockerIdPath" "$singularitydockerIdPath" ; then
-            echo "Using cached singularity image: ${dockerId}"
-            continue
+        echo "Building Docker Image locally"
+        # add --quiet to make it less verbose
+        sudo docker build --no-cache=${BUILD_NO_CACHE} -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+
+        sudo rm -rf $TMP_DIRECTORY/${tool_name}/${tool_version}
+        mkdir -p $TMP_DIRECTORY/${tool_name}/${tool_version}
+
+        if [ "$PUSH_TO_DOCKER_REGISTRY" == "1" ]
+        then
+            echo "Pushing to Docker Registry: ${docker_image_registry}"
+            sudo docker tag ${tool_info} ${docker_image_registry}
+            sudo docker push ${docker_image_registry}
         fi
     fi
 
-    # bootstrap the image
-    sudo -E singularity build --sandbox --force \
-        /tmp/${tool_name}/${tool_version}/${tool_name} \
-        ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
+    if [ "$BUILD_SINGULARITY_IMAGE" == "1" ]
+    then
+        echo "Building Singularity Image"
+        if [[ $DOCKER_REGISTRY_NAME == *"localhost"* ]]
+        then
+            export SINGULARITY_NOHTTPS="y"
+        fi
 
-    # create /.roslin/ directory
-    sudo -E singularity exec --writable /tmp/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
+        if [ -z "$docker_image_registry" ]
+        then
+            docker_image_name=$tool_info
+            export SINGULARITY_NOHTTPS="y"
+        else
+            sudo docker pull $docker_image_registry
+            docker_image_name=$docker_image_registry
+        fi
 
-    sudo mv /tmp/${tool_name}/${tool_version}/labels.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
-    sudo mv /tmp/${tool_name}/${tool_version}/dockerId.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerId.json
-    sudo mv /tmp/${tool_name}/${tool_version}/dockerMeta.json /tmp/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerMeta.json
+        echo "Using Docker image: ${docker_image_name}"
+        # retrieve labels from docker image and save to labels.json
+        sudo docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Config']['Labels']; labels['Docker_Image'] = '${docker_image_registry}'; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/labels.json','w'); json.dump(labels,output_file); output_file.close()"
+        sudo docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
+        sudo docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
+        md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat
 
-    # compress the image and build in non-shared directory 
-    # mmap does not like images being built on a shared directory   
+        if [ -f ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ]
+        then
+            currentDir=$(pwd)
+            cd $TMP_DIRECTORY/${tool_name}/${tool_version}
+            cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif .
+            singularity exec ${tool_name}.sif sh -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
+            singularity exec ${tool_name}.sif sh -c "cat /.roslin/checksum.dat 2>/dev/null || true" > singularityChecksum.dat
+            rm ${tool_name}.sif
+            cd $currentDir
+            dockerIdPath=$TMP_DIRECTORY/${tool_name}/${tool_version}/dockerId.json
+            currentChecksum=$TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat
+            previousChecksum=$TMP_DIRECTORY/${tool_name}/${tool_version}/singularityChecksum.dat
+            singularitydockerIdPath=$TMP_DIRECTORY/${tool_name}/${tool_version}/singularityDockerId.json
+            dockerId=$(cat $singularitydockerIdPath)
+            if cmp -s "$dockerIdPath" "$singularitydockerIdPath"
+            then
+                if cmp -s "$previousChecksum" "$currentChecksum"
+                then
+                    echo "Using cached singularity image: ${dockerId}"
+                    continue
+                else
+                    rm ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+                fi
+            else
+                rm ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+            fi
+        fi
 
-    sudo -E singularity build --force /tmp/${tool_name}/${tool_version}/${tool_name}.sif /tmp/${tool_name}/${tool_version}/${tool_name}
-    sudo mv /tmp/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
-    # delete tmp files
-    sudo rm -rf /tmp/${tool_name}/${tool_version}
+        # bootstrap the image
+        if [ -n "$docker_image_registry" ]
+        then
+            sudo -E singularity build --sandbox --force \
+            $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
+            $docker_image_registry_url
+        else
+            sudo -E singularity build --sandbox --force \
+            $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
+            ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
+        fi
 
+        # create /.roslin/ directory
+        sudo -E singularity exec --writable $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
+
+        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/checksum.dat
+        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/labels.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
+        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerId.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerId.json
+        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerMeta.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerMeta.json
+
+        # compress the image and build in non-shared directory
+        # mmap does not like images being built on a shared directory
+
+        sudo -E singularity build --force $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}
+        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+        # delete tmp files
+        sudo rm -rf $TMP_DIRECTORY
+    fi
 done

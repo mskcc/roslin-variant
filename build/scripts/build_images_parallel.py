@@ -5,10 +5,12 @@ import argparse
 import multiprocessing
 from multiprocessing.dummy import Pool, current_process
 import logging
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, call
 import sys
 import os
 from Queue import Queue
+import traceback
+import ast
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
@@ -21,31 +23,102 @@ log_file_handler.setFormatter(log_formatter)
 log_stream_handler.setFormatter(log_formatter)
 logger.addHandler(log_file_handler)
 logger.addHandler(log_stream_handler)
+script_path = os.path.dirname(os.path.realpath(__file__))
 
-def construct_jobs(tool_json,status_queue):
-    job_list = []    
+def construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_registry,docker_push):
+    job_list = []
     for single_image_name in tool_json['programs']:
         image_name = single_image_name
         single_image = tool_json['programs'][single_image_name]
         for single_version in single_image:
             image_version = single_version
-            single_job = (image_name,image_version,status_queue)
+            single_job = (image_name,image_version,build_docker,build_singularity,docker_registry,docker_push,status_queue)
             job_list.append(single_job)
     return job_list
 
-def build_image(image_job):
-    image_name = image_job[0]
-    image_version = image_job[1]
-    status_queue = image_job[2]
+def build_image_wrapper(image_info):
+    try:
+        build_image(*image_info)
+    except:
+        image_name = image_info[0]
+        image_version = image_info[1]
+        error_message = "Error: " + str(image_name) + " version " + str(image_version) + " failed\n " + traceback.format_exc()
+        logger.error(error_message)
+
+def build_image(image_name,image_version,build_docker,build_singularity,docker_registry,docker_push,status_queue):
     image_id_str = str(image_name) + " version " + str(image_version)
     logger.info("Building " + image_id_str)
     image_id = str(image_name) + ':' + str(image_version)
-    command = ["/vagrant/build/scripts/build-images.sh","-t",image_id] #-n to build images out of cache always   
+    build_script_path = os.path.join(script_path,'build-images.sh')
+    command = [build_script_path]
+    if build_docker:
+        command.append('-d')
+    if build_singularity:
+        command.append('-s')
+    if docker_registry:
+        command.extend(['-r',docker_registry])
+    if docker_push:
+        command.append('-p')
+    command.extend(["-t",image_id])
     process = Popen(command, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate()
-    exit_code = process.returncode 
-    output = {'image_id':image_id,'stdout':stdout,'stderr':stderr,'status':exit_code,'name':current_process().name}
+    exit_code = process.returncode
+    meta_info = None
+    if exit_code == 0 and build_singularity:
+        container_path = os.path.abspath(os.path.join(script_path,os.pardir,"containers",image_name,image_version))
+        image_name = image_name + ".sif"
+        meta_info = create_meta_info(container_path,image_name)
+    output = {'image_id':image_id,'stdout':stdout,'stderr':stderr,'status':exit_code,'name':current_process().name,'meta':meta_info}
     status_queue.put(output)
+
+def docker_login():
+    logger.info("Logging into Docker")
+    login_script_path = os.path.join(script_path,'docker-login.sh')
+    command = login_script_path
+    exit_code = call(command, shell=True)
+    if exit_code != 0:
+        print "Docker login failed"
+        exit(1)
+
+def create_meta_info(container_dir,image_name):
+    container_path = os.path.join(container_dir,image_name)
+    run_script_path = os.path.join(container_dir,"runscript.sh")
+    retrieve_labels_command = ["singularity","exec",container_path,"cat","/.roslin/labels.json"]
+    process = Popen(retrieve_labels_command, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = process.communicate()
+    exit_code = process.returncode
+    if exit_code != 0:
+        logger.info("Label retrieval failed: " + stderr)
+        labels = ""
+    else:
+        labels = json.loads(stdout)
+    meta_info = {}
+    found_help = False
+    command_type = "Single"
+    with open(run_script_path) as run_script_file:
+        for single_line in run_script_file:
+            split_word = None
+            if "echo" in single_line and not found_help:
+                split_word = "echo"
+            elif "exec" in single_line:
+                split_word = "exec"
+            if split_word:
+                command = split_word + " " + single_line.split(split_word,1)[1].replace(';;','').strip()
+                if not found_help:
+                    meta_info["help"] = command
+                    found_help = True
+                else:
+                    if ';;' in single_line and command_type == "Single":
+                        command_type = "Multi"
+                        meta_info["command"] = {}
+                    if command_type == "Multi":
+                        command_name = single_line.split(")",1)[0].strip()
+                        meta_info["command"][command_name] = command
+                    else:
+                        meta_info["command"] = command
+                    meta_info["commandType"] = command_type
+    meta_info['labels'] = labels
+    return meta_info
 
 def verbose_logging(single_item):
     stdout_logging = '---------- STDOUT of '+ single_item["image_id"] + ' ----------\n' + single_item["stdout"]
@@ -53,34 +126,47 @@ def verbose_logging(single_item):
     logger.info(stdout_logging)
     logger.info(stderr_logging)
 
-def build_parallel(threads,tool_json,debug_mode):
+def build_parallel(threads,tool_json,build_docker,build_singularity,docker_registry,docker_push,debug_mode):
     status_queue = Queue()
-    job_list = construct_jobs(tool_json,status_queue)    
+    job_list = construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_registry,docker_push)
     pool = Pool(threads)
-    build_results = pool.map_async(build_image,job_list)
+    build_results = pool.map_async(build_image_wrapper,job_list)
     total_number_of_jobs = len(job_list)
     total_processed = 0
+    image_meta_info = {}
     while build_results.ready() == False:
         single_item = status_queue.get()
+        image_name = single_item['name']
+        image_id = single_item["image_id"]
+        image_meta = single_item["meta"]
         if single_item['status'] == 0:
             total_processed = total_processed + 1
-            logger.info("["+single_item['name']+"] " + single_item["image_id"] + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
+            if image_name not in image_meta_info:
+                image_meta_info[image_name] = {}
+            if image_id not in image_meta_info[image_name]:
+                image_meta_info[image_name][image_id] = {}
+            image_meta_info[image_name][image_id] = image_meta
+            logger.info("["+image_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
             if debug_mode == True:
                 verbose_logging(single_item)
         else:
-            status_message = "["+single_item['name']+"] " + single_item["image_id"] + " failed to build"
+            status_message = "["+image_name+"] " + image_id + " failed to build"
             verbose_logging(single_item)
-            logger.info(status_message)
+            logger.error(status_message)
             pool.terminate()
-            sys.exit(status_message) 
+            sys.exit(status_message)
     pool.close()
     pool.join()
+    image_meta_path = os.path.abspath(os.path.join(script_path,os.pardir,"containers","images_meta.json"))
+    with open(image_meta_path,"w") as image_meta_file:
+        json.dump(image_meta_file,image_meta_info, indent=4, sort_keys=True)
     logger.info("---------- Finished building images ----------")
 
 def move_images():
-    command=["/vagrant/build/scripts/move-container-artifacts-to-setup.sh"]
+    move_script_path = os.path.join(script_path,'move-artifacts-to-setup.sh')
+    command=[move_script_path]
     process = Popen(command, stdout=PIPE, stderr=PIPE)
-    logger.info("---------- Moving Images ----------")    
+    logger.info("---------- Moving Images ----------")
     stdout, stderr = process.communicate()
     exit_code = process.returncode
     if stdout:
@@ -95,30 +181,53 @@ def move_images():
 def main():
     parser = argparse.ArgumentParser(description='build-images-parallel')
     parser.add_argument(
-        '-t',
+        '--t',
         action="store",
         dest="threads",
         type=int,
         help='Number of threads'
     )
     parser.add_argument(
-        '-f',
-        action='store',
-        dest='filename',
-        help='Filename of the JSON tools definition',
-        default='tools.json'
+        '--build_docker',
+        action='store_true',
+        dest='build_docker',
+        help='Build docker images'
     )
     parser.add_argument(
-        '-d',
+        '--build_singularity',
+        action='store_true',
+        dest='build_singularity',
+        help='Build singularity images'
+    )
+    parser.add_argument(
+        '--docker_registry',
+        action='store',
+        dest='docker_registry',
+        help='Docker registry name\nExample: "mskcc" for dockerhub or "localhost:5000" for local registry'
+    )
+    parser.add_argument(
+        '--docker_push',
+        action='store_true',
+        dest='push_docker',
+        help="Push to docker registry"
+    )
+    parser.add_argument(
+        '--d',
         action='store_true',
         dest='debug_mode',
         help="Verbose logging"
     )
     params = parser.parse_args()
-    with open(params.filename, "r") as file_in:
+    if params.push_docker and not params.docker_registry:
+        print "Error, please specify docker_registry when docker_push is enabled"
+        exit(1)
+    if params.push_docker and "localhost" not in params.docker_registry:
+        docker_login()
+    tool_path = os.path.abspath(os.path.join(script_path,os.pardir,"tools.json"))
+    with open(tool_path, "r") as file_in:
         tools = json.load(file_in)
 
-    build_parallel(params.threads,tools,params.debug_mode)
+    build_parallel(params.threads,tools,params.build_docker,params.build_singularity,params.docker_registry,params.push_docker,params.debug_mode)
     move_images()
 
 
