@@ -525,28 +525,36 @@ if __name__ == '__main__':
     analysis_seg_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.seg.cna.txt')
 
     clinical_data_path = os.path.join(output_directory,clinical_data_file)
-    generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
-    # writing new format of data clinical files using legacy data in 'clinical_data_path'
-    data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(clinical_data_path)
-    clinical_data_samples_output_path = os.path.join(output_directory, clinical_data_samples_file)
-    clinical_data_patients_output_path = os.path.join(output_directory, clinical_data_patients_file)
-    with open(clinical_data_samples_output_path, 'wb') as out:
-        out.write(data_clinical_sample_txt)
-    with open(clinical_data_patients_output_path, 'wb') as out:
-        out.write(data_clinical_patient_txt)
-    logger.info('Finished generating clinical data, including in the new format')
-    logger.info('Removing legacy data_clinical.txt file.')
-    os.remove(clinical_data_path)
+    if args.clinical_data:
+        generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
+        # writing new format of data clinical files using legacy data in 'clinical_data_path'
+        data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(clinical_data_path)
+        clinical_data_samples_output_path = os.path.join(output_directory, clinical_data_samples_file)
+        clinical_data_patients_output_path = os.path.join(output_directory, clinical_data_patients_file)
+        with open(clinical_data_samples_output_path, 'wb') as out:
+            out.write(data_clinical_sample_txt)
+        with open(clinical_data_patients_output_path, 'wb') as out:
+            out.write(data_clinical_patient_txt)
+        logger.info('Finished generating clinical data, including in the new format')
+        logger.info('Removing legacy data_clinical.txt file.')
+        os.remove(clinical_data_path)
+        sample_list = get_sample_list(args.clinical_data)
+        generate_case_lists(portal_config_data,sample_list,output_directory)
+        logger.info('Finished generating case lists')
 
-    sample_list = get_sample_list(args.clinical_data)
-    generate_case_lists(portal_config_data,sample_list,output_directory)
-    logger.info('Finished generating case lists')
-
-    # Extract the roslin version from the stdout log file
-    with open(args.roslin_output) as roslin_output_file:
-        roslin_output_file.readline()
-        roslin_output_file.readline()
-        version_str = re.findall(r'^VERSIONS: (.*)$',roslin_output_file.readline())[0].rstrip('\r\n')
+    result_log_folder = os.path.join(result_directory,'log')
+    version_str = None
+    submission_file_path = os.path.join(result_log_folder,"submission.json")
+    if os.path.exists(submission_file_path):
+        with open(submission_file_path,'r') as roslin_submission_file:
+            submission_data = json.load(roslin_submission_file)
+            roslin_core_version = submission_data['env']['ROSLIN_CORE_VERSION']
+            roslin_pipeline_name = submission_data['env']['ROSLIN_PIPELINE_NAME']
+            roslin_pipeline_version = submission_data['env']['ROSLIN_PIPELINE_VERSION']
+            roslin_cmo_version = submission_data['env']['ROSLIN_CMO_VERSION']
+            version_str = "VERSIONS: roslin-core-{}, roslin-{}-{}, cmo-{}".format(roslin_core_version,roslin_pipeline_name,roslin_pipeline_version,roslin_cmo_version)
+    else:
+        logger.error("Could not find the submission file: "+submission_file_path)
 
     study_meta = generate_study_meta(portal_config_data,version_str)
     logger.info('Finished generating study meta')
@@ -557,17 +565,18 @@ if __name__ == '__main__':
     segmented_data_meta = generate_segmented_meta(portal_config_data,segmented_data_file)
     logger.info('Finished generating segmented meta')
 
-    job_ids = []
-    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,args.script_path,version_str,project_is_impact))
-    logger.info('Submitted job to generate maf data')
-    job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory))
-    logger.info('Submitted job to generate discrete copy number data')
-    job_ids.append(generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory))
-    logger.info('Submitted job to generate segmented copy number data')
+    logger.info('Submitting job to generate maf data')
+    generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,args.script_path,version_str,project_is_impact)
+    logger.info('Submitting job to generate discrete copy number data')
+    generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory)
+    logger.info('Submitting job to generate segmented copy number data')
+    generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory)
+
+    if args.clinical_data:
+        clinical_meta_samples_path = os.path.join(output_directory, clinical_meta_samples_file)
+        clinical_meta_patients_path = os.path.join(output_directory, clinical_meta_patients_file)
 
     study_meta_path = os.path.join(output_directory,study_meta_file)
-    clinical_meta_samples_path = os.path.join(output_directory, clinical_meta_samples_file)
-    clinical_meta_patients_path = os.path.join(output_directory, clinical_meta_patients_file)
     mutation_meta_path = os.path.join(output_directory,mutation_meta_file)
 
     discrete_copy_number_meta_path = os.path.join(output_directory,discrete_copy_number_meta_file)
@@ -581,8 +590,9 @@ if __name__ == '__main__':
     with open(mutation_meta_path,'w') as mutation_meta_path_file:
         yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False,width=float("inf"))
 
-    create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, clinical_data_samples_file, stable_id)
-    create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, clinical_data_patients_file, stable_id)
+    if args.clinical_data:
+        create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, clinical_data_samples_file, stable_id)
+        create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, clinical_data_patients_file, stable_id)
 
     with open(discrete_copy_number_meta_path,'w') as discrete_copy_number_meta_path_file:
         yaml.dump(discrete_copy_number_meta,discrete_copy_number_meta_path_file,default_flow_style=False,width=float("inf"))
