@@ -85,7 +85,7 @@ class VariantWorkflow(RoslinWorkflow):
 
 	def configure(self):
 		super.configure()
-		self.params['run_sv'] = False
+		self.params['configure']['run_sv'] = False
 
 	def run_pipeline(self):
 		workflow_params = self.params
@@ -103,7 +103,7 @@ class VariantWorkflow(RoslinWorkflow):
 		variant_calling_post_job.addChild(filtering_job)
 		variant_calling_job.addChild(variant_calling_post_job)
 		alignment_post_job.addChild(variant_calling_job)
-		if workflow_params['run_sv']:
+		if workflow_params['configure']['run_sv']:
 			structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job(alignment_post_params)
 			alignment_post_job.addChild(structural_variants_job)
 		alignment_job.addChild(alignment_post_job)
@@ -115,7 +115,7 @@ class VariantWorkflowSV(VariantWorkflow):
 
 	def configure(self):
 		super().configure()
-		self.params['run_sv'] = True
+		self.params['configure']['run_sv'] = True
 
 class Alignment(RoslinWorkflow):
 
