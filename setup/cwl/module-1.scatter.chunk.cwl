@@ -86,10 +86,6 @@ outputs:
 
 steps:
   chunking:
-    hints:
-      ResourceRequirement:
-        ramMin: 24
-        coresMin: 1
     run: cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
       fastq1: fastq1
