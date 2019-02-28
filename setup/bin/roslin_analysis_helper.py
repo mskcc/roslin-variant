@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import argparse, os, sys, requests, yaml, json, subprocess, re, time, io, csv, shutil, logging, glob
-import pandas as pd
+import argparse, os, sys, requests, yaml, json, re, time, io, csv, shutil, logging
+from subprocess import Popen, PIPE
 from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
@@ -47,60 +47,58 @@ def get_sample_list(clinical_data_path):
     sample_list.pop(0)
     return sample_list
 
-def generate_maf_data(maf_directory,output_directory,data_filename,analysis_mut_file,log_directory,script_path,pipeline_version_str,is_impact):
+def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,script_path,pipeline_version_str,is_impact):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
-    combined_output = data_filename.replace('.txt','.combined.txt')
+    combined_output = maf_file_name.replace('.txt','.combined.txt')
     combined_output_file = os.path.join(output_directory,combined_output)
     pipeline_version_str_arg = pipeline_version_str.replace(' ','_')
-    portal_file = os.path.join(output_directory,data_filename)
-    maf_log = os.path.join(log_directory,'generate_maf.log')
+    portal_file = os.path.join(output_directory,maf_file_name)
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
-    maf_command = ('bsub -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
-        + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
-        + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file]) + '"')
-    bsub_stdout = subprocess.check_output(maf_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    first_maf_command = 'grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
+    second_maf_command = 'grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
+    third_maf_command = 'python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file])
+    run_job(first_maf_command,True,'generate_maf_1')
+    run_job(second_maf_command,True,'generate_maf_2')
+    run_job(third_maf_command,True,'generate_maf_3')
 
-def generate_fusion_data(fusion_directory,output_directory,data_filename,analysis_sv_file,log_directory,script_path):
+def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
     fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
     combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_path = os.path.join(output_directory,combined_output)
     output_path = os.path.join(output_directory,data_filename)
-    fusion_log = os.path.join(log_directory,'generate_fusion.log')
     fusion_filter_script = os.path.join(script_path,'fusion_filter.py')
 
-    fusion_command = ('bsub -We 0:59 -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
-        + '; grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
-        + '; python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path
-        + '; cp ' + output_path + ' ' + analysis_sv_file + '"')
-    bsub_stdout = subprocess.check_output(fusion_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    first_fusion_command = 'grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
+    second_fusion_command ='grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
+    third_fusion_command = 'python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path
+    run_job(first_fusion_command,True,'generate_fusion_1')
+    run_job(second_fusion_command,True,'generate_fusion_2')
+    run_job(third_fusion_command,True,'generate_fusion_3')
 
 def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,log_directory):
     discrete_copy_number_files_query = os.path.join(data_directory,'*_hisens.cncf.txt')
     output_path = os.path.join(output_directory,data_filename)
-    discrete_copy_number_log = os.path.join(log_directory,'generate_discrete_copy_number.log')
     scna_output_path = output_path.replace('.txt','.scna.txt')
 
-    cna_command = ('bsub -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
-        + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + gene_cna_file
-        + '; mv ' + scna_output_path + ' ' + output_path + '"')
-    bsub_stdout = subprocess.check_output(cna_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    first_cna_command = 'cmo_facets --suite-version 1.5.6 geneLevel -f ' + discrete_copy_number_files_query + ' -m scna -o ' + output_path
+    second_cna_command = 'mv ' + output_path + ' ' + gene_cna_file
+    third_cna_command = 'mv ' + scna_output_path + ' ' + output_path
+    run_job(first_cna_command,True,'generate_discrete_copy_number_1')
+    run_job(second_cna_command,True,'generate_discrete_copy_number_2')
+    run_job(third_cna_command,True,'generate_discrete_copy_number_3')
 
 def generate_segmented_copy_number_data(data_directory,output_directory,data_filename,analysis_seg_file,log_directory):
     segmented_files_query = os.path.join(data_directory,'*_hisens.seg')
     output_path = os.path.join(output_directory,data_filename)
-    segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
-
     # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
-    seg_command = ('bsub -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
-        + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
-        + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
-    bsub_stdout = subprocess.check_output(seg_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    first_seg_command = 'grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
+    second_seg_command = 'grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
+    third_seg_command = 'cp ' + output_path + ' ' + analysis_seg_file
+    run_job(first_seg_command,True,'generate_segmented_copy_number_1')
+    run_job(second_seg_command,True,'generate_segmented_copy_number_2')
+    run_job(third_seg_command,True,'generate_segmented_copy_number_3')
 
 def create_case_list_file(cases_path,cases_data):
     with open(cases_path,'w') as cases_file:
@@ -211,30 +209,29 @@ def generate_fusion_meta(portal_config_data,data_filename):
     fusion_meta_data['data_filename'] = data_filename
     return fusion_meta_data
 
-# ::TODO:: Remove dependency on LSF somehow, possibly by just running everything baremetal
-def wait_for_jobs_to_finish(bjob_ids,name):
-    job_string = name + ' [' + ','.join(bjob_ids) + ']'
-    logger.info("Monitoring " + job_string)
-    bjob_command = "bjobs " + ' '.join(bjob_ids) + " | awk '{printf $3}'"
-    prev_job_status = ''
-    while True:
-        job_status = subprocess.check_output(bjob_command,shell=True).strip()
-        if 'PEND' in job_status:
-            logger.info(name + " pending") if prev_job_status != job_status else None
-            time.sleep(8)
-        elif 'RUN' in job_status:
-            logger.info(name + " running") if prev_job_status != job_status else None
-            time.sleep(6)
-        elif 'EXIT' in job_status:
-            logger.warning(name + " exit with error")
-            return 1
-        elif 'DONE' in job_status:
-            logger.info(name + " done")
-            return 0
+def run_job(command, shell, name):
+    logger.info("Running job "+ name)
+    logger.debug("Command: "+command)
+    output_message = ""
+    error_message = ""
+    try:
+        single_process = Popen(command, stdout=PIPE,stderr=PIPE, shell=shell)
+        stdout, stderr = single_process.communicate()
+        errorcode = single_process.returncode
+        if stdout:
+            output_message = "----- log stdout -----\n {}".format(stdout)
+        if stderr:
+            error_message = "----- log stderr -----\n {}",format(stderr)
+        if errorcode != 0:
+            error_message = error_message + "\nJob ( {} ) Failed, errorcode: {}".format(name,str(errorcode))
         else:
-            logger.warning(name + " status unknown")
-            return 2
-        prev_job_status = job_status
+            output_message = output_message + "\nJob ( {} ) Done".format(name)
+    except:
+        error_message = error_message + "\nJob ( {} ) Failed. Exception:\n{}".format(name,traceback.format_exc())
+    if output_message:
+        logger.info(output_message)
+    if error_message:
+        logger.info(error_message)
 
 def check_if_impact(request_file_path):
     is_impact = False
