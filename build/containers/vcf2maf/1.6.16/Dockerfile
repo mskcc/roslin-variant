@@ -1,14 +1,15 @@
-FROM alpine:3.4
+FROM alpine:3.8
 
 LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
+      contributor="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.vcf2maf="1.6.16" \
       version.vep="86" \
       version.htslib="1.5" \
       version.bcftools="1.5" \
       version.samtools="1.5" \
-      version.perl="5.22.3-r0" \
-      version.alpine="3.4.x" \
+      version.perl="5.26.2-r1" \
+      version.alpine="3.8" \
       source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.16" \
       source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.5" \
@@ -17,7 +18,6 @@ LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
 
 ENV VCF2MAF_VERSION 1.6.16
 ENV VEP_VERSION 86
-ENV PERL_VERSION 5.22.3-r0
 ENV HTSLIB_VERSION 1.5
 ENV SAMTOOLS_VERSION 1.5
 ENV BCFTOOLS_VERSION 1.5
@@ -29,14 +29,14 @@ COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add ca-certificates openssl gcc g++ make git curl curl-dev wget gzip perl=${PERL_VERSION} perl-dev=${PERL_VERSION} musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+            && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       # install system packages that the Perl modules will need
-            && apk add expat-dev openssl-dev mariadb-dev libxml2-dev \
+            && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev perl-dbd-mysql perl-gd perl-db_file \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
       # install perl libraries that VEP will need
             && cpanm --notest LWP LWP::Simple LWP::Protocol::https Archive::Extract Archive::Tar Archive::Zip \
-            CGI DBI Encode version Time::HiRes DBD::mysql File::Copy::Recursive Perl::OSType Module::Metadata \
+            CGI DBI Encode version Time::HiRes File::Copy::Recursive Perl::OSType Module::Metadata \
             Sereal JSON Bio::Root::Version Set::IntervalTree PerlIO::gzip \
       # install htslib (for vep)
             && cd /tmp && wget https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
@@ -48,9 +48,9 @@ RUN apk add --update \
             && cd /tmp && wget https://github.com/Ensembl/ensembl-tools/archive/release/${VEP_VERSION}.zip \
             && unzip ${VEP_VERSION} \
       # install vep
-            && cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
-            && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
-            && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
+            && cd /tmp/ensembl-vep-release-${VEP_VERSION}/ \
+            && echo "n" | perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
+            && cd /tmp && mv /tmp/ensembl-vep-release-${VEP_VERSION} /usr/bin/vep \
       # install bcftools
             && cd /tmp && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
             && tar xvjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
