@@ -40,8 +40,6 @@ def get_deduplicated_binding_points(settings):
     for extra in settings["binding"]["extra"]:
         binding_points.append(os.path.join(settings["root"], extra))
 
-    template = get_template("build/scripts/settings-container.template.sh")
-
     # remove duplicate binding points
 
     filtered_binding_point_list = copy.copy(binding_points)
@@ -114,11 +112,12 @@ def configure_test_settings(settings):
 def configure_build_settings(settings):
     template = get_template("setup/config/build-settings.template.sh")
 
-    content = template.render( build_images=settings["build"]["buildImages"],
-        build_vagrant=settings["build"]["vagrantSize"],
-        build_threads=settings["build"]["buildThreads"],
+    content = template.render( build_threads=settings["build"]["buildThreads"],
         build_core=settings["build"]["installCore"],
-        pull_dockerfiles=settings["build"]["pullDockerfiles"]
+        buildDocker=settings["build"]["buildDocker"],
+        buildSingularity=settings["build"]["buildSingularity"],
+        dockerRegistry=settings["build"]["dockerRegistry"],
+        dockerPush=settings["build"]["dockerPush"]
     )
 
     write_to_disk("setup/config/build-settings.sh", content)
