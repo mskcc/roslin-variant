@@ -515,7 +515,7 @@ if __name__ == '__main__':
     else:
         output_directory = args.output_directory
 
-    analysis_dir = os.path.abspath(os.path.join(output_directory,os.pardir,'analysis'))
+    analysis_dir = os.path.abspath(output_directory,'analysis')
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
     analysis_mut_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
