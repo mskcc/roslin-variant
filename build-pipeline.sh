@@ -28,6 +28,9 @@ EOF
 }
 
 parentDir=$(pwd)
+script_dir_relative=`dirname "$0"`
+script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
+build_script_dir=${script_dir}/build/scripts
 
 function finish {
     if [ ! -n "$USAGE" ]
@@ -58,9 +61,8 @@ function finish {
             if compareBool $BUILD_IMAGES
             then
                 # Cleanup vagrant
-                echo "Cleaning up vagrant..."
-                cleanupCommand="cd /vagrant/build/scripts/;sudo ./cleanup-vagrant.sh"
-                vagrant ssh -- -t "$cleanupCommand"
+                echo "Cleaning up..."
+                cleanupCommand="cd ${build_script_dir};./cleanup.sh"
             fi
         fi
     fi
