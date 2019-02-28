@@ -116,6 +116,45 @@ python configure.py config.core.yaml
 source config/settings.sh
 cd ..
 coreDir=$ROSLIN_CORE_PATH
+buildArgs="--t $BUILD_THREADS"
+buildScript="python ${build_script_dir}/build_images_parallel.py"
+export DOCKER_REGISTRY="{{ dockerRegistry }}"
+export DOCKER_PUSH="{{ dockerPush }}"
+    parser.add_argument(
+        '--docker_registry',
+        action='store',
+        dest='docker_registry',
+        help='Docker registry name\nExample: "mskcc" for dockerhub or "localhost:5000" for local registry'
+    )
+    parser.add_argument(
+        '--docker_push',
+        action='store_true',
+        dest='push_docker',
+        help="Push to docker registry"
+    )
+if compareBool $BUILD_DOCKER
+then
+    buildArgs="$buildArgs --build_docker"
+fi
+
+if compareBool $BUILD_SINGULARITY
+then
+    buildArgs="$buildArgs --build_singularity"
+fi
+
+if compareBool $DOCKER_PUSH
+then
+    buildArgs="$buildArgs --docker_push"
+fi
+
+if [ -n "$DOCKER_REGISTRY"]
+    buildArgs="$buildArgs --docker_registry $DOCKER_REGISTRY"
+fi
+
+if compareBool $DOCKER_PUSH && [ -z "$DOCKER_REGISTRY"]
+    echo "Please specify a dockerRegistry in the config when dockerPush is True"
+    exit 1
+fi
 
 if [ -n "$TEST_MODE" ]
 then
@@ -130,13 +169,12 @@ then
     source setup/config/settings.sh
     source core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
-    buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build_images_parallel.py -d -t $BUILD_THREADS"
+    buildArgs="$buildArgs --d"
 else
     printf "Starting Build\n"
     installDir=$ROSLIN_ROOT/$ROSLIN_PIPELINE_NAME
     TempDir=roslin-build-log
     TestDir=roslin-build-log
-    buildCommand="cd /vagrant/build/scripts/;python build_images_parallel.py -t $BUILD_THREADS"
     if ! compareBool $INSTALL_CORE && [ ! -d "$coreDir" ]
     then
         >&2 echo "Could not find Core directory: $coreDir"
@@ -187,21 +225,11 @@ fi
 cd $parentDir
 mkdir -p $TempDir
 
-if compareBool $BUILD_IMAGES
+if compareBool $BUILD_DOCKER
 then
-    sed -i -e "s/40GB/$VAGRANT_SIZE/g" Vagrantfile
-    vagrant up
     # Start building the pipeline
     printf "\n----------Building----------\n"
-    vagrant ssh -- -t "$buildCommand"
-else
-    # Get pipeline images from docker hub repo
-    # Installs to $ROSLIN_PIPELINE_BIN_PATH/img/<tool location>
-    if compareBool $PULL_DOCKERFILES
-    then
-      printf "\n----------Building singularity images from Docker Hub pull----------\n"
-      python build/scripts/build_images_parallel_singularity_only.py -t $BUILD_THREADS
-    fi
+    python $buildScript $buildArgs
 fi
 
 printf "\n----------Setting up workspace----------\n"
