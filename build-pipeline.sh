@@ -250,6 +250,7 @@ source virtualenv/bin/activate
 export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
 cd $parentDir
 pip install --requirement build/run_requirements.txt
+cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
 # install toil
 cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/toil
 cd $ROSLIN_PIPELINE_DATA_PATH/toil
