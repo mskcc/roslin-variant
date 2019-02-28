@@ -187,7 +187,7 @@ def generate_discrete_copy_number_meta(portal_config_data, data_filename):
     discrete_copy_number_meta_data['data_filename'] = data_filename
     return discrete_copy_number_meta_data
 
-def generate_mutation_meta(portal_config_data,data_filename):
+def generate_mutation_meta(portal_config_data,maf_file_name):
     mutation_meta_data = {}
     mutation_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
     mutation_meta_data['genetic_alteration_type'] = 'MUTATION_EXTENDED'
@@ -196,7 +196,7 @@ def generate_mutation_meta(portal_config_data,data_filename):
     mutation_meta_data['show_profile_in_analysis_tab'] = True
     mutation_meta_data['profile_description'] = 'Mutation data'
     mutation_meta_data['profile_name'] = 'Mutations'
-    mutation_meta_data['data_filename'] = data_filename
+    mutation_meta_data['data_filename'] = maf_file_name
     return mutation_meta_data
 
 def generate_fusion_meta(portal_config_data,data_filename):
@@ -263,13 +263,14 @@ def create_data_clinical_files_new_format(data_clinical_file):
         patients_header = get_patients_header(header)
         data_attr = set_attributes(header)
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
-        patients_file_txt = generate_file_txt(data, data_attr, patients_header)
+        patients_file_txt = generate_patient_file_txt(data, data_attr, patients_header)
 
     return samples_file_txt, patients_file_txt
 
 def get_samples_header(header):
     temp_header = set(header)
-    temp_header.discard("SEX")
+    for element in get_patients_header(header):
+        temp_header.discard(element)
     samples_header = ["SAMPLE_ID", "PATIENT_ID"]
     for header in temp_header:
         if header not in samples_header and header != None:
@@ -277,7 +278,7 @@ def get_samples_header(header):
     return samples_header
 
 def get_patients_header(header):
-    return {"PATIENT_ID", "SEX"}
+    return {"PATIENT_ID", "SEX"} #to do AGE and other additional patient-specific fields
 
 def set_attributes(data):
     d = dict()
@@ -321,6 +322,49 @@ def generate_file_txt(data, attr, header):
 
     data_str = "\t".join(order) + "\n"
     for row in data:
+        temp_list = list()
+        for heading in order:
+            row_value = row[heading].strip()
+            temp_list.append(row_value)
+        data_str += "\t".join(temp_list) + "\n"
+
+    file_txt = metadata + data_str
+    return file_txt
+
+def generate_patient_file_txt(data, attr, header):
+    order = list()
+    row1 = "#"
+    row2 = "#"
+    row3 = "#"
+    row4 = "#"
+
+    row2_values = list()
+    row3_values = list()
+    row4_values = list()
+
+    for heading in header:
+        order.append(heading)
+        row2_values.append(attr[heading]['desc'])
+        row3_values.append(attr[heading]['datatype'])
+        row4_values.append(attr[heading]['priority'])
+
+    row1 = "#" + "\t".join(order) + "\n"
+    row2 = "#" + "\t".join(row2_values) + "\n"
+    row3 = "#" + "\t".join(row3_values) + "\n"
+    row4 = "#" + "\t".join(row4_values) + "\n"
+
+    metadata = row1 + row2 + row3 + row4
+
+    data_str = "\t".join(order) + "\n"
+    uniqlist = []
+    newdata = []
+    for row in data:
+        if row['PATIENT_ID'] in uniqlist:
+            pass
+        else:
+            uniqlist.append(row['PATIENT_ID'])
+            newdata.append(row)
+    for row in newdata:
         temp_list = list()
         for heading in order:
             row_value = row[heading].strip()
@@ -570,72 +614,9 @@ if __name__ == '__main__':
     if project_is_impact:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
-        job_ids.append(generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,analysis_sv_file,log_directory,args.script_path))
-        logger.info('Submitted job to generate fusion data')
+        generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path)
+        logger.info('Submitting job to generate fusion data')
         fusion_meta_path = os.path.join(output_directory,fusion_meta_file)
         logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:
             yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))
-
-    # Now wait for any of the jobs submitted earlier to complete
-    if wait_for_jobs_to_finish(job_ids, 'Data generation jobs') != 0:
-        logger.error('One or more of the analysis/portal jobs failed.')
-        sys.exit(1)
-
-    # all jobs should be finished by now. Creating the results folder
-    ############# results begin ############
-    results_dir = os.path.abspath(os.path.join(output_directory, os.pardir, 'results'))
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir)
-
-    # results/variants
-    if not os.path.exists(os.path.join(results_dir, 'variants')):
-        os.makedirs(os.path.join(results_dir, 'variants'))
-    try:
-        shutil.copy(analysis_mut_file, os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.analysis.maf'))
-        shutil.copy(os.path.join(output_directory, maf_file_name), os.path.join(results_dir, 'variants', portal_config_data['ProjectID'] + '.muts.portal.maf'))
-    except IOError:
-        logger.error('Could not populate results/variants')
-    # results/copy_number
-    if not os.path.exists(os.path.join(results_dir, 'copy_number')):
-        os.makedirs(os.path.join(results_dir, 'copy_number'))
-    subprocess.call(['convert', os.path.join(args.facets_directory, '*hisen*png'), os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID']+'.hisens.cncf.pdf')])
-    hisens_cncf_files = glob.glob(os.path.join(args.facets_directory, '*hisens*.cncf.txt'))
-    if len(hisens_cncf_files) != 0:
-        hicndf = pd.concat((pd.read_csv(f, header=0, na_filter=False, sep='\t') for f in hisens_cncf_files))
-        hicndf.to_csv(os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.cncf.txt'), sep='\t', index=False)
-    try:
-        shutil.copy(os.path.join(analysis_dir, portal_config_data['ProjectID']+'.gene.cna.txt'), os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.gene.cna.txt'))
-        shutil.copy(os.path.join(analysis_dir, portal_config_data['ProjectID']+'.seg.cna.txt'), os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.seg.cna.txt'))
-    except IOError:
-        logger.error('Could not populate results/copy_number')
-
-    generate_facets_summary(args.facets_directory, os.path.join(results_dir, 'copy_number', portal_config_data['ProjectID'] + '.hisens.facets_summary.txt'))
-    # results/rearrangements
-    if project_is_impact:
-        if not os.path.exists(os.path.join(results_dir, 'rearrangements')):
-            os.makedirs(os.path.join(results_dir, 'rearrangements'))
-        try:
-            shutil.copy(os.path.join(output_directory, 'data_fusions.txt'), os.path.join(results_dir, 'rearrangements', portal_config_data['ProjectID'] + '.fusions.txt'))
-        except IOError:
-            logger.error('Could not populate results/copy_number')
-    ######## results ended ############
-
-    try:
-        validation_exit_status = validate_portal_data(output_directory)
-        logger.info("Portal validator exit status: %i" % validation_exit_status)
-        if validation_exit_status == 0 or validation_exit_status == 3:
-            logger.info('Portal files are valid for upload.')
-            if args.disable_portal_repo_update:
-                logger.info("Skipping update of portal files in mercurial repo")
-            else:
-                project_id = portal_config_data['ProjectID']
-                copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
-                copy_tree(output_directory, copy_to_location)
-                logger.info("Copied portal files to %s" % copy_to_location)
-        else:
-            logger.error('Portal files are invalid; they will not be uploaded.')
-            sys.exit(2)
-    finally:
-        logging.shutdown()
-        del logging._handlerList[:]  # workaround for harmless exceptions on exit
