@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SINGULARITY_VERSION="v3.0.0"
+SINGULARITY_VERSION="v3.0.3"
 SINGULARITY_INSTALL_TEMP_DIR="/tmp/singularity"
 
 # Install system dependencies
@@ -20,7 +20,7 @@ mkdir -p $GOPATH/src/github.com/sylabs
 cd $GOPATH/src/github.com/sylabs
 git clone https://github.com/sylabs/singularity.git
 cd singularity
-git checkout v3.0.0
+git checkout ${SINGULARITY_VERSION}
 go get -u github.com/golang/dep/cmd/dep
 ./mconfig
 cd ./builddir
