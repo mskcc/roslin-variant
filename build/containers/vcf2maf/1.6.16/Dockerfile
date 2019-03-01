@@ -30,8 +30,8 @@ COPY run_test.sh /run_test.sh
 RUN apk add --update \
       # install all the build-related tools
             && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
-      # install system packages that the Perl modules will need
-            && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev perl-dbd-mysql perl-gd perl-db_file \
+      # install system packages and Perl modules
+            && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev perl-dbd-mysql perl-module-metadata perl-gd perl-db_file perl-archive-extract perl-archive-zip perl-cgi perl-dbi perl-encode perl-time-hires perl-file-copy-recursive perl-sereal perl-json \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
       # install perl libraries that VEP will need
