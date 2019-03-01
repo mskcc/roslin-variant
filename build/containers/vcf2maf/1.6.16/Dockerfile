@@ -48,9 +48,9 @@ RUN apk add --update \
             && cd /tmp && wget https://github.com/Ensembl/ensembl-tools/archive/release/${VEP_VERSION}.zip \
             && unzip ${VEP_VERSION} \
       # install vep
-            && cd /tmp/ensembl-vep-release-${VEP_VERSION}/ \
-            && echo "n" | perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
-            && cd /tmp && mv /tmp/ensembl-vep-release-${VEP_VERSION} /usr/bin/vep \
+            && cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
+            && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
+            && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
       # install bcftools
             && cd /tmp && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
             && tar xvjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
