@@ -133,12 +133,12 @@ then
     buildArgs="$buildArgs --docker_push"
 fi
 
-if [ -n "$DOCKER_REGISTRY"]
+if [ -n "$DOCKER_REGISTRY" ]
 then
     buildArgs="$buildArgs --docker_registry $DOCKER_REGISTRY"
 fi
 
-if compareBool $DOCKER_PUSH && [ -z "$DOCKER_REGISTRY"]
+if compareBool $DOCKER_PUSH && [ -z "$DOCKER_REGISTRY" ]
 then
     echo "Please specify a dockerRegistry in the config when dockerPush is True"
     exit 1
