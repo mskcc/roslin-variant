@@ -1,6 +1,5 @@
 #!/bin/bash -e
-
-script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
+script_dir=`python -c "import os; print os.path.abspath(os.path.realpath(__file__))"`
 
 # load build-related settings
 source $script_dir/settings-build.sh
