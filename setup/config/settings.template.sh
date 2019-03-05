@@ -35,6 +35,7 @@ export SINGULARITY_BIND="{{ binding_deduplicated }}"
 # path to singularity executable
 # singularity is expected to be found at the same location regardless of the nodes you're on
 # override this if you want to test a different version of singularity.
+export ROSLIN_SINGULARITY_VERSION="{{ dependencies_singularity_version }}"
 export ROSLIN_SINGULARITY_PATH="{{ dependencies_singularity_install_path }}"
 
 # cmo
