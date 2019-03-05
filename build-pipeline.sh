@@ -213,12 +213,9 @@ fi
 cd $parentDir
 mkdir -p $TempDir
 
-if compareBool $BUILD_DOCKER
-then
-    # Start building the pipeline
-    printf "\n----------Building----------\n"
-    python $buildScript $buildArgs
-fi
+# Start building the pipeline
+printf "\n----------Building----------\n"
+python $buildScript $buildArgs
 
 printf "\n----------Setting up workspace----------\n"
 
