@@ -1,1 +1,0 @@
-fake binding point for singularity
