@@ -31,7 +31,7 @@ RUN apk add --update \
       # install all the build-related tools
             && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
       # install system packages and Perl modules
-            && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev perl-dbd-mysql perl-module-metadata perl-gd perl-db_file perl-archive-extract perl-archive-zip perl-cgi perl-dbi perl-encode perl-time-hires perl-file-copy-recursive perl-sereal perl-json \
+            && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev perl-dbd-mysql perl-module-metadata perl-gd perl-db_file perl-archive-zip perl-cgi perl-dbi perl-encode perl-time-hires perl-file-copy-recursive perl-json \
       # install cpanminus
             && curl -L https://cpanmin.us | perl - App::cpanminus \
       # install perl libraries that VEP will need
@@ -65,6 +65,7 @@ RUN apk add --update \
       # install vcf2maf
             && cd /tmp && wget -O vcf2maf-v${VCF2MAF_VERSION} https://github.com/mskcc/vcf2maf/archive/v${VCF2MAF_VERSION}.zip \
             && unzip vcf2maf-v${VCF2MAF_VERSION} \
+            && mkdir -p /usr/bin/vcf2maf/ \
             && cp -r vcf2maf-${VCF2MAF_VERSION}/* /usr/bin/vcf2maf/ \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
