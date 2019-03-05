@@ -6,7 +6,7 @@ from jinja2 import Template
 import copy
 
 script_path = os.path.dirname(os.path.realpath(__file__))
-root_dir = os.path.abspath(os.path.join(script_path,os.pardir,os.pardir,os.pardir))
+root_dir = os.path.abspath(os.path.join(script_path,os.pardir,os.pardir))
 
 def read_from_disk(filename):
     "return file contents"
