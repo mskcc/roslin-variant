@@ -118,20 +118,6 @@ cd ..
 coreDir=$ROSLIN_CORE_PATH
 buildArgs="--t $BUILD_THREADS"
 buildScript="python ${build_script_dir}/build_images_parallel.py"
-export DOCKER_REGISTRY="{{ dockerRegistry }}"
-export DOCKER_PUSH="{{ dockerPush }}"
-    parser.add_argument(
-        '--docker_registry',
-        action='store',
-        dest='docker_registry',
-        help='Docker registry name\nExample: "mskcc" for dockerhub or "localhost:5000" for local registry'
-    )
-    parser.add_argument(
-        '--docker_push',
-        action='store_true',
-        dest='push_docker',
-        help="Push to docker registry"
-    )
 if compareBool $BUILD_DOCKER
 then
     buildArgs="$buildArgs --build_docker"
