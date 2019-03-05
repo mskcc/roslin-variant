@@ -34,13 +34,13 @@ test:
   batchsystem: singleMachine
   cwlBatchsystem: singleMachine
   tempDir: /ifs/work/pi/roslin-test/scratch/
-  runArgs: ''
+  runArgs: '--on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py'
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:
-  buildDocker: true
+  buildDocker: False
   buildSingularity: true
-  dockerRegistry: ''
+  dockerRegistry: 'mskcc'
   dockerPush: False
   installCore: true
-  buildThreads: 4
+  buildThreads: 1
