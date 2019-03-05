@@ -1,10 +1,12 @@
 #!/bin/bash -e
 
+script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
+
 # load build-related settings
-source ./settings-build.sh
+source $script_dir/settings-build.sh
 
 # load utils
-source ./tools-utils.sh
+source $script_dir/tools-utils.sh
 
 function finish {
     # clean up
