@@ -70,7 +70,7 @@ then
     else
         if [[ $DOCKER_REGISTRY_NAME != *"localhost"* ]]
         then
-            ./docker-login.sh
+            docker login
         fi
     fi
 fi
@@ -115,16 +115,16 @@ do
     then
         echo "Building Docker Image locally"
         # add --quiet to make it less verbose
-        sudo docker build --no-cache=${BUILD_NO_CACHE} -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+        docker build --no-cache=${BUILD_NO_CACHE} -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
 
-        sudo rm -rf $TMP_DIRECTORY/${tool_name}/${tool_version}
+        rm -rf $TMP_DIRECTORY/${tool_name}/${tool_version}
         mkdir -p $TMP_DIRECTORY/${tool_name}/${tool_version}
 
         if [ "$PUSH_TO_DOCKER_REGISTRY" == "1" ]
         then
             echo "Pushing to Docker Registry: ${docker_image_registry}"
-            sudo docker tag ${tool_info} ${docker_image_registry}
-            sudo docker push ${docker_image_registry}
+           docker tag ${tool_info} ${docker_image_registry}
+           docker push ${docker_image_registry}
         fi
     fi
 
@@ -141,15 +141,15 @@ do
             docker_image_name=$tool_info
             export SINGULARITY_NOHTTPS="y"
         else
-            sudo docker pull $docker_image_registry
+           docker pull $docker_image_registry
             docker_image_name=$docker_image_registry
         fi
 
         echo "Using Docker image: ${docker_image_name}"
         # retrieve labels from docker image and save to labels.json
-        sudo docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Config']['Labels']; labels['Docker_Image'] = '${docker_image_registry}'; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/labels.json','w'); json.dump(labels,output_file); output_file.close()"
-        sudo docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
-        sudo docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
+        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Config']['Labels']; labels['Docker_Image'] = '${docker_image_registry}'; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/labels.json','w'); json.dump(labels,output_file); output_file.close()"
+        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
+        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat
 
         if [ -f ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ]
@@ -183,29 +183,29 @@ do
         # bootstrap the image
         if [ -n "$docker_image_registry" ]
         then
-            sudo -E singularity build --sandbox --force \
+            singularity build --sandbox --force \
             $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
             $docker_image_registry_url
         else
-            sudo -E singularity build --sandbox --force \
+            singularity build --sandbox --force \
             $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
             ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
         fi
 
         # create /.roslin/ directory
-        sudo -E singularity exec --writable $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
+        singularity exec --writable $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
 
-        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/checksum.dat
-        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/labels.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
-        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerId.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerId.json
-        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerMeta.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerMeta.json
+        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/checksum.dat
+        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/labels.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
+        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerId.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerId.json
+        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerMeta.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerMeta.json
 
         # compress the image and build in non-shared directory
         # mmap does not like images being built on a shared directory
 
-        sudo -E singularity build --force $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}
-        sudo mv $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+        singularity build --force $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}
+        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
         # delete tmp files
-        sudo rm -rf $TMP_DIRECTORY
+        rm -rf $TMP_DIRECTORY
     fi
 done
