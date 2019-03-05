@@ -105,7 +105,7 @@ pip install --requirement build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
-python configure.py config.variant.yaml
+python $build_script_dir/configure.py config.variant.yaml
 # load settings
 source setup/config/settings.sh
 source setup/config/build-settings.sh
@@ -250,17 +250,18 @@ fi
 printf "\n----------Compressing----------\n"
 # Compress pipeline
 cd $parentDir
-python compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
+cp test/roslin_workflows_test.py examples/
+python $build_script_dir/compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 deactivate
 # Deploy
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
 mv $pipeline_name $TempDir
-export PATH=$ROSLIN_CORE_BIN_PATH/install:$PATH
 install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
-./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $USER
+current_user=`python -c "import getpass; print getpass.getuser()"`
+./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
 
 printf "\n----------Setting up----------\n"
 cd $ROSLIN_PIPELINE_DATA_PATH
