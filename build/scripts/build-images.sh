@@ -125,8 +125,8 @@ do
         if [ "$PUSH_TO_DOCKER_REGISTRY" == "1" ]
         then
             echo "Pushing to Docker Registry: ${docker_image_registry}"
-           docker tag ${tool_info} ${docker_image_registry}
-           docker push ${docker_image_registry}
+            docker tag ${tool_info} ${docker_image_registry}
+            docker push ${docker_image_registry}
         fi
     fi
 
