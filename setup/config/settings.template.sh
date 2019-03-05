@@ -29,7 +29,7 @@ export ROSLIN_PIPELINE_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_output }}
 export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_workspace }}"
 
 # deduplicated bind points (space separated)
-export ROSLIN_BIND_PATH="{{ binding_deduplicated }}"
+export SINGULARITY_BIND="{{ binding_deduplicated }}"
 #<--
 
 # path to singularity executable
