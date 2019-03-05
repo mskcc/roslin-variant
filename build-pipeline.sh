@@ -117,7 +117,7 @@ source config/settings.sh
 cd ..
 coreDir=$ROSLIN_CORE_PATH
 buildArgs="--t $BUILD_THREADS"
-buildScript="python ${build_script_dir}/build_images_parallel.py"
+buildScript="${build_script_dir}/build_images_parallel.py"
 if compareBool $BUILD_DOCKER
 then
     buildArgs="$buildArgs --build_docker"
