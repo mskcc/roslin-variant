@@ -22,5 +22,5 @@ roslin_submit.py \
     --workflow Alignment \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
     --cwl-batch-system ${ROSLIN_TEST_CWL_BATCHSYSTEM} \
-    --test-mode \
+    --test-mode ${ROSLIN_TEST_RUN_ARGS} \
     --foreground-mode

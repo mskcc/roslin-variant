@@ -23,6 +23,6 @@ roslin_submit.py \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
     --cwl-batch-system ${ROSLIN_TEST_CWL_BATCHSYSTEM} \
     --foreground-mode \
-    --test-mode \
+    --test-mode ${ROSLIN_TEST_RUN_ARGS} \
     --use_alignment_meta alignment-input-meta.json \
     --use_variant_calling_meta variant-calling-input-meta.json
