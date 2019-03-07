@@ -1,6 +1,7 @@
 #!/bin/bash
 
-script_dir=`python -c "import os; print os.path.abspath(os.path.realpath(__file__))"`
+script_rel_dir=`dirname ${BASH_SOURCE[0]}`
+script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
 SETUP_DIRECTORY=`python -c "import os; print os.path.abspath(os.path.join(os.path.dirname('${script_dir}'),os.path.pardir,'setup'))"`
 BUILD_DIRECTORY=`python -c "import os; print os.path.abspath(os.path.join(os.path.dirname('${script_dir}'),os.path.pardir,'build'))"`
 TMP_DIRECTORY=`python -c "import tempfile; print tempfile.mkdtemp()"`
