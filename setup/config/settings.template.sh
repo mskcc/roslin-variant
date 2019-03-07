@@ -63,4 +63,6 @@ fi
 # Run environment
 {{ run_env }}
 
+# Load singularity into PATH
+export PATH=$PATH:$ROSLIN_SINGULARITY_PATH
 echo "Loaded Roslin Pipeline - $ROSLIN_PIPELINE_NAME ( $ROSLIN_PIPELINE_VERSION )"
