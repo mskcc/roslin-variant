@@ -215,12 +215,13 @@ mkdir -p $TempDir
 
 # Start building the pipeline
 printf "\n----------Building----------\n"
-buildCommand="python $buildScript $buildArgs"
 if compareBool $USE_VAGRANT
 then
+    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
     vagrant up
     vagrant ssh -- -t "$buildCommand"
 else
+    buildCommand="python $buildScript $buildArgs"
     exec $buildCommand
 fi
 
