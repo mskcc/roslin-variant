@@ -39,8 +39,9 @@ test:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:
   buildDocker: False
-  buildSingularity: true
+  buildSingularity: True
   dockerRegistry: 'mskcc'
   dockerPush: False
-  installCore: true
+  useVagrant: True
+  installCore: True
   buildThreads: 1
