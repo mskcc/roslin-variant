@@ -19,11 +19,11 @@ function is_tool_available {
         echo "false"
         return 1
     fi
-    echo `python tools_utils.py is_available $tool_name $tool_version`
+    echo `python $script_dir/tools_utils.py is_available $tool_name $tool_version`
 }
 
 # this returns comma-separated list of all tools instalalble
 # e.g. samtools:1.3.1,trimgalore:0.4.3
 function get_tools_name_version {
-    echo `python tools_utils.py get_name_version`
+    echo `python $script_dir/tools_utils.py get_name_version`
 }
