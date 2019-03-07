@@ -115,10 +115,11 @@ def configure_build_settings(settings):
 
     content = template.render( build_threads=settings["build"]["buildThreads"],
         build_core=settings["build"]["installCore"],
-        buildDocker=settings["build"]["buildDocker"],
-        buildSingularity=settings["build"]["buildSingularity"],
-        dockerRegistry=settings["build"]["dockerRegistry"],
-        dockerPush=settings["build"]["dockerPush"]
+        build_docker=settings["build"]["buildDocker"],
+        build_singularity=settings["build"]["buildSingularity"],
+        docker_registry=settings["build"]["dockerRegistry"],
+        docker_push=settings["build"]["dockerPush"],
+        use_vagrant=settings["build"]["useVagrant"]
     )
 
     write_to_disk("setup/config/build-settings.sh", content)
