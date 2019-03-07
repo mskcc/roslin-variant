@@ -215,7 +215,14 @@ mkdir -p $TempDir
 
 # Start building the pipeline
 printf "\n----------Building----------\n"
-python $buildScript $buildArgs
+buildCommand="python $buildScript $buildArgs"
+if compareBool $USE_VAGRANT
+then
+    vagrant up
+    vagrant ssh -- -t "$buildCommand"
+else
+    exec $buildCommand
+fi
 
 printf "\n----------Setting up workspace----------\n"
 
