@@ -1,6 +1,7 @@
 if [ "$1" == "help" ]
 then
-	echo "pindel or pindel2vcf?"; exit 1 ;;
+	echo "pindel or pindel2vcf?"
+	exit 1
 fi
 
 case $1 in
