@@ -150,6 +150,7 @@ do
 
         echo "Using Docker image: ${docker_image_name}"
         image_tmp=${TMP_DIRECTORY}/${tool_name}/${tool_version}
+        export SINGULARITY_TMPDIR=$image_tmp
         image_path=${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
         mkdir -p $image_tmp
         # retrieve labels from docker image and save to labels.json
