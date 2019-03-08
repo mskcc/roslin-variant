@@ -11,6 +11,8 @@ import os
 from Queue import Queue
 import traceback
 import ast
+import tempfile
+import shutil
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
@@ -83,7 +85,10 @@ def docker_login():
 def create_meta_info(container_dir,image_name):
     container_path = os.path.join(container_dir,image_name)
     run_script_path = os.path.join(container_dir,"runscript.sh")
-    retrieve_labels_command = ["singularity","exec",container_path,"cat","/.roslin/labels.json"]
+    temp_dir = tempfile.mkdtemp()
+    temp_container_path = os.path.join(temp_dir,image_name)
+    shutil.copyfile(container_path,temp_container_path)
+    retrieve_labels_command = ["singularity","exec",temp_container_path,"cat","/.roslin/labels.json"]
     process = Popen(retrieve_labels_command, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate()
     exit_code = process.returncode
@@ -118,6 +123,7 @@ def create_meta_info(container_dir,image_name):
                         meta_info["command"] = command
                     meta_info["commandType"] = command_type
     meta_info['labels'] = labels
+    shutil.rmtree(temp_dir)
     return meta_info
 
 def verbose_logging(single_item):
