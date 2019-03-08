@@ -1,6 +1,6 @@
 #!/bin/bash
-
-
+script_rel_dir=`dirname ${BASH_SOURCE[0]}`
+script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
 # input example -> bwa:0.7.12
 function get_tool_name {
     echo `echo $1 | awk -F':' '{ print $1 }'`
