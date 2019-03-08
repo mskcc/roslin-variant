@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   end
   
 
-  config.vm.hostname = "roslinVariant"
+  config.vm.hostname = "roslin-variant"
   config.vm.provision "shell", path: "./vm/resize-disk.sh"
   config.vm.provision "shell", path: "./vm/bootstrap.sh"
   config.vm.provision "shell", path: "./vm/install-python.sh"
