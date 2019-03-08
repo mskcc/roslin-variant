@@ -1,8 +1,9 @@
 #!/bin/bash
-
+script_rel_dir=`dirname ${BASH_SOURCE[0]}`
+script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
 # load utils
-source ./tools-utils.sh
-source ./settings-build.sh
+source $script_dir/tools-utils.sh
+source $script_dir/settings-build.sh
 
 rm -rf ${IMG_DIRECTORY}
 mkdir -p ${IMG_DIRECTORY}

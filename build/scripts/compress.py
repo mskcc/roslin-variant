@@ -2,16 +2,24 @@
 
 import sys
 import subprocess
+import os
+
+script_path = os.path.dirname(os.path.realpath(__file__))
+root_dir = os.path.abspath(os.path.join(script_path,os.pardir,os.pardir))
 
 def compress(output_filename):
     "compress"
 
+    setup_dir = os.path.join(root_dir,'setup')
+    exclude_template = os.path.abspath(os.path.join(setup_dir,'config','*.template.sh'))
+    exclude_ds_store = os.path.abspath(os.path.join(root_dir,'.DS_Store'))
+
     cmd = [
         "tar",
-        "--exclude", ".DS_Store",
-        "--exclude", "./setup/config/*.template.sh",
+        "--exclude", exclude_ds_store,
+        "--exclude", exclude_template,
         "-cvzf", output_filename,
-        "./setup"
+        setup_dir
     ]
 
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

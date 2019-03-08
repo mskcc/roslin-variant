@@ -1,10 +1,13 @@
 #!/bin/bash
 
+script_rel_dir=`dirname ${BASH_SOURCE[0]}`
+script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
+
 # load build-related settings
-source ./settings-build.sh
+source $script_dir/settings-build.sh
 
 # load utils
-source ./tools-utils.sh
+source $script_dir/tools-utils.sh
 
 # delete singularity images created
 find ${CONTAINER_DIRECTORY}/ -name '*.sif' -type f -delete
