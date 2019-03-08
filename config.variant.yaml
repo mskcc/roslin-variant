@@ -27,7 +27,7 @@ dependencies:
 test:
   root: /ifs/work/pi/roslin-test
   tempDir: /scratch  
-  runArgs: --leader-node controlR
+  runArgs: --leader-node large
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:
