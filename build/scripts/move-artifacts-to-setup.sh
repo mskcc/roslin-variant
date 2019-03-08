@@ -40,6 +40,8 @@ find . -name "*.sif" -type f | xargs md5sum > ${IMG_DIRECTORY}/checksum.dat
 
 # get md5 checksum for all cwl files
 echo "--- CWL TREE ---"
+# show tree
+tree ${CWL_DIRECTORY}
 
 cd ${CWL_DIRECTORY}
 find . -name "*.cwl" -type f | xargs md5sum > ${CWL_DIRECTORY}/checksum.dat
