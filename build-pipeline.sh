@@ -245,7 +245,6 @@ printf "\n----------Compressing----------\n"
 cd $parentDir
 cp test/roslin_workflows_test.py setup/examples/
 python $build_script_dir/compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
-deactivate
 # Deploy
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
@@ -254,7 +253,7 @@ install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $
 cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 current_user=`python -c "import getpass; print getpass.getuser()"`
-./roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
+roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
 
 printf "\n----------Setting up----------\n"
 cd $ROSLIN_PIPELINE_DATA_PATH
@@ -282,4 +281,5 @@ make develop extras=[cwl]
 cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/cmo
 cd $ROSLIN_PIPELINE_DATA_PATH/cmo
 python setup.py install
-cd $ROSLIN_CORE_BIN_PATH
+cd $parentDir
+deactivate

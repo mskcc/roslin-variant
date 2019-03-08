@@ -11,15 +11,19 @@ def compress(output_filename):
     "compress"
 
     setup_dir = os.path.join(root_dir,'setup')
+    current_dir = os.getcwd()
     exclude_template = os.path.abspath(os.path.join(setup_dir,'config','*.template.sh'))
     exclude_ds_store = os.path.abspath(os.path.join(root_dir,'.DS_Store'))
+    exclude_template_rel = os.path.relpath(exclude_template,current_dir)
+    exclude_ds_store_rel = os.path.relpath(exclude_ds_store,current_dir)
+    setup_dir_rel = os.path.relpath(setup_dir,current_dir)
 
     cmd = [
         "tar",
-        "--exclude", exclude_ds_store,
-        "--exclude", exclude_template,
+        "--exclude", exclude_ds_store_rel,
+        "--exclude", exclude_template_rel,
         "-cvzf", output_filename,
-        setup_dir
+        setup_dir_rel
     ]
 
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
