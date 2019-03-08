@@ -165,7 +165,7 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
     pool.join()
     image_meta_path = os.path.abspath(os.path.join(script_path,os.pardir,"containers","images_meta.json"))
     with open(image_meta_path,"w") as image_meta_file:
-        json.dump(image_meta_file,image_meta_info, indent=4, sort_keys=True)
+        json.dump(image_meta_info,image_meta_file, indent=4, sort_keys=True)
     logger.info("---------- Finished building images ----------")
 
 def move_images():
