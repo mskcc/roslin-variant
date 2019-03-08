@@ -256,6 +256,7 @@ current_user=`python -c "import getpass; print getpass.getuser()"`
 roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
 
 printf "\n----------Setting up----------\n"
+deactivate
 cd $ROSLIN_PIPELINE_DATA_PATH
 HOME_TEMP=$HOME
 export HOME=$ROSLIN_PIPELINE_DATA_PATH
@@ -282,4 +283,3 @@ cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/cmo
 cd $ROSLIN_PIPELINE_DATA_PATH/cmo
 python setup.py install
 cd $parentDir
-deactivate
