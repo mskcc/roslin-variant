@@ -149,25 +149,28 @@ do
         fi
 
         echo "Using Docker image: ${docker_image_name}"
+        image_tmp=${TMP_DIRECTORY}/${tool_name}/${tool_version}
+        image_path=${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+        mkdir -p $image_tmp
         # retrieve labels from docker image and save to labels.json
-        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Config']['Labels']; labels['Docker_Image'] = '${docker_image_registry}'; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/labels.json','w'); json.dump(labels,output_file); output_file.close()"
-        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
-        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${TMP_DIRECTORY}/${tool_name}/${tool_version}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
-        md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat
+        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Config']['Labels']; labels['Docker_Image'] = '${docker_image_registry}'; output_file = open('${image_tmp}/labels.json','w'); json.dump(labels,output_file); output_file.close()"
+        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${image_tmp}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
+        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${image_tmp}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
+        md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > ${image_tmp}/checksum.dat
 
-        if [ -f ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ]
+        if [ -f $image_path ]
         then
             currentDir=$(pwd)
-            cd $TMP_DIRECTORY/${tool_name}/${tool_version}
-            cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif .
+            cd $image_tmp
+            cp $image_path .
             singularity exec ${tool_name}.sif sh -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
             singularity exec ${tool_name}.sif sh -c "cat /.roslin/checksum.dat 2>/dev/null || true" > singularityChecksum.dat
             rm ${tool_name}.sif
             cd $currentDir
-            dockerIdPath=$TMP_DIRECTORY/${tool_name}/${tool_version}/dockerId.json
-            currentChecksum=$TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat
-            previousChecksum=$TMP_DIRECTORY/${tool_name}/${tool_version}/singularityChecksum.dat
-            singularitydockerIdPath=$TMP_DIRECTORY/${tool_name}/${tool_version}/singularityDockerId.json
+            dockerIdPath=$image_tmp/dockerId.json
+            currentChecksum=$image_tmp/checksum.dat
+            previousChecksum=$image_tmp/singularityChecksum.dat
+            singularitydockerIdPath=$image_tmp/singularityDockerId.json
             dockerId=$(cat $singularitydockerIdPath)
             if cmp -s "$dockerIdPath" "$singularitydockerIdPath"
             then
@@ -176,10 +179,10 @@ do
                     echo "Using cached singularity image: ${dockerId}"
                     continue
                 else
-                    rm ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+                    rm $image_path
                 fi
             else
-                rm ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+                rm $image_path
             fi
         fi
 
@@ -196,18 +199,18 @@ do
         fi
 
         # create /.roslin/ directory
-        singularity exec --writable $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} mkdir /.roslin/
+        singularity exec --writable $image_tmp/${tool_name} mkdir /.roslin/
 
-        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/checksum.dat $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/checksum.dat
-        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/labels.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/labels.json
-        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerId.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerId.json
-        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/dockerMeta.json $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}/.roslin/dockerMeta.json
+        mv $image_tmp/checksum.dat $image_tmp/${tool_name}/.roslin/checksum.dat
+        mv $image_tmp/labels.json $image_tmp/${tool_name}/.roslin/labels.json
+        mv $image_tmp/dockerId.json $image_tmp/${tool_name}/.roslin/dockerId.json
+        mv $image_tmp/dockerMeta.json $image_tmp/${tool_name}/.roslin/dockerMeta.json
 
         # compress the image and build in non-shared directory
         # mmap does not like images being built on a shared directory
 
-        singularity build --force $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}
-        mv $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name}.sif ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+        singularity build --force $image_tmp/${tool_name}.sif $image_tmp/${tool_name}
+        mv $image_tmp/${tool_name}.sif $image_path
         # delete tmp files
         rm -rf $TMP_DIRECTORY
     fi
