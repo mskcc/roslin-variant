@@ -49,6 +49,7 @@ class LegacyVariantWorkflow(RoslinWorkflow):
 		default_job_params['cwl'] = workflow_filename
 		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,workflow_output)
 		workflow_job = self.copy_workflow_outputs(workflow_job)
+		workflow_job = self.roslin_analysis(workflow_job)
 		return workflow_job
 
 class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
@@ -79,6 +80,7 @@ class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
 		default_job_params['cwl'] = workflow_filename
 		workflow_job = self.create_job(self.run_cwl,self.params,default_job_params,workflow_output)
 		workflow_job = self.copy_workflow_outputs(workflow_job)
+		workflow_job = self.roslin_analysis(workflow_job)
 		return workflow_job
 
 class VariantWorkflow(RoslinWorkflow):
@@ -108,6 +110,7 @@ class VariantWorkflow(RoslinWorkflow):
 			alignment_post_job.addChild(structural_variants_job)
 		alignment_job.addChild(alignment_post_job)
 		alignment_job = self.copy_workflow_outputs(alignment_job)
+		alignment_job = self.roslin_analysis(alignment_job)
 		return alignment_job
 
 
