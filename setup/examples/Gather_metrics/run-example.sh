@@ -17,7 +17,7 @@ roslin_submit.py \
     --version ${pipeline_version} \
     --id Gather_metrics \
     --inputs inputs.yaml \
-    --output ${ROSLIN_PIPELINE_OUTPUT_PATH} \
+    --results ${ROSLIN_PIPELINE_OUTPUT_PATH} \
     --path . \
     --workflow GatherMetrics \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \

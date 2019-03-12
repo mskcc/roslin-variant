@@ -17,7 +17,7 @@ roslin_submit.py \
     --version ${pipeline_version} \
     --id Legacy_variant_workflow_SV \
     --inputs inputs.yaml \
-    --output ${ROSLIN_PIPELINE_OUTPUT_PATH} \
+    --results ${ROSLIN_PIPELINE_OUTPUT_PATH} \
     --path . \
     --workflow LegacyVariantWorkflowSV \
     --batch-system ${ROSLIN_TEST_BATCHSYSTEM} \
