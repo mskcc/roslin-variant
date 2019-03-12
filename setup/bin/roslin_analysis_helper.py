@@ -1,38 +1,26 @@
 #!/usr/bin/env python
 
-import argparse, os, sys, requests, yaml, json, re, time, io, csv, shutil, logging
+import argparse, os, sys, yaml, json, re, time, io, csv, shutil, logging
 from subprocess import Popen, PIPE
 from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
 import genPortalUUID
 import traceback
+import copy
 
 
 logger = logging.getLogger("roslin_analysis_helper")
 old_jobs_folder = "oldJobs"
 
-def get_oncotree_info():
-    oncotree = requests.get('http://oncotree.mskcc.org/oncotree/api/tumorTypes?flat=true&deprecated=false').json()
-    oncotree_dict = {}
-    for single_onco_info in oncotree['data']:
-        oncotree_code = single_onco_info['code']
-        oncotree_dict[oncotree_code] = single_onco_info
-    return oncotree_dict
+def generate_legacy_clinical_data(clinical_data,coverage_values):
+    legacy_clinical_data = copy.copy(clinical_data)
+    for single_row in clinical_data:
+        sample_id = single_row['SAMPLE_ID']
+        coverage_value = coverage_values[sample_id]
+        legacy_clinical_data['SAMPLE_COVERAGE'] = coverage_value
+    return legacy_clinical_data
 
-def generate_legacy_clinical_data(clinical_data_path,clinical_output_path,coverage_values):
-    with open(clinical_data_path) as input_file, open(clinical_output_path,'w') as output_file:
-        writer = csv.writer(output_file, lineterminator='\n',dialect='excel-tab')
-        reader = csv.reader(input_file,dialect='excel-tab')
-        clinical_data = []
-        row = reader.next()
-        row.append('SAMPLE_COVERAGE')
-        clinical_data.append(row)
-        for row in reader:
-            coverage_value = coverage_values[row[0]]
-            row.append(coverage_value)
-            clinical_data.append(row)
-        writer.writerows(clinical_data)
 
 def get_sample_list(clinical_data_path):
     sample_list = []
@@ -229,12 +217,17 @@ def run_job(command, shell, name):
     if error_message:
         logger.info(error_message)
 
-def check_if_impact(request_file_path):
+def get_meta_info(input_yaml):
+    meta_info = {}
+    with open(input_yaml) as input_yaml_file:
+        meta_info = yaml.safe_load(input_yaml_file)['meta']
+    return meta_info
+
+def check_if_impact(assay):
     is_impact = False
-    with open(request_file_path) as request_file:
-        for single_line in request_file:
-            if "Assay:" in single_line and ("IMPACT" in single_line or "HemePACT" in single_line):
-                is_impact = True
+    if assay:
+        if "IMPACT" in assay or "HemePACT" in assay:
+            is_impact = True
     return is_impact
 
 def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id):
@@ -244,19 +237,15 @@ def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id
         output_file.write('datatype: %s\n' % datatype)
         output_file.write('data_filename: %s\n' % filename)
 
-def create_data_clinical_files_new_format(data_clinical_file):
+def create_data_clinical_files_new_format(clinical_data):
     samples_file_txt = ""
     patients_file_txt = ""
-
-    with open(data_clinical_file, 'rb') as f:
-        reader = csv.DictReader(f, delimiter='\t')
-        data = list(reader)
-        header = data[0].keys()
-        samples_header = get_samples_header(header)
-        patients_header = get_patients_header(header)
-        data_attr = set_attributes(header)
-        samples_file_txt = generate_file_txt(data, data_attr, samples_header)
-        patients_file_txt = generate_patient_file_txt(data, data_attr, patients_header)
+    header = clinical_data[0].keys()
+    samples_header = get_samples_header(header)
+    patients_header = get_patients_header(header)
+    data_attr = set_attributes(header)
+    samples_file_txt = generate_file_txt(clinical_data, data_attr, samples_header)
+    patients_file_txt = generate_patient_file_txt(clinical_data, data_attr, patients_header)
 
     return samples_file_txt, patients_file_txt
 
@@ -415,13 +404,13 @@ def find_unique_name_in_dir(root_name,directory):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help= True, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--request_file',required=True, help='The request file for the roslin run')
+    parser.add_argument('--inputs',required=True, help='The path to your input yaml file')
     parser.add_argument('--maf_directory',required=True,help='The directory containing the maf files')
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
-    parser.add_argument('--result_directory',required=False,help='The result directory for roslin run')
+    parser.add_argument('--results_directory',required=False,help='The result directory for roslin run')
     parser.add_argument('--log_directory',required=False,help='Set the log directory')
-    parser.add_argument('--clinical_data',required=False,help='The clinical file located with Roslin manifests')
     parser.add_argument('--sample_summary',required=False,help='The sample summary file generated from Roslin QC')
+    parser.add_argument('--clinical_data',required=False,help='The clinical file located with Roslin manifests')
     parser.add_argument('--debug',action="store_true",required=False, help="Run the analysis helper in debug mode")
     args = parser.parse_args()
     script_path = os.path.realpath(__file__)
@@ -452,24 +441,17 @@ if __name__ == '__main__':
     if args.clinical_data and not args.sample_summary:
         logger.error("You need to specify the sample_summary when using clinical data")
 
-    project_is_impact = check_if_impact(args.request_file)
-    # Get roslin config
-    with open(args.request_file,'r') as portal_config_file:
-        portal_config_data = {}
-        single_value = ''
-        single_key = ''
-        for single_line in portal_config_file:
-            stripped_single_line = single_line.strip("\n\r")
-            split_stripped_single_line = stripped_single_line.split(':')
-            if ':' in single_line:
-                if single_key:
-                    portal_config_data[single_key] = single_value
-                    single_key = None
-                single_key = split_stripped_single_line[0]
-                single_value = split_stripped_single_line[1].strip()
-            else:
-                single_value = single_value + stripped_single_line
-        portal_config_data[single_key] = single_value
+    portal_config_data = get_meta_info(args.inputs)
+    assay = portal_config_data['Assay']
+    project_is_impact = check_if_impact(assay)
+    clinical_data = None
+
+    if args.clinical_data:
+        with open(args.clinical, 'rb') as clinical_data_file:
+            clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
+            clinical_data = list(clinical_reader)
+    else:
+        clinical_data = portal_config_data['clinical_data']
 
     logger.info('---------- Creating Portal files for project: '+portal_config_data['ProjectID'] + ' ----------')
 
@@ -524,11 +506,10 @@ if __name__ == '__main__':
     analysis_arm_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.arm.cna.txt')
     analysis_seg_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.seg.cna.txt')
 
-    clinical_data_path = os.path.join(output_directory,clinical_data_file)
     if args.clinical_data:
-        generate_legacy_clinical_data(args.clinical_data,clinical_data_path,coverage_values)
+        legacy_clinical_data = generate_legacy_clinical_data(clinical_data,coverage_values)
         # writing new format of data clinical files using legacy data in 'clinical_data_path'
-        data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(clinical_data_path)
+        data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(legacy_clinical_data)
         clinical_data_samples_output_path = os.path.join(output_directory, clinical_data_samples_file)
         clinical_data_patients_output_path = os.path.join(output_directory, clinical_data_patients_file)
         with open(clinical_data_samples_output_path, 'wb') as out:
@@ -542,17 +523,13 @@ if __name__ == '__main__':
         generate_case_lists(portal_config_data,sample_list,output_directory)
         logger.info('Finished generating case lists')
 
-    result_log_folder = os.path.join(result_directory,'log')
+    results_log_folder = os.path.join(results_directory,'log')
     version_str = None
-    submission_file_path = os.path.join(result_log_folder,"submission.json")
-    if os.path.exists(submission_file_path):
-        with open(submission_file_path,'r') as roslin_submission_file:
-            submission_data = json.load(roslin_submission_file)
-            roslin_core_version = submission_data['env']['ROSLIN_CORE_VERSION']
-            roslin_pipeline_name = submission_data['env']['ROSLIN_PIPELINE_NAME']
-            roslin_pipeline_version = submission_data['env']['ROSLIN_PIPELINE_VERSION']
-            roslin_cmo_version = submission_data['env']['ROSLIN_CMO_VERSION']
-            version_str = "VERSIONS: roslin-core-{}, roslin-{}-{}, cmo-{}".format(roslin_core_version,roslin_pipeline_name,roslin_pipeline_version,roslin_cmo_version)
+    workflow_params_file_path = os.path.join(results_log_folder,"workflow_params.json")
+    if os.path.exists(workflow_params_file_path):
+        with open(workflow_params_file_path,'r') as workflow_params_file:
+            workflow_params = json.load(workflow_params_file)
+            version_str = workflow_params['version_str']
     else:
         logger.error("Could not find the submission file: "+submission_file_path)
 
@@ -572,7 +549,7 @@ if __name__ == '__main__':
     logger.info('Submitting job to generate segmented copy number data')
     generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory)
 
-    if args.clinical_data:
+    if clinical_data:
         clinical_meta_samples_path = os.path.join(output_directory, clinical_meta_samples_file)
         clinical_meta_patients_path = os.path.join(output_directory, clinical_meta_patients_file)
 
@@ -590,7 +567,7 @@ if __name__ == '__main__':
     with open(mutation_meta_path,'w') as mutation_meta_path_file:
         yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False,width=float("inf"))
 
-    if args.clinical_data:
+    if clinical_data:
         create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, clinical_data_samples_file, stable_id)
         create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, clinical_data_patients_file, stable_id)
 
