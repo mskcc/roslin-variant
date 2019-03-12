@@ -142,21 +142,25 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
     image_meta_info = {}
     while build_results.ready() == False:
         single_item = status_queue.get()
-        image_name = single_item['name']
+        thread_name = single_item['name']
         image_id = single_item["image_id"]
+        image_id_split = image_id.split(":")
+        image_name = image_id_split[0]
+        image_version = image_id_split[1]
+        mongo_safe_image_version = image_version.replace(".","_")
         image_meta = single_item["meta"]
         if single_item['status'] == 0:
             total_processed = total_processed + 1
             if image_name not in image_meta_info:
                 image_meta_info[image_name] = {}
-            if image_id not in image_meta_info[image_name]:
-                image_meta_info[image_name][image_id] = {}
-            image_meta_info[image_name][image_id] = image_meta
-            logger.info("["+image_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
+            if mongo_safe_image_version not in image_meta_info[image_name]:
+                image_meta_info[image_name][mongo_safe_image_version] = {}
+            image_meta_info[image_name][mongo_safe_image_version] = image_meta
+            logger.info("["+thread_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
             if debug_mode == True:
                 verbose_logging(single_item)
         else:
-            status_message = "["+image_name+"] " + image_id + " failed to build"
+            status_message = "["+thread_name+"] " + image_id + " failed to build"
             verbose_logging(single_item)
             logger.error(status_message)
             pool.terminate()
