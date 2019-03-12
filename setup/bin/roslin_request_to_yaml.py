@@ -32,73 +32,70 @@ def read_pipeline_settings(pipeline_name_version):
 
 def parse_mapping_file(mfile):
     mapping_dict = dict()
-    fh = open(mfile, "r")
-    csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=mapping_headers)
-    for row in csvreader:
-        #take all hyphens out, these will be word separators in fastq chunks
-        row['sample_id'] = row['sample_id'].replace("-", "_")
-        new_row = copy.deepcopy(row)
-        rg_id = row['sample_id'].replace("-","_") + new_row['library_suffix'].replace("-","_") + "-" + new_row['run_id'].replace("-","_")
-        new_row['run_id'] = new_row['run_id'].replace("-","_")
-        #hyphens suck
-        fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
-        new_row['rg_id'] = []
-        for fastq in fastqs['R1']:
-            new_row['rg_id'].append(rg_id)
-        if row['sample_id'] in mapping_dict:
-            #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
-            #FIXME do this merge better
-            mapping_dict[row['sample_id']]['fastqs']['R1']= mapping_dict[row['sample_id']]['fastqs']['R1'] + fastqs['R1']
-            mapping_dict[row['sample_id']]['fastqs']['R2']= mapping_dict[row['sample_id']]['fastqs']['R2'] + fastqs['R2']
-            #append this so when we have a big list of bullshit, we can hoepfully sort out
-            #the types of bullshit that are suited for each other
+    with open(mfile, "r") as fh:
+        csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=mapping_headers)
+        for row in csvreader:
+            #take all hyphens out, these will be word separators in fastq chunks
+            row['sample_id'] = row['sample_id'].replace("-", "_")
+            new_row = copy.deepcopy(row)
+            rg_id = row['sample_id'].replace("-","_") + new_row['library_suffix'].replace("-","_") + "-" + new_row['run_id'].replace("-","_")
+            new_row['run_id'] = new_row['run_id'].replace("-","_")
+            #hyphens suck
+            fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
+            new_row['rg_id'] = []
             for fastq in fastqs['R1']:
-                mapping_dict[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-" + new_row['run_id'])
-        else:
-            new_row['fastqs'] = fastqs
-            mapping_dict[row['sample_id']] = new_row
+                new_row['rg_id'].append(rg_id)
+            if row['sample_id'] in mapping_dict:
+                #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
+                #FIXME do this merge better
+                mapping_dict[row['sample_id']]['fastqs']['R1']= mapping_dict[row['sample_id']]['fastqs']['R1'] + fastqs['R1']
+                mapping_dict[row['sample_id']]['fastqs']['R2']= mapping_dict[row['sample_id']]['fastqs']['R2'] + fastqs['R2']
+                #append this so when we have a big list of bullshit, we can hoepfully sort out
+                #the types of bullshit that are suited for each other
+                for fastq in fastqs['R1']:
+                    mapping_dict[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-" + new_row['run_id'])
+            else:
+                new_row['fastqs'] = fastqs
+                mapping_dict[row['sample_id']] = new_row
 
     return mapping_dict
 
 
 def parse_pairing_file(pfile):
     pairing = list()
-    fh = open(pfile, "r")
-    csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=pairing_headers)
-    for row in csvreader:
-        pairing.append([row['tumor_id'].replace("-","_"), row['normal_id'].replace("-","_")])
+    with open(pfile, "r") as fh:
+        csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=pairing_headers)
+        for row in csvreader:
+            pairing.append([row['tumor_id'].replace("-","_"), row['normal_id'].replace("-","_")])
+
     return pairing
 
 
 def parse_grouping_file(gfile):
     grouping_dict = dict()
-    fh = open(gfile, "r")
-    csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=grouping_headers)
-    for row in csvreader:
-        if row['group_id'] not in grouping_dict:
-            grouping_dict[row['group_id']] = list()
-        grouping_dict[row['group_id']].append(row['sample_id'].replace("-","_"))
+    with open(gfile, "r") as fh:
+        csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=grouping_headers)
+        for row in csvreader:
+            if row['group_id'] not in grouping_dict:
+                grouping_dict[row['group_id']] = list()
+            grouping_dict[row['group_id']].append(row['sample_id'].replace("-","_"))
+
     return grouping_dict
 
 
 def parse_request_file(rfile):
-    stream = open(rfile, "r")
-    # this format looks like yaml, but sometimes has trailling garbage, so we cant use yaml parser.
-    # thumbs up
-    assay = None
-    project = None
+    request_info = {'Assay': None,'ProjectID': None,'ProjectTitle': None,'ProjectDesc': None,'PI': None, 'TumorType': None}
 
-    while(1):
-        line = stream.readline()
-        if not line:
-            break
-        if line.find("Assay:") == 0:
-            (key, value) = line.strip().split(":")
-            assay = value.strip()
-        if line.find("ProjectID:") > -1:
-            (key, value) = line.strip().split(":")
-            project = value.strip()
-    return (assay, project)
+    with open(rfile, "r") as stream:
+        while True:
+            line = stream.readline()
+            if not line:
+                break
+            for single_key in request_info:
+                if line.find(single_key) > -1:
+                    (key, value) = line.strip().split(":")
+                    request_info[single_key] = value
+    return request_info
 
 
 def get_curated_bams(assay,REQUEST_FILES):
@@ -334,10 +331,12 @@ if __name__ == "__main__":
         "delly_type": delly_type,
         "facets_cval": facets_cval,
         "facets_pcval": facets_pcval,
-        "scripts_bin": scripts_bin, 
+        "scripts_bin": scripts_bin,
         "gatk_jar_path": gatk_jar_path
     }
     out_dict.update({"runparams": params})
-    ofh = open(args.yaml_output_file, "wb")
-    ofh.write(yaml.dump(out_dict))
-    ofh.close()
+    out_dict.update({"meta": request_info})
+    if args.clinical:
+        out_dict['meta'].update({"clinical_data": clinical_data})
+    with open(args.yaml_output_file, "wb") as ofh:
+        ofh.write(yaml.dump(out_dict))
