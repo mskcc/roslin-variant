@@ -13,6 +13,7 @@ import json
 import subprocess
 from collections import defaultdict
 
+
 mapping_headers = ["library_suffix", "sample_id", "run_id", "fastq_directory", "runtype"]
 pairing_headers = ['normal_id', 'tumor_id']
 grouping_headers = ['sample_id', 'group_id']
@@ -247,7 +248,7 @@ if __name__ == "__main__":
         'pairing_file': {'class': 'File', 'path': os.path.realpath(args.pairing)},
         'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
         'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
-        'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},        
+        'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},
         'vep_data': str(REQUEST_FILES['vep_data']),
         'hotspot_list': str(REQUEST_FILES['hotspot_list']),
         'hotspot_list_maf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list_maf'])},
@@ -259,6 +260,7 @@ if __name__ == "__main__":
         'conpair_markers': str(REQUEST_FILES['conpair_markers']),
         'conpair_markers_bed': str(REQUEST_FILES['conpair_markers_bed'])
     }
+
     files.update(intervals)
 
     sample_list = list()
@@ -317,7 +319,7 @@ if __name__ == "__main__":
     }
     params = {
         "abra_scratch": "/scratch",
-        "abra_ram_min": abra_ram_min, 
+        "abra_ram_min": abra_ram_min,
         "genome": genome,
         "mutect_dcov": 50000,
         "mutect_rf": rf,
