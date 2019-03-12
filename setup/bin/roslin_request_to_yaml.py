@@ -197,15 +197,27 @@ if __name__ == "__main__":
     parser.add_argument("-r", "--request", help="the request file", required=True)
     parser.add_argument("-o", "--output-directory", help="output_directory for pipeline (NOT CONFIG FILE)", required=True)
     parser.add_argument("-f", "--yaml-output-file", help="file to write yaml to", required=True)
-    parser.add_argument("--pipeline-name-version",action="store",dest="pipeline_name_version",help="Pipeline name/version (e.g. variant/1.0.0)",required=True)
+    parser.add_argument("--pipeline-name-version",action="store",dest="pipeline_name_version",help="Pipeline name/version (e.g. variant/2.5.0)",required=True)
+    parser.add_argument("--clinical", help="the clinical data file", required=False)
     args = parser.parse_args()
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
+    if args.clinical:
+        if os.path.exists(args.clinical):
+            with open(args.clinical, 'rb') as clinical_data_file:
+                clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
+                clinical_data = list(clinical_reader)
+        else:
+            print >>sys.stderr, "ERROR: Cound not find %s" % args.clinical
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = "/usr/bin"
     qcpdf_jar_path = os.path.join("/usr/bin", "QCPDF.jar")
-    ROSLIN_RESOURCES = json.load(open(ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json", 'r'))
+    roslin_resource_path = ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json"
+    with open(roslin_resource_path, 'r') as roslin_resource_file:
+        ROSLIN_RESOURCES = json.load(roslin_resource_file)
     REQUEST_FILES = ROSLIN_RESOURCES["request_files"]
-    (assay, project_id) = parse_request_file(args.request)
+    request_info = parse_request_file(args.request)
+    assay = request_info['Assay']
+    project_id = request_info['ProjectID']
     intervals = get_baits_and_targets(assay,ROSLIN_RESOURCES)
     gatk_jar_path = str(ROSLIN_RESOURCES["programs"]["gatk"]["default"])
     curated_bams = get_curated_bams(assay,REQUEST_FILES)
