@@ -13,6 +13,7 @@ import traceback
 import ast
 import tempfile
 import shutil
+import time
 
 logger = logging.getLogger("build_images_parallel")
 logger.setLevel(logging.INFO)
@@ -39,13 +40,23 @@ def construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_
     return job_list
 
 def build_image_wrapper(image_info):
+    image_name = image_info[0]
+    image_version = image_info[1]
+    image_id = str(image_name) + ":" + str(image_version)
     try:
-        build_image(*image_info)
+        build_output = build_image(*image_info)
+        if build_output['status'] != 0:
+            retry_message = image_id + " failed to build. Retrying\n"
+            logger.info(retry_message)
+            verbose_logging(build_output)
+            time.sleep(60)
+            build_output = build_image(*image_info)
+        status_queue.put(build_output)
     except:
-        image_name = image_info[0]
-        image_version = image_info[1]
         error_message = "Error: " + str(image_name) + " version " + str(image_version) + " failed\n " + traceback.format_exc()
         logger.error(error_message)
+        output = {'image_id':image_id,'stdout':None,'stderr':error_message,'status':1,'name':current_process().name,'meta':None}
+        status_queue.put(output)
 
 def build_image(image_name,image_version,build_docker,build_singularity,docker_registry,docker_push,status_queue):
     image_id_str = str(image_name) + " version " + str(image_version)
@@ -71,7 +82,7 @@ def build_image(image_name,image_version,build_docker,build_singularity,docker_r
         image_name = image_name + ".sif"
         meta_info = create_meta_info(container_path,image_name)
     output = {'image_id':image_id,'stdout':stdout,'stderr':stderr,'status':exit_code,'name':current_process().name,'meta':meta_info}
-    status_queue.put(output)
+    return output
 
 def docker_login():
     logger.info("Logging into Docker")
