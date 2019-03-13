@@ -139,10 +139,12 @@ def create_meta_info(container_dir,image_name):
     return meta_info
 
 def verbose_logging(single_item):
-    stdout_logging = '---------- STDOUT of '+ single_item["image_id"] + ' ----------\n' + single_item["stdout"]
-    stderr_logging = '---------- STDERR of '+ single_item["image_id"] + ' ----------\n' + single_item["stderr"]
-    logger.info(stdout_logging)
-    logger.info(stderr_logging)
+    if single_item["stdout"]:
+        stdout_logging = '---------- STDOUT of '+ single_item["image_id"] + ' ----------\n' + single_item["stdout"]
+        logger.info(stdout_logging)
+    if single_item["stderr"]:
+        stderr_logging = '---------- STDERR of '+ single_item["image_id"] + ' ----------\n' + single_item["stderr"]
+        logger.info(stderr_logging)
 
 def build_parallel(threads,tool_json,build_docker,build_singularity,docker_registry,docker_push,debug_mode):
     status_queue = Queue()
