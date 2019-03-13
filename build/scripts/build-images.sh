@@ -158,6 +158,7 @@ do
         docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${image_tmp}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
         docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${image_tmp}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > ${image_tmp}/checksum.dat
+        md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh >> ${image_tmp}/checksum.dat
 
         if [ -f $image_path ]
         then
