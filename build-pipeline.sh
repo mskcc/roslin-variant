@@ -254,6 +254,7 @@ cd $ROSLIN_CORE_BIN_PATH
 # Create workspace
 current_user=`python -c "import getpass; print getpass.getuser()"`
 roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
+
 printf "\n----------Setting up----------\n"
 deactivate
 cd $ROSLIN_PIPELINE_DATA_PATH
