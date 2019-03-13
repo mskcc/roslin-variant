@@ -5,6 +5,7 @@ pipeline_version=${ROSLIN_PIPELINE_VERSION}
 
 roslin_request_to_yaml.py \
     --pipeline ${pipeline_name}/${pipeline_version} \
+    --clinical Variant_workflow_SV_sample_data_clinical.txt \
     -m Variant_workflow_SV_sample_mapping.txt \
     -p Variant_workflow_SV_sample_pairing.txt \
     -g Variant_workflow_SV_sample_grouping.txt \
