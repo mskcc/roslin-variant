@@ -154,7 +154,7 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
     total_number_of_jobs = len(job_list)
     total_processed = 0
     image_meta_info = {}
-    while build_results.ready() == False:
+    while build_results.ready() == False or total_processed==total_number_of_jobs:
         single_item = status_queue.get()
         thread_name = single_item['name']
         image_id = single_item["image_id"]
