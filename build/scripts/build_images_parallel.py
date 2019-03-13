@@ -154,7 +154,7 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
     total_number_of_jobs = len(job_list)
     total_processed = 0
     image_meta_info = {}
-    while build_results.ready() == False or total_processed==total_number_of_jobs:
+    while build_results.ready() == False and total_processed!=total_number_of_jobs:
         single_item = status_queue.get()
         thread_name = single_item['name']
         image_id = single_item["image_id"]
@@ -179,12 +179,12 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
             logger.error(status_message)
             pool.terminate()
             sys.exit(status_message)
+    logger.info("---------- Finished building images ----------")
     pool.close()
     pool.join()
     image_meta_path = os.path.abspath(os.path.join(script_path,os.pardir,"containers","images_meta.json"))
     with open(image_meta_path,"w") as image_meta_file:
         json.dump(image_meta_info,image_meta_file, indent=4, sort_keys=True)
-    logger.info("---------- Finished building images ----------")
 
 def move_images():
     move_script_path = os.path.join(script_path,'move-artifacts-to-setup.sh')
