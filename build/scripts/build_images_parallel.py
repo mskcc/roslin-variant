@@ -42,6 +42,7 @@ def construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_
 def build_image_wrapper(image_info):
     image_name = image_info[0]
     image_version = image_info[1]
+    status_queue = image_info[6]
     image_id = str(image_name) + ":" + str(image_version)
     try:
         build_output = build_image(*image_info)
