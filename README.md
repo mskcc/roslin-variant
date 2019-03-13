@@ -40,10 +40,9 @@ Table of Contents:
 To run the pipeline you need:
 
 - Python 2.7.x
-- Node.js 6.1.0
-- [Singularity 2.2.1](http://singularity.lbl.gov/release-2-2-1)
-- Toil
-- [cmo](https://github.com/mskcc/cmo)
+- [Singularity 3.0.3](https://github.com/sylabs/singularity/releases/tag/v3.0.3)
+- [Toil 3.18](https://github.com/DataBiosphere/toil/releases/tag/releases%2F3.18.0)
+- [cmo 1.9.10](https://github.com/mskcc/cmo/releases/tag/1.9.10)
 
 Luna already fulfills these requirements.
 
