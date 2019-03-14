@@ -190,17 +190,41 @@ do
             fi
         fi
 
+        run_script=`cat ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh`
+        test_script_original=`cat ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/run_test.sh`
+        test_script=${test_script_original//"exec /usr/bin/runscript.sh"/"exec /.singularity.d/runscript"}
         # bootstrap the image
         if [ -n "$docker_image_registry" ]
         then
-            singularity build --sandbox --force \
-            $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
-            $docker_image_registry_url
+
+cat > ${image_tmp}/Singularity <<EOF
+Bootstrap: docker
+From: $docker_image_registry
+%runscript
+
+$run_script
+
+%test
+
+$test_script
+EOF
         else
-            singularity build --sandbox --force \
-            $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
-            ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity
+cat > ${image_tmp}/Singularity <<EOF
+Bootstrap: docker-daemon
+From: $tool_info
+%runscript
+
+$run_script
+
+%test
+
+$test_script
+EOF
         fi
+
+        singularity build --sandbox --force \
+        $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
+        ${image_tmp}/Singularity
 
         # create /.roslin/ directory
         singularity exec --writable $image_tmp/${tool_name} mkdir /.roslin/
