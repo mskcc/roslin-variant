@@ -1,6 +1,8 @@
 if [ "$1" == "help" ]
 then
-	exec java /usr/bin/picard-tools/picard.jar
+	exec java -jar /usr/bin/picard-tools/picard.jar
 fi
 
-exec java $1 /usr/bin/picard-tools/picard.jar ${@:2}
+java_args=$1
+shift
+exec java $java_args /usr/bin/picard-tools/picard.jar $@

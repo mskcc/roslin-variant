@@ -1,6 +1,6 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh MarkDuplicates 2>&1 | grep "Version" > /srv/actual.diff.txt || true
-exec /usr/bin/runscript.sh AddOrReplaceReadGroups 2>&1 | grep "Version" >> /srv/actual.diff.txt || true
+exec /usr/bin/runscript.sh -jar MarkDuplicates 2>&1 | grep "Version" > /srv/actual.diff.txt || true
+exec /usr/bin/runscript.sh -jar AddOrReplaceReadGroups 2>&1 | grep "Version" >> /srv/actual.diff.txt || true
 
 # expected output
 cat > /srv/expected.diff.txt << EOM

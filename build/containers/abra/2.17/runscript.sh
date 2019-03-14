@@ -1,6 +1,8 @@
 if [ "$1" == "help" ]
 then
-	exec java /usr/bin/abra.jar
+	exec java -jar /usr/bin/abra.jar
 fi
 
-exec java $1 /usr/bin/abra.jar ${@:2}
+java_args=$1
+shift
+exec java $java_args /usr/bin/abra.jar $@
