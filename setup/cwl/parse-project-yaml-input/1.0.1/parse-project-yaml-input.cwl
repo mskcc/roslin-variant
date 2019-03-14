@@ -330,11 +330,11 @@ expression: "${var groups = inputs.groups;
                 var samples = inputs.samples;
                 var pairs = inputs.pairs;
                 var project_object  = {};
- for (var i =0; i < groups.length; i++) {
+ for (var i =0; i < pairs.length; i++) {
      var group_object = {};
-     for (var j =0; j < groups[i].length; j++) {
+     for (var j =0; j < pairs[i].length; j++) {
          for (var k=0; k < inputs.samples.length; k++) {
-             if (groups[i][j]==samples[k]['ID']) {
+             if (pairs[i][j]==samples[k]['ID']) {
                  for (var key in samples[k]) {
                      if ( key in group_object) {
                          group_object[key].push(samples[k][key]);

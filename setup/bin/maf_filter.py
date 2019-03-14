@@ -23,6 +23,7 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
     portal_maf.write('\t'.join(header[0:45]) + '\n')
     gene_col = header.index('Hugo_Symbol')
     entrez_id_col = header.index('Entrez_Gene_Id')
+    chrom_col = header.index('Chromosome')
     pos_col = header.index('Start_Position')
     hgvsc_col = header.index('HGVSc')
     mut_status_col = header.index('Mutation_Status')
@@ -57,9 +58,9 @@ with open(input_file,'rb') as input_maf, open(analyst_file,'wb') as analyst_maf,
             'start_', 'synonymous_', 'coding_sequence_', 'transcript_', 'exon_', 'initiator_codon_',
             'disruptive_inframe_', 'conservative_missense_', 'rare_amino_acid_', 'mature_miRNA_', 'TFBS_']
         if re.match(r'|'.join(csq_keep), line[csq_col]) is not None or (line[gene_col] == 'TERT' and int(line[pos_col]) >= 1295141 and int(line[pos_col]) <= 1295340):
-            # For IMPACT data, apply the MSK-IMPACT depth/allele-count/VAF/indel-length cutoffs
+            # For IMPACT data, apply the MSK-IMPACT depth/allele-count/VAF cutoffs, and remove MTdna muts
             tumor_vaf = float(line[tad_col]) / float(line[tdp_col]) if line[tdp_col] else 0
-            if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))):
+            if is_impact and (int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05)) or line[chrom_col] == 'MT'):
                 continue
             analyst_maf.write('\t'.join(line) + '\n')
             # The portal also skips silent muts, genes without Entrez IDs, and intronic events

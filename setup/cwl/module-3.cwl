@@ -118,9 +118,6 @@ outputs:
     vardict_vcf:
         type: File
         outputSource: call_variants/vardict_vcf
-    pindel_vcf:
-        type: File
-        outputSource: call_variants/pindel_vcf
     vardict_norm_vcf:
         type: File
         outputSource: filtering/vardict_vcf_filtering_output
@@ -131,12 +128,6 @@ outputs:
         outputSource: filtering/mutect_vcf_filtering_output
         secondaryFiles:
             - .tbi
-    pindel_norm_vcf:
-        type: File
-        outputSource: filtering/pindel_vcf_filtering_output
-        secondaryFiles:
-            - .tbi
-
 steps:
 
     index:
@@ -160,7 +151,7 @@ steps:
             refseq: refseq
             facets_pcval: facets_pcval
             facets_cval: facets_cval
-        out: [ vardict_vcf, pindel_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
+        out: [ vardict_vcf, mutect_vcf, mutect_callstats, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts]
         run:
             class: Workflow
             inputs:
@@ -187,9 +178,6 @@ steps:
                 vardict_vcf:
                     type: File
                     outputSource: vardict/output
-                pindel_vcf:
-                    type: File
-                    outputSource: pindel/output
                 facets_png:
                     type: File[]
                     outputSource: facets/facets_png_output
@@ -222,16 +210,6 @@ steps:
                         facets_pcval: facets_pcval
                         facets_cval: facets_cval
                     out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
-                pindel:
-                    run: cmo-pindel/0.2.5b8/cmo-pindel.cwl
-                    in:
-                        bams: [normal_bam, tumor_bam]
-                        sample_names: [normal_sample_name, tumor_sample_name]
-                        vcf:
-                            valueFrom: ${ return inputs.bams[1].basename.replace(".bam", ".") + inputs.bams[0].basename.replace(".bam", ".pindel.vcf") }
-                        fasta: genome
-                        output_prefix: tumor_sample_name
-                    out: [output]
                 vardict:
                     run: cmo-vardict/1.5.1/cmo-vardict.cwl
                     in:
@@ -265,18 +243,16 @@ steps:
             mutect_vcf: call_variants/mutect_vcf
             mutect_callstats: call_variants/mutect_callstats
             vardict_vcf: call_variants/vardict_vcf
-            pindel_vcf: call_variants/pindel_vcf
             tumor_sample_name: tumor_sample_name
             hotspot_vcf: hotspot_vcf
             ref_fasta: ref_fasta
-        out: [vardict_vcf_filtering_output, pindel_vcf_filtering_output, mutect_vcf_filtering_output]
+        out: [vardict_vcf_filtering_output, mutect_vcf_filtering_output]
         run:
             class: Workflow
             inputs:
                 mutect_vcf: File
                 mutect_callstats: File
                 vardict_vcf: File
-                pindel_vcf: File
                 hotspot_vcf: File
                 tumor_sample_name: string
                 ref_fasta: string
@@ -291,25 +267,12 @@ steps:
                     outputSource: vardict_filtering_step/vcf
                     secondaryFiles:
                         - .tbi
-                pindel_vcf_filtering_output:
-                    type: File
-                    outputSource: pindel_filtering_step/vcf
-                    secondaryFiles:
-                        - .tbi
             steps:
                 mutect_filtering_step:
                     run: basic-filtering.mutect/0.2.1/basic-filtering.mutect.cwl
                     in:
                         inputVcf: mutect_vcf
                         inputTxt: mutect_callstats
-                        tsampleName: tumor_sample_name
-                        hotspotVcf: hotspot_vcf
-                        refFasta: ref_fasta
-                    out: [vcf]
-                pindel_filtering_step:
-                    run: basic-filtering.pindel/0.2.1/basic-filtering.pindel.cwl
-                    in:
-                        inputVcf: pindel_vcf
                         tsampleName: tumor_sample_name
                         hotspotVcf: hotspot_vcf
                         refFasta: ref_fasta
@@ -326,8 +289,7 @@ steps:
     create_vcf_file_array:
         in:
             vcf_vardict: filtering/vardict_vcf_filtering_output 
-            vcf_mutect: filtering/mutect_vcf_filtering_output 
-            vcf_pindel: filtering/pindel_vcf_filtering_output  
+            vcf_mutect: filtering/mutect_vcf_filtering_output
         out: [ vcf_files ]
         run:
             class: ExpressionTool
@@ -342,10 +304,6 @@ steps:
                     type: File
                     secondaryFiles: 
                         - .tbi
-                vcf_pindel: 
-                    type: File
-                    secondaryFiles: 
-                        - .tbi
             outputs:
                 vcf_files:
                     type:
@@ -354,7 +312,7 @@ steps:
                     secondaryFiles: 
                         - .tbi
             expression: "${ var project_object = {};
-                project_object['vcf_files'] = [ inputs.vcf_vardict, inputs.vcf_mutect, inputs.vcf_pindel ];
+                project_object['vcf_files'] = [ inputs.vcf_vardict, inputs.vcf_mutect ];
                 return project_object;
             }"
             

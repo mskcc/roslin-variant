@@ -205,7 +205,7 @@ cd $ROSLIN_CORE_BIN_PATH
 # Setup virtualenv
 printf "\n----------Setting up virtualenv----------\n"
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
-virtualenv virtualenv
+virtualenv virtualenv --system-site-packages
 source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
 cd $parentDir

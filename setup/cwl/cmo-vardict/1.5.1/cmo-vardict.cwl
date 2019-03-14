@@ -52,7 +52,7 @@ arguments:
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 32000
+    ramMin: 96000
     coresMin: 4
 
 
