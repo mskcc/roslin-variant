@@ -62,7 +62,16 @@ then
 fi
 # Run environment
 {{ run_env }}
+if [[ $SINGULARITY_BIND == *"$TMPDIR"* && -n "$TMPDIR" ]]
+then
+	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMPDIR"
+fi
 
+if [[ $SINGULARITY_BIND == *"$TMP"* && -n "$TMP" ]]
+then
+	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMP"
+fi
 # Load singularity into PATH
-export PATH=$PATH:$ROSLIN_SINGULARITY_PATH
+singularity_bin_path=`dirname $ROSLIN_SINGULARITY_PATH`
+export PATH=$singularity_bin_path:$PATH
 echo "Loaded Roslin Pipeline - $ROSLIN_PIPELINE_NAME ( $ROSLIN_PIPELINE_VERSION )"
