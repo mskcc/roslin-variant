@@ -160,6 +160,7 @@ do
         python $script_dir/docker-inspect.py --docker_image $docker_image_name --output $image_tmp
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > ${image_tmp}/checksum.dat
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh >> ${image_tmp}/checksum.dat
+        md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/run_test.sh >> ${image_tmp}/checksum.dat
 
         if [ -f $image_path ]
         then
