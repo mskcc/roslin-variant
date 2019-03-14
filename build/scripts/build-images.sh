@@ -144,8 +144,11 @@ do
             docker_image_name=$tool_info
             export SINGULARITY_NOHTTPS="y"
         else
-           docker pull $docker_image_registry
-           docker_image_name=$docker_image_registry
+            if [ -x "$(command -v docker)" ]
+            then
+                docker pull $docker_image_registry
+            fi
+            docker_image_name=$docker_image_registry
         fi
 
         echo "Using Docker image: ${docker_image_name}"
@@ -154,9 +157,7 @@ do
         image_path=${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
         mkdir -p $image_tmp
         # retrieve labels from docker image and save to labels.json
-        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Config']['Labels']; labels['Docker_Image'] = '${docker_image_registry}'; output_file = open('${image_tmp}/labels.json','w'); json.dump(labels,output_file); output_file.close()"
-        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]['Id']; output_file = open('${image_tmp}/dockerId.json','w'); json.dump(labels,output_file); output_file.close()"
-        docker inspect $docker_image_name | python -c "import sys, json; labels = json.load(sys.stdin)[0]; output_file = open('${image_tmp}/dockerMeta.json','w'); json.dump(labels,output_file); output_file.close()"
+        python $script_dir/docker-inspect.py --docker_image $docker_image_name --output $image_tmp
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/Singularity > ${image_tmp}/checksum.dat
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh >> ${image_tmp}/checksum.dat
 
