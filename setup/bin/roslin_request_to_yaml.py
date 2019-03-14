@@ -254,6 +254,9 @@ if __name__ == "__main__":
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
+    temp_dir = "/scratch"
+    if os.environ['TMPDIR']:
+        temp_dir = os.environ['TMPDIR']
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -330,7 +333,7 @@ if __name__ == "__main__":
         "db_files": files
     }
     params = {
-        "abra_scratch": "/scratch",
+        "abra_scratch": temp_dir,
         "abra_ram_min": abra_ram_min,
         "genome": genome,
         "mutect_dcov": 50000,
@@ -339,7 +342,7 @@ if __name__ == "__main__":
         "covariates": covariates,
         "emit_original_quals": True,
         "num_threads": 10,
-        "tmp_dir": "/scratch",
+        "tmp_dir": temp_dir,
         "project_prefix": project_id,
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
