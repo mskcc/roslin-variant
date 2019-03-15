@@ -331,38 +331,47 @@ expression: "${var groups = inputs.groups;
                 var pairs = inputs.pairs;
                 var project_object  = {};
  for (var i =0; i < pairs.length; i++) {
-     var group_object = {};
+     var pair_object = {};
      for (var j =0; j < pairs[i].length; j++) {
          for (var k=0; k < inputs.samples.length; k++) {
              if (pairs[i][j]==samples[k]['ID']) {
                  for (var key in samples[k]) {
-                     if ( key in group_object) {
-                         group_object[key].push(samples[k][key]);
+                     if ( key in pair_object) {
+                         pair_object[key].push(samples[k][key]);
                      } else {
-                         group_object[key]=[samples[k][key]];
+                         pair_object[key]=[samples[k][key]];
                      }
+                 }
+             }
+         }
+         if (j==0) {
+             sample_name = pairs[i][j];
+             for (var group_i =0; group_i < groups.length; group_i++) {
+                  for (var group_j =0; group_j < groups[group_i].length; group_j++) {
+                      if (sample_name == groups[group_i][group_j]){
+                          pair_object['group_ids']='Pair' +i.toString() + 'Group' + group_i.toString();
+                      }                    
                  }
              }
          }
      }
      var additional_db_files = ['hapmap_inputs', 'dbsnp_inputs', 'indels_1000g_inputs', 'snps_1000g_inputs', 'cosmic_inputs', 'exac_filter_inputs', 'curated_bams_inputs'];
      for (key in inputs.runparams) {
-         group_object[key] = inputs.runparams[key];
+         pair_object[key] = inputs.runparams[key];
      } for (key in inputs.db_files) {
-         group_object[key] = inputs.db_files[key];
+         pair_object[key] = inputs.db_files[key];
      }
      for ( var key_index in additional_db_files){
         var key = additional_db_files[key_index];
         var new_key = key.slice(0, -7);
-        group_object[new_key] = inputs[key];
-      }
-     group_object['group_ids']='Group' + i.toString();
-     for (key in group_object) {
+        pair_object[new_key] = inputs[key];
+      }     
+     for (key in pair_object) {
          if (key in project_object) {
-             project_object[key].push(group_object[key]);
+             project_object[key].push(pair_object[key]);
          }
          else {
-             project_object[key]=[group_object[key]];
+             project_object[key]=[pair_object[key]];
          }
      }
  }
