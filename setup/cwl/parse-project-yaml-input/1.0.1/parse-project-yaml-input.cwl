@@ -345,7 +345,7 @@ expression: "${var groups = inputs.groups;
              }
          }
          if (j==0) {
-             sample_name = pairs[i][j];
+             var sample_name = pairs[i][j];
              for (var group_i =0; group_i < groups.length; group_i++) {
                   for (var group_j =0; group_j < groups[group_i].length; group_j++) {
                       if (sample_name == groups[group_i][group_j]){
