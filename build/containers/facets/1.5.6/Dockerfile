@@ -57,6 +57,10 @@ RUN apk add --update \
             && cd /tmp/facets-suite-${FACETS_SUITE_VERSION} \
             # correct shebang line
                 && sed -i "s/opt\/common\/CentOS_6-dev\/R\/R-3.2.2\//usr\//g" *.R \
+                && sed -i "s/opt\/common\/CentOS_6-dev\/R\/R-3.4.1\//usr\//g" *.R \
+                && sed -i "s/opt\/common\/CentOS_6-dev\/R\/R-3.1.3\//usr\//g" *.R \
+                && sed -i "s/opt\/common\/CentOS_6-dev\/python\/python-2.7.10\/bin\/python/usr\/bin\/env python/g" facets \
+                && sed -i "s/opt\/common\/CentOS_6-dev\/bin\/current\/python/usr\/bin\/env python/g" summarize_project.py \
             # copy execs to /usr/bin/facets-suite
                 && mkdir -p /usr/bin/facets-suite/ \
                 && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin/facets-suite/ \
