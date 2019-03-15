@@ -12,15 +12,16 @@ exec /usr/bin/runscript.sh maf2vcf.pl --help | head -2 >> /srv/actual.diff.txt
 # expected output
 cat > /srv/expected.diff.txt << EOM
 Usage:
- perl vcf2vcf.pl --help
+    perl vcf2vcf.pl --help
 Usage:
- perl vcf2maf.pl --help
+	perl vcf2maf.pl --help
 Usage:
- perl maf2maf.pl --help
+	perl maf2maf.pl --help
 Usage:
- perl maf2vcf.pl --help
+	perl maf2vcf.pl --help
 EOM
-
+cat /srv/expected.diff.txt | tr -d "[:space:]" > /srv/expected.diff.txt
+cat /srv/actual.diff.txt | tr -d "[:space:]" > /srv/actual.diff.txt
 # diff
 exitCode=0
 if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt

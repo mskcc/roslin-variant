@@ -1,5 +1,5 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh --version > /srv/actual.diff.txt
+exec /usr/bin/runscript.sh -jar --version > /srv/actual.diff.txt
 
 # expected output
 cat > /srv/expected.diff.txt << EOM

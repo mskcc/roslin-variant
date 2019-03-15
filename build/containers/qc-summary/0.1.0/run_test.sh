@@ -1,8 +1,8 @@
 # get actual output from generate_pdf
-exec /usr/bin/runscript.sh generate_pdf 2>&1 | head -1 > /srv/actual_generate_pdf.diff.txt
+exec /usr/bin/runscript.sh generate_pdf 2>&1 | head -1 > /srv/actual.diff.txt
 
 # expected generate_pdf output
-cat > /srv/expected_generate_pdf.diff.txt << EOM
+cat > /srv/expected.diff.txt << EOM
 usage: generate_pdf.py [-h] [--gcbias-files GCBIAS_FILES]
 EOM
 
