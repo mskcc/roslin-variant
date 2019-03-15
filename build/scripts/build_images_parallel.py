@@ -44,14 +44,23 @@ def build_image_wrapper(image_info):
     image_version = image_info[1]
     status_queue = image_info[6]
     image_id = str(image_name) + ":" + str(image_version)
+    done = False
+    retry_attempts = 4
+    current_attempt = 1
     try:
-        build_output = build_image(*image_info)
-        if build_output['status'] != 0:
-            retry_message = image_id + " failed to build. Retrying\n"
-            logger.info(retry_message)
-            verbose_logging(build_output)
-            time.sleep(60)
+        while not done:
             build_output = build_image(*image_info)
+            if build_output['status'] != 0:
+                if current_attempt < retry_attempts:
+                    retry_message = image_id + " failed to build. Retrying\n ({}/{})".format(str(current_attempt),str(retry_attempts))
+                    current_attempt = current_attempt + 1
+                    logger.info(retry_message)
+                    verbose_logging(build_output)
+                    time.sleep(60)
+                else:
+                    done = True
+            else:
+                done = True
         status_queue.put(build_output)
     except:
         error_message = "Error: " + str(image_name) + " version " + str(image_version) + " failed\n " + traceback.format_exc()
