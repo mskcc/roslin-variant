@@ -436,6 +436,7 @@ steps:
       vep_data: projparse/vep_data
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
+      groups: groups
     out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
@@ -452,7 +453,7 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
+    scatter: [bams, combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
 
   gather_metrics:
