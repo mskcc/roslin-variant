@@ -1,6 +1,8 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
-	exec java /usr/bin/gatk.jar --help
+	exec java -jar /usr/bin/gatk.jar --help
 fi
 
-exec java $1 /usr/bin/gatk.jar ${@:2}
+java_args=$1
+shift
+exec java $java_args /usr/bin/gatk.jar $@

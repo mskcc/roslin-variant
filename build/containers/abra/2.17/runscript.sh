@@ -1,4 +1,4 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
 	exec java -jar /usr/bin/abra.jar
 fi

@@ -1,6 +1,7 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
-	echo "qc_summary or generate_pdf"; exit 1 ;;
+	echo "qc_summary or generate_pdf"
+	exit 1
 fi
 
 case $1 in

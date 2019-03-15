@@ -1,7 +1,7 @@
 # set resources for cmo
 export CMO_RESOURCE_CONFIG=/etc/conf.d/basic-filtering-resources.json
 
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
 	echo "pindel, mutect, vardict, or sid?"
 	exit 1

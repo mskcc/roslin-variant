@@ -1,6 +1,7 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
-	echo "merge_cut_adapt_stats, analyze_fingerprint, qc_summary, merge_mean_quality_histograms, merge_gc_bias_metrics, merge_insert_size_histograms, merge_picard_metrics, stitch_pdf, hotspots_in_normals, or genlatex"; exit 1 ;;
+	echo "merge_cut_adapt_stats, analyze_fingerprint, qc_summary, merge_mean_quality_histograms, merge_gc_bias_metrics, merge_insert_size_histograms, merge_picard_metrics, stitch_pdf, hotspots_in_normals, or genlatex"
+    exit 1
 fi
 
 export PYTHONNOUSERSITE="set"

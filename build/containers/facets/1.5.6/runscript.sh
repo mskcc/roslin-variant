@@ -1,4 +1,4 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
 	echo "Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN"
 	exit 1

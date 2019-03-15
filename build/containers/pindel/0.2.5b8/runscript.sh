@@ -1,4 +1,4 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
 	echo "pindel or pindel2vcf?"
 	exit 1

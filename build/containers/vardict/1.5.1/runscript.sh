@@ -1,4 +1,4 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
 	echo "vardict, testsomatic.R, var2vcf_paired.pl?"
 	exit 1

@@ -1,4 +1,4 @@
-if [ "$1" == "help" ]
+if [ "$1" = "help" ]
 then
 	echo "vcf2vcf.pl, vcf2maf.pl, maf2maf.pl, or maf2vcf.pl?"
 	exit 1
