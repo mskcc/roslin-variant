@@ -123,8 +123,10 @@ outputs:
        items: string
   srt_bams:
      type:
-       type: array
-       items: File
+       type:  array
+       items:
+         type: array
+         items: File
   srt_curated_bams:
      type:
        type: array
