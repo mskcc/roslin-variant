@@ -73,6 +73,7 @@ then
     else
         if [[ $DOCKER_REGISTRY_NAME != *"localhost"* ]]
         then
+            BUILD_NO_CACHE="true"
         fi
     fi
 fi
@@ -117,7 +118,12 @@ do
     then
         echo "Building Docker Image locally"
         # add --quiet to make it less verbose
-        docker build --no-cache=${BUILD_NO_CACHE} -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+        if [ "$BUILD_NO_CACHE" == "false" ]
+        then
+            docker build -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+        else
+            docker build --no-cache -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+        fi
 
         rm -rf $TMP_DIRECTORY/${tool_name}/${tool_version}
         mkdir -p $TMP_DIRECTORY/${tool_name}/${tool_version}
