@@ -73,7 +73,6 @@ then
     else
         if [[ $DOCKER_REGISTRY_NAME != *"localhost"* ]]
         then
-            docker login
         fi
     fi
 fi
