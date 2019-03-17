@@ -135,6 +135,7 @@ outputs:
 
 expression: '${
  var bams = [];
+ var groups = inputs.groups;
  for (var vcf_i=0; vcf_i< inputs.combine_vcf.length; vcf_i++) {
     var sample_name = inputs.combine_vcf[vcf_i].basename.split(".")[0];
     var vcf_group_id = null;
