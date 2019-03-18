@@ -69,7 +69,7 @@ inputs:
     secondaryFiles:
       - ^.dict
       - ^.fasta.fai
-      
+
   java_xmx:
     type:
     - 'null'
@@ -90,7 +90,7 @@ inputs:
     - [File, string]
     inputBinding:
       prefix: --markers
-      
+
   bam:
     type:
     - [File, string]

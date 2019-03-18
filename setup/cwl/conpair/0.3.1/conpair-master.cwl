@@ -68,16 +68,16 @@ inputs:
   normal_sample_name: string[]
   tumor_sample_name: string[]
   markers:
-      type: 
+      type:
       - [File, string]
   gatk_jar_path:
       type:
       - [File, string]
   markers_bed:
-      type: 
+      type:
       - [File, string]
   pairing_file:
-      type: 
+      type:
       - [File, string]
   file_prefix: string
   runparams:
@@ -90,7 +90,7 @@ inputs:
 outputs:
 
   conpair_output_dir:
-      type: Directory 
+      type: Directory
       outputSource: put-conpair-files-into-directory/directory
 
   contamination_pdf:
@@ -131,10 +131,10 @@ steps:
            tumor_sample_name: string
            normal_sample_name: string
         outputs:
-           tpileout: 
+           tpileout:
                 type: File
                 outputSource: run-pileup-tumor/out_file
-           npileout: 
+           npileout:
                 type: File
                 outputSource: run-pileup-normal/out_file
         steps:

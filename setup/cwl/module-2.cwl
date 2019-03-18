@@ -105,7 +105,7 @@ steps:
         in:
             group: group
             runparams: runparams
-            java_temp: 
+            java_temp:
               valueFrom: ${ return inputs.runparams.tmp_dir; }
             reference_sequence: genome
             coverage_threshold:

@@ -55,38 +55,31 @@ inputs:
             type: record
             fields:
                 tmp_dir: string
-
     bams:
         type:
             type: array
             items: File
         secondaryFiles:
             - ^.bai
-
     combine_vcf:
         type: File
-
     tumor_sample_name: string
     normal_sample_name: string
-
     genome: string
     ref_fasta: string
     vep_path: string
     custom_enst: string
-
     exac_filter:
         type: File
         secondaryFiles:
             - .tbi
     vep_data: string
-
     curated_bams:
         type:
             type: array
             items: File
         secondaryFiles:
             - ^.bai
-
     hotspot_list:
         type: string
 
@@ -114,7 +107,7 @@ steps:
             vcf_normal_id: normal_sample_name
             ncbi_build: genome
             filter_vcf: exac_filter
-            vep_data: vep_data            
+            vep_data: vep_data
             ref_fasta: ref_fasta
             vep_path: vep_path
             custom_enst: custom_enst

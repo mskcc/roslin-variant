@@ -465,7 +465,7 @@ steps:
       md_metrics: group_process/md_metrics
       clstats1: group_process/clstats1
       clstats2: group_process/clstats2
-    out: [ gather_metrics_files, qc_merged_and_hotspots_directory ] 
+    out: [ gather_metrics_files, qc_merged_and_hotspots_directory ]
 
   run_conpair:
     run: conpair.cwl
@@ -484,7 +484,7 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ conpair_output_dir, contamination_pdf, concordance_pdf ] 
+    out: [ conpair_output_dir, contamination_pdf, concordance_pdf ]
 
 #  generate_images:
 #    run: roslin-qc/generate-images.cwl
