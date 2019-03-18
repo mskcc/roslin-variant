@@ -67,7 +67,7 @@ inputs:
       prefix: --maf
 
   pairing:
-    type: File
+    type: ['null', File]
     doc: Tab separated pairing file, normal tumor
     inputBinding:
       prefix: --pairing-file
