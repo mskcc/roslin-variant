@@ -44,6 +44,9 @@ baseCommand:
 - "roslin-qc"
 - --version
 - "0.5.11"
+- --language
+- "python"
+- --language_version
 - --cmd
 - create_cdna_contam
 id: create-cdna-contam
