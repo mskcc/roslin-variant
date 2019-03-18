@@ -49,7 +49,11 @@ requirements:
     StepInputExpressionRequirement: {}
 
 inputs:
-
+    db_files:
+        type:
+            type: record
+            fields:
+                pairing_file: File
     runparams:
         type:
             type: record
@@ -128,6 +132,9 @@ steps:
     fillout_tumor_normal:
         run: cmo-fillout/1.2.2/cmo-fillout.cwl
         in:
+            db_files: db_files
+            pairing:
+                valueFrom: ${ return inputs.db_files.pairing_file; }
             maf: remove_variants/maf
             bams: bams
             genome: genome

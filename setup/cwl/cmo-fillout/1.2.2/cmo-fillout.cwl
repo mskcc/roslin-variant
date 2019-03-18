@@ -66,6 +66,12 @@ inputs:
     inputBinding:
       prefix: --maf
 
+  pairing:
+    type: File
+    doc: Tab separated pairing file, normal tumor
+    inputBinding:
+      prefix: --pairing-file
+
   bams:
     type:
       type: array
