@@ -107,11 +107,11 @@ outputs:
   normal_id:
      type:
        type: array
-       items: string  
+       items: string
   srt_combine_vcf:
     type:
       type: array
-      items: File  
+      items: File
   srt_ref_fasta:
      type:
        type: array
@@ -148,12 +148,12 @@ expression: '${var bams= [];
      for (var j=0; j<inputs.bams[i].length; j++) { bams.push(inputs.bams[i][j]);
      }
  }
- var combine_vcf = inputs.combine_vcf; 
+ var combine_vcf = inputs.combine_vcf;
  var pairs = inputs.pairs;
  var arrays = [combine_vcf];
  var final_answers = [];
  var extra_outputs = [];
- var num_extra_outputs = 8; 
+ var num_extra_outputs = 8;
  for (var m=0; m < arrays.length; m++) {
      final_answers[m]=new Array();
  }
@@ -180,7 +180,7 @@ expression: '${var bams= [];
 }
 return {"tumor_id" : extra_outputs[1],
     "normal_id" : extra_outputs[2],
-    "srt_combine_vcf" : final_answers[0],    
+    "srt_combine_vcf" : final_answers[0],
     "srt_genome": inputs.genome,
     "srt_ref_fasta":extra_outputs[5],
     "srt_vep_path":extra_outputs[6],

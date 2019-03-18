@@ -241,7 +241,7 @@ outputs:
   mutect_dcov:
     type:
       type: array
-      items: int 
+      items: int
   num_cpu_threads_per_data_thread:
     type:
       type: array
