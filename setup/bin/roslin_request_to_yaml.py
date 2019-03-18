@@ -95,7 +95,7 @@ def parse_request_file(rfile):
             for single_key in request_info:
                 if line.find(single_key) > -1:
                     (key, value) = line.strip().split(":")
-                    request_info[single_key] = value
+                    request_info[single_key] = value.strip()
     return request_info
 
 
