@@ -24,7 +24,7 @@ dependencies:
       max: 2.1.0
   cmo:
     version: 1.9.10
-    install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo
+    install-path: /ifs/work/pi/roslin-cmo/1.9.10-dev/cmo
   singularity:
     version: 3.0.3
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-3.0.3/bin/singularity
