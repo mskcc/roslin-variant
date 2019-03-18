@@ -155,7 +155,9 @@ expression: '${
             }             
         }
     }
-    bams.push(group_bams);
+    if (group_bams.length != 0){
+        bams.push(group_bams);
+    }
  }
  var combine_vcf = inputs.combine_vcf;
  var pairs = inputs.pairs;
