@@ -206,7 +206,6 @@ outputs:
         type: array
         items: File
     outputSource: group_process/md_metrics
-
   # vcf
   mutect_vcf:
     type:

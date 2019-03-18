@@ -41,10 +41,10 @@ dct:contributor:
     foaf:mbox: mailto:chunj@mskcc.org
   - class: foaf:Person
     foaf:name: Nikhil Kumar
-    foaf:mbox: mailto:kumarn1@mskcc.org 
+    foaf:mbox: mailto:kumarn1@mskcc.org
   - class: foaf:Person
-    foaf:name: Allan Bolipata 
-    foaf:mbox: mailto:bolipatc@mskcc.org 
+    foaf:name: Allan Bolipata
+    foaf:mbox: mailto:bolipatc@mskcc.org
 
 cwlVersion: v1.0
 
@@ -271,7 +271,7 @@ steps:
                 hotspot_vcf: string
                 tumor_sample_name: string
                 ref_fasta: string
-            outputs:                
+            outputs:
                 mutect_vcf_filtering_output:
                     type: File
                     outputSource: mutect_filtering_step/vcf
@@ -314,7 +314,7 @@ steps:
             inputs:
                 vcf_vardict:
                     type: File
-                    secondaryFiles: 
+                    secondaryFiles:
                         - .tbi
                 vcf_mutect:
                     type: File
@@ -325,13 +325,13 @@ steps:
                     type:
                         type: array
                         items: File
-                    secondaryFiles: 
+                    secondaryFiles:
                         - .tbi
             expression: "${ var project_object = {};
                 project_object['vcf_files'] = [ inputs.vcf_vardict, inputs.vcf_mutect];
                 return project_object;
             }"
-            
+
     concat:
         run: bcftools.concat/1.3.1/bcftools.concat.cwl
         in:

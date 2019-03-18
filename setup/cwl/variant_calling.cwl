@@ -175,7 +175,7 @@ inputs:
         type: array
         items: string
   covint_bed:
-    type: 
+    type:
       type: array
       items: File
 
