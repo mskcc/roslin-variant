@@ -147,6 +147,9 @@ steps:
         in:
             dbsnp: dbsnp
             hapmap: hapmap
+            runparams: runparams
+            java_temp:
+              valueFrom: ${ return inputs.runparams.tmp_dir; }
             indels_1000g: indels_1000g
             snps_1000g: snps_1000g
             reference_sequence: genome
@@ -164,6 +167,7 @@ steps:
         in:
             input_file: abra/outbams
             reference_sequence: genome
+            runparams: runparams
             BQSR: gatk_base_recalibrator/recal_matrix
         out: [out]
         scatter: [input_file]
@@ -177,6 +181,12 @@ steps:
                     type: string
                 BQSR:
                     type: File
+                runparams:
+                    type:
+                        type: record
+                        fields:
+                            abra_ram_min: int
+                            tmp_dir: string
             outputs:
                 out:
                     type: File
@@ -190,6 +200,9 @@ steps:
                         reference_sequence: reference_sequence
                         BQSR: BQSR
                         input_file: input_file
+                        runparams: runparams
+                        java_temp:
+                            valueFrom: ${ return inputs.runparams.tmp_dir; }
                         num_cpu_threads_per_data_thread:
                             default: "5"
                         emit_original_quals:

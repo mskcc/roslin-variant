@@ -85,6 +85,7 @@ inputs:
       type: record
       fields:
         gatk_jar_path: string
+        tmp_dir: string
 
 
 outputs:
@@ -111,7 +112,10 @@ steps:
         ref: ref
         markers: markers
         markers_bed: markers_bed
+        runparams: runparams
         gatk_jar_path: gatk_jar_path
+        java_temp:
+          valueFrom: ${ return inputs.runparams.tmp_dir; }
      out: [ tpileout, npileout ]
      scatter: [ tumor_bam, normal_bam, tumor_sample_name, normal_sample_name ]
      scatterMethod: dotproduct
@@ -126,6 +130,7 @@ steps:
                  - ^.dict
                  - ^.fasta.fai
            gatk_jar_path: string
+           java_temp: string
            markers: string
            markers_bed: string
            tumor_sample_name: string
@@ -144,6 +149,7 @@ steps:
                  bam: tumor_bam
                  ref: ref
                  gatk: gatk_jar_path
+                 java_temp: java_temp
                  markers_bed: markers_bed
                  java_xmx:
                      valueFrom: ${ return ["24g"]; }
@@ -157,6 +163,7 @@ steps:
                  bam: normal_bam
                  ref: ref
                  gatk: gatk_jar_path
+                 java_temp: java_temp
                  markers_bed: markers_bed
                  java_xmx:
                      valueFrom: ${ return ["24g"]; }

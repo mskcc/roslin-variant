@@ -78,7 +78,13 @@ inputs:
     doc: set up java -Xmx parameter
     inputBinding:
       prefix: --xmx_java
-      
+
+  java_temp:
+    type: ['null', string]
+    doc: temporary directory to set -Djava.io.tmpdir
+    inputBinding:
+      prefix: --temp_dir_java
+
   gatk:
     type:
     - [File, string, "null"]
