@@ -55,6 +55,12 @@ inputs:
         type: array
         items: File
   genome: string
+  groups:
+    type:
+      type: array
+      items:
+        type: array
+        items: string
   vep_data:
     type:
       type: array
@@ -136,17 +142,39 @@ outputs:
   srt_bams:
      type:
        type: array
-       items: File
+       items:
+        type: array
+        items: File
   srt_curated_bams:
      type:
        type: array
        items: File
   srt_hotspot_list: string
 
-expression: '${var bams= [];
- for (var i=0; i< inputs.bams.length; i++) {
-     for (var j=0; j<inputs.bams[i].length; j++) { bams.push(inputs.bams[i][j]);
-     }
+expression: '${var bams = [];
+var groups = inputs.groups;
+for (var vcf_i=0; vcf_i< inputs.combine_vcf.length; vcf_i++) {
+    var sample_name = inputs.combine_vcf[vcf_i].basename.split(".")[0];
+    var vcf_group_id = null;
+    var group_bams = [];
+    for (var group_i =0; group_i < groups.length; group_i++) {
+        for (var group_j =0; group_j < groups[group_i].length; group_j++) {
+             if (sample_name == groups[group_i][group_j]){
+                     vcf_group_id = group_i.toString();
+                 }
+         }
+    }
+    for (var i=0; i< inputs.bams.length; i++) {
+        for (var j=0; j<inputs.bams[i].length; j++) {
+            var bam_group = inputs.bams[i][j].basename.match(/Group\d+/)[0];
+            if ( bam_group == vcf_group_id ){
+                group_bams.push(inputs.bams[i][j]);
+            }
+        }
+    }
+    if (group_bams.length != 0){
+        bams.push(group_bams);
+    }
  }
  var combine_vcf = inputs.combine_vcf;
  var pairs = inputs.pairs;
