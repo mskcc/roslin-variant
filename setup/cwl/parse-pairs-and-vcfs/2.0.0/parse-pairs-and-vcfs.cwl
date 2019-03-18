@@ -50,7 +50,7 @@ requirements:
 inputs:
   bams:
     type:
-      type:  array
+      type: array
       items:
         type: array
         items: File
