@@ -323,9 +323,9 @@ outputs:
     type: File
     outputSource: run_conpair/contamination_pdf
 
-#  cdna_contam_output:
-#    type: File?
-#    outputSource: run_cdna_contam_check/cdna_contam_output
+  cdna_contam_output:
+    type: File?
+    outputSource: run_cdna_contam_check/cdna_contam_output
 
   consolidated_results:
     type: Directory
@@ -508,7 +508,16 @@ steps:
       runparams: runparams
       samples: samples
       groups: groups
-    out: [ conpair_output_dir, concordance_pdf, contamination_pdf ]
+    out: [ conpair_output_dir ]
+
+  run_cdna_contam_check:
+    run: roslin-qc/create-cdna-contam.cwl
+    in:
+      runparams: runparams
+      input_mafs: find_svs/maf_file
+      project_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+    out: [ cdna_contam_output ]
 
   generate_images:
     run: roslin-qc/generate-images.cwl
