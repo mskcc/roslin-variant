@@ -32,8 +32,6 @@ class LegacyVariantWorkflow(RoslinWorkflow):
 		workflow_output_path = os.path.join("outputs",workflow_output)
 		workflow_log_path = os.path.join(workflow_output_path,"logs")
 		self.params['workflows'][workflow_name] = workflow_info
-		self.update_copy_outputs_config(output_config)
-		super().configure()
 		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output}],
 						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
 						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
@@ -63,8 +61,6 @@ class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
 		workflow_output_path = os.path.join("outputs",workflow_output)
 		workflow_log_path = os.path.join(workflow_output_path,"logs")
 		self.params['workflows'][workflow_name] = workflow_info
-		self.update_copy_outputs_config(output_config)
-		super().configure()
 		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output}],
 						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
 						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
@@ -86,7 +82,7 @@ class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
 class VariantWorkflow(RoslinWorkflow):
 
 	def configure(self):
-		super.configure()
+		super().configure()
 		self.params['configure']['run_sv'] = False
 
 	def run_pipeline(self):
