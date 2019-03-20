@@ -9,7 +9,6 @@ roslin_request_to_yaml.py \
     -p Filtering_sample_pairing.txt \
     -g Filtering_sample_grouping.txt \
     -r Filtering_request.txt \
-    -o . \
     -f inputs.yaml
 
 roslin_submit.py \

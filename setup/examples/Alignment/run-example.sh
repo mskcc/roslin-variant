@@ -9,7 +9,6 @@ roslin_request_to_yaml.py \
     -p Alignment_sample_pairing.txt \
     -g Alignment_sample_grouping.txt \
     -r Alignment_request.txt \
-    -o . \
     -f inputs.yaml
 
 roslin_submit.py \

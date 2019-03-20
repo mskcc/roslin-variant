@@ -9,7 +9,6 @@ roslin_request_to_yaml.py \
     -p Structural_variants_sample_pairing.txt \
     -g Structural_variants_sample_grouping.txt \
     -r Structural_variants_request.txt \
-    -o . \
     -f inputs.yaml
 
 roslin_submit.py \

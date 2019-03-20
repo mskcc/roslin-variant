@@ -10,7 +10,6 @@ roslin_request_to_yaml.py \
     -p Legacy_variant_workflow_SV_sample_pairing.txt \
     -g Legacy_variant_workflow_SV_sample_grouping.txt \
     -r Legacy_variant_workflow_SV_request.txt \
-    -o . \
     -f inputs.yaml
 
 roslin_submit.py \

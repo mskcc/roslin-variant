@@ -9,7 +9,6 @@ roslin_request_to_yaml.py \
     -p Gather_metrics_sample_pairing.txt \
     -g Gather_metrics_sample_grouping.txt \
     -r Gather_metrics_request.txt \
-    -o . \
     -f inputs.yaml
 
 roslin_submit.py \

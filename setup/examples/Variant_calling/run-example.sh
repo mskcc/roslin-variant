@@ -9,7 +9,6 @@ roslin_request_to_yaml.py \
     -p Variant_calling_sample_pairing.txt \
     -g Variant_calling_sample_grouping.txt \
     -r Variant_calling_request.txt \
-    -o . \
     -f inputs.yaml
 
 roslin_submit.py \
