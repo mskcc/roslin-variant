@@ -30,15 +30,15 @@ class LegacyVariantWorkflow(RoslinWorkflow):
 		workflow_name = self.__class__.__name__
 		workflow_info = {'output':workflow_output,'filename':workflow_filename}
 		workflow_output_path = os.path.join("outputs",workflow_output)
-		workflow_log_path = os.path.join(workflow_output_path,"logs")
+		workflow_log_path = os.path.join(workflow_output_path,"log")
 		self.params['workflows'][workflow_name] = workflow_info
-		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output}],
-						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
-						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
-						 "qc":  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output}],
+		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}],
+						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output_path}],
+						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output_path}],
+						 "qc":  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output_path}],
 						 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
 						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}],
-						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output}]}
+						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output_path}]}
 		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
@@ -59,15 +59,15 @@ class LegacyVariantWorkflowSV(LegacyVariantWorkflow):
 		workflow_name = self.__class__.__name__
 		workflow_info = {'output':workflow_output,'filename':workflow_filename}
 		workflow_output_path = os.path.join("outputs",workflow_output)
-		workflow_log_path = os.path.join(workflow_output_path,"logs")
+		workflow_log_path = os.path.join(workflow_output_path,"log")
 		self.params['workflows'][workflow_name] = workflow_info
-		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output}],
-						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
-						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
-						 "qc":  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output}],
+		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}],
+						 "vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output_path}],
+						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output_path}],
+						 "qc":  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output_path}],
 						 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
 						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}],
-						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output}]}
+						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output_path}]}
 		self.update_copy_outputs_config(output_config)
 
 	def run_pipeline(self):
@@ -125,7 +125,7 @@ class Alignment(RoslinWorkflow):
 		workflow_name = self.__class__.__name__
 		workflow_info = {'output':workflow_output,'filename':workflow_filename}
 		workflow_output_path = os.path.join("outputs",workflow_output)
-		workflow_log_path = os.path.join(workflow_output_path,"logs")
+		workflow_log_path = os.path.join(workflow_output_path,"log")
 		output_config = {"bam": [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}],
 						 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
 						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}] }
@@ -264,8 +264,8 @@ class VariantCalling(RoslinWorkflow):
 		workflow_info = {'output':workflow_output,'filename':workflow_filename}
 		workflow_output_path = os.path.join("outputs",workflow_output)
 		workflow_log_path = os.path.join(workflow_output_path,"log")
-		output_config = {"vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output}],
-						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output}],
+		output_config = {"vcf": [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output_path}],
+						 "facets": [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output_path}],
          				 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
 						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}]}
 		self.params['workflows'][workflow_name] = workflow_info
@@ -342,8 +342,8 @@ class StructuralVariants(RoslinWorkflow):
 		workflow_info = {'output':workflow_output,'filename':workflow_filename}
 		workflow_output_path = os.path.join("outputs",workflow_output)
 		workflow_log_path = os.path.join(workflow_output_path,"log")
-		output_config = {"vcf": [{"patterns": ["*.vcf"], "input_folder": workflow_output}],
-         				 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output}],
+		output_config = {"vcf": [{"patterns": ["*.vcf"], "input_folder": workflow_output_path}],
+						 "maf": [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output_path}],
          				 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
 						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}]}
 		self.params['workflows'][workflow_name] = workflow_info
@@ -380,7 +380,7 @@ class Filtering(RoslinWorkflow):
 		workflow_info = {'output':workflow_output,'filename':workflow_filename}
 		workflow_output_path = os.path.join("outputs",workflow_output)
 		workflow_log_path = os.path.join(workflow_output_path,"log")
-		output_config = {"maf": [{"patterns": ["*.maf"], "input_folder": workflow_output}],
+		output_config = {"maf": [{"patterns": ["*.maf"], "input_folder": workflow_output_path}],
          				 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
 						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}]}
 		self.params['workflows'][workflow_name] = workflow_info
