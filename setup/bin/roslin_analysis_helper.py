@@ -14,22 +14,25 @@ logger = logging.getLogger("roslin_analysis_helper")
 old_jobs_folder = "oldJobs"
 
 def generate_legacy_clinical_data(clinical_data,coverage_values):
-    legacy_clinical_data = copy.copy(clinical_data)
     for single_row in clinical_data:
         sample_id = single_row['SAMPLE_ID']
         coverage_value = coverage_values[sample_id]
-        legacy_clinical_data['SAMPLE_COVERAGE'] = coverage_value
-    return legacy_clinical_data
+        single_row['SAMPLE_COVERAGE'] = coverage_value
+    return clinical_data
 
 
-def get_sample_list(clinical_data_path):
+def get_sample_list(clinical_data):
     sample_list = []
-    with open(clinical_data_path) as input_file:
-        reader = csv.reader(input_file, dialect='excel-tab')
-        for row in reader:
-            sample_list.append(row[0])
-    sample_list.pop(0)
+    for single_row in clinical_data:
+        sample_list.append(single_row['SAMPLE_ID'])
     return sample_list
+
+def run_command_list(command_list,name):
+    command_num = 1
+    for single_command in command_list:
+        single_command_name = name + '_' + str(command_num)
+        run_job(single_command,True,single_command_name)
+        command_num = command_num + 1
 
 def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,script_path,pipeline_version_str,is_impact):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
@@ -39,13 +42,14 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_mut_
     portal_file = os.path.join(output_directory,maf_file_name)
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
-
-    first_maf_command = 'grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
-    second_maf_command = 'grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
-    third_maf_command = 'python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file])
-    run_job(first_maf_command,True,'generate_maf_1')
-    run_job(second_maf_command,True,'generate_maf_2')
-    run_job(third_maf_command,True,'generate_maf_3')
+    tmp_combined_output_file = combined_output_file + ".tmp"
+    maf_command_list = []
+    maf_command_list.append('grep -h --regexp=^Hugo ' + maf_files_query + ' > ' + tmp_combined_output_file)
+    maf_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_file)
+    maf_command_list.append('rm ' + tmp_combined_output_file)
+    maf_command_list.append('grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file)
+    maf_command_list.append('python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file]))
+    run_command_list(maf_command_list,'generate_maf')
 
 def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
     fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
@@ -53,36 +57,60 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
     combined_output_path = os.path.join(output_directory,combined_output)
     output_path = os.path.join(output_directory,data_filename)
     fusion_filter_script = os.path.join(script_path,'fusion_filter.py')
+    tmp_combined_output_file = combined_output_path + ".tmp"
+    fusion_command_list = []
+    fusion_command_list.append('grep -h --regexp=^Hugo ' + fusion_files_query + ' > ' + tmp_combined_output_file)
+    fusion_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_path)
+    fusion_command_list.append('rm ' + tmp_combined_output_file)
+    fusion_command_list.append('grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path)
+    fusion_command_list.append('python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path)
+    run_command_list(fusion_command_list,'generate_fusion')
 
-    first_fusion_command = 'grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
-    second_fusion_command ='grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
-    third_fusion_command = 'python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path
-    run_job(first_fusion_command,True,'generate_fusion_1')
-    run_job(second_fusion_command,True,'generate_fusion_2')
-    run_job(third_fusion_command,True,'generate_fusion_3')
+def assay_matcher(assay):
+    if assay.find("IMPACT410") > -1:
+        assay = "IMPACT410_b37"
+    if assay.find("IMPACT468") > -1:
+        assay = "IMPACT468_b37"
+    if assay.find("IMPACT341") > -1:
+        assay = "IMPACT341_b37"
+    if assay.find("IDT_Exome_v1_FP") > -1:
+        assay = "IDT_Exome_v1_FP_b37"
+    if assay.find("IMPACT468+08390") > -1:
+        assay = "IMPACT468_08390"
+    return assay
 
-def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,log_directory):
+def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,assay,log_directory):
     discrete_copy_number_files_query = os.path.join(data_directory,'*_hisens.cncf.txt')
     output_path = os.path.join(output_directory,data_filename)
     scna_output_path = output_path.replace('.txt','.scna.txt')
-
-    first_cna_command = 'cmo_facets --suite-version 1.5.6 geneLevel -f ' + discrete_copy_number_files_query + ' -m scna -o ' + output_path
-    second_cna_command = 'mv ' + output_path + ' ' + gene_cna_file
-    third_cna_command = 'mv ' + scna_output_path + ' ' + output_path
-    run_job(first_cna_command,True,'generate_discrete_copy_number_1')
-    run_job(second_cna_command,True,'generate_discrete_copy_number_2')
-    run_job(third_cna_command,True,'generate_discrete_copy_number_3')
+    extra_arg = ''
+    if "ROSLIN_PIPELINE_BIN_PATH" in os.environ:
+        roslin_resources_path = os.path.join(os.environ["ROSLIN_PIPELINE_BIN_PATH"],'scripts','roslin_resources.json')
+        os.environ['CMO_RESOURCE_CONFIG'] = roslin_resources_path
+        with open(roslin_resources_path) as roslin_resources_file:
+            roslin_resources_data = json.load(roslin_resources_file)
+            targets = roslin_resources_data['targets']
+            if assay not in targets:
+                assay = assay_matcher(assay)
+            interval_list = targets[assay]['targets_list']
+            extra_arg = '--targetFile '+ interval_list
+    cna_command_list = []
+    cna_command_list.append('tool.sh --tool facets --version 1.5.6 --language_version default --language python --cmd geneLevel ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m scna -o ' + output_path)
+    cna_command_list.append('mv ' + output_path + ' ' + gene_cna_file)
+    cna_command_list.append('mv ' + scna_output_path + ' ' + output_path)
+    run_command_list(cna_command_list,'generate_discrete_copy_number')
 
 def generate_segmented_copy_number_data(data_directory,output_directory,data_filename,analysis_seg_file,log_directory):
     segmented_files_query = os.path.join(data_directory,'*_hisens.seg')
-    output_path = os.path.join(output_directory,data_filename)
+    combined_output_path = os.path.join(output_directory,data_filename)
+    tmp_combined_output_file = combined_output_path + ".tmp"
     # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
-    first_seg_command = 'grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
-    second_seg_command = 'grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
-    third_seg_command = 'cp ' + output_path + ' ' + analysis_seg_file
-    run_job(first_seg_command,True,'generate_segmented_copy_number_1')
-    run_job(second_seg_command,True,'generate_segmented_copy_number_2')
-    run_job(third_seg_command,True,'generate_segmented_copy_number_3')
+    seg_command_list = []
+    seg_command_list.append('grep -h --regexp=^ID ' + segmented_files_query + ' > ' + tmp_combined_output_file)
+    seg_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_path)
+    seg_command_list.append('grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS="\t" {$6=sprintf("%.4f",$6); print}\' >> ' + combined_output_path)
+    seg_command_list.append('cp ' + combined_output_path + ' ' + analysis_seg_file)
+    run_command_list(seg_command_list,'generate_segmented_copy_number')
 
 def create_case_list_file(cases_path,cases_data):
     with open(cases_path,'w') as cases_file:
@@ -205,7 +233,7 @@ def run_job(command, shell, name):
         if stdout:
             output_message = "----- log stdout -----\n {}".format(stdout)
         if stderr:
-            error_message = "----- log stderr -----\n {}",format(stderr)
+            error_message = "----- log stderr -----\n {}".format(stderr)
         if errorcode != 0:
             error_message = error_message + "\nJob ( {} ) Failed, errorcode: {}".format(name,str(errorcode))
         else:
@@ -409,19 +437,16 @@ if __name__ == '__main__':
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
     parser.add_argument('--results_directory',required=False,help='The result directory for roslin run')
     parser.add_argument('--log_directory',required=False,help='Set the log directory')
+    parser.add_argument('--output_directory',required=False,help='Output directory for analysis result')
     parser.add_argument('--sample_summary',required=False,help='The sample summary file generated from Roslin QC')
     parser.add_argument('--clinical_data',required=False,help='The clinical file located with Roslin manifests')
     parser.add_argument('--debug',action="store_true",required=False, help="Run the analysis helper in debug mode")
     args = parser.parse_args()
-    script_path = os.path.realpath(__file__)
+    script_path = os.path.dirname(os.path.realpath(__file__))
     current_working_directory = os.getcwd()
     log_directory = current_working_directory
-    if parser.log_directory:
+    if args.log_directory:
         log_directory = parser.log_directory
-    if parser.debug:
-        logger.setLevel(logging.DEBUG)
-    else:
-        logger.setLevel(logging.INFO)
     # handle duplicate logs
     log_file_path = os.path.join(log_directory,'roslin_analysis_helper.log')
     if os.path.exists(log_file_path):
@@ -433,10 +458,20 @@ if __name__ == '__main__':
         shutil.move(log_file_path,log_failed)
     logger.propagate = False
     log_file_handler = logging.FileHandler(log_file_path)
-    log_file_handler.setLevel(logging.INFO)
+    log_stream_handler = logging.StreamHandler()
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
+        log_file_handler.setLevel(logging.DEBUG)
+        log_stream_handler.setLevel(logging.DEBUG)
+    else:
+        logger.setLevel(logging.INFO)
+        log_file_handler.setLevel(logging.INFO)
+        log_stream_handler.setLevel(logging.INFO)
     log_formatter = logging.Formatter('%(asctime)s - %(message)s')
     log_file_handler.setFormatter(log_formatter)
+    log_stream_handler.setFormatter(log_formatter)
     logger.addHandler(log_file_handler)
+    logger.addHandler(log_stream_handler)
 
     if args.clinical_data and not args.sample_summary:
         logger.error("You need to specify the sample_summary when using clinical data")
@@ -447,7 +482,7 @@ if __name__ == '__main__':
     clinical_data = None
 
     if args.clinical_data:
-        with open(args.clinical, 'rb') as clinical_data_file:
+        with open(args.clinical_data, 'rb') as clinical_data_file:
             clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
             clinical_data = list(clinical_reader)
     else:
@@ -497,7 +532,14 @@ if __name__ == '__main__':
     else:
         output_directory = args.output_directory
 
-    analysis_dir = os.path.abspath(output_directory,'analysis')
+    output_directory = os.path.abspath(output_directory)
+
+    if os.path.exists(output_directory):
+        logger.info('Removing output directory: ' + str(output_directory))
+        shutil.rmtree(output_directory)
+        os.makedirs(output_directory)
+
+    analysis_dir = os.path.abspath(os.path.join(output_directory,'analysis'))
     if not os.path.exists(analysis_dir):
         os.makedirs(analysis_dir)
     analysis_mut_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
@@ -506,7 +548,7 @@ if __name__ == '__main__':
     analysis_arm_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.arm.cna.txt')
     analysis_seg_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.seg.cna.txt')
 
-    if args.clinical_data:
+    if clinical_data:
         legacy_clinical_data = generate_legacy_clinical_data(clinical_data,coverage_values)
         # writing new format of data clinical files using legacy data in 'clinical_data_path'
         data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(legacy_clinical_data)
@@ -518,12 +560,11 @@ if __name__ == '__main__':
             out.write(data_clinical_patient_txt)
         logger.info('Finished generating clinical data, including in the new format')
         logger.info('Removing legacy data_clinical.txt file.')
-        os.remove(clinical_data_path)
-        sample_list = get_sample_list(args.clinical_data)
+        sample_list = get_sample_list(clinical_data)
         generate_case_lists(portal_config_data,sample_list,output_directory)
         logger.info('Finished generating case lists')
 
-    results_log_folder = os.path.join(results_directory,'log')
+    results_log_folder = os.path.join(args.results_directory,'log')
     version_str = None
     workflow_params_file_path = os.path.join(results_log_folder,"workflow_params.json")
     if os.path.exists(workflow_params_file_path):
@@ -543,9 +584,9 @@ if __name__ == '__main__':
     logger.info('Finished generating segmented meta')
 
     logger.info('Submitting job to generate maf data')
-    generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,args.script_path,version_str,project_is_impact)
+    generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,script_path,version_str,project_is_impact)
     logger.info('Submitting job to generate discrete copy number data')
-    generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory)
+    generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,assay,log_directory)
     logger.info('Submitting job to generate segmented copy number data')
     generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory)
 
@@ -580,8 +621,8 @@ if __name__ == '__main__':
     if project_is_impact:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
-        generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path)
         logger.info('Submitting job to generate fusion data')
+        generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,script_path)
         fusion_meta_path = os.path.join(output_directory,fusion_meta_file)
         logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:
