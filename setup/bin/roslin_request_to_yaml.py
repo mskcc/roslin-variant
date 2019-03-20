@@ -195,7 +195,6 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--pairing", help="the pairing file", required=True)
     parser.add_argument("-g", "--grouping", help="the grouping file", required=True)
     parser.add_argument("-r", "--request", help="the request file", required=True)
-    parser.add_argument("-o", "--output-directory", help="output_directory for pipeline (NOT CONFIG FILE)", required=True)
     parser.add_argument("-f", "--yaml-output-file", help="file to write yaml to", required=True)
     parser.add_argument("--pipeline-name-version",action="store",dest="pipeline_name_version",help="Pipeline name/version (e.g. variant/2.5.0)",required=True)
     parser.add_argument("--clinical", help="the clinical data file", required=False)
