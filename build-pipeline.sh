@@ -98,7 +98,11 @@ fi
 printf "\n----------Setting Up----------\n"
 #Script will exit if a command exits with nonzero exit value
 set -e
-
+if [ -d build-venv ]
+then
+    echo "Overwriting virtualenv"
+    rm -r build-venv
+fi
 virtualenv build-venv
 source build-venv/bin/activate
 pip install --requirement build/build_requirements.txt
