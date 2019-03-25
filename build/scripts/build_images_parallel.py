@@ -170,15 +170,13 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
         image_id_split = image_id.split(":")
         image_name = image_id_split[0]
         image_version = image_id_split[1]
-        mongo_safe_image_version = image_version.replace(".","_")
         image_meta = single_item["meta"]
         if single_item['status'] == 0:
             total_processed = total_processed + 1
             if image_name not in image_meta_info:
-                image_meta_info[image_name] = {}
-            if mongo_safe_image_version not in image_meta_info[image_name]:
-                image_meta_info[image_name][mongo_safe_image_version] = {}
-            image_meta_info[image_name][mongo_safe_image_version] = image_meta
+                image_meta_info[image_name] = []
+            image_obj = {'version':image_version,'meta': images_meta}
+            image_meta_info[image_name].append(image_obj)
             logger.info("["+thread_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
             if debug_mode == True:
                 verbose_logging(single_item)
