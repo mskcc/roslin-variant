@@ -65,6 +65,8 @@ def configure_setup_settings(settings,filtered_binding_point_list):
     for single_env_key, single_env_val in settings["env"].items():
         run_env_str = run_env_str + "export " + single_env_key + '="' + single_env_val + '"\n'
 
+    docker_binding = '-v ' + ' -v '.join([ bind + ':' + bind for bind in filtered_binding_point_list])
+
     # render
     content = template.render(
         pipeline_description=settings["description"],
@@ -80,6 +82,7 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         binding_workspace=settings["binding"]["workspace"],
         binding_extra=" ".join(settings["binding"]["extra"]),  # to space-separated list
         binding_deduplicated=",".join(filtered_binding_point_list),
+        docker_binding=docker_binding,
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
         dependencies_cmo_install_path=os.path.join(
             settings["dependencies"]["cmo"]["install-path"]
@@ -104,6 +107,8 @@ def configure_test_settings(settings):
         test_tmp=settings["test"]["tempDir"],
         test_batchsystem=settings["test"]["batchsystem"],
         test_cwl_batchsystem=settings["test"]["cwlBatchsystem"],
+        test_use_docker=settings["test"]["useDocker"],
+        test_docker_registry=settings["test"]["dockerRegistry"],
         test_run_args=settings["test"]["runArgs"],
         test_env=test_env_str
     )

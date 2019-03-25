@@ -35,6 +35,8 @@ test:
   root: /srv/scratch/roslin-test/work
   batchsystem: singleMachine
   cwlBatchsystem: singleMachine
+  useDocker: True
+  dockerRegistry: None
   tempDir: /srv/scratch/roslin-test/scratch
   runArgs: '--on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py'
   env:
