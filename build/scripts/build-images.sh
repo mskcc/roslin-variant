@@ -116,13 +116,30 @@ do
 
     if [ "$BUILD_DOCKER_IMAGE" == "1" ]
     then
-        echo "Building Docker Image locally"
-        # add --quiet to make it less verbose
-        if [ "$BUILD_NO_CACHE" == "false" ]
+        if [ -n $DOCKER_REGISTRY_NAME ]
         then
-            docker build -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
-        else
-            docker build --no-cache -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+            if [[ $DOCKER_REGISTRY_NAME != *"localhost"* ]]
+            then
+                if [ "$PUSH_TO_DOCKER_REGISTRY" != "1" ]
+                then
+                    docker_pull="1"
+                    echo "Pulling from Docker Registry: ${docker_image_registry}"
+                    docker pull ${docker_image_registry}
+                    docker tag ${docker_image_registry} ${tool_info}
+                fi
+            fi
+        fi
+
+        if [ "$docker_pull" != "1" ]
+        then
+            echo "Building Docker Image locally"
+            # add --quiet to make it less verbose
+            if [ "$BUILD_NO_CACHE" == "false" ]
+            then
+                docker build -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+            else
+                docker build --no-cache -t ${tool_info} ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}
+            fi
         fi
 
         rm -rf $TMP_DIRECTORY/${tool_name}/${tool_version}
