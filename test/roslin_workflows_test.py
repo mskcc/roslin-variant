@@ -79,9 +79,6 @@ def run_test(folder_name):
 def test_alignment():
     run_test("Alignment")
 
-def test_alignment_post():
-    run_test('Alignment_post')
-
 def test_gather_metrics():
     run_test('Gather_metrics')
 
@@ -90,9 +87,6 @@ def test_conpair():
 
 def test_variant_calling():
     run_test('Variant_calling')
-
-def test_variant_calling_post():
-    run_test('Variant_calling_post')
 
 def test_structural_varaints():
     run_test('Structural_variants')
