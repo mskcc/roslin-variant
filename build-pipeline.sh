@@ -243,7 +243,7 @@ then
     vagrant ssh -- -t "$buildCommand"
 else
     buildCommand="python $buildScript $buildArgs"
-    #$buildCommand
+    $buildCommand
 fi
 
 printf "\n----------Compressing----------\n"
