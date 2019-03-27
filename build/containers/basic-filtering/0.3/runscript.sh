@@ -1,3 +1,6 @@
+
+export CMO_RESOURCE_CONFIG=/usr/bin/basicfiltering/data/cmo_resources.json
+
 if [ "$1" = "help" ]
 then
 	echo "pindel, mutect, vardict, sid, or complex?"

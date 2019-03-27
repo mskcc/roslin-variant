@@ -1,10 +1,22 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh help 2>&1 | sed -n "2p;3p;" > /srv/actual.diff.txt
+
+exec /usr/bin/runscript.sh annotate 2>&1 | head -3 >> /srv/actual.diff.txt
+exec /usr/bin/runscript.sh concat 2>&1 | head -3 >> /srv/actual.diff.txt
+exec /usr/bin/runscript.sh tabix 2>&1 | head -3 >> /srv/actual.diff.txt
 
 # expected output
 cat > /srv/expected.diff.txt << EOM
-Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)
-Version: 1.9 (using htslib 1.9)
+
+About:   Annotate and edit VCF/BCF files.
+Usage:   bcftools annotate [options] <in.vcf.gz>
+
+
+About:   Concatenate or combine VCF/BCF files. All source files must have the same sample
+         columns appearing in the same order. The program can be used, for example, to
+
+
+Usage: bcftools tabix [options] <in.gz> [reg1 [...]]
+
 EOM
 
 # diff
