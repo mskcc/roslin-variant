@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: ngs-filters
-  doap:revision: 1.3
+  doap:revision: 1.4
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -45,7 +45,7 @@ baseCommand:
 - --tool
 - "ngs-filters"
 - --version
-- "1.3"
+- "1.4"
 - --language_version
 - "default"
 - --language
@@ -70,7 +70,7 @@ inputs:
       prefix: --verbose
 
   inputMaf:
-    type: 
+    type:
     - File
     doc: Input maf file which needs to be tagged
     inputBinding:
