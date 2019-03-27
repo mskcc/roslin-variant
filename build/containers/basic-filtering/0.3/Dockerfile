@@ -2,23 +2,21 @@ FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
-      version.basicfiltering="0.2.1" \
+      version.basicfiltering="0.3" \
       version.alpine="3.8" \
       version.cmo="1.9.10" \
-      version.bcftools="1.5" \
+      version.bcftools="1.9" \
       source.cmo="https://github.com/mskcc/cmo/releases/tag/1.9.10" \
-      source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.2.1" \
-      source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.5"
+      source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.3" \
+      source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.9"
 
-COPY basic-filtering-resources.json /etc/conf.d/basic-filtering-resources.json
 COPY runscript.sh /usr/bin/runscript.sh
 COPY run_test.sh /run_test.sh
 
-ENV CMO_RESOURCE_CONFIG /etc/conf.d/basic-filtering-resources.json
-ENV BASICFILTERING_VERSION 0.2.1
+ENV BASICFILTERING_VERSION 0.3
 ENV HTSLIB_VERSION 1.5
 ENV CMO_VERSION 1.9.10
-ENV BCFTOOLS_VERSION 1.5
+ENV BCFTOOLS_VERSION 1.9
 
 RUN apk add --update \
       # install all the build-related tools
@@ -42,12 +40,13 @@ RUN apk add --update \
             && cd /tmp/cmo-${CMO_VERSION} \
             && python setup.py install \
       # download, unzip, install basic-filtering
-            && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
-            && unzip ${BASICFILTERING_VERSION}.zip \
-            && cd /tmp/basicfiltering-${BASICFILTERING_VERSION} \
+            #&& cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
+            #&& unzip ${BASICFILTERING_VERSION}.zip \
+            && cd /tmp && git clone https://github.com/mskcc/basicfiltering \
+            && cd /tmp/basicfiltering \
             && python setup.py install \
       # install basic-filtering
-            && mv /tmp/basicfiltering-${BASICFILTERING_VERSION} /usr/bin/basicfiltering \
+            && mv /tmp/basicfiltering /usr/bin/basicfiltering \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/*
 

@@ -4,7 +4,7 @@ exec /usr/bin/runscript.sh help 2>&1 | sed -n "2p;3p;" > /srv/actual.diff.txt
 # expected output
 cat > /srv/expected.diff.txt << EOM
 Program: bcftools (Tools for variant calling and manipulating VCFs and BCFs)
-Version: 1.3.1 (using htslib 1.3.1)
+Version: 1.9 (using htslib 1.9)
 EOM
 
 # diff
