@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: basic-filtering.mutect
-  doap:revision: 0.2.1
+  doap:revision: 0.3
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -48,7 +48,7 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.2.1"
+- "0.3"
 - --language_version
 - "default"
 - --language
