@@ -175,7 +175,7 @@ def build_parallel(threads,tool_json,build_docker,build_singularity,docker_regis
             total_processed = total_processed + 1
             if image_name not in image_meta_info:
                 image_meta_info[image_name] = []
-            image_obj = {'version':image_version,'meta': images_meta}
+            image_obj = {'version':image_version,'meta': image_meta}
             image_meta_info[image_name].append(image_obj)
             logger.info("["+thread_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
             if debug_mode == True:

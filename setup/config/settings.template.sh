@@ -16,6 +16,8 @@ export ROSLIN_ROOT="{{ pipeline_root }}"
 # binaries, executables, scripts
 export ROSLIN_PIPELINE_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_core }}"
 
+export ROSLIN_PIPELINE_CWL_PATH="${ROSLIN_PIPELINE_BIN_PATH}/cwl"
+
 # reference data (e.g. genome assemblies)
 export ROSLIN_PIPELINE_DATA_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_data }}"
 
@@ -47,30 +49,135 @@ export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
 export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
 
+export ROSLIN_CURRENT_USER=`python -c "import getpass; print getpass.getuser()"`
+export ROSLIN_CURRENT_HOSTNAME=`python -c "import socket; print(socket.gethostname())"`
+
+export ROSLIN_DEPENDENCY_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
+export ROSLIN_PIPELINE_RESOURCE_PATH=${ROSLIN_DEPENDENCY_PATH}/resources
+export NVM_DIR="$ROSLIN_PIPELINE_RESOURCE_PATH/.nvm"
+
+export ROSLIN_PIPELINE_RESOURCE_PATH="/ifs/resources"
+
+if [ -d $ROSLIN_PIPELINE_WORKSPACE_PATH ]
+then
+	if [ ! -d $ROSLIN_DEPENDENCY_PATH ]
+	then
+		if [ -x "$(command -v roslin-workspace-init.sh)" ]
+		then
+			roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u ${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
+		fi
+
+		if [ ! -d $ROSLIN_PIPELINE_RESOURCE_PATH ]
+		then
+			if [ -x "$(command -v roslin-workspace-init.sh)" ]
+			then
+				mkdir -p $ROSLIN_PIPELINE_RESOURCE_PATH
+				cd $ROSLIN_PIPELINE_RESOURCE_PATH
+				CURRENT_DIR=$(pwd)
+
+				${ROSLIN_PIPELINE_DATA_PATH}/build-node.sh
+
+				# setup virtualenv
+				virtualenv virtualenv
+				source virtualenv/bin/activate
+				export PATH=${ROSLIN_PIPELINE_RESOURCE_PATH}/virtualenv/bin/:$PATH
+				pip install --requirement ${ROSLIN_PIPELINE_DATA_PATH}/run_requirements.txt
+
+				# install toil
+				cp -r $ROSLIN_TOIL_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/toil
+				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/toil
+				make prepare
+				make develop extras=[cwl]
+				# install cmo
+				cp -r $ROSLIN_CMO_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
+				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
+				python setup.py install
+				cd $CURRENT_DIR
+if [ `tput cols` -le 71 ]
+then
+cat << "EOF"
+
+ ______     ______     ______
+/\  == \   /\  __ \   /\  ___\
+\ \  __<   \ \ \/\ \  \ \___  \  --
+ \ \_\ \_\  \ \_____\  \/\_____\
+  \/_/ /_/   \/_____/   \/_____/
+ __         __     __   __
+/\ \       /\ \   /\ "-.\ \
+\ \ \____  \ \ \  \ \ \-.  \
+ \ \_____\  \ \_\  \ \_\\"\_\
+  \/_____/   \/_/   \/_/ \/_/
+
+ ______   __     ______   ______
+/\  == \ /\ \   /\  == \ /\  ___\
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\  --
+ \ \_\    \ \_\  \ \_\    \ \_____\
+  \/_/     \/_/   \/_/     \/_____/
+ __         __     __   __     ______
+/\ \       /\ \   /\ "-.\ \   /\  ___\
+\ \ \____  \ \ \  \ \ \-.  \  \ \  __\
+ \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\
+  \/_____/   \/_/   \/_/ \/_/   \/_____/
+
+Roslin Pipeline
+
+EOF
+else
+cat << "EOF"
+
+ ______     ______     ______     __         __     __   __
+/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \
+\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \
+ \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\
+  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/
+ ______   __     ______   ______     __         __     __   __     ______
+/\  == \ /\ \   /\  == \ /\  ___\   /\ \       /\ \   /\ "-.\ \   /\  ___\
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\   \ \ \____  \ \ \  \ \ \-.  \  \ \  __\
+ \ \_\    \ \_\  \ \_\    \ \_____\  \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\
+  \/_/     \/_/   \/_/     \/_____/   \/_____/   \/_/   \/_/ \/_/   \/_____/
+
+Roslin Pipeline
+
+EOF
+
+fi
+
+echo "Your workspace: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}"
+echo
+echo "Add the following line to your .profile or .bashrc if not already added:"
+echo
+echo "source ${ROSLIN_CORE_CONFIG_PATH}/settings.sh"
+			fi
+		fi
+	fi
+fi
+
 # node
-export NVM_DIR="$ROSLIN_PIPELINE_DATA_PATH/.nvm"
-if [ -d $NVM_DIR ]
+if [ -s $NVM_DIR/nvm.sh ]
 then
 	echo "Loading Node..."
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+	source $NVM_DIR/nvm.sh
 fi
 
 # Load the virtualenv
-if [ -e $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate ]
+if [ -e $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate ]
 then
 	echo "Loading Virtualenv..."
-	source $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate
+	source $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate
 fi
+
 # Run environment
 {{ run_env }}
 if [[ $SINGULARITY_BIND == *"$TMPDIR"* && -n "$TMPDIR" ]]
 then
+	mkdir -p $TMPDIR
 	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMPDIR"
 	export DOCKER_BIND="$DOCKER_BIND -v $TMPDIR:$TMPDIR"
 fi
 
 if [[ $SINGULARITY_BIND == *"$TMP"* && -n "$TMP" ]]
 then
+	mkdir -p $TMPDIR
 	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMP"
 	export DOCKER_BIND="$DOCKER_BIND -v $TMP:$TMP"
 fi

@@ -51,6 +51,11 @@ def main():
     print stdout
     print stderr
 
+    if exit_code == 0:
+        print "Compress finished"
+    else:
+        print "Compress failed"
+
     sys.exit(exit_code)
 
 

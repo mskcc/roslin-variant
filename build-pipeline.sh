@@ -214,20 +214,7 @@ then
     rm -rf $TempDir
 fi
 
-cd $parentDir
 mkdir -p $TempDir
-
-# Start building the pipeline
-printf "\n----------Building----------\n"
-if compareBool $USE_VAGRANT
-then
-    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
-    vagrant up
-    vagrant ssh -- -t "$buildCommand"
-else
-    buildCommand="python $buildScript $buildArgs"
-    exec $buildCommand
-fi
 
 printf "\n----------Setting up workspace----------\n"
 
@@ -244,6 +231,21 @@ then
     ./install-core.sh
 fi
 
+
+cd $parentDir
+
+# Start building the pipeline
+printf "\n----------Building----------\n"
+if compareBool $USE_VAGRANT
+then
+    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
+    vagrant up
+    vagrant ssh -- -t "$buildCommand"
+else
+    buildCommand="python $buildScript $buildArgs"
+    #$buildCommand
+fi
+
 printf "\n----------Compressing----------\n"
 # Compress pipeline
 cd $parentDir
@@ -254,36 +256,14 @@ printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
 mv $pipeline_name $TempDir
 install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
-cd $ROSLIN_CORE_BIN_PATH
-# Create workspace
-current_user=`python -c "import getpass; print getpass.getuser()"`
-roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
 
 printf "\n----------Setting up----------\n"
 deactivate
-cd $ROSLIN_PIPELINE_DATA_PATH
-HOME_TEMP=$HOME
-export HOME=$ROSLIN_PIPELINE_DATA_PATH
-# Setup node
-mkdir .nvm
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-[ -s "$ROSLIN_PIPELINE_DATA_PATH/.nvm/nvm.sh" ] && \. "$ROSLIN_PIPELINE_DATA_PATH/.nvm/nvm.sh"
-nvm install node
-export HOME=$HOME_TEMP
-# setup virtualenv
-virtualenv virtualenv
-source virtualenv/bin/activate
-export PATH=$ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/:$PATH
-cd $parentDir
-pip install --requirement build/run_requirements.txt
 cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
-# install toil
-cp -r $ROSLIN_TOIL_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/toil
-cd $ROSLIN_PIPELINE_DATA_PATH/toil
-make prepare
-make develop extras=[cwl]
-# install cmo
-cp -r $ROSLIN_CMO_INSTALL_PATH $ROSLIN_PIPELINE_DATA_PATH/cmo
-cd $ROSLIN_PIPELINE_DATA_PATH/cmo
-python setup.py install
+cp build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
+source $ROSLIN_CORE_CONFIG_PATH/settings.sh
+source $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/settings.sh
+# Create workspace
+#current_user=`python -c "import getpass; print getpass.getuser()"`
+#roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
 cd $parentDir

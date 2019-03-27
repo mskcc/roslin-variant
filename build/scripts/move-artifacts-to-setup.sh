@@ -24,7 +24,10 @@ do
 
     mkdir -p ${tool_output_dir}
 
-    cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ${tool_output_dir}
+    if [ -f ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ]
+    then
+        cp ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif ${tool_output_dir}
+    fi
 
 done
 
@@ -32,7 +35,7 @@ cp ${CONTAINER_DIRECTORY}/images_meta.json ${IMG_DIRECTORY}
 
 echo "--- IMAGE TREE ---"
 # show tree
-tree ${IMG_DIRECTORY}
+python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${IMG_DIRECTORY}
 
 # get md5 checksum for all image files
 cd ${IMG_DIRECTORY}
@@ -41,7 +44,7 @@ find . -name "*.sif" -type f | xargs md5sum > ${IMG_DIRECTORY}/checksum.dat
 # get md5 checksum for all cwl files
 echo "--- CWL TREE ---"
 # show tree
-tree ${CWL_DIRECTORY}
+python ${ROSLIN_CORE_BIN_PATH}/tree.py -f ${CWL_DIRECTORY}
 
 cd ${CWL_DIRECTORY}
 find . -name "*.cwl" -type f | xargs md5sum > ${CWL_DIRECTORY}/checksum.dat
