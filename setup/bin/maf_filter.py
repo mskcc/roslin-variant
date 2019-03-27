@@ -43,15 +43,31 @@ with open(input_file,'rb') as input_maf:
     tad_col = header.index('t_alt_count')
     tdp_col = header.index('t_depth')
     set_col = header.index('set')
+    variant_type = header.index('Variant_Type')
+    fillout_tad_col = header.index('fillout_t_alt')
+    fillout_tdp_col = header.index('fillout_t_depth')
     maf_reader = csv.reader(input_maf,delimiter='\t')
     for line in maf_reader:
+        event_type = line[variant_type]
+        tdp = int(line[tdp_col])
+        tad = int(line[tad_col])
+        if event_type == "SNP":
+            tdp = int(line[fillout_tdp_col])
+            tad = int(line[fillout_tad_col])
+        # check if it is removed by one or more ccs filters and nothing else
+        only_ccs_filters = True
+        filters = re.split(';|,', line[filter_col])
+        for filter in filters:
+            if filter != "mq55" and filter != "nm2" and filter != "asb" and filter != "nad3":
+                only_ccs_filters = False
+                break
         arr_key = [line[chrom_col], line[pos_col], line[ref_col], line[alt_col]]
         key = '\t'.join(arr_key)
         # Store all fillout lines first
         # Skip any that failed false-positive filters, except common_variant and Skip all events reported uniquely by Pindel
         if line[mut_status_col] == 'None':
             dict_fillout.setdefault(key, []).append('\t'.join(line))
-        elif (line[filter_col] == 'PASS' or line[filter_col] == 'common_variant') and line[set_col] != 'Pindel':
+        elif (line[filter_col] == 'PASS' or line[filter_col] == 'common_variant' or (is_impact and only_ccs_filters)) and line[set_col] != 'Pindel':
             # Skip splice region variants in non-coding genes, or those that are >3bp into introns
             splice_dist = 0
             if re.match(r'splice_region_variant', line[csq_col]) is not None:
@@ -70,8 +86,8 @@ with open(input_file,'rb') as input_maf:
                 'disruptive_inframe_', 'conservative_missense_', 'rare_amino_acid_', 'mature_miRNA_', 'TFBS_']
             if re.match(r'|'.join(csq_keep), line[csq_col]) is not None or (line[gene_col] == 'TERT' and int(line[pos_col]) >= 1295141 and int(line[pos_col]) <= 1295340):
                 # For IMPACT data, apply the MSK-IMPACT depth/allele-count/VAF/indel-length cutoffs and skip reporting MT mutations because that is not targeted
-                tumor_vaf = float(line[tad_col]) / float(line[tdp_col]) if line[tdp_col] else 0
-                if is_impact and ((int(line[tdp_col]) < 20 or int(line[tad_col]) < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (int(line[tad_col]) < 10 or tumor_vaf < 0.05))) or line[chrom_col] == 'MT'):
+                tumor_vaf = float(tad) / float(tdp) if tdp != 0 else 0
+                if is_impact and ((tdp < 20 or tad < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (tad < 10 or tumor_vaf < 0.05))) or line[chrom_col] == 'MT'):
                     continue
                 # analyst_maf.write('\t'.join(line) + '\n')
                 dict_analyst_kept.setdefault(key, []).append('\t'.join(line))
