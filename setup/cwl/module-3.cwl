@@ -64,6 +64,8 @@ inputs:
             type: record
             fields:
                 tmp_dir: string
+                complex_tn: int
+                complex_nn: int
     tumor_bam:
         type: File
     normal_bam:
@@ -94,6 +96,12 @@ outputs:
     combine_vcf:
         type: File
         outputSource: concat/concat_vcf_output_file
+    combine_vcf_index:
+        type: File
+        outputSource: tabix_index/tabix_output_file
+    annotate_vcf:
+        type: File
+        outputSource: annotate/annotate_vcf_output_file
     facets_png:
         type: File[]
         outputSource: call_variants/facets_png
@@ -255,6 +263,13 @@ steps:
                     out: [output, callstats_output]
     filtering:
         in:
+            runparams: runparams
+            complex_nn:
+              valueFrom: ${ return inputs.runparams.complex_nn; }
+            complex_tn:
+              valueFrom: ${ return inputs.runparams.complex_tn; }
+            normal_bam: normal_bam
+            tumor_bam: tumor_bam
             mutect_vcf: call_variants/mutect_vcf
             mutect_callstats: call_variants/mutect_callstats
             vardict_vcf: call_variants/vardict_vcf
@@ -265,6 +280,10 @@ steps:
         run:
             class: Workflow
             inputs:
+                complex_nn: int
+                complex_tn: int
+                normal_bam: File
+                tumor_bam: File
                 mutect_vcf: File
                 mutect_callstats: File
                 vardict_vcf: File
@@ -284,7 +303,7 @@ steps:
                         - .tbi
             steps:
                 mutect_filtering_step:
-                    run: basic-filtering.mutect/0.2.1/basic-filtering.mutect.cwl
+                    run: basic-filtering.mutect/0.3/basic-filtering.mutect.cwl
                     in:
                         inputVcf: mutect_vcf
                         inputTxt: mutect_callstats
@@ -292,10 +311,23 @@ steps:
                         hotspotVcf: hotspot_vcf
                         refFasta: ref_fasta
                     out: [vcf]
-                vardict_filtering_step:
-                    run: basic-filtering.vardict/0.2.1/basic-filtering.vardict.cwl
+                vardict_complex_filtering_step:
+                    run: basic-filtering/0.3/basic-filtering.complex.cwl
                     in:
+                        nrm_noise: complex_nn
+                        tum_noise: complex_tn
                         inputVcf: vardict_vcf
+                        normal_bam: normal_bam
+                        tumor_bam: tumor_bam
+                        tumor_id: tumor_sample_name
+                        refFasta: ref_fasta
+                        output_vcf:
+                            valueFrom: ${ return inputs.vardict_vcf.basename.replace(".vcf", ".complex_filtered.vcf"); }
+                    out: [vcf]
+                vardict_filtering_step:
+                    run: basic-filtering.vardict/0.3/basic-filtering.vardict.cwl
+                    in:
+                        inputVcf: vardict_complex_filtering_step/vcf
                         tsampleName: tumor_sample_name
                         hotspotVcf: hotspot_vcf
                         refFasta: ref_fasta
@@ -333,7 +365,7 @@ steps:
             }"
 
     concat:
-        run: bcftools.concat/1.3.1/bcftools.concat.cwl
+        run: bcftools.concat/1.9/bcftools.concat.cwl
         in:
             vcf_files_tbi: create_vcf_file_array/vcf_files
             tumor_sample_name: tumor_sample_name
@@ -342,6 +374,30 @@ steps:
                 valueFrom: ${ return true; }
             rm_dups:
                 valueFrom: ${ return "all"; }
+            output_type:
+                valueFrom: ${ return "z"; }
             output:
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf" }
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf.gz" }
         out: [concat_vcf_output_file]
+    tabix_index:
+        run: tabix/1.9/tabix.cwl
+        in:
+            input_vcf: concat/concat_vcf_output_file
+            preset:
+                valueFrom: ${ return "vcf"; }
+        out: [tabix_output_file]
+    annotate:
+        run: bcftools.annotate/1.9/bcftools.annotate.cwl
+        in:
+            annotations: filtering/mutect_vcf_filtering_output
+            tumor_sample_name: tumor_sample_name
+            normal_sample_name: normal_sample_name
+            columns:
+                valueFrom: ${ return "INFO/FAILURE_REASON"; }
+            mark_sites:
+                valueFrom: ${ return "+set=MuTect"; }
+            vcf_file: concat/concat_vcf_output_file
+            vcf_file_index: tabix_index/tabix_output_file
+            output:
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".annotate-variants.vcf" }
+        out: [annotate_vcf_output_file]

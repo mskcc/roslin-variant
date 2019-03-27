@@ -116,7 +116,9 @@ steps:
             vep_path: vep_path
             custom_enst: custom_enst
             retain_info:
-                default: "set,TYPE,FAILURE_REASON"
+                default: "set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB"
+            retain_fmt:
+                default: "QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS"
             output_maf:
                 valueFrom: ${ return inputs.tumor_id + "." + inputs.normal_id + ".combined-variants.vep.maf" }
         out: [output]
@@ -177,7 +179,7 @@ steps:
                     out: [fillout_out]
 
     ngs_filters:
-        run: ngs-filters/1.3/ngs-filters.cwl
+        run: ngs-filters/1.4/ngs-filters.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name

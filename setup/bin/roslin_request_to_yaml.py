@@ -147,6 +147,16 @@ def get_facets_pcval(assay):
         return 100
     return 500
 
+def get_complex_nn(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 0.2
+    return 0.1
+
+def get_complex_tn(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 0.5
+    return 0.2
+
 def sort_fastqs_into_dict(files):
     sorted = dict()
     readgroup_tags = dict()
@@ -253,6 +263,8 @@ if __name__ == "__main__":
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
+    complex_nn = get_complex_nn(assay)
+    complex_tn = get_complex_tn(assay)
     temp_dir = "/scratch"
     if os.environ['TMPDIR']:
         temp_dir = os.environ['TMPDIR']
@@ -347,6 +359,8 @@ if __name__ == "__main__":
         "delly_type": delly_type,
         "facets_cval": facets_cval,
         "facets_pcval": facets_pcval,
+        "complex_nn": complex_nn,
+        "complex_tn": complex_tn,
         "scripts_bin": scripts_bin,
         "gatk_jar_path": gatk_jar_path
     }

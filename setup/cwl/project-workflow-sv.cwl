@@ -132,6 +132,8 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        complex_tn: int
+        complex_nn: int
         delly_type:
           type:
             type: array
@@ -223,6 +225,21 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/vardict_vcf
+  combine_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/combine_vcf
+  combine_vcf_index:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/combine_vcf_index
+  annotate_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/annotate_vcf
   # norm vcf
   vardict_norm_vcf:
     type:
@@ -419,7 +436,7 @@ steps:
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
       facets_snps: pairing/facets_snps
-    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
+    out: [combine_vcf, combine_vcf_index, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, facets_snps, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
