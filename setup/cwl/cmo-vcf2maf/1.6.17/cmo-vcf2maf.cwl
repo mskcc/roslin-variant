@@ -14,7 +14,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: cmo-vcf2maf
-  doap:revision: 1.6.16
+  doap:revision: 1.6.17
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -46,7 +46,7 @@ baseCommand: [cmo_vcf2maf]
 id: cmo-vcf2maf
 
 arguments:
-- valueFrom: "1.6.16"
+- valueFrom: "1.6.17"
   prefix: --version
   position: 0
 
@@ -65,7 +65,7 @@ inputs:
     type:
     - 'null'
     - string
-    default: '92'
+    default: '86'
     doc: Version of VEP and its cache to use
     inputBinding:
       prefix: --vep-release
@@ -232,6 +232,12 @@ inputs:
     doc: Comma-delimited names of INFO fields to retain as extra columns in MAF
     inputBinding:
       prefix: --retain-info
+
+  retain_fmt:
+    type: ['null', string]
+    doc: Comma-delimited names of FORMAT fields to retain as extra columns in MAF []
+    inputBinding:
+      prefix: --retain-fmt
 
 
 outputs:
