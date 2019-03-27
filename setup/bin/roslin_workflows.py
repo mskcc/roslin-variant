@@ -205,7 +205,6 @@ class Filtering(SingleCWLWorkflow):
 
 	def configure(self):
 		super().configure('Filtering','filtering.cwl',['Alignment','VariantCalling'])
-		super().configure()
 		workflow_output = 'Filtering'
 		workflow_filename = 'filtering.cwl'
 		workflow_name = self.__class__.__name__
