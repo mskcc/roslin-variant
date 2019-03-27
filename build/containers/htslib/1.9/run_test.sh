@@ -21,6 +21,8 @@ EOM
 
 # diff
 exitCode=0
+cat /srv/expected.diff.txt | tr -d "[:space:]" > /srv/expected.diff.txt
+cat /srv/actual.diff.txt | tr -d "[:space:]" > /srv/actual.diff.txt
 if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt
 then
 	diff /srv/actual.diff.txt /srv/expected.diff.txt
