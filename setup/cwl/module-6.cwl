@@ -127,6 +127,7 @@ steps:
         run:
             class: CommandLineTool
             baseCommand: ['echo', '-e']
+            id: 'echo'
             stdout: $(inputs.output_filename)
 
             requirements:
