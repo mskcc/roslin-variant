@@ -217,7 +217,7 @@ steps:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; }
         out: [ concat_vcf_output_file ]
     merge_with_bcftools:
-        run: bcftools.concat/1.3.1/bcftools.concat.cwl
+        run: bcftools.concat/1.9/bcftools.concat.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
