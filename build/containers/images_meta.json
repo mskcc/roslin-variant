@@ -1,0 +1,501 @@
+{
+    "abra": [
+        {
+            "meta": {
+                "command": "exec java $java_args /usr/bin/abra.jar $@", 
+                "commandType": "Single", 
+                "help": "exec java -jar /usr/bin/abra.jar", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-abra:2.17", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.abra": "https://github.com/mozack/abra2/releases/tag/v2.17", 
+                    "version.abra": "2.17", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.java": "8"
+                }
+            }, 
+            "version": "2.17"
+        }
+    ], 
+    "basic-filtering": [
+        {
+            "meta": {
+                "command": {
+                    "complex": "exec python /usr/bin/basicfiltering/filter_complex.py \"$@\"", 
+                    "mutect": "exec python /usr/bin/basicfiltering/filter_mutect.py \"$@\"", 
+                    "pindel": "exec python /usr/bin/basicfiltering/filter_pindel.py \"$@\"", 
+                    "sid": "exec python /usr/bin/basicfiltering/filter_sid.py \"$@\"", 
+                    "vardict": "exec python /usr/bin/basicfiltering/filter_vardict.py \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"pindel, mutect, vardict, sid, or complex?\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-basic-filtering:0.3", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.basicfiltering": "https://github.com/mskcc/basicfiltering/releases/tag/0.3", 
+                    "source.bcftools": "https://github.com/samtools/bcftools/releases/tag/1.9", 
+                    "source.cmo": "https://github.com/mskcc/cmo/releases/tag/1.9.10", 
+                    "version.alpine": "3.8", 
+                    "version.basicfiltering": "0.3", 
+                    "version.bcftools": "1.9", 
+                    "version.cmo": "1.9.10", 
+                    "version.image": "1.0.0"
+                }
+            }, 
+            "version": "0.3"
+        }
+    ], 
+    "bwa": [
+        {
+            "meta": {
+                "command": "exec /usr/bin/bwa \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec /usr/bin/bwa", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-bwa:0.7.5a", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.bwa": "https://github.com/lh3/bwa/releases/tag/0.7.5a", 
+                    "version.alpine": "3.8", 
+                    "version.bwa": "0.7.5a", 
+                    "version.image": "1.0.0"
+                }
+            }, 
+            "version": "0.7.5a"
+        }
+    ], 
+    "conpair": [
+        {
+            "meta": {
+                "command": {
+                    "concordance": "exec python /usr/bin/conpair/scripts/verify_concordances.py \"$@\"", 
+                    "contamination": "exec python /usr/bin/conpair/scripts/estimate_tumor_normal_contaminations.py \"$@\"", 
+                    "pileup": "exec python /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"Please use either pileup, concordance, contamination, merge\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-conpair:0.3.1", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.conpair": "https://github.com/mskcc/Conpair/releases/tag/0.3.1", 
+                    "source.gatk": "https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af", 
+                    "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R", 
+                    "version.alpine": "3.8", 
+                    "version.conpair": "0.3.1", 
+                    "version.gatk": "3.3-0", 
+                    "version.image": "1.0.0"
+                }
+            }, 
+            "version": "0.3.1"
+        }
+    ], 
+    "delly": [
+        {
+            "meta": {
+                "command": "exec /usr/local/bin/delly \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec /usr/local/bin/delly", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-delly:0.7.7", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.bcftools": "https://github.com/samtools/bcftools/releases/tag/1.6", 
+                    "source.delly": "https://github.com/dellytools/delly/releases/tag/v0.7.7", 
+                    "source.htslib": "https://github.com/samtools/htslib/releases/tag/1.6", 
+                    "source.samtools": "https://github.com/samtools/samtools/releases/tag/1.6", 
+                    "version.alpine": "3.8", 
+                    "version.bcftools": "1.6", 
+                    "version.delly": "0.7.7", 
+                    "version.htslib": "1.6", 
+                    "version.image": "1.0.0", 
+                    "version.samtools": "1.6"
+                }
+            }, 
+            "version": "0.7.7"
+        }
+    ], 
+    "facets": [
+        {
+            "meta": {
+                "command": {
+                    "doFacets": "exec python /usr/bin/facets-suite/facets doFacets \"$@\"", 
+                    "geneLevel": "exec python /usr/bin/facets-suite/facets geneLevel \"$@\"", 
+                    "mafAnno": "exec python /usr/bin/facets-suite/facets mafAnno \"$@\"", 
+                    "mergeTN": "exec python /usr/bin/facets-suite/facets mergeTN \"$@\"", 
+                    "normDepth": "exec python /usr/bin/facets-suite/facets normDepth \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-facets:1.5.6", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.facets": "https://github.com/mskcc/facets/archive/v0.5.14.tar.gz", 
+                    "source.facets_suite": "https://github.com/mskcc/facets-suite/releases/tag/1.5.6", 
+                    "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R", 
+                    "version.alpine": "3.8", 
+                    "version.facets": "0.5.14", 
+                    "version.facets_suite": "1.5.6", 
+                    "version.image": "1.0.0", 
+                    "version.pctGCdata": "0.2.0", 
+                    "version.r": "3.5.1"
+                }
+            }, 
+            "version": "1.5.6"
+        }
+    ], 
+    "gatk": [
+        {
+            "meta": {
+                "command": "exec java $java_args /usr/bin/gatk.jar $@", 
+                "commandType": "Single", 
+                "help": "exec java -jar /usr/bin/gatk.jar --help", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-gatk:3.3-0", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.gatk": "https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af", 
+                    "version.alpine": "3.8", 
+                    "version.gatk": "3.3-0", 
+                    "version.image": "1.0.0", 
+                    "version.java": "8"
+                }
+            }, 
+            "version": "3.3-0"
+        }
+    ], 
+    "getbasecountsmultisample": [
+        {
+            "meta": {
+                "command": "exec /usr/bin/GetBaseCountsMultiSample \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec /usr/bin/GetBaseCountsMultiSample", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-getbasecountsmultisample:1.2.2", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.getBaseCountsMultiSample": "https://github.com/zengzheng123/GetBaseCountsMultiSample/releases/tag/v1.2.2", 
+                    "version.alpine": "3.8", 
+                    "version.getBaseCountsMultiSample": "1.2.2", 
+                    "version.image": "1.0.0"
+                }
+            }, 
+            "version": "1.2.2"
+        }
+    ], 
+    "htslib": [
+        {
+            "meta": {
+                "command": {
+                    "annotate": "exec /usr/bin/bcftools annotate \"$@\"", 
+                    "concat": "exec /usr/bin/bcftools concat \"$@\"", 
+                    "tabix": "exec /usr/local/bin/tabix \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"concat, annotate, or tabix?\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-htslib:1.9", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.bcftools": "https://github.com/samtools/bcftools/releases/tag/1.9", 
+                    "source.htslib": "https://github.com/samtools/htslib/releases/tag/1.9", 
+                    "source.samtools": "https://github.com/samtools/samtools/releases/tag/1.9", 
+                    "version.alpine": "3.8", 
+                    "version.bcftools": "1.9", 
+                    "version.htslib": "1.9", 
+                    "version.image": "1.0.0", 
+                    "version.samtools": "1.9"
+                }
+            }, 
+            "version": "1.9"
+        }
+    ], 
+    "htstools": [
+        {
+            "meta": {
+                "command": {
+                    "ppflag-fixer": "exec /usr/bin/ppflag-fixer \"$@\"", 
+                    "snp-pileup": "exec /usr/bin/snp-pileup \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"Please use either snp-pileup or ppflag-fixer\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-htstools:0.1.1", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.htslib": "https://github.com/samtools/htslib/releases/tag/1.5", 
+                    "source.htstools": "https://github.com/mskcc/htstools/releases/tag/snp_pileup_0.1.1", 
+                    "version.alpine": "3.8", 
+                    "version.htslib": "1.5", 
+                    "version.htstools": "0.1.1", 
+                    "version.image": "1.0.0"
+                }
+            }, 
+            "version": "0.1.1"
+        }
+    ], 
+    "list2bed": [
+        {
+            "meta": {
+                "command": "exec python /usr/bin/list2bed.py \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec python /usr/bin/list2bed.py", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-list2bed:1.0.1", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.list2bed": "https://github.com/mskcc/list2bed/releases/tag/1.0.1", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.list2bed": "1.0.1"
+                }
+            }, 
+            "version": "1.0.1"
+        }
+    ], 
+    "mutect": [
+        {
+            "meta": {
+                "command": "exec java $java_args /usr/bin/mutect.jar $@", 
+                "commandType": "Single", 
+                "help": "exec java -jar /usr/bin/mutect.jar --help", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-mutect:1.1.4", 
+                    "maintainer": "C. Allan Bolipata (bolipatc@mskcc.org)", 
+                    "source.mutect": "https://github.com/broadinstitute/mutect/releases/tag/1.1.4", 
+                    "version.image": "1.0.0", 
+                    "version.java": "6", 
+                    "version.mutect": "1.1.4"
+                }
+            }, 
+            "version": "1.1.4"
+        }
+    ], 
+    "ngs-filters": [
+        {
+            "meta": {
+                "command": "exec python /usr/bin/ngs-filters/run_ngs-filters.py \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec python /usr/bin/ngs-filters/run_ngs-filters.py --help", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-ngs-filters:1.4", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.ngsfilters": "https://github.com/mskcc/ngs-filters/releases/tag/v1.4", 
+                    "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.ngsfilters": "1.4", 
+                    "version.r": "3.5.1"
+                }
+            }, 
+            "version": "1.4"
+        }
+    ], 
+    "picard": [
+        {
+            "meta": {
+                "command": "exec java $java_args /usr/bin/picard-tools/picard.jar $@", 
+                "commandType": "Single", 
+                "help": "exec java -jar /usr/bin/picard-tools/picard.jar", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-picard:2.9", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.picard": "https://github.com/broadinstitute/picard/releases/tag/2.9.0", 
+                    "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.picard": "2.9", 
+                    "version.r": "3.5.1"
+                }
+            }, 
+            "version": "2.9"
+        }
+    ], 
+    "qc-summary": [
+        {
+            "meta": {
+                "command": {
+                    "generate_pdf": "exec python /usr/bin/generate_pdf.py \"$@\"", 
+                    "qc_summary": "exec Rscript /usr/bin/qc_summary.R \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"qc_summary or generate_pdf\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-qc-summary:0.1.0", 
+                    "maintainer": "C. Allan Bolipata (bolipatc@mskcc.org)", 
+                    "org.label-schema.license": "GPL-2.0", 
+                    "org.label-schema.vcs-url": "https://github.com/rocker-org/rocker-versioned", 
+                    "org.label-schema.vendor": "Rocker Project", 
+                    "source.roslin-qc": "https://github.com/mskcc/roslin-qc/tree/master", 
+                    "version.image": "0.1", 
+                    "version.rocker": "3.5.1", 
+                    "version.roslin-qc": "0.6.0"
+                }
+            }, 
+            "version": "0.1.0"
+        }
+    ], 
+    "remove-variants": [
+        {
+            "meta": {
+                "command": "exec python /usr/bin/remove_variants.py \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec python /usr/bin/remove_variants.py --help", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-remove-variants:0.1.1", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.removevariants": "https://github.com/mskcc/remove_variants/releases/tag/0.1.1", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.removevariants": "0.1.1"
+                }
+            }, 
+            "version": "0.1.1"
+        }
+    ], 
+    "roslin": [
+        {
+            "meta": {
+                "command": "exec cat /welcome.txt", 
+                "commandType": "Single", 
+                "help": "exec cat /welcome.txt", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-roslin:1.0.0", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.roslin": "1.0.0"
+                }
+            }, 
+            "version": "1.0.0"
+        }
+    ], 
+    "roslin-qc": [
+        {
+            "meta": {
+                "command": {
+                    "analyze_fingerprint": "exec python /usr/bin/analyze_fingerprint.py \"$@\"", 
+                    "create_cdna_contam": "exec python /usr/bin/create_cdna_contam.py \"$@\"", 
+                    "create_hotspots_in_normal": "exec python /usr/bin/create_hotspots_in_normals.py \"$@\"", 
+                    "create_minor_contam_binlist": "exec python /usr/bin/create_minor_contam_binlist.py \"$@\"", 
+                    "generate_pdf": "exec python /usr/bin/generate_pdf.py \"$@\"", 
+                    "genlatex": "exec python /usr/bin/genlatex.py \"$@\"", 
+                    "getbasecountsmultisample": "exec /usr/bin/GetBaseCountsMultiSample \"$@\"", 
+                    "merge_cut_adapt_stats": "exec python /usr/bin/merge_cut_adapt_stats.py \"$@\"", 
+                    "merge_gc_bias_metrics": "exec python /usr/bin/merge_gc_bias_metrics.py \"$@\"", 
+                    "merge_insert_size_histograms": "exec python /usr/bin/merge_insert_size_histograms.py \"$@\"", 
+                    "merge_mean_quality_histograms": "exec python /usr/bin/merge_mean_quality_histograms.py \"$@\"", 
+                    "merge_picard_metrics": "exec python /usr/bin/merge_picard_metrics.py \"$@\"", 
+                    "qc_summary": "exec Rscript /usr/bin/qc_summary.R \"$@\"", 
+                    "stitch_pdf": "exec java -jar /usr/bin/QCPDF.jar \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"merge_cut_adapt_stats, analyze_fingerprint, qc_summary, merge_mean_quality_histograms, merge_gc_bias_metrics, merge_insert_size_histograms, merge_picard_metrics, stitch_pdf, hotspots_in_normals, or genlatex\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-roslin-qc:0.6.0", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.bamtools": "https://github.com/pezmaster31/bamtools", 
+                    "source.getbasecountsmultisample": "https://github.com/zengzheng123/GetBaseCountsMultiSample", 
+                    "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R", 
+                    "source.roslin-qc": "https://github.com/mskcc/roslin-qc/tree/master", 
+                    "version.alpine": "3.8", 
+                    "version.bamtools": "2.5.1", 
+                    "version.getbasecountsmultisample": "1.2.2", 
+                    "version.image": "1.0.0", 
+                    "version.roslin-qc": "0.6.0"
+                }
+            }, 
+            "version": "0.6.0"
+        }
+    ], 
+    "samtools": [
+        {
+            "meta": {
+                "command": "exec /usr/bin/samtools \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec /usr/bin/samtools \"$@\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-samtools:1.3.1", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.samtools": "https://github.com/samtools/samtools/releases/tag/1.3.1", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.samtools": "1.3.1"
+                }
+            }, 
+            "version": "1.3.1"
+        }
+    ], 
+    "trimgalore": [
+        {
+            "meta": {
+                "command": "exec /usr/bin/trim_galore \"$@\"", 
+                "commandType": "Single", 
+                "help": "exec /usr/bin/trim_galore --help", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-trimgalore:0.2.5.mod", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.cutadapt": "https://github.com/marcelm/cutadapt/releases/tag/v1.1", 
+                    "source.trimgalore": "http://www.bioinformatics.babraham.ac.uk/projects/trim_galore/", 
+                    "version.alpine": "3.8", 
+                    "version.cutadapt": "1.1", 
+                    "version.image": "1.0.0", 
+                    "version.trimgalore": "0.2.5.mod"
+                }
+            }, 
+            "version": "0.2.5.mod"
+        }
+    ], 
+    "vardict": [
+        {
+            "meta": {
+                "command": {
+                    "testsomatic.R": "exec /usr/bin/Rscript --vanilla /usr/bin/vardict/testsomatic.R", 
+                    "var2vcf_paired.pl": "exec /usr/bin/perl /usr/bin/vardict/var2vcf_paired.pl \"$@\"", 
+                    "vardict": "exec /usr/bin/vardict/bin/VarDict \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"vardict, testsomatic.R, var2vcf_paired.pl?\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-vardict:1.5.1", 
+                    "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "source.perl": "https://pkgs.alpinelinux.org/package/edge/main/aarch64/perl", 
+                    "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R", 
+                    "source.vardict": "https://github.com/AstraZeneca-NGS/VarDictJava/releases/tag/v1.5.1", 
+                    "version.alpine": "3.8", 
+                    "version.image": "1.0.0", 
+                    "version.perl": "5.26.2-r1", 
+                    "version.r": "3.5.1", 
+                    "version.vardict": "1.5.1"
+                }
+            }, 
+            "version": "1.5.1"
+        }
+    ], 
+    "vcf2maf": [
+        {
+            "meta": {
+                "command": {
+                    "maf2maf.pl": "exec perl /usr/bin/vcf2maf/maf2maf.pl \"$@\"", 
+                    "maf2vcf.pl": "exec perl /usr/bin/vcf2maf/maf2vcf.pl \"$@\"", 
+                    "vcf2maf.pl": "exec perl /usr/bin/vcf2maf/vcf2maf.pl \"$@\"", 
+                    "vcf2vcf.pl": "exec perl /usr/bin/vcf2maf/vcf2vcf.pl \"$@\""
+                }, 
+                "commandType": "Multi", 
+                "help": "echo \"vcf2vcf.pl, vcf2maf.pl, maf2maf.pl, maf2vcf.pl?\"", 
+                "labels": {
+                    "Docker_Image": "mskcc/roslin-variant-vcf2maf:1.6.17", 
+                    "contributor": "Nikhil Kumar (kumarn1@mskcc.org)", 
+                    "maintainer": "Christopher Allan Bolipata (bolipatc@mskcc.org)", 
+                    "source.bcftools": "https://github.com/samtools/bcftools/releases/tag/1.9", 
+                    "source.htslib": "https://github.com/samtools/htslib/releases/tag/1.9", 
+                    "source.samtools": "https://github.com/samtools/samtools/releases/tag/1.9", 
+                    "source.vcf2maf": "https://github.com/mskcc/vcf2maf/releases/tag/v1.6.17", 
+                    "source.vep": "http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions", 
+                    "version.alpine": "3.8", 
+                    "version.bcftools": "1.9", 
+                    "version.htslib": "1.9", 
+                    "version.image": "1.0.0", 
+                    "version.perl": "5.26.2-r1", 
+                    "version.samtools": "1.9", 
+                    "version.vcf2maf": "1.6.17", 
+                    "version.vep": "86"
+                }
+            }, 
+            "version": "1.6.17"
+        }
+    ]
+}
