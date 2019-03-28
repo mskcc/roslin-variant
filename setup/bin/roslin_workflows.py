@@ -53,7 +53,7 @@ class VariantWorkflow(RoslinWorkflow):
 
 	def run_pipeline(self):
 		workflow_params = self.params
-		alignment_job, alignment_params = Alignment(workflow_params).get_job()
+		alignment_job, alignment_params = Alignment(workflow_params).get_job([])
 		gather_metrics_job, gather_metrics_params = GatherMetrics(workflow_params).get_job([alignment_params])
 		conpair_job, conpair_params = Conpair(workflow_params).get_job([alignment_params])
 		generate_images_job, generate_images_params = GenerateImages(workflow_params).get_job([gather_metrics_params])
@@ -68,8 +68,8 @@ class VariantWorkflow(RoslinWorkflow):
 		variant_calling_job.addChild(filtering_job)
 		alignment_job.addChild(variant_calling_job)
 		if workflow_params['configure']['run_sv']:
-			structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job(alignment_post_params)
-			cdna_contam_job, cdna_contam_job_params = CdnaContam(workflow_params).get_job(structural_variants_params)
+			structural_variants_job, structural_variants_params = StructuralVariants(workflow_params).get_job([alignment_params])
+			cdna_contam_job, cdna_contam_job_params = CdnaContam(workflow_params).get_job([structural_variants_params])
 			structural_variants_job.addChild(cdna_contam_job)
 			alignment_job.addChild(structural_variants_job)
 		alignment_job = self.copy_workflow_outputs(alignment_job)
@@ -92,6 +92,7 @@ class CdnaContam(SingleCWLWorkflow):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
 		output_config = super().get_outputs(workflow_output_folder)
 		output_config["qc"] = [{"patterns": ["*_cdna_contamination.txt"], "input_folder": workflow_output_path}]
+		return output_config
 
 	def modify_dependency_inputs(roslin_yaml):
 		project_prefix = roslin_yaml['runparams']['project_prefix']
@@ -109,6 +110,7 @@ class GenerateImages(SingleCWLWorkflow):
 		output_config = super().get_outputs(workflow_output_folder)
 		output_config["qc"] = [{"patterns": ["*_ProjectSummary.txt","*_SampleSummary.txt"], "input_folder": workflow_output_path},
 							   {"patterns": ["images"], "input_folder": workflow_output_path}]
+		return output_config
 
 	def modify_dependency_inputs(roslin_yaml):
 		data_dir = roslin_yaml['qc_merged_and_hotspots_directory']
@@ -120,8 +122,8 @@ class GenerateImages(SingleCWLWorkflow):
 class ConsolidateResults(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('ConsolidateResults','consolidate-files/consolidate-directories.cwl',['GatherMetrics','Conpair'])
 		self.params['configure']['consolidate_results_output'] = "consolidated_metrics_data"
+		super().configure('ConsolidateResults','consolidate-files/consolidate-directories.cwl',['GatherMetrics','Conpair'])
 
 	def get_outputs(self,workflow_output_folder):
 		output_directory_name = self.params['configure']['consolidate_results_output']
@@ -129,6 +131,7 @@ class ConsolidateResults(SingleCWLWorkflow):
 		output_config = super().get_outputs(workflow_output_folder)
 		output_config["qc"] = [{"patterns": ["*_ProjectSummary.txt","*_SampleSummary.txt"], "input_folder": workflow_output_path},
 							   {"patterns": ["output_directory_name"], "input_folder": workflow_output_path }]
+		return output_config
 
 	def modify_dependency_inputs(roslin_yaml):
 		output_directory_name = self.params['configure']['consolidate_results_output']

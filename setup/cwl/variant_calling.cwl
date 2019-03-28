@@ -184,11 +184,6 @@ inputs:
 outputs:
 
   # vcf
-  combine_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/combine_vcf
   mutect_vcf:
     type:
       type: array

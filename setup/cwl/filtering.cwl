@@ -180,6 +180,11 @@ inputs:
       type: array
       items: File
 
+  annotate_vcf:
+    type:
+      type: array
+      items: File
+
   combine_vcf:
     type:
       type: array
@@ -233,7 +238,7 @@ steps:
     in:
       bams: bams
       pairs: pairs
-      combine_vcf: combine_vcf
+      combine_vcf: annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
