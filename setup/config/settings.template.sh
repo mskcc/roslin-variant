@@ -49,7 +49,7 @@ export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
 export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
 
-export ROSLIN_CURRENT_USER=`python -c "import os; print os.getlogin()"`
+export ROSLIN_CURRENT_USER=`python -c "import getpass; print getpass.getuser()"`
 export ROSLIN_CURRENT_HOSTNAME=`python -c "import socket; print(socket.gethostname())"`
 
 export ROSLIN_DEPENDENCY_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
