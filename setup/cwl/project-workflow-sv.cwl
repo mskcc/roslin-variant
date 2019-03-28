@@ -445,7 +445,7 @@ steps:
     in:
       bams: group_process/bams
       pairs: pairs
-      combine_vcf: variant_calling/combine_vcf
+      combine_vcf: variant_calling/annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta

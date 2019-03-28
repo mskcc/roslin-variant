@@ -280,8 +280,8 @@ steps:
         run:
             class: Workflow
             inputs:
-                complex_nn: int
-                complex_tn: int
+                complex_nn: float
+                complex_tn: float
                 normal_bam: File
                 tumor_bam: File
                 mutect_vcf: File
@@ -312,7 +312,7 @@ steps:
                         refFasta: ref_fasta
                     out: [vcf]
                 vardict_complex_filtering_step:
-                    run: basic-filtering/0.3/basic-filtering.complex.cwl
+                    run: basic-filtering.complex/0.3/basic-filtering.complex.cwl
                     in:
                         nrm_noise: complex_nn
                         tum_noise: complex_tn
