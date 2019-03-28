@@ -114,6 +114,8 @@ python $build_script_dir/configure.py config.variant.yaml
 source setup/config/settings.sh
 source setup/config/build-settings.sh
 
+source build-venv/bin/activate
+
 cd core
 python configure.py config.core.yaml
 # load core settings
