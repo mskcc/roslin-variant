@@ -141,11 +141,13 @@
             "default": "sing.sh abra 2.17"
         },
         "basic-filtering": {
-            "0.2.1": "sing.sh basic-filtering 0.2.1",
-            "default": "sing.sh basic-filtering 0.2.1"
+            "0.3": "sing.sh basic-filtering 0.3",
+            "default": "sing.sh basic-filtering 0.3"
+        },
+        "htslib": {
+            "1.9": "sing.sh htslib 1.9"
         },
         "bcftools": {
-            "1.3.1": "sing.sh bcftools 1.3.1",
             "default": "/usr/bin/bcftools"
         },
         "bedtools": {
@@ -183,8 +185,8 @@
             "default": "sing.sh mutect 1.1.4"
         },
         "ngs-filters": {
-            "1.3": "sing.sh ngs-filters 1.3",
-            "default": "sing.sh ngs-filters 1.3"
+            "1.4": "sing.sh ngs-filters 1.4",
+            "default": "sing.sh ngs-filters 1.4"
         },
         "perl": {
             "default": "sing-perl.sh"
@@ -237,7 +239,7 @@
             "default": "sing.sh vardict 1.5.1 "
         },
         "vcf2maf": {
-            "1.6.16": "sing.sh vcf2maf 1.6.16 "
+            "1.6.17": "sing.sh vcf2maf 1.6.17 "
         },
         "vep": {
             "86": "/usr/bin/vep",
