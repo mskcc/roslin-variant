@@ -69,9 +69,9 @@ then
 		then
 			if [ -x "$(command -v roslin-workspace-init.sh)" ]
 			then
+				CURRENT_DIR=$(pwd)
 				mkdir -p $ROSLIN_PIPELINE_RESOURCE_PATH
 				cd $ROSLIN_PIPELINE_RESOURCE_PATH
-				CURRENT_DIR=$(pwd)
 
 				${ROSLIN_PIPELINE_DATA_PATH}/build-node.sh
 
