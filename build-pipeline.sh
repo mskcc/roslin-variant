@@ -111,6 +111,7 @@ then
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
+    installDir=$ROSLIN_PIPELINE_ROOT
     TempDir=roslin-build-log
     TestDir=roslin-build-log
     buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
