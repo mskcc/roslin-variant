@@ -143,6 +143,59 @@ def process_table_file(csv_reader,redact_config):
 		redacted_data = redacted_data + '\t'.join(single_row) + '\n'
 	return redacted_data
 
+
+def process_table_file_cna(csv_reader, redact_config):
+	redacted_data = ''
+	redact_column = []
+	redact_row = []
+	redact_modify = []
+	headers = csv_reader.next()
+	original_headers = copy.copy(headers)
+	for single_redact in redact_config:
+		if len(single_redact) == 1:
+			if 'column' in single_redact:
+				single_redact_col = single_redact['column']
+				if single_redact_col in original_headers:
+					redact_column.append(original_headers.index(single_redact_col))
+			elif 'row' in single_redact:
+				redact_row.append(single_redact['row'])
+		else:
+			redact_modify.append(single_redact)
+	for single_col in redact_column:
+		headers[single_col] = 'REDACT_ME_NOW'
+		log_removal('Col ' + str(single_col))
+	newheaders = []
+	for item in headers:
+		if 'REDACT_ME_NOW' in item:
+			pass
+		else:
+			newheaders.append(item)
+	redacted_data = '\t'.join(newheaders) + '\n'
+	for single_row in csv_reader:
+		rowId = single_row[0]
+		if rowId in redact_row:
+			log_removal('Row ' + str(rowId))
+			continue
+		for single_redact in redact_modify:
+			single_redact_row = single_redact['row']
+			single_redact_col = single_redact['column']
+			redact_replacement = single_redact['replaceWith']
+			if rowId == single_redact_row:
+				colPosition = original_headers.index(single_redact_col)
+				single_row[colPosition] = redact_replacement
+				log_modify('Row ' + str(single_redact_row) + ' Col ' + str(single_redact_col))
+		for single_col in redact_column:
+			single_row[single_col] = 'REDACT_ME_NOW'
+		newrow = []
+		for item in single_row:
+			if 'REDACT_ME_NOW' in item:
+				pass
+			else:
+				newrow.append(item)
+		redacted_data = redacted_data + '\t'.join(newrow) + '\n'
+	return redacted_data
+
+
 def process_combine_table_file(csv_reader_file_1,csv_reader_file_2):
 	file_data = ''
 	for single_row_file_1 in csv_reader_file_1:
@@ -454,7 +507,7 @@ def redact_CNA(original_file,redacted_file,redact_data):
 		for single_sample in redact_data['removed_samples']:
 			redact_config.append({"column":single_sample})
 	csv_reader = csv.reader(original_file,delimiter='\t')	
-	redacted_file_int = process_table_file(csv_reader,redact_config)
+	redacted_file_int = process_table_file_cna(csv_reader,redact_config)
 	redacted_file_data = process_replaced_samples(redacted_file_int,redact_data) 
 	redacted_file.write(redacted_file_data)
 
