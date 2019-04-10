@@ -29,8 +29,6 @@ done
 
 if [ -z ${maf} ]
 then echo ERROR: An input MAF must be specified; usage; exit 1
-elif [ ! -s ${maf} ]
-then echo ERROR: Input MAF is either empty or does not exist: ${maf}; usage; exit 1
 fi
 
 # Use the MAF name to figure out tumor/normal sample IDs, and base directory of Roslin results
@@ -39,54 +37,74 @@ nrm=$(basename ${maf} | cut -f2 -d.)
 dir=$(dirname $(dirname ${maf}))
 
 # Specify tools/data we will need
-ref_fasta="/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
-vcf_filter="/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh"
-hotspot_vcf="/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf"
-bcftools="/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools"
-vcf2maf="/ifs/work/pi/cmo_package_archive/1.9.10/bin/cmo_vcf2maf --version 1.6.15 --vep-release 86"
-rm_vars="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py"
-fillout="/ifs/work/pi/cmo_package_archive/1.9.10/bin/cmo_fillout --version 1.2.2"
+ref_fasta="/dev/shm/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
+vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/basicfiltering"
+hotspot_vcf="/home/kandoth/src/basicfiltering/data/hotspot-list-union-v1-v2.vcf"
+bcftools="/opt/common/CentOS_6-dev/bcftools/bcftools-1.9/bcftools"
+tabix="/opt/common/CentOS_6-dev/htslib/v1.9/tabix"
+vcf2maf="/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl /home/kandoth/src/vcf2maf/vcf2maf.pl"
+vep_path="/opt/common/CentOS_6-dev/vep/v86"
+vep_data="/opt/common/CentOS_6-dev/vep/cache"
+filter_vcf="/opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz"
+rm_vars="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/remove-variants/remove_variants.py"
+fillout="/home/kandoth/src/cmo/bin/cmo_fillout --version 1.2.2"
 pon_bam_root="/ifs/work/pi/resources/curated_bams"
-maf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py"
+maf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/ngs-filters/run_ngs-filters.py"
 hotspot_txt="/opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt"
 
-# Locate the VCFs for all callers and the additional TXT file for MuTect
-mutect_txt=${dir}/vcf/${tum}*${nrm}*.mutect.txt
-mutect_vcf=${dir}/vcf/${tum}*${nrm}*.mutect.vcf
-vardict_vcf=${dir}/vcf/${tum}*${nrm}*.vardict.vcf
-if [ -s ${mutect_txt} ] && [ -s ${mutect_vcf} ] && [ -s ${vardict_vcf} ]
+# Locate the VCFs for all callers, the additional TXT file for MuTect, and the tumor/normal BAM files
+mutect_txt=`ls ${dir}/vcf/${tum}*${nrm}*.mutect.txt`
+mutect_vcf=`ls ${dir}/vcf/${tum}*${nrm}*.mutect.vcf`
+vardict_vcf=`ls ${dir}/vcf/${tum}*${nrm}*.vardict.vcf`
+tum_bam=`ls ${dir}/bam/${tum}*.bam`
+nrm_bam=`ls ${dir}/bam/${nrm}*.bam`
+if [ -s ${mutect_txt} ] && [ -s ${mutect_vcf} ] && [ -s ${vardict_vcf} ] && [ -s ${tum_bam} ] && [ -s ${nrm_bam} ]
 then echo STATUS: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering
-else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs at: ${dir}/vcf; exit 1
+else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs or BAMs at: ${dir}; exit 1
 fi
 
 # Run the appropriate basicfiltering script for each variant caller's VCF
-${vcf_filter} mutect --inputVcf ${mutect_vcf} --inputTxt ${mutect_txt} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
-${vcf_filter} vardict --inputVcf ${vardict_vcf} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
-rm -f ${dir}/vcf/${tum}*${nrm}*.{mutect,vardict}_STDfilter.{txt,vcf}
+vardict_cpx_vcf=${vardict_vcf%.vardict.vcf}.cpx.vardict.vcf
+${vcf_filter}/filter_mutect.py --inputVcf ${mutect_vcf} --inputTxt ${mutect_txt} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
+${vcf_filter}/filter_complex.py --input-vcf ${vardict_vcf} --tumor-id ${tum} --tumor-bam ${tum_bam} --normal-bam ${nrm_bam} --output-vcf ${vardict_cpx_vcf}
+${vcf_filter}/filter_vardict.py --inputVcf ${vardict_cpx_vcf} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
+rm -f ${dir}/vcf/${tum}*${nrm}*.{mutect,vardict}_STDfilter.{txt,vcf} ${vardict_cpx_vcf}*
 
 mutect_vcf_gz=${dir}/vcf/${tum}*${nrm}*.mutect_STDfilter.norm.vcf.gz
 vardict_vcf_gz=${dir}/vcf/${tum}*${nrm}*.vardict_STDfilter.norm.vcf.gz
 if [ -s ${mutect_vcf_gz} ] && [ -s ${vardict_vcf_gz} ]
 then echo STATUS: ${tum}/${nrm}: Merging filtered VCFs using bcftools concat
-else echo ERROR: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering; exit 1
+else echo ERROR: ${tum}/${nrm}: Failed to filter per-caller VCFs using basicfiltering; exit 1
 fi
 
 # Run bcftools concat to merge and deduplicate events from multiple variant callers
-concat_vcf=${dir}/vcf/${tum}.${nrm}.combined-variants.vcf
-${bcftools} concat --allow-overlaps --rm-dups all --output ${concat_vcf} ${vardict_vcf_gz} ${mutect_vcf_gz}
+concat_vcf_gz=${dir}/vcf/${tum}.${nrm}.combined-variants.vcf.gz
+${bcftools} concat --allow-overlaps --rm-dups all --output-type z --output ${concat_vcf_gz} ${vardict_vcf_gz} ${mutect_vcf_gz}
+${tabix} -p vcf ${concat_vcf_gz}
 
-if [ -s ${concat_vcf} ]
+if [ -s ${concat_vcf_gz} ]
+then echo STATUS: ${tum}/${nrm}: Tag MuTect calls using bcftools annotate
+else echo ERROR: ${tum}/${nrm}: Failed to merge filtered VCFs using bcftools concat; exit 1
+fi
+
+# Run bcftools annotations to add 'MuTect' if the event called by both VarDict and MuTect
+anno_vcf=${dir}/vcf/${tum}.${nrm}.combined-variants.anno.vcf
+${bcftools} annotate --annotations ${mutect_vcf_gz} --columns INFO/FAILURE_REASON --mark-sites '+set=MuTect' --output ${anno_vcf} ${concat_vcf_gz}
+rm -f ${concat_vcf_gz} ${concat_vcf_gz}.tbi
+
+if [ -s ${anno_vcf} ]
 then echo STATUS: ${tum}/${nrm}: Converting merged VCF into MAF using vcf2maf
-else echo ERROR: ${tum}/${nrm}: Merging filtered VCFs using bcftools concat; exit 1
+else echo ERROR: ${tum}/${nrm}: Failed to tag MuTect calls using bcftools annotate; exit 1
 fi
 
 # Run vcf2maf on the merged VCF to generate an annotated MAF format file
 concat_maf=${dir}/maf/${tum}.${nrm}.combined-variants.vep.maf
-${vcf2maf} --input-vcf ${concat_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON --output-maf ${concat_maf}
+${vcf2maf} --input-vcf ${anno_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB --retain-fmt QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS --vep-forks 8 --vep-path ${vep_path} --vep-data ${vep_data} --output-maf ${concat_maf} --filter-vcf ${filter_vcf}
+rm -f ${anno_vcf%.vcf}.vep.vcf
 
 if [ -s ${concat_maf} ]
 then echo STATUS: ${tum}/${nrm}: Removing variants that overlap larger events
-else echo ERROR: ${tum}/${nrm}: Converting merged VCF into MAF using vcf2maf; exit 1
+else echo ERROR: ${tum}/${nrm}: Failed to convert merged VCF into MAF using vcf2maf; exit 1
 fi
 
 # Remove variants that overlap larger or complex events
@@ -94,8 +112,8 @@ rm_var_maf=${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.maf
 ${rm_vars} --input-maf ${concat_maf} --output-maf ${rm_var_maf}
 
 if [ -s ${rm_var_maf} ]
-then echo STATUS: ${tum}/${nrm}: Running fillout on all samples cohort-wide
-else echo ERROR: ${tum}/${nrm}: Removing variants that overlap larger events; exit 1
+then echo STATUS: ${tum}/${nrm}: Running fillout to gather aligner-based readcounts
+else echo ERROR: ${tum}/${nrm}: Failed to remove variants that overlap larger events; exit 1
 fi
 
 # For each BAM, make sure we have a .bam.bai for users of tools based on older samtools
@@ -107,28 +125,31 @@ do
     fi
 done
 
-# Run fillout to backfill readcounts for events across all BAMs in the cohort
+# Locate the pairing file from the inputs folder
+pairing=${dir}/inputs/*_sample_pairing.txt
+
+# Run fillout to backfill readcounts for events across just the TN-pair of BAMs
 fillout_maf=${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.fillout.portal.maf
-${fillout} --genome GRCh37 --format 1 --n_threads 4 --maf ${rm_var_maf} --output ${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.fillout --portal-output ${fillout_maf} --bams ${bams}
+${fillout} --genome GRCh37 --format 1 --n_threads 8 --maf ${rm_var_maf} --output ${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.fillout --portal-output ${fillout_maf} --bams ${tum_bam} ${nrm_bam} --pairing-file ${pairing}
 
 if [ -s ${fillout_maf} ]
 then echo STATUS: ${tum}/${nrm}: Running fillout on panel-of-normals
-else echo ERROR: ${tum}/${nrm}: Running fillout on all samples cohort-wide; exit 1
+else echo ERROR: ${tum}/${nrm}: Failed to run fillout to gather aligner-based readcounts; exit 1
 fi
 
 # Run fillout to backfill readcounts for events across the curated panel-of-normals (PoN)
 pon_fillout=${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.curated.fillout
 assay=$(grep Assay: ${dir}/inputs/*_request.txt | cut -f2 -d' ')
-pon_bams=${pon_bam_root}/${assay}/*.bam
-${fillout} --genome GRCh37 --format 1 --n_threads 4 --maf ${fillout_maf} --output ${pon_fillout} --portal-output /dev/null --bams ${pon_bams}
+pon_bams=${pon_bam_root}/${assay}*/*.bam
+${fillout} --genome GRCh37 --format 1 --n_threads 8 --maf ${rm_var_maf} --output ${pon_fillout} --portal-output /dev/null --bams ${pon_bams}
 
 if [ -s ${pon_fillout} ]
 then echo STATUS: ${tum}/${nrm}: Running ngs-filters to add filter tags to MAF
-else echo ERROR: ${tum}/${nrm}: Running fillout on panel-of-normals; exit 1
+else echo ERROR: ${tum}/${nrm}: Failed to run fillout on panel-of-normals; exit 1
 fi
 
 # Backup the input MAF, but don't overwrite an existing backup
-if [ ! -s ${maf}.bkp ]
+if [ -s ${maf} ] && [ ! -s ${maf}.bkp ]
 then mv ${maf} ${maf}.bkp
 fi
 
@@ -137,7 +158,7 @@ ${maf_filter} --input-maf ${fillout_maf} --output-maf ${maf} --normal-panel-maf 
 
 if [ -s ${maf} ]
 then echo STATUS: ${tum}/${nrm}: Completed redoing filters and replaced MAF
-else echo ERROR: ${tum}/${nrm}: Running ngs-filters to add filter tags to MAF; exit 1
+else echo ERROR: ${tum}/${nrm}: Failed to run ngs-filters to add filter tags to MAF; exit 1
 fi
 
 # Cleanup files we don't want to keep
