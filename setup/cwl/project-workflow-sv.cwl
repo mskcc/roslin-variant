@@ -126,6 +126,8 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        complex_tn: int
+        complex_nn: int
         project_prefix: string
         opt_dup_pix_dist: string
         facets_pcval: int
@@ -153,6 +155,7 @@ inputs:
           adapter: string
           adapter2: string
           bwa_output: string
+
   pairs:
     type:
       type: array
@@ -214,6 +217,18 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/vardict_vcf
+  combine_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/combine_vcf
+    secondaryFiles:
+    - .tbi
+  annotate_vcf:
+    type:
+      type: array
+      items: File
+    outputSource: variant_calling/annotate_vcf
   # norm vcf
   vardict_norm_vcf:
     type:
@@ -443,7 +458,7 @@ steps:
     in:
       bams: group_process/bams
       pairs: pairs
-      combine_vcf: variant_calling/combine_vcf
+      combine_vcf: variant_calling/annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
@@ -457,7 +472,7 @@ steps:
     run: module-4.cwl
     in:
       bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
+      annotate_vcf: parse_pairs/srt_annotate_vcf
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter

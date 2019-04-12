@@ -330,7 +330,7 @@ expression: "${var groups = inputs.groups;
                 var samples = inputs.samples;
                 var pairs = inputs.pairs;
                 var project_object  = {};
- for (var i =0; i < pairs.length; i++) {
+for (var i =0; i < pairs.length; i++) {
      var pair_object = {};
      for (var j =0; j < pairs[i].length; j++) {
          for (var k=0; k < inputs.samples.length; k++) {
@@ -350,7 +350,7 @@ expression: "${var groups = inputs.groups;
                   for (var group_j =0; group_j < groups[group_i].length; group_j++) {
                       if (sample_name == groups[group_i][group_j]){
                           pair_object['group_ids']='Pair' +i.toString() + 'Group' + group_i.toString();
-                      }                    
+                      }
                  }
              }
          }
@@ -365,7 +365,8 @@ expression: "${var groups = inputs.groups;
         var key = additional_db_files[key_index];
         var new_key = key.slice(0, -7);
         pair_object[new_key] = inputs[key];
-      }     
+      }
+     pair_object['group_ids']='Group' + i.toString();
      for (key in pair_object) {
          if (key in project_object) {
              project_object[key].push(pair_object[key]);

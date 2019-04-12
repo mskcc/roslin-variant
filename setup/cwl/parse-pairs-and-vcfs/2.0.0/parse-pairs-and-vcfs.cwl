@@ -75,7 +75,7 @@ inputs:
     type:
       type: array
       items: string
-  combine_vcf:
+  annotate_vcf:
     type:
       type: array
       items: File
@@ -104,7 +104,7 @@ outputs:
      type:
        type: array
        items: string
-  srt_combine_vcf:
+  srt_annotate_vcf:
     type:
       type: array
       items: File
@@ -133,18 +133,17 @@ outputs:
        items: string
   srt_hotspot_list: File
 
-expression: '${
- var bams = [];
- var groups = inputs.groups;
- for (var vcf_i=0; vcf_i< inputs.combine_vcf.length; vcf_i++) {
-    var sample_name = inputs.combine_vcf[vcf_i].basename.split(".")[0];
+expression: '${var bams = [];
+var groups = inputs.groups;
+for (var vcf_i=0; vcf_i< inputs.annotate_vcf.length; vcf_i++) {
+    var sample_name = inputs.annotate_vcf[vcf_i].basename.split(".")[0];
     var vcf_group_id = null;
     var group_bams = [];
     for (var group_i =0; group_i < groups.length; group_i++) {
         for (var group_j =0; group_j < groups[group_i].length; group_j++) {
              if (sample_name == groups[group_i][group_j]){
-                     vcf_group_id = group_i.toString();
-                 }                    
+                     vcf_group_id = "Group" + group_i.toString();
+                 }
          }
     }
     for (var i=0; i< inputs.bams.length; i++) {
@@ -152,16 +151,16 @@ expression: '${
             var bam_group = inputs.bams[i][j].basename.match(/Group\d+/)[0];
             if ( bam_group == vcf_group_id ){
                 group_bams.push(inputs.bams[i][j]);
-            }             
+            }
         }
     }
     if (group_bams.length != 0){
         bams.push(group_bams);
     }
  }
- var combine_vcf = inputs.combine_vcf;
+ var annotate_vcf = inputs.annotate_vcf;
  var pairs = inputs.pairs;
- var arrays = [combine_vcf];
+ var arrays = [annotate_vcf];
  var final_answers = [];
  for (var m=0; m < arrays.length+6; m++) {
      final_answers[m]=new Array();
