@@ -98,8 +98,6 @@ steps:
             filter_vcf: exac_filter
             vep_data: vep_data
             ref_fasta: ref_fasta
-            vep_path: vep_path
-            custom_enst: custom_enst
             retain_info:
                 default: "set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB"
             retain_fmt:

@@ -150,6 +150,7 @@ inputs:
 
   custom_enst:
     type: ['null', string]
+    default: /opt/common/CentOS_6-dev/vcf2maf/v1.6.16/data/isoform_overrides_at_mskcc
     doc: List of custom ENST IDs that override canonical selection
     inputBinding:
       prefix: --custom-enst
@@ -162,10 +163,11 @@ inputs:
       prefix: --vcf-normal-id
 
   vep_path:
-   type: ['null', string]
-   doc: Folder containing variant_effect_predictor.pl or vep binary
-   inputBinding:
-     prefix: --vep-path
+    type: ['null', string]
+    default: /opt/common/CentOS_6-dev/vep/v86
+    doc: Folder containing variant_effect_predictor.pl or vep binary
+    inputBinding:
+      prefix: --vep-path
 
   vep_data:
     type: ['null', string]
