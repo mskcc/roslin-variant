@@ -49,7 +49,16 @@ requirements:
     StepInputExpressionRequirement: {}
 
 inputs:
-
+    db_files:
+        type:
+            type: record
+            fields:
+                pairing_file: File
+    runparams:
+        type:
+            type: record
+            fields:
+                tmp_dir: string
     bams:
         type:
             type: array

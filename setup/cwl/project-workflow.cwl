@@ -452,6 +452,8 @@ steps:
     in:
       bams: parse_pairs/srt_bams
       annotate_vcf: parse_pairs/srt_annotate_vcf
+      db_files: db_files
+      runparams: runparams
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
