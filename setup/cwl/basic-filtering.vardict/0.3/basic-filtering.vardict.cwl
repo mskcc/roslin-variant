@@ -157,12 +157,3 @@ outputs:
           return null;
         }
     secondaryFiles: ["^.tbi", ".tbi"]
-  txt:
-    type: File
-    outputBinding:
-      glob: |
-        ${
-          if (inputs.inputVcf)
-            return inputs.inputVcf.basename.replace(".vcf","_STDfilter.txt");
-          return null;
-        }

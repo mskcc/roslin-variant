@@ -158,12 +158,3 @@ outputs:
           return null;
         }
     secondaryFiles: ["^.tbi", ".tbi"]
-  txt:
-    type: File
-    outputBinding:
-      glob: |
-        ${
-          if (inputs.inputTxt)
-            return inputs.inputTxt.basename.replace(".txt","_STDfilter.txt");
-          return null;
-        }
