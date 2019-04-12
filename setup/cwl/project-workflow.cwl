@@ -491,11 +491,11 @@ steps:
     in:
       ref: projparse/ref_fasta_string
       markers: projparse/conpair_markers
-      markers_bed: projparse/conpair_markers_bed 
+      markers_bed: projparse/conpair_markers_bed
       tumor_bams: pairing/tumor_bams
       normal_bams: pairing/normal_bams
       tumor_sample_name: pairing/tumor_sample_ids
       normal_sample_name: pairing/normal_sample_ids
-      file_prefix: projparse/project_prefix 
+      file_prefix: projparse/project_prefix
       pairing_file: projparse/pairing_file
     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
