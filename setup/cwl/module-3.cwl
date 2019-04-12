@@ -85,11 +85,10 @@ inputs:
     mutect_dcov: int
     mutect_rf: string[]
     refseq: File
-    hotspot_vcf: string
+    hotspot_vcf: File
     ref_fasta: string
     facets_pcval: int
     facets_cval: int
-    facets_snps: string
 
 outputs:
 
@@ -219,7 +218,7 @@ steps:
                     in:
                         normal_bam: normal_bam
                         tumor_bam: tumor_bam
-                        tumor_sample_name: tumor_sample_name 
+                        tumor_sample_name: tumor_sample_name
                         genome: genome
                         facets_pcval: facets_pcval
                         facets_cval: facets_cval
