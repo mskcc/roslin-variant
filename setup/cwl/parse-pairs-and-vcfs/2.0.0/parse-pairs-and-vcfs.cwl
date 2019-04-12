@@ -183,7 +183,7 @@ for (var vcf_i=0; vcf_i< inputs.annotate_vcf.length; vcf_i++) {
 }
 return {"tumor_id" : final_answers[arrays.length+1],
     "normal_id" : final_answers[arrays.length+2],
-    "srt_combine_vcf" : final_answers[0],
+    "srt_annotate_vcf" : final_answers[0],
     "srt_genome": inputs.genome,
     "srt_ref_fasta":final_answers[arrays.length+5],
     "srt_exac_filter": final_answers[arrays.length+4],
