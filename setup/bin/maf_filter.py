@@ -49,6 +49,7 @@ with open(input_file,'rb') as input_maf:
     maf_reader = csv.reader(input_maf,delimiter='\t')
     for line in maf_reader:
         event_type = line[variant_type]
+        # For all events by point mutations, we will use the variant caller reported allele counts for filtering
         tdp = int(line[tdp_col])
         tad = int(line[tad_col])
         if event_type == "SNP":
@@ -85,10 +86,15 @@ with open(input_file,'rb') as input_maf:
                 'start_', 'synonymous_', 'coding_sequence_', 'transcript_', 'exon_', 'initiator_codon_',
                 'disruptive_inframe_', 'conservative_missense_', 'rare_amino_acid_', 'mature_miRNA_', 'TFBS_']
             if re.match(r'|'.join(csq_keep), line[csq_col]) is not None or (line[gene_col] == 'TERT' and int(line[pos_col]) >= 1295141 and int(line[pos_col]) <= 1295340):
-                # For IMPACT data, apply the MSK-IMPACT depth/allele-count/VAF/indel-length cutoffs and skip reporting MT mutations because that is not targeted
-                tumor_vaf = float(tad) / float(tdp) if tdp != 0 else 0
-                if is_impact and ((tdp < 20 or tad < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (tad < 10 or tumor_vaf < 0.05))) or line[chrom_col] == 'MT'):
+                # Skip reporting MT muts in IMPACT, and apply the DMP's depth/allele-count/VAF cutoffs as hard filters in IMPACT, and soft filters in non-IMPACT
+                if is_impact and line[chrom_col] == 'MT':
                     continue
+                tumor_vaf = float(tad) / float(tdp) if tdp != 0 else 0
+                if tdp < 20 or tad < 8 or tumor_vaf < 0.02 or (line[hotspot_col] == 'FALSE' and (tad < 10 or tumor_vaf < 0.05)):
+                    if is_impact:
+                        continue
+                    else:
+                        line[filter_col] = "dmp_filter" if line[filter_col] == 'PASS' else line[filter_col] + ";dmp_filter"
                 # analyst_maf.write('\t'.join(line) + '\n')
                 dict_analyst_kept.setdefault(key, []).append('\t'.join(line))
                 # The portal also skips silent muts, genes without Entrez IDs, and intronic events
