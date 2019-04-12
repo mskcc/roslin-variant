@@ -42,13 +42,13 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.3"
+- "default"
 - --language_version
 - "default"
 - --language
 - "bash"
 - complex
-id: basic-filtering-complex
+label: basic-filtering-complex
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

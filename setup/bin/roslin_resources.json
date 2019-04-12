@@ -154,7 +154,7 @@
             "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh",
             "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh",
             "0.2.1": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh",
-            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh"
+            "default": "/ifs/work/tangz/github/basicfiltering/runScript.sh"
         },
         "bcftools": {
             "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools",
@@ -267,7 +267,7 @@
             "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py",
             "1.2.1": "/opt/common/CentOS_6-dev/ngs-filters/v1.2.1/run_ngs-filters.py",
             "1.3": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py",
-            "default": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py"
+            "default": "/ifs/work/tangz/github/ngs-filters/run_ngs-filters.py"
         },
         "perl": {
             "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
@@ -328,6 +328,9 @@
         "htstools":{
             "0.1.1": "/opt/common/CentOS_6-dev/htstools/v0.1.1/runScript.sh"
         },
+        "htslib":{
+            "1.9": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.9/runScript.sh"
+        },
         "seq-cna": {
             "1.0.0": "sing.sh seq-cna 1.0.0"
         },
@@ -361,7 +364,8 @@
         "vcf2maf": {
             "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/",
             "1.6.15": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
-            "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/"
+            "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/",
+            "default": "/ifs/work/tangz/github/vcf2maf"
         },
         "vep": {
             "86": "/opt/common/CentOS_6-dev/vep/v86/",

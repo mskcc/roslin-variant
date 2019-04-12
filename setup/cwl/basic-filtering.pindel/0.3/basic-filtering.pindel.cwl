@@ -48,13 +48,13 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.3"
+- "default"
 - --language_version
 - "default"
 - --language
 - "bash"
 - pindel
-id: basic-filtering-pindel
+label: basic-filtering-pindel
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

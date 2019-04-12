@@ -51,9 +51,13 @@ baseCommand:
 - "htslib"
 - --version
 - "1.9"
+- --language_version
+- "default"
+- --language
+- "bash"
 - --cmd
 - "concat"
-id: bcftools-concat
+label: bcftools-concat
 
 requirements:
   InlineJavascriptRequirement: {}

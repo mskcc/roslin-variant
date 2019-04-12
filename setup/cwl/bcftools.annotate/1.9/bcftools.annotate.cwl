@@ -43,9 +43,13 @@ baseCommand:
 - "htslib"
 - --version
 - "1.9"
+- --language_version
+- "default"
+- --language
+- "bash"
 - --cmd
 - "annotate"
-id: bcftools-annotate
+label: bcftools-annotate
 
 requirements:
   InlineJavascriptRequirement: {}

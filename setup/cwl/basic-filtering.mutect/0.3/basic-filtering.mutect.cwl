@@ -48,13 +48,13 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.3"
+- "default"
 - --language_version
 - "default"
 - --language
 - "bash"
 - mutect
-id: basic-filtering-mutect
+label: basic-filtering-mutect
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:

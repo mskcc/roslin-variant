@@ -48,7 +48,7 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "0.3"
+- "default"
 - --language_version
 - "default"
 - --language

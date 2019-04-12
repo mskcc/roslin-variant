@@ -50,7 +50,7 @@ baseCommand:
 - "default"
 - --language
 - "python"
-id: ngs-filters
+label: ngs-filters
 
 requirements:
   InlineJavascriptRequirement: {}
