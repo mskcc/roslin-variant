@@ -47,6 +47,7 @@ baseCommand:
 - --language
 - "python"
 - --language_version
+- "default"
 - --cmd
 - create_cdna_contam
 id: create-cdna-contam
