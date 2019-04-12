@@ -17,7 +17,7 @@ dependencies:
       max: 2.0.6
   cmo:
     version: 1.9.10
-    install-path: /ifs/work/pi/roslin-cmo/1.9.10/cmo/
+    install-path: /ifs/work/pi/roslin-cmo/1.9.10-dev/cmo
   toil:
     version: 3.17.0-MSK
     install-path: /ifs/work/pi/roslin-toil/3.17.0-MSK/toil/
@@ -26,7 +26,7 @@ dependencies:
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-2.5.1/bin/singularity
 test:
   root: /ifs/work/pi/roslin-test
-  tempDir: /scratch  
+  tempDir: /scratch
   runArgs: --leader-node large --single-node
   env:
     TOIL_LSF_ARGS: '-S 1 '
