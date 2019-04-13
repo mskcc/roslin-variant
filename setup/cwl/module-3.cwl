@@ -310,7 +310,6 @@ steps:
                         normal_bam: normal_bam
                         tumor_bam: tumor_bam
                         tumor_id: tumor_sample_name
-                        refFasta: ref_fasta
                         output_vcf:
                             valueFrom: ${ return inputs.inputVcf.basename.replace(".vcf", ".complex_filtered.vcf"); }
                     out: [vcf]
