@@ -365,7 +365,7 @@
             "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/",
             "1.6.15": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
             "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/",
-            "default": "/ifs/work/tangz/github/vcf2maf"
+            "default": "/ifs/work/tangz/github/vcf2maf/"
         },
         "vep": {
             "86": "/opt/common/CentOS_6-dev/vep/v86/",
