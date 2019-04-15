@@ -45,7 +45,7 @@ baseCommand:
 - --tool
 - "ngs-filters"
 - --version
-- "default"
+- "1.4"
 - --language_version
 - "default"
 - --language
