@@ -13,7 +13,7 @@ $schemas:
 doap:release:
 - class: doap:Version
   doap:name: ngs-filters
-  doap:revision: 1.3
+  doap:revision: 1.4
 - class: doap:Version
   doap:name: cwl-wrapper
   doap:revision: 1.0.0
@@ -37,30 +37,25 @@ dct:contributor:
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [tool.sh]
+baseCommand:
+- tool.sh
+- --tool
+- "ngs-filters"
+- --version
+- "default"
+- --language_version
+- "default"
+- --language
+- "python"
 label: ngs-filters
-
-arguments:
-- valueFrom: "ngs-filters"
-  prefix: --tool
-  position: 0
-- valueFrom: "1.3"
-  prefix: --version
-  position: 0
-- valueFrom: "default"
-  prefix: --language_version
-  position: 0
-- valueFrom: "python"
-  prefix: --language
-  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 96000
+    ramMin: 36000
     coresMin: 1
 
 doc: |
@@ -75,7 +70,7 @@ inputs:
       prefix: --verbose
 
   inputMaf:
-    type: 
+    type:
     - File
     doc: Input maf file which needs to be tagged
     inputBinding:

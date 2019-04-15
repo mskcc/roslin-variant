@@ -23,6 +23,9 @@
 
 /cloud/dev/user-data.sh
 
+/vm/id_rsa
+/vm/id_rsa.pub
+
 # Compiled source #
 ###################
 *.pyc

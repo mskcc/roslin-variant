@@ -111,6 +111,7 @@ then
     buildCommand="cd /vagrant/build/scripts/;python /vagrant/build/scripts/build-images-parallel.py -d -t $BUILD_THREADS"
 else
     printf "Starting Build\n"
+    installDir=$ROSLIN_PIPELINE_ROOT
     TempDir=roslin-build-log
     TestDir=roslin-build-log
     buildCommand="cd /vagrant/build/scripts/;python build-images-parallel.py -t $BUILD_THREADS"
@@ -205,7 +206,7 @@ cd $ROSLIN_CORE_BIN_PATH
 # Setup virtualenv
 printf "\n----------Setting up virtualenv----------\n"
 cd $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION
-virtualenv virtualenv
+virtualenv virtualenv --system-site-packages
 source virtualenv/bin/activate
 export PATH=$ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/virtualenv/bin/:$PATH
 cd $parentDir

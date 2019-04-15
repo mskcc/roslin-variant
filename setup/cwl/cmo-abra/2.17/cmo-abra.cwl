@@ -53,7 +53,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: $(inputs.runparams.abra_ram_min)
-    coresMin: 8
+    coresMin: 16
 
 doc: |
   None

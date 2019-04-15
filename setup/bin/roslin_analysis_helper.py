@@ -56,7 +56,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
 
-    maf_command = ('bsub -We 0:59 -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
+    maf_command = ('bsub -sla Haystack -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
         + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
         + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_maf_file, portal_file]) + '"')
     bsub_stdout = subprocess.check_output(maf_command,shell=True)
@@ -70,8 +70,7 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
     fusion_log = os.path.join(log_directory,'generate_fusion.log')
     fusion_filter_script = os.path.join(script_path,'fusion_filter.py')
 
-    # This needs access to the internet because it queries the OncoKB API
-    fusion_command = ('bsub -R select[internet] -We 0:59 -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
+    fusion_command = ('bsub -sla Haystack -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
         + '; grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
         + '; python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path + '"')
     bsub_stdout = subprocess.check_output(fusion_command,shell=True)
@@ -83,7 +82,7 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
     discrete_copy_number_log = os.path.join(log_directory,'generate_discrete_copy_number.log')
     scna_output_path = output_path.replace('.txt','.scna.txt')
 
-    cna_command = ('bsub -We 0:59 -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
+    cna_command = ('bsub -sla Haystack -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
         + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + gene_cna_file
         + '; mv ' + scna_output_path + ' ' + output_path + '"')
     bsub_stdout = subprocess.check_output(cna_command,shell=True)
@@ -95,7 +94,7 @@ def generate_segmented_copy_number_data(data_directory,output_directory,data_fil
     segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
 
     # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
-    seg_command = ('bsub -We 0:59 -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
+    seg_command = ('bsub -sla Haystack -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
         + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
         + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
     bsub_stdout = subprocess.check_output(seg_command,shell=True)
@@ -261,13 +260,14 @@ def create_data_clinical_files_new_format(data_clinical_file):
         patients_header = get_patients_header(header)
         data_attr = set_attributes(header)
         samples_file_txt = generate_file_txt(data, data_attr, samples_header)
-        patients_file_txt = generate_file_txt(data, data_attr, patients_header)
+        patients_file_txt = generate_patient_file_txt(data, data_attr, patients_header)
 
     return samples_file_txt, patients_file_txt
 
 def get_samples_header(header):
     temp_header = set(header)
-    temp_header.discard("SEX")
+    for element in get_patients_header(header):
+        temp_header.discard(element)
     samples_header = ["SAMPLE_ID", "PATIENT_ID"]
     for header in temp_header:
         if header not in samples_header and header != None:
@@ -275,7 +275,7 @@ def get_samples_header(header):
     return samples_header
 
 def get_patients_header(header):
-    return {"PATIENT_ID", "SEX"}
+    return {"PATIENT_ID", "SEX"} #to do AGE and other additional patient-specific fields
 
 def set_attributes(data):
     d = dict()
@@ -319,6 +319,50 @@ def generate_file_txt(data, attr, header):
 
     data_str = "\t".join(order) + "\n"
     for row in data:
+        temp_list = list()
+        for heading in order:
+            row_value = row[heading].strip()
+            temp_list.append(row_value)
+        data_str += "\t".join(temp_list) + "\n"
+
+    file_txt = metadata + data_str
+    return file_txt
+
+
+def generate_patient_file_txt(data, attr, header):
+    order = list()
+    row1 = "#"
+    row2 = "#"
+    row3 = "#"
+    row4 = "#"
+
+    row2_values = list()
+    row3_values = list()
+    row4_values = list()
+
+    for heading in header:
+        order.append(heading)
+        row2_values.append(attr[heading]['desc'])
+        row3_values.append(attr[heading]['datatype'])
+        row4_values.append(attr[heading]['priority'])
+
+    row1 = "#" + "\t".join(order) + "\n"
+    row2 = "#" + "\t".join(row2_values) + "\n"
+    row3 = "#" + "\t".join(row3_values) + "\n"
+    row4 = "#" + "\t".join(row4_values) + "\n"
+
+    metadata = row1 + row2 + row3 + row4
+
+    data_str = "\t".join(order) + "\n"
+    uniqlist = []
+    newdata = []
+    for row in data:
+        if row['PATIENT_ID'] in uniqlist:
+            pass
+        else:
+            uniqlist.append(row['PATIENT_ID'])
+            newdata.append(row)
+    for row in newdata:
         temp_list = list()
         for heading in order:
             row_value = row[heading].strip()

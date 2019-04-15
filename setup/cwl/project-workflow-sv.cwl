@@ -126,6 +126,8 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        complex_tn: int
+        complex_nn: int
         project_prefix: string
         opt_dup_pix_dist: string
         facets_pcval: int
@@ -153,6 +155,7 @@ inputs:
           adapter: string
           adapter2: string
           bwa_output: string
+
   pairs:
     type:
       type: array
@@ -214,12 +217,13 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/vardict_vcf
-  pindel_vcf:
+  combine_vcf:
     type:
       type: array
       items: File
-    outputSource: variant_calling/pindel_vcf
-
+    outputSource: variant_calling/combine_vcf
+    secondaryFiles:
+    - .tbi
   # norm vcf
   vardict_norm_vcf:
     type:
@@ -235,14 +239,6 @@ outputs:
     outputSource: variant_calling/mutect_norm_vcf
     secondaryFiles:
       - .tbi
-  pindel_norm_vcf:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/pindel_norm_vcf
-    secondaryFiles:
-      - .tbi
-
   # structural variants
   merged_file_unfiltered:
     type: File[]
@@ -345,7 +341,6 @@ outputs:
     type: File[]
     outputSource: gather_metrics/qc_files
 
-  # conpair output
   concordance_txt:
     type: File
     outputSource: run_conpair/concordance_txt
@@ -358,6 +353,9 @@ outputs:
   contamination_pdf:
     type: File
     outputSource: run_conpair/contamination_pdf
+  cdna_contam_output:
+    type: File?
+    outputSource: run_cdna_contam_check/cdna_contam_output
 
 steps:
 
@@ -446,7 +444,7 @@ steps:
       ref_fasta: projparse/ref_fasta_string
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
-    out: [combine_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, pindel_vcf, vardict_norm_vcf, mutect_norm_vcf, pindel_norm_vcf]
+    out: [combine_vcf, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, vardict_norm_vcf, mutect_norm_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
@@ -455,30 +453,33 @@ steps:
     in:
       bams: group_process/bams
       pairs: pairs
-      combine_vcf: variant_calling/combine_vcf
+      annotate_vcf: variant_calling/annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
       vep_data: projparse/vep_data
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
+      groups: groups
+    out: [tumor_id, normal_id, srt_genome, srt_annotate_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
     in:
       bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
+      annotate_vcf: parse_pairs/srt_annotate_vcf
+      db_files: db_files
+      runparams: runparams
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
       vep_data: parse_pairs/srt_vep_data
-      tumor_sample_name: parse_pairs/tumor_id 
+      tumor_sample_name: parse_pairs/tumor_id
       normal_sample_name: parse_pairs/normal_id
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
+    scatter: [bams, annotate_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
 
   gather_metrics:
@@ -509,12 +510,12 @@ steps:
     in:
       ref: projparse/ref_fasta_string
       markers: projparse/conpair_markers
-      markers_bed: projparse/conpair_markers_bed 
+      markers_bed: projparse/conpair_markers_bed
       tumor_bams: pairing/tumor_bams
       normal_bams: pairing/normal_bams
       tumor_sample_name: pairing/tumor_sample_ids
       normal_sample_name: pairing/normal_sample_ids
-      file_prefix: projparse/project_prefix 
+      file_prefix: projparse/project_prefix
       pairing_file: projparse/pairing_file
     out: [ concordance_txt, concordance_pdf, contamination_txt, contamination_pdf ]
 
@@ -531,3 +532,12 @@ steps:
     out: [ merged_file, merged_file_unfiltered, maf_file, portal_file ]
     scatter: [ tumor_bam, normal_bam, genome,normal_sample_name, tumor_sample_name, delly_type, vep_data ]
     scatterMethod: dotproduct
+
+  run_cdna_contam_check:
+    run: roslin-qc/create-cdna-contam.cwl
+    in:
+      runparams: runparams
+      input_mafs: find_svs/maf_file
+      project_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix; }
+    out: [ cdna_contam_output ]

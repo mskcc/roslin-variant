@@ -1,32 +1,26 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
-  required_plugins = %w( vagrant-disksize )
-    required_plugins.each do |plugin|
-        unless Vagrant.has_plugin? plugin
-            system "vagrant plugin install #{plugin}"
-            exec "vagrant #{ARGV.join' '}"
-        end
-    end
+  config.vm.box = "bento/centos-6.9"
 
-  config.vm.box = "bento/ubuntu-16.04"
-  config.disksize.size = '50GB'
+  # Install the sshfs plugin if not already
+  unless Vagrant.has_plugin? "vagrant-sshfs"
+    system "vagrant plugin install vagrant-sshfs"
+    exec "vagrant #{ARGV.join' '}"
+  end
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  # Use sshfs (instead of rsync) to mount the current working repository
+  config.vm.synced_folder ".", "/vagrant", type: "sshfs"
+  config.vm.synced_folder "/opt/common", "/opt/common", type: "sshfs"
+  config.vm.synced_folder "/ifs/depot/pi", "/ifs/depot/pi", type: "sshfs"
+  config.vm.synced_folder "/ifs/work/pi", "/ifs/work/pi", type: "sshfs"
 
-  config.vm.provider "virtualbox" do |v|
-      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-      v.memory = "2048"
-	end
+  # VirtualBox specific configuration options
+  config.vm.provider "virtualbox" do |vb|
+    vb.cpus = 8
+    vb.memory = "102400"
+  end
 
-  config.vm.hostname = "roslin-variant"
-  config.vm.provision "shell", path: "./vm/resize-disk.sh"
-  config.vm.provision "shell", path: "./vm/bootstrap.sh"
-  config.vm.provision "shell", path: "./vm/install-python.sh"
-  config.vm.provision "shell", path: "./vm/install-singularity.sh"
-  config.vm.provision "shell", path: "./vm/install-docker.sh"
-  config.vm.provision "shell", path: "./vm/install-docker-registry.sh"
+  # Run the script that installs everything we need on this VM
+  config.vm.provision "shell", path: "./vm/bootstrap.sh", privileged: false
 end

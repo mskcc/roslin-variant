@@ -49,20 +49,26 @@ requirements:
     StepInputExpressionRequirement: {}
 
 inputs:
-
+    db_files:
+        type:
+            type: record
+            fields:
+                pairing_file: File
+    runparams:
+        type:
+            type: record
+            fields:
+                tmp_dir: string
     bams:
         type:
             type: array
             items: File
         secondaryFiles:
             - ^.bai
-
-    combine_vcf:
+    annotate_vcf:
         type: File
-
     tumor_sample_name: string
     normal_sample_name: string
-
     genome: string
     ref_fasta: string
 
@@ -71,7 +77,6 @@ inputs:
         secondaryFiles:
             - .tbi
     vep_data: string
-
     curated_bams:
         type:
             type: array
@@ -88,9 +93,12 @@ outputs:
 steps:
 
     vcf2maf:
-        run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl
+        run: cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
         in:
-            input_vcf: combine_vcf
+            runparams: runparams
+            tmp_dir:
+                valueFrom: ${ return inputs.runparams.tmp_dir; }
+            input_vcf: annotate_vcf
             tumor_id: tumor_sample_name
             vcf_tumor_id: tumor_sample_name
             normal_id: normal_sample_name
@@ -100,7 +108,9 @@ steps:
             vep_data: vep_data
             ref_fasta: ref_fasta
             retain_info:
-                default: "set,TYPE,FAILURE_REASON"
+                default: "set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB"
+            retain_fmt:
+                default: "QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS"
             output_maf:
                 valueFrom: ${ return inputs.tumor_id + "." + inputs.normal_id + ".combined-variants.vep.maf" }
         out: [output]
@@ -116,6 +126,9 @@ steps:
     fillout_tumor_normal:
         run: cmo-fillout/1.2.2/cmo-fillout.cwl
         in:
+            db_files: db_files
+            pairing:
+                valueFrom: ${ return inputs.db_files.pairing_file; }
             maf: remove_variants/maf
             bams: bams
             genome: genome
@@ -158,7 +171,7 @@ steps:
                     out: [fillout_out]
 
     ngs_filters:
-        run: ngs-filters/1.3/ngs-filters.cwl
+        run: ngs-filters/1.4/ngs-filters.cwl
         in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name

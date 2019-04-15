@@ -154,7 +154,7 @@
             "0.1.8": "/opt/common/CentOS_6-dev/basicfiltering/v0.1.8/runScript.sh",
             "0.2.0": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.0/runScript.sh",
             "0.2.1": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh",
-            "default": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/runScript.sh"
+            "default": "/ifs/work/tangz/github/basicfiltering/runScript.sh"
         },
         "bcftools": {
             "1.3.1": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.3.1/bcftools",
@@ -267,7 +267,7 @@
             "1.2": "/opt/common/CentOS_6-dev/ngs-filters/v1.2/run_ngs-filters.py",
             "1.2.1": "/opt/common/CentOS_6-dev/ngs-filters/v1.2.1/run_ngs-filters.py",
             "1.3": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py",
-            "default": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/run_ngs-filters.py"
+            "default": "/ifs/work/tangz/github/ngs-filters/run_ngs-filters.py"
         },
         "perl": {
             "default": "/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl"
@@ -314,6 +314,10 @@
             "0.5.11": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.11/generate_pdf.py",
             "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.10/generate_pdf.py"
         },
+        "roslin-qc-contam": {
+            "0.5.11": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.11/create_cdna_contam.py",
+            "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.10/create_cdna_contam.py"
+        },
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat",
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
@@ -327,6 +331,9 @@
         },
         "htstools":{
             "0.1.1": "/opt/common/CentOS_6-dev/htstools/v0.1.1/runScript.sh"
+        },
+        "htslib":{
+            "1.9": "/opt/common/CentOS_6-dev/bcftools/bcftools-1.9/runScript.sh"
         },
         "seq-cna": {
             "1.0.0": "sing.sh seq-cna 1.0.0"
@@ -361,7 +368,8 @@
         "vcf2maf": {
             "1.6.12": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.12/",
             "1.6.15": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.15/",
-            "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/"
+            "1.6.16": "/opt/common/CentOS_6-dev/vcf2maf/v1.6.16/",
+            "default": "/ifs/work/tangz/github/vcf2maf/"
         },
         "vep": {
             "86": "/opt/common/CentOS_6-dev/vep/v86/",
@@ -430,7 +438,7 @@
             "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_targets.bed",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/E90_NimbleGeneV3_WES/b37/E90_NimbleGeneV3_WES_b37_targets.ilist"
         },
-        "IMPACT341_b37":{
+        "IMPACT341_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/FP_tiling_intervals.list",
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT341/b37/picard_baits.interval_list",
@@ -438,15 +446,15 @@
         },
         "IMPACT410_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_genotypes.txt",
-            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.intervals",
-            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals",
-            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.intervals"
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.list",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals_list",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.intervals_list"
         },
         "IMPACT468_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt",
-            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.intervals",
-            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.intervals",
-            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.intervals"
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.list",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.interval_list",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.interval_list"
         },
         "IMPACT468_08390": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
@@ -491,6 +499,14 @@
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_baits.ilist",
             "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.bed",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.ilist"
+        },
+        "SeqCap_EZ_Exome_v3": {
+            "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_FP_tiling_intervals.intervals",
+            "baits_bed": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_baits.bed",
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_baits.ilist",
+            "targets_bed": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_targets.bed",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_targets.ilist"
         },
         "HemePACT_v3": {
             "FP_genotypes":"/ifs/depot/pi/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",

@@ -1,5 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-apt-get -y update
+# Update package manager and install the minimal packages needed to test Roslin
+sudo yum -y update
 
-apt-get -y install tree jq build-essential zlib1g-dev libbz2-dev liblzma-dev libcurl4-gnutls-dev autoconf automake libtool debootstrap libarchive-dev
+# Set environment variables that roslin needs to find tools/data
+source ${HOME}/.bashrc
+echo -e "\nexport PATH=/opt/common/CentOS_6-dev/bin/current:/opt/common/CentOS_6-dev/python/python-2.7.10/bin:$PATH" >> ${HOME}/.bashrc
+echo -e "\n[ -z "$BASH_VERSION" ] && exec /bin/bash -l" >> ${HOME}/.profile

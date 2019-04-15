@@ -152,6 +152,16 @@ def get_facets_pcval(assay):
         return 100
     return 500
 
+def get_complex_nn(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 0.2
+    return 0.1
+
+def get_complex_tn(assay):
+    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        return 0.5
+    return 0.2
+
 def sort_fastqs_into_dict(files):
     sorted = dict()
     readgroup_tags = dict()
@@ -242,6 +252,8 @@ if __name__ == "__main__":
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
+    complex_nn = get_complex_nn(assay)
+    complex_tn = get_complex_tn(assay)
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -314,7 +326,7 @@ if __name__ == "__main__":
     }
     params = {
         "abra_scratch": "/scratch/roslin/",
-        "abra_ram_min": abra_ram_min, 
+        "abra_ram_min": abra_ram_min,
         "genome": genome,
         "mutect_dcov": 50000,
         "mutect_rf": rf,
@@ -327,7 +339,9 @@ if __name__ == "__main__":
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
         "facets_cval": facets_cval,
-        "facets_pcval": facets_pcval
+        "facets_pcval": facets_pcval,
+        "complex_nn": complex_nn,
+        "complex_tn": complex_tn
     }
     out_dict.update({"runparams": params})
     ofh = open(args.yaml_output_file, "wb")
