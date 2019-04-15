@@ -41,15 +41,13 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "roslin-qc"
+- "roslin-qc-contam"
 - --version
 - "0.5.11"
 - --language
 - "python"
 - --language_version
 - "default"
-- --cmd
-- create_cdna_contam
 id: create-cdna-contam
 
 requirements:
