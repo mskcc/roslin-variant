@@ -42,7 +42,7 @@ baseCommand:
 - --tool
 - "basic-filtering"
 - --version
-- "default"
+- "0.3"
 - --language_version
 - "default"
 - --language

@@ -46,7 +46,7 @@ baseCommand: [cmo_vcf2maf]
 label: cmo-vcf2maf
 
 arguments:
-- valueFrom: "default"
+- valueFrom: "1.6.17"
   prefix: --version
   position: 0
 
