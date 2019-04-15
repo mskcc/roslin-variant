@@ -314,6 +314,10 @@
             "0.5.11": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.11/generate_pdf.py",
             "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.10/generate_pdf.py"
         },
+        "roslin-qc-contam": {
+            "0.5.11": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.11/create_cdna_contam.py",
+            "default": "/opt/common/CentOS_6-dev/roslin-qc/v0.5.10/create_cdna_contam.py"
+        },
         "samstat": {
             "1.5.1": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat",
             "default": "/opt/common/CentOS_6-dev/samstat/1.5.1/samstat"
