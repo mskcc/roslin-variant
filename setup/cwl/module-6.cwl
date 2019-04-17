@@ -246,7 +246,7 @@ steps:
                 merged_file:
                     type: stdout
     convert_vcf2maf:
-        run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
+        run: cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
         in:
             vep_data: vep_data
             normal_id: normal_sample_name
