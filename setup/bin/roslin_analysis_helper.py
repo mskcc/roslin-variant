@@ -46,59 +46,91 @@ def get_sample_list(clinical_data_path):
     sample_list.pop(0)
     return sample_list
 
-def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,script_path,pipeline_version_str,is_impact):
+def run_command_list(command_list,name):
+    command_num = 1
+    for single_command in command_list:
+        single_command_name = name + '_' + str(command_num)
+        run_job(single_command,True,single_command_name)
+        command_num = command_num + 1
+
+def run_job(command, shell, name):
+    logger.info("Running job "+ name)
+    logger.debug("Command: "+command)
+    output_message = ""
+    error_message = ""
+    try:
+        single_process = Popen(command, stdout=PIPE,stderr=PIPE, shell=shell)
+        stdout, stderr = single_process.communicate()
+        errorcode = single_process.returncode
+        if stdout:
+            output_message = "----- log stdout -----\n {}".format(stdout)
+        if stderr:
+            error_message = "----- log stderr -----\n {}".format(stderr)
+        if errorcode != 0:
+            error_message = error_message + "\nJob ( {} ) Failed, errorcode: {}".format(name,str(errorcode))
+        else:
+            output_message = output_message + "\nJob ( {} ) Done".format(name)
+    except:
+        error_message = error_message + "\nJob ( {} ) Failed. Exception:\n{}".format(name,traceback.format_exc())
+    if output_message:
+        logger.info(output_message)
+    if error_message:
+        logger.info(error_message)
+
+def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,script_path,pipeline_version_str,is_impact):
     maf_files_query = os.path.join(maf_directory,'*.muts.maf')
     combined_output = maf_file_name.replace('.txt','.combined.txt')
     combined_output_file = os.path.join(output_directory,combined_output)
     pipeline_version_str_arg = pipeline_version_str.replace(' ','_')
     portal_file = os.path.join(output_directory,maf_file_name)
-    maf_log = os.path.join(log_directory,'generate_maf.log')
     regexp_string = "--regexp='^(Hugo|#)'"
     maf_filter_script = os.path.join(script_path,'maf_filter.py')
-
-    maf_command = ('bsub -sla Haystack -oo ' + maf_log + ' "grep -h --regexp=^Hugo ' + maf_files_query + ' | head -n1 > ' + combined_output_file
-        + '; grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file
-        + '; python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_maf_file, portal_file]) + '"')
-    bsub_stdout = subprocess.check_output(maf_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    tmp_combined_output_file = combined_output_file + ".tmp"
+    maf_command_list = []
+    maf_command_list.append('grep -h --regexp=^Hugo ' + maf_files_query + ' > ' + tmp_combined_output_file)
+    maf_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_file)
+    maf_command_list.append('rm ' + tmp_combined_output_file)
+    maf_command_list.append('grep -hEv ' + regexp_string + ' ' + maf_files_query + ' >> ' + combined_output_file)
+    maf_command_list.append('python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file]))
+    run_command_list(maf_command_list,'generate_maf')
 
 def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
     fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
     combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_path = os.path.join(output_directory,combined_output)
     output_path = os.path.join(output_directory,data_filename)
-    fusion_log = os.path.join(log_directory,'generate_fusion.log')
     fusion_filter_script = os.path.join(script_path,'fusion_filter.py')
+    tmp_combined_output_file = combined_output_path + ".tmp"
+    fusion_command_list = []
+    fusion_command_list.append('grep -h --regexp=^Hugo ' + fusion_files_query + ' > ' + tmp_combined_output_file)
+    fusion_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_path)
+    fusion_command_list.append('rm ' + tmp_combined_output_file)
+    fusion_command_list.append('grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path)
+    fusion_command_list.append('python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path)
+    run_command_list(fusion_command_list,'generate_fusion')
 
-    fusion_command = ('bsub -sla Haystack -oo ' + fusion_log + ' "grep -h --regexp=^Hugo ' + fusion_files_query + ' | head -n1 > ' + combined_output_path
-        + '; grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path
-        + '; python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path + '"')
-    bsub_stdout = subprocess.check_output(fusion_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
-
-def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,log_directory):
+def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,assay,log_directory):
     discrete_copy_number_files_query = os.path.join(data_directory,'*_hisens.cncf.txt')
     output_path = os.path.join(output_directory,data_filename)
-    discrete_copy_number_log = os.path.join(log_directory,'generate_discrete_copy_number.log')
     scna_output_path = output_path.replace('.txt','.scna.txt')
-
-    cna_command = ('bsub -sla Haystack -oo ' + discrete_copy_number_log + ' "cmo_facets --suite-version 1.5.6 geneLevel -f '
-        + discrete_copy_number_files_query + ' -m scna -o ' + output_path + '; mv ' + output_path + ' ' + gene_cna_file
-        + '; mv ' + scna_output_path + ' ' + output_path + '"')
-    bsub_stdout = subprocess.check_output(cna_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    cna_command_list = []
+    cna_command_list.append('cmo_facets --suite-version 1.5.6 geneLevel -f ' + discrete_copy_number_files_query + ' -m scna -o ' + output_path)
+    cna_command_list.append('mv ' + output_path + ' ' + gene_cna_file)
+    cna_command_list.append('mv ' + scna_output_path + ' ' + output_path)
+    run_command_list(cna_command_list,'generate_discrete_copy_number')
 
 def generate_segmented_copy_number_data(data_directory,output_directory,data_filename,analysis_seg_file,log_directory):
     segmented_files_query = os.path.join(data_directory,'*_hisens.seg')
-    output_path = os.path.join(output_directory,data_filename)
-    segmented_log = os.path.join(log_directory,'generate_segmented_copy_number.log')
-
+    combined_output_path = os.path.join(output_directory,data_filename)
+    tmp_combined_output_file = combined_output_path + ".tmp"
     # ::TODO:: Using a weird awk here to reduce log-ratio significant digits. Do it in facets.
-    seg_command = ('bsub -sla Haystack -oo ' + segmented_log + ' "grep -h --regexp=^ID ' + segmented_files_query + ' | head -n1 > ' + output_path
-        + '; grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS=\\"\\t\\" {\$6=sprintf(\\"%.4f\\",\$6); print}\' >> ' + output_path
-        + '; cp ' + output_path + ' ' + analysis_seg_file + '"')
-    bsub_stdout = subprocess.check_output(seg_command,shell=True)
-    return re.findall(r'Job <(\d+)>',bsub_stdout)[0]
+    seg_command_list = []
+    seg_command_list.append('grep -h --regexp=^ID ' + segmented_files_query + ' > ' + tmp_combined_output_file)
+    seg_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_path)
+    seg_command_list.append('grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS="\t" {$6=sprintf("%.4f",$6); print}\' >> ' + combined_output_path)
+    seg_command_list.append('cp ' + combined_output_path + ' ' + analysis_seg_file)
+    run_command_list(seg_command_list,'generate_segmented_copy_number')
+
 
 def create_case_list_file(cases_path,cases_data):
     with open(cases_path,'w') as cases_file:
@@ -208,31 +240,6 @@ def generate_fusion_meta(portal_config_data,data_filename):
     fusion_meta_data['profile_name'] = 'Fusions'
     fusion_meta_data['data_filename'] = data_filename
     return fusion_meta_data
-
-# ::TODO:: Remove dependency on LSF somehow, possibly by just running everything baremetal
-def wait_for_jobs_to_finish(bjob_ids,name):
-    job_string = name + ' [' + ','.join(bjob_ids) + ']'
-    logger.info("Monitoring " + job_string)
-    bjob_command = "bjobs " + ' '.join(bjob_ids) + " | awk '{printf $3}'"
-    prev_job_status = ''
-    while True:
-        job_status = subprocess.check_output(bjob_command,shell=True).strip()
-        if 'PEND' in job_status:
-            logger.info(name + " pending") if prev_job_status != job_status else None
-            time.sleep(8)
-        elif 'RUN' in job_status:
-            logger.info(name + " running") if prev_job_status != job_status else None
-            time.sleep(6)
-        elif 'EXIT' in job_status:
-            logger.warning(name + " exit with error")
-            return 1
-        elif 'DONE' in job_status:
-            logger.info(name + " done")
-            return 0
-        else:
-            logger.warning(name + " status unknown")
-            return 2
-        prev_job_status = job_status
 
 def check_if_impact(request_file_path):
     is_impact = False
@@ -539,13 +546,12 @@ if __name__ == '__main__':
     segmented_data_meta = generate_segmented_meta(portal_config_data,segmented_data_file)
     logger.info('Finished generating segmented meta')
 
-    job_ids = []
-    job_ids.append(generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str,project_is_impact))
     logger.info('Submitted job to generate maf data')
-    job_ids.append(generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory))
+    generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_maf_file,log_directory,args.script_path,version_str,project_is_impact)
     logger.info('Submitted job to generate discrete copy number data')
-    job_ids.append(generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory))
+    generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,log_directory)
     logger.info('Submitted job to generate segmented copy number data')
+    generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory)
 
     study_meta_path = os.path.join(output_directory,study_meta_file)
     clinical_meta_samples_path = os.path.join(output_directory, clinical_meta_samples_file)
@@ -575,18 +581,12 @@ if __name__ == '__main__':
     if project_is_impact:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
-        job_ids.append(generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path))
         logger.info('Submitted job to generate fusion data')
+        generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,args.script_path)
         fusion_meta_path = os.path.join(output_directory,fusion_meta_file)
         logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:
             yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))
-
-    # Now wait for any of the jobs submitted earlier to complete
-    if wait_for_jobs_to_finish(job_ids, 'Data generation jobs') != 0:
-        logger.error('One or more of the analysis/portal jobs failed.')
-        sys.exit(1)
-
     try:
         validation_exit_status = validate_portal_data(output_directory)
         logger.info("Portal validator exit status: %i" % validation_exit_status)

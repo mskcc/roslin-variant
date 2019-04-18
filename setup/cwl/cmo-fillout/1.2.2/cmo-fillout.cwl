@@ -55,22 +55,21 @@ requirements:
     ramMin: 32000
     coresMin: 2
 
-requirements:
-  InlineJavascriptRequirement: {}
-  ResourceRequirement:
-    ramMin: 32
-    coresMin: 2
-
 doc: |
   Fillout allele counts for a MAF file using GetBaseCountsMultiSample on BAMs
 
 inputs:
   maf:
     type: File
-
     doc: MAF file on which to fillout
     inputBinding:
       prefix: --maf
+
+  pairing:
+    type: ['null', File]
+    doc: Tab separated pairing file, normal tumor
+    inputBinding:
+      prefix: --pairing-file
 
   bams:
     type:

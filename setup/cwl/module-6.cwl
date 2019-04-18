@@ -62,23 +62,23 @@ inputs:
     tumor_sample_name:
         type: string
     genome: string
-    delly_type: string[] 
+    delly_type: string[]
     vep_data: string
 
 outputs:
 
-   delly_sv: 
+   delly_sv:
         type:
             type: array
             items: File
-        secondaryFiles: 
+        secondaryFiles:
             - ^.bcf.csi
         outputSource: call_sv_by_delly/delly_sv
    delly_filtered_sv:
-        type: 
+        type:
             type: array
             items: File
-        outputBinding: 
+        outputBinding:
             glob: '*.pass.bcf'
         secondaryFiles:
             - ^.bcf.csi
@@ -140,7 +140,7 @@ steps:
             tumor_sample_name: tumor_sample_name
             genome: genome
             pairfile: createTNPair/pairfile
-            delly_type: delly_type 
+            delly_type: delly_type
         out: [ delly_sv , delly_filtered_sv ]
         run:
             class: Workflow
@@ -184,69 +184,69 @@ steps:
                         i: delly_call/sv_file
                         s: pairfile
                         t: delly_type
-                        o: 
+                        o:
                             valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
                     out: [ sv_file ]
     merge_with_bcftools_unfiltered:
-        in: 
+        in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             bcf_files: call_sv_by_delly/delly_sv
-            output_filename: 
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; } 
+            output_filename:
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; }
         out: [ merged_file_unfiltered ]
         run:
             class: CommandLineTool
-            baseCommand: ["bcftools", "concat", "-a"] 
+            baseCommand: ["bcftools", "concat", "-a"]
             stdout: $(inputs.output_filename)
-            inputs:   
-                bcf_files: 
-                    type: 
+            inputs:
+                bcf_files:
+                    type:
                         type: array
                         items: File
                     secondaryFiles:
                         - ^.bcf.csi
                     inputBinding:
                         position: 2
-                output_filename: 
+                output_filename:
                     type: string
                     inputBinding:
                         prefix: --output
                         position: 1
-            outputs: 
+            outputs:
                 merged_file_unfiltered:
                     type: stdout
     merge_with_bcftools:
-        in: 
+        in:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             pass_bcf_files: call_sv_by_delly/delly_filtered_sv
-            output_filename: 
-                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; } 
+            output_filename:
+                valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; }
         out: [ merged_file ]
         run:
             class: CommandLineTool
-            baseCommand: ["bcftools", "concat", "-a"] 
+            baseCommand: ["bcftools", "concat", "-a"]
             stdout: $(inputs.output_filename)
-            inputs:   
-                pass_bcf_files: 
-                    type: 
+            inputs:
+                pass_bcf_files:
+                    type:
                         type: array
                         items: File
                     secondaryFiles:
                         - ^.bcf.csi
                     inputBinding:
                         position: 2
-                output_filename: 
+                output_filename:
                     type: string
                     inputBinding:
                         prefix: --output
                         position: 1
-            outputs: 
-                merged_file: 
+            outputs:
+                merged_file:
                     type: stdout
     convert_vcf2maf:
-        run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl 
+        run: cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
         in:
             vep_data: vep_data
             normal_id: normal_sample_name
@@ -254,7 +254,7 @@ steps:
             vcf_normal_id: normal_sample_name
             vcf_tumor_id: tumor_sample_name
             input_vcf: merge_with_bcftools/merged_file
-            output_maf: 
+            output_maf:
                 valueFrom: $(inputs.input_vcf.basename.replace('vcf','vep.maf'))
         out: [ output ]
     portal_format_output:
