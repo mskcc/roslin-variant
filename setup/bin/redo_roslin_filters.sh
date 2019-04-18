@@ -38,13 +38,14 @@ dir=$(dirname $(dirname ${maf}))
 
 # Specify tools/data we will need
 ref_fasta="/dev/shm/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
-vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/basicfiltering"
+vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /ifs/work/tangz/github/basicfiltering"
 hotspot_vcf="/home/kandoth/src/basicfiltering/data/hotspot-list-union-v1-v2.vcf"
 bcftools="/opt/common/CentOS_6-dev/bcftools/bcftools-1.9/bcftools"
 tabix="/opt/common/CentOS_6-dev/htslib/v1.9/tabix"
 vcf2maf="/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl /home/kandoth/src/vcf2maf/vcf2maf.pl"
 vep_path="/opt/common/CentOS_6-dev/vep/v86"
 vep_data="/opt/common/CentOS_6-dev/vep/cache"
+vep_isoforms="/home/kandoth/src/vcf2maf/data/isoform_overrides_at_mskcc"
 filter_vcf="/opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz"
 rm_vars="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/remove-variants/remove_variants.py"
 fillout="/home/kandoth/src/cmo/bin/cmo_fillout --version 1.2.2"
@@ -99,7 +100,7 @@ fi
 
 # Run vcf2maf on the merged VCF to generate an annotated MAF format file
 concat_maf=${dir}/maf/${tum}.${nrm}.combined-variants.vep.maf
-${vcf2maf} --input-vcf ${anno_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB --retain-fmt QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS --vep-forks 8 --vep-path ${vep_path} --vep-data ${vep_data} --output-maf ${concat_maf} --filter-vcf ${filter_vcf}
+${vcf2maf} --input-vcf ${anno_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB --retain-fmt QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS --vep-forks 8 --vep-path ${vep_path} --vep-data ${vep_data} --output-maf ${concat_maf} --filter-vcf ${filter_vcf} --custom-enst ${vep_isoforms}
 rm -f ${anno_vcf%.vcf}.vep.vcf
 
 if [ -s ${concat_maf} ]
