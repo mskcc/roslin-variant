@@ -5,6 +5,8 @@ from tempfile import mkdtemp
 from datetime import date
 from distutils.dir_util import copy_tree
 import genPortalUUID
+import traceback
+from subprocess import Popen, PIPE
 
 logger = logging.getLogger("roslin_analysis_helper")
 logger.setLevel(logging.INFO)
@@ -109,7 +111,7 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
     fusion_command_list.append('python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path)
     run_command_list(fusion_command_list,'generate_fusion')
 
-def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,assay,log_directory):
+def generate_discrete_copy_number_data(data_directory,output_directory,data_filename,gene_cna_file,log_directory):
     discrete_copy_number_files_query = os.path.join(data_directory,'*_hisens.cncf.txt')
     output_path = os.path.join(output_directory,data_filename)
     scna_output_path = output_path.replace('.txt','.scna.txt')
