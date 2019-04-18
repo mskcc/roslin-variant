@@ -58,41 +58,11 @@ inputs:
     type:
       type: record
       fields:
-        hapmap:
-          type: File
-          secondaryFiles:
-            - .idx
-        dbsnp:
-          type: File
-          secondaryFiles:
-            - .idx
-        indels_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        snps_1000g:
-          type: File
-          secondaryFiles:
-            - .idx
-        cosmic:
-          type: File
-          secondaryFiles:
-            - .idx
         refseq: File
         ref_fasta: string
         vep_data: string
-        exac_filter:
-          type: File
-          secondaryFiles:
-            - .tbi
         hotspot_list: File
         hotspot_vcf: File
-        curated_bams:
-          type:
-            type: array
-            items: File
-          secondaryFiles:
-              - ^.bai
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
@@ -102,14 +72,40 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
-
+  hapmap:
+    type: File
+    secondaryFiles:
+      - .idx
+  dbsnp:
+    type: File
+    secondaryFiles:
+      - .idx
+  indels_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  snps_1000g:
+    type: File
+    secondaryFiles:
+      - .idx
+  cosmic:
+    type: File
+    secondaryFiles:
+      - .idx
+  exac_filter:
+    type: File
+    secondaryFiles:
+      - .tbi
+  curated_bams:
+    type:
+      type: array
+      items: string
   groups:
     type:
       type: array
       items:
         type: array
         items: string
-
   runparams:
     type:
       type: record
@@ -129,10 +125,17 @@ inputs:
         num_cpu_threads_per_data_thread: int
         num_threads: int
         tmp_dir: string
+        complex_tn: int
+        complex_nn: int
+        delly_type:
+          type:
+            type: array
+            items: string
         project_prefix: string
         opt_dup_pix_dist: string
         facets_pcval: int
         facets_cval: int
+        abra_ram_min: int
 
   samples:
     type:
@@ -151,6 +154,7 @@ inputs:
           adapter: string
           adapter2: string
           bwa_output: string
+
   pairs:
     type:
       type: array
@@ -167,11 +171,11 @@ inputs:
     secondaryFiles: ^.bai
 
   covint_bed:
-    type: 
+    type:
       type: array
       items: File
 
-  combine_vcf:
+  annotate_vcf:
     type:
       type: array
       items: File
@@ -180,7 +184,7 @@ outputs:
 
   # maf
   maf:
-    type: File
+    type: File[]
     outputSource: filter/maf
 
 steps:
@@ -189,6 +193,13 @@ steps:
     run: parse-project-yaml-input/1.0.1/parse-project-yaml-input.cwl
     in:
       db_files: db_files
+      hapmap_inputs: hapmap
+      dbsnp_inputs: dbsnp
+      indels_1000g_inputs: indels_1000g
+      snps_1000g_inputs: snps_1000g
+      exac_filter_inputs: exac_filter
+      curated_bams_inputs: curated_bams
+      cosmic_inputs: cosmic
       groups: groups
       pairs: pairs
       samples: samples
@@ -201,6 +212,11 @@ steps:
       bams: bams
       pairs: pairs
       db_files: db_files
+      dbsnp_inputs: dbsnp
+      hapmap_inputs: hapmap
+      cosmic_inputs: cosmic
+      snps_1000g_inputs: snps_1000g
+      indels_1000g_inputs: indels_1000g
       runparams: runparams
       beds: covint_bed
     out: [tumor_bams, normal_bams, tumor_sample_ids, normal_sample_ids, dbsnp, cosmic, mutect_dcov, mutect_rf, refseq, genome, covint_bed, facets_pcval, facets_cval]
@@ -210,20 +226,23 @@ steps:
     in:
       bams: bams
       pairs: pairs
-      combine_vcf: combine_vcf
+      annotate_vcf: annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
       vep_data: projparse/vep_data
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
+      groups: groups
+    out: [tumor_id, normal_id, srt_genome, srt_annotate_vcf, srt_ref_fasta, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
     in:
       bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
+      annotate_vcf: parse_pairs/srt_annotate_vcf
+      db_files: db_files
+      runparams: runparams
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       exac_filter: parse_pairs/srt_exac_filter
@@ -233,5 +252,5 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
+    scatter: [bams, annotate_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data]
     scatterMethod: dotproduct
