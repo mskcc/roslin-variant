@@ -64,10 +64,18 @@ then echo STATUS: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering
 else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs or BAMs at: ${dir}; exit 1
 fi
 
+# set up different cutting threshold for filter_complex.py using ASSAY information
+complex_nn=0.2
+complex_tn=0.5
+assay=$(grep Assay: ${dir}/inputs/*_request.txt | cut -f2 -d' ')
+if [[ ${assay} =~ "Exon" || ${assay} =~ "Exome" ]]
+then complex_nn=0.1; complex_tn=0.2
+fi
+
 # Run the appropriate basicfiltering script for each variant caller's VCF
 vardict_cpx_vcf=${vardict_vcf%.vardict.vcf}.cpx.vardict.vcf
 ${vcf_filter}/filter_mutect.py --inputVcf ${mutect_vcf} --inputTxt ${mutect_txt} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
-${vcf_filter}/filter_complex.py --input-vcf ${vardict_vcf} --tumor-id ${tum} --tumor-bam ${tum_bam} --normal-bam ${nrm_bam} --output-vcf ${vardict_cpx_vcf}
+${vcf_filter}/filter_complex.py -tn ${complex_tn} -nn ${complex_nn} --input-vcf ${vardict_vcf} --tumor-id ${tum} --tumor-bam ${tum_bam} --normal-bam ${nrm_bam} --output-vcf ${vardict_cpx_vcf}
 ${vcf_filter}/filter_vardict.py --inputVcf ${vardict_cpx_vcf} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
 rm -f ${dir}/vcf/${tum}*${nrm}*.{mutect,vardict}_STDfilter.{txt,vcf} ${vardict_cpx_vcf}*
 
@@ -140,7 +148,6 @@ fi
 
 # Run fillout to backfill readcounts for events across the curated panel-of-normals (PoN)
 pon_fillout=${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.curated.fillout
-assay=$(grep Assay: ${dir}/inputs/*_request.txt | cut -f2 -d' ')
 pon_bams=${pon_bam_root}/${assay}*/*.bam
 ${fillout} --genome GRCh37 --format 1 --n_threads 8 --maf ${rm_var_maf} --output ${pon_fillout} --portal-output /dev/null --bams ${pon_bams}
 
