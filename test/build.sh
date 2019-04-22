@@ -59,12 +59,16 @@ do
 
     if [ $jobTrackBool != 0 ]
     then
-        if [ "$leaderStatus" == "DONE" ] 
-        then 
+        if [ "$leaderStatus" == "DONE" ]
+        then
             printf "Job Finished Successfully\n"
             store_test_logs
             jobTrackBool=0
-        elif [ "$leaderStatus" == "EXIT" ] 
+        elif [ "$leaderStatus" == "PEND" ]
+        then
+            printf "Job is Pending\n"
+        fi
+        else
         then
             printf "Job Failed\n"
             store_test_logs
@@ -74,12 +78,16 @@ do
 
     if [ $jobTrackBoolSV != 0 ]
     then
-        if [ "$leaderStatusSV" == "DONE" ] 
+        if [ "$leaderStatusSV" == "DONE" ]
         then
             printf "Job SV Finished Successfully\n"
             store_test_logs_sv
             jobTrackBoolSV=0
-        elif [ "$leaderStatusSV" == "EXIT" ]
+        elif [ "$leaderStatusSV" == "PEND" ]
+        then
+            printf "Job SV is Pending\n"
+        fi
+        else
         then
             printf "Job SV Failed\n"
             store_test_logs_sv
@@ -87,14 +95,14 @@ do
         fi
     fi
 
-    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] 
+    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ]
     then
         if [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "EXIT" ]
         then
             printf "Both Jobs Failed\n"
             store_test_logs
             store_test_logs_sv
-            exit 1    
+            exit 1
         elif [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "DONE" ]
         then
             printf "Regular Workflow Failed; SV Workflow Finished Successfully\n"
