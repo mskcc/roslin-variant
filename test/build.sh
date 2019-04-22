@@ -67,9 +67,7 @@ do
         elif [ "$leaderStatus" == "PEND" ]
         then
             printf "Job is Pending\n"
-        fi
         else
-        then
             printf "Job Failed\n"
             store_test_logs
             jobTrackBool=0
@@ -86,9 +84,7 @@ do
         elif [ "$leaderStatusSV" == "PEND" ]
         then
             printf "Job SV is Pending\n"
-        fi
         else
-        then
             printf "Job SV Failed\n"
             store_test_logs_sv
             jobTrackBoolSV=0
