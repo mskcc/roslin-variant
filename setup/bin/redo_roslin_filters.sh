@@ -38,13 +38,14 @@ dir=$(dirname $(dirname ${maf}))
 
 # Specify tools/data we will need
 ref_fasta="/dev/shm/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
-vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/basicfiltering"
+vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /ifs/work/tangz/github/basicfiltering"
 hotspot_vcf="/home/kandoth/src/basicfiltering/data/hotspot-list-union-v1-v2.vcf"
 bcftools="/opt/common/CentOS_6-dev/bcftools/bcftools-1.9/bcftools"
 tabix="/opt/common/CentOS_6-dev/htslib/v1.9/tabix"
 vcf2maf="/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl /home/kandoth/src/vcf2maf/vcf2maf.pl"
 vep_path="/opt/common/CentOS_6-dev/vep/v86"
 vep_data="/opt/common/CentOS_6-dev/vep/cache"
+vep_isoforms="/home/kandoth/src/vcf2maf/data/isoform_overrides_at_mskcc"
 filter_vcf="/opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz"
 rm_vars="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/remove-variants/remove_variants.py"
 fillout="/home/kandoth/src/cmo/bin/cmo_fillout --version 1.2.2"
@@ -63,10 +64,18 @@ then echo STATUS: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering
 else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs or BAMs at: ${dir}; exit 1
 fi
 
+# set up different cutting threshold for filter_complex.py using ASSAY information
+complex_nn=0.2
+complex_tn=0.5
+assay=$(grep Assay: ${dir}/inputs/*_request.txt | cut -f2 -d' ')
+if [[ ${assay} =~ "Exon" || ${assay} =~ "Exome" ]]
+then complex_nn=0.1; complex_tn=0.2
+fi
+
 # Run the appropriate basicfiltering script for each variant caller's VCF
 vardict_cpx_vcf=${vardict_vcf%.vardict.vcf}.cpx.vardict.vcf
 ${vcf_filter}/filter_mutect.py --inputVcf ${mutect_vcf} --inputTxt ${mutect_txt} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
-${vcf_filter}/filter_complex.py --input-vcf ${vardict_vcf} --tumor-id ${tum} --tumor-bam ${tum_bam} --normal-bam ${nrm_bam} --output-vcf ${vardict_cpx_vcf}
+${vcf_filter}/filter_complex.py -tn ${complex_tn} -nn ${complex_nn} --input-vcf ${vardict_vcf} --tumor-id ${tum} --tumor-bam ${tum_bam} --normal-bam ${nrm_bam} --output-vcf ${vardict_cpx_vcf}
 ${vcf_filter}/filter_vardict.py --inputVcf ${vardict_cpx_vcf} --tsampleName ${tum} --refFasta ${ref_fasta} --hotspotVcf ${hotspot_vcf} --outDir ${dir}/vcf
 rm -f ${dir}/vcf/${tum}*${nrm}*.{mutect,vardict}_STDfilter.{txt,vcf} ${vardict_cpx_vcf}*
 
@@ -99,7 +108,7 @@ fi
 
 # Run vcf2maf on the merged VCF to generate an annotated MAF format file
 concat_maf=${dir}/maf/${tum}.${nrm}.combined-variants.vep.maf
-${vcf2maf} --input-vcf ${anno_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB --retain-fmt QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS --vep-forks 8 --vep-path ${vep_path} --vep-data ${vep_data} --output-maf ${concat_maf} --filter-vcf ${filter_vcf}
+${vcf2maf} --input-vcf ${anno_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB --retain-fmt QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS --vep-forks 8 --vep-path ${vep_path} --vep-data ${vep_data} --output-maf ${concat_maf} --filter-vcf ${filter_vcf} --custom-enst ${vep_isoforms}
 rm -f ${anno_vcf%.vcf}.vep.vcf
 
 if [ -s ${concat_maf} ]
@@ -139,7 +148,6 @@ fi
 
 # Run fillout to backfill readcounts for events across the curated panel-of-normals (PoN)
 pon_fillout=${dir}/maf/${tum}.${nrm}.combined-variants.vep.rmv.curated.fillout
-assay=$(grep Assay: ${dir}/inputs/*_request.txt | cut -f2 -d' ')
 pon_bams=${pon_bam_root}/${assay}*/*.bam
 ${fillout} --genome GRCh37 --format 1 --n_threads 8 --maf ${rm_var_maf} --output ${pon_fillout} --portal-output /dev/null --bams ${pon_bams}
 
