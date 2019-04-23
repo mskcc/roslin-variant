@@ -71,7 +71,7 @@
             "omni": "/ifs/depot/pi/resources/genomes/GRCh37/omni/1000G_omni2.5.b37.vcf",
             "snps_1000g": "/ifs/depot/pi/resources/genomes/GRCh37/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf",
             "star_index": "/ifs/depot/pi/resources/genomes/GRCh37/star_index/withoutJunctions",
-            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
         },
         "GRCh38": {
             "delly": "/ifs/depot/pi/resources/genomes/GRCh38/delly/human.hg38.excl.tsv",
@@ -80,12 +80,12 @@
             "fasta": "/ifs/depot/pi/resources/vep/cache/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz",
             "kallisto_index": "/ifs/depot/pi/resources/genomes/GRCh38/kallisto_index/gencode.v25.pc_transcripts",
             "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25",
-            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
         },
         "GRCm38": {
             "exac": "",
             "fasta": "/ifs/depot/pi/resources/vep/cache/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz",
-            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
         },
         "hg18": {
             "bedtools_genome": "/ifs/depot/pi/resources/genomes/hg18/bedtools_genome/human.hg18.genome",
@@ -533,7 +533,7 @@
         "cosmic": "/ifs/depot/pi/resources/request_files/cosmic/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
         "refseq": "/ifs/depot/pi/resources/request_files/refseq/refGene_b37.sorted.txt",
         "exac_filter": "/ifs/depot/pi/resources/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
-        "vep_data": "/ifs/depot/pi/resources/vep/cache",
+        "vep_data": "/opt/common/CentOS_6-dev/vep/cache",
         "conpair_markers": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt",
         "conpair_markers_bed": "/opt/common/CentOS_6-dev/conpair/0.2/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed",
         "curated_bams": {
@@ -664,8 +664,8 @@
                 "/ifs/work/pi/resources/curated_bams/IDT_Exome_v1_FP_b37/s_C_WV53F0_N001_d.Group0.rg.md.abra.printreads.bam"
             ]
         },
-        "hotspot_list": "/opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt",
-        "hotspot_vcf": "/opt/common/CentOS_6-dev/basicfiltering/v0.2.1/data/hotspot-list-union-v1-v2.vcf",
+        "hotspot_list": "/opt/common/CentOS_6-dev/ngs-filters/v1.4/data/hotspot-list-union-v1-v2.txt",
+        "hotspot_vcf": "/opt/common/CentOS_6-dev/basicfiltering/v0.3/data/hotspot-list-union-v1-v2.vcf",
         "ref_fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
     }
 }

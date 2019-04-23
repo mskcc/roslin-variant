@@ -41,6 +41,7 @@ printf "project-workflow.cwl pipelineLeaderId: $pipelineLeaderId\nproject-workfl
 runningBool=1
 jobTrackBool=1
 jobTrackBoolSV=1
+sleep 1m
 
 while [ $runningBool != 0 ]
 do
@@ -59,13 +60,15 @@ do
 
     if [ $jobTrackBool != 0 ]
     then
-        if [ "$leaderStatus" == "DONE" ] 
-        then 
+        if [ "$leaderStatus" == "DONE" ]
+        then
             printf "Job Finished Successfully\n"
             store_test_logs
             jobTrackBool=0
-        elif [ "$leaderStatus" == "EXIT" ] 
+        elif [ "$leaderStatus" == "PEND" ]
         then
+            printf "Job is Pending\n"
+        else
             printf "Job Failed\n"
             store_test_logs
             jobTrackBool=0
@@ -74,27 +77,29 @@ do
 
     if [ $jobTrackBoolSV != 0 ]
     then
-        if [ "$leaderStatusSV" == "DONE" ] 
+        if [ "$leaderStatusSV" == "DONE" ]
         then
             printf "Job SV Finished Successfully\n"
             store_test_logs_sv
             jobTrackBoolSV=0
-        elif [ "$leaderStatusSV" == "EXIT" ]
+        elif [ "$leaderStatusSV" == "PEND" ]
         then
+            printf "Job SV is Pending\n"
+        else
             printf "Job SV Failed\n"
             store_test_logs_sv
             jobTrackBoolSV=0
         fi
     fi
 
-    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ] 
+    if [ $jobTrackBool == 0 ] && [ $jobTrackBoolSV == 0 ]
     then
         if [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "EXIT" ]
         then
             printf "Both Jobs Failed\n"
             store_test_logs
             store_test_logs_sv
-            exit 1    
+            exit 1
         elif [ "$leaderStatus" == "EXIT" ] && [ "$leaderStatusSV" == "DONE" ]
         then
             printf "Regular Workflow Failed; SV Workflow Finished Successfully\n"
