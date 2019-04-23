@@ -41,6 +41,7 @@ printf "project-workflow.cwl pipelineLeaderId: $pipelineLeaderId\nproject-workfl
 runningBool=1
 jobTrackBool=1
 jobTrackBoolSV=1
+sleep 1m
 
 while [ $runningBool != 0 ]
 do
