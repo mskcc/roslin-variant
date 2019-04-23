@@ -37,21 +37,21 @@ nrm=$(basename ${maf} | cut -f2 -d.)
 dir=$(dirname $(dirname ${maf}))
 
 # Specify tools/data we will need
-ref_fasta="/dev/shm/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
-vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /ifs/work/tangz/github/basicfiltering"
-hotspot_vcf="/home/kandoth/src/basicfiltering/data/hotspot-list-union-v1-v2.vcf"
+ref_fasta="/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta"
+vcf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /opt/common/CentOS_6-dev/basicfiltering/v0.3"
+hotspot_vcf="/opt/common/CentOS_6-dev/basicfiltering/v0.3/data/hotspot-list-union-v1-v2.vcf"
+hotspot_txt="/opt/common/CentOS_6-dev/ngs-filters/v1.4/data/hotspot-list-union-v1-v2.txt"
 bcftools="/opt/common/CentOS_6-dev/bcftools/bcftools-1.9/bcftools"
 tabix="/opt/common/CentOS_6-dev/htslib/v1.9/tabix"
-vcf2maf="/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl /home/kandoth/src/vcf2maf/vcf2maf.pl"
+vcf2maf="/opt/common/CentOS_6-dev/perl/perl-5.22.0/bin/perl /opt/common/CentOS_6-dev/vcf2maf/v1.6.17/vcf2maf.pl"
 vep_path="/opt/common/CentOS_6-dev/vep/v86"
 vep_data="/opt/common/CentOS_6-dev/vep/cache"
-vep_isoforms="/home/kandoth/src/vcf2maf/data/isoform_overrides_at_mskcc"
+vep_isoforms="/opt/common/CentOS_6-dev/vcf2maf/v1.6.17/data/isoform_overrides_at_mskcc"
 filter_vcf="/opt/common/CentOS_6-dev/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz"
-rm_vars="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/remove-variants/remove_variants.py"
-fillout="/home/kandoth/src/cmo/bin/cmo_fillout --version 1.2.2"
+rm_vars="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /opt/common/CentOS_6-dev/remove_variants/v0.1.1/remove_variants.py"
+fillout="/ifs/work/pi/roslin-cmo/1.9.11/cmo/bin/cmo_fillout --version 1.2.2"
 pon_bam_root="/ifs/work/pi/resources/curated_bams"
-maf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /home/kandoth/src/ngs-filters/run_ngs-filters.py"
-hotspot_txt="/opt/common/CentOS_6-dev/ngs-filters/v1.3/data/hotspot-list-union-v1-v2.txt"
+maf_filter="/opt/common/CentOS_6-dev/python/python-2.7.10/bin/python /opt/common/CentOS_6-dev/ngs-filters/v1.4/run_ngs-filters.py"
 
 # Locate the VCFs for all callers, the additional TXT file for MuTect, and the tumor/normal BAM files
 mutect_txt=`ls ${dir}/vcf/${tum}*${nrm}*.mutect.txt`
@@ -64,13 +64,13 @@ then echo STATUS: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering
 else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs or BAMs at: ${dir}; exit 1
 fi
 
-# set up different cutting threshold for filter_complex.py using ASSAY information
-complex_nn=0.2
-complex_tn=0.5
+# Run the CPX filter with more lenient cutoffs in IMPACT/HemePACT projects
+complex_nn=0.1; complex_tn=0.2
 assay=$(grep Assay: ${dir}/inputs/*_request.txt | cut -f2 -d' ')
-if [[ ${assay} =~ "Exon" || ${assay} =~ "Exome" ]]
-then complex_nn=0.1; complex_tn=0.2
+if [[ ${assay} =~ "IMPACT" || ${assay} =~ "HemePACT" ]]
+then complex_nn=0.2; complex_tn=0.5
 fi
+echo "STATUS: Using filter_complex.py parameters, complex_nn/complex_tn: $complex_nn/$complex_tn"
 
 # Run the appropriate basicfiltering script for each variant caller's VCF
 vardict_cpx_vcf=${vardict_vcf%.vardict.vcf}.cpx.vardict.vcf
