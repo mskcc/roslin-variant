@@ -421,20 +421,24 @@ if __name__ == '__main__':
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
     parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
+    parser.add_argument('--portal_repo_path',required=False,help='Path for the portal repo (insead of using the one specified in roslin resources)')
     parser.add_argument('--disable_portal_repo_update', default=False, action='store_true', help='If not updating cbioportal, skips submitting request to update the Mercurial repo.')
     args = parser.parse_args()
     current_working_directory = os.getcwd()
     roslin_resources_path = os.path.join(args.script_path,'roslin_resources.json')
     with open(roslin_resources_path) as roslin_resources_json:
         roslin_resources_data = json.load(roslin_resources_json)
-    mercurial_path = None
     if "portal" in roslin_resources_data["config"]:
         importer_path = roslin_resources_data["config"]["portal"]["importer"]
-        mercurial_path = roslin_resources_data["config"]["portal"]["path"]
         sys.path.append(importer_path)
         import validateData
     else:
         logger.warning("Portal validator/repo configuration not set in roslin_resources.json")
+    mercurial_path = None
+    if args.portal_repo_path:
+        mercurial_path = portal_repo_path
+    if not mercurial_path:
+        mercurial_path = roslin_resources_data["config"]["portal"]["path"]
     project_is_impact = check_if_impact(args.request_file)
     # Get roslin config
     with open(args.request_file,'r') as portal_config_file:
