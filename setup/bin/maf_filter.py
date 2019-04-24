@@ -49,7 +49,7 @@ with open(input_file,'rb') as input_maf:
     maf_reader = csv.reader(input_maf,delimiter='\t')
     for line in maf_reader:
         event_type = line[variant_type]
-        # For all events by point mutations, we will use the variant caller reported allele counts for filtering
+        # For all events except point mutations, use the variant caller reported allele counts for filtering
         tdp = int(line[tdp_col])
         tad = int(line[tad_col])
         if event_type == "SNP":
@@ -69,6 +69,9 @@ with open(input_file,'rb') as input_maf:
         if line[mut_status_col] == 'None':
             dict_fillout.setdefault(key, []).append('\t'.join(line))
         elif (line[filter_col] == 'PASS' or line[filter_col] == 'common_variant' or (is_impact and only_ccs_filters)) and line[set_col] != 'Pindel':
+            # Skip MuTect-Rescue events for all but IMPACT/HemePACT projects
+            if line[set_col] == 'MuTect-Rescue' and not is_impact:
+                continue
             # Skip splice region variants in non-coding genes, or those that are >3bp into introns
             splice_dist = 0
             if re.match(r'splice_region_variant', line[csq_col]) is not None:
