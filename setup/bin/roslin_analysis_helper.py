@@ -421,20 +421,25 @@ if __name__ == '__main__':
     parser.add_argument('--facets_directory',required=True,help='The directory containing the facets files')
     parser.add_argument('--output_directory',required=False,help='Set the output directory for portal files')
     parser.add_argument('--script_path',required=True,help='Path for the portal helper scripts')
+    parser.add_argument('--portal_repo_path',required=False,help='Path for the portal repo (insead of using the one specified in roslin resources)')
+    parser.add_argument('--stable_id',required=False,help='Override stableid that usually contains pi_xx_xx (usually for merges), but still use pi/xx/xx for merc path')
     parser.add_argument('--disable_portal_repo_update', default=False, action='store_true', help='If not updating cbioportal, skips submitting request to update the Mercurial repo.')
     args = parser.parse_args()
     current_working_directory = os.getcwd()
     roslin_resources_path = os.path.join(args.script_path,'roslin_resources.json')
     with open(roslin_resources_path) as roslin_resources_json:
         roslin_resources_data = json.load(roslin_resources_json)
-    mercurial_path = None
     if "portal" in roslin_resources_data["config"]:
         importer_path = roslin_resources_data["config"]["portal"]["importer"]
-        mercurial_path = roslin_resources_data["config"]["portal"]["path"]
         sys.path.append(importer_path)
         import validateData
     else:
         logger.warning("Portal validator/repo configuration not set in roslin_resources.json")
+    mercurial_path = None
+    if args.portal_repo_path:
+        mercurial_path = args.portal_repo_path
+    if not mercurial_path:
+        mercurial_path = roslin_resources_data["config"]["portal"]["path"]
     project_is_impact = check_if_impact(args.request_file)
     # Get roslin config
     with open(args.request_file,'r') as portal_config_file:
@@ -480,8 +485,11 @@ if __name__ == '__main__':
                 if sample_value in coverage_values:
                     raise Exception("Duplicate coverages on sample " + sample_value + " of " + coverage_values[sample_value] + " and " + coverage_value)
                 coverage_values[sample_value] = coverage_value
-
-    stable_id = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
+    if args.stable_id:
+        stable_id_createpath = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
+        stable_id = args.stable_id
+    else:
+        stable_id = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
     maf_file_name =  'data_mutations_extended.txt'
     fusion_file_name = 'data_fusions.txt'
     discrete_copy_number_file = 'data_CNA.txt'
@@ -599,7 +607,10 @@ if __name__ == '__main__':
                 logger.info("Skipping update of portal files in mercurial repo")
             else:
                 project_id = portal_config_data['ProjectID']
-                copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
+                if args.stable_id:
+                    copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id_createpath, project_id)
+                else:
+                    copy_to_location = make_dirs_from_stable_id(mercurial_path, stable_id, project_id)
                 copy_tree(output_directory, copy_to_location)
                 logger.info("Copied portal files to %s" % copy_to_location)
         else:
