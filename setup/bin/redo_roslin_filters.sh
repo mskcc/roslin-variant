@@ -171,3 +171,7 @@ fi
 
 # Cleanup files we don't want to keep
 rm -f ${dir}/maf/${tum}.${nrm}.combined-variants.vep.*
+
+# Attach "roslin-filters-2.4.2" tag into log/stdout.log file at "VERSION:" line
+mv log/stdout.log log/stdout.log.bkp
+awk -F', ' 'BEGIN {OFS=", "} /^VERSIONS:/ && !/roslin-filter/{$2=$2", roslin-filters-2.4.2"} {print $0}' log/stdout.log.bkp > log/stdout.log
