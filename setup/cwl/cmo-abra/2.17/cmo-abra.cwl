@@ -50,7 +50,7 @@ id: cmo-abra
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: $(inputs.runparams.abra_ram_min)
+    ramMin: $(inputs.abra_ram_min)
     coresMin: 8
 
 
@@ -59,11 +59,8 @@ doc: |
 
 inputs:
 
-  runparams:
-    type:
-      type: record
-      fields:
-        abra_ram_min: int
+  abra_ram_min:
+    type: int
 
   threads:
     type: ['null', string]
@@ -149,7 +146,7 @@ inputs:
       prefix: --index
 
   out:
-    type: 
+    type:
       type: array
       items: string
     doc: Required list of output sam or bam file (s) separated by comma
@@ -197,7 +194,7 @@ inputs:
       prefix: --nosort
 
   in:
-    type: 
+    type:
 
       type: array
       items: File
