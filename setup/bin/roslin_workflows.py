@@ -94,7 +94,7 @@ class CdnaContam(SingleCWLWorkflow):
 		output_config["qc"] = [{"patterns": ["*_cdna_contamination.txt"], "input_folder": workflow_output_path}]
 		return output_config
 
-	def modify_dependency_inputs(roslin_yaml):
+	def modify_dependency_inputs(self,roslin_yaml):
 		project_prefix = roslin_yaml['runparams']['project_prefix']
 		input_mafs = roslin_yaml['maf_file']
 		dependency_input = {'project_prefix':project_prefix,'input_mafs':input_mafs}
@@ -112,7 +112,7 @@ class GenerateImages(SingleCWLWorkflow):
 							   {"patterns": ["images"], "input_folder": workflow_output_path}]
 		return output_config
 
-	def modify_dependency_inputs(roslin_yaml):
+	def modify_dependency_inputs(self,roslin_yaml):
 		data_dir = roslin_yaml['qc_merged_and_hotspots_directory']
 		bin_value = roslin_yaml['runparams']['scripts_bin']
 		file_prefix = roslin_yaml['runparams']['project_prefix']
@@ -127,13 +127,13 @@ class ConsolidateResults(SingleCWLWorkflow):
 
 	def get_outputs(self,workflow_output_folder):
 		output_directory_name = self.params['configure']['consolidate_results_output']
-		workflow_output_path = os.path.join("outputs",workflow_output_folder)
+                workflow_output_path = os.path.join("outputs",workflow_output_folder)
 		output_config = super().get_outputs(workflow_output_folder)
 		output_config["qc"] = [{"patterns": ["*_ProjectSummary.txt","*_SampleSummary.txt"], "input_folder": workflow_output_path},
 							   {"patterns": ["output_directory_name"], "input_folder": workflow_output_path }]
 		return output_config
 
-	def modify_dependency_inputs(roslin_yaml):
+	def modify_dependency_inputs(self,roslin_yaml):
 		output_directory_name = self.params['configure']['consolidate_results_output']
 		directories = [roslin_yaml['conpair_output_dir'],roslin_yaml['gather_metrics_files'],roslin_yaml['qc_merged_and_hotspots_directory'],roslin_yaml['output']]
 		dependency_input = {'output_directory_name':output_directory_name,'directories':directories}
@@ -208,17 +208,6 @@ class Filtering(SingleCWLWorkflow):
 
 	def configure(self):
 		super().configure('Filtering','filtering.cwl',['Alignment','VariantCalling'])
-		workflow_output = 'Filtering'
-		workflow_filename = 'filtering.cwl'
-		workflow_name = self.__class__.__name__
-		workflow_info = {'output':workflow_output,'filename':workflow_filename}
-		workflow_output_path = os.path.join("outputs",workflow_output)
-		workflow_log_path = os.path.join(workflow_output_path,"log")
-		output_config = {"maf": [{"patterns": ["*.maf"], "input_folder": workflow_output_path}],
-         				 "log": [{"patterns": ["cwltoil.log"], "input_folder": workflow_log_path, "output_folder": workflow_output},
-						 		 {"patterns": ["output-meta.json","settings","job-uuid","job-store-uuid"], "input_folder": workflow_output_path, "output_folder": workflow_output}]}
-		self.params['workflows'][workflow_name] = workflow_info
-		self.update_copy_outputs_config(output_config)
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
