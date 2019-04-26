@@ -1,6 +1,13 @@
-# get actual output of abra
-# Should pick out the abra version from the top of the help output
-# INFO    Wed Oct 03 15:03:40 EDT 2018    Abra version: 2.17
-# INFO    Wed Oct 03 15:03:40 EDT 2018    Abra params: [/usr/bin/
-# abra.jar --help]
-exec /usr/bin/runscript.sh help 2>&1 | grep -q "Abra version: 2.17" || { echo "no match" >&2; exit 1; }
+actual=$(exec /usr/bin/runscript.sh help 2>&1 | head -1 | grep -o "Abra version: 2.17")
+expected="Abra version: 2.17"
+expected_no_space=$(echo $expected | tr -d "[:space:]")
+actual_no_space=$(echo $actual | tr -d "[:space:]")
+# diff
+if [ "$actual_no_space" != "$expected_no_space" ]
+then
+    echo "-----expected-----"
+    echo $expected
+    echo "-----actual-----"
+    echo $actual
+    exit 1
+fi

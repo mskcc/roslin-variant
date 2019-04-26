@@ -35,7 +35,9 @@ RUN apk add --update \
       # copy bins to /usr/lib/
             && cp GetBaseCountsMultiSample /usr/bin/ \
       # clean up
-            && rm -rf /var/cache/apk/* /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/* \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

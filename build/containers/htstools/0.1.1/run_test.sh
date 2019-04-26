@@ -1,10 +1,10 @@
 # get actual output from snp-pileup
-exec /usr/bin/runscript.sh snp-pileup --help > /srv/actual.diff.txt
+actual=$(exec /usr/bin/runscript.sh snp-pileup --help)
 # get actual output from ppflag-fixer
-exec /usr/bin/runscript.sh ppflag-fixer --help >> /srv/actual.diff.txt
+actual=$actual$(exec /usr/bin/runscript.sh ppflag-fixer --help)
 
 # expected output
-cat > /srv/expected.diff.txt << EOM
+expected=$(cat << EOM
 Usage: snp-pileup [OPTION...] <vcf file> <output file> <sequence files...>
 
   -A, --count-orphans        Do not discard anomalous read pairs.
@@ -28,8 +28,7 @@ Usage: snp-pileup [OPTION...] <vcf file> <output file> <sequence files...>
       --usage                Give a short usage message
 
 Mandatory or optional arguments to long options are also mandatory or optional
-for any corresponding short options.
-Usage: ppflag-fixer [OPTION...] <input file> <output file>
+for any corresponding short options.Usage: ppflag-fixer [OPTION...] <input file> <output file>
 
   -m, --max-tlen=LENGTH      Sets a maximum bound of LENGTH on all fragments;
                              any greater and they won't be marked as proper
@@ -42,14 +41,16 @@ Usage: ppflag-fixer [OPTION...] <input file> <output file>
 Mandatory or optional arguments to long options are also mandatory or optional
 for any corresponding short options.
 EOM
+)
 
+expected_no_space=$(echo $expected | tr -d "[:space:]")
+actual_no_space=$(echo $actual | tr -d "[:space:]")
 # diff
-exitCode=0
-if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt
+if [ "$actual_no_space" != "$expected_no_space" ]
 then
-  diff /srv/actual.diff.txt /srv/expected.diff.txt
-  exitCode=1
+    echo "-----expected-----"
+    echo $expected
+    echo "-----actual-----"
+    echo $actual
+    exit 1
 fi
-# delete tmp
-rm -rf /srv/*.diff.txt
-exit $exitCode

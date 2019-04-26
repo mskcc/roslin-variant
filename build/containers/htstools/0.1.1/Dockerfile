@@ -41,7 +41,9 @@ RUN apk add --update \
             && cp /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION}/snp-pileup /usr/bin \
             && cp /tmp/htstools-snp_pileup_${HTSTOOLS_VERSION}/ppflag-fixer /usr/bin \
       # clean up
-            && rm -rf /var/cache/apk/* /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/* \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
 

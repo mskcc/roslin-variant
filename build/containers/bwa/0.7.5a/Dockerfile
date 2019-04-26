@@ -28,7 +28,9 @@ RUN apk add --update \
             && mv /tmp/bwa-${BWA_VERSION}/bwa /usr/bin \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/* \
-            && apk del deps
+            && apk del deps \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

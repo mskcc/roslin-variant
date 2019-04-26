@@ -19,7 +19,9 @@ RUN apk add --update \
       && cd /tmp && wget https://github.com/broadinstitute/picard/releases/download/${TOOL_VERSION}/picard.jar \
       && mkdir /usr/bin/picard-tools/ \
       && mv /tmp/picard.jar /usr/bin/picard-tools/picard.jar \
-      && rm -rf /var/cache/apk/* /tmp/*
+      && rm -rf /var/cache/apk/* /tmp/* \
+      && chmod +x /usr/bin/runscript.sh \
+      && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

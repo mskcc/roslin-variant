@@ -79,7 +79,9 @@ RUN apk add --update \
                 && mkdir -p /usr/bin/facets-suite/ \
                 && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin/facets-suite/ \
     # clean up
-        && rm -rf /var/cache/apk/* /tmp/*
+        && rm -rf /var/cache/apk/* /tmp/* \
+        && chmod +x /usr/bin/runscript.sh \
+        && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
 ENV FACETS_OVERRIDE_EXITCODE set

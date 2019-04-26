@@ -1,21 +1,22 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh help 2>&1 | head -4 > /srv/actual.diff.txt
+actual=$(exec /usr/bin/runscript.sh help 2>&1 | head -4)
 
 # expected output
-cat > /srv/expected.diff.txt << EOM
+expected=$(cat << EOM
 
 Program: bwa (alignment via Burrows-Wheeler transformation)
 Version: 0.7.5a-r405
 Contact: Heng Li <lh3@sanger.ac.uk>
 EOM
-
+)
+expected_no_space=$(echo $expected | tr -d "[:space:]")
+actual_no_space=$(echo $actual | tr -d "[:space:]")
 # diff
-exitCode=0
-if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt
+if [ "$actual_no_space" != "$expected_no_space" ]
 then
-	diff /srv/actual.diff.txt /srv/expected.diff.txt
-	exitCode=1
+    echo "-----expected-----"
+    echo $expected
+    echo "-----actual-----"
+    echo $actual
+    exit 1
 fi
-# delete tmp
-rm -rf /srv/*.diff.txt
-exit $exitCode

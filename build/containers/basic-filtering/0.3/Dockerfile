@@ -15,7 +15,7 @@ COPY run_test.sh /run_test.sh
 
 ENV BASICFILTERING_VERSION 0.3
 ENV HTSLIB_VERSION 1.5
-ENV CMO_VERSION 1.9.10
+ENV CMO_VERSION 1.9.11
 ENV BCFTOOLS_VERSION 1.9
 
 RUN apk add --update \
@@ -40,15 +40,16 @@ RUN apk add --update \
             && cd /tmp/cmo-${CMO_VERSION} \
             && python setup.py install \
       # download, unzip, install basic-filtering
-            #&& cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
-            #&& unzip ${BASICFILTERING_VERSION}.zip \
-            && cd /tmp && git clone https://github.com/mskcc/basicfiltering \
-            && cd /tmp/basicfiltering \
+            && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
+            && unzip ${BASICFILTERING_VERSION}.zip \
+            && cd /tmp/basicfiltering-${BASICFILTERING_VERSION} \
             && python setup.py install \
       # install basic-filtering
-            && mv /tmp/basicfiltering /usr/bin/basicfiltering \
+            && mv /tmp/basicfiltering-${BASICFILTERING_VERSION} /usr/bin/basicfiltering \
       # clean up
-            && rm -rf /var/cache/apk/* /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/* \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set

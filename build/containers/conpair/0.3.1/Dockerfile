@@ -38,7 +38,9 @@ RUN apk add --update \
         # install conpair
         && mv /tmp/Conpair-${CONPAIR_VERSION} /usr/bin/conpair \
         # clean up
-        && rm -rf /tmp/*
+        && rm -rf /tmp/* \
+        && chmod +x /usr/bin/runscript.sh \
+        && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
 

@@ -23,7 +23,9 @@ RUN apk add --update \
       # copy to /usr/bin
             && mv /tmp/list2bed-${LIST2BED_VERSION}/list2bed.py /usr/bin/ \
       # clean up
-            && rm -rf /var/cache/apk/* /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/* \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set

@@ -17,7 +17,9 @@ RUN apk add --update \
       && apk add build-base musl-dev zlib-dev openjdk8-jre libc6-compat \
       && cd /tmp && wget https://github.com/mozack/abra2/releases/download/v${ABRA_VERSION}/abra2-${ABRA_VERSION}.jar \
       && mv /tmp/abra2-${ABRA_VERSION}.jar /usr/bin/abra.jar \
-      && rm -rf /tmp/*
+      && rm -rf /tmp/* \
+      && chmod +x /usr/bin/runscript.sh \
+      && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

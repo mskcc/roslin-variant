@@ -19,7 +19,9 @@ RUN apk add --update --no-cache ncurses \
         && cd /tmp/samtools-${TOOL_VERSION} && make \
         && mv /tmp/samtools-${TOOL_VERSION}/samtools /usr/bin \
         && rm -rf /var/cache/apk/* /tmp/* \
-        && apk del deps
+        && apk del deps \
+        && chmod +x /usr/bin/runscript.sh \
+        && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

@@ -1,20 +1,21 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh -jar MarkDuplicates 2>&1 | grep "Version" > /srv/actual.diff.txt || true
-exec /usr/bin/runscript.sh -jar AddOrReplaceReadGroups 2>&1 | grep "Version" >> /srv/actual.diff.txt || true
+actual=$(exec /usr/bin/runscript.sh -jar MarkDuplicates 2>&1 | grep -o "Version: 2.9.0-1-gf5b9f50-SNAPSHOT")
+actual=$actual$(exec /usr/bin/runscript.sh -jar AddOrReplaceReadGroups 2>&1 | grep -o "Version: 2.9.0-1-gf5b9f50-SNAPSHOT")
 
 # expected output
-cat > /srv/expected.diff.txt << EOM
-Version: 2.9.0-1-gf5b9f50-SNAPSHOT
-Version: 2.9.0-1-gf5b9f50-SNAPSHOT
+expected=$(cat << EOM
+Version: 2.9.0-1-gf5b9f50-SNAPSHOTVersion: 2.9.0-1-gf5b9f50-SNAPSHOT
 EOM
+)
 
+expected_no_space=$(echo $expected | tr -d "[:space:]")
+actual_no_space=$(echo $actual | tr -d "[:space:]")
 # diff
-exitCode=0
-if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt
+if [ "$actual_no_space" != "$expected_no_space" ]
 then
-  diff /srv/actual.diff.txt /srv/expected.diff.txt
-  exitCode=1
+    echo "-----expected-----"
+    echo $expected
+    echo "-----actual-----"
+    echo $actual
+    exit 1
 fi
-# delete tmp
-rm -rf /srv/*.diff.txt
-exit $exitCode

@@ -1,18 +1,20 @@
 # get actual output of the tool
-exec /usr/bin/runscript.sh vardict | head -1 > /srv/actual.diff.txt
+actual=$(exec /usr/bin/runscript.sh vardict | head -1)
 
 # expected output
-cat > /srv/expected.diff.txt << EOM
+expected=$(cat << EOM
 usage: vardict [-n name_reg] [-b bam] [-c chr] [-S start] [-E end] [-s seg_starts] [-e seg_ends] [-x #_nu] [-g gene] [-f freq] [-r #_reads]
 EOM
+)
 
+expected_no_space=$(echo $expected | tr -d "[:space:]")
+actual_no_space=$(echo $actual | tr -d "[:space:]")
 # diff
-exitCode=0
-if ! cmp -s /srv/actual.diff.txt /srv/expected.diff.txt
+if [ "$actual_no_space" != "$expected_no_space" ]
 then
-  diff /srv/actual.diff.txt /srv/expected.diff.txt
-  exitCode=1
+    echo "-----expected-----"
+    echo $expected
+    echo "-----actual-----"
+    echo $actual
+    exit 1
 fi
-# delete tmp
-rm -rf /srv/*.diff.txt
-exit $exitCode

@@ -21,7 +21,9 @@ COPY trim_galore.pl /usr/bin/trim_galore
 RUN apk add --update python py-pip perl gcc python-dev musl-dev \
       && chmod +x /usr/bin/trim_galore \
       && pip install --upgrade cutadapt==${CUTADAPT_VERSION} \
-      && rm -rf /var/cache/apk/*
+      && rm -rf /var/cache/apk/* \
+      && chmod +x /usr/bin/runscript.sh \
+      && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

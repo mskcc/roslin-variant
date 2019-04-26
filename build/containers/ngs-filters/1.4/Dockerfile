@@ -20,18 +20,19 @@ RUN apk add --update \
       # install R
             && apk add R R-dev \
       # download, unzip, install ngs-filters
-      #      && cd /tmp && wget https://github.com/mskcc/ngs-filters/archive/v${NGS_FILTERS_VERSION}.zip \
-      #      && unzip v${NGS_FILTERS_VERSION}.zip \
-            && cd /tmp && git clone https://github.com/mskcc/ngs-filters \
+            && cd /tmp && wget https://github.com/mskcc/ngs-filters/archive/v${NGS_FILTERS_VERSION}.zip \
+            && unzip v${NGS_FILTERS_VERSION}.zip \
       # install ngs-filters dependencies
-            && cd /tmp/ngs-filters \
+            && cd /tmp/ngs-filters-${NGS_FILTERS_VERSION} \
             && Rscript --vanilla install-packages.R \
             && pip install -r requirements.txt \
             && apk add --update util-linux \
       # copy to /usr/bin/...
-            && cp -r /tmp/ngs-filters /usr/bin/ngs-filters/ \
+            && cp -r /tmp/ngs-filters-${NGS_FILTERS_VERSION} /usr/bin/ngs-filters/ \
       # clean up
-            && rm -rf /var/cache/apk/* /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/* \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 # disable per-user site-packages
 ENV PYTHONNOUSERSITE set

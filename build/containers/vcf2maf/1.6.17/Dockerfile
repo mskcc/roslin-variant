@@ -25,8 +25,6 @@ ENV BCFTOOLS_VERSION 1.9
 COPY runscript.sh /usr/bin/runscript.sh
 COPY run_test.sh /run_test.sh
 
-# http://www.ensembl.org/info/docs/tools/vep/script/vep_tutorial.html
-
 RUN apk add --update \
       # install all the build-related tools
             && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
@@ -63,12 +61,14 @@ RUN apk add --update \
             && ./configure --with-htslib=/tmp/htslib-${HTSLIB_VERSION} \
             && make && make install \
       # install vcf2maf
-            && cd /tmp && git clone https://github.com/mskcc/vcf2maf \
-            #&& unzip vcf2maf-v${VCF2MAF_VERSION} \
+            && cd /tmp && wget -O vcf2maf-v${VCF2MAF_VERSION} https://github.com/mskcc/vcf2maf/archive/v${VCF2MAF_VERSION}.zip \
+            && unzip vcf2maf-v${VCF2MAF_VERSION} \
             && mkdir -p /usr/bin/vcf2maf/ \
-            && cp -r vcf2maf/* /usr/bin/vcf2maf/ \
+            && cp -r vcf2maf-${VCF2MAF_VERSION}/* /usr/bin/vcf2maf/ \
       # clean up
-            && rm -rf /var/cache/apk/* /tmp/*
+            && rm -rf /var/cache/apk/* /tmp/* \
+            && chmod +x /usr/bin/runscript.sh \
+            && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

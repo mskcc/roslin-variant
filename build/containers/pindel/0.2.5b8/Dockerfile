@@ -30,7 +30,9 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev curl-dev \
       && mv /tmp/pindel-${PINDEL_VERSION}/pindel2vcf /usr/bin \
       && mv /tmp/pindel-${PINDEL_VERSION}/sam2pindel /usr/bin \
       && mv /tmp/pindel-${PINDEL_VERSION}/pindel2vcf4tcga /usr/bin \
-      && rm -rf /var/cache/apk/* /tmp/*
+      && rm -rf /var/cache/apk/* /tmp/* \
+      && chmod +x /usr/bin/runscript.sh \
+      && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]

@@ -27,7 +27,7 @@ RUN apk add --update \
     && apk add build-base musl-dev python py-pip python-dev py-setuptools git cmake jsoncpp zlib-dev \
     && cd /tmp \
         # install mysql connector
-        && pip install mysql-connector==2.1.4 \
+        && pip install mysql-connector-python \
         # install texlive
         && apk add texlive \
         # install texmf-dist
@@ -75,7 +75,9 @@ RUN apk add --update \
         && make \
         && mv GetBaseCountsMultiSample /usr/bin/ \
         # clean up
-        && rm -rf /tmp/*
+        && rm -rf /tmp/* \
+        && chmod +x /usr/bin/runscript.sh \
+        && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
 

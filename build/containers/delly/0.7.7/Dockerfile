@@ -56,7 +56,9 @@ RUN apk add --update --no-cache ncurses \
     && touch .bcftools .htslib .boost \
     && make all \
     && install -p /opt/delly/src/delly /usr/local/bin/ \
-    && install -p /opt/delly/src/cov /usr/local/bin/
+    && install -p /opt/delly/src/cov /usr/local/bin/ \
+    && chmod +x /usr/bin/runscript.sh \
+    && exec /run_test.sh
 
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]
