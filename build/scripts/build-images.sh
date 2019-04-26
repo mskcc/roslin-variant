@@ -197,7 +197,7 @@ do
             previousChecksum=$image_tmp/singularityChecksum.dat
             singularitydockerIdPath=$image_tmp/singularityDockerId.json
             dockerId=$(cat $singularitydockerIdPath)
-            if cmp -s "$dockerIdPath" "$singularitydockerIdPath"
+            if cmp -s "$dockerIdPath" "$singularitydockerIdPath" && [ "$BUILD_NO_CACHE" == "false" ]
             then
                 if cmp -s "$previousChecksum" "$currentChecksum"
                 then
@@ -217,35 +217,17 @@ do
         # bootstrap the image
         if [ -n "$docker_image_registry" ]
         then
-
-cat > ${image_tmp}/Singularity <<EOF
-Bootstrap: docker
-From: $docker_image_registry
-%runscript
-
-$run_script
-
-%test
-
-$test_script
-EOF
+            image_url=docker://$docker_image_registry
         else
-cat > ${image_tmp}/Singularity <<EOF
-Bootstrap: docker-daemon
-From: $tool_info
-%runscript
-
-$run_script
-
-%test
-
-$test_script
-EOF
+            image_url=docker://$tool_info
         fi
 
         singularity build --sandbox --force \
         $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
-        ${image_tmp}/Singularity
+        $image_url
+
+        # run test
+        singularity exec $image_tmp/${tool_name} /run_test.sh
 
         # create /.roslin/ directory
         singularity exec --writable $image_tmp/${tool_name} mkdir /.roslin/

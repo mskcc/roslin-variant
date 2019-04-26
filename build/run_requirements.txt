@@ -13,3 +13,4 @@ cwltool==1.0.20180518123035
 schema-salad==2.7.20181126142424
 pytest==4.1.1
 pytest-xdist==1.26.0
+futures==3.2.0
