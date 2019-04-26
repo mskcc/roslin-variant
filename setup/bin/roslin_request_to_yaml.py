@@ -196,11 +196,11 @@ def sort_fastqs_into_dict(files):
     return paired_by_sample
 
 def calculate_abra_ram_size(grouping_dict):
-    largest_group_size = 0
-    for group in grouping_dict:
-        if len(grouping_dict[group]) > largest_group_size:
-            largest_group_size = len(grouping_dict[group])
-    return 18000 * largest_group_size
+    largest_group_size = 2
+#    for group in grouping_dict:
+#        if len(grouping_dict[group]) > largest_group_size:
+#            largest_group_size = len(grouping_dict[group])
+    return 32000 * largest_group_size
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
