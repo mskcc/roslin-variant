@@ -95,10 +95,9 @@ outputs:
 
     combine_vcf:
         type: File
-        outputSource: concat/concat_vcf_output_file
-    combine_vcf_index:
-        type: File
         outputSource: tabix_index/tabix_output_file
+        secondaryFiles:
+        - .tbi
     annotate_vcf:
         type: File
         outputSource: annotate/annotate_vcf_output_file
@@ -393,11 +392,10 @@ steps:
             tumor_sample_name: tumor_sample_name
             normal_sample_name: normal_sample_name
             columns:
-                valueFrom: ${ return "INFO/FAILURE_REASON"; }
+                valueFrom: ${ return ["INFO/FAILURE_REASON"]; }
             mark_sites:
                 valueFrom: ${ return "+set=MuTect"; }
-            vcf_file: concat/concat_vcf_output_file
-            vcf_file_index: tabix_index/tabix_output_file
+            vcf_file_tbi: tabix_index/tabix_output_file
             output:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".annotate-variants.vcf" }
         out: [annotate_vcf_output_file]

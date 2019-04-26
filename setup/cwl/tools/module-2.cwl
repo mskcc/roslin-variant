@@ -174,6 +174,7 @@ steps:
         scatterMethod: dotproduct
         run:
             class: Workflow
+            id: parallel_printreads
             inputs:
                 input_file:
                     type: File

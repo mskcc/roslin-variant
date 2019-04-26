@@ -107,12 +107,6 @@ inputs:
       items: File
     secondaryFiles:
       - ^.bai
-  groups:
-    type:
-      type: array
-      items:
-        type: array
-        items: string
   runparams:
     type:
       type: record
@@ -146,30 +140,26 @@ inputs:
         scripts_bin: string
         gatk_jar_path: string
 
-  samples:
-    type:
-      type: array
-      items:
-        type: record
-        fields:
-          CN: string
-          LB: string
-          ID: string
-          PL: string
-          PU: string[]
-          R1: string[]
-          R2: string[]
-          RG_ID: string[]
-          adapter: string
-          adapter2: string
-          bwa_output: string
-
   pairs:
     type:
       type: array
       items:
         type: array
-        items: string
+        items:
+          type: record
+          fields:
+            CN: string
+            LB: string
+            ID: string
+            PL: string
+            PU: string[]
+            R1: string[]
+            R2: string[]
+            RG_ID: string[]
+            adapter: string
+            adapter2: string
+            name: string
+            bwa_output: string
 
 outputs:
 
@@ -229,11 +219,8 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/combine_vcf
-  combine_vcf_index:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/combine_vcf_index
+    secondaryFiles:
+    - .tbi
   annotate_vcf:
     type:
       type: array
@@ -307,10 +294,13 @@ outputs:
   # qc
   gather_metrics_files:
     type: Directory
-    outputSource: gather_metrics/gather_metrics_files
+    outputSource: run_qc/gather_metrics_files
   qc_merged_files:
     type: Directory
-    outputSource: gather_metrics/qc_merged_and_hotspots_directory
+    outputSource: run_qc/qc_merged_and_hotspots_directory
+  qc_pdf:
+    type: File
+    outputSource: run_qc/qc_pdf
 
   # conpair output
   conpair_output_dir:
@@ -331,6 +321,25 @@ outputs:
 
 steps:
 
+  pair_process:
+    run: pair-workflow.cwl
+    in:
+      db_files: db_files
+      hapmap_inputs: hapmap
+      dbsnp_inputs: dbsnp
+      indels_1000g_inputs: indels_1000g
+      snps_1000g_inputs: snps_1000g
+      exac_filter_inputs: exac_filter
+      curated_bams_inputs: curated_bams
+      cosmic_inputs: cosmic
+      groups: groups
+      pair: pairs
+      samples: samples
+      runparams: runparams
+    out: []
+    scatter: [pairs]
+    scatterMethod: dotproduct
+
   projparse:
     run: parse-project-yaml-input/1.0.2/parse-project-yaml-input.cwl
     in:
@@ -346,7 +355,9 @@ steps:
       pairs: pairs
       samples: samples
       runparams: runparams
-    out: [R1, R2, adapter, adapter2, bwa_output, LB, PL, RG_ID, PU, ID, CN, genome, tmp_dir, abra_scratch, cosmic, covariates, dbsnp, hapmap, indels_1000g, mutect_dcov, mutect_rf, refseq, snps_1000g, ref_fasta, vep_path, custom_enst, exac_filter, vep_data, curated_bams, hotspot_list, hotspot_vcf, group_ids, target_intervals, bait_intervals, fp_intervals, fp_genotypes, conpair_markers, conpair_markers_bed, request_file, pairing_file, grouping_file, project_prefix, opt_dup_pix_dist, ref_fasta_string]
+    out: []
+    scatter: [pairs]
+    scatterMethod: dotproduct
 
   group_process:
     run:  module-1-2.chunk.cwl
@@ -417,7 +428,7 @@ steps:
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
       facets_snps: pairing/facets_snps
-    out: [combine_vcf, combine_vcf_index, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
+    out: [combine_vcf, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, facets_snps, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
@@ -426,7 +437,7 @@ steps:
     in:
       bams: group_process/bams
       pairs: pairs
-      combine_vcf: variant_calling/annotate_vcf
+      annotate_vcf: variant_calling/annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
@@ -436,7 +447,7 @@ steps:
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
       groups: groups
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
+    out: [tumor_id, normal_id, srt_genome, srt_annotate_vcf, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
@@ -444,7 +455,7 @@ steps:
       runparams: runparams
       db_files: db_files
       bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
+      annotate_vcf: parse_pairs/srt_annotate_vcf
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       vep_path: parse_pairs/srt_vep_path
@@ -456,7 +467,7 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [bams, combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, vep_path, custom_enst, exac_filter, vep_data]
+    scatter: [bams, annotate_vcf, tumor_sample_name, normal_sample_name, ref_fasta, vep_path, custom_enst, exac_filter, vep_data]
     scatterMethod: dotproduct
 
   gather_metrics:
@@ -490,23 +501,15 @@ steps:
       groups: groups
     out: [ conpair_output_dir, contamination_pdf, concordance_pdf ]
 
-  generate_images:
-    run: roslin-qc/generate-images.cwl
+  run_qc:
+    run: module-5.cwl
     in:
+      bams: group_process/bams
       runparams: runparams
       db_files: db_files
-      data_dir:  gather_metrics/qc_merged_and_hotspots_directory
-      bin:
-        valueFrom: ${ return inputs.runparams.scripts_bin; }
-      file_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-    out: [ output, images_directory, project_summary, sample_summary ]
-
-  consolidate_results:
-    run: consolidate-files/consolidate-directories.cwl
-    in:
-      runparams: runparams
-      output_directory_name:
-        valueFrom: ${ return "consolidated_metrics_data"; }
-      directories: [ run_conpair/conpair_output_dir, gather_metrics/gather_metrics_files, gather_metrics/qc_merged_and_hotspots_directory, generate_images/output ]
-    out: [ directory ]
+      pairs: pairs
+      md_metrics: group_process/md_metrics
+      clstats1: group_process/clstats1
+      clstats2: group_process/clstats2
+      directories: [ run_conpair/conpair_output_dir ]
+    out: [ gather_metrics_files, qc_merged_files, consolidated_results, qc_pdf ]

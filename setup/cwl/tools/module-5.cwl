@@ -89,57 +89,57 @@ inputs:
 outputs:
 
   as_metrics:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/as_metrics_files
   hs_metrics:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/hs_metrics_files
   insert_metrics:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/is_metrics
   insert_pdf:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/is_hist
   per_target_coverage:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/per_target_coverage
   qual_metrics:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/qual_metrics
   qual_pdf:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/qual_pdf
   doc_basecounts:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/doc_basecounts
   gcbias_pdf:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_pdf
   gcbias_metrics:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_metrics_files
   gcbias_summary:
-    type: 
+    type:
       type: array
       items: File
     outputSource: scatter_metrics/gcbias_summary
@@ -224,7 +224,7 @@ steps:
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
             LEVEL:
-              valueFrom: ${ return ["null", "SAMPLE"];} 
+              valueFrom: ${ return ["null", "SAMPLE"];}
             TMP_DIR: tmp_dir
           out: [out_file, per_target_out]
 

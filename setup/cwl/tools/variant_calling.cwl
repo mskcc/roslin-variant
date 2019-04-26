@@ -204,11 +204,8 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/combine_vcf
-  combine_vcf_index:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/combine_vcf_index
+    secondaryFiles:
+    - .tbi
   annotate_vcf:
     type:
       type: array
@@ -332,6 +329,6 @@ steps:
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
       facets_snps: pairing/facets_snps
-    out: [combine_vcf, combine_vcf_index, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, vardict_norm_vcf, mutect_norm_vcf]
+    out: [combine_vcf, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, facets_counts, mutect_vcf, mutect_callstats, vardict_vcf, vardict_norm_vcf, mutect_norm_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, facets_snps, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct

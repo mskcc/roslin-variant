@@ -230,11 +230,8 @@ outputs:
       type: array
       items: File
     outputSource: variant_calling/combine_vcf
-  combine_vcf_index:
-    type:
-      type: array
-      items: File
-    outputSource: variant_calling/combine_vcf_index
+    secondaryFiles:
+    - .tbi
   annotate_vcf:
     type:
       type: array
@@ -322,10 +319,13 @@ outputs:
   # qc
   gather_metrics_files:
     type: Directory
-    outputSource: gather_metrics/gather_metrics_files
+    outputSource: run_qc/gather_metrics_files
   qc_merged_files:
     type: Directory
-    outputSource: gather_metrics/qc_merged_and_hotspots_directory
+    outputSource: run_qc/qc_merged_and_hotspots_directory
+  qc_pdf:
+    type: File
+    outputSource: run_qc/qc_pdf
 
   # conpair output
   conpair_output_dir:
@@ -436,7 +436,7 @@ steps:
       facets_pcval: pairing/facets_pcval
       facets_cval: pairing/facets_cval
       facets_snps: pairing/facets_snps
-    out: [combine_vcf, combine_vcf_index, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
+    out: [combine_vcf, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
     scatter: [tumor_bam, normal_bam, normal_sample_name, tumor_sample_name, genome, facets_pcval, facets_cval, facets_snps, dbsnp, cosmic, refseq, mutect_rf, mutect_dcov, bed]
     scatterMethod: dotproduct
 
@@ -455,7 +455,7 @@ steps:
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
       groups: groups
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
+    out: [tumor_id, normal_id, srt_genome, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
@@ -463,7 +463,7 @@ steps:
       runparams: runparams
       db_files: db_files
       bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
+      annotate_vcf: parse_pairs/srt_annotate_vcf
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       vep_path: parse_pairs/srt_vep_path
@@ -475,7 +475,7 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [bams, combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, vep_path, custom_enst, exac_filter, vep_data]
+    scatter: [bams, annotate_vcf, tumor_sample_name, normal_sample_name, ref_fasta, vep_path, custom_enst, exac_filter, vep_data]
     scatterMethod: dotproduct
 
   find_svs:
@@ -536,23 +536,16 @@ steps:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ cdna_contam_output ]
 
-  generate_images:
-    run: roslin-qc/generate-images.cwl
+  run_qc:
+    run: module-5.cwl
     in:
+      bams: group_process/bams
       runparams: runparams
       db_files: db_files
-      data_dir:  gather_metrics/qc_merged_and_hotspots_directory
-      bin:
-        valueFrom: ${ return inputs.runparams.scripts_bin; }
-      file_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-    out: [ output, images_directory, project_summary, sample_summary ]
-
-  consolidate_results:
-    run: consolidate-files/consolidate-directories.cwl
-    in:
-      runparams: runparams
-      output_directory_name:
-        valueFrom: ${ return "consolidated_metrics_data"; }
-      directories: [ run_conpair/conpair_output_dir, gather_metrics/gather_metrics_files, gather_metrics/qc_merged_and_hotspots_directory, generate_images/output ]
-    out: [ directory ]
+      pairs: pairs
+      md_metrics: group_process/md_metrics
+      clstats1: group_process/clstats1
+      clstats2: group_process/clstats2
+      directories: [ run_conpair/conpair_output_dir ]
+      files: [ run_cdna_contam_check/cdna_contam_output ]
+    out: [ gather_metrics_files, qc_merged_files, consolidated_results, qc_pdf ]

@@ -185,11 +185,6 @@ inputs:
       type: array
       items: File
 
-  combine_vcf:
-    type:
-      type: array
-      items: File
-
 outputs:
 
   # maf
@@ -238,7 +233,7 @@ steps:
     in:
       bams: bams
       pairs: pairs
-      combine_vcf: annotate_vcf
+      annotate_vcf: annotate_vcf
       genome: projparse/genome
       exac_filter: projparse/exac_filter
       ref_fasta: projparse/ref_fasta
@@ -248,7 +243,7 @@ steps:
       curated_bams: projparse/curated_bams
       hotspot_list: projparse/hotspot_list
       groups: groups
-    out: [tumor_id, normal_id, srt_genome, srt_combine_vcf, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
+    out: [tumor_id, normal_id, srt_genome, srt_annotate_vcf, srt_ref_fasta, srt_vep_path, srt_custom_enst, srt_exac_filter, srt_vep_data, srt_bams, srt_curated_bams, srt_hotspot_list]
 
   filter:
     run: module-4.cwl
@@ -256,7 +251,7 @@ steps:
       runparams: runparams
       db_files: db_files
       bams: parse_pairs/srt_bams
-      combine_vcf: parse_pairs/srt_combine_vcf
+      annotate_vcf: parse_pairs/srt_annotate_vcf
       genome: parse_pairs/srt_genome
       ref_fasta: parse_pairs/srt_ref_fasta
       vep_path: parse_pairs/srt_vep_path
@@ -268,5 +263,5 @@ steps:
       curated_bams: parse_pairs/srt_curated_bams
       hotspot_list: parse_pairs/srt_hotspot_list
     out: [maf]
-    scatter: [bams, combine_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, vep_path, custom_enst]
+    scatter: [bams, annotate_vcf, tumor_sample_name, normal_sample_name, ref_fasta, exac_filter, vep_data, vep_path, custom_enst]
     scatterMethod: dotproduct

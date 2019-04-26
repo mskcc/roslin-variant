@@ -65,7 +65,7 @@ inputs:
             items: File
         secondaryFiles:
             - ^.bai
-    combine_vcf:
+    annotate_vcf:
         type: File
     tumor_sample_name: string
     normal_sample_name: string
@@ -99,12 +99,12 @@ outputs:
 steps:
 
     vcf2maf:
-        run: cmo-vcf2maf/1.6.16/cmo-vcf2maf.cwl
+        run: cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
         in:
             runparams: runparams
             tmp_dir:
                 valueFrom: ${ return inputs.runparams.tmp_dir; }
-            input_vcf: combine_vcf
+            input_vcf: annotate_vcf
             tumor_id: tumor_sample_name
             vcf_tumor_id: tumor_sample_name
             normal_id: normal_sample_name
