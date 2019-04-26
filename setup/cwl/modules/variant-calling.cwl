@@ -308,7 +308,7 @@ steps:
                         - .tbi
             steps:
                 index:
-                    run: ../cmo-index/1.0.0/cmo-index.cwl
+                    run: ../tools/cmo-index/1.0.0/cmo-index.cwl
                     in:
                         tumor: tumor_bam
                         normal: normal_bam
@@ -383,7 +383,7 @@ steps:
                                 outputSource: facets/facets_counts_output
                         steps:
                             facets:
-                                run: ../facets.cwl
+                                run: ../modules/facets.cwl
                                 in:
                                     normal_bam: normal_bam
                                     tumor_bam: tumor_bam
@@ -394,7 +394,7 @@ steps:
                                     facets_snps: facets_snps
                                 out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                             vardict:
-                                run: ../cmo-vardict/1.5.1/cmo-vardict.cwl
+                                run: ../tools/cmo-vardict/1.5.1/cmo-vardict.cwl
                                 in:
                                     G: genome
                                     b: tumor_bam
@@ -406,7 +406,7 @@ steps:
                                         valueFrom: ${ return inputs.b.basename.replace(".bam", ".") + inputs.b2.basename.replace(".bam", ".vardict.vcf") }
                                 out: [output]
                             mutect:
-                                run: ../cmo-mutect/1.1.4/cmo-mutect.cwl
+                                run: ../tools/cmo-mutect/1.1.4/cmo-mutect.cwl
                                 in:
                                     reference_sequence: genome
                                     dbsnp: dbsnp
@@ -462,7 +462,7 @@ steps:
                                     - .tbi
                         steps:
                             mutect_filtering_step:
-                                run: ../basic-filtering.mutect/0.3/basic-filtering.mutect.cwl
+                                run: ../tools/basic-filtering.mutect/0.3/basic-filtering.mutect.cwl
                                 in:
                                     inputVcf: mutect_vcf
                                     inputTxt: mutect_callstats
@@ -471,7 +471,7 @@ steps:
                                     refFasta: ref_fasta
                                 out: [vcf]
                             vardict_complex_filtering_step:
-                                run: ../basic-filtering.complex/0.3/basic-filtering.complex.cwl
+                                run: ../tools/basic-filtering.complex/0.3/basic-filtering.complex.cwl
                                 in:
                                     nrm_noise: complex_nn
                                     tum_noise: complex_tn
@@ -484,7 +484,7 @@ steps:
                                         valueFrom: ${ return inputs.inputVcf.basename.replace(".vcf", ".complex_filtered.vcf"); }
                                 out: [vcf]
                             vardict_filtering_step:
-                                run: ../basic-filtering.vardict/0.3/basic-filtering.vardict.cwl
+                                run: ../tools/basic-filtering.vardict/0.3/basic-filtering.vardict.cwl
                                 in:
                                     inputVcf: vardict_complex_filtering_step/vcf
                                     tsampleName: tumor_sample_name
@@ -524,7 +524,7 @@ steps:
                         }"
 
                 concat:
-                    run: ../bcftools.concat/1.9/bcftools.concat.cwl
+                    run: ../tools/bcftools.concat/1.9/bcftools.concat.cwl
                     in:
                         vcf_files_tbi: create_vcf_file_array/vcf_files
                         tumor_sample_name: tumor_sample_name
@@ -539,14 +539,14 @@ steps:
                             valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".combined-variants.vcf.gz" }
                     out: [concat_vcf_output_file]
                 tabix_index:
-                    run: ../tabix/1.9/tabix.cwl
+                    run: ../tools/tabix/1.9/tabix.cwl
                     in:
                         input_vcf: concat/concat_vcf_output_file
                         preset:
                             valueFrom: ${ return "vcf"; }
                     out: [tabix_output_file]
                 annotate:
-                    run: ../bcftools.annotate/1.9/bcftools.annotate.cwl
+                    run: ../tools/bcftools.annotate/1.9/bcftools.annotate.cwl
                     in:
                         annotations: filtering/mutect_vcf_filtering_output
                         tumor_sample_name: tumor_sample_name

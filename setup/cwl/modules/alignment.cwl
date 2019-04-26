@@ -383,7 +383,7 @@ steps:
           outputSource: realignment/covint_bed
       steps:
         sample_alignment:
-          run: sample-workflow.cwl
+          run: ../workflows/sample-workflow.cwl
           in:
             sample: pair
             genome: genome
@@ -399,7 +399,7 @@ steps:
           scatter: [sample]
           scatterMethod: dotproduct
         realignment:
-          run: realignment.cwl
+          run: ../modules/realignment.cwl
           in:
             pair: pair
             bams: sample_alignment/bam

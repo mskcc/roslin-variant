@@ -172,7 +172,7 @@ steps:
           outputSource: pileup/out_file
       steps:
         as_metrics:
-          run: ../cmo-picard.CollectAlignmentSummaryMetrics/2.9/cmo-picard.CollectAlignmentSummaryMetrics.cwl
+          run: ../tools/cmo-picard.CollectAlignmentSummaryMetrics/2.9/cmo-picard.CollectAlignmentSummaryMetrics.cwl
           in:
             I: bam
             O:
@@ -183,7 +183,7 @@ steps:
           out: [out_file]
 
         hs_metrics:
-          run: ../cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+          run: ../tools/cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
           in:
             BI: bait_intervals
             TI: target_intervals
@@ -197,7 +197,7 @@ steps:
           out: [out_file, per_target_out]
 
         hst_metrics:
-          run: ../cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+          run: ../tools/cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
           in:
             BI: bait_intervals
             TI: target_intervals
@@ -213,7 +213,7 @@ steps:
           out: [per_target_out]
 
         insert_metrics:
-          run: ../cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
+          run: ../tools/cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
           in:
             I: bam
             H:
@@ -225,7 +225,7 @@ steps:
             TMP_DIR: tmp_dir
           out: [ is_file, is_hist]
         quality_metrics:
-          run: ../cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
+          run: ../tools/cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
           in:
             I: bam
             PROGRAM:
@@ -235,7 +235,7 @@ steps:
             TMP_DIR: tmp_dir
           out: [qual_file, qual_hist]
         gcbias_metrics:
-          run: ../cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
+          run: ../tools/cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
           in:
             I: bam
             R: genome
@@ -249,7 +249,7 @@ steps:
           out: [pdf, out_file, summary]
 
         doc:
-          run: ../cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
+          run: ../tools/cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
           in:
             input_file: bam
             intervals: fp_intervals
@@ -273,7 +273,7 @@ steps:
             java_temp: tmp_dir
           out: [out_file]
         pileup:
-         run: ../conpair/0.3.1/conpair-pileup.cwl
+         run: ../tools/conpair/0.3.1/conpair-pileup.cwl
          in:
              bam: bam
              ref: ref_fasta

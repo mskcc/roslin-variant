@@ -197,7 +197,7 @@ steps:
                     outputSource: fillout_tumor_normal/portal_fillout
             steps:
                 vcf2maf:
-                    run: ../cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
+                    run: ../tools/cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
                     in:
                         tmp_dir: tmp_dir
                         input_vcf: annotate_vcf
@@ -220,7 +220,7 @@ steps:
                     out: [output]
 
                 remove_variants:
-                    run: ../remove-variants/0.1.1/remove-variants.cwl
+                    run: ../tools/remove-variants/0.1.1/remove-variants.cwl
                     in:
                         inputMaf: vcf2maf/output
                         outputMaf:
@@ -228,7 +228,7 @@ steps:
                     out: [maf]
 
                 fillout_tumor_normal:
-                    run: ../cmo-fillout/1.2.2/cmo-fillout.cwl
+                    run: ../tools/cmo-fillout/1.2.2/cmo-fillout.cwl
                     in:
                         pairing: pairing_file
                         maf: remove_variants/maf
@@ -257,7 +257,7 @@ steps:
                                 outputSource: fillout_curated_bams_step/fillout_out
                         steps:
                             fillout_curated_bams_step:
-                                run: ../cmo-fillout/1.2.2/cmo-fillout.cwl
+                                run: ../tools/cmo-fillout/1.2.2/cmo-fillout.cwl
                                 in:
                                     maf: maf
                                     bams: curated_bams
@@ -271,7 +271,7 @@ steps:
                                 out: [fillout_out]
 
                 ngs_filters:
-                    run: ../ngs-filters/1.4/ngs-filters.cwl
+                    run: ../tools/ngs-filters/1.4/ngs-filters.cwl
                     in:
                         tumor_sample_name: tumor_sample_name
                         normal_sample_name: normal_sample_name

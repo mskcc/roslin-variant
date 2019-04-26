@@ -107,7 +107,7 @@ outputs:
         outputSource: parallel_printreads/out
 steps:
     gatk_find_covered_intervals:
-        run: ../cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
+        run: ../tools/cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
         in:
             java_temp: tmp_dir
             pair: pair
@@ -124,14 +124,14 @@ steps:
         out: [fci_list]
 
     list2bed:
-        run: ../cmo-list2bed/1.0.1/cmo-list2bed.cwl
+        run: ../tools/cmo-list2bed/1.0.1/cmo-list2bed.cwl
         in:
             input_file: gatk_find_covered_intervals/fci_list
             output_filename:
                 valueFrom: ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
-        run: cmo-abra-new.cwl
+        run: ../tools/cmo-abra/2.17/cmo-abra.cwl
         in:
             abra_ram_min: abra_ram_min
             in: bams
@@ -143,7 +143,7 @@ steps:
         out: [outbams]
 
     gatk_base_recalibrator:
-        run: ../cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
+        run: ../tools/cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
         in:
             java_temp: tmp_dir
             reference_sequence: genome
@@ -172,6 +172,7 @@ steps:
         scatterMethod: dotproduct
         run:
             class: Workflow
+            id: parallel_printreads
             inputs:
                 input_file: File
                 reference_sequence: string
@@ -185,7 +186,7 @@ steps:
                     outputSource: gatk_print_reads/out_bam
             steps:
                 gatk_print_reads:
-                    run: ../cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
+                    run: ../tools/cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
                     in:
                         reference_sequence: reference_sequence
                         BQSR: BQSR

@@ -207,7 +207,7 @@ steps:
                     outputSource: portal_format_output/portal_file
             steps:
                 index:
-                    run: ../cmo-index/1.0.0/cmo-index.cwl
+                    run: ../tools/cmo-index/1.0.0/cmo-index.cwl
                     in:
                         tumor: tumor_bam
                         normal: normal_bam
@@ -283,7 +283,7 @@ steps:
                                 outputSource: delly_filter/sv_file
                         steps:
                             delly_call:
-                                run: ../cmo-delly.call/0.7.7/cmo-delly.call.cwl
+                                run: ../tools/cmo-delly.call/0.7.7/cmo-delly.call.cwl
                                 in:
                                     t: delly_type
                                     tumor_bam: tumor_bam
@@ -295,7 +295,7 @@ steps:
                                         valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name +"." + inputs.t + ".bcf"; }
                                 out: [ sv_file ]
                             delly_filter:
-                                run: ../cmo-delly.filter/0.7.7/cmo-delly.filter.cwl
+                                run: ../tools/cmo-delly.filter/0.7.7/cmo-delly.filter.cwl
                                 in:
                                     i: delly_call/sv_file
                                     s: pairfile
@@ -304,7 +304,7 @@ steps:
                                         valueFrom: ${ return inputs.i.basename.replace(".bcf", ".pass.bcf"); }
                                 out: [ sv_file ]
                 merge_with_bcftools_unfiltered:
-                    run: ../bcftools.concat/1.9/bcftools.concat.cwl
+                    run: ../tools/bcftools.concat/1.9/bcftools.concat.cwl
                     in:
                         tumor_sample_name: tumor_sample_name
                         normal_sample_name: normal_sample_name
@@ -315,7 +315,7 @@ steps:
                             valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.vcf"; }
                     out: [ concat_vcf_output_file ]
                 merge_with_bcftools:
-                    run: ../bcftools.concat/1.9/bcftools.concat.cwl
+                    run: ../tools/bcftools.concat/1.9/bcftools.concat.cwl
                     in:
                         tumor_sample_name: tumor_sample_name
                         normal_sample_name: normal_sample_name
@@ -326,7 +326,7 @@ steps:
                             valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; }
                     out: [ concat_vcf_output_file ]
                 convert_vcf2maf:
-                    run: ../cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
+                    run: ../tools/cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
                     in:
                         tmp_dir: tmp_dir
                         vep_data: vep_data
@@ -344,7 +344,7 @@ steps:
                             valueFrom: $(inputs.input_vcf.basename.replace('vcf','vep.maf'))
                     out: [ output ]
                 portal_format_output:
-                    run: ../portal-formatting.cli/1.0.0/format-maf.cwl
+                    run: ../tools/portal-formatting.cli/1.0.0/format-maf.cwl
                     in:
                         input_maf: convert_vcf2maf/output
                     out: [ portal_file ]

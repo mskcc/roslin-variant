@@ -144,7 +144,7 @@ outputs:
 
 steps:
   pair-pileups:
-    run: ../conpair/0.3.1/conpair-pileup-pairing.cwl
+    run: ../tools/conpair/0.3.1/conpair-pileup-pairing.cwl
     in:
       pileups: conpair_pileups
       npileups:
@@ -153,7 +153,7 @@ steps:
         valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][1]); } return output; }
     out: [ tpileup_ordered, npileup_ordered ]
   run-contamination:
-    run: ../conpair/0.3.1/conpair-contaminations.cwl
+    run: ../tools/conpair/0.3.1/conpair-contaminations.cwl
     in:
       runparams: runparams
       db_files: db_files
@@ -168,7 +168,7 @@ steps:
     out: [ outfiles, pdf ]
 
   run-concordance:
-    run: ../conpair/0.3.1/conpair-concordances.cwl
+    run: ../tools/conpair/0.3.1/conpair-concordances.cwl
     in:
       tpileup: pair-pileups/tpileup_ordered
       npileup: pair-pileups/npileup_ordered
@@ -181,7 +181,7 @@ steps:
     out: [ outfiles, pdf ]
 
   put-conpair-files-into-directory:
-    run: ../conpair/0.3.1/consolidate-conpair-files.cwl
+    run: ../tools/conpair/0.3.1/consolidate-conpair-files.cwl
     in:
       concordance_files: run-concordance/outfiles
       contamination_files: run-contamination/outfiles
@@ -192,7 +192,7 @@ steps:
     out: [ directory ]
 
   qc_merge_and_hotspots:
-    run: ../roslin-qc/qc-merge-and-hotspots.cwl
+    run: ../tools/roslin-qc/qc-merge-and-hotspots.cwl
     in:
       aa_bams: bams
       runparams: runparams
@@ -221,7 +221,7 @@ steps:
         valueFrom: ${ return inputs.runparams.genome; }
     out: [ qc_merged_directory ]
   generate_images:
-    run: ../roslin-qc/generate-images.cwl
+    run: ../tools/roslin-qc/generate-images.cwl
     in:
       runparams: runparams
       db_files: db_files
@@ -232,7 +232,7 @@ steps:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ output, images_directory, project_summary, sample_summary ]
   consolidate_results:
-    run: ../consolidate-files/consolidate-files-mixed.cwl
+    run: ../tools/consolidate-files/consolidate-files-mixed.cwl
     in:
       output_directory_name:
         valueFrom: ${ return "consolidated_metrics_data"; }
@@ -245,7 +245,7 @@ steps:
         valueFrom: ${ var metrics_data = [inputs.qc_merged_and_hotspots_directory, inputs.generate_images_directory, inputs.conpair_directory ]; return metrics_data.concat(inputs.input_directories); }
     out: [ directory ]
   generate_qc:
-    run: ../roslin-qc/genlatex.cwl
+    run: ../tools/roslin-qc/genlatex.cwl
     in:
       runparams: runparams
       data_dir: consolidate_results/directory
