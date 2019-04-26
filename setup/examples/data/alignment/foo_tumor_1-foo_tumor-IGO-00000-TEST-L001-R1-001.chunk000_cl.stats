@@ -1,7 +1,7 @@
 
 SUMMARISING RUN PARAMETERS
 ==========================
-Input filename: /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stg02bd92a9-d99a-4b77-a78e-8472ec41c8c8/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R1-001.chunk000.fastq.gz
+Input filename: /ifs/scratch/tmpViDsdB/stg39ad7db0-1d8d-4c3b-8096-1d8a81726929/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R1-001.chunk000.fastq.gz
 Quality Phred score cutoff: 1
 Quality encoding type selected: ASCII+33
 Adapter sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG'
@@ -13,7 +13,7 @@ Output file will be GZIP compressed
 
 
 cutadapt version 1.1
-Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stg02bd92a9-d99a-4b77-a78e-8472ec41c8c8/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R1-001.chunk000.fastq.gz
+Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG /ifs/scratch/tmpViDsdB/stg39ad7db0-1d8d-4c3b-8096-1d8a81726929/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R1-001.chunk000.fastq.gz
 Maximum error rate: 10.00%
    Processed reads: 148338
      Trimmed reads: 91538 ( 61.7%)
@@ -21,7 +21,7 @@ Maximum error rate: 10.00%
  Trimmed basepairs:       116100 (0.1 Mbp) (0.87% of total)
    Too short reads: 0 (  0.0% of processed reads)
     Too long reads: 0 (  0.0% of processed reads)
-        Total time:      4.91 s
+        Total time:      4.54 s
      Time per read:      0.03 ms
 
 === Adapter 1 ===
@@ -43,7 +43,7 @@ length	count	expected
 20	2	0.0
 
 
-RUN STATISTICS FOR INPUT FILE: /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stg02bd92a9-d99a-4b77-a78e-8472ec41c8c8/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R1-001.chunk000.fastq.gz
+RUN STATISTICS FOR INPUT FILE: /ifs/scratch/tmpViDsdB/stg39ad7db0-1d8d-4c3b-8096-1d8a81726929/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R1-001.chunk000.fastq.gz
 =============================================
 148338 sequences processed in total
 Sequences removed because they became shorter than the length cutoff of 25 bp:	0 (0.0%)

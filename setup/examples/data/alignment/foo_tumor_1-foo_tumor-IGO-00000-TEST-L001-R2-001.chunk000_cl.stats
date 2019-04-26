@@ -1,7 +1,7 @@
 
 SUMMARISING RUN PARAMETERS
 ==========================
-Input filename: /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stgf1745622-87f3-426e-8c0f-7e755a841a0a/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
+Input filename: /ifs/scratch/tmpViDsdB/stg42a63a94-a4f2-4424-b9f0-2596696deb4e/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
 Quality Phred score cutoff: 1
 Quality encoding type selected: ASCII+33
 Adapter sequence: 'AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG'
@@ -13,7 +13,7 @@ Output file will be GZIP compressed
 
 
 cutadapt version 1.1
-Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stgf1745622-87f3-426e-8c0f-7e755a841a0a/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
+Command line parameters: -f fastq -e 0.1 -q 1 -O 1 -a AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT /ifs/scratch/tmpViDsdB/stg42a63a94-a4f2-4424-b9f0-2596696deb4e/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
 Maximum error rate: 10.00%
    Processed reads: 148338
      Trimmed reads: 48585 ( 32.8%)
@@ -21,7 +21,7 @@ Maximum error rate: 10.00%
  Trimmed basepairs:        65469 (0.1 Mbp) (0.49% of total)
    Too short reads: 0 (  0.0% of processed reads)
     Too long reads: 0 (  0.0% of processed reads)
-        Total time:      4.58 s
+        Total time:      4.14 s
      Time per read:      0.03 ms
 
 === Adapter 1 ===
@@ -45,7 +45,7 @@ length	count	expected
 29	1	0.0
 
 
-RUN STATISTICS FOR INPUT FILE: /ifs/work/pi/roslin-test/scratch/tmpxUZAFa/stgf1745622-87f3-426e-8c0f-7e755a841a0a/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
+RUN STATISTICS FOR INPUT FILE: /ifs/scratch/tmpViDsdB/stg42a63a94-a4f2-4424-b9f0-2596696deb4e/foo_tumor_1-foo_tumor-IGO-00000-TEST-L001-R2-001.chunk000.fastq.gz
 =============================================
 148338 sequences processed in total
 Sequences removed because they became shorter than the length cutoff of 25 bp:	0 (0.0%)

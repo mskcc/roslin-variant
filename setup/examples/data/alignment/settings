@@ -1,10 +1,3 @@
-export LSF_LIBDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/lib
-export LSF_SERVERDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc
-export LSF_BINDIR=/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin
-export LSF_ENVDIR=/common/lsf/conf
-export PATH=$PATH:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/etc:/common/lsf/9.1/linux2.6-glibc2.3-x86_64/bin 
-# Set python env
-export PATH=/opt/common/CentOS_6-dev/python/python-2.7.10/bin/:/opt/common/CentOS_6-dev/bin/current/:$PATH
 export ROSLIN_PIPELINE_DESCRIPTION="Roslin Variant Pipeline v2.5.0"
 
 # Roslin pipeline name/version
@@ -12,22 +5,24 @@ export ROSLIN_PIPELINE_NAME="variant"
 export ROSLIN_PIPELINE_VERSION="2.5.0"
 
 # which version of Roslin Core is required?
-export ROSLIN_CORE_MIN_VERSION="2.0.6"
-export ROSLIN_CORE_MAX_VERSION="2.0.6"
+export ROSLIN_CORE_MIN_VERSION="2.1.0"
+export ROSLIN_CORE_MAX_VERSION="2.1.0"
 
 # Roslin pipeline root path
-export ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-test/variant/521/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
-export ROSLIN_ROOT="/ifs/work/pi/roslin-test/variant/521"
+export ROSLIN_PIPELINE_ROOT="/ifs/work/pi/roslin-pipelines/${ROSLIN_PIPELINE_NAME}/${ROSLIN_PIPELINE_VERSION}"
+export ROSLIN_ROOT="/ifs/work/pi/roslin-pipelines"
 #--> the following paths will be supplied to singularity as bind points
 
 # binaries, executables, scripts
 export ROSLIN_PIPELINE_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/bin"
 
+export ROSLIN_PIPELINE_CWL_PATH="${ROSLIN_PIPELINE_BIN_PATH}/cwl"
+
 # reference data (e.g. genome assemblies)
 export ROSLIN_PIPELINE_DATA_PATH="${ROSLIN_PIPELINE_ROOT}/resources"
 
 # other paths that we'd like to bind (space separated)
-export ROSLIN_EXTRA_BIND_PATH="/scratch /ifs /opt"
+export ROSLIN_EXTRA_BIND_PATH="/scratch /ifs /opt /srv /juno"
 
 # output path
 export ROSLIN_PIPELINE_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/outputs"
@@ -36,38 +31,159 @@ export ROSLIN_PIPELINE_OUTPUT_PATH="${ROSLIN_PIPELINE_ROOT}/outputs"
 export ROSLIN_PIPELINE_WORKSPACE_PATH="${ROSLIN_PIPELINE_ROOT}/workspace"
 
 # deduplicated bind points (space separated)
-export ROSLIN_BIND_PATH="/scratch /ifs /opt"
+export SINGULARITY_BIND="/scratch,/ifs,/opt,/srv,/juno"
+export DOCKER_BIND="-v /scratch:/scratch -v /ifs:/ifs -v /opt:/opt -v /srv:/srv -v /juno:/juno"
 #<--
 
 # path to singularity executable
 # singularity is expected to be found at the same location regardless of the nodes you're on
 # override this if you want to test a different version of singularity.
-export ROSLIN_SINGULARITY_PATH="/opt/common/CentOS_6-dev/singularity/singularity-3.0.0/bin/singularity"
+export ROSLIN_SINGULARITY_VERSION="3.0.3"
+export ROSLIN_SINGULARITY_PATH="/usr/local/bin/singularity"
 
 # cmo
 export ROSLIN_CMO_VERSION="1.9.10"
-export ROSLIN_CMO_INSTALL_PATH="/ifs/work/pi/roslin-cmo/1.9.10/cmo"
+export ROSLIN_CMO_INSTALL_PATH="/ifs/work/pi/roslin-cmo/1.9.10-dev/cmo"
 
 # toil
-export ROSLIN_TOIL_VERSION="3.17.0"
-export ROSLIN_TOIL_INSTALL_PATH="/ifs/work/pi/roslin-toil/3.17.0-release/"
+export ROSLIN_TOIL_VERSION="3.18.0-release"
+export ROSLIN_TOIL_INSTALL_PATH="/ifs/work/pi/roslin-toil/3.18.0-release"
+
+export ROSLIN_CURRENT_USER=`python -c "import getpass; print getpass.getuser()"`
+export ROSLIN_CURRENT_HOSTNAME=`python -c "import socket; print(socket.gethostname())"`
+
+export ROSLIN_DEPENDENCY_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
+export ROSLIN_PIPELINE_RESOURCE_PATH=${ROSLIN_DEPENDENCY_PATH}/resources
+export NVM_DIR="$ROSLIN_PIPELINE_RESOURCE_PATH/.nvm"
+
+if [ -d $ROSLIN_PIPELINE_WORKSPACE_PATH ]
+then
+	if [ ! -d $ROSLIN_DEPENDENCY_PATH ]
+	then
+		if [ -x "$(command -v roslin-workspace-init.sh)" ]
+		then
+			roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u ${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
+		fi
+
+		if [ ! -d $ROSLIN_PIPELINE_RESOURCE_PATH ]
+		then
+			if [ -x "$(command -v roslin-workspace-init.sh)" ]
+			then
+				CURRENT_DIR=$(pwd)
+				mkdir -p $ROSLIN_PIPELINE_RESOURCE_PATH
+				cd $ROSLIN_PIPELINE_RESOURCE_PATH
+
+				${ROSLIN_PIPELINE_DATA_PATH}/build-node.sh
+
+				# setup virtualenv
+				virtualenv virtualenv
+				source virtualenv/bin/activate
+				export PATH=${ROSLIN_PIPELINE_RESOURCE_PATH}/virtualenv/bin/:$PATH
+				pip install --requirement ${ROSLIN_PIPELINE_DATA_PATH}/run_requirements.txt
+
+				# install toil
+				cp -r $ROSLIN_TOIL_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/toil
+				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/toil
+				make prepare
+				make develop extras=[cwl]
+				# install cmo
+				cp -r $ROSLIN_CMO_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
+				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
+				python setup.py install
+				cd $CURRENT_DIR
+if [ `tput cols` -le 71 ]
+then
+cat << "EOF"
+
+ ______     ______     ______
+/\  == \   /\  __ \   /\  ___\
+\ \  __<   \ \ \/\ \  \ \___  \  --
+ \ \_\ \_\  \ \_____\  \/\_____\
+  \/_/ /_/   \/_____/   \/_____/
+ __         __     __   __
+/\ \       /\ \   /\ "-.\ \
+\ \ \____  \ \ \  \ \ \-.  \
+ \ \_____\  \ \_\  \ \_\\"\_\
+  \/_____/   \/_/   \/_/ \/_/
+
+ ______   __     ______   ______
+/\  == \ /\ \   /\  == \ /\  ___\
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\  --
+ \ \_\    \ \_\  \ \_\    \ \_____\
+  \/_/     \/_/   \/_/     \/_____/
+ __         __     __   __     ______
+/\ \       /\ \   /\ "-.\ \   /\  ___\
+\ \ \____  \ \ \  \ \ \-.  \  \ \  __\
+ \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\
+  \/_____/   \/_/   \/_/ \/_/   \/_____/
+
+Roslin Pipeline
+
+EOF
+else
+cat << "EOF"
+
+ ______     ______     ______     __         __     __   __
+/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \
+\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \
+ \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\
+  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/
+ ______   __     ______   ______     __         __     __   __     ______
+/\  == \ /\ \   /\  == \ /\  ___\   /\ \       /\ \   /\ "-.\ \   /\  ___\
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\   \ \ \____  \ \ \  \ \ \-.  \  \ \  __\
+ \ \_\    \ \_\  \ \_\    \ \_____\  \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\
+  \/_/     \/_/   \/_/     \/_____/   \/_____/   \/_/   \/_/ \/_/   \/_____/
+
+Roslin Pipeline
+
+EOF
+
+fi
+
+echo "Your workspace: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}"
+echo
+echo "Add the following line to your .profile or .bashrc if not already added:"
+echo
+echo "source ${ROSLIN_CORE_CONFIG_PATH}/settings.sh"
+			fi
+		fi
+	fi
+fi
 
 # node
-export NVM_DIR="$ROSLIN_PIPELINE_DATA_PATH/.nvm"
-if [ -d $NVM_DIR ]
+if [ -s $NVM_DIR/nvm.sh ]
 then
 	echo "Loading Node..."
-	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+	source $NVM_DIR/nvm.sh
 fi
 
 # Load the virtualenv
-if [ -e $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate ]
+if [ -e $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate ]
 then
 	echo "Loading Virtualenv..."
-	source $ROSLIN_PIPELINE_DATA_PATH/virtualenv/bin/activate
+	source $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate
 fi
+
 # Run environment
 export TOIL_LSF_ARGS="-S 1 -We 0:59"
+export TMPDIR="/ifs/scratch"
+export TMP="/ifs/scratch"
+export SINGULARITY_LOCALCACHEDIR="/juno/scratch"
 
+if [[ $SINGULARITY_BIND == *"$TMPDIR"* && -n "$TMPDIR" ]]
+then
+	mkdir -p $TMPDIR
+	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMPDIR"
+	export DOCKER_BIND="$DOCKER_BIND -v $TMPDIR:$TMPDIR"
+fi
 
+if [[ $SINGULARITY_BIND == *"$TMP"* && -n "$TMP" ]]
+then
+	mkdir -p $TMPDIR
+	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMP"
+	export DOCKER_BIND="$DOCKER_BIND -v $TMP:$TMP"
+fi
+# Load singularity into PATH
+singularity_bin_path=`dirname $ROSLIN_SINGULARITY_PATH`
+export PATH=$singularity_bin_path:$PATH
 echo "Loaded Roslin Pipeline - $ROSLIN_PIPELINE_NAME ( $ROSLIN_PIPELINE_VERSION )"
