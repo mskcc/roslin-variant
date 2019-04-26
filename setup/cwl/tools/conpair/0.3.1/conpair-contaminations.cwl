@@ -65,14 +65,14 @@ inputs:
       items: File
     inputBinding:
       prefix: --tumor_pileup
-      
+
   npileup:
     type:
       type: array
       items: File
     inputBinding:
       prefix: --normal_pileup
-      
+
   markers:
     type:
     - [File, string]
@@ -92,11 +92,12 @@ inputs:
   output_directory_name:
     type: string
     default: "."
-    prefix: --outdir
+    inputBinding:
+      prefix: --outdir
 
 outputs:
   outfiles:
-    type: File[] 
+    type: File[]
     outputBinding:
       glob: |
         ${

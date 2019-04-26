@@ -83,7 +83,7 @@ inputs:
     type:
       type: array
       items: string
-  combine_vcf:
+  annotate_vcf:
     type:
       type: array
       items: File
@@ -114,7 +114,7 @@ outputs:
      type:
        type: array
        items: string
-  srt_combine_vcf:
+  srt_annotate_vcf:
     type:
       type: array
       items: File
@@ -153,14 +153,14 @@ outputs:
 
 expression: '${var bams = [];
 var groups = inputs.groups;
-for (var vcf_i=0; vcf_i< inputs.combine_vcf.length; vcf_i++) {
-    var sample_name = inputs.combine_vcf[vcf_i].basename.split(".")[0];
+for (var vcf_i=0; vcf_i< inputs.annotate_vcf.length; vcf_i++) {
+    var sample_name = inputs.annotate_vcf[vcf_i].basename.split(".")[0];
     var vcf_group_id = null;
     var group_bams = [];
     for (var group_i =0; group_i < groups.length; group_i++) {
         for (var group_j =0; group_j < groups[group_i].length; group_j++) {
              if (sample_name == groups[group_i][group_j]){
-                     vcf_group_id = group_i.toString();
+                     vcf_group_id = "Group" + group_i.toString();
                  }
          }
     }
@@ -176,9 +176,9 @@ for (var vcf_i=0; vcf_i< inputs.combine_vcf.length; vcf_i++) {
         bams.push(group_bams);
     }
  }
- var combine_vcf = inputs.combine_vcf;
+ var annotate_vcf = inputs.annotate_vcf;
  var pairs = inputs.pairs;
- var arrays = [combine_vcf];
+ var arrays = [annotate_vcf];
  var final_answers = [];
  var extra_outputs = [];
  var num_extra_outputs = 8;
@@ -208,7 +208,7 @@ for (var vcf_i=0; vcf_i< inputs.combine_vcf.length; vcf_i++) {
 }
 return {"tumor_id" : extra_outputs[1],
     "normal_id" : extra_outputs[2],
-    "srt_combine_vcf" : final_answers[0],
+    "srt_annotate_vcf" : final_answers[0],
     "srt_genome": inputs.genome,
     "srt_ref_fasta":extra_outputs[5],
     "srt_vep_path":extra_outputs[6],

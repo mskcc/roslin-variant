@@ -47,12 +47,14 @@ id: merge-insert-size-histograms
 stdout: $(inputs.outfile_name)
 inputs:
   files:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     inputBinding:
       prefix: --files
-  outfile_name: 
+  outfile_name:
     type: string
     inputBinding:
       prefix: --output

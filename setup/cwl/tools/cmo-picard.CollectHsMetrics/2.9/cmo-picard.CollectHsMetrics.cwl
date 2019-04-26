@@ -251,7 +251,7 @@ outputs:
           return null;
         }
   per_target_out:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

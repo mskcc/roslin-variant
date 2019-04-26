@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: qc-merge
+  doap:name: qc_merge
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -29,7 +29,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: Workflow
-id: qc-merge
+id: qc_merge
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -38,52 +38,6 @@ requirements:
   StepInputExpressionRequirement: {}
 
 inputs:
-  db_files:
-    type:
-      type: record
-      fields:
-        refseq: File
-        ref_fasta: string
-        vep_path: string
-        custom_enst: string
-        vep_data: string
-        hotspot_list: string
-        hotspot_vcf: string
-        facets_snps: string
-        bait_intervals: File
-        target_intervals: File
-        fp_intervals: File
-        fp_genotypes: File
-        conpair_markers: string
-        conpair_markers_bed: string
-        grouping_file: File
-        request_file: File
-        pairing_file: File
-
-  runparams:
-    type:
-      type: record
-      fields:
-        abra_scratch: string
-        covariates:
-          type:
-            type: array
-            items: string
-        emit_original_quals: boolean
-        genome: string
-        mutect_dcov: int
-        mutect_rf:
-          type:
-            type: array
-            items: string
-        num_cpu_threads_per_data_thread: int
-        num_threads: int
-        tmp_dir: string
-        project_prefix: string
-        opt_dup_pix_dist: string
-        facets_pcval: int
-        facets_cval: int
-
   clstats1:
     type:
       type: array
@@ -92,7 +46,6 @@ inputs:
         items:
           type: array
           items: File
-
   clstats2:
     type:
       type: array
@@ -101,38 +54,46 @@ inputs:
         items:
           type: array
           items: File
-
   md_metrics:
     type:
       type: array
       items:
         type: array
         items: File
-
   hs_metrics:
     type:
       type: array
-      items: File
-
+      items:
+        type: array
+        items: File
   per_target_coverage:
     type:
       type: array
-      items: File
-
+      items:
+        type: array
+        items: File
   insert_metrics:
     type:
       type: array
-      items: File
-
+      items:
+        type: array
+        items: File
   doc_basecounts:
     type:
       type: array
-      items: File
-
+      items:
+        type: array
+        items: File
   qual_metrics:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
+  project_prefix: string
+  fp_genotypes: File
+  grouping_file: File
+  pairing_file: File
 
 outputs:
   merged_mdmetrics:
@@ -179,76 +140,68 @@ steps:
 
   merge_mdmetrics:
     in:
-      runparams: runparams
       files: md_metrics
-      outfile_name: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_markDuplicatesMetrics.txt"; }
+      project_prefix: project_prefix
+      outfile_name:
+        valueFrom: ${ return inputs.project_prefix + "_markDuplicatesMetrics.txt"; }
     out: [ output ]
     run: ./merge-picard-metrics-markduplicates.cwl
 
   merge_hsmetrics:
     in:
-      runparams: runparams
       files: hs_metrics
-      outfile_name: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_HsMetrics.txt"; }
+      project_prefix: project_prefix
+      outfile_name:
+        valueFrom: ${ return inputs.project_prefix + "_HsMetrics.txt"; }
     out: [ output ]
     run: ./merge-picard-metrics-hsmetrics.cwl
 
   merge_hstmetrics:
     in:
-      runparams: runparams
       files: per_target_coverage
+      project_prefix: project_prefix
       outfile_name:
-        valueFrom: ${ return inputs.runparams.project_prefix + "_GcBiasMetrics.txt"; }
+        valueFrom: ${ return inputs.project_prefix + "_GcBiasMetrics.txt"; }
     out: [ output ]
     run: ./merge-gcbias-metrics.cwl
 
   merge_insert_size_histograms:
     in:
-      runparams: runparams
       files: insert_metrics
+      project_prefix: project_prefix
       outfile_name:
-        valueFrom: ${ return inputs.runparams.project_prefix + "_InsertSizeMetrics_Histograms.txt"; }
+        valueFrom: ${ return inputs.project_prefix + "_InsertSizeMetrics_Histograms.txt"; }
     out: [ output ]
     run: ./merge-insert-size-histograms.cwl
 
   generate_fingerprint:
     in:
-      db_files: db_files
-      runparams: runparams
       files: doc_basecounts
-      file_prefix:
-         valueFrom: ${ return inputs.runparams.project_prefix; }
-      fp_genotypes: 
-         valueFrom: ${ return inputs.db_files.fp_genotypes; }
-      grouping_file:
-         valueFrom: ${ return inputs.db_files.grouping_file; }
-      pairing_file:
-         valueFrom: ${ return inputs.db_files.pairing_file; }
+      file_prefix: project_prefix
+      fp_genotypes: fp_genotypes
+      grouping_file: grouping_file
+      pairing_file: pairing_file
     out: [ output, fp_summary, minor_contam_output ]
     run: ./generate-fingerprint.cwl
 
   generate_qual_files:
     in:
-      runparams: runparams
+      project_prefix: project_prefix
       files: qual_metrics
-      rqual_output_filename: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_post_recal_MeanQualityByCycle.txt"; }
-      oqual_output_filename: 
-        valueFrom: ${ return inputs.runparams.project_prefix + "_pre_recal_MeanQualityByCycle.txt"; }
+      rqual_output_filename:
+        valueFrom: ${ return inputs.project_prefix + "_post_recal_MeanQualityByCycle.txt"; }
+      oqual_output_filename:
+        valueFrom: ${ return inputs.project_prefix + "_pre_recal_MeanQualityByCycle.txt"; }
     out: [ rqual_output, oqual_output ]
     run: ./generate-qual-files.cwl
 
   generate_cutadapt_summary:
     in:
-      runparams: runparams
-      db_files: db_files
+      project_prefix: project_prefix
+      pairing_file: pairing_file
       clstats1: clstats1
       clstats2: clstats2
       output_filename:
-        valueFrom: ${ return inputs.runparams.project_prefix + "_CutAdaptStats.txt"; }
-      pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file; }
+        valueFrom: ${ return inputs.project_prefix + "_CutAdaptStats.txt"; }
     out: [ output ]
     run: ./generate-cutadapt-summary.cwl

@@ -211,7 +211,7 @@ inputs:
 
 outputs:
   pdf:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -220,7 +220,7 @@ outputs:
           return null;
         }
   out_file:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -229,7 +229,7 @@ outputs:
           return null;
         }
   summary:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

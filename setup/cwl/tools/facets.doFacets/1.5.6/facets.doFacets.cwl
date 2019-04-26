@@ -201,7 +201,7 @@ inputs:
   seed:
     type: ['null', int]
     doc: Set the seed for reproducibility
-    default: 1000 
+    default: 1000
     inputBinding:
       prefix: --seed
 
@@ -213,26 +213,26 @@ inputs:
 
 outputs:
   png_files:
-    type: File[]?
+    type: File[]
     outputBinding:
       glob: '*.png'
   txt_files_purity:
-    type: File?
+    type: File
     outputBinding:
       glob: '*_purity.cncf.txt'
   txt_files_hisens:
-    type: File? 
+    type: File
     outputBinding:
       glob: '*_hisens.cncf.txt'
   out_files:
-    type: File[]?
+    type: File[]
     outputBinding:
       glob: '*.out'
   rdata_files:
-    type: File[]?
+    type: File[]
     outputBinding:
       glob: '*.Rdata'
   seg_files:
-    type: File[]?
+    type: File[]
     outputBinding:
       glob: '*.seg'

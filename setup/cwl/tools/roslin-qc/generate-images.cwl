@@ -52,18 +52,18 @@ inputs:
     type: string
     default: "/usr/bin/"
     inputBinding:
-      prefix: --bin 
+      prefix: --bin
 
   data_dir:
     type: Directory
 
-  output_dir: 
+  output_dir:
     type: string
     default: "images/"
     inputBinding:
-      prefix: --output_dir 
+      prefix: --output_dir
 
-  path:
+  input_dir:
     type: [ 'null', string ]
     default: "."
     inputBinding:
@@ -114,7 +114,7 @@ outputs:
   output:
     type: Directory
     outputBinding:
-      glob: "." 
+      glob: "."
 
   images_directory:
     type: Directory

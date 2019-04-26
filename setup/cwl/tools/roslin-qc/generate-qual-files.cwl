@@ -46,9 +46,11 @@ baseCommand:
 id: generate-qual-files
 inputs:
   files:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     inputBinding:
       prefix: --files
   rqual_output_filename:

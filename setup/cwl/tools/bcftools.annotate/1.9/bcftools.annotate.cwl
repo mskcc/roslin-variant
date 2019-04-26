@@ -187,46 +187,19 @@ inputs:
       itemSeparator: ","
       prefix: --remove
 
-  vcf_file:
-    type: File
+  vcf_file_tbi:
+    type: ['null',File]
+    secondaryFiles:
+        - .tbi
     doc: Vcf file to be annotated
     inputBinding:
         position: 1
 
-  vcf_file_index:
-    type: File
-    doc: Index of the vcf file
-
-  vcf_files_tbi:
-    type:
-      - 'null'
-      - type: array
-        items: File
-    secondaryFiles:
-        - .tbi
-    doc: Array of vcf files to be concatenated into one vcf
-    inputBinding:
-        position: 1
-
-  vcf_files_tbi:
-    type:
-      - 'null'
-      - type: array
-        items: File
-    secondaryFiles:
-        - .tbi
-    doc: Array of vcf files to be concatenated into one vcf
-    inputBinding:
-        position: 1
-
-  vcf_files_csi:
-    type:
-      - 'null'
-      - type: array
-        items: File
+  vcf_file_csi:
+    type: ['null',File]
     secondaryFiles:
       - ^.bcf.csi
-    doc: Array of vcf files to be concatenated into one vcf
+    doc: Vcf file to be annotated
     inputBinding:
         position: 1
 

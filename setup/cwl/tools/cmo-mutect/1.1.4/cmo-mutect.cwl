@@ -904,7 +904,7 @@ outputs:
           return null;
         }
   callstats_output:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

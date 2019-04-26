@@ -55,7 +55,7 @@ requirements:
   - var getBaseName = function(inputFile) { return inputFile.basename; };
 - class: ResourceRequirement
   ramMin: 12000
-  coresMin: 1 
+  coresMin: 1
 
 
 doc: |
@@ -295,7 +295,7 @@ outputs:
           return null;
         }
   clfastq2:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -304,7 +304,7 @@ outputs:
           return null;
         }
   clstats1:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -314,7 +314,7 @@ outputs:
         }
 
   clstats2:
-    type: File?
+    type: File
     outputBinding:
       glob: |-
         ${

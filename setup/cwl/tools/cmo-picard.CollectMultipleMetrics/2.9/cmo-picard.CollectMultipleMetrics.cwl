@@ -218,7 +218,7 @@ inputs:
       prefix: --H
 outputs:
   qual_file:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -227,7 +227,7 @@ outputs:
           return null;
         }
   qual_hist:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

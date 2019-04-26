@@ -206,7 +206,7 @@ inputs:
 
 outputs:
   is_file:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${
@@ -215,7 +215,7 @@ outputs:
           return null;
         }
   is_hist:
-    type: File?
+    type: File
     outputBinding:
       glob: |
         ${

@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: gather-metrics
+  doap:name: qc-merge-and-hotspots
   doap:revision: 1.0.0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -29,7 +29,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: Workflow
-id: gather-metrics
+id: qc-merge-and-hotspots
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
@@ -38,54 +38,6 @@ requirements:
 
 inputs:
 
-  db_files:
-    type:
-      type: record
-      fields:
-        refseq: File
-        ref_fasta: string
-        vep_path: string
-        custom_enst: string
-        vep_data: string
-        hotspot_list: string
-        hotspot_list_maf: File
-        hotspot_vcf: string
-        facets_snps: string
-        bait_intervals: File
-        target_intervals: File
-        fp_intervals: File
-        fp_genotypes: File
-        conpair_markers: string
-        conpair_markers_bed: string
-        grouping_file: File
-        request_file: File
-        pairing_file: File
-
-  runparams:
-    type:
-      type: record
-      fields:
-        abra_scratch: string
-        covariates:
-          type:
-            type: array
-            items: string
-        emit_original_quals: boolean
-        genome: string
-        mutect_dcov: int
-        mutect_rf:
-          type:
-            type: array
-            items: string
-        num_cpu_threads_per_data_thread: int
-        num_threads: int
-        tmp_dir: string
-        project_prefix: string
-        opt_dup_pix_dist: string
-        facets_pcval: int
-        facets_cval: int
-        scripts_bin: string
-
   bams:
     type:
       type: array
@@ -93,7 +45,6 @@ inputs:
         type: array
         items: File
     secondaryFiles: ^.bai
-
   clstats1:
     type:
       type: array
@@ -102,7 +53,6 @@ inputs:
         items:
           type: array
           items: File
-
   clstats2:
     type:
       type: array
@@ -111,38 +61,52 @@ inputs:
         items:
           type: array
           items: File
-
   md_metrics:
     type:
       type: array
-      items: 
+      items:
+        type: array
+        items: File
+  hs_metrics:
+    type:
+      type: array
+      items:
         type: array
         items: File
 
-  hs_metrics:
-    type: 
-      type: array
-      items: File
-
   insert_metrics:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
 
   per_target_coverage:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
 
   qual_metrics:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
 
   doc_basecounts:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
+  project_prefix: string
+  fp_genotypes: File
+  grouping_file: File
+  pairing_file: File
+  hotspot_list_maf: File
+  genome: string
 
 outputs:
 
@@ -203,66 +167,57 @@ steps:
   qc_merge:
     run: qc-merge.cwl
     in:
-      db_files: db_files
-      runparams: runparams
       clstats1: clstats1
       clstats2: clstats2
-      md_metrics: md_metrics 
+      md_metrics: md_metrics
       hs_metrics: hs_metrics
       per_target_coverage: per_target_coverage
       insert_metrics: insert_metrics
       doc_basecounts: doc_basecounts
       qual_metrics: qual_metrics
+      project_prefix: project_prefix
+      fp_genotypes: fp_genotypes
+      grouping_file: grouping_file
+      pairing_file: pairing_file
     out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, minor_contam_output, qual_files_r, qual_files_o, cutadapt_summary ]
 
   hotspots_fillout:
     run: ../cmo-fillout/1.2.2/cmo-fillout.cwl
     in:
-      db_files: db_files
-      maf: 
-        valueFrom: ${ return inputs.db_files.hotspot_list_maf; }
+      maf: hotspot_list_maf
       aa_bams: bams
-      runparams: runparams
       bams:
         valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
-      genome:
-        valueFrom: ${ return inputs.runparams.genome; }
+      genome: genome
       output_format:
         valueFrom: ${ return "1"; }
-      project_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
+      project_prefix: project_prefix
     out: [ portal_fillout ]
 
   run_hotspots_in_normals:
     run: create-hotspots-in-normals.cwl
     in:
-      runparams: runparams
-      db_files: db_files
       fillout_file: hotspots_fillout/portal_fillout
-      project_prefix: 
-        valueFrom: ${ return inputs.runparams.project_prefix; }
-      pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file; }
+      project_prefix: project_prefix
+      pairing_file: pairing_file
     out: [ hs_in_normals ]
 
   run_minor_contam_binlist:
     run: create-minor-contam-binlist.cwl
     in:
-      runparams: runparams
       minor_contam_file: qc_merge/minor_contam_output
       fp_summary: qc_merge/fingerprint_summary
       min_cutoff:
         default: 0.01
-      project_prefix: 
-        valueFrom: ${ return inputs.runparams.project_prefix; }
+      project_prefix: project_prefix
     out: [ minor_contam_freqlist ]
 
   compiled_output_directory:
     run: ../consolidate-files/consolidate-files.cwl
-    in: 
+    in:
       merged_files: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/minor_contam_output, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary, run_hotspots_in_normals/hs_in_normals, run_minor_contam_binlist/minor_contam_freqlist ]
-      fp_output: qc_merge/fingerprints_output 
-      files: 
+      fp_output: qc_merge/fingerprints_output
+      files:
          valueFrom: ${ return inputs.merged_files.concat(inputs.fp_output); }
       output_directory_name:
        valueFrom: ${ return "qc_merged_directory"; }

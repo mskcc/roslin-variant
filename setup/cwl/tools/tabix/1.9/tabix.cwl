@@ -48,8 +48,10 @@ id: tabix
 
 requirements:
   InlineJavascriptRequirement: {}
+  InitialWorkDirRequirement:
+    listing: [ $(inputs.input_vcf) ]
   ResourceRequirement:
-    ramMin: 8000
+    ramMin: 80000
     coresMin: 1
 
 doc: |
@@ -68,12 +70,6 @@ inputs:
     doc: coordinates are zero-based
     inputBinding:
       prefix: --zero-based
-
-  being:
-    type: ["null", string]
-    doc: column number for region start [4]
-    inputBinding:
-      prefix: --begin
 
   comment:
     type: ["null", string]
@@ -169,4 +165,5 @@ outputs:
   tabix_output_file:
     type: File
     outputBinding:
-      glob: '*.vcf.*'
+      glob: "*.gz"
+    secondaryFiles: [".tbi",".csi"]

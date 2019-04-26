@@ -108,7 +108,7 @@ steps:
       runparams: runparams
       db_files: db_files
       data_dir: qc_merged_directory
-      bin: 
+      bin:
         valueFrom: ${ return inputs.runparams.scripts_bin; }
       file_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
@@ -121,15 +121,17 @@ steps:
       project_summary: generate_pdf/project_summary
       sample_summary: generate_pdf/sample_summary
       image_dir: generate_pdf/images_directory
-      output_directory_name: 
+      output_directory_name:
         valueFrom: ${ return "compiled_metrics_data"; }
+      directories:
+        valueFrom: ${ var all_dirs = new Array(); all_dirs.push(inputs.image_dir); return all_dirs; }
       files:
-        valueFrom: ${ var all = new Array(); all.push(inputs.project_summary); all.push(inputs.sample_summary); return all; }
+        valueFrom: ${ var all_files = new Array(); all_files.push(inputs.project_summary); all_files.push(inputs.sample_summary); return all_files; }
     out: [ directory ]
- 
+
   stitch_together_pdf:
     run: ./stitch-pdf.cwl
-    in: 
+    in:
       runparams: runparams
       db_files: db_files
       file_prefix:

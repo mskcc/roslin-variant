@@ -60,7 +60,7 @@ doc: |
 inputs:
 
   input_mafs:
-    type: 
+    type:
       type: array
       items: File
     inputBinding:
@@ -73,7 +73,7 @@ inputs:
 
 outputs:
   cdna_contam_output:
-    type: File? 
+    type: File
     outputBinding:
       glob: |
         ${

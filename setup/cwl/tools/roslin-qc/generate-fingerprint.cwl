@@ -46,9 +46,11 @@ baseCommand:
 id: generate-fingerprint
 inputs:
   files:
-    type: 
+    type:
       type: array
-      items: File
+      items:
+        type: array
+        items: File
     inputBinding:
       prefix: -files
   file_prefix:
@@ -82,7 +84,7 @@ outputs:
         ${
             return inputs.file_prefix + "*";
         }
-   
+
   fp_summary:
     type: File
     outputBinding:
