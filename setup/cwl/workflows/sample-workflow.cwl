@@ -126,7 +126,7 @@ outputs:
     outputSource: flatten_group/conpair_pileup
 steps:
   chunking:
-    run: ../cmo-split-reads/1.0.1/cmo-split-reads.cwl
+    run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
       sample: sample
       fastq1:
@@ -139,7 +139,7 @@ steps:
     scatter: [fastq1, fastq2, platform_unit]
     scatterMethod: dotproduct
   flatten:
-    run: ../flatten-array/1.0.0/flatten-array-fastq.cwl
+    run: ../tools/flatten-array/1.0.0/flatten-array-fastq.cwl
     in:
       sample: sample
       fastq1: chunking/chunks1
@@ -205,7 +205,7 @@ steps:
           outputSource: add_rg_id/bam
       steps:
         trim_galore:
-          run: ../cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
+          run: ../tools/cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
           in:
             fastq1: chunkfastq1
             fastq2: chunkfastq2
@@ -213,7 +213,7 @@ steps:
             adapter2: adapter2
           out: [clfastq1, clfastq2, clstats1, clstats2]
         bwa:
-          run: ../cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
+          run: ../tools/cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
           in:
             fastq1: trim_galore/clfastq1
             fastq2: trim_galore/clfastq2
@@ -223,7 +223,7 @@ steps:
             genome: genome
           out: [bam]
         add_rg_id:
-          run: ../cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
+          run: ../tools/cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
           in:
             I: bwa/bam
             O:
@@ -239,7 +239,7 @@ steps:
             TMP_DIR: tmp_dir
           out: [bam, bai]
   mark_duplicates:
-    run: ../cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
+    run: ../tools/cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
     in:
       OPTICAL_DUPLICATE_PIXEL_DISTANCE: opt_dup_pix_dist
       I: align/bam
@@ -250,7 +250,7 @@ steps:
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
   gather_metrics:
-    run: gather-metrics.cwl
+    run: ../modules/gather-metrics.cwl
     in:
       bait_intervals: bait_intervals
       target_intervals: target_intervals

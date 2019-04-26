@@ -321,7 +321,7 @@ steps:
     scatterMethod: dotproduct
 
   run_cdna_contam_check:
-    run: ../roslin-qc/create-cdna-contam.cwl
+    run: ../tools/roslin-qc/create-cdna-contam.cwl
     in:
       runparams: runparams
       input_mafs: pair_process/maf_file
@@ -330,7 +330,7 @@ steps:
     out: [ cdna_contam_output ]
 
   generate_qc:
-    run: generate-qc.cwl
+    run: ../modules/generate-qc.cwl
     in:
       db_files: db_files
       runparams: runparams

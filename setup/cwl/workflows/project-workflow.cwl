@@ -310,7 +310,7 @@ steps:
     scatterMethod: dotproduct
 
   generate_qc:
-    run: generate-qc.cwl
+    run: ../modules/generate-qc.cwl
     in:
       db_files: db_files
       runparams: runparams

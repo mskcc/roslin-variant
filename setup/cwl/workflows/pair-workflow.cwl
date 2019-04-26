@@ -269,7 +269,7 @@ outputs:
 steps:
 
   alignment:
-    run:  alignment.cwl
+    run:  ../modules/alignment.cwl
     in:
       db_files: db_files
       runparams: runparams
@@ -282,7 +282,7 @@ steps:
       snps_1000g: snps_1000g
     out: [bams,clstats1,clstats2,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup,covint_list,covint_bed]
   variant_calling:
-    run: variant-calling.cwl
+    run: ../modules/variant-calling.cwl
     in:
       runparams: runparams
       db_files: db_files
@@ -295,7 +295,7 @@ steps:
       cosmic: cosmic
     out: [combine_vcf, annotate_vcf, facets_png, facets_txt_hisens, facets_txt_purity, facets_out, facets_rdata, facets_seg, mutect_vcf, mutect_callstats, vardict_vcf, facets_counts, vardict_norm_vcf, mutect_norm_vcf]
   maf_processing:
-    run: maf-processing.cwl
+    run: ../modules/maf-processing.cwl
     in:
       runparams: runparams
       db_files: db_files
