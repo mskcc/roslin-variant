@@ -83,6 +83,27 @@ class VariantWorkflowSV(VariantWorkflow):
 		super().configure()
 		self.params['configure']['run_sv'] = True
 
+class QcWorkflow(SingleCWLWorkflow):
+
+	def configure(self):
+		super().configure('Qc-workflow','qc-workflow.cwl',['Alignment','Conpair'])
+
+	def get_outputs(self,workflow_output_folder):
+		workflow_output_path = os.path.join("outputs",workflow_output_folder)
+		output_config = super().get_outputs(workflow_output_folder)
+		qc_merged_path = os.path.join(workflow_output_path,"qc_merged_directory")
+		gather_metrics_files_path = os.path.join(workflow_output_path,"gather_metrics_files")
+		output_config["qc"] = [{"patterns": ["*.pdf","*.summary","*.gcbiasmetrics","*.asmetrics"], "input_folder": workflow_output_path},
+							   {"patterns": ["*metrics","*.txt"], "input_folder": gather_metrics_files_path},
+							   {"patterns": ["*.txt"], "input_folder": qc_merged_path}]
+		return output_config
+
+	def modify_dependency_inputs(self,roslin_yaml):
+
+		conpair_directory = copy.deepcopy(roslin_yaml['conpair_output_dir'])
+		roslin_yaml['directories'] = [conpair_directory]
+		return roslin_yaml
+
 class CdnaContam(SingleCWLWorkflow):
 
 	def configure(self):
