@@ -58,7 +58,7 @@ mutect_txt=`ls ${dir}/vcf/${tum}*${nrm}*.mutect.txt`
 mutect_vcf=`ls ${dir}/vcf/${tum}*${nrm}*.mutect.vcf`
 vardict_vcf=`ls ${dir}/vcf/${tum}*${nrm}*.vardict.vcf`
 tum_bam=`ls ${dir}/bam/${tum}*.bam`
-nrm_bam=`ls ${dir}/bam/${nrm}*.bam`
+nrm_bam=`ls ${dir}/bam/${nrm}*.bam | head -n1` # We aligned normal samples multiple times for some old projects
 if [ -s ${mutect_txt} ] && [ -s ${mutect_vcf} ] && [ -s ${vardict_vcf} ] && [ -s ${tum_bam} ] && [ -s ${nrm_bam} ]
 then echo STATUS: ${tum}/${nrm}: Filtering per-caller VCFs using basicfiltering
 else echo ERROR: ${tum}/${nrm}: Unable to find input VCFs or BAMs at: ${dir}; exit 1
@@ -99,7 +99,6 @@ fi
 # Run bcftools annotations to add 'MuTect' if the event called by both VarDict and MuTect
 anno_vcf=${dir}/vcf/${tum}.${nrm}.combined-variants.anno.vcf
 ${bcftools} annotate --annotations ${mutect_vcf_gz} --columns INFO/FAILURE_REASON --mark-sites '+set=MuTect' --output ${anno_vcf} ${concat_vcf_gz}
-rm -f ${concat_vcf_gz} ${concat_vcf_gz}.tbi
 
 if [ -s ${anno_vcf} ]
 then echo STATUS: ${tum}/${nrm}: Converting merged VCF into MAF using vcf2maf
@@ -110,6 +109,7 @@ fi
 concat_maf=${dir}/maf/${tum}.${nrm}.combined-variants.vep.maf
 ${vcf2maf} --input-vcf ${anno_vcf} --tumor-id ${tum} --vcf-tumor-id ${tum} --normal-id ${nrm} --vcf-normal-id ${nrm} --ncbi-build GRCh37 --ref-fasta ${ref_fasta} --retain-info set,TYPE,FAILURE_REASON,MSI,MSILEN,SSF,LSEQ,RSEQ,STATUS,VSB --retain-fmt QUAL,BIAS,HIAF,PMEAN,PSTD,ALD,RD,NM,MQ,IS --vep-forks 8 --vep-path ${vep_path} --vep-data ${vep_data} --output-maf ${concat_maf} --filter-vcf ${filter_vcf} --custom-enst ${vep_isoforms}
 rm -f ${anno_vcf%.vcf}.vep.vcf
+rm -f ${anno_vcf}
 
 if [ -s ${concat_maf} ]
 then echo STATUS: ${tum}/${nrm}: Removing variants that overlap larger events
@@ -173,5 +173,8 @@ fi
 rm -f ${dir}/maf/${tum}.${nrm}.combined-variants.vep.*
 
 # Attach "roslin-filters-2.4.2" tag into log/stdout.log file at "VERSION:" line
+if [[ $(grep roslin-filters log/stdout.log) == '' ]]
+then 
 mv log/stdout.log log/stdout.log.bkp
 awk -F', ' 'BEGIN {OFS=", "} /^VERSIONS:/ && !/roslin-filter/{$2=$2", roslin-filters-2.4.2"} {print $0}' log/stdout.log.bkp > log/stdout.log
+fi
