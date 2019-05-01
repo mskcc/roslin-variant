@@ -39,9 +39,9 @@ class: CommandLineTool
 baseCommand:
 - tool.sh
 - --tool
-- "qc-summary"
+- "roslin-qc"
 - --version
-- "0.1.0"
+- "0.6.0"
 - --cmd
 - qc_summary
 id: generate-images

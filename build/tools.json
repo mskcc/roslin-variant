@@ -42,9 +42,6 @@
         "picard": [
             "2.9"
         ],
-        "qc-summary": [
-            "0.1.0"
-        ],
         "remove-variants": [
             "0.1.1"
         ],
