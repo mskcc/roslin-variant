@@ -316,7 +316,7 @@ steps:
       curated_bams: curated_bams
       cosmic: cosmic
       pair: pairs
-    out: [bams,clstats1,clstats2,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup,mutect_vcf,mutect_callstats,vardict_vcf,combine_vcf,annotate_vcf,vardict_norm_vcf,mutect_norm_vcf,facets_png,facets_txt_hisens,facets_txt_purity,facets_out,facets_rdata,facets_seg,facets_counts,merged_file_unfiltered,merged_file,maf_file,portal_file,maf]
+    out: [bams,clstats1,clstats2,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileups,mutect_vcf,mutect_callstats,vardict_vcf,combine_vcf,annotate_vcf,vardict_norm_vcf,mutect_norm_vcf,facets_png,facets_txt_hisens,facets_txt_purity,facets_out,facets_rdata,facets_seg,facets_counts,merged_file_unfiltered,merged_file,maf_file,portal_file,maf]
     scatter: [pair]
     scatterMethod: dotproduct
 
@@ -330,7 +330,7 @@ steps:
     out: [ cdna_contam_output ]
 
   generate_qc:
-    run: ../modules/generate-qc.cwl
+    run: ../modules/project/generate-qc.cwl
     in:
       db_files: db_files
       runparams: runparams
@@ -343,7 +343,7 @@ steps:
       per_target_coverage: pair_process/per_target_coverage
       qual_metrics: pair_process/qual_metrics
       doc_basecounts: pair_process/doc_basecounts
-      conpair_pileups: pair_process/conpair_pileup
+      conpair_pileups: pair_process/conpair_pileups
       cdna_contam_output: run_cdna_contam_check/cdna_contam_output
       files:
         valueFrom: ${ return [inputs.cdna_contam_output]; }

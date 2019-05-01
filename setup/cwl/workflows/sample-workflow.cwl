@@ -90,40 +90,40 @@ outputs:
     outputSource: mark_duplicates/mdmetrics
   as_metrics:
     type: File
-    outputSource: flatten_group/as_metrics
+    outputSource: gather_metrics/as_metrics_files
   hs_metrics:
     type: File
-    outputSource: flatten_group/hs_metrics
+    outputSource: gather_metrics/hs_metrics_files
   insert_metrics:
     type: File
-    outputSource: flatten_group/insert_metrics
+    outputSource: gather_metrics/is_metrics
   insert_pdf:
     type: File
-    outputSource: flatten_group/insert_pdf
+    outputSource: gather_metrics/is_hist
   per_target_coverage:
     type: File
-    outputSource: flatten_group/per_target_coverage
+    outputSource: gather_metrics/per_target_coverage
   qual_metrics:
     type: File
-    outputSource: flatten_group/qual_metrics
+    outputSource: gather_metrics/qual_metrics
   qual_pdf:
     type: File
-    outputSource: flatten_group/qual_pdf
+    outputSource: gather_metrics/qual_pdf
   doc_basecounts:
     type: File
-    outputSource: flatten_group/doc_basecounts
+    outputSource: gather_metrics/doc_basecounts
   gcbias_pdf:
     type: File
-    outputSource: flatten_group/gcbias_pdf
+    outputSource: gather_metrics/gcbias_pdf
   gcbias_metrics:
     type: File
-    outputSource: flatten_group/gcbias_metrics
+    outputSource: gather_metrics/gcbias_metrics_files
   gcbias_summary:
     type: File
-    outputSource: flatten_group/gcbias_summary
+    outputSource: gather_metrics/gcbias_summary
   conpair_pileup:
     type: File
-    outputSource: flatten_group/conpair_pileup
+    outputSource: gather_metrics/conpair_pileup
 steps:
   chunking:
     run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
@@ -250,7 +250,7 @@ steps:
       TMP_DIR: tmp_dir
     out: [bam, bai, mdmetrics]
   gather_metrics:
-    run: ../modules/gather-metrics.cwl
+    run: ../modules/sample/gather-metrics-sample.cwl
     in:
       bait_intervals: bait_intervals
       target_intervals: target_intervals
@@ -260,60 +260,5 @@ steps:
       genome: genome
       tmp_dir: tmp_dir
       gatk_jar_path: gatk_jar_path
-      single_bam: mark_duplicates/bam
-      bams:
-        valueFrom: ${ return [ inputs.single_bam ]; }
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, conpair_pileup ]
-  flatten_group:
-      in:
-        as_metrics_inputs: gather_metrics/as_metrics
-        hs_metrics_inputs: gather_metrics/hs_metrics
-        insert_metrics_inputs: gather_metrics/insert_metrics
-        insert_pdf_inputs: gather_metrics/insert_pdf
-        per_target_coverage_inputs: gather_metrics/per_target_coverage
-        qual_metrics_inputs: gather_metrics/qual_metrics
-        qual_pdf_inputs: gather_metrics/qual_pdf
-        doc_basecounts_inputs: gather_metrics/doc_basecounts
-        gcbias_pdf_inputs: gather_metrics/gcbias_pdf
-        gcbias_metrics_inputs: gather_metrics/gcbias_metrics
-        gcbias_summary_inputs: gather_metrics/gcbias_summary
-        conpair_pileup_inputs: gather_metrics/conpair_pileup
-      out: [ as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup]
-      run:
-          class: ExpressionTool
-          id: flatten-group-sample
-          requirements:
-              - class: InlineJavascriptRequirement
-          inputs:
-            as_metrics_inputs: File[]
-            hs_metrics_inputs: File[]
-            insert_metrics_inputs: File[]
-            insert_pdf_inputs: File[]
-            per_target_coverage_inputs: File[]
-            qual_metrics_inputs: File[]
-            qual_pdf_inputs: File[]
-            doc_basecounts_inputs: File[]
-            gcbias_pdf_inputs: File[]
-            gcbias_metrics_inputs: File[]
-            gcbias_summary_inputs: File[]
-            conpair_pileup_inputs: File[]
-          outputs:
-            as_metrics: File
-            hs_metrics: File
-            insert_metrics: File
-            insert_pdf: File
-            per_target_coverage: File
-            qual_metrics: File
-            qual_pdf: File
-            doc_basecounts: File
-            gcbias_pdf: File
-            gcbias_metrics: File
-            gcbias_summary: File
-            conpair_pileup: File
-          expression: "${ var output = {};
-              for ( var input_key in inputs ){
-                  new_key = input_key.slice(0,-7);
-                  output[new_key] = inputs[input_key][0];
-              }
-              return output;
-          }"
+      bam: mark_duplicates/bam
+    out: [ as_metrics_files, hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts, gcbias_pdf, gcbias_metrics_files, gcbias_summary, conpair_pileup ]

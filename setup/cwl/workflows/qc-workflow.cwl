@@ -131,7 +131,7 @@ outputs:
 steps:
 
   gather_metrics:
-    run: ../modules/gather-metrics.cwl
+    run: ../modules/project/gather-metrics.cwl
     in:
       db_files: db_files
       runparams: runparams
@@ -152,12 +152,12 @@ steps:
       gatk_jar_path:
         valueFrom: ${ return inputs.runparams.gatk_jar_path }
       bams: bams
-    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, conpair_pileup ]
+    out: [ as_metrics, hs_metrics, insert_metrics, insert_pdf, per_target_coverage, qual_metrics, qual_pdf, doc_basecounts, gcbias_pdf, gcbias_metrics, gcbias_summary, conpair_pileups ]
     scatter: [bams]
     scatterMethod: dotproduct
 
   generate_qc:
-    run: ../modules/generate-qc.cwl
+    run: ../modules/project/generate-qc.cwl
     in:
       db_files: db_files
       runparams: runparams
@@ -170,7 +170,7 @@ steps:
       per_target_coverage: gather_metrics/per_target_coverage
       qual_metrics: gather_metrics/qual_metrics
       doc_basecounts: gather_metrics/doc_basecounts
-      conpair_pileups: gather_metrics/conpair_pileup
+      conpair_pileups: gather_metrics/conpair_pileups
       files: files
       directories: directories
     out: [consolidated_results,qc_pdf]
