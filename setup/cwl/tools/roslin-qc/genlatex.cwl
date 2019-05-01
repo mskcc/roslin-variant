@@ -67,5 +67,5 @@ outputs:
   qc_pdf:
     type: File
     outputBinding:
-      glob: "*_QC_Report.pdf.pdf"
+      glob: "*_QC_Report.pdf"
 
