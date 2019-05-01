@@ -1,4 +1,4 @@
-Jinja2==2.10
+Jinja2==2.10.1
 MarkupSafe==1.0
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.15.47
