@@ -109,6 +109,7 @@ def generate_segmented_copy_number_data(data_directory,output_directory,data_fil
     seg_command_list.append('grep -h --regexp=^ID ' + segmented_files_query + ' > ' + tmp_combined_output_file)
     seg_command_list.append('head -n1 ' + tmp_combined_output_file + ' > ' + combined_output_path)
     seg_command_list.append('grep -hv --regexp=^ID ' + segmented_files_query + ' | awk \'OFS="\t" {$6=sprintf("%.4f",$6); print}\' >> ' + combined_output_path)
+    seg_command_list.append('rm ' + tmp_combined_output_file)
     seg_command_list.append('cp ' + combined_output_path + ' ' + analysis_seg_file)
     run_command_list(seg_command_list,'generate_segmented_copy_number')
 
