@@ -68,14 +68,6 @@ inputs:
     inputBinding:
       prefix: --input-vcf
 
-  refFasta:
-    type:
-    - string
-    - File
-    doc: Reference genome in fasta format
-    inputBinding:
-      prefix: --refFasta
-
   normal_bam:
     type: File
     doc: Normal Bam file
