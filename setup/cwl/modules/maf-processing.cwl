@@ -238,9 +238,9 @@ steps:
                             default: "1"
                     out: [fillout_out, portal_fillout]
 
-                fillout_second:
+                fillout_normal_panel:
                     in:
-                        maf: fillout_tumor_normal/portal_fillout
+                        maf: remove_variants/portal_fillout
                         genome: genome
                         curated_bams: curated_bams
                     out: [fillout_curated_bams]
@@ -278,6 +278,6 @@ steps:
                         inputMaf: fillout_tumor_normal/portal_fillout
                         outputMaf:
                             valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".muts.maf" }
-                        NormalPanelMaf: fillout_second/fillout_curated_bams
+                        NormalPanelMaf: fillout_normal_panel/fillout_curated_bams
                         inputHSP: hotspot_list
                     out: [output]
