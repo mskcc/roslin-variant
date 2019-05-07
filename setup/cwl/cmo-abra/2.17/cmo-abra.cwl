@@ -68,10 +68,10 @@ inputs:
 
   threads:
     type: ['null', string]
-    doc: Number of threads (default - 4)
+    doc: Number of threads (default - 16)
     inputBinding:
       prefix: --threads
-    default: '8'
+    default: '16'
 
   bwa_ref:
     type: ['null', string]
