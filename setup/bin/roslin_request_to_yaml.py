@@ -289,7 +289,8 @@ if __name__ == "__main__":
 
     files.update(intervals)
 
-    sample_list = list()
+    sample_dict = {}
+    pair_list = []
 
     # do some checks for missing sample IDs
     fail = 0
@@ -315,7 +316,6 @@ if __name__ == "__main__":
     if fail:
         print >>sys.stderr, "ERROR: Pairing/grouping files have sample IDs not found in mapping file. Please review."
         sys.exit(1)
-
     for sample_id, sample in mapping_dict.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
@@ -329,10 +329,18 @@ if __name__ == "__main__":
         new_sample_object['PL'] = "Illumina"
         new_sample_object['CN'] = "MSKCC"
         new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
-        sample_list.append(new_sample_object)
+        sample_dict[sample_id] = new_sample_object
+
+    for pair in pairing_dict:
+        first_pair_id = pair[0]
+        first_pair_obj = sample_dict[first_pair_id]
+        second_pair_id = pair[1]
+        second_pair_obj = sample_dict[second_pair_id]
+        single_pair = [first_pair_obj,second_pair_obj]
+        pair_list.append(single_pair)
+
     out_dict = {
-        "samples": sample_list,
-        "pairs": pairing_dict,
+        "pairs": pair_list,
         "groups": grouping_dict.values(),
         "curated_bams": curated_bams,
         "hapmap": {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])},
