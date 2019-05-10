@@ -140,7 +140,7 @@ EOF
 
 fi
 
-echo "Your workspace: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${user_id}"
+echo "Your workspace: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}"
 echo
 echo "Add the following line to your .profile or .bashrc if not already added:"
 echo
