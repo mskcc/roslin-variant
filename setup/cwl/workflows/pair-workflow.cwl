@@ -115,6 +115,7 @@ inputs:
         covariates: string[]
         emit_original_quals: boolean
         genome: string
+        intervals: string[]
         mutect_dcov: int
         mutect_rf: string[]
         num_cpu_threads_per_data_thread: int
@@ -275,6 +276,8 @@ steps:
       pair: pair
       genome:
         valueFrom: ${ return inputs.runparams.genome }
+      intervals:
+        valueFrom: ${ return inputs.runparams.intervals }
       tmp_dir:
         valueFrom: ${ return inputs.runparams.tmp_dir }
       opt_dup_pix_dist:

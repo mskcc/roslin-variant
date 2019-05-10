@@ -46,6 +46,7 @@ requirements:
   ScatterFeatureRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
+  StepInputExpressionRequirement: {}
 
 inputs:
 
@@ -125,53 +126,81 @@ outputs:
     type: File
     outputSource: gather_metrics/conpair_pileup
 steps:
+  get_sample_info:
+      in:
+        sample: sample
+      out: [ CN,LB,ID,PL,PU,R1,R2,RG_ID,adapter,adapter2,bwa_output]
+      run:
+          class: ExpressionTool
+          id: get_sample_info
+          requirements:
+              - class: InlineJavascriptRequirement
+          inputs:
+            sample:
+              type:
+                type: record
+                fields:
+                  CN: string
+                  LB: string
+                  ID: string
+                  PL: string
+                  PU: string[]
+                  R1: string[]
+                  R2: string[]
+                  RG_ID: string[]
+                  adapter: string
+                  adapter2: string
+                  bwa_output: string
+          outputs:
+            CN: string
+            LB: string
+            ID: string
+            PL: string
+            PU: string[]
+            R1: string[]
+            R2: string[]
+            RG_ID: string[]
+            adapter: string
+            adapter2: string
+            bwa_output: string
+          expression: "${ var sample_object = {};
+            for(var key in inputs.sample){
+              sample_object[key] = inputs.sample[key]
+            }
+            return sample_object;
+          }"
   chunking:
     run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
-      sample: sample
-      fastq1:
-        valueFrom: ${ return inputs.sample.R1 }
-      fastq2:
-        valueFrom: ${ return inputs.sample.R2 }
-      platform_unit:
-        valueFrom: ${ return inputs.sample.PU }
+      fastq1: get_sample_info/R1
+      fastq2: get_sample_info/R2
+      platform_unit: get_sample_info/PU
     out: [chunks1, chunks2]
     scatter: [fastq1, fastq2, platform_unit]
     scatterMethod: dotproduct
   flatten:
     run: ../tools/flatten-array/1.0.0/flatten-array-fastq.cwl
     in:
-      sample: sample
       fastq1: chunking/chunks1
       fastq2: chunking/chunks2
-      add_rg_ID:
-        valueFrom: ${ return inputs.sample.rg_ID }
-      add_rg_PU:
-        valueFrom: ${ return inputs.sample.PU }
+      add_rg_ID: get_sample_info/RG_ID
+      add_rg_PU: get_sample_info/PU
     out:
       [chunks1, chunks2, rg_ID, rg_PU]
   align:
     in:
       chunkfastq1: flatten/chunks1
       chunkfastq2: flatten/chunks2
-      sample: sample
-      adapter:
-        valueFrom: ${ return inputs.sample.adapter }
-      adapter2:
-        valueFrom: ${ return inputs.sample.adapter2 }
+      adapter: get_sample_info/adapter
+      adapter2: get_sample_info/adapter2
       genome: genome
-      bwa_output:
-        valueFrom: ${ return inputs.sample.bwa_output }
-      add_rg_LB:
-        valueFrom: ${ return inputs.sample.LB }
-      add_rg_PL:
-        valueFrom: ${ return inputs.sample.PL }
+      bwa_output: get_sample_info/bwa_output
+      add_rg_LB: get_sample_info/LB
+      add_rg_PL: get_sample_info/PL
       add_rg_ID: flatten/rg_ID
       add_rg_PU: flatten/rg_PU
-      add_rg_SM:
-        valueFrom: ${ return inputs.sample.ID }
-      add_rg_CN:
-        valueFrom: ${ return inputs.sample.CN }
+      add_rg_SM: get_sample_info/ID
+      add_rg_CN: get_sample_info/CN
       tmp_dir: tmp_dir
     scatter: [chunkfastq1, chunkfastq2, add_rg_ID, add_rg_PU]
     scatterMethod: dotproduct

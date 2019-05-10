@@ -62,6 +62,7 @@ inputs:
         fp_genotypes: File
         grouping_file: File
         pairing_file: File
+        request_file: File
         hotspot_list_maf: File
         conpair_markers: string
         bait_intervals: File
