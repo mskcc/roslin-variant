@@ -297,8 +297,8 @@
         "IMPACT410_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_genotypes.txt",
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/FP_tiling_intervals.list",
-            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.intervals_list",
-            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.intervals_list"
+            "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_baits.interval_list",
+            "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT410/b37/picard_targets.interval_list"
         },
         "IMPACT468_b37": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_genotypes.txt",
