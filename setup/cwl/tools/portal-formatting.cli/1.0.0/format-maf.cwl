@@ -1,4 +1,4 @@
-    
+
 
 $namespaces:
   dct: http://purl.org/dc/terms/
@@ -70,6 +70,7 @@ steps:
         out: [ comment_removed ]
         run:
             class: CommandLineTool
+            id: formatting_remove_comments
             baseCommand: ["grep", "^[^#;]"]
             stdout: $(inputs.output_filename)
             inputs:
@@ -89,13 +90,14 @@ steps:
         out: [ extracted_file ]
         run:
             class: CommandLineTool
-            baseCommand: [] 
+            id: extract_columns
+            baseCommand: []
 
             arguments:
                 - awk
                 - -F
                 - "\t"
-                - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } print "Hugo_Symbol\\tEntrez_Gene_Id\\tCenter\\tTumor_Sample_Barcode\\tFusion\\tMethod\\tFrame" } NR>1 { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}' 
+                - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } print "Hugo_Symbol\\tEntrez_Gene_Id\\tCenter\\tTumor_Sample_Barcode\\tFusion\\tMethod\\tFrame" } NR>1 { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}'
             stdout: $(inputs.output_filename)
             inputs:
                 grepped_file:
@@ -114,6 +116,7 @@ steps:
         out: [ columns_added ]
         run:
             class: CommandLineTool
+            id: add_two_columns
             baseCommand: ["sed", "1s/$/\\tDNA_support\\tRNA_support/;2,$s/$/\\tyes\\tno/"]
             stdout: $(inputs.output_filename)
             inputs:
@@ -133,14 +136,15 @@ steps:
         out: [ portal_formatted ]
         run:
             class: CommandLineTool
-            baseCommand: [] 
+            id: portal_format_output
+            baseCommand: []
 
             arguments:
                 - awk
                 - -F
                 - "\t"
                 - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } } { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["DNA_support"])"\\t"\$(f["RNA_support"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}'
-    
+
             stdout: $(inputs.output_filename)
             inputs:
                 sed_file:

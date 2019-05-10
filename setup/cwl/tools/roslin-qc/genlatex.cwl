@@ -58,6 +58,11 @@ inputs:
     inputBinding:
       prefix: --path
 
+  request_file:
+    type: File
+    inputBinding:
+      prefix: --request_file
+
   project_prefix:
     type: [ 'null', string ]
     inputBinding:

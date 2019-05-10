@@ -52,7 +52,7 @@ requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 24000
-    coresMin: 2
+    coresMin: 4
 
 doc: |
   None
@@ -449,7 +449,7 @@ inputs:
     type:
     - 'null'
     - string
-    default: '2'
+    default: '8'
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread

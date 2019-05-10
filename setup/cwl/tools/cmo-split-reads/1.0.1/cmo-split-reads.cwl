@@ -69,7 +69,7 @@ inputs:
       prefix: --fastq2
 
   platform_unit:
-    type: 
+    type:
 
     - 'null'
     - string
