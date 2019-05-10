@@ -46,6 +46,7 @@ inputs:
         fp_genotypes: File
         grouping_file: File
         pairing_file: File
+        request_file: File
         hotspot_list_maf: File
         conpair_markers: string
   runparams:
@@ -249,6 +250,8 @@ steps:
     in:
       runparams: runparams
       data_dir: consolidate_results/directory
+      request_file:
+        valueFrom: ${ return inputs.runparams.request_file; }
       project_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ qc_pdf ]

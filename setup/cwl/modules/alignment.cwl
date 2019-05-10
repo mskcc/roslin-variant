@@ -81,6 +81,7 @@ inputs:
         abra_scratch: string
         covariates: string[]
         genome: string
+        intervals: string[]
         tmp_dir: string
         abra_ram_min: int
         gatk_jar_path: string
@@ -238,6 +239,8 @@ steps:
       pair: pairs
       genome:
         valueFrom: ${ return inputs.runparams.genome }
+      intervals:
+        valueFrom: ${ return inputs.runparams.intervals }
       tmp_dir:
         valueFrom: ${ return inputs.runparams.tmp_dir }
       opt_dup_pix_dist:
@@ -289,6 +292,7 @@ steps:
                   adapter2: string
                   bwa_output: string
           genome: string
+          intervals: string[]
           tmp_dir: string
           opt_dup_pix_dist: string
           hapmap:
@@ -410,6 +414,7 @@ steps:
             covariates: covariates
             abra_scratch: abra_scratch
             genome: genome
+            intervals: intervals
             abra_ram_min: abra_ram_min
             tmp_dir: tmp_dir
           out: [outbams, covint_list, covint_bed]

@@ -158,7 +158,7 @@ outputs:
   covint_list:
     type: File
     outputSource: realignment/covint_list
-  covint_bed:
+  bed:
     type: File
     outputSource: realignment/covint_bed
 

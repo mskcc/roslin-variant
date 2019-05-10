@@ -191,6 +191,8 @@ steps:
             R: genome
             O:
               valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
+            PER_TARGET_COVERAGE:
+              valueFrom: ${ return "sample_reads_dump.hsmetrics"; }
             LEVEL:
               valueFrom: ${ return ["null", "SAMPLE"];}
             TMP_DIR: tmp_dir

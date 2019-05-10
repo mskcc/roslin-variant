@@ -107,7 +107,7 @@ steps:
         run:
             class: CommandLineTool
             baseCommand: ['echo', '-e']
-            id: 'echo'
+            id: create_TN_pair
             stdout: $(inputs.output_filename)
 
             requirements:
@@ -137,6 +137,7 @@ steps:
         out: [ delly_sv , delly_filtered_sv ]
         run:
             class: Workflow
+            id: call_sv_by_delly
             inputs:
                 tumor_bam:
                     type: File
