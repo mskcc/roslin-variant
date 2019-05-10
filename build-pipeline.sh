@@ -85,6 +85,10 @@ if [ -n "$CLEAN" ]
 then
     echo "Cleaning up..."
     rm -rf build-venv
+    rm build_images_parallel.log 2> /dev/null
+    rm roslin*.tgz 2> /dev/null
+    rm -rf roslin-build-log
+    rm -rf setup/img/
     exit 0
 fi
 
