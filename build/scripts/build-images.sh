@@ -67,7 +67,7 @@ done
 
 if [ "$PUSH_TO_DOCKER_REGISTRY" == "1" ]
 then
-    if [ -z $DOCKER_REGISTRY_NAME ]
+    if [ -z "$DOCKER_REGISTRY_NAME" ]
     then
         echo "Please specify the -r parameter when using the -p flag"
     else
@@ -113,10 +113,9 @@ do
         docker_image_registry="${DOCKER_REGISTRY_NAME}/${DOCKER_REPO_TOOLNAME_PREFIX}-${tool_info}"
         docker_image_registry_url="docker://${docker_image_registry}"
     fi
-
     if [ "$BUILD_DOCKER_IMAGE" == "1" ]
     then
-        if [ -n $DOCKER_REGISTRY_NAME ]
+        if [ -n "$DOCKER_REGISTRY_NAME" ]
         then
             if [[ $DOCKER_REGISTRY_NAME != *"localhost"* ]]
             then
@@ -219,7 +218,7 @@ do
         then
             image_url=docker://$docker_image_registry
         else
-            image_url=docker://$tool_info
+            image_url=docker-daemon://$tool_info
         fi
 
         singularity build --sandbox --force \
