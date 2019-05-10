@@ -11,8 +11,8 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
 
 ENV CONPAIR_VERSION 0.3.1
 ENV GATK_VERSION 3.3-0
+ENV GATK_DOWNLOAD_URL https://s3.us-east-2.amazonaws.com/roslindata/gatk-3.3-0.jar
 
-COPY gatk-${GATK_VERSION}.jar /usr/bin/gatk.jar
 COPY install-packages.R /tmp/install-packages.R
 COPY runscript.sh /usr/bin/runscript.sh
 COPY run_test.sh /run_test.sh
@@ -20,6 +20,7 @@ COPY run_test.sh /run_test.sh
 RUN apk add --update \
     # for wget
     && apk add ca-certificates openssl \
+    && wget ${GATK_DOWNLOAD_URL} -O /usr/bin/gatk.jar \
     # for compilation
     && apk add build-base musl-dev python py-pip python-dev py-setuptools\
     && cd /tmp \
