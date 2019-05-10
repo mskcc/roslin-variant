@@ -347,6 +347,7 @@ if __name__ == "__main__":
         "abra_scratch": temp_dir,
         "abra_ram_min": abra_ram_min,
         "genome": genome,
+        "intervals": ROSLIN_RESOURCES['genomes'][genome]['intervals'],
         "mutect_dcov": 50000,
         "mutect_rf": rf,
         "num_cpu_threads_per_data_thread": 6,

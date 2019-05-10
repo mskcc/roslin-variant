@@ -73,6 +73,7 @@ inputs:
                 adapter2: string
                 bwa_output: string
     genome: string
+    intervals: string[]
     hapmap:
         type: File
         secondaryFiles:
@@ -113,20 +114,44 @@ steps:
             pair: pair
             reference_sequence: genome
             coverage_threshold:
-              valueFrom: ${ return ["3"];}
+                valueFrom: ${ return ["3"];}
             minBaseQuality:
-              valueFrom: ${ return ["20"];}
-            intervals:
-              valueFrom: ${ return ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT"];}
+                valueFrom: ${ return ["20"];}
+            intervals: intervals
             input_file: bams
             out:
-                valueFrom: ${ return inputs.pair[0].ID + "." + inputs.pair[1].ID +  ".fci.list"; }
+                valueFrom: ${ return inputs.intervals.map(function(x){ return inputs.pair[0].ID + "." + inputs.pair[1].ID + x.toString() + ".fci.list"; }); }
+        scatter: [intervals, out]
+        scatterMethod: dotproduct
         out: [fci_list]
+    combine_intervals:
+        in:
+            files: gatk_find_covered_intervals/fci_list
+            pair: pair
+            output_filename:
+                valueFrom: ${ return inputs.pair[0].ID + "." + inputs.pair[1].ID + ".fci.list"; }
+        out: [mergedfile]
+        run:
+            class: CommandLineTool
+            baseCommand: ['cat']
+            id: combine_intervals
+            stdout: $(inputs.output_filename)
 
+            requirements:
+                InlineJavascriptRequirement: {}
+                MultipleInputFeatureRequirement: {}
+
+            inputs:
+                files: File[]
+            outputs:
+                mergedfile:
+                    type: stdout
     list2bed:
         run: ../../tools/cmo-list2bed/1.0.1/cmo-list2bed.cwl
         in:
-            input_file: gatk_find_covered_intervals/fci_list
+            input_file: combine_intervals/mergedfile
+            no_sort:
+                valueFrom: ${ return false; }
             output_filename:
                 valueFrom: ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
