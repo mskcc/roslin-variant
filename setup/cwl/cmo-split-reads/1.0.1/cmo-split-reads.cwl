@@ -87,9 +87,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = '*-R1-*chunk*.fastq.gz';
-          if (inputs.sample)
-            pattern = inputs.sample + pattern;
+          var pattern = inputs.fastq1 + '*chunk*.fastq.gz';
           return pattern
         }
 
@@ -100,8 +98,6 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = '*-R2-*chunk*.fastq.gz';
-          if (inputs.sample)
-            pattern = inputs.sample + pattern;
+          var pattern = inputs.fastq2 + '*chunk*.fastq.gz';
           return pattern
         }
