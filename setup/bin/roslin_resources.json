@@ -72,7 +72,7 @@
             "omni": "/ifs/depot/pi/resources/genomes/GRCh37/omni/1000G_omni2.5.b37.vcf",
             "snps_1000g": "/ifs/depot/pi/resources/genomes/GRCh37/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf",
             "star_index": "/ifs/depot/pi/resources/genomes/GRCh37/star_index/withoutJunctions",
-            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
         },
         "GRCh38": {
             "delly": "/ifs/depot/pi/resources/genomes/GRCh38/delly/human.hg38.excl.tsv",
@@ -81,12 +81,12 @@
             "fasta": "/ifs/depot/pi/resources/vep/cache/v86/homo_sapiens/86_GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz",
             "kallisto_index": "/ifs/depot/pi/resources/genomes/GRCh38/kallisto_index/gencode.v25.pc_transcripts",
             "star_index": "/ifs/work/taylorlab/pensona/STAR_index_hg38_gencode.v25",
-            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
         },
         "GRCm38": {
             "exac": "",
             "fasta": "/ifs/depot/pi/resources/vep/cache/v86/mus_musculus/86_GRCm38/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz",
-            "vep_cache": "/ifs/depot/pi/resources/vep/cache"
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
         },
         "hg18": {
             "bedtools_genome": "/ifs/depot/pi/resources/genomes/hg18/bedtools_genome/human.hg18.genome",
