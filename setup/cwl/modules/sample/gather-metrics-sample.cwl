@@ -96,7 +96,6 @@ outputs:
     type: File
     outputSource: pileup/out_file
 
-
 steps:
 
   as_metrics:
@@ -165,7 +164,6 @@ steps:
         valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
       TMP_DIR: tmp_dir
     out: [pdf, out_file, summary]
-
   doc:
     run: ../../tools/cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
     in:

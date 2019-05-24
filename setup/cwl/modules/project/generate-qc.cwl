@@ -125,17 +125,14 @@ inputs:
     type:
       type: array
       items: Directory
-    default: []
   files:
     type:
       type: array
       items: File
-    default: []
 
 
 outputs:
 
-  # qc
   consolidated_results:
     type: Directory
     outputSource: consolidate_results/directory
@@ -249,9 +246,10 @@ steps:
     run: ../../tools/roslin-qc/genlatex.cwl
     in:
       runparams: runparams
+      db_files: db_files
       data_dir: consolidate_results/directory
       request_file:
-        valueFrom: ${ return inputs.runparams.request_file; }
+        valueFrom: ${ return inputs.db_files.request_file; }
       project_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ qc_pdf ]
