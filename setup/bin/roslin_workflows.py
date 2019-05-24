@@ -22,7 +22,10 @@ def get_varriant_workflow_outputs(output_config, workflow_output_path):
 class VariantWorkflow(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('ProjectWorkflow','workflows','project-workflow.cwl',[],[])
+		super().configure('VariantWorkflow','workflows','project-workflow.cwl',[],[])
+
+	def configure_sv(self):
+		super().configure('VariantWorkflowSV','workflows','project-workflow-sv.cwl',[],[])
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
@@ -37,19 +40,15 @@ class VariantWorkflow(SingleCWLWorkflow):
 class VariantWorkflowSV(VariantWorkflow):
 
 	def configure(self):
-		super().configure('ProjectWorkflowSV','workflows','project-workflow-sv.cwl',[],[])
-
-	def get_outputs(self,workflow_output_folder):
-		output_config = super().get_outputs(workflow_output_folder)
-		return output_config
-
-	def run_pipeline(self):
-		return super().run_pipeline(run_analysis=True)
+		super().configure_sv()
 
 class QcWorkflow(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('Qc-workflow','workflows','qc-workflow.cwl',[],['PairWorkflow'])
+		super().configure('QcWorkflow','workflows','qc-workflow.cwl',[],['PairWorkflow'])
+
+	def configure_sv(self):
+		super().configure('QcWorkflow','workflows','qc-workflow.cwl',['CdnaContam'],['PairWorkflowSV'])
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
@@ -62,15 +61,7 @@ class QcWorkflow(SingleCWLWorkflow):
 class QcWorkflowSV(QcWorkflow):
 
 	def configure(self):
-		super().configure('Qc-workflow','workflows','qc-workflow.cwl',['CdnaContam'],['PairWorkflowSV'])
-
-	def get_outputs(self,workflow_output_folder):
-		workflow_output_path = os.path.join("outputs",workflow_output_folder)
-		output_config = super().get_outputs(workflow_output_folder)
-		consolidated_metrics_folder = os.path.join(workflow_output_path,"consolidated_metrics_data")
-		output_config["qc"] = [{"patterns": ["*_QC_Report.pdf"], "input_folder": workflow_output_path},
-							   {"patterns": ["*"], "input_folder": consolidated_metrics_folder,"output_folder":"consolidated_metrics_data"}]
-		return output_config
+		super().configure_sv()
 
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
 		files = roslin_yaml['cdna_contam_output']
@@ -116,7 +107,10 @@ class SampleWorkflow(SingleCWLWorkflow):
 class PairWorkflow(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('PairWorkflow','workflow','pair-workflow.cwl',[],[])
+		super().configure('PairWorkflow','workflows','pair-workflow.cwl',[],[])
+
+	def configure_sv(self):
+		super().configure('PairWorkflowSV','workflows','pair-workflow-sv.cwl',[],[])
 
 	def get_inputs(self,single_dependency_list,multi_dependency_list):
 		requirement_list, dependency_key_list = super().get_inputs(single_dependency_list,multi_dependency_list)
@@ -146,11 +140,7 @@ class PairWorkflow(SingleCWLWorkflow):
 class PairWorkflowSV(PairWorkflow):
 
 	def configure(self):
-		super().configure('PairWorkflowSV','workflow','pair-workflow-sv.cwl',[],[])
-
-	def get_outputs(self,workflow_output_folder):
-		output_config = super().get_outputs(workflow_output_folder)
-		return output_config
+		super().configure_sv()
 
 #-------------------- Modules --------------------
 
@@ -218,7 +208,10 @@ class GatherMetrics(SingleCWLWorkflow):
 class GenerateQc(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('GenerateQc.cwl','modules/project','generate-qc.cwl',[],['PairWorkflow'])
+		super().configure('GenerateQc','modules/project','generate-qc.cwl',[],['PairWorkflow'])
+
+	def configure_sv(self):
+		super().configure('GenerateQc','modules/project','generate-qc.cwl',['CdnaContam'],['PairWorkflowSV'])
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
@@ -238,7 +231,7 @@ class GenerateQc(SingleCWLWorkflow):
 class GenerateQcSV(GenerateQc):
 
 	def configure(self):
-		super().configure('GenerateQc.cwl','modules/project','generate-qc.cwl',['CdnaContam'],['PairWorkflowSv'])
+		super().configure_sv()
 
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
 		files = roslin_yaml['cdna_contam_output']
@@ -385,7 +378,7 @@ class VariantCalling(SingleCWLWorkflow):
 class CdnaContam(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('Create-cdna-contam','tools/roslin-qc','create-cdna-contam.cwl',['StructuralVariants'],[])
+		super().configure('CreateCdnaContam','tools/roslin-qc','create-cdna-contam.cwl',[],['StructuralVariants'])
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
