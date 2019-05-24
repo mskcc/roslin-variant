@@ -91,16 +91,16 @@ outputs:
     outputSource: mark_duplicates/mdmetrics
   as_metrics:
     type: File
-    outputSource: gather_metrics/as_metrics_files
+    outputSource: gather_metrics/as_metrics
   hs_metrics:
     type: File
-    outputSource: gather_metrics/hs_metrics_files
+    outputSource: gather_metrics/hs_metrics
   insert_metrics:
     type: File
-    outputSource: gather_metrics/is_metrics
+    outputSource: gather_metrics/insert_metrics
   insert_pdf:
     type: File
-    outputSource: gather_metrics/is_hist
+    outputSource: gather_metrics/insert_pdf
   per_target_coverage:
     type: File
     outputSource: gather_metrics/per_target_coverage
@@ -112,7 +112,7 @@ outputs:
     outputSource: gather_metrics/gcbias_pdf
   gcbias_metrics:
     type: File
-    outputSource: gather_metrics/gcbias_metrics_files
+    outputSource: gather_metrics/gcbias_metrics
   gcbias_summary:
     type: File
     outputSource: gather_metrics/gcbias_summary
