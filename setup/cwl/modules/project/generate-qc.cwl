@@ -143,27 +143,22 @@ outputs:
     type: File
     outputSource: generate_qc/qc_pdf
 
+
 steps:
-  pair-pileups:
-    run: ../../tools/conpair/0.3.1/conpair-pileup-pairing.cwl
-    in:
-      pileups: conpair_pileups
-      npileups:
-        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][0]); } return output; }
-      tpileups:
-        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][1]); } return output; }
-    out: [ tpileup_ordered, npileup_ordered ]
   run-contamination:
     run: ../../tools/conpair/0.3.1/conpair-contaminations.cwl
     in:
       runparams: runparams
       db_files: db_files
-      tpileup: pair-pileups/tpileup_ordered
-      npileup: pair-pileups/npileup_ordered
+      pileups: conpair_pileups
+      npileup:
+        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][1]); } return output; }
+      tpileup:
+        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][0]); } return output; }
       markers:
         valueFrom: ${ return inputs.db_files.conpair_markers; }
       pairing_file:
-        valueFrom: ${ return inputs.db_files.pairing_file }
+        valueFrom: ${ return inputs.db_files.pairing_file; }
       output_prefix:
         valueFrom: ${ return inputs.runparams.project_prefix; }
     out: [ outfiles, pdf ]
@@ -171,8 +166,13 @@ steps:
   run-concordance:
     run: ../../tools/conpair/0.3.1/conpair-concordances.cwl
     in:
-      tpileup: pair-pileups/tpileup_ordered
-      npileup: pair-pileups/npileup_ordered
+      runparams: runparams
+      db_files: db_files
+      pileups: conpair_pileups
+      npileup:
+        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][1]); } return output; }
+      tpileup:
+        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][0]); } return output; }
       markers:
         valueFrom: ${ return inputs.db_files.conpair_markers; }
       pairing_file:
