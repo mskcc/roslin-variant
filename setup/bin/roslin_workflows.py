@@ -91,7 +91,7 @@ class SampleWorkflow(SingleCWLWorkflow):
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		sample_input = self.input_sample_or_pair(["sample","pair","pairs"],job_params,roslin_yaml)
 		dependency_input['sample'] = sample_input
-		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","gatk_jar_path"])
+		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","gatk_jar_path","intervals"])
 		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
@@ -161,7 +161,7 @@ class Alignment(SingleCWLWorkflow):
 		params = self.params
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		dependency_input['pair'] = self.input_sample_or_pair([None,"pair","pairs"],job_params,roslin_yaml)
-		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","covariates","abra_scratch","abra_ram_min","gatk_jar_path"])
+		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","covariates","abra_scratch","abra_ram_min","gatk_jar_path","intervals"])
 		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
@@ -222,10 +222,9 @@ class GenerateQc(SingleCWLWorkflow):
 		return output_config
 
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
-		data_dir = roslin_yaml['qc_merged_and_hotspots_directory']
-		bin_value = roslin_yaml['runparams']['scripts_bin']
-		file_prefix = roslin_yaml['runparams']['project_prefix']
-		dependency_input = {'data_dir':data_dir,'bin':bin_value,'file_prefix':file_prefix}
+		dependency_input = copy.deepcopy(roslin_yaml)
+		dependency_input['files'] = []
+		dependency_input['directories'] = []
 		return dependency_input
 
 class GenerateQcSV(GenerateQc):
@@ -237,6 +236,7 @@ class GenerateQcSV(GenerateQc):
 		files = roslin_yaml['cdna_contam_output']
 		dependency_input = copy.deepcopy(roslin_yaml)
 		dependency_input['files'] = [files]
+		dependency_input['directories'] = []
 		return dependency_input
 
 class MafProcessing(SingleCWLWorkflow):
@@ -290,7 +290,7 @@ class Realignment(SingleCWLWorkflow):
 		dependency_input = copy.deepcopy(roslin_yaml)
 		dependency_input['pair'] = self.input_sample_or_pair([None,"pair","pairs"],job_params,roslin_yaml)
 		dependency_input['bams'] = self.input_sample_or_pair([None,"bam","bams"],job_params,roslin_yaml)
-		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["covariates","genome","tmp_dir","abra_scratch","abra_ram_min"])
+		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["covariates","genome","tmp_dir","abra_scratch","abra_ram_min","intervals"])
 		dependency_input.update(runparams_inputs)
 		return dependency_input
 
