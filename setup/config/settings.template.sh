@@ -90,8 +90,6 @@ then
 				cp -r $ROSLIN_CMO_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
 				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
 				python setup.py install
-				# setup test data
-				roslin_create_test_files.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 				cd $CURRENT_DIR
 if [ `tput cols` -le 71 ]
 then
