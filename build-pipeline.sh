@@ -255,7 +255,6 @@ fi
 printf "\n----------Compressing----------\n"
 # Compress pipeline
 cd $parentDir
-cp test/roslin_workflows_test.py setup/examples/
 python $build_script_dir/compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 # Deploy
 printf "\n----------Deploying----------\n"
