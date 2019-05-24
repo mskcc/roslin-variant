@@ -176,7 +176,7 @@ steps:
       fp_intervals: fp_intervals
       ref_fasta: ref_fasta
       conpair_markers_bed: conpair_markers_bed
-    out: [clstats1,clstats2,bam,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup]
+    out: [clstats1,clstats2,bam,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup]
     scatter: [sample]
     scatterMethod: dotproduct
   realignment:
@@ -191,6 +191,7 @@ steps:
       covariates: covariates
       abra_scratch: abra_scratch
       genome: genome
+      intervals: intervals
       abra_ram_min: abra_ram_min
       tmp_dir: tmp_dir
-    out: [outbams, covint_list, covint_bed]
+    out: [outbams, covint_list, covint_bed, qual_metrics, qual_pdf]

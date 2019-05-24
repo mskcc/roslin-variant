@@ -97,10 +97,16 @@ inputs:
 outputs:
     covint_list:
         type: File
-        outputSource: gatk_find_covered_intervals/fci_list
+        outputSource: combine_intervals/mergedfile
     covint_bed:
         type: File
         outputSource: list2bed/output_file
+    qual_metrics:
+        type: File[]
+        outputSource: parallel_printreads/qual_metrics
+    qual_pdf:
+        type: File[]
+        outputSource: parallel_printreads/qual_pdf
     outbams:
         type: File[]
         secondaryFiles:
@@ -192,7 +198,7 @@ steps:
             reference_sequence: genome
             BQSR: gatk_base_recalibrator/recal_matrix
             tmp_dir: tmp_dir
-        out: [out]
+        out: [out,qual_metrics,qual_pdf]
         scatter: [input_file]
         scatterMethod: dotproduct
         run:
@@ -209,6 +215,12 @@ steps:
                     secondaryFiles:
                         - ^.bai
                     outputSource: gatk_print_reads/out_bam
+                qual_metrics:
+                    type: File
+                    outputSource: quality_metrics/qual_file
+                qual_pdf:
+                    type: File
+                    outputSource: quality_metrics/qual_hist
             steps:
                 gatk_print_reads:
                     run: ../../tools/cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
@@ -226,3 +238,13 @@ steps:
                         out:
                             valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".printreads.bam");}
                     out: [out_bam]
+                quality_metrics:
+                    run: ../../tools/cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
+                    in:
+                      I: gatk_print_reads/out_bam
+                      PROGRAM:
+                        valueFrom: ${return ["null","MeanQualityByCycle"]}
+                      O:
+                        valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
+                      TMP_DIR: tmp_dir
+                    out: [qual_file, qual_hist]

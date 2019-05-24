@@ -152,16 +152,6 @@ steps:
         valueFrom: ${ return ["null", "SAMPLE"];}
       TMP_DIR: tmp_dir
     out: [ is_file, is_hist]
-  quality_metrics:
-    run: ../../tools/cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
-    in:
-      I: bam
-      PROGRAM:
-        valueFrom: ${return ["null","MeanQualityByCycle"]}
-      O:
-        valueFrom: ${ return inputs.I.basename.replace(".bam", ".qmetrics")}
-      TMP_DIR: tmp_dir
-    out: [qual_file, qual_hist]
   gcbias_metrics:
     run: ../../tools/cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
     in:
