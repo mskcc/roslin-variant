@@ -104,12 +104,6 @@ outputs:
   per_target_coverage:
     type: File
     outputSource: gather_metrics/per_target_coverage
-  qual_metrics:
-    type: File
-    outputSource: gather_metrics/qual_metrics
-  qual_pdf:
-    type: File
-    outputSource: gather_metrics/qual_pdf
   doc_basecounts:
     type: File
     outputSource: gather_metrics/doc_basecounts
@@ -290,4 +284,4 @@ steps:
       tmp_dir: tmp_dir
       gatk_jar_path: gatk_jar_path
       bam: mark_duplicates/bam
-    out: [ as_metrics_files, hs_metrics_files, is_metrics, per_target_coverage, qual_metrics, qual_pdf, is_hist, doc_basecounts, gcbias_pdf, gcbias_metrics_files, gcbias_summary, conpair_pileup ]
+    out: [ gcbias_pdf,gcbias_metrics,gcbias_summary,as_metrics,hs_metrics,per_target_coverage,insert_metrics,insert_pdf,doc_basecounts,conpair_pileup ]
