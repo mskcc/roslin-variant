@@ -273,6 +273,7 @@ steps:
     run: ../modules/pair/alignment-pair.cwl
     in:
       runparams: runparams
+      db_files: db_files
       pair: pair
       genome:
         valueFrom: ${ return inputs.runparams.genome }

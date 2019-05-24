@@ -348,4 +348,6 @@ steps:
       cdna_contam_output: run_cdna_contam_check/cdna_contam_output
       files:
         valueFrom: ${ return [inputs.cdna_contam_output]; }
+      directories:
+        valueFrom: ${ return []; }
     out: [consolidated_results,qc_pdf]

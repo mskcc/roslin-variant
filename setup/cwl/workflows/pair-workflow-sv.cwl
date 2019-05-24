@@ -286,6 +286,7 @@ steps:
     run: ../modules/pair/alignment-pair.cwl
     in:
         runparams: runparams
+        db_files: db_files
         pair: pair
         genome:
           valueFrom: ${ return inputs.runparams.genome }
@@ -335,7 +336,7 @@ steps:
         normal_sample_name:
             valueFrom: ${ return inputs.pair[1].ID; }
         tumor_sample_name:
-            valueFrom: ${ return inputs.pair[0].ID); }
+            valueFrom: ${ return inputs.pair[0].ID; }
         dbsnp: dbsnp
         cosmic: cosmic
         mutect_dcov:
