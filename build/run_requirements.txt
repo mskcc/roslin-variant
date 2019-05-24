@@ -6,6 +6,7 @@ python-dateutil==2.7.2
 pytz==2018.4
 redis==2.10.6
 requests==2.18.4
+clint==0.5.1
 ruamel.ordereddict==0.4.13
 ruamel.yaml==0.14.12
 PyYAML==3.12
