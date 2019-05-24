@@ -4,6 +4,8 @@ export ROSLIN_TEST_CWL_BATCHSYSTEM="{{ test_cwl_batchsystem }}"
 export ROSLIN_TEST_USE_DOCKER="{{ test_use_docker }}"
 export ROSLIN_TEST_DOCKER_REGISTRY="{{ test_docker_registry }}"
 export ROSLIN_TEST_RUN_ARGS="{{ test_run_args }}"
+export ROSLIN_TEST_DATA_PATH="{{ test_data_path }}"
+export ROSLIN_TEST_DATA_URL="{{ test_data_url }}"
 export TMPDIR="{{ test_tmp }}"
 export TMP="{{ test_tmp }}"
 {{ test_env }}

@@ -12,6 +12,7 @@ binding:
     - /ifs
     - /opt
     - /srv
+    - /juno
 env:
   TOIL_LSF_ARGS: '-S 1 -We 0:59'
   TMPDIR: '/scratch'
@@ -23,8 +24,8 @@ dependencies:
       min: 2.1.0
       max: 2.1.0
   cmo:
-    version: 1.9.10
-    install-path: /ifs/work/pi/roslin-cmo/1.9.10-dev/cmo
+    version: 1.9.11
+    install-path: /ifs/work/pi/roslin-cmo/1.9.11/cmo
   singularity:
     version: 3.0.3
     install-path: /opt/common/CentOS_6-dev/singularity/singularity-3.0.3/bin/singularity
@@ -33,12 +34,14 @@ dependencies:
     install-path: /ifs/work/pi/roslin-toil/3.18.0-release
 test:
   root: /srv/scratch/roslin-test/work
+  data_path: /ifs/work/pi/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
+  data_url: https://s3.us-east-2.amazonaws.com/roslindata/roslin_variant_version_2.5.0_test_data.tar.gz
   batchsystem: singleMachine
   cwlBatchsystem: singleMachine
-  useDocker: True
+  useDocker: False
   dockerRegistry: None
   tempDir: /srv/scratch/roslin-test/scratch
-  runArgs: '--on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py'
+  runArgs: '--test-mode --on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py --max-cpu 24 --max-mem 264G'
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:
@@ -46,6 +49,6 @@ build:
   buildSingularity: True
   dockerRegistry: 'mskcc'
   dockerPush: False
-  useVagrant: True
+  useVagrant: False
   installCore: True
   buildThreads: 4

@@ -110,6 +110,8 @@ def configure_test_settings(settings):
         test_use_docker=settings["test"]["useDocker"],
         test_docker_registry=settings["test"]["dockerRegistry"],
         test_run_args=settings["test"]["runArgs"],
+        test_data_path=settings['test']['data_path'],
+        test_data_url=settings['test']['data_url'],
         test_env=test_env_str
     )
 
