@@ -142,13 +142,12 @@ inputs:
   intervals:
     type:
     - 'null'
+    - string
     - type: array
       items: string
-      inputBinding:
-        prefix: --intervals
     doc: One or more genomic intervals over which to operate
     inputBinding:
-      prefix:
+      prefix: --intervals
 
   excludeIntervals:
     type:
@@ -476,7 +475,6 @@ inputs:
     type:
     - 'null'
     - string
-    default: '4'
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
