@@ -11,7 +11,7 @@ import dill
 
 def get_varriant_workflow_outputs(output_config, workflow_output_path):
 	output_config["bam"] = [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}]
-	output_config["vcf"] = [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output_path}]
+	output_config["vcf"] = [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt","*.combined-variants.vcf.gz","*.combined-variants.vcf.gz.tbi"], "input_folder": workflow_output_path}]
 	output_config["maf"] = [{"patterns": ["*.maf","*.portal.txt"], "input_folder": workflow_output_path}]
 	output_config["qc"] =  [{"patterns": ["qc_merged_directory/*"], "input_folder": workflow_output_path}]
 	output_config["facets"] = [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output_path}]
@@ -368,7 +368,7 @@ class VariantCalling(SingleCWLWorkflow):
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
 		output_config = super().get_outputs(workflow_output_folder)
-		output_config["vcf"] = [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt"], "input_folder": workflow_output_path}]
+		output_config["vcf"] = [{"patterns": ["*.vcf","*.norm.vcf.gz","*.norm.vcf.gz.tbi","*.mutect.txt","*.combined-variants.vcf.gz","*.combined-variants.vcf.gz.tbi"], "input_folder": workflow_output_path}]
 		output_config["facets"] = [{"patterns": ["*_hisens.CNCF.png","*_hisens.cncf.txt","*_hisens.out","*_hisens.Rdata","*_hisens.seg","*_purity.CNCF.png","*_purity.cncf.txt","*_purity.out","*_purity.Rdata","*_purity.seg","*dat.gz"], "input_folder": workflow_output_path}]
 		return output_config
 
