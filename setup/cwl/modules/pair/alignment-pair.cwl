@@ -67,6 +67,7 @@ inputs:
           adapter2: string
           bwa_output: string
   genome: string
+  intervals: string[]
   tmp_dir: string
   opt_dup_pix_dist: string
   hapmap:

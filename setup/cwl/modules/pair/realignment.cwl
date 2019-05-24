@@ -125,8 +125,7 @@ steps:
                 valueFrom: ${ return ["20"];}
             intervals: intervals
             input_file: bams
-            out:
-                valueFrom: ${ return inputs.intervals.map(function(x){ return inputs.pair[0].ID + "." + inputs.pair[1].ID + x.toString() + ".fci.list"; }); }
+            out: intervals
         scatter: [intervals, out]
         scatterMethod: dotproduct
         out: [fci_list]
@@ -149,6 +148,7 @@ steps:
 
             inputs:
                 files: File[]
+                output_filename: string
             outputs:
                 mergedfile:
                     type: stdout
@@ -156,8 +156,6 @@ steps:
         run: ../../tools/cmo-list2bed/1.0.1/cmo-list2bed.cwl
         in:
             input_file: combine_intervals/mergedfile
-            no_sort:
-                valueFrom: ${ return false; }
             output_filename:
                 valueFrom: ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
