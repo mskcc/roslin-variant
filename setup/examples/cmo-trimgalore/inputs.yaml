@@ -1,8 +1,0 @@
-adapter: "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATGAGCATCTCGTATGCCGTCTTCTGCTTG"
-adapter2: "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTAGATCTCGGTGGTCGCCGTATCATT"
-fastq1:
-  class: File
-  path: ../data/fastq/P1_R1.fastq.gz
-fastq2:
-  class: File
-  path: ../data/fastq/P1_R2.fastq.gz

@@ -1,6 +1,0 @@
-vcf:
-  class: File
-  path: ../data/from-module-4/DU874145-T.rg.md.abra.fmi.printreads.pindel_STDfilter.vcf
-output: pindel-norm.vcf
-output_type: 'v'
-fasta_ref: 'GRCh37'

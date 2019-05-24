@@ -1,4 +1,0 @@
-foo_normal	Group_1
-foo_tumor	Group_1
-bar_normal	Group_2
-bar_tumor	Group_2

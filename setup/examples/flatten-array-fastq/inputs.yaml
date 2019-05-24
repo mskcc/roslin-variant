@@ -1,6 +1,0 @@
-fastq1:
-- [{class: File, path: "../data/fastq/P1_R1.fastq.gz"}]
-- [{class: File, path: "../data/fastq/P1_R2.fastq.gz"}]
-fastq2:
-- [{class: File, path: "../data/fastq/P2_R1.fastq.gz"}]
-- [{class: File, path: "../data/fastq/P2_R2.fastq.gz"}]

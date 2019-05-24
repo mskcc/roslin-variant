@@ -1,4 +1,0 @@
-sam:
-  class: File
-  path: ../data/sam/sample.sam
-output_filename: sample.bam

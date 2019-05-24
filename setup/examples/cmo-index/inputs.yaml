@@ -1,8 +1,0 @@
-tumor:
-  class: File
-  path: ../data/sort-by-pair/s_C_000269_N001_d.rg.md.bam
-normal:
-  class: File
-  path: ../data/sort-by-pair/s_C_000269_T001_d.rg.md.bam
-pairs:
-- [s_C_000269_T001_d, s_C_000269_N001_d]

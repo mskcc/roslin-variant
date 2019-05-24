@@ -1,3 +1,0 @@
-fastq1: { class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_S_p1_Zp/Sample_MR258509-T/MR258509-T_L000_R1_000.fastq.gz }
-fastq2: { class: File, path: /ifs/assets/socci/Cache/IGO/DMPLibs/Project_07037_S_p1_Zp/Sample_MR258509-T/MR258509-T_L000_R2_000.fastq.gz }
-sample: MR258509-T

@@ -1,7 +1,0 @@
-normal_bam:
-  class: File
-  path: ../data/from-module-2/DU874145-N.rg.md.abra.fmi.printreads.bam
-tumor_bam:
-  class: File
-  path: ../data/from-module-2/DU874145-T.rg.md.abra.fmi.printreads.bam
-genome: GRCh37
