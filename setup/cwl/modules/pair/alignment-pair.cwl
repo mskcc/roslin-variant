@@ -134,12 +134,6 @@ outputs:
   per_target_coverage:
     type: File[]
     outputSource: sample_alignment/per_target_coverage
-  qual_metrics:
-    type: File[]
-    outputSource: sample_alignment/qual_metrics
-  qual_pdf:
-    type: File[]
-    outputSource: sample_alignment/qual_pdf
   doc_basecounts:
     type: File[]
     outputSource: sample_alignment/doc_basecounts
@@ -161,6 +155,12 @@ outputs:
   bed:
     type: File
     outputSource: realignment/covint_bed
+  qual_metrics:
+    type: File[]
+    outputSource: realignment/qual_metrics
+  qual_pdf:
+    type: File[]
+    outputSource: realignment/qual_pdf
 
 steps:
   sample_alignment:

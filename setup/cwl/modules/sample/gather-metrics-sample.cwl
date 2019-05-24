@@ -68,33 +68,27 @@ outputs:
   gcbias_pdf:
     type: File
     outputSource: gcbias_metrics/pdf
-  gcbias_metrics_files:
+  gcbias_metrics:
     type: File
     outputSource: gcbias_metrics/out_file
   gcbias_summary:
     type: File
     outputSource: gcbias_metrics/summary
-  as_metrics_files:
+  as_metrics:
     type: File
     outputSource: as_metrics/out_file
-  hs_metrics_files:
+  hs_metrics:
     type: File
     outputSource: hs_metrics/out_file
   per_target_coverage:
     type: File
     outputSource: hst_metrics/per_target_out
-  is_metrics:
+  insert_metrics:
     type: File
     outputSource: insert_metrics/is_file
-  is_hist:
+  insert_pdf:
     type: File
     outputSource: insert_metrics/is_hist
-  qual_metrics:
-    type: File
-    outputSource: quality_metrics/qual_file
-  qual_pdf:
-    type: File
-    outputSource: quality_metrics/qual_hist
   doc_basecounts:
     type: File
     outputSource: doc/out_file
