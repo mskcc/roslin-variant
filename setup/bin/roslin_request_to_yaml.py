@@ -10,6 +10,7 @@ import csv
 import glob
 import uuid
 import json
+import yaml
 import subprocess
 from collections import defaultdict
 
@@ -30,6 +31,10 @@ def read_pipeline_settings(pipeline_name_version):
         source_env[key] = value.rstrip()
     proc.communicate()
     return source_env
+
+def save_yaml(yaml_path,yaml_data):
+    with open(yaml_path, 'w') as yaml_file:
+        yaml.safe_dump(yaml_data, yaml_file)
 
 def parse_mapping_file(mfile):
     mapping_dict = dict()
@@ -377,5 +382,4 @@ if __name__ == "__main__":
     out_dict.update({"meta": request_info})
     if args.clinical:
         out_dict['meta'].update({"clinical_data": clinical_data})
-    with open(args.yaml_output_file, "wb") as ofh:
-        ofh.write(yaml.dump(out_dict))
+    save_yaml(args.yaml_output_file, out_dict)
