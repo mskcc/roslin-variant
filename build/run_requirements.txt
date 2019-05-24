@@ -1,4 +1,6 @@
 lockfile==0.12.2
+Jinja2==2.10.1
+MarkupSafe==1.0
 pymongo==3.7.2
 python-dateutil==2.7.2
 pytz==2018.4
