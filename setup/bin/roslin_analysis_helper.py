@@ -447,7 +447,7 @@ if __name__ == '__main__':
     current_working_directory = os.getcwd()
     log_directory = current_working_directory
     if args.log_directory:
-        log_directory = parser.log_directory
+        log_directory = args.log_directory
     # handle duplicate logs
     log_file_path = os.path.join(log_directory,'roslin_analysis_helper.log')
     if os.path.exists(log_file_path):
