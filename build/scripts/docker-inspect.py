@@ -5,11 +5,6 @@ from distutils.spawn import find_executable
 from subprocess import Popen, PIPE
 import os
 
-            if [ -x "$(command -v docker)" ]
-            then
-                docker pull $docker_image_registry
-            fi
-
 def run_command(command,name):
     process = Popen(command, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate()
