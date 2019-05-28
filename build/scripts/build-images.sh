@@ -165,10 +165,6 @@ do
             docker_image_name=$tool_info
             export SINGULARITY_NOHTTPS="y"
         else
-            if [ -x "$(command -v docker)" ]
-            then
-                docker pull $docker_image_registry
-            fi
             docker_image_name=$docker_image_registry
         fi
 

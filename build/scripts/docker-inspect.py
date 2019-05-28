@@ -5,32 +5,49 @@ from distutils.spawn import find_executable
 from subprocess import Popen, PIPE
 import os
 
+            if [ -x "$(command -v docker)" ]
+            then
+                docker pull $docker_image_registry
+            fi
+
+def run_command(command,name):
+    process = Popen(command, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = process.communicate()
+    exit_code = process.returncode
+    if exit_code != 0:
+        print str(name) + " failed"
+        if stdout:
+            print "----stdout----\n" + stdout
+        if stderr:
+            print "----stderr----\n" + stderr
+        exit(1)
+    return stdout
+
 def get_docker_labels(docker_image,output):
     docker_labels = None
     docker_id = None
     docker_meta = None
+    docker_image_split = docker_image.split(":")
+    docker_image_name = docker_image_split[0]
+    docker_image_tag = docker_image_split[1]
     if find_executable('docker') is not None:
+        docker_repository_url= "https://hub.docker.com/v2/repositories/" + str(docker_image_name) + "/tags/" + str(docker_image_tag)
+        docker_pulled_image = False
+        if requests.get(docker_repository_url).ok:
+            pull_command = ["docker","pull",docker_image]
+            run_command(pull_command,"docker pull")
+            docker_pulled_image = True
         inspect_command = ["docker","inspect",docker_image]
-        process = Popen(inspect_command, stdout=PIPE, stderr=PIPE)
-        stdout, stderr = process.communicate()
-        exit_code = process.returncode
-        if exit_code != 0:
-            print "label retrieval failed"
-            if stdout:
-                print "----stdout----\n" + stdout
-            if stderr:
-                print "----stderr----\n" + stderr
-            exit(1)
-        else:
-            docker_meta = json.loads(stdout)[0]
-            docker_labels = docker_meta['Config']['Labels']
-            docker_id = docker_meta['Id']
+        inspect_stdout = run_command(inspect_command,"docker inspect")
+        if docker_pulled_image:
+            remove_command = ["docker","image","rm",docker_image]
+            run_command(remove_command,'docker image rm')
+        docker_meta = json.loads(inspect_stdout)[0]
+        docker_labels = docker_meta['Config']['Labels']
+        docker_id = docker_meta['Id']
     else:
-        docker_image_split = docker_image.split(":")
-        docker_image_name = docker_image_split[0]
-        docker_image_tag = docker_image_split[1]
-        docker_auth_url = "https://auth.docker.io/token?scope=repository:"+docker_image_name+":pull&service=registry.docker.io"
-        docker_label_url = "https://registry-1.docker.io/v2/" +docker_image_name+"/manifests/" + docker_image_tag
+        docker_auth_url = "https://auth.docker.io/token?scope=repository:"+str(docker_image_name)+":pull&service=registry.docker.io"
+        docker_label_url = "https://registry-1.docker.io/v2/" +str(docker_image_name)+"/manifests/" + str(docker_image_tag)
         token_request = requests.get(docker_auth_url)
         if token_request.ok:
             token_data = token_request.json()['token']
