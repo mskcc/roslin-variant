@@ -41,7 +41,7 @@ test:
   useDocker: False
   dockerRegistry: None
   tempDir: /srv/scratch/roslin-test/scratch
-  runArgs: '--test-mode --on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py --max-cpu 24 --max-mem 264G'
+  runArgs: '--test-mode --on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py --max-cpu 10 --max-mem 100G'
   env:
     TOIL_LSF_ARGS: '-S 1 -We 0:59'
 build:

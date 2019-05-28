@@ -17,4 +17,4 @@ export TMPDIR_TEST=$TMPDIR
 export LOG_TEST=$parentDir/$TestDir/
 
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
-pytest -n 5 $ROSLIN_CORE_BIN_PATH/roslin_workflows_test.py
+pytest -n 4 $ROSLIN_CORE_BIN_PATH/roslin_workflows_test.py
