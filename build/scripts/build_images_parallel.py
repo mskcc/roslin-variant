@@ -109,7 +109,7 @@ def create_meta_info(container_dir,image_name):
     temp_dir = tempfile.mkdtemp()
     temp_container_path = os.path.join(temp_dir,image_name)
     shutil.copyfile(container_path,temp_container_path)
-    retrieve_labels_command = ["singularity","exec",temp_container_path,"cat","/.roslin/labels.json"]
+    retrieve_labels_command = ["singularity","exec",temp_container_path,"cat","/labels.json"]
     process = Popen(retrieve_labels_command, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate()
     exit_code = process.returncode
