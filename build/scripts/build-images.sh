@@ -225,22 +225,19 @@ do
         $TMP_DIRECTORY/${tool_name}/${tool_version}/${tool_name} \
         $image_url
 
-        # run test
-        singularity exec $image_tmp/${tool_name} /run_test.sh
-
-        # create /.roslin/ directory
-        singularity exec --writable $image_tmp/${tool_name} mkdir /.roslin/
-
-        mv $image_tmp/checksum.dat $image_tmp/${tool_name}/.roslin/checksum.dat
-        mv $image_tmp/labels.json $image_tmp/${tool_name}/.roslin/labels.json
-        mv $image_tmp/dockerId.json $image_tmp/${tool_name}/.roslin/dockerId.json
-        mv $image_tmp/dockerMeta.json $image_tmp/${tool_name}/.roslin/dockerMeta.json
+        mv $image_tmp/checksum.dat $image_tmp/${tool_name}/checksum.dat
+        mv $image_tmp/labels.json $image_tmp/${tool_name}/labels.json
+        mv $image_tmp/dockerId.json $image_tmp/${tool_name}/dockerId.json
+        mv $image_tmp/dockerMeta.json $image_tmp/${tool_name}/dockerMeta.json
 
         # compress the image and build in non-shared directory
         # mmap does not like images being built on a shared directory
 
         singularity build --force $image_tmp/${tool_name}.sif $image_tmp/${tool_name}
         mv $image_tmp/${tool_name}.sif $image_path
+
+        # run test
+        singularity exec $image_path /run_test.sh
         # delete tmp files
         rm -rf $TMP_DIRECTORY
     fi
