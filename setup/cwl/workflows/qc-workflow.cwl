@@ -132,7 +132,7 @@ outputs:
 steps:
 
   gather_metrics:
-    run: ../modules/project/gather-metrics.cwl
+    run: ../modules/sample/gather-metrics-sample.cwl
     in:
       db_files: db_files
       runparams: runparams
