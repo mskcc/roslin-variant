@@ -42,32 +42,32 @@ class VariantWorkflowSV(VariantWorkflow):
 	def configure(self):
 		super().configure_sv()
 
-class QcWorkflow(SingleCWLWorkflow):
-
-	def configure(self):
-		super().configure('QcWorkflow','workflows','qc-workflow.cwl',[],['PairWorkflow'])
-
-	def configure_sv(self):
-		super().configure('QcWorkflow','workflows','qc-workflow.cwl',['CdnaContam'],['PairWorkflowSV'])
-
-	def get_outputs(self,workflow_output_folder):
-		workflow_output_path = os.path.join("outputs",workflow_output_folder)
-		output_config = super().get_outputs(workflow_output_folder)
-		consolidated_metrics_folder = os.path.join(workflow_output_path,"consolidated_metrics_data")
-		output_config["qc"] = [{"patterns": ["*_QC_Report.pdf"], "input_folder": workflow_output_path},
-							   {"patterns": ["*"], "input_folder": consolidated_metrics_folder,"output_folder":"consolidated_metrics_data"}]
-		return output_config
-
-class QcWorkflowSV(QcWorkflow):
-
-	def configure(self):
-		super().configure_sv()
-
-	def modify_dependency_inputs(self,roslin_yaml,job_params):
-		files = roslin_yaml['cdna_contam_output']
-		dependency_input = copy.deepcopy(roslin_yaml)
-		dependency_input['files'] = [files]
-		return dependency_input
+#class QcWorkflow(SingleCWLWorkflow):
+#
+#	def configure(self):
+#		super().configure('QcWorkflow','workflows','qc-workflow.cwl',[],['Alignment'])
+#
+#	def configure_sv(self):
+#		super().configure('QcWorkflow','workflows','qc-workflow.cwl',['CdnaContam'],['Alignment'])
+#
+#	def get_outputs(self,workflow_output_folder):
+#		workflow_output_path = os.path.join("outputs",workflow_output_folder)
+#		output_config = super().get_outputs(workflow_output_folder)
+#		consolidated_metrics_folder = os.path.join(workflow_output_path,"consolidated_metrics_data")
+#		output_config["qc"] = [{"patterns": ["*_QC_Report.pdf"], "input_folder": workflow_output_path},
+#							   {"patterns": ["*"], "input_folder": consolidated_metrics_folder,"output_folder":"consolidated_metrics_data"}]
+#		return output_config
+#
+#class QcWorkflowSV(QcWorkflow):
+#
+#	def configure(self):
+#		super().configure_sv()
+#
+#	def modify_dependency_inputs(self,roslin_yaml,job_params):
+#		files = roslin_yaml['cdna_contam_output']
+#		dependency_input = copy.deepcopy(roslin_yaml)
+#		dependency_input['files'] = [files]
+#		return dependency_input
 
 
 class SampleWorkflow(SingleCWLWorkflow):
