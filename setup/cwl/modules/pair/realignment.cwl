@@ -147,7 +147,10 @@ steps:
                 MultipleInputFeatureRequirement: {}
 
             inputs:
-                files: File[]
+                files:
+                    type: File[]
+                    inputBinding:
+                        position: 1
                 output_filename: string
             outputs:
                 mergedfile:
