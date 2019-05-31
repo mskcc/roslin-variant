@@ -126,7 +126,8 @@ def configure_build_settings(settings):
         build_singularity=settings["build"]["buildSingularity"],
         docker_registry=settings["build"]["dockerRegistry"],
         docker_push=settings["build"]["dockerPush"],
-        use_vagrant=settings["build"]["useVagrant"]
+        use_vagrant=settings["build"]["useVagrant"],
+        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
     )
 
     write_to_disk("setup/config/build-settings.sh", content)

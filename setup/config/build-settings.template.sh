@@ -5,3 +5,6 @@ export BUILD_SINGULARITY="{{ build_singularity }}"
 export DOCKER_REGISTRY="{{ docker_registry }}"
 export DOCKER_PUSH="{{ docker_push }}"
 export USE_VAGRANT="{{ use_vagrant }}"
+export ROSLIN_SINGULARITY_PATH="{{ dependencies_singularity_install_path }}"
+singularity_bin_path=`dirname $ROSLIN_SINGULARITY_PATH`
+export PATH=$singularity_bin_path:$PATH
