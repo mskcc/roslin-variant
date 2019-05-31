@@ -13,6 +13,7 @@ import traceback
 import ast
 import tempfile
 import shutil
+import signal
 import time
 
 logger = logging.getLogger("build_images_parallel")
@@ -158,40 +159,50 @@ def verbose_logging(single_item):
 def build_parallel(threads,tool_json,build_docker,build_singularity,docker_registry,docker_push,debug_mode):
     status_queue = Queue()
     job_list = construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_registry,docker_push)
+    original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
     pool = Pool(threads)
-    build_results = pool.map_async(build_image_wrapper,job_list)
-    total_number_of_jobs = len(job_list)
-    total_processed = 0
-    image_meta_info = {}
-    while build_results.ready() == False and total_processed!=total_number_of_jobs:
-        single_item = status_queue.get()
-        thread_name = single_item['name']
-        image_id = single_item["image_id"]
-        image_id_split = image_id.split(":")
-        image_name = image_id_split[0]
-        image_version = image_id_split[1]
-        image_meta = single_item["meta"]
-        if single_item['status'] == 0:
-            total_processed = total_processed + 1
-            if image_name not in image_meta_info:
-                image_meta_info[image_name] = []
-            image_obj = {'version':image_version,'meta': image_meta}
-            image_meta_info[image_name].append(image_obj)
-            logger.info("["+thread_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
-            if debug_mode == True:
+    signal.signal(signal.SIGINT, original_sigint_handler)
+    try:
+        build_results = pool.map_async(build_image_wrapper,job_list)
+        total_number_of_jobs = len(job_list)
+        total_processed = 0
+        image_meta_info = {}
+        while build_results.ready() == False and total_processed!=total_number_of_jobs:
+            single_item = status_queue.get()
+            thread_name = single_item['name']
+            image_id = single_item["image_id"]
+            image_id_split = image_id.split(":")
+            image_name = image_id_split[0]
+            image_version = image_id_split[1]
+            image_meta = single_item["meta"]
+            if single_item['status'] == 0:
+                total_processed = total_processed + 1
+                if image_name not in image_meta_info:
+                    image_meta_info[image_name] = []
+                image_obj = {'version':image_version,'meta': image_meta}
+                image_meta_info[image_name].append(image_obj)
+                logger.info("["+thread_name+"] " + image_id + " finished building ( " + str(total_processed) + "/"+str(total_number_of_jobs)+" )")
+                if debug_mode == True:
+                    verbose_logging(single_item)
+            else:
+                status_message = "["+thread_name+"] " + image_id + " failed to build"
                 verbose_logging(single_item)
-        else:
-            status_message = "["+thread_name+"] " + image_id + " failed to build"
-            verbose_logging(single_item)
-            logger.error(status_message)
-            pool.terminate()
-            sys.exit(status_message)
+                logger.error(status_message)
+                pool.terminate()
+                sys.exit(status_message)
+    except KeyboardInterrupt:
+        exit_message = "Keyboard interrupt, terminating workers"
+        logger.info(exit_message)
+        pool.terminate()
+        sys.exit(exit_message)
     logger.info("---------- Finished building images ----------")
     pool.close()
     pool.join()
     image_meta_path = os.path.abspath(os.path.join(script_path,os.pardir,"containers","images_meta.json"))
     with open(image_meta_path,"w") as image_meta_file:
         json.dump(image_meta_info,image_meta_file, indent=4,separators=(',', ': '), sort_keys=True)
+
+
 
 def move_images():
     move_script_path = os.path.join(script_path,'move-artifacts-to-setup.sh')
