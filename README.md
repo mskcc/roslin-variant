@@ -1,4 +1,4 @@
-# Roslin-variants
+# Roslin-variant
 
 Table of Contents:
     
