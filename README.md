@@ -55,6 +55,8 @@ Here is a table containing the description of important keys for the variant con
 | env      | Envirornment variables to set before running the pipeline |
 | dependencies      | Path to all dependencies, ensure that the install-path is configured correctly |
 | build.installCore     | Option to either install core or use an existing installation |
+| test.tempDir     | Path to test tempdir |
+| test.runArgs     | Path to test run arguments |
 
 #### Install
 
