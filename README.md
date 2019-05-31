@@ -1,41 +1,8 @@
 # Roslin-variant
 
-Table of Contents:
-    
-1. From Build to Deploy
-1. Adding New Tool to Pipeline
-1. Running Pipeline
-    1. Prerequisites
-    1. Setting Up Workspace
+> Roslin-variant is a reproducible and reusable workflow for Cancer Genomic Sequencing Analysis
 
-## From Build to Deploy
-
-![/docs/prism-build-to-deploy.png](/docs/prism-build-to-deploy.png)
-
-### Step 1
-
-- [Set Up Virtual Machine](./docs/build-to-deploy/set-up-vm.md)
-
-### Step 2 and 3
-
-- [Build Everything](./docs/build-to-deploy/build-everything.md)
-
-### Step 4
-
-- [Create Setup Package](./docs/build-to-deploy/create-setup-package.md)
-
-### Step 5
-
-- [Deploy](./docs/build-to-deploy/deploy.md)
-
-## Adding New Tool to Pipeline
-
-- [Build Container Image](./docs/build-to-deploy/build-container-image.md)
-- [Build CWL Wrapper](./docs/build-to-deploy/build-cwl-wrappers.md)
-
-## Running Pipeline
-
-### Prerequisites
+## Prerequisites
 
 To run the pipeline you need:
 
@@ -44,8 +11,68 @@ To run the pipeline you need:
 - [Toil 3.18](https://github.com/DataBiosphere/toil/releases/tag/releases%2F3.18.0)
 - [cmo 1.9.10](https://github.com/mskcc/cmo/releases/tag/1.9.10)
 
-Luna already fulfills these requirements.
+## Installation
 
-### Setting Up Workspace
+#### Download
 
-Please refer to [this document](./docs/workspace/setup.md).
+###### Clone the repo and checkout
+
+```
+git clone https://github.com/mskcc/roslin-variant.git
+git checkout 2.5.x
+```
+
+###### Update the core
+
+```
+git submodule init
+git submodule update
+```
+
+#### Configure
+
+###### Configure the core
+
+You would need to edit the core config file located in: `core/config.core.yaml`
+
+Here is a table containing the description of important keys for the core config.
+
+| Key       | Description       |
+| :------------- |:-------------|
+| root      | The path to install roslin core, or an existing installation of roslin core |
+| mongo      | All the information needed to connect to the mongo database |
+
+###### Configure the pipeline
+
+You would need to edit the core config file located in: `config.variant.yaml`
+
+Here is a table containing the description of important keys for the variant config.
+
+| Key       | Description       |
+| :------------- |:-------------|
+| root      | The path to install roslin pipeline |
+| binding.extra      | All the paths in the host system that needs to be mounted |
+| env      | Envirornment variables to set before running the pipeline |
+| dependencies      | Path to all dependencies, ensure that the install-path is configured correctly |
+| build.installCore     | Option to either install core or use an existing installation |
+
+#### Install
+
+For installation, you would need to have Internet access
+
+```
+./build-pipeline.sh
+```
+
+#### Run an example
+
+Test projects for all the workflows are located in `$ROSLIN_EXAMPLE_PATH`
+
+```
+cd $ROSLIN_EXAMPLE_PATH/SampleWorkflow
+./run-example.sh
+```
+
+---
+
+Please report all bugs [ here ](https://github.com/mskcc/roslin-variant/issues)
