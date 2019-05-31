@@ -487,7 +487,8 @@ if __name__ == '__main__':
             clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
             clinical_data = list(clinical_reader)
     else:
-        clinical_data = portal_config_data['clinical_data']
+        if 'clinical_data' in portal_config_data:
+            clinical_data = portal_config_data['clinical_data']
 
     logger.info('---------- Creating Portal files for project: '+portal_config_data['ProjectID'] + ' ----------')
 
