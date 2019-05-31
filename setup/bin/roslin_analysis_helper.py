@@ -8,6 +8,7 @@ from distutils.dir_util import copy_tree
 import genPortalUUID
 import traceback
 import copy
+import glob
 
 
 logger = logging.getLogger("roslin_analysis_helper")
@@ -477,6 +478,12 @@ if __name__ == '__main__':
     if args.clinical_data and not args.sample_summary:
         logger.error("You need to specify the sample_summary when using clinical data")
 
+    sample_summary_glob = glob.glob(args.sample_summary)
+    if len(sample_summary_glob) == 0:
+        logger.error("Could not find sample summary at: " + str(args.sample_summary))
+
+    sample_summary_path = sample_summary_glob[0]
+
     portal_config_data = get_meta_info(args.inputs)
     assay = portal_config_data['Assay']
     project_is_impact = check_if_impact(assay)
@@ -494,7 +501,7 @@ if __name__ == '__main__':
 
     # Read the Sample Summary
     coverage_values = {}
-    with open(args.sample_summary,'r') as input_file:
+    with open(sample_summary_path,'r') as input_file:
         header = input_file.readline().strip('\r\n').split('\t')
         coverage_position = header.index('Coverage')
         sample_position = header.index('Sample')
