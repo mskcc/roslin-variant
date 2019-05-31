@@ -66,6 +66,13 @@ For installation, you would need to have Internet access
 
 #### Run an example
 
+###### Load the settings
+```
+source [roslin_core_path]/2.1.0/config/settings.sh
+source [roslin_core_path]/2.1.0/config/variant/2.5.0/settings.sh
+
+```
+
 Test projects for all the workflows are located in `$ROSLIN_EXAMPLE_PATH`
 
 ```
