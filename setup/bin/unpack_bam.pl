@@ -2,8 +2,13 @@
 
 # GOAL: Extract reads from a BAM into FASTQs, and generate SampleSheet and sample_mapping files,
 # formats familiar to the Center for Molecular Oncology (CMO) at MSKCC
-#
-# AUTHOR: Cyriac Kandoth (ckandoth@gmail.com)
+# 
+# modified on May 30, 2019
+# purpose: (1) Extract flowcell/lane information from first read ID of the @RG using @RG's ID; (2) Picard uses PU as fastq files's name if PU does not following the standard format. We need to consider this situation.
+# modified on June 3, 2019
+# purpose: (1) Re-set default path of java, samtools, and picard's jar file; (2) Added input option of "picard-jar"
+# 
+# AUTHOR: Cyriac Kandoth (ckandoth@gmail.com); Zuojian Tang (zuojian.tang@gmail.com)
 
 use warnings; # Tells Perl to show warnings on anything that might not work as expected
 use strict; # Tells Perl to show errors if any of our code is ambiguous
@@ -14,12 +19,9 @@ use JSON::Parse qw( parse_json_safe ); # Helps us parse JSON files
 use Cwd qw( abs_path ); # Somewhat safe way to convert a relative path to an absolute path
 
 # Use the CMO JSON to pull paths to tools and data we'll need
-my $cmo_cfg_json_file = ( $ENV{CMO_RESOURCE_CONFIG} ? $ENV{CMO_RESOURCE_CONFIG} : "/opt/common/CentOS_6-dev/cmo/cmo_resources.json" );
-my $cmo_cfg_json = `cat $cmo_cfg_json_file`;
-my $cmo_cfg = parse_json_safe( $cmo_cfg_json );
-my $java_bin = $cmo_cfg->{programs}->{java}->{default};
-my $samtools_bin = $cmo_cfg->{programs}->{samtools}->{default};
-my $picard_jar = $cmo_cfg->{programs}->{picard}->{default};
+my $java_bin = "java";
+my $samtools_bin = "samtools";
+my $picard_jar = "/opt/common/CentOS_6-dev/picard/v2.13/picard.jar";
 
 # Check for missing or crappy arguments
 unless( @ARGV and $ARGV[0]=~m/^-/ ) {
@@ -34,7 +36,8 @@ GetOptions(
     'man!' => \$man,
     'input-bam=s' => \$bam_file,
     'output-dir=s' => \$output_dir,
-    'sample-id=s' => \$sample_id
+    'sample-id=s' => \$sample_id,
+    'picard-jar=s' => \$picard_jar
 ) or pod2usage( -verbose => 1, -input => \*DATA, -exitval => 2 );
 pod2usage( -verbose => 1, -input => \*DATA, -exitval => 0 ) if( $help );
 pod2usage( -verbose => 2, -input => \*DATA, -exitval => 0 ) if( $man );
@@ -62,12 +65,12 @@ my ( $paired_end ) = map {chomp; ( $_ & 0x1 )} `$samtools_bin view $bam_file | h
 
 # Parse through the different read-group formats that folks use, and write out a proper SampleSheet
 my $sheet_fh = IO::File->new( "$output_dir/SampleSheet.csv", ">" );
-$sheet_fh->print( "#FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,Platform,Library,InsertSize,Date,Center\n" );
+$sheet_fh->print( "#FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,Platform,Library,InsertSize,Date,Center,PlatformUnit\n" );
 foreach my $rg_line ( @rg_lines ) {
 
     # Parse out the easy things first
     my %rg = map{split( /:/, $_, 2 )} split( /\t/, $rg_line );
-    my ( $sample_id_from_bam, $platform, $library, $insert_size, $date, $center, $description ) = map{$rg{$_} ? $rg{$_} : ""} qw( SM PL LB PI DT CN DS );
+    my ( $sample_id_from_bam, $platform, $library, $insert_size, $date, $center, $description, $platform_unit ) = map{$rg{$_} ? $rg{$_} : ""} qw( SM PL LB PI DT CN DS PU );
 
     # Do some cleanup and standardization of terms used
     $platform = lc( $platform );
@@ -101,10 +104,10 @@ foreach my $rg_line ( @rg_lines ) {
         $center = "UNC";
         $rg_tag = "ID";
     }
-    # Handle ridiculous BAMs made by ridiculous people
-    elsif( !$rg{PU} and $rg{ID} ) {
-        ( $flowcell_id, $lane, $index ) = ( $rg{ID}, 0, 0 );
-        $rg_tag = "ID";
+    # Extract FCID and Lane information from Read IDs
+    elsif( $rg{ID} ) {
+        ( $flowcell_id, $lane ) = map{chomp; split(":")}`samtools view -r $rg{ID} $bam_file | head -n1 | cut -d: -f3,4`;
+        $index = "";
     }
     else {
         die "ERROR: Cannot parse flowcell/lane/index from \@RG line:\n$rg_line\n";
@@ -114,7 +117,7 @@ foreach my $rg_line ( @rg_lines ) {
     my $fq_name = $flowcell_id . ( $lane ? ".$lane" : "" );
     $flowcell_id = uc( $flowcell_id ); # Saw at least 1 instance where this was lowercase
     $sample_id = $sample_id_from_bam unless( $sample_id );
-    $fq_info{$fq_name} = "$flowcell_id,$lane,$sample_id,$sample_id_from_bam,$index,$description,,,,,$platform,$library,$insert_size,$date,$center";
+    $fq_info{$fq_name} = "$flowcell_id,$lane,$sample_id,$sample_id_from_bam,$index,$description,,,,,$platform,$library,$insert_size,$date,$center,$platform_unit";
 
     # Write all this info into the SampleSheet
     $sheet_fh->print( $fq_info{$fq_name} . "\n" );
@@ -139,9 +142,9 @@ my $mapping_fh = IO::File->new( "$output_dir/sample_mapping.txt", ">" );
 foreach my $fq_name( keys %fq_info ) {
     $rg_idx++;
     mkdir "$output_dir/rg$rg_idx" unless( -d "$output_dir/rg$rg_idx" );
-    my ( $lane, $sample_id, $sample_id_from_bam, $index, $library ) = (split( ",", $fq_info{$fq_name} ))[1,2,3,4,11];
+    my ( $lane, $sample_id, $sample_id_from_bam, $index, $library, $platform_unit ) = (split( ",", $fq_info{$fq_name} ))[1,2,3,4,11,15];
     my $padded_lane_id = sprintf( "L%03d", ( $lane ? $lane : "0" ));
-    my @fqs_to_rename = glob( "$output_dir/$fq_name*.fastq.gz $output_dir/rg$rg_idx/$fq_name*.fastq.gz $output_dir/$sample_id_from_bam*$padded_lane_id*.fastq.gz $output_dir/rg$rg_idx/$sample_id_from_bam*$padded_lane_id*.fastq.gz" );
+    my @fqs_to_rename = glob( "$output_dir/$fq_name*.fastq.gz $output_dir/rg$rg_idx/$fq_name*.fastq.gz $output_dir/$sample_id_from_bam*$padded_lane_id*.fastq.gz $output_dir/rg$rg_idx/$sample_id_from_bam*$padded_lane_id*.fastq.gz $output_dir/$platform_unit*.fastq.gz" );
     my $new_name = "$output_dir/rg$rg_idx/$sample_id_from_bam" . ( $index ? "_$index" : "" ) . "_$padded_lane_id";
     foreach my $fq_to_rename ( @fqs_to_rename ) {
         print `mv -f $fq_to_rename $new_name\_R1_001.fastq.gz` if(( $fq_to_rename =~ m/_1.fastq.gz$/ or $fq_to_rename =~ m/_R1_001.fastq.gz$/ ) and $fq_to_rename ne "$new_name\_R1_001.fastq.gz" );
@@ -172,6 +175,7 @@ __DATA__
  --input-bam      Path to the BAM file to unpack
  --output-dir     Path to output directory where FASTQs and readgroup info files will be stored
  --sample-id      Sample ID for the BAM. Any sample ID in the readgroup data is ignored
+ --picard-jar     Path to the Picard Jar file
  --help           Print a brief help message and quit
  --man            Print the detailed manual
 
