@@ -13,7 +13,6 @@ import traceback
 import ast
 import tempfile
 import shutil
-import signal
 import time
 
 logger = logging.getLogger("build_images_parallel")
@@ -51,7 +50,7 @@ def build_image_wrapper(image_info):
     try:
         while not done:
             build_output = build_image(*image_info)
-            if build_output['status'] != 0:
+            if build_output['status'] != 0 and build_output['status'] != 130:
                 if current_attempt < retry_attempts:
                     retry_message = image_id + " failed to build. Retrying\n ({}/{})".format(str(current_attempt),str(retry_attempts))
                     current_attempt = current_attempt + 1
@@ -159,9 +158,7 @@ def verbose_logging(single_item):
 def build_parallel(threads,tool_json,build_docker,build_singularity,docker_registry,docker_push,debug_mode):
     status_queue = Queue()
     job_list = construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_registry,docker_push)
-    original_sigint_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
     pool = Pool(threads)
-    signal.signal(signal.SIGINT, original_sigint_handler)
     try:
         build_results = pool.map_async(build_image_wrapper,job_list)
         total_number_of_jobs = len(job_list)
