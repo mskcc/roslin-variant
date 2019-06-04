@@ -6,10 +6,8 @@
 
 To run the pipeline you need:
 
-- Python 2.7.x
-- [Singularity 3.0.3](https://github.com/sylabs/singularity/releases/tag/v3.0.3)
-- [Toil 3.18](https://github.com/DataBiosphere/toil/releases/tag/releases%2F3.18.0)
-- [cmo 1.9.10](https://github.com/mskcc/cmo/releases/tag/1.9.10)
+- Python 2.7.x ( with virtualenv )
+- [Singularity 3.0.3+](https://github.com/sylabs/singularity/releases/tag/v3.0.3)
 
 ## Installation
 
