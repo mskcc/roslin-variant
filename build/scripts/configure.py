@@ -4,9 +4,85 @@ import os, sys
 import ruamel.yaml
 from jinja2 import Template
 import copy
+from subprocess import PIPE, Popen
+import requests
+import traceback
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.abspath(os.path.join(script_path,os.pardir,os.pardir))
+
+def check_if_module_exists(module_name):
+    module_commad = ["module","load",module_name]
+    try:
+        single_process = Popen(module_commad, stdout=PIPE,stderr=PIPE, shell=False)
+        output, error = single_process.communicate()
+        errorcode = single_process.returncode
+    except:
+        error = traceback.format_exc()
+        errorcode = 1
+        output = None
+    if errorcode != 0:
+        print "Error module " + str(module_name) + " could not be loaded.\n"
+        if output:
+            print "---------- output ----------\n" + str(output)
+        if error:
+            print "---------- error ----------\n" + str(error)
+        exit(1)
+
+def check_if_url_exists(url):
+    error = None
+    try:
+        response = requests.get(url)
+        if response.status_code != 200:
+            error = "Url "+str(url)+" does not exist. Received response code: " + str(response.status_code)
+    except:
+        error = traceback.format_exc()
+    if error:
+        print error
+        exit(1)
+
+def load_or_install_dependency(name, version, source_str):
+    source_list = source_str.split(":",1)
+    if len(source_list) == 1:
+        print "Error: Could not parse " + str(source_str) + "\nPlease use the format source_type:source\nFor example: github:https://github.com/dataBiosphere/toil\nAvailable types: path, module, or github"
+    source_type = source_list[0].lower()
+    source_value = source_list[1]
+    dependency_cmd = ''
+
+    if source_type == 'path':
+        if not os.path.exists(source_value):
+            print "Error: Could not find " + str(source_value)
+            exit(1)
+        else:
+            if name == 'singularity':
+                dependency_cmd = 'export ROSLIN_SINGULARITY_PATH="{}"'.format(str(source_value))
+            else:
+                dependency_cmd = 'cp -r {} $ROSLIN_PIPELINE_RESOURCE_PATH/{}'.format(str(source_value),str(name))
+    elif source_type == 'module':
+        single_process = Popen(command, stdout=log_stdout,stderr=log_stderr, shell=shell)
+        if name != 'singularity':
+            print "Error: Module source type is not supported for " + str(name)
+            exit(1)
+        module_name = "{}/{}".format(str(source_str),str(version))
+        check_if_module_exists(module_name)
+        dependency_cmd = "module load {}\nexport ROSLIN_SINGULARITY_PATH=`which {}`".format(str(module_name),str(name))
+    elif source_type == 'github':
+        if name == 'singularity':
+            print "Error: Github source type not supported for singularity"
+            exit(1)
+        else:
+            dependency_cmd = 'cd $ROSLIN_PIPELINE_RESOURCE_PATH\n'
+            dependency_cmd = dependency_cmd + "\ngit clone -b {} {} {}".format(str(version),str(source_value),str(name))
+    else:
+        print "Error: Source type: " + str(source_type) + " not supported. Available types: path, module, or github"
+        exit(1)
+    if name != 'singularity':
+        dependency_cmd = dependency_cmd + "\ncd $ROSLIN_PIPELINE_RESOURCE_PATH/{}".format(str(name))
+    if name == 'toil':
+        dependency_cmd = dependency_cmd + "\nmake prepare\nmake develop extras=[cwl]"
+    if name == 'cmo':
+        dependency_cmd = dependency_cmd + "\npython setup.py install"
+    return dependency_cmd
 
 def read_from_disk(filename):
     "return file contents"
@@ -85,14 +161,16 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         docker_binding=docker_binding,
         dependencies_cmo_version=settings["dependencies"]["cmo"]["version"],
         dependencies_cmo_install_path=os.path.join(
-            settings["dependencies"]["cmo"]["install-path"]
+            settings["dependencies"]["cmo"]["source"]
         ),
         dependencies_toil_version=settings["dependencies"]["toil"]["version"],
         dependencies_toil_install_path=os.path.join(
-            settings["dependencies"]["toil"]["install-path"]
+            settings["dependencies"]["toil"]["source"]
         ),
         dependencies_singularity_version=settings["dependencies"]["singularity"]["version"],
-        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
+        load_singularity=load_or_install_dependency('singularity', settings["dependencies"]["singularity"]["version"], settings["dependencies"]["singularity"]["source"]),
+        toil_install=load_or_install_dependency('toil', settings["dependencies"]["toil"]["version"], settings["dependencies"]["toil"]["source"]),
+        cmo_install=load_or_install_dependency('cmo', settings["dependencies"]["cmo"]["version"], settings["dependencies"]["cmo"]["source"])
     )
 
     write_to_disk("setup/config/settings.sh", content)
@@ -127,7 +205,7 @@ def configure_build_settings(settings):
         docker_registry=settings["build"]["dockerRegistry"],
         docker_push=settings["build"]["dockerPush"],
         use_vagrant=settings["build"]["useVagrant"],
-        dependencies_singularity_install_path=settings["dependencies"]["singularity"]["install-path"]
+        load_singularity=load_or_install_dependency('singularity', settings["dependencies"]["singularity"]["version"], settings["dependencies"]["singularity"]["source"])
     )
 
     write_to_disk("setup/config/build-settings.sh", content)

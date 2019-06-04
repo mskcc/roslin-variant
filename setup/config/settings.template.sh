@@ -39,7 +39,7 @@ export DOCKER_BIND="{{ docker_binding }}"
 # singularity is expected to be found at the same location regardless of the nodes you're on
 # override this if you want to test a different version of singularity.
 export ROSLIN_SINGULARITY_VERSION="{{ dependencies_singularity_version }}"
-export ROSLIN_SINGULARITY_PATH="{{ dependencies_singularity_install_path }}"
+{{ load_singularity }}
 
 # cmo
 export ROSLIN_CMO_VERSION="{{ dependencies_cmo_version }}"
@@ -83,14 +83,12 @@ then
 				pip install --requirement ${ROSLIN_PIPELINE_DATA_PATH}/run_requirements.txt
 
 				# install toil
-				cp -r $ROSLIN_TOIL_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/toil
-				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/toil
-				make prepare
-				make develop extras=[cwl]
+
+				{{ toil_install }}
+
 				# install cmo
-				cp -r $ROSLIN_CMO_INSTALL_PATH ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
-				cd ${ROSLIN_PIPELINE_RESOURCE_PATH}/cmo
-				python setup.py install
+
+				{{ cmo_install }}
 				# create test files
 				roslin_create_test_files.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 				cd $CURRENT_DIR
