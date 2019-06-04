@@ -99,6 +99,12 @@ then
     exit 1;
 fi
 
+if ! [ -x "$(command -v virtualenv)" ]
+then
+     >&2 echo "Error, virtualenv not installed"
+     exit 1;
+fi
+
 printf "\n----------Setting Up----------\n"
 #Script will exit if a command exits with nonzero exit value
 set -e
