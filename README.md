@@ -53,10 +53,32 @@ Here is a table containing the description of important keys for the variant con
 | root      | The path to install roslin pipeline |
 | binding.extra      | All the paths in the host system that needs to be mounted |
 | env      | Envirornment variables to set before running the pipeline |
-| dependencies      | Path to all dependencies, ensure that the install-path is configured correctly |
+| dependencies.singularity      | Location of singularity binary files |
 | build.installCore     | Option to either install core or use an existing installation |
 | test.tempDir     | Path to test tempdir |
 | test.runArgs     | Path to test run arguments |
+
+Here is a table describing how to use the `source` field for dependencies
+
+| Type       | Example       | Description |  Dependency Supported |
+| :------------- |:-------------| :-------------| :-------------|
+| path      | path:/usr/local/bin/singularity | Path to binary or source files | singularity, cmo, toil
+| module      | module:singularity | Module name with the version key representing the module version | singularity
+| github      | github:https://github.com/dataBiosphere/toil | Github repo with the version key representing the branch/tag | toil, cmo
+
+###### For MSKCC Users on the the Juno cluster
+
+Use this configuration for singularity and toil:
+
+```
+  singularity:
+    version: 3.1.1
+    source: module:singularity
+  toil:
+    version: releases/3.18.0
+    source: github:https://github.com/mskcc/toil
+
+```
 
 #### Install
 
