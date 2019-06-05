@@ -2,9 +2,9 @@
 
 export CMO_RESOURCE_CONFIG=/usr/bin/basicfiltering/data/cmo_resources.json
 
-actual=$(exec /usr/bin/runscript.sh mutect 2>&1 | head -1)
-actual=$actual$(exec /usr/bin/runscript.sh vardict 2>&1 | head -1)
-actual=$actual$(exec /usr/bin/runscript.sh complex 2>&1 | head -1)
+actual=$(exec /usr/bin/runscript.sh mutect 2>&1 | grep "usage:")
+actual=$actual$(exec /usr/bin/runscript.sh vardict 2>&1 | grep "usage:")
+actual=$actual$(exec /usr/bin/runscript.sh complex 2>&1 | grep "usage:")
 
 # expected output
 expected=$(cat << EOM
