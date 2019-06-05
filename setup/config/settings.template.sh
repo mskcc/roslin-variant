@@ -50,20 +50,20 @@ export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
 export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
 
 export ROSLIN_CURRENT_USER=`python -c "import getpass; print getpass.getuser()"`
-export ROSLIN_CURRENT_HOSTNAME=`python -c "import socket; print(socket.gethostname())"`
+export ROSLIN_CURRENT_KERNEL=`python -c "import os; print '.'.join(os.uname()[2].split('.')[0:2])"`
 
-export ROSLIN_DEPENDENCY_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
-export ROSLIN_PIPELINE_RESOURCE_PATH=${ROSLIN_DEPENDENCY_PATH}/resources
-export ROSLIN_EXAMPLE_PATH=${ROSLIN_DEPENDENCY_PATH}/examples/
+export ROSLIN_USER_WORKSPACE_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_KERNEL}
+export ROSLIN_PIPELINE_RESOURCE_PATH=${ROSLIN_USER_WORKSPACE_PATH}/resources
+export ROSLIN_EXAMPLE_PATH=${ROSLIN_USER_WORKSPACE_PATH}/examples/
 export NVM_DIR="$ROSLIN_PIPELINE_RESOURCE_PATH/.nvm"
 
 if [ -d $ROSLIN_PIPELINE_WORKSPACE_PATH ]
 then
-	if [ ! -d $ROSLIN_DEPENDENCY_PATH ]
+	if [ ! -d $ROSLIN_USER_WORKSPACE_PATH ]
 	then
 		if [ -x "$(command -v roslin-workspace-init.sh)" ]
 		then
-			roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u ${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}
+			roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u ${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_KERNEL}
 		fi
 
 		if [ ! -d $ROSLIN_PIPELINE_RESOURCE_PATH ]
@@ -141,7 +141,7 @@ EOF
 
 fi
 
-echo "Your workspace: ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_HOSTNAME}"
+echo "Your workspace: ${ROSLIN_USER_WORKSPACE_PATH}"
 echo
 echo "Add the following line to your .profile or .bashrc if not already added:"
 echo
