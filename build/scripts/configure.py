@@ -7,14 +7,15 @@ import copy
 from subprocess import PIPE, Popen
 import requests
 import traceback
+import shlex
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.abspath(os.path.join(script_path,os.pardir,os.pardir))
 
 def check_if_module_exists(module_name):
-    module_commad = ["module","load",module_name]
+    module_commad = "modulecmd bash load {}".format(str(module_name))
     try:
-        single_process = Popen(module_commad, stdout=PIPE,stderr=PIPE, shell=False)
+        single_process = Popen(shlex.split(module_commad), stdout=PIPE,stderr=PIPE, shell=False)
         output, error = single_process.communicate()
         errorcode = single_process.returncode
     except:
@@ -59,11 +60,10 @@ def load_or_install_dependency(name, version, source_str):
             else:
                 dependency_cmd = 'cp -r {} $ROSLIN_PIPELINE_RESOURCE_PATH/{}'.format(str(source_value),str(name))
     elif source_type == 'module':
-        single_process = Popen(command, stdout=log_stdout,stderr=log_stderr, shell=shell)
         if name != 'singularity':
             print "Error: Module source type is not supported for " + str(name)
             exit(1)
-        module_name = "{}/{}".format(str(source_str),str(version))
+        module_name = "{}/{}".format(str(source_value),str(version))
         check_if_module_exists(module_name)
         dependency_cmd = "module load {}\nexport ROSLIN_SINGULARITY_PATH=`which {}`".format(str(module_name),str(name))
     elif source_type == 'github':
