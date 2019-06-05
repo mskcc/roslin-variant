@@ -9,6 +9,8 @@ source $script_dir/settings-build.sh
 # load utils
 source $script_dir/tools-utils.sh
 
+unset XDG_RUNTIME_DIR
+
 function finish {
     # clean up
     rm -rf $TMP_DIRECTORY
