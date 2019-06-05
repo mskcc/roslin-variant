@@ -66,17 +66,7 @@ Here is a table describing how to use the `source` field for dependencies
 
 ###### For MSKCC Users on the the Juno cluster
 
-Use this configuration for singularity and toil:
-
-```
-  singularity:
-    version: 3.1.1
-    source: module:singularity
-  toil:
-    version: releases/3.18.0
-    source: github:https://github.com/mskcc/toil
-
-```
+Use the example config: `sample-juno-config.yaml`
 
 #### Install
 
