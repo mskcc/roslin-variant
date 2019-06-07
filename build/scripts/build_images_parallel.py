@@ -53,6 +53,9 @@ def build_image_wrapper(image_info):
             build_output = build_image(*image_info)
             if build_output['status'] != 0 and build_output['status'] != 130:
                 if current_attempt < retry_attempts:
+                    if 'KeyboardInterrupt' in build_output["stderr"]:
+                        done = True
+                        continue
                     retry_message = image_id + " failed to build. Retrying\n ({}/{})".format(str(current_attempt),str(retry_attempts))
                     current_attempt = current_attempt + 1
                     logger.info(retry_message)
