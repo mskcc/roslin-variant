@@ -224,6 +224,7 @@ def main():
         action="store",
         dest="threads",
         type=int,
+        default=1,
         help='Number of threads'
     )
     parser.add_argument(
