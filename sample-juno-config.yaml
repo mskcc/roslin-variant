@@ -14,7 +14,7 @@ binding:
     - /srv
     - /juno
 env:
-  TOIL_LSF_ARGS: '-sla CMOPI'
+  TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
   TMPDIR: '/fscratch'
   TMP: '/fscratch'
   SINGULARITY_LOCALCACHEDIR: '/scratch'
@@ -43,7 +43,7 @@ test:
   tempDir: /ifs/scratch
   runArgs: '--test-mode --on-success /juno/work/pi/nikhil/roslin-internal-services/roslin-done.py --on-fail /juno/work/pi/nikhil/roslin-internal-services/roslin-fail.py --max-cpu 10 --max-mem 100G'
   env:
-    TOIL_LSF_ARGS: '-sla CMOPI'
+    TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
 build:
   buildDocker: False
   buildSingularity: True
