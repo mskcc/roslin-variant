@@ -4,6 +4,8 @@ then
 	exit 1
 fi
 
+export PYTHONNOUSERSITE="set"
+
 case $1 in
 	annotate) shift; exec /usr/bin/bcftools annotate "$@" ;;
     concat) shift; exec /usr/bin/bcftools concat "$@" ;;

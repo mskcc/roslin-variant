@@ -5,6 +5,7 @@ fi
 
 java_opts=""
 tool_opts=""
+export PYTHONNOUSERSITE="set"
 
 flag=0
 for var in $@

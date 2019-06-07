@@ -4,6 +4,8 @@ then
 	exit 1
 fi
 
+export PYTHONNOUSERSITE="set"
+
 case $1 in
     vardict) shift; exec /usr/bin/vardict/bin/VarDict "$@" ;;
     testsomatic.R) shift; exec /usr/bin/Rscript --vanilla /usr/bin/vardict/testsomatic.R ;;
