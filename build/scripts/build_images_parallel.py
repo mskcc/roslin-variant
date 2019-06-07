@@ -27,6 +27,7 @@ log_stream_handler.setFormatter(log_formatter)
 logger.addHandler(log_file_handler)
 logger.addHandler(log_stream_handler)
 script_path = os.path.dirname(os.path.realpath(__file__))
+config_path = os.path.abspath(os.path.join(script_path,'../../setup/config/build-settings.sh'))
 
 def construct_jobs(tool_json,status_queue,build_docker,build_singularity,docker_registry,docker_push):
     job_list = []

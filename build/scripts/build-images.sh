@@ -5,6 +5,7 @@ script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
 
 # load build-related settings
 source $script_dir/settings-build.sh
+source $SETUP_DIRECTORY/config/build-settings.sh
 
 # load utils
 source $script_dir/tools-utils.sh
