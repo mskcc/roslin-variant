@@ -7,6 +7,9 @@ java_opts=""
 tool_opts=""
 
 flag=0
+
+export PYTHONNOUSERSITE="set"
+
 for var in $@
 do
 

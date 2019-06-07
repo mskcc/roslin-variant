@@ -3,6 +3,8 @@ then
 	exec java -jar  /usr/bin/mutect.jar --help
 fi
 
+export PYTHONNOUSERSITE="set"
+
 java_opts=""
 tool_opts=""
 

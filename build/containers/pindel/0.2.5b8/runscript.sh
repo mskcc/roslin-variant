@@ -4,6 +4,8 @@ then
 	exit 1
 fi
 
+export PYTHONNOUSERSITE="set"
+
 case $1 in
     pindel) shift; exec /usr/bin/pindel "$@" ;;
     pindel2vcf) shift; exec /usr/bin/pindel2vcf "$@" ;;

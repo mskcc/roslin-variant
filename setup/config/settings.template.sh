@@ -155,7 +155,7 @@ fi
 if [ -s $NVM_DIR/nvm.sh ]
 then
 	echo "Loading Node..."
-	source ${ROSLIN_PIPELINE_DATA_PATH}/build-node.sh
+	source $NVM_DIR/nvm.sh
 fi
 
 # Load the virtualenv

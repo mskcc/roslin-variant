@@ -3,6 +3,8 @@ then
 	exec java -jar /usr/bin/abra.jar
 fi
 
+export PYTHONNOUSERSITE="set"
+
 java_opts=""
 tool_opts=""
 
