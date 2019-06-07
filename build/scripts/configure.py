@@ -150,7 +150,7 @@ def configure_setup_settings(settings,filtered_binding_point_list):
         pipeline_version=settings["version"],
         core_min_version=settings["dependencies"]["core"]["version"]["min"],
         core_max_version=settings["dependencies"]["core"]["version"]["max"],
-        pipeline_root=settings["root"],
+        pipeline_root=os.path.abspath(settings["root"]),
         run_env=run_env_str,
         binding_core=settings["binding"]["core"],
         binding_data=settings["binding"]["data"],
@@ -181,14 +181,14 @@ def configure_test_settings(settings):
     for single_env_key, single_env_val in settings["test"]["env"].items():
         test_env_str = test_env_str + "export " + single_env_key + '="' + single_env_val + '"\n'
 
-    content = template.render( test_root=settings["test"]["root"],
-        test_tmp=settings["test"]["tempDir"],
+    content = template.render( test_root=os.path.abspath(settings["test"]["root"]),
+        test_tmp=os.path.abspath(settings["test"]["tempDir"]),
         test_batchsystem=settings["test"]["batchsystem"],
         test_cwl_batchsystem=settings["test"]["cwlBatchsystem"],
         test_use_docker=settings["test"]["useDocker"],
         test_docker_registry=settings["test"]["dockerRegistry"],
         test_run_args=settings["test"]["runArgs"],
-        test_data_path=settings['test']['data_path'],
+        test_data_path=os.path.abspath(settings['test']['data_path']),
         test_data_url=settings['test']['data_url'],
         test_env=test_env_str
     )
