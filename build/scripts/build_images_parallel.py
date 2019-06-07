@@ -104,13 +104,32 @@ def docker_login():
         print "Docker login failed"
         exit(1)
 
+def read_build_settings():
+    if not os.path.exists(config_path):
+        return None
+
+    command = ['bash', '-c', 'source {} && env'.format(config_path)]
+
+    proc = Popen(command, stdout=PIPE)
+
+    source_env = {}
+
+    for line in proc.stdout:
+        (key, _, value) = line.partition("=")
+        source_env[key] = value.rstrip()
+
+    proc.communicate()
+
+    return source_env
+
 def create_meta_info(container_dir,image_name):
     container_path = os.path.join(container_dir,image_name)
     run_script_path = os.path.join(container_dir,"runscript.sh")
     temp_dir = tempfile.mkdtemp()
     temp_container_path = os.path.join(temp_dir,image_name)
     shutil.copyfile(container_path,temp_container_path)
-    retrieve_labels_command = ["singularity","exec",temp_container_path,"cat","/labels.json"]
+    build_settings = read_build_settings()
+    retrieve_labels_command = [build_settings['ROSLIN_SINGULARITY_PATH'],"exec",temp_container_path,"cat","/labels.json"]
     process = Popen(retrieve_labels_command, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate()
     exit_code = process.returncode
