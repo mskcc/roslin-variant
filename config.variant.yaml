@@ -31,7 +31,7 @@ dependencies:
     source: path:/usr/local/bin/singularity
   toil:
     version: releases/3.18.0
-    source: github:https://github.com/dataBiosphere/toil
+    source: github:https://github.com/mskcc/toil
 test:
   root: /srv/scratch/roslin-test/work
   data_path: /ifs/work/pi/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
