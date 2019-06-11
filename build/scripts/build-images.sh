@@ -188,8 +188,8 @@ do
             currentDir=$(pwd)
             cd $image_tmp
             cp $cache_path .
-            singularity exec ${tool_name}.sif sh -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
-            singularity exec ${tool_name}.sif sh -c "cat /.roslin/checksum.dat 2>/dev/null || true" > singularityChecksum.dat
+            singularity exec ${tool_name}.sif sh -c "cat /dockerId.json 2>/dev/null || true" > singularityDockerId.json
+            singularity exec ${tool_name}.sif sh -c "cat /checksum.dat 2>/dev/null || true" > singularityChecksum.dat
             rm ${tool_name}.sif
             cd $currentDir
             dockerIdPath=$image_tmp/dockerId.json
@@ -202,6 +202,7 @@ do
                 if cmp -s "$previousChecksum" "$currentChecksum"
                 then
                     echo "Using cached singularity image: ${dockerId}"
+                    cp $cache_path $image_path
                     continue
                 else
                     yes | rm $image_path  > /dev/null 2>&1
