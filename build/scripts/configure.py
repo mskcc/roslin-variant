@@ -205,6 +205,7 @@ def configure_build_settings(settings):
         docker_registry=settings["build"]["dockerRegistry"],
         docker_push=settings["build"]["dockerPush"],
         use_vagrant=settings["build"]["useVagrant"],
+        build_cache=os.path.abspath(settings["build"]["buildCache"]),
         load_singularity=load_or_install_dependency('singularity', settings["dependencies"]["singularity"]["version"], settings["dependencies"]["singularity"]["source"])
     )
 

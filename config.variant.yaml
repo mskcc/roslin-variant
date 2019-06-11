@@ -47,6 +47,7 @@ test:
 build:
   buildDocker: False
   buildSingularity: True
+  buildCache: /juno/work/pi/nikhil/build-cache
   dockerRegistry: 'mskcc'
   dockerPush: False
   useVagrant: False

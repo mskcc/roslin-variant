@@ -174,18 +174,20 @@ do
         echo "Using Docker image: ${docker_image_name}"
         image_tmp=${TMP_DIRECTORY}/${tool_name}/${tool_version}
         export SINGULARITY_TMPDIR=$TMP_DIRECTORY
+        export SINGULARITY_CACHEDIR=$TMP_DIRECTORY
         image_path=${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/${tool_name}.sif
+        cache_path=${BUILD_CACHE}/${tool_name}/${tool_version}/${tool_name}.sif
         mkdir -p $image_tmp
         # retrieve labels from docker image and save to labels.json
         python $script_dir/docker-inspect.py --docker_image $docker_image_name --output $image_tmp
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh >> ${image_tmp}/checksum.dat
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/run_test.sh >> ${image_tmp}/checksum.dat
 
-        if [ -f $image_path ]
+        if [ -f $cache_path ]
         then
             currentDir=$(pwd)
             cd $image_tmp
-            cp $image_path .
+            cp $cache_path .
             singularity exec ${tool_name}.sif sh -c "cat /.roslin/dockerId.json 2>/dev/null || true" > singularityDockerId.json
             singularity exec ${tool_name}.sif sh -c "cat /.roslin/checksum.dat 2>/dev/null || true" > singularityChecksum.dat
             rm ${tool_name}.sif
@@ -202,10 +204,10 @@ do
                     echo "Using cached singularity image: ${dockerId}"
                     continue
                 else
-                    rm $image_path
+                    yes | rm $image_path  > /dev/null 2>&1
                 fi
             else
-                rm $image_path
+                yes | rm $image_path  > /dev/null 2>&1
             fi
         fi
 
@@ -237,6 +239,14 @@ do
 
         # run test
         singularity exec $image_path /run_test.sh
+
+        if [ ! -f $cache_path ]
+        then
+            echo "Adding image: ${dockerId} to singularity cache"
+            mkdir -p ${BUILD_CACHE}/${tool_name}/${tool_version}
+            cp $image_path $cache_path
+        fi
+
         # delete tmp files
         rm -rf $TMP_DIRECTORY
     fi
