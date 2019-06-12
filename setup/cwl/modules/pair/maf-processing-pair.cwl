@@ -100,7 +100,6 @@ steps:
     vcf2maf:
         run: ../../tools/cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
         in:
-            tmp_dir: tmp_dir
             input_vcf: annotate_vcf
             tumor_id: tumor_sample_name
             vcf_tumor_id: tumor_sample_name

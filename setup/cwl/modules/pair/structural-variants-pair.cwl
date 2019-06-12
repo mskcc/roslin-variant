@@ -212,7 +212,6 @@ steps:
     convert_vcf2maf:
         run: ../../tools/cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
         in:
-            tmp_dir: tmp_dir
             vep_data: vep_data
             vep_path: vep_path
             vep_release:
