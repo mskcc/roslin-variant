@@ -17,7 +17,7 @@
 /test/mock/stub
 /test/mock/**/*.img
 /test/helpers/bats*
-
+settings.sh
 /cloud/dev/user-data.sh
 
 # Compiled source #

@@ -274,7 +274,6 @@ cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
 cp build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
 source $ROSLIN_CORE_CONFIG_PATH/settings.sh
 source $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/settings.sh
-# Create workspace
-#current_user=`python -c "import getpass; print getpass.getuser()"`
-#roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u $current_user
+/bin/cp $ROSLIN_CORE_CONFIG_PATH/settings.sh $parentDir
+cat $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/settings.sh >> $parentDir/settings.sh
 cd $parentDir
