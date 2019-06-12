@@ -4,6 +4,7 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
+unset LANG
 
 java_opts=""
 tool_opts=""

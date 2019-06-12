@@ -4,4 +4,6 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
+unset LANG
+
 exec python /usr/bin/list2bed.py "$@"

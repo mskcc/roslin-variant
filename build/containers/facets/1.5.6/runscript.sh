@@ -5,6 +5,7 @@ then
 fi
 export PYTHONNOUSERSITE="set"
 export FACETS_OVERRIDE_EXITCODE="set"
+unset LANG
 
 case $1 in
     doFacets) shift; exec python /usr/bin/facets-suite/facets doFacets "$@" ;;

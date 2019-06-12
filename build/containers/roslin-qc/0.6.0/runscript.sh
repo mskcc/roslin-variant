@@ -5,6 +5,7 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
+unset LANG
 case $1 in
     merge_cut_adapt_stats) shift; exec python /usr/bin/merge_cut_adapt_stats.py "$@" ;;
     analyze_fingerprint) shift; exec python /usr/bin/analyze_fingerprint.py "$@" ;;

@@ -6,6 +6,7 @@ fi
 java_opts=""
 tool_opts=""
 export PYTHONNOUSERSITE="set"
+unset LANG
 
 flag=0
 for var in $@
