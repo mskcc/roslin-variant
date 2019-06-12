@@ -5,6 +5,7 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
+unset LANG
 # Set home env
 export HOME=/usr/local/bin/
 # Set path

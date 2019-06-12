@@ -5,6 +5,7 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
+unset LANG
 
 case $1 in
     vardict) shift; exec /usr/bin/vardict/bin/VarDict "$@" ;;

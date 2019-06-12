@@ -1,6 +1,7 @@
 
 export CMO_RESOURCE_CONFIG=/usr/bin/basicfiltering/data/cmo_resources.json
 export PYTHONNOUSERSITE="set"
+unset LANG
 
 if [ "$1" = "help" ]
 then

@@ -4,5 +4,5 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
-
+unset LANG
 exec /usr/bin/samtools "$@"

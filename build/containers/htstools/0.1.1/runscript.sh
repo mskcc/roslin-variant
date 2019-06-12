@@ -5,6 +5,8 @@ then
 fi
 
 export PYTHONNOUSERSITE="set"
+unset LANG
+
 case $1 in
     snp-pileup) shift; exec /usr/bin/snp-pileup "$@" ;;
     ppflag-fixer) shift; exec /usr/bin/ppflag-fixer "$@" ;;

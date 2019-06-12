@@ -9,6 +9,7 @@ tool_opts=""
 flag=0
 
 export PYTHONNOUSERSITE="set"
+unset LANG
 
 for var in $@
 do
