@@ -182,6 +182,7 @@ do
         python $script_dir/docker-inspect.py --docker_image $docker_image_name --output $image_tmp
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh >> ${image_tmp}/checksum.dat
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/run_test.sh >> ${image_tmp}/checksum.dat
+        cat ${image_tmp}/checksum.dat | awk -F" " '{print $1}' > ${image_tmp}/checksum.dat
 
         if [ -f $cache_path ]
         then
@@ -190,6 +191,7 @@ do
             cp $cache_path .
             singularity exec ${tool_name}.sif sh -c "cat /dockerId.json 2>/dev/null || true" > singularityDockerId.json
             singularity exec ${tool_name}.sif sh -c "cat /checksum.dat 2>/dev/null || true" > singularityChecksum.dat
+            cat singularityChecksum.dat | awk -F" " '{print $1}' > ${image_tmp}/checksum.dat
             rm ${tool_name}.sif
             cd $currentDir
             dockerIdPath=$image_tmp/dockerId.json
@@ -205,10 +207,16 @@ do
                     cp $cache_path $image_path
                     continue
                 else
-                    /bin/rm $cache_path  > /dev/null 2>&1
+                    if [ -w $cache_path ]
+                    then
+                        /bin/rm $cache_path
+                    fi
                 fi
             else
-                /bin/rm $cache_path  > /dev/null 2>&1
+                if [ -w $cache_path ]
+                then
+                    /bin/rm $cache_path
+                fi
             fi
         fi
 
