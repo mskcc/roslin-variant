@@ -7,7 +7,7 @@
 To run the pipeline you need:
 
 - Python 2.7.x ( with virtualenv )
-- [Singularity 3.0.3+](https://github.com/sylabs/singularity/releases/tag/v3.0.3)
+- [Singularity 3.1.1+](https://github.com/sylabs/singularity/releases/tag/v3.1.1)
 
 ## Installation
 
@@ -17,6 +17,7 @@ To run the pipeline you need:
 
 ```
 git clone https://github.com/mskcc/roslin-variant.git
+cd roslin-variant
 git checkout 2.5.x
 ```
 
@@ -29,7 +30,7 @@ git submodule update
 
 #### Configure
 
-###### Configure the core
+##### Configure the core
 
 You would need to edit the core config file located in: `core/config.core.yaml`
 
@@ -40,9 +41,22 @@ Here is a table containing the description of important keys for the core config
 | root      | The path to install roslin core, or an existing installation of roslin core |
 | mongo      | All the information needed to connect to the mongo database |
 
-###### Configure the pipeline
+##### Configure the pipeline
 
-You would need to edit the core config file located in: `config.variant.yaml`
+###### For MSKCC users on the the Juno cluster:
+
+Use the example config: [sample-juno-config.yaml](sample-juno-config.yaml)
+
+```
+cp sample-juno-config.yaml config.variant.yaml
+```
+
+1. Add the root with the path where you want tot install the pipeline
+2. Remove/change the SLA in TOIL_LSF_ARGS within both root and test env's
+
+###### For other users:
+
+You would need to edit the pipeline config file located in: `config.variant.yaml`
 
 Here is a table containing the description of important keys for the variant config.
 
@@ -63,10 +77,6 @@ Here is a table describing how to use the `source` field for dependencies
 | path      | path:/usr/local/bin/singularity | Path to binary or source files | singularity, cmo, toil
 | module      | module:singularity | Module name with the version key representing the module version | singularity
 | github      | github:https://github.com/dataBiosphere/toil | Github repo with the version key representing the branch/tag | toil, cmo
-
-###### For MSKCC Users on the the Juno cluster
-
-Use the example config: `sample-juno-config.yaml`
 
 #### Install
 
