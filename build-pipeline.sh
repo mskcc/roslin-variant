@@ -227,6 +227,8 @@ then
 fi
 
 mkdir -p $TempDir
+export TMP=$TempDir
+export TMPDIR=$TempDir
 
 printf "\n----------Setting up workspace----------\n"
 
