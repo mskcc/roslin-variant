@@ -1,4 +1,3 @@
-
 export ROSLIN_PIPELINE_DESCRIPTION="{{ pipeline_description }}"
 
 # Roslin pipeline name/version

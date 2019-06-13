@@ -274,6 +274,4 @@ cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
 cp build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
 source $ROSLIN_CORE_CONFIG_PATH/settings.sh
 source $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/settings.sh
-/bin/cp $ROSLIN_CORE_CONFIG_PATH/settings.sh $parentDir
-cat $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/settings.sh >> $parentDir/settings.sh
 cd $parentDir

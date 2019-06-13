@@ -76,19 +76,48 @@ For installation, you would need to have Internet access
 ./build-pipeline.sh
 ```
 
+After installation is completed you should see a message like this:
+
+```
+ ______     ______     ______     __         __     __   __
+/\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \
+\ \  __<   \ \ \/\ \  \ \___  \  \ \ \____  \ \ \  \ \ \-.  \
+ \ \_\ \_\  \ \_____\  \/\_____\  \ \_____\  \ \_\  \ \_\\"\_\
+  \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_/   \/_/ \/_/
+ ______   __     ______   ______     __         __     __   __     ______
+/\  == \ /\ \   /\  == \ /\  ___\   /\ \       /\ \   /\ "-.\ \   /\  ___\
+\ \  _-/ \ \ \  \ \  _-/ \ \  __\   \ \ \____  \ \ \  \ \ \-.  \  \ \  __\
+ \ \_\    \ \_\  \ \_\    \ \_____\  \ \_____\  \ \_\  \ \_\\"\_\  \ \_____\
+  \/_/     \/_/   \/_/     \/_____/   \/_____/   \/_/   \/_/ \/_/   \/_____/
+
+Roslin Pipeline
+
+Your workspace: /juno/work/pi/nikhil/roslin-workspace/variant/2.5.0/workspace/nikhil-3.10
+
+Add the following line to your .profile or .bashrc if not already added:
+
+source /juno/work/pi/nikhil/roslin-workspace/roslin-core/2.1.0/config/settings.sh
+```
+This message has two important pieces of information:
+1. The settings.sh file that needs to be sourced before running the pipeline
+2. The location of your workspace in the pipeline.
+
+Make sure to add the settings.sh to your .bashrc or any startup script
+
 #### Run an example
 
-###### Load the settings
+To run an example you need to load the settings and enter the example directory
+
 ```
-source [roslin_core_path]/2.1.0/config/settings.sh
-source [roslin_core_path]/2.1.0/config/variant/2.5.0/settings.sh
+source [your settings.sh file path]
+cd [your workspace path]/examples
 
 ```
 
-Test projects for all the workflows are located in `$ROSLIN_EXAMPLE_PATH`
+Now we can run an example workflow
 
 ```
-cd $ROSLIN_EXAMPLE_PATH/SampleWorkflow
+cd SampleWorkflow
 ./run-example.sh
 ```
 
