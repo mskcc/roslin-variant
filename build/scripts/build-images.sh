@@ -205,10 +205,10 @@ do
                     cp $cache_path $image_path
                     continue
                 else
-                    yes | rm $cache_path  > /dev/null 2>&1
+                    /bin/rm $cache_path  > /dev/null 2>&1
                 fi
             else
-                yes | rm $cache_path  > /dev/null 2>&1
+                /bin/rm $cache_path  > /dev/null 2>&1
             fi
         fi
 
