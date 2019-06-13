@@ -40,15 +40,16 @@ test:
   cwlBatchsystem: LSF
   useDocker: False
   dockerRegistry: None
-  tempDir: /ifs/scratch
+  tempDir: /scratch
   runArgs: '--test-mode --on-success /juno/work/pi/nikhil/roslin-internal-services/roslin-done.py --on-fail /juno/work/pi/nikhil/roslin-internal-services/roslin-fail.py --max-cpu 10 --max-mem 100G'
   env:
     TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
 build:
   buildDocker: False
   buildSingularity: True
+  buildCache: /juno/work/pi/nikhil/build-cache
   dockerRegistry: 'mskcc'
   dockerPush: False
   useVagrant: False
   installCore: True
-  buildThreads: 4
+  buildThreads: 1
