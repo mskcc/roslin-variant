@@ -52,4 +52,4 @@ build:
   dockerPush: False
   useVagrant: False
   installCore: True
-  buildThreads: 1
+  buildThreads: 2

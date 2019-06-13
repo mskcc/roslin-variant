@@ -227,8 +227,7 @@ then
 fi
 
 mkdir -p $TempDir
-export TMP=$TempDir
-export TMPDIR=$TempDir
+
 
 printf "\n----------Setting up workspace----------\n"
 
@@ -268,8 +267,9 @@ python $build_script_dir/compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERS
 printf "\n----------Deploying----------\n"
 pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
 mv $pipeline_name $TempDir
+export TMP=$TempDir
+export TMPDIR=$TempDir
 install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
-
 printf "\n----------Setting up----------\n"
 deactivate
 cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH

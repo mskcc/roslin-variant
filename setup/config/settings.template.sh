@@ -15,6 +15,7 @@ export ROSLIN_ROOT="{{ pipeline_root }}"
 
 # binaries, executables, scripts
 export ROSLIN_PIPELINE_BIN_PATH="${ROSLIN_PIPELINE_ROOT}/{{ binding_core }}"
+export PATH=ROSLIN_PIPELINE_BIN_PATH:$PATH
 
 export ROSLIN_PIPELINE_CWL_PATH="${ROSLIN_PIPELINE_BIN_PATH}/cwl"
 
