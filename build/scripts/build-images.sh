@@ -191,7 +191,7 @@ do
             cp $cache_path .
             singularity exec ${tool_name}.sif sh -c "cat /dockerId.json 2>/dev/null || true" > singularityDockerId.json
             singularity exec ${tool_name}.sif sh -c "cat /checksum.dat 2>/dev/null || true" > singularityChecksum.dat
-            cat singularityChecksum.dat | awk -F" " '{print $1}' > ${image_tmp}/checksum.dat
+            cat singularityChecksum.dat | awk -F" " '{print $1}' > singularityChecksum.dat
             rm ${tool_name}.sif
             cd $currentDir
             dockerIdPath=$image_tmp/dockerId.json
