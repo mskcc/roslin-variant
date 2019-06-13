@@ -186,8 +186,8 @@ else
     fi
 fi
 
-TempDir=$(python -c "import os; print os.path.abspath($TempDir)")
-TestDir=$(python -c "import os; print os.path.abspath($TestDir)")
+TempDir=$(python -c "import os; print os.path.abspath('$TempDir')")
+TestDir=$(python -c "import os; print os.path.abspath('$TestDir')")
 
 if compareBool $INSTALL_CORE && [ -d "$coreDir" ]
 then
