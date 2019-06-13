@@ -251,6 +251,9 @@ def get_meta_info(input_yaml):
     meta_info = {}
     with open(input_yaml) as input_yaml_file:
         meta_info = yaml.safe_load(input_yaml_file)['meta']
+    for single_key in meta_info:
+        if meta_info[single_key] == None:
+            meta_info[single_key] = 'NA'
     return meta_info
 
 def check_if_impact(assay):
@@ -581,7 +584,7 @@ if __name__ == '__main__':
             workflow_params = json.load(workflow_params_file)
             version_str = workflow_params['version_str']
     else:
-        logger.error("Could not find the submission file: "+submission_file_path)
+        logger.error("Could not find the submission file: "+workflow_params_file_path)
 
     study_meta = generate_study_meta(portal_config_data,version_str)
     logger.info('Finished generating study meta')
