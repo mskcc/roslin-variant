@@ -83,6 +83,10 @@ then
 				pip install --requirement ${ROSLIN_PIPELINE_DATA_PATH}/run_requirements.txt
 
 				# install toil
+				if [ -x "$(command -v unsetopt)" ]
+				then
+					unsetopt nomatch
+				fi
 
 				{{ toil_install }}
 

@@ -79,9 +79,9 @@ def load_or_install_dependency(name, version, source_str):
     if name != 'singularity':
         dependency_cmd = dependency_cmd + "\ncd $ROSLIN_PIPELINE_RESOURCE_PATH/{}".format(str(name))
     if name == 'toil':
-        dependency_cmd = dependency_cmd + "\nmake prepare\nmake develop extras=[cwl]"
+        dependency_cmd = dependency_cmd + "\n\t\t\t\tmake prepare\n\t\t\t\tmake develop extras=[cwl]"
     if name == 'cmo':
-        dependency_cmd = dependency_cmd + "\npython setup.py install"
+        dependency_cmd = dependency_cmd + "\n\t\t\t\tpython setup.py install"
     return dependency_cmd
 
 def read_from_disk(filename):
