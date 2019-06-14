@@ -9,7 +9,7 @@ TestDir=test_output/$BUILD_NUMBER
 # Run test
 printf "\n----------Running Test----------\n"
 
-cd $ROSLIN_DEPENDENCY_PATH/examples
+cd $ROSLIN_EXAMPLE_PATH
 source $parentDir/setup/config/test-settings.sh
 rm -f $parentDir/setup/config/test-settings.sh
 
