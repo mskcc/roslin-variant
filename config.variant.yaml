@@ -1,55 +1,11 @@
-name: variant
-version: 2.5.0
-description: Roslin Variant Pipeline v2.5.0
-root: /ifs/work/pi/roslin-pipelines
-binding:
-  core: bin
-  data: resources
-  output: outputs
-  workspace: workspace
-  extra:
-    - /scratch
-    - /ifs
-    - /opt
-    - /srv
-    - /juno
-env:
-  TOIL_LSF_ARGS: '-S 1 -We 0:59'
-  TMPDIR: '/scratch'
-  TMP: '/scratch'
-  SINGULARITY_LOCALCACHEDIR: '/scratch'
-dependencies:
-  core:
-    version:
-      min: 2.1.0
-      max: 2.1.0
-  cmo:
-    version: 1.9.11
-    source: github:https://github.com/mskcc/cmo
-  singularity:
-    version: 3.0.3
-    source: path:/opt/common/CentOS_7/singularity/singularity-3.0.3/bin/singularity
-  toil:
-    version: releases/3.18.0
-    source: github:https://github.com/mskcc/toil
-test:
-  root: /srv/scratch/roslin-test/work
-  data_path: /ifs/work/pi/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
-  data_url: https://s3.us-east-2.amazonaws.com/roslindata/roslin_variant_version_2.5.0_test_data.tar.gz
-  batchsystem: singleMachine
-  cwlBatchsystem: singleMachine
-  useDocker: False
-  dockerRegistry: None
-  tempDir: /srv/scratch/roslin-test/scratch
-  runArgs: '--test-mode --on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py --max-cpu 10 --max-mem 100G'
-  env:
-    TOIL_LSF_ARGS: '-S 1 -We 0:59'
-build:
-  buildDocker: False
-  buildSingularity: True
-  buildCache: /srv/scratch/roslin-test/build-cache
-  dockerRegistry: 'mskcc'
-  dockerPush: False
-  useVagrant: False
-  installCore: True
-  buildThreads: 4
+--2019-06-14 13:52:55--  https://raw.githubusercontent.com/mskcc/roslin-variant/2.5.x/config.variant.yaml
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.248.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.248.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1534 (1.5K) [text/plain]
+Saving to: ‘config.variant.yaml.1’
+
+     0K .                                                     100%  206M=0s
+
+2019-06-14 13:52:55 (206 MB/s) - ‘config.variant.yaml.1’ saved [1534/1534]
+
