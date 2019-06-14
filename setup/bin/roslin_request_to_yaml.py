@@ -271,8 +271,9 @@ if __name__ == "__main__":
     complex_nn = get_complex_nn(assay)
     complex_tn = get_complex_tn(assay)
     temp_dir = "/scratch"
-    if os.environ['TMPDIR']:
-        temp_dir = os.environ['TMPDIR']
+    if 'TMPDIR' in os.environ:
+	if os.environ['TMPDIR']:
+		temp_dir = os.environ['TMPDIR']
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
