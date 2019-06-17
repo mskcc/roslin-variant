@@ -367,6 +367,7 @@ steps:
     in:
         runparams: runparams
         db_files: db_files
+        exac_filter: exac_filter
         bams: alignment/bams
         pair: pair
         normal_bam:

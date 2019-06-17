@@ -98,7 +98,7 @@ outputs:
         outputSource: fillout_tumor_normal/portal_fillout
 steps:
     vcf2maf:
-        run: ../../tools/cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
+        run: ../../tools/vcf2maf/1.6.17/vcf2maf.cwl
         in:
             input_vcf: annotate_vcf
             tumor_id: tumor_sample_name

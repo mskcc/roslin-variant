@@ -63,6 +63,10 @@ inputs:
     vep_data: string
     delly_type: string[]
     tmp_dir: string
+    exac_filter:
+        type: File
+        secondaryFiles:
+            - .tbi
 outputs:
     delly_sv:
         type: File[]
@@ -210,13 +214,15 @@ steps:
                 valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name + ".svs.pass.vcf"; }
         out: [ concat_vcf_output_file ]
     convert_vcf2maf:
-        run: ../../tools/cmo-vcf2maf/1.6.17/cmo-vcf2maf.cwl
+        run: ../../tools/vcf2maf/1.6.17/vcf2maf.cwl
         in:
             vep_data: vep_data
             vep_path: vep_path
             vep_release:
                 valueFrom: ${ return "86"; } # SVs have issues with vep 92 - moving to 86 for compatibility
             ref_fasta: ref_fasta
+            ncbi_build: genome
+            filter_vcf: exac_filter
             custom_enst: custom_enst
             normal_id: normal_sample_name
             tumor_id: tumor_sample_name
