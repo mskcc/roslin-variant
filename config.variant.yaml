@@ -15,9 +15,9 @@ binding:
     - /juno
 env:
   TOIL_LSF_ARGS: '-S 1 -We 0:59'
-  TMPDIR: '/scratch'
-  TMP: '/scratch'
-  SINGULARITY_LOCALCACHEDIR: '/scratch'
+  TMPDIR: '/srv/scratch'
+  TMP: '/srv/scratch'
+  SINGULARITY_LOCALCACHEDIR: '/srv/scratch'
 dependencies:
   core:
     version:
