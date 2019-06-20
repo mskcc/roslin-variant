@@ -9,6 +9,7 @@ binding:
   workspace: workspace
   extra:
     - /scratch
+    - /fscratch
     - /ifs
     - /opt
     - /srv
