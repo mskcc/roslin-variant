@@ -204,7 +204,7 @@ do
                 if cmp -s "$previousChecksum" "$currentChecksum"
                 then
                     echo "Using cached singularity image: ${dockerId}"
-                    cp $cache_path $image_path
+                    /bin/cp -l $cache_path $image_path > /dev/null 2>&1 || /bin/cp $cache_path $image_path
                     continue
                 else
                     if [ -w $cache_path ]
