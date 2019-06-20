@@ -10,7 +10,7 @@ import traceback
 import copy
 import glob
 
-
+log_name = 'roslin_analysis_helper.log'
 logger = logging.getLogger("roslin_analysis_helper")
 old_jobs_folder = "oldJobs"
 
@@ -389,35 +389,6 @@ def generate_patient_file_txt(data, attr, header):
     file_txt = metadata + data_str
     return file_txt
 
-# Replicate parameters expected by cBioPortal validator subroutine, and call it
-def validate_portal_data(portal_output_directory):
-    logger.info('---------- Running portal validator ----------')
-    validator_args = argparse.Namespace(
-        study_directory=portal_output_directory,
-        no_portal_checks=True,
-        url_server=None,
-        portal_info_dir=None,
-        html_table=None,
-        portal_properties=None,
-        error_file=None,
-        verbose=None,
-        relaxed_clinical_definitions=None
-    )
-    # ::TODO:: The stdout from the validator itself needs to be captured and saved somewhere
-    exit_status = validateData.main_validate(validator_args)
-    return exit_status
-
-def make_dirs_from_stable_id(mercurial_path, stable_id, project_name):
-    subdirs = stable_id.split("_")
-    first_dir = subdirs[1]
-    second_dir = subdirs[2]
-    # Ideally we want to remove the Proj_ prefix, but need to add a 'p' prefix instead so that we
-    # hide it from BIC's scripts that look for duplicate projects uploaded to the mercurial repo
-    project_name = re.sub(r'^Proj_', 'p', project_name)
-    full_path = os.path.join(mercurial_path, first_dir, second_dir, project_name)
-    logger.info("Creating directories in mercurial repo: %s" % full_path)
-    return full_path
-
 def find_unique_name_in_dir(root_name,directory):
     current_num = 1
     found_unique_name = False
@@ -430,7 +401,6 @@ def find_unique_name_in_dir(root_name,directory):
             current_num = current_num + 1
         else:
             found_unique_name = True
-            unique_name = new_name
     return new_name
 
 
@@ -453,12 +423,12 @@ if __name__ == '__main__':
     if args.log_directory:
         log_directory = args.log_directory
     # handle duplicate logs
-    log_file_path = os.path.join(log_directory,'roslin_analysis_helper.log')
+    log_file_path = os.path.join(log_directory,log_name)
     if os.path.exists(log_file_path):
         log_error_folder = os.path.join(log_directory,old_jobs_folder)
         if not os.path.exists(log_error_folder):
             os.mkdir(log_error_folder)
-        archive_log = find_unique_name_in_dir(log_file_path,log_error_folder)
+        archive_log = find_unique_name_in_dir(log_name,log_error_folder)
         log_failed = os.path.join(log_error_folder,archive_log)
         shutil.move(log_file_path,log_failed)
     logger.propagate = False
@@ -545,15 +515,19 @@ if __name__ == '__main__':
         output_directory = args.output_directory
 
     output_directory = os.path.abspath(output_directory)
-
-    if os.path.exists(output_directory):
-        logger.info('Removing output directory: ' + str(output_directory))
-        shutil.rmtree(output_directory)
-        os.makedirs(output_directory)
-
     analysis_dir = os.path.abspath(os.path.join(output_directory,'analysis'))
-    if not os.path.exists(analysis_dir):
-        os.makedirs(analysis_dir)
+    portal_dir = os.path.abspath(os.path.join(output_directory,'portal'))
+
+    if os.path.exists(analysis_dir):
+        logger.info('Removing analysis directory: ' + str(analysis_dir))
+        shutil.rmtree(analysis_dir)
+    if os.path.exists(portal_dir):
+        logger.info('Removing portal directory: ' + str(portal_dir))
+        shutil.rmtree(portal_dir)
+
+    os.makedirs(analysis_dir)
+    os.makedirs(portal_dir)
+
     analysis_mut_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.muts.maf')
     analysis_sv_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.svs.maf')
     analysis_gene_cna_file = os.path.join(analysis_dir, portal_config_data['ProjectID'] + '.gene.cna.txt')
@@ -564,8 +538,8 @@ if __name__ == '__main__':
         legacy_clinical_data = generate_legacy_clinical_data(clinical_data,coverage_values)
         # writing new format of data clinical files using legacy data in 'clinical_data_path'
         data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(legacy_clinical_data)
-        clinical_data_samples_output_path = os.path.join(output_directory, clinical_data_samples_file)
-        clinical_data_patients_output_path = os.path.join(output_directory, clinical_data_patients_file)
+        clinical_data_samples_output_path = os.path.join(portal_dir, clinical_data_samples_file)
+        clinical_data_patients_output_path = os.path.join(portal_dir, clinical_data_patients_file)
         with open(clinical_data_samples_output_path, 'wb') as out:
             out.write(data_clinical_sample_txt)
         with open(clinical_data_patients_output_path, 'wb') as out:
@@ -573,7 +547,7 @@ if __name__ == '__main__':
         logger.info('Finished generating clinical data, including in the new format')
         logger.info('Removing legacy data_clinical.txt file.')
         sample_list = get_sample_list(clinical_data)
-        generate_case_lists(portal_config_data,sample_list,output_directory)
+        generate_case_lists(portal_config_data,sample_list,portal_dir)
         logger.info('Finished generating case lists')
 
     results_log_folder = os.path.join(args.results_directory,'log')
@@ -596,21 +570,21 @@ if __name__ == '__main__':
     logger.info('Finished generating segmented meta')
 
     logger.info('Submitting job to generate maf data')
-    generate_maf_data(args.maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,script_path,version_str,project_is_impact)
+    generate_maf_data(args.maf_directory,portal_dir,maf_file_name,analysis_mut_file,log_directory,script_path,version_str,project_is_impact)
     logger.info('Submitting job to generate discrete copy number data')
-    generate_discrete_copy_number_data(args.facets_directory,output_directory,discrete_copy_number_file,analysis_gene_cna_file,assay,log_directory)
+    generate_discrete_copy_number_data(args.facets_directory,portal_dir,discrete_copy_number_file,analysis_gene_cna_file,assay,log_directory)
     logger.info('Submitting job to generate segmented copy number data')
-    generate_segmented_copy_number_data(args.facets_directory,output_directory,segmented_data_file,analysis_seg_file,log_directory)
+    generate_segmented_copy_number_data(args.facets_directory,portal_dir,segmented_data_file,analysis_seg_file,log_directory)
 
     if clinical_data:
-        clinical_meta_samples_path = os.path.join(output_directory, clinical_meta_samples_file)
-        clinical_meta_patients_path = os.path.join(output_directory, clinical_meta_patients_file)
+        clinical_meta_samples_path = os.path.join(portal_dir, clinical_meta_samples_file)
+        clinical_meta_patients_path = os.path.join(portal_dir, clinical_meta_patients_file)
 
-    study_meta_path = os.path.join(output_directory,study_meta_file)
-    mutation_meta_path = os.path.join(output_directory,mutation_meta_file)
+    study_meta_path = os.path.join(portal_dir,study_meta_file)
+    mutation_meta_path = os.path.join(portal_dir,mutation_meta_file)
 
-    discrete_copy_number_meta_path = os.path.join(output_directory,discrete_copy_number_meta_file)
-    segmented_data_meta_path = os.path.join(output_directory,segmented_data_meta_file)
+    discrete_copy_number_meta_path = os.path.join(portal_dir,discrete_copy_number_meta_file)
+    segmented_data_meta_path = os.path.join(portal_dir,segmented_data_meta_file)
 
     logger.info('Writing meta files')
 
@@ -634,8 +608,8 @@ if __name__ == '__main__':
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
         logger.info('Submitting job to generate fusion data')
-        generate_fusion_data(args.maf_directory,output_directory,fusion_file_name,log_directory,script_path)
-        fusion_meta_path = os.path.join(output_directory,fusion_meta_file)
+        generate_fusion_data(args.maf_directory,portal_dir,fusion_file_name,log_directory,script_path)
+        fusion_meta_path = os.path.join(portal_dir,fusion_meta_file)
         logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:
             yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))
