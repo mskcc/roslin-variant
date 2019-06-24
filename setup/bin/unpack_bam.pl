@@ -7,6 +7,9 @@
 # purpose: (1) Extract flowcell/lane information from first read ID of the @RG using @RG's ID; (2) Picard uses PU as fastq files's name if PU does not following the standard format. We need to consider this situation.
 # modified on June 3, 2019
 # purpose: (1) Re-set default path of java, samtools, and picard's jar file; (2) Added input option of "picard-jar"
+#
+# modified on June 24, 2019
+# purpose: Need to create non-duplicated list of fqs_to_rename files since "glob" syntax gets duplicated files.
 # 
 # AUTHOR: Cyriac Kandoth (ckandoth@gmail.com); Zuojian Tang (zuojian.tang@gmail.com)
 
@@ -145,8 +148,9 @@ foreach my $fq_name( keys %fq_info ) {
     my ( $lane, $sample_id, $sample_id_from_bam, $index, $library, $platform_unit ) = (split( ",", $fq_info{$fq_name} ))[1,2,3,4,11,15];
     my $padded_lane_id = sprintf( "L%03d", ( $lane ? $lane : "0" ));
     my @fqs_to_rename = glob( "$output_dir/$fq_name*.fastq.gz $output_dir/rg$rg_idx/$fq_name*.fastq.gz $output_dir/$sample_id_from_bam*$padded_lane_id*.fastq.gz $output_dir/rg$rg_idx/$sample_id_from_bam*$padded_lane_id*.fastq.gz $output_dir/$platform_unit*.fastq.gz" );
+    my @uniq_fqs_to_rename = keys {map {$_ => 1} @fqs_to_rename};
     my $new_name = "$output_dir/rg$rg_idx/$sample_id_from_bam" . ( $index ? "_$index" : "" ) . "_$padded_lane_id";
-    foreach my $fq_to_rename ( @fqs_to_rename ) {
+    foreach my $fq_to_rename ( @uniq_fqs_to_rename ) {
         print `mv -f $fq_to_rename $new_name\_R1_001.fastq.gz` if(( $fq_to_rename =~ m/_1.fastq.gz$/ or $fq_to_rename =~ m/_R1_001.fastq.gz$/ ) and $fq_to_rename ne "$new_name\_R1_001.fastq.gz" );
         print `mv -f $fq_to_rename $new_name\_R2_001.fastq.gz` if(( $fq_to_rename =~ m/_2.fastq.gz$/ or $fq_to_rename =~ m/_R2_001.fastq.gz$/ ) and $fq_to_rename ne "$new_name\_R2_001.fastq.gz" );
     }
