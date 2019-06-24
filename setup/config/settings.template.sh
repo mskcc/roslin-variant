@@ -191,14 +191,14 @@ fi
 {{ run_env }}
 if [[ $SINGULARITY_BIND == *"$TMPDIR"* && -n "$TMPDIR" ]]
 then
-	mkdir -p $TMPDIR
+	mkdir -p $TMPDIR >/dev/null 2>&1 || true
 	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMPDIR"
 	export DOCKER_BIND="$DOCKER_BIND -v $TMPDIR:$TMPDIR"
 fi
 
 if [[ $SINGULARITY_BIND == *"$TMP"* && -n "$TMP" ]]
 then
-	mkdir -p $TMPDIR
+	mkdir -p $TMPDIR >/dev/null 2>&1 || true
 	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMP"
 	export DOCKER_BIND="$DOCKER_BIND -v $TMP:$TMP"
 fi
