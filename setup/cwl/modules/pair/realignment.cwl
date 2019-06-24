@@ -113,19 +113,52 @@ outputs:
             - ^.bai
         outputSource: parallel_printreads/out
 steps:
+    split_intervals:
+      in:
+        interval_list: intervals
+      out: [ intervals, intervals_id]
+      run:
+          class: ExpressionTool
+          id: split_intervals
+          requirements:
+              - class: InlineJavascriptRequirement
+          inputs:
+            interval_list: string[]
+          outputs:
+            intervals:
+                type:
+                    type: array
+                    items:
+                        type: array
+                        items: string
+            intervals_id: string[]
+          expression: "${ var intervals = [];
+            var intervals_id = [];
+            var output_object = {};
+            var interval_list = inputs.interval_list;
+            while( interval_list.length > 0 ) {
+                var interval_split = interval_list.splice(0, 10);
+                intervals.push(interval_split);
+                intervals_id.push(interval_split.join('_'));
+            }
+            output_object['intervals'] = intervals;
+            output_object['intervals_id'] = intervals_id;
+            return output_object;
+          }"
     gatk_find_covered_intervals:
         run: ../../tools/cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
         in:
             java_temp: tmp_dir
             pair: pair
+            intervals_list: intervals
             reference_sequence: genome
             coverage_threshold:
                 valueFrom: ${ return ["3"];}
             minBaseQuality:
                 valueFrom: ${ return ["20"];}
-            intervals: intervals
+            intervals: split_intervals/intervals
             input_file: bams
-            out: intervals
+            out: split_intervals/intervals_id
         scatter: [intervals, out]
         scatterMethod: dotproduct
         out: [fci_list]
