@@ -63,6 +63,7 @@ inputs:
     vep_data: string
     delly_type: string[]
     tmp_dir: string
+    exclude: File
     exac_filter:
         type: File
         secondaryFiles:
@@ -138,6 +139,7 @@ steps:
             genome: genome
             pairfile: createTNPair/pairfile
             delly_type: delly_type
+            exclude: exclude
         out: [ delly_sv , delly_filtered_sv ]
         run:
             class: Workflow
@@ -156,6 +158,7 @@ steps:
                 tumor_sample_name: string
                 delly_type: string
                 pairfile: File
+                exclude: File
             outputs:
                 delly_sv:
                     type: File
@@ -171,7 +174,7 @@ steps:
                     outputSource: delly_filter/sv_file
             steps:
                 delly_call:
-                    run: ../../tools/cmo-delly.call/0.7.7/cmo-delly.call.cwl
+                    run: ../../tools/delly.call/0.7.7/delly.call.cwl
                     in:
                         t: delly_type
                         tumor_bam: tumor_bam
@@ -179,11 +182,12 @@ steps:
                         normal_sample_name: normal_sample_name
                         tumor_sample_name: tumor_sample_name
                         g: genome
+                        x: exclude
                         o:
                             valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name +"." + inputs.t + ".bcf"; }
                     out: [ sv_file ]
                 delly_filter:
-                    run: ../../tools/cmo-delly.filter/0.7.7/cmo-delly.filter.cwl
+                    run: ../../tools/delly.filter/0.7.7/delly.filter.cwl
                     in:
                         i: delly_call/sv_file
                         s: pairfile

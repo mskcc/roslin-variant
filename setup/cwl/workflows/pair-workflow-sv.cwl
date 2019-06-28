@@ -66,6 +66,7 @@ inputs:
         vep_data: string
         hotspot_list: string
         hotspot_list_maf: File
+        delly_exclude: File
         hotspot_vcf: string
         facets_snps: string
         bait_intervals: File
@@ -388,6 +389,8 @@ steps:
             valueFrom: ${ return inputs.db_files.custom_enst }
         vep_data:
             valueFrom: ${ return inputs.db_files.vep_data }
+        exclude:
+            valueFrom: ${ return inputs.db_files.delly_exclude }
         delly_type:
             valueFrom: ${ return inputs.runparams.delly_type; }
         tmp_dir:

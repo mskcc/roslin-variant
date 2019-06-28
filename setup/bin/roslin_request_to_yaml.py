@@ -284,6 +284,7 @@ if __name__ == "__main__":
         'vep_data': str(REQUEST_FILES['vep_data']),
         'hotspot_list': str(REQUEST_FILES['hotspot_list']),
         'hotspot_list_maf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list_maf'])},
+        'delly_exclude': {'class': 'File', 'path': str(ROSLIN_RESOURCES['genomes'][genome]['delly'])},
         'hotspot_vcf': str(REQUEST_FILES['hotspot_vcf']),
         'facets_snps': str(ROSLIN_RESOURCES['genomes'][genome]['facets_snps']),
         'custom_enst': str(REQUEST_FILES['custom_enst']),

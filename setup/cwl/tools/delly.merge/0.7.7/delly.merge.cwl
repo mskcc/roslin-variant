@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-delly.filter
+  doap:name: cmo-delly.merge
   doap:revision: 0.7.7
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -37,16 +37,15 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_delly]
-id: cmo-delly-filter
-
-arguments:
-- valueFrom: "0.7.7"
-  prefix: --version
-  position: 0
-- valueFrom: "filter"
-  prefix: --cmd
-  position: 0
+baseCommand:
+- tool.sh
+- --tool
+- "delly"
+- --version
+- "0.7.7"
+- --cmd
+- "merge"
+id: delly-merge
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -65,102 +64,62 @@ inputs:
     inputBinding:
       prefix: --type
 
-  f:
-    type: ['null', string]
-    default: somatic
-    doc: Filter mode (somatic, germline)
-    inputBinding:
-      prefix: --filter
-
   o:
     type: ['null', string]
     default: sv.bcf
-    doc: Filtered SV BCF output file
+    doc: Merged SV BCF output file
     inputBinding:
       prefix: --outfile
 
-  a:
-    type: ['null', float]
-    default: 0.04
-    doc: min. fractional ALT support
-    inputBinding:
-      prefix: --altaf
-
   m:
     type: ['null', int]
-    default: 500
+    default: 0
     doc: min. SV size
     inputBinding:
       prefix: --minsize
 
   n:
     type: ['null', int]
-    default: 500000000
+    default: 1000000
     doc: max. SV size
     inputBinding:
       prefix: --maxsize
 
-  r:
-    type: ['null', float]
-    default: 0.0
-    doc: min. fraction of genotyped samples
+  c:
+    type: ['null', boolean]
+    default: false
+    doc: Filter sites for PRECISE
     inputBinding:
-      prefix: --ratiogeno
+      prefix: --precise
 
   p:
     type: ['null', boolean]
-    default: true
+    default: false
     doc: Filter sites for PASS
     inputBinding:
       prefix: --pass
 
-  s:
-    type: File
-    doc: Two-column sample file listing sample name and tumor or control
-    inputBinding:
-      prefix: --samples
-
-  v:
+  b:
     type: ['null', int]
-    default: 10
-    doc: min. coverage in tumor
+    default: 1000
+    doc: max. breakpoint offset
     inputBinding:
-      prefix: --coverage
+      prefix: --bp-offset
 
-  c:
-    type: ['null', int]
-    default: 0
-    doc: max. fractional ALT support in control
-    inputBinding:
-      prefix: --controlcontamination
-
-  q:
-    type: ['null', int]
-    default: 15
-    doc: min. median GQ for carriers and non-carriers
-    inputBinding:
-      prefix: --gq
-
-  e:
+  r:
     type: ['null', float]
     default: 0.800000012
-    doc: max. read-depth ratio of carrier vs. non-carrier for a deletion
+    doc: min. reciprocal overlap
     inputBinding:
-      prefix: --rddel
-
-  u:
-    type: ['null', float]
-    default: 1.20000005
-    doc: min. read-depth ratio of carrier vs. non-carrier for a duplication
-    inputBinding:
-      prefix: --rddup
+      prefix: --rec-overlap
 
   i:
-    type: File
+    type:
+      type: array
+      items: File
     inputBinding:
-      prefix: --input
-    doc: Input file (.bcf)
-
+      position: 1
+    doc: Input files (.bcf)
   all_regions:
     type: ['null', boolean]
     default: false
@@ -184,8 +143,6 @@ inputs:
 outputs:
   sv_file:
     type: File
-    secondaryFiles: 
-      - ^.bcf.csi
     outputBinding:
       glob: |
         ${

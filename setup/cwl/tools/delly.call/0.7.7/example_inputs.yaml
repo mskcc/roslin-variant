@@ -1,0 +1,6 @@
+o: first_s_QQ697857_T.s_HB186290_N.BND.bcf
+t: BND
+x: {class: File, path: /juno/work/cet/resources/genomes/GRCh37/delly/human.hg19.excl.tsv}
+g: /ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta
+normal_bam: {class: File, path: /juno/work/pi/nikhil/roslin-test/delly/s_QQ697857_T.rg.md.abra.printreads.bam}
+tumor_bam: {class: File, path: /juno/work/pi/nikhil/roslin-test/delly/s_HB186290_N.rg.md.abra.printreads.bam}

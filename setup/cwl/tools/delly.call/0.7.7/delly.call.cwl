@@ -37,19 +37,23 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_delly]
-id: cmo-delly-call
-
-arguments:
-- valueFrom: "0.7.7"
-  prefix: --version
-  position: 0
-- valueFrom: "call"
-  prefix: --cmd
-  position: 0
+baseCommand:
+- tool.sh
+- --tool
+- "delly"
+- --version
+- "0.7.7"
+- --cmd
+- "call"
+id: delly-call
 
 requirements:
   InlineJavascriptRequirement: {}
+  InitialWorkDirRequirement:
+    listing:
+      - $(inputs.x)
+      - $(inputs.normal_bam)
+      - $(inputs.tumor_bam)
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
@@ -74,10 +78,10 @@ inputs:
       prefix: --genome
 
   x:
-    type: ['null', string]
+    type: ['null', File]
     doc: file with regions to exclude
     inputBinding:
-      prefix: --exclude_file
+      prefix: --exclude
 
   o:
     type: ['null', string]
@@ -124,13 +128,13 @@ inputs:
     type: File
     doc: Sorted normal bam
     inputBinding:
-      prefix: --normal_bam
+      position: 1
     secondaryFiles: [.bai]
   tumor_bam:
     type: File
     doc: Sorted tumor bam
     inputBinding:
-      prefix: --tumor_bam
+      position: 1
     secondaryFiles: [.bai]
   all_regions:
     type: ['null', boolean]
@@ -155,7 +159,7 @@ inputs:
 outputs:
   sv_file:
     type: File
-    secondaryFiles: 
+    secondaryFiles:
       - ^.bcf.csi
     outputBinding:
       glob: |
