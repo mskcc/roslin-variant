@@ -88,7 +88,7 @@ inputs:
 
   major_contam_threshold:
     type: [ 'null', float ]
-    default: 0.05
+    default: 0.55
     inputBinding:
       prefix: --major_contam_threshold
 

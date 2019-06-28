@@ -49,7 +49,7 @@ RUN apk add --update \
         && wget https://github.com/zengzheng123/GetBaseCountsMultiSample/archive/v${GETBASECOUNTSMULTISAMPLE_VERSION}.tar.gz \
         && tar xvzf v${GETBASECOUNTSMULTISAMPLE_VERSION}.tar.gz \
         # copy current roslin-qc
-        && git clone https://github.com/mskcc/roslin-qc.git \
+        && git clone https://github.com/mskcc/roslin-qc.git -b ${ROSLIN_QC_VERSION} \
         && cp -R roslin-qc/* /usr/bin/ \
         # FIX ALL THESE WRONG FILE PATHS
         && cd /usr/bin/ \
