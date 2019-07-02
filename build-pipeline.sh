@@ -262,21 +262,15 @@ else
     $buildCommand
 fi
 
-printf "\n----------Compressing----------\n"
-# Compress pipeline
-cd $parentDir
-python $build_script_dir/compress.py $ROSLIN_PIPELINE_NAME $ROSLIN_PIPELINE_VERSION > $TestDir/compress_stdout.txt 2> $TestDir/compress_stderr.txt
 # Deploy
 printf "\n----------Deploying----------\n"
-pipeline_name="roslin-${ROSLIN_PIPELINE_NAME}-pipeline-v${ROSLIN_PIPELINE_VERSION}.tgz"
-mv $pipeline_name $TempDir
 export TMP=$TempDir
 export TMPDIR=$TempDir
-install-pipeline.sh -p $TempDir/$pipeline_name > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
+install-pipeline.sh -p $script_dir > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
 printf "\n----------Setting up----------\n"
 deactivate
 cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
 cp build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
 source $ROSLIN_CORE_CONFIG_PATH/settings.sh
-source $ROSLIN_CORE_CONFIG_PATH/$ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION/settings.sh
+roslin_workspace_init.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 cd $parentDir
