@@ -139,7 +139,7 @@ def configure_setup_settings(settings,filtered_binding_point_list):
     run_env_str = ""
 
     for single_env_key, single_env_val in settings["env"].items():
-        run_env_str = run_env_str + "[ -z $"+single_env_key+" ] && export " + single_env_key + '="' + single_env_val + '"\n'
+        run_env_str = run_env_str + "[ -z '$"+single_env_key+"' ] && export " + single_env_key + '="' + single_env_val + '"\n'
 
     docker_binding = '-v ' + ' -v '.join([ bind + ':' + bind for bind in filtered_binding_point_list])
 
