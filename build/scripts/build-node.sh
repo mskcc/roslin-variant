@@ -7,5 +7,5 @@ export NVM_DIR="$ROSLIN_PIPELINE_RESOURCE_PATH/.nvm"
 mkdir $ROSLIN_PIPELINE_RESOURCE_PATH/.nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 source $ROSLIN_PIPELINE_RESOURCE_PATH/.nvm/nvm.sh
-nvm install node
+nvm install v12.4.0
 export HOME=$HOME_TEMP
