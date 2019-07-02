@@ -52,7 +52,13 @@ cp sample-juno-config.yaml config.variant.yaml
 ```
 
 1. Add the root with the path where you want tot install the pipeline
-2. Remove/change the SLA in TOIL_LSF_ARGS within both root and test env's
+2. Modify TOIL_LSF_ARGS within both root and test env's
+
+You can used TOIL_LSF_ARGS to run your jobs under a SLA. For example:
+
+```
+TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
+```
 
 ###### For other users:
 
@@ -129,6 +135,15 @@ Now we can run an example workflow
 ```
 cd SampleWorkflow
 ./run-example.sh
+```
+
+#### User setup
+
+If another user wants to run your pipeline, they can setup their workspace by running:
+
+```
+source [your settings.sh file path]
+roslin_workspace_init.py --name [your pipeline name] --version [your pipeline version]
 ```
 
 ---
