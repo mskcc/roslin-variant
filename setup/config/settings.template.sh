@@ -61,14 +61,12 @@ if [ -d $ROSLIN_PIPELINE_WORKSPACE_PATH ]
 then
 	if [ ! -d $ROSLIN_USER_WORKSPACE_PATH ]
 	then
-		if [ -x "$(command -v roslin-workspace-init.sh)" ]
-		then
-			roslin-workspace-init.sh -v $ROSLIN_PIPELINE_NAME/$ROSLIN_PIPELINE_VERSION -u ${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_KERNEL}
-		fi
+		echo "Setting up workspace for user ${ROSLIN_CURRENT_USER}"
+		mkdir -p ${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_KERNEL}
 
 		if [ ! -d $ROSLIN_PIPELINE_RESOURCE_PATH ]
 		then
-			if [ -x "$(command -v roslin-workspace-init.sh)" ]
+			if [ -x "$(command -v roslin_create_test_files.py)" ]
 			then
 				CURRENT_DIR=$(pwd)
 				mkdir -p $ROSLIN_PIPELINE_RESOURCE_PATH
@@ -170,6 +168,8 @@ echo
 echo "source ${ROSLIN_CORE_CONFIG_PATH}/settings.sh"
 			fi
 		fi
+	else
+		echo "Workspace: ${ROSLIN_USER_WORKSPACE_PATH}"
 	fi
 fi
 
