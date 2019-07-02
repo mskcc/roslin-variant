@@ -202,7 +202,7 @@ def calculate_abra_ram_size(grouping_dict):
             group_larger_than_three_exists = True
     if group_larger_than_three_exists:
         return 512000
-    return 36000
+    return 40000
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
