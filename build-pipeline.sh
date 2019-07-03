@@ -269,8 +269,8 @@ export TMPDIR=$TempDir
 install-pipeline.sh -p $script_dir > $TestDir/deploy_stdout.txt 2> $TestDir/deploy_stderr.txt
 printf "\n----------Setting up----------\n"
 deactivate
-cp build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
-cp build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
+cp $script_dir/build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
+cp $script_dir/build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
 source $ROSLIN_CORE_CONFIG_PATH/settings.sh
 roslin_workspace_init.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 cd $parentDir
