@@ -140,6 +140,7 @@ steps:
             pairfile: createTNPair/pairfile
             delly_type: delly_type
             delly_exclude: delly_exclude
+            ref_fasta: ref_fasta
         out: [ delly_sv , delly_filtered_sv ]
         run:
             class: Workflow
@@ -158,6 +159,7 @@ steps:
                 tumor_sample_name: string
                 delly_type: string
                 pairfile: File
+                ref_fasta: string
                 delly_exclude: File
             outputs:
                 delly_sv:
@@ -181,7 +183,7 @@ steps:
                         normal_bam: normal_bam
                         normal_sample_name: normal_sample_name
                         tumor_sample_name: tumor_sample_name
-                        g: genome
+                        g: ref_fasta
                         x: delly_exclude
                         o:
                             valueFrom: ${ return inputs.tumor_sample_name + "." + inputs.normal_sample_name +"." + inputs.t + ".bcf"; }
