@@ -389,7 +389,7 @@ steps:
             valueFrom: ${ return inputs.db_files.custom_enst }
         vep_data:
             valueFrom: ${ return inputs.db_files.vep_data }
-        exclude:
+        delly_exclude:
             valueFrom: ${ return inputs.db_files.delly_exclude }
         delly_type:
             valueFrom: ${ return inputs.runparams.delly_type; }

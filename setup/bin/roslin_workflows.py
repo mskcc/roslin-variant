@@ -331,7 +331,7 @@ class StructuralVariants(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","delly_type"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","vep_path","custom_enst","vep_data","hotspot_list","pairing_file"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","vep_path","custom_enst","vep_data","hotspot_list","pairing_file","delly_exclude"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
