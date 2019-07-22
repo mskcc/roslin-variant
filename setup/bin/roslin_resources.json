@@ -41,7 +41,7 @@
         },
         "portal": {
             "importer":"/opt/common/CentOS_6-dev/cbioportal/v1.13.0/core/src/main/scripts/importer",
-            "path": "/ifs/work/pi/portal/bic-mskcc-roslin/pi"
+            "path": "/dev/shm/ifs/work/pi/portal/bic-mskcc-roslin/pi"
         }
     },
     "genomes": {
@@ -60,6 +60,34 @@
             "exac": "/ifs/depot/pi/resources/genomes/GRCh37/exac/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
             "facets_snps": "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz",
             "fasta": "/ifs/depot/pi/resources/genomes/GRCh37/fasta/b37.fasta",
+            "gencode": {
+                "19": "/ifs/depot/pi/resources/genomes/GRCh37/gencode/19/gencode.v19.annotation.gtf",
+                "default": "/ifs/depot/pi/resources/genomes/GRCh37/gencode/19/gencode.v19.annotation.gtf"
+            },
+            "hapmap33": "/ifs/depot/pi/resources/genomes/GRCh37/hapmap33/hapmap_3.3.b37.vcf",
+            "impact410_targets": "/ifs/depot/pi/resources/genomes/GRCh37/impact410_targets/IMPACT410_b37_targets.bed",
+            "indels_1000g": "/ifs/depot/pi/resources/genomes/GRCh37/indels_1000g/Mills_and_1000G_gold_standard.indels.b37.vcf",
+            "kallisto_index": "/ifs/depot/pi/resources/genomes/GRCh37/kallisto_index/gencode.v19",
+            "omni": "/ifs/depot/pi/resources/genomes/GRCh37/omni/1000G_omni2.5.b37.vcf",
+            "snps_1000g": "/ifs/depot/pi/resources/genomes/GRCh37/snps_1000g/1000G_phase1.snps.high_confidence.b37.vcf",
+            "star_index": "/ifs/depot/pi/resources/genomes/GRCh37/star_index/withoutJunctions",
+            "vep_cache": "/opt/common/CentOS_6-dev/vep/cache"
+        },
+        "GRCh37_mm10": {
+            "bedtools_genome": "/ifs/depot/pi/resources/genomes/GRCh37/bedtools_genome/human.b37.genome",
+            "bwa_fasta": "/ifs/depot/pi/resources/genomes/GRCh37_mm10/b37_mm10.fasta",
+            "cosmic": {
+                "67": "/ifs/depot/pi/resources/genomes/GRCh37/cosmic/67/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
+                "74": "/ifs/depot/pi/resources/genomes/GRCh37/cosmic/74/CosmicCodingMuts_v74_b37_20151120.vcf"
+            },
+            "dbsnp": {
+                "129": "/ifs/depot/pi/resources/genomes/GRCh37/dbsnp/129/dbsnp_138.b37.excluding_sites_after_129.vcf",
+                "138": "/ifs/depot/pi/resources/genomes/GRCh37/dbsnp/138/dbsnp_138.b37.vcf"
+            },
+            "delly": "/ifs/depot/pi/resources/genomes/GRCh37/delly/human.hg19.excl.tsv",
+            "exac": "/ifs/depot/pi/resources/genomes/GRCh37/exac/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
+            "facets_snps": "/ifs/depot/pi/resources/genomes/GRCh37/facets_snps/dbsnp_137.b37__RmDupsClean__plusPseudo50__DROP_SORT.vcf.gz",
+            "fasta": "/ifs/depot/pi/resources/genomes/GRCh37_mm10/b37_mm10.fasta",
             "gencode": {
                 "19": "/ifs/depot/pi/resources/genomes/GRCh37/gencode/19/gencode.v19.annotation.gtf",
                 "default": "/ifs/depot/pi/resources/genomes/GRCh37/gencode/19/gencode.v19.annotation.gtf"
@@ -459,6 +487,12 @@
             "FP_intervals": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/FP_tiling_intervals.list",
             "baits_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.interval_list",
             "targets_list": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.interval_list"
+        },
+        "IMPACT468_b37_mm10": {
+            "FP_genotypes": "/ifs/depot/pi/resources/genomes/GRCh37_mm10/targets/FP_tiling_genotypes.txt",
+            "FP_intervals": "/ifs/depot/pi/resources/genomes/GRCh37_mm10/targets/FP_tiling_intervals.list",
+            "baits_list": "/ifs/depot/pi/resources/genomes/GRCh37_mm10/targets/picard_baits.interval_list",
+            "targets_list": "/ifs/depot/pi/resources/genomes/GRCh37_mm10/targets/picard_targets.interval_list"
         },
         "IMPACT468_08390": {
             "FP_genotypes": "/ifs/depot/pi/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",

@@ -115,7 +115,7 @@ def get_curated_bams(assay,REQUEST_FILES):
     return array
 
 
-def get_baits_and_targets(assay,ROSLIN_RESOURCES):
+def get_baits_and_targets(assay,ROSLIN_RESOURCES, pdx_genome):
     # probably need similar rules for whatever "Exome" string is in rquest
     targets = ROSLIN_RESOURCES['targets']
 
@@ -131,7 +131,8 @@ def get_baits_and_targets(assay,ROSLIN_RESOURCES):
         assay = "IMPACT468_08390"
     if assay.find("IMPACT468+Poirier_RB1_intron_V2") > -1:
         assay = "IMPACT468_08050"
-
+    if pdx_genome: #kind of hacky
+        assay = "IMPACT468_b37_mm10"
     if assay in targets:
         return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
                 "target_intervals": {"class": "File", "path": str(targets[assay]['targets_list'])},
@@ -200,7 +201,7 @@ def calculate_abra_ram_size(grouping_dict):
 #    for group in grouping_dict:
 #        if len(grouping_dict[group]) > largest_group_size:
 #            largest_group_size = len(grouping_dict[group])
-    return 32000 * largest_group_size
+    return 42000 * largest_group_size
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
@@ -212,16 +213,29 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--yaml-output-file", help="file to write yaml to", required=True)
     parser.add_argument("--pipeline-name-version",action="store",dest="pipeline_name_version",help="Pipeline name/version (e.g. variant/1.0.0)",required=True)
     args = parser.parse_args()
+    #hacky way of grabbing clinical data for using pdx ref
+    pdx_genome = False
+    clinical_file_glob = glob.glob(os.path.join(os.path.dirname(args.grouping), '*sample_data_clinical.txt'))
+    if len(clinical_file_glob) > 0:
+        clinical_file = clinical_file_glob[0]
+        with open(clinical_file, 'rb') as clinical_data_file:
+            clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
+            clinical_data = list(clinical_reader)
+        for tumor_samp in clinical_data:
+            if tumor_samp['SAMPLE_TYPE'].upper() == 'PDX':
+                pdx_genome = True
+
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     ROSLIN_RESOURCES = json.load(open(ROSLIN_PATH + os.sep + "scripts" + os.sep + "roslin_resources.json", 'r'))
     REQUEST_FILES = ROSLIN_RESOURCES["request_files"]
     (assay, project_id) = parse_request_file(args.request)
-    intervals = get_baits_and_targets(assay,ROSLIN_RESOURCES)
+    intervals = get_baits_and_targets(assay,ROSLIN_RESOURCES, pdx_genome)
     curated_bams = get_curated_bams(assay,REQUEST_FILES)
     mapping_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
     grouping_dict = parse_grouping_file(args.grouping)
+
     abra_ram_min = calculate_abra_ram_size(grouping_dict)
     output_yaml = dict()
     output_yaml['samples'] = mapping_dict
@@ -248,7 +262,10 @@ if __name__ == "__main__":
     tmp_dir = list()
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
     rf = ["BadCigar"]
-    genome = "GRCh37"
+    if pdx_genome:
+        genome = "GRCh37_mm10"
+    else:
+        genome = "GRCh37"
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
