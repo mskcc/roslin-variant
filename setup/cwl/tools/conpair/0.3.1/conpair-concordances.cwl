@@ -48,8 +48,6 @@ baseCommand:
 - --language
 - "python"
 - concordance
-- --normal_homozygous_markers_only
-id: conpair-concordance
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -61,6 +59,12 @@ doc: |
   None
 
 inputs:
+  normal_homozygous:
+    type: boolean
+    default: true
+    inputBinding:
+      prefix: --normal_homozygous_markers_only
+
   tpileup:
     type:
       type: array
