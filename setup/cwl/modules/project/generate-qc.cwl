@@ -163,6 +163,8 @@ steps:
   run-concordance:
     run: ../../tools/conpair/0.3.1/conpair-concordances.cwl
     in:
+      normal_homozygous: 
+        valueFrom: ${ return true; }
       runparams: runparams
       db_files: db_files
       pileups: conpair_pileups
@@ -175,16 +177,37 @@ steps:
       pairing_file:
         valueFrom: ${ return inputs.db_files.pairing_file; }
       output_prefix:
-        valueFrom: ${ return inputs.runparams.project_prefix; }
+        valueFrom: ${ return inputs.runparams.project_prefix + "_homo"; }
+    out: [ outfiles, pdf ]
+
+  run-concordance-non-homozygous:
+    run: ../../tools/conpair/0.3.1/conpair-concordances.cwl
+    in:
+      normal_homozygous:
+        valueFrom: ${ return false; }
+      runparams: runparams
+      db_files: db_files
+      pileups: conpair_pileups
+      npileup:
+        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][1]); } return output; }
+      tpileup:
+        valueFrom: ${ var output = []; for (var i=0; i<inputs.pileups.length; i++) { output=output.concat(inputs.pileups[i][0]); } return output; }
+      markers:
+        valueFrom: ${ return inputs.db_files.conpair_markers; }
+      pairing_file:
+        valueFrom: ${ return inputs.db_files.pairing_file; }
+      output_prefix:
+        valueFrom: ${ return inputs.runparams.project_prefix + "_nohomo"; }
     out: [ outfiles, pdf ]
 
   put-conpair-files-into-directory:
     run: ../../tools/conpair/0.3.1/consolidate-conpair-files.cwl
     in:
       concordance_files: run-concordance/outfiles
+      concordance_files_nohomo: run-concordance-non-homozygous/outfiles
       contamination_files: run-contamination/outfiles
       files:
-        valueFrom: ${ return inputs.concordance_files.concat(inputs.contamination_files); }
+        valueFrom: ${ var output = []; output=output.concat(inputs.concordance_files); output=output.concat(inputs.concordance_files_nohomo); output=output.concat(inputs.contamination_files); return output; }
       output_directory_name:
         valueFrom: ${ return "conpair_output_files"; }
     out: [ directory ]

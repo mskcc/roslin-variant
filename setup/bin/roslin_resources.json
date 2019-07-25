@@ -306,11 +306,23 @@
             "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468/b37/picard_baits.interval_list",
             "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468/b37/picard_targets.interval_list"
         },
+        "IMPACT468_b37_mm10": {
+            "FP_genotypes": "/juno/work/ci/resources/genomes/GRCh37_mm10/targets/FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/genomes/GRCh37_mm10/targets/FP_tiling_intervals.list",
+            "baits_list": "/juno/work/ci/resources/genomes/GRCh37_mm10/targets/picard_baits.interval_list",
+            "targets_list": "/juno/work/ci/resources/genomes/GRCh37_mm10/targets/picard_targets.interval_list"
+        },
         "IMPACT468_08390": {
             "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
             "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_intervals.intervals",
             "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_b37_baits.ilist",
             "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_b37_targets.ilist"
+        },
+        "IMPACT468_08050": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_FP_tiling_intervals.intervals",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_b37_baits.ilist",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_b37_targets.ilist"
         },
         "Agilent_v4_51MB_Human": {
             "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
@@ -319,6 +331,38 @@
             "baits_list": "/juno/work/ci/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_baits.ilist",
             "targets_bed": "/juno/work/ci/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.bed",
             "targets_list": "/juno/work/ci/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_b37_targets.ilist"
+        },
+        "AgilentExon_v2": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_FP_tiling_intervals.intervals",
+            "baits_bed": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_baits.bed",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_baits.ilist",
+            "targets_bed": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_targets.bed",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v2/b37/AgilentExon_v2_b37_targets.ilist"
+        },
+        "AgilentExon_v5": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_FP_tiling_intervals.intervals",
+            "baits_bed": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_baits.bed",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_baits.ilist",
+            "targets_bed": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_targets.bed",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/AgilentExon_v5/b37/AgilentExon_v5_b37_targets.ilist"
+        },
+        "IlluminaExome_38MB": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_FP_tiling_intervals.intervals",
+            "baits_bed": "/juno/work/ci/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_baits.bed",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_baits.ilist",
+            "targets_bed": "/juno/work/ci/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.bed",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IlluminaExome_38MB/b37/IlluminaExome_38MB_b37_targets.ilist"
+        },
+        "SeqCap_EZ_Exome_v3": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_FP_tiling_intervals.intervals",
+            "baits_bed": "/juno/work/ci/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_baits.bed",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_baits.ilist",
+            "targets_bed": "/juno/work/ci/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_targets.bed",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/SeqCap_EZ_Exome_v3/b37/SeqCap_EZ_Exome_v3_b37_targets.ilist"
         },
         "HemePACT_v3": {
             "FP_genotypes":"/juno/work/ci/resources/roslin_resources/targets/HemePACT_v3/b37/HemePACT_v3_FP_tiling_genotypes.txt",
