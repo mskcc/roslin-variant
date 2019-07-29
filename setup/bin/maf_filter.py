@@ -9,9 +9,6 @@ analyst_file = sys.argv[4]
 portal_file = sys.argv[5]
 roslin_version_line = "# Versions: " + roslin_version_string.replace('_',' ') + "\n"
 
-# Analysis fillout maf file
-analyst_fillout_file = re.sub(r'.muts.maf$', r'.muts.fillout.maf', analyst_file)
-
 # Read input maf file
 dict_analyst_kept = dict()
 dict_fillout = dict()
@@ -108,22 +105,15 @@ with open(input_file,'rb') as input_maf:
                     line[mut_status_col] = "skipped_by_portal"
                     dict_analyst_kept.setdefault(key, []).append('\t'.join(line))
 
-# Keep fillout lines (Mutation_Status==None) in portal/data_mutations_extended.txt and also a new analysis file with extension analysis/*.muts.fillout.maf.
+# Keep fillout lines (Mutation_Status==None) in portal/data_mutations_extended.txt
 # write into analysis files
-with open(analyst_file,'wb') as analyst_maf, open(analyst_fillout_file,'wb') as analyst_fillout_maf:
+with open(analyst_file,'wb') as analyst_maf:
     analyst_maf.write(roslin_version_line)
     analyst_maf.write(analyst_header)
-    analyst_fillout_maf.write(roslin_version_line)
-    analyst_fillout_maf.write(analyst_header)
     for key, values in dict_analyst_kept.items():
         # write events first
         for value in values:
             analyst_maf.write(value + '\n')
-            analyst_fillout_maf.write(value + '\n')
-        # write fillout if available
-        if key in dict_fillout:
-            for fillout in dict_fillout[key]:
-                analyst_fillout_maf.write(fillout + '\n')
 
 # write into portal file
 with open(portal_file,'wb') as portal_maf:
