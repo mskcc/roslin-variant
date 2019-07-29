@@ -1,7 +1,7 @@
 name: variant
 version: 2.5.0
 description: Roslin Variant Pipeline v2.5.0
-root: /ifs/work/pi/roslin-pipelines
+root: /juno/work/ci/roslin-pipelines/
 binding:
   core: bin
   data: resources
@@ -9,15 +9,16 @@ binding:
   workspace: workspace
   extra:
     - /scratch
+    - /fscratch
     - /ifs
     - /opt
     - /srv
     - /juno
 env:
-  TOIL_LSF_ARGS: '-S 1 -We 0:59'
-  TMPDIR: '/srv/scratch'
-  TMP: '/srv/scratch'
-  SINGULARITY_LOCALCACHEDIR: '/srv/scratch'
+  TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
+  TMPDIR: '/fscratch'
+  TMP: '/fscratch'
+  SINGULARITY_LOCALCACHEDIR: '/scratch'
 dependencies:
   core:
     version:
@@ -27,29 +28,29 @@ dependencies:
     version: 1.9.13
     source: github:https://github.com/mskcc/cmo
   singularity:
-    version: 3.0.3
-    source: path:/opt/common/CentOS_7/singularity/singularity-3.0.3/bin/singularity
+    version: 3.1.1
+    source: path:/opt/local/singularity/3.1.1/bin/singularity
   toil:
     version: releases/3.18.0
     source: github:https://github.com/mskcc/toil
 test:
-  root: /srv/scratch/roslin-test/work
-  data_path: /ifs/work/pi/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
+  root: /juno/work/ci/roslin-test/variant/
+  data_path: /juno/work/pi/nikhil/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
   data_url: https://s3.us-east-2.amazonaws.com/roslindata/roslin_variant_version_2.5.0_test_data.tar.gz
-  batchsystem: singleMachine
-  cwlBatchsystem: singleMachine
+  batchsystem: LSF
+  cwlBatchsystem: LSF
   useDocker: False
   dockerRegistry: None
-  tempDir: /srv/scratch/roslin-test/scratch
-  runArgs: '--test-mode --on-success /ifs/work/pi/roslin-internal-services/roslin-done.py --on-fail /ifs/work/pi/roslin-internal-services/roslin-fail.py --max-cpu 10 --max-mem 100G'
+  tempDir: /scratch
+  runArgs: '--test-mode --on-success /juno/work/pi/nikhil/roslin-internal-services/roslin-done.py --on-fail /juno/work/pi/nikhil/roslin-internal-services/roslin-fail.py'
   env:
-    TOIL_LSF_ARGS: '-S 1 -We 0:59'
+    TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
 build:
   buildDocker: False
   buildSingularity: True
-  buildCache: /srv/scratch/roslin-test/build-cache
+  buildCache: /juno/work/pi/nikhil/build-cache
   dockerRegistry: 'mskcc'
   dockerPush: False
   useVagrant: False
   installCore: True
-  buildThreads: 4
+  buildThreads: 2
