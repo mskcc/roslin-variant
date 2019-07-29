@@ -52,7 +52,7 @@ def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_mut_
     maf_command_list.append('python ' + ' '.join([maf_filter_script, combined_output_file, pipeline_version_str_arg, str(is_impact), analysis_mut_file, portal_file]))
     run_command_list(maf_command_list,'generate_maf')
 
-def generate_fusion_data(fusion_directory,output_directory,data_filename,log_directory,script_path):
+def generate_fusion_data(fusion_directory,output_directory,data_filename,fusion_mut_file,log_directory,script_path,pipeline_version_str):
     fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.portal.txt')
     combined_output = data_filename.replace('.txt','.combined.txt')
     combined_output_path = os.path.join(output_directory,combined_output)
@@ -66,6 +66,17 @@ def generate_fusion_data(fusion_directory,output_directory,data_filename,log_dir
     fusion_command_list.append('grep -hv --regexp=^Hugo ' + fusion_files_query + ' >> ' + combined_output_path)
     fusion_command_list.append('python ' + fusion_filter_script + ' ' + combined_output_path + ' ' + output_path)
     run_command_list(fusion_command_list,'generate_fusion')
+
+    # concatenate all *.svs.pass.vep.maf files into one file and copy it into analysis folder
+    analysis_fusion_files_query = os.path.join(fusion_directory,'*.svs.pass.vep.maf')
+    analysis_tmp_combined_output_file = fusion_mut_file + ".tmp"
+    analysis_fusion_command_list = []
+    analysis_fusion_command_list.append('echo "# Versions: ' + pipeline_version_str + '" > ' + fusion_mut_file)
+    analysis_fusion_command_list.append('grep -h --regexp=^Hugo ' + analysis_fusion_files_query + ' > ' + analysis_tmp_combined_output_file)
+    analysis_fusion_command_list.append('head -n1 ' + analysis_tmp_combined_output_file + ' >> ' + fusion_mut_file)
+    analysis_fusion_command_list.append('rm ' + analysis_tmp_combined_output_file)
+    analysis_fusion_command_list.append('grep -Phv --regexp="^Hugo|^#" ' + analysis_fusion_files_query + ' >> ' + fusion_mut_file)
+    run_command_list(analysis_fusion_command_list,'generate_analysis_fusion')
 
 def assay_matcher(assay):
     if assay.find("IMPACT410") > -1:
@@ -608,7 +619,7 @@ if __name__ == '__main__':
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
         logger.info('Finished generating fusion meta')
         logger.info('Submitting job to generate fusion data')
-        generate_fusion_data(args.maf_directory,portal_dir,fusion_file_name,log_directory,script_path)
+        generate_fusion_data(args.maf_directory,portal_dir,fusion_file_name,analysis_sv_file,log_directory,script_path,version_str)
         fusion_meta_path = os.path.join(portal_dir,fusion_meta_file)
         logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:

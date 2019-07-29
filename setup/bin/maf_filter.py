@@ -98,12 +98,15 @@ with open(input_file,'rb') as input_maf:
                         continue
                     else:
                         line[filter_col] = "dmp_filter" if line[filter_col] == 'PASS' else line[filter_col] + ";dmp_filter"
-                # analyst_maf.write('\t'.join(line) + '\n')
-                dict_analyst_kept.setdefault(key, []).append('\t'.join(line))
                 # The portal also skips silent muts, genes without Entrez IDs, and intronic events
                 if re.match(r'synonymous_|stop_retained_', line[csq_col]) is None and line[entrez_id_col] != 0 and splice_dist <= 2:
                     # portal_maf.write('\t'.join(line[0:45]) + '\n')
                     dict_portal_kept.setdefault(key, []).append('\t'.join(line[0:45]))
+                    dict_analyst_kept.setdefault(key, []).append('\t'.join(line))
+                # tag this events in analysis maf as "skipped_by_portal" in column "Mutation_Status"
+                else:
+                    line[mut_status_col] = "skipped_by_portal"
+                    dict_analyst_kept.setdefault(key, []).append('\t'.join(line))
 
 # Keep fillout lines (Mutation_Status==None) in portal/data_mutations_extended.txt and also a new analysis file with extension analysis/*.muts.fillout.maf.
 # write into analysis files
