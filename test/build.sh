@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
+unset TOIL_LSF_ARGS
 cd ..
 source build-pipeline.sh -t -b $1
 # Run test
