@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Set estimated walltime <60 mins and use the barely used internet nodes, to reduce job PEND times
 cd ..
 source build-pipeline.sh -t -b $BUILD_NUMBER
