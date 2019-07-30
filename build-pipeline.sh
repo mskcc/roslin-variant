@@ -38,12 +38,12 @@ function finish {
         # clean up
         cd $parentDir
         rm -f setup/config/build-settings.sh
-        rm -f setup/config/settings.sh
-        rm -f core/config/settings.sh
         rm -f build/scripts/settings-container.sh
         if [ -n "$TEST_MODE" ]
         then
             rm -f setup/config/test-settings.sh
+            rm -f core/config/settings.sh
+            rm -f setup/config/settings.sh
             rm -f test/run-example.sh
             rm -f test/run-example-sv.sh
             if [ -n "$CLEAN" ]
