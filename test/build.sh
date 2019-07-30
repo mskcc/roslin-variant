@@ -6,7 +6,11 @@ source build-pipeline.sh -t -b $1
 # Run test
 printf "\n----------Running Test----------\n"
 cd $ROSLIN_EXAMPLE_PATH
+source $parentDir/core/config/settings.sh
+source $parentDir/setup/config/settings.sh
 source $parentDir/setup/config/test-settings.sh
+rm -f $parentDir/core/config/settings.sh
+rm -f $parentDir/setup/config/settings.sh
 rm -f $parentDir/setup/config/test-settings.sh
 export TMPDIR_TEST=$TMPDIR
 export LOG_TEST=$2
