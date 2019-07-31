@@ -36,35 +36,58 @@ def save_yaml(yaml_path,yaml_data):
     with open(yaml_path, 'w') as yaml_file:
         yaml.safe_dump(yaml_data, yaml_file)
 
+
+def is_bam(file_path):
+    if file_path.endswith('.bam'):
+        return True
+    return False
+
+
+# Parsing the mapping file checks if something is a DMP-Bam or a regular samples
 def parse_mapping_file(mfile):
-    mapping_dict = dict()
+    sample_reg = list()
+    sample_bam = list()
     with open(mfile, "r") as fh:
         csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=mapping_headers)
         for row in csvreader:
-            #take all hyphens out, these will be word separators in fastq chunks
-            row['sample_id'] = row['sample_id'].replace("-", "_")
-            new_row = copy.deepcopy(row)
-            rg_id = row['sample_id'].replace("-","_") + new_row['library_suffix'].replace("-","_") + "-" + new_row['run_id'].replace("-","_")
-            new_row['run_id'] = new_row['run_id'].replace("-","_")
-            #hyphens suck
-            fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
-            new_row['rg_id'] = []
-            for fastq in fastqs['R1']:
-                new_row['rg_id'].append(rg_id)
-            if row['sample_id'] in mapping_dict:
-                #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
-                #FIXME do this merge better
-                mapping_dict[row['sample_id']]['fastqs']['R1']= mapping_dict[row['sample_id']]['fastqs']['R1'] + fastqs['R1']
-                mapping_dict[row['sample_id']]['fastqs']['R2']= mapping_dict[row['sample_id']]['fastqs']['R2'] + fastqs['R2']
-                #append this so when we have a big list of bullshit, we can hoepfully sort out
-                #the types of bullshit that are suited for each other
-                for fastq in fastqs['R1']:
-                    mapping_dict[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-" + new_row['run_id'])
+            file_path = row['fastq_directory'].strip()
+            if is_bam(file_path): # is DMP-bam file
+                sample_bam.append(row)
             else:
-                new_row['fastqs'] = fastqs
-                mapping_dict[row['sample_id']] = new_row
+                sample_reg.append(row)
+    samples_dmp = sample_bam
+    samples_reg = get_samples_from_mapping_file(sample_reg)
 
-    return mapping_dict
+    return samples_reg, samples_dmp
+
+
+def get_samples_from_mapping_file(list_of_sample_dicts):
+    samples_reg = dict()
+    for row in list_of_sample_dicts:
+        #take all hyphens out, these will be word separators in fastq chunks
+        row['sample_id'] = row['sample_id'].replace("-", "_")
+        new_row = copy.deepcopy(row)
+        rg_id = row['sample_id'].replace("-","_") + new_row['library_suffix'].replace("-","_") + "-" + new_row['run_id'].replace("-","_")
+        new_row['run_id'] = new_row['run_id'].replace("-","_")
+        #hyphens suck
+        fastqs = sort_fastqs_into_dict(glob.glob(os.path.join(new_row['fastq_directory'], "*R[12]*.fastq.gz")))
+        new_row['rg_id'] = []
+        for fastq in fastqs['R1']:
+            new_row['rg_id'].append(rg_id)
+        if row['sample_id'] in samples_reg:
+            #this means multiple runs were used on the sample, two or more lines appear in mapping.txt for that sample
+            #FIXME do this merge better
+            samples_reg[row['sample_id']]['fastqs']['R1']= samples_reg[row['sample_id']]['fastqs']['R1'] + fastqs['R1']
+            samples_reg[row['sample_id']]['fastqs']['R2']= samples_reg[row['sample_id']]['fastqs']['R2'] + fastqs['R2']
+            #append this so when we have a big list of bullshit, we can hoepfully sort out
+            #the types of bullshit that are suited for each other
+            for fastq in fastqs['R1']:
+                samples_reg[row['sample_id']]['rg_id'].append(row['sample_id'] + new_row['library_suffix'] + "-" + new_row['run_id'])
+        else:
+            new_row['fastqs'] = fastqs
+            samples_reg[row['sample_id']] = new_row
+
+    return samples_reg
 
 
 def parse_pairing_file(pfile):
@@ -235,12 +258,12 @@ if __name__ == "__main__":
     intervals = get_baits_and_targets(assay,ROSLIN_RESOURCES)
     gatk_jar_path = str(ROSLIN_RESOURCES["programs"]["gatk"]["default"])
     curated_bams = get_curated_bams(assay,REQUEST_FILES)
-    mapping_dict = parse_mapping_file(args.mapping)
+    samples_reg, dmp_dict = parse_mapping_file(args.mapping)
     pairing_dict = parse_pairing_file(args.pairing)
     grouping_dict = parse_grouping_file(args.grouping)
     abra_ram_min = calculate_abra_ram_size(grouping_dict)
     output_yaml = dict()
-    output_yaml['samples'] = mapping_dict
+    output_yaml['samples'] = samples_reg
     output_yaml['pairs'] = pairing_dict
     output_yaml['groups'] = grouping_dict
     # print yaml.dump(output_yaml, default_flow_style=False)
@@ -272,8 +295,8 @@ if __name__ == "__main__":
     complex_tn = get_complex_tn(assay)
     temp_dir = "/scratch"
     if 'TMPDIR' in os.environ:
-	if os.environ['TMPDIR']:
-		temp_dir = os.environ['TMPDIR']
+        if os.environ['TMPDIR']:
+                temp_dir = os.environ['TMPDIR']
 
     files = {
         'mapping_file': {'class': 'File', 'path': os.path.realpath(args.mapping)},
@@ -303,17 +326,17 @@ if __name__ == "__main__":
     fail = 0
     list_of_pair_samples = []
     for pair in pairing_dict:
-        if pair[0] not in mapping_dict.keys():
+        if pair[0] not in samples_reg.keys():
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[0])
             fail = 1
-        if pair[1] not in mapping_dict.keys():
+        if pair[1] not in samples_reg.keys():
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[1])
             fail = 1
         list_of_pair_samples.append(pair[0])
         list_of_pair_samples.append(pair[1])
     for group in grouping_dict.values():
         for sample in group:
-            if sample not in mapping_dict.keys():
+            if sample not in samples_reg.keys():
                 print >>sys.stderr, "grouping file has id %s, but this wasn't found in mapping file" % sample
                 fail = 1
             if sample not in list_of_pair_samples:
@@ -323,7 +346,7 @@ if __name__ == "__main__":
     if fail:
         print >>sys.stderr, "ERROR: Pairing/grouping files have sample IDs not found in mapping file. Please review."
         sys.exit(1)
-    for sample_id, sample in mapping_dict.items():
+    for sample_id, sample in samples_reg.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
         new_sample_object['adapter2'] = adapter_two_string
