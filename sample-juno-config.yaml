@@ -34,7 +34,7 @@ dependencies:
     version: releases/3.18.0
     source: github:https://github.com/mskcc/toil
 test:
-  root: /juno/work/ci/roslin-test/variant/
+  root: /juno/work/ci/roslin-test/
   data_path: /juno/work/pi/nikhil/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
   data_url: https://s3.us-east-2.amazonaws.com/roslindata/roslin_variant_version_2.5.0_test_data.tar.gz
   batchsystem: LSF
