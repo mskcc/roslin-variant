@@ -34,7 +34,9 @@ def read_pipeline_settings(pipeline_name_version):
 
 def save_yaml(yaml_path,yaml_data):
     with open(yaml_path, 'w') as yaml_file:
-        yaml.safe_dump(yaml_data, yaml_file)
+        noalias_dumper = yaml.dumper.SafeDumper
+        noalias_dumper.ignore_aliases = lambda self, data: True
+        yaml.dump(yaml_data, yaml_file, Dumper=noalias_dumper)
 
 
 def is_bam(file_path):
@@ -44,21 +46,29 @@ def is_bam(file_path):
 
 
 # Parsing the mapping file checks if something is a DMP-Bam or a regular samples
-def parse_mapping_file(mfile):
+def parse_mapping_file(mfile, pdx_set):
     sample_reg = list()
     sample_bam = list()
+    sample_xeno = list()
     with open(mfile, "r") as fh:
         csvreader = csv.DictReader(fh, delimiter="\t", fieldnames=mapping_headers)
         for row in csvreader:
             file_path = row['fastq_directory'].strip()
-            if is_bam(file_path): # is DMP-bam file
+            sample_id = row['sample_id']
+            if sample_id in pdx_set: # is PDX sample
+                sample_xeno.append(row)
+            elif is_bam(file_path): # is DMP-bam file
                 sample_bam.append(row)
             else:
                 sample_reg.append(row)
-    samples_dmp = sample_bam
+    samples_dmp = get_samples_from_mapping_file(sample_bam)
     samples_reg = get_samples_from_mapping_file(sample_reg)
+    samples_pdx = get_samples_from_mapping_file(sample_xeno)
 
-    return samples_reg, samples_dmp
+    print("number of reg samples: %i" %len(samples_reg))
+    print("number of dmp samples: %i" %len(samples_dmp))
+    print("number of pdx samples: %i" %len(samples_pdx))
+    return samples_reg, samples_dmp, samples_pdx
 
 
 def get_samples_from_mapping_file(list_of_sample_dicts):
@@ -227,6 +237,71 @@ def calculate_abra_ram_size(grouping_dict):
         return 512000
     return 40000
 
+
+def is_pdx(clinical_data):
+    cols_to_check = ['SAMPLE_CLASS', 'SAMPLE_TYPE']
+    pdx_samples = set()
+    for col in cols_to_check:
+        for row in clinical_data:
+            sample_id = row['SAMPLE_ID']
+            if 'pdx' in row[col].lower():
+                pdx_samples.add(sample_id)
+    return pdx_samples
+
+
+def create_yaml_entries_for_samples(reg, dmp, pdx):
+    sample_dict = dict()
+
+    for sample_id, sample in reg.items():
+        new_sample_object = dict()
+        new_sample_object['adapter'] = adapter_one_string
+        new_sample_object['adapter2'] = adapter_two_string
+        new_sample_object['R1'] = sample['fastqs']['R1']
+        new_sample_object['R2'] = sample['fastqs']['R2']
+        new_sample_object['LB'] = sample_id + sample['library_suffix']
+        new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
+        new_sample_object['PU'] = sample['rg_id']
+        new_sample_object['ID'] = sample_id
+        new_sample_object['PL'] = "Illumina"
+        new_sample_object['CN'] = "MSKCC"
+        new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
+        new_sample_object['type'] = 'REG'
+        sample_dict[sample_id] = new_sample_object
+
+    for sample_id, sample in pdx.items():
+        new_sample_object = dict()
+        new_sample_object['adapter'] = adapter_one_string
+        new_sample_object['adapter2'] = adapter_two_string
+        new_sample_object['R1'] = sample['fastqs']['R1']
+        new_sample_object['R2'] = sample['fastqs']['R2']
+        new_sample_object['LB'] = sample_id + sample['library_suffix']
+        new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
+        new_sample_object['PU'] = sample['rg_id']
+        new_sample_object['ID'] = sample_id
+        new_sample_object['PL'] = "Illumina"
+        new_sample_object['CN'] = "MSKCC"
+        new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
+        new_sample_object['type'] = 'PDX'
+        sample_dict[sample_id] = new_sample_object
+
+    for sample_id, sample in dmp.items():
+        new_sample_object = dict()
+        new_sample_object['adapter'] = adapter_one_string
+        new_sample_object['adapter2'] = adapter_two_string
+        new_sample_object['R1'] = sample['fastqs']['R1']
+        new_sample_object['R2'] = sample['fastqs']['R2']
+        new_sample_object['LB'] = sample_id + sample['library_suffix']
+        new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
+        new_sample_object['PU'] = sample['rg_id']
+        new_sample_object['ID'] = sample_id
+        new_sample_object['PL'] = "Illumina"
+        new_sample_object['CN'] = "MSKCC"
+        new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
+        new_sample_object['type'] = 'PDX'
+        sample_dict[sample_id] = new_sample_object
+
+    return sample_dict
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
     parser.add_argument("-m", "--mapping", help="the mapping file", required=True)
@@ -238,11 +313,13 @@ if __name__ == "__main__":
     parser.add_argument("--clinical", help="the clinical data file", required=False)
     args = parser.parse_args()
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
+    pdx_samples = set()
     if args.clinical:
         if os.path.exists(args.clinical):
             with open(args.clinical, 'rb') as clinical_data_file:
                 clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
                 clinical_data = list(clinical_reader)
+                pdx_samples = is_pdx(clinical_data)
         else:
             print >>sys.stderr, "ERROR: Cound not find %s" % args.clinical
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
@@ -258,7 +335,7 @@ if __name__ == "__main__":
     intervals = get_baits_and_targets(assay,ROSLIN_RESOURCES)
     gatk_jar_path = str(ROSLIN_RESOURCES["programs"]["gatk"]["default"])
     curated_bams = get_curated_bams(assay,REQUEST_FILES)
-    samples_reg, dmp_dict = parse_mapping_file(args.mapping)
+    samples_reg, samples_dmp, samples_pdx = parse_mapping_file(args.mapping, pdx_samples)
     pairing_dict = parse_pairing_file(args.pairing)
     grouping_dict = parse_grouping_file(args.grouping)
     abra_ram_min = calculate_abra_ram_size(grouping_dict)
@@ -326,17 +403,17 @@ if __name__ == "__main__":
     fail = 0
     list_of_pair_samples = []
     for pair in pairing_dict:
-        if pair[0] not in samples_reg.keys():
+        if pair[0] not in samples_reg.keys() and pair[0] not in samples_pdx.keys():
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[0])
             fail = 1
-        if pair[1] not in samples_reg.keys():
+        if pair[1] not in samples_reg.keys() and pair[1] not in samples_pdx.keys():
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[1])
             fail = 1
         list_of_pair_samples.append(pair[0])
         list_of_pair_samples.append(pair[1])
     for group in grouping_dict.values():
         for sample in group:
-            if sample not in samples_reg.keys():
+            if sample not in samples_reg.keys() and sample not in samples_pdx.keys():
                 print >>sys.stderr, "grouping file has id %s, but this wasn't found in mapping file" % sample
                 fail = 1
             if sample not in list_of_pair_samples:
@@ -346,20 +423,8 @@ if __name__ == "__main__":
     if fail:
         print >>sys.stderr, "ERROR: Pairing/grouping files have sample IDs not found in mapping file. Please review."
         sys.exit(1)
-    for sample_id, sample in samples_reg.items():
-        new_sample_object = dict()
-        new_sample_object['adapter'] = adapter_one_string
-        new_sample_object['adapter2'] = adapter_two_string
-        new_sample_object['R1'] = sample['fastqs']['R1']
-        new_sample_object['R2'] = sample['fastqs']['R2']
-        new_sample_object['LB'] = sample_id + sample['library_suffix']
-        new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
-        new_sample_object['PU'] = sample['rg_id']
-        new_sample_object['ID'] = sample_id
-        new_sample_object['PL'] = "Illumina"
-        new_sample_object['CN'] = "MSKCC"
-        new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
-        sample_dict[sample_id] = new_sample_object
+
+    sample_dict = create_yaml_entries_for_samples(samples_reg, samples_dmp, samples_pdx)
 
     for pair in pairing_dict:
         first_pair_id = pair[0]
