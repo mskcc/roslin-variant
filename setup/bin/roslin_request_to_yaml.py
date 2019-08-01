@@ -297,7 +297,7 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['PL'] = "Illumina"
         new_sample_object['CN'] = "MSKCC"
         new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
-        new_sample_object['type'] = 'PDX'
+        new_sample_object['type'] = 'DMP-Bam'
         sample_dict[sample_id] = new_sample_object
 
     return sample_dict
@@ -402,18 +402,21 @@ if __name__ == "__main__":
     # do some checks for missing sample IDs
     fail = 0
     list_of_pair_samples = []
+
+    samples_found = set(samples_reg.keys() + samples_pdx.keys() + samples_dmp.keys())
+
     for pair in pairing_dict:
-        if pair[0] not in samples_reg.keys() and pair[0] not in samples_pdx.keys():
+        if pair[0] not in samples_found:
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[0])
             fail = 1
-        if pair[1] not in samples_reg.keys() and pair[1] not in samples_pdx.keys():
+        if pair[1] not in samples_found:
             print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[1])
             fail = 1
         list_of_pair_samples.append(pair[0])
         list_of_pair_samples.append(pair[1])
     for group in grouping_dict.values():
         for sample in group:
-            if sample not in samples_reg.keys() and sample not in samples_pdx.keys():
+            if sample not in samples_found:
                 print >>sys.stderr, "grouping file has id %s, but this wasn't found in mapping file" % sample
                 fail = 1
             if sample not in list_of_pair_samples:
