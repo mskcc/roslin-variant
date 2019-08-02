@@ -61,7 +61,7 @@ def parse_mapping_file(mfile, pdx_set):
                 sample_bam.append(row)
             else:
                 sample_reg.append(row)
-    samples_dmp = get_samples_from_mapping_file(sample_bam)
+    samples_dmp = get_dmp_bam_from_mapping_file(sample_bam)
     samples_reg = get_samples_from_mapping_file(sample_reg)
     samples_pdx = get_samples_from_mapping_file(sample_xeno)
 
@@ -70,6 +70,22 @@ def parse_mapping_file(mfile, pdx_set):
     print("number of pdx samples: %i" %len(samples_pdx))
     return samples_reg, samples_dmp, samples_pdx
 
+
+def get_dmp_bam_from_mapping_file(list_of_sample_dicts):
+    samples_dmp = dict()
+    for row in list_of_sample_dicts:
+        #take all hyphens out, these will be word separators in fastq chunks
+        row['sample_id'] = row['sample_id'].replace("-", "_")
+        new_row = copy.deepcopy(row)
+        rg_id = row['sample_id'].replace("-","_") + new_row['library_suffix'].replace("-","_") + "-" + new_row['run_id'].replace("-","_")
+        new_row['run_id'] = new_row['run_id'].replace("-","_")
+        #hyphens suck
+        new_row['bam'] = [new_row['fastq_directory']]
+        new_row['rg_id'] = []
+        new_row['rg_id'].append(rg_id)
+        samples_dmp[row['sample_id']] = new_row
+
+    return samples_dmp
 
 def get_samples_from_mapping_file(list_of_sample_dicts):
     samples_reg = dict()
@@ -258,6 +274,9 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['adapter2'] = adapter_two_string
         new_sample_object['R1'] = sample['fastqs']['R1']
         new_sample_object['R2'] = sample['fastqs']['R2']
+        new_sample_object['zR1'] = []
+        new_sample_object['zR2'] = []
+        new_sample_object['bam'] = []
         new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
         new_sample_object['PU'] = sample['rg_id']
@@ -265,15 +284,17 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['PL'] = "Illumina"
         new_sample_object['CN'] = "MSKCC"
         new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
-        new_sample_object['type'] = 'REG'
         sample_dict[sample_id] = new_sample_object
 
     for sample_id, sample in pdx.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
         new_sample_object['adapter2'] = adapter_two_string
-        new_sample_object['R1'] = sample['fastqs']['R1']
-        new_sample_object['R2'] = sample['fastqs']['R2']
+        new_sample_object['R1'] = []
+        new_sample_object['R2'] = []
+        new_sample_object['zR1'] = sample['fastqs']['R1']
+        new_sample_object['zR2'] = sample['fastqs']['R2']
+        new_sample_object['bam'] = []
         new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
         new_sample_object['PU'] = sample['rg_id']
@@ -281,15 +302,17 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['PL'] = "Illumina"
         new_sample_object['CN'] = "MSKCC"
         new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
-        new_sample_object['type'] = 'PDX'
         sample_dict[sample_id] = new_sample_object
 
     for sample_id, sample in dmp.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
         new_sample_object['adapter2'] = adapter_two_string
-        new_sample_object['R1'] = sample['fastqs']['R1']
-        new_sample_object['R2'] = sample['fastqs']['R2']
+        new_sample_object['R1'] = []
+        new_sample_object['R2'] = []
+        new_sample_object['zR1'] = []
+        new_sample_object['zR2'] = []
+        new_sample_object['bam'] = sample['bam']
         new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
         new_sample_object['PU'] = sample['rg_id']
@@ -297,7 +320,6 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['PL'] = "Illumina"
         new_sample_object['CN'] = "MSKCC"
         new_sample_object['bwa_output'] = sample['sample_id'] + ".bam"
-        new_sample_object['type'] = 'DMP-Bam'
         sample_dict[sample_id] = new_sample_object
 
     return sample_dict
