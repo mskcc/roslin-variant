@@ -220,22 +220,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # hacky way of grabbing clinical data for using pdx ref
     pdx_genome = False
-    clinical_file_glob = glob.glob(os.path.join(os.path.dirname(args.grouping), '*sample_data_clinical.txt'))
-    if len(clinical_file_glob) > 0:
-        clinical_file = clinical_file_glob[0]
-        with open(clinical_file, 'rb') as clinical_data_file:
-            clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
-            clinical_data = list(clinical_reader)
-        for tumor_samp in clinical_data:
-            if tumor_samp['SAMPLE_TYPE'].upper() == 'PDX':
-                pdx_genome = True
-
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
     if args.clinical:
         if os.path.exists(args.clinical):
             with open(args.clinical, 'rb') as clinical_data_file:
                 clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
                 clinical_data = list(clinical_reader)
+            for tumor_samp in clinical_data:
+                if tumor_samp['SAMPLE_TYPE'].upper() == 'PDX':
+                    pdx_genome = True
         else:
             print >>sys.stderr, "ERROR: Cound not find %s" % args.clinical
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
