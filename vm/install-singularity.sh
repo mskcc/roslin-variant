@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SINGULARITY_VERSION="v3.0.3"
+SINGULARITY_VERSION="v3.1.1"
 SINGULARITY_INSTALL_TEMP_DIR="/tmp/singularity"
 
 # Install system dependencies
