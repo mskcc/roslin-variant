@@ -59,19 +59,41 @@ inputs:
         ID: string
         PL: string
         PU: string[]
-        R1: string[]
-        R2: string[]
+        R1: File[]
+        R2: File[]
+        zR1: File[]
+        zR2: File[]
+        bam: File
         RG_ID: string[]
         adapter: string
         adapter2: string
         bwa_output: string
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
+  mouse_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   tmp_dir: string
   genome: string
   opt_dup_pix_dist: string
   bait_intervals: File
   target_intervals: File
   fp_intervals: File
-  ref_fasta: string
   conpair_markers_bed: string
   gatk_jar_path: string
 
@@ -127,8 +149,6 @@ steps:
       run:
           class: ExpressionTool
           id: get_sample_info
-          requirements:
-              - class: InlineJavascriptRequirement
           inputs:
             sample:
               type:
@@ -139,8 +159,11 @@ steps:
                   ID: string
                   PL: string
                   PU: string[]
-                  R1: string[]
-                  R2: string[]
+                  R1: File[]
+                  R2: File[]
+                  zR1: File[]
+                  zR2: File[]
+                  bam: File
                   RG_ID: string[]
                   adapter: string
                   adapter2: string
@@ -151,8 +174,12 @@ steps:
             ID: string
             PL: string
             PU: string[]
-            R1: string[]
-            R2: string[]
+            zPU: string[]
+            R1: File[]
+            R2: File[]
+            zR1: File[]
+            zR2: File[]
+            bam: File
             RG_ID: string[]
             adapter: string
             adapter2: string
@@ -161,13 +188,43 @@ steps:
             for(var key in inputs.sample){
               sample_object[key] = inputs.sample[key]
             }
+            sample_object['zPU'] = [];
+            if(sample_object['zR1'].length != 0 && sample_object['zR2'].length != 0 ){
+              sample_object['zPU'] = [sample_object['PU']];
+            }
             return sample_object;
           }"
+  resolve_pdx:
+    run: ../modules/sample/resolve-pdx.cwl
+    in:
+      human_reference: ref_fasta
+      mouse_reference: mouse_fasta
+      sample_id: get_sample_info/ID
+      lane_id: get_sample_info/zPU
+      zR1: get_sample_info/zR1
+      zR2: get_sample_info/zR2
+    out: [disambiguate_bam,summary]
+    scatter: [lane_id]
+    scatterMethod: dotproduct
+  unpack_bam:
+    run: ../tools/unpack-bam/0.1.0/unpack-bam.cwl
+    in:
+      input_bam:
+        source: [resolve_pdx/disambiguate_bam, get_sample_info/bam]
+        linkMerge: merge_flattened
+      sample_id: get_sample_info/ID
+    out: [R1, R2]
+    scatter: [input_bam]
+    scatterMethod: dotproduct
   chunking:
     run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
-      fastq1: get_sample_info/R1
-      fastq2: get_sample_info/R2
+      fastq1:
+        source: [get_sample_info/R1, unpack_bam/R1]
+        linkMerge: merge_flattened
+      fastq2:
+        source: [get_sample_info/R2, unpack_bam/R2]
+        linkMerge: merge_flattened
       platform_unit: get_sample_info/PU
     out: [chunks1, chunks2]
     scatter: [fastq1, fastq2, platform_unit]
