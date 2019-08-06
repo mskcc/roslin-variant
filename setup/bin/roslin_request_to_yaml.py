@@ -483,6 +483,7 @@ if __name__ == "__main__":
         "cosmic": {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
         'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
         'ref_fasta': {'class': 'File', 'path': str(REQUEST_FILES['ref_fasta'])},
+        'mouse_fasta': {'class': 'File', 'path': str(REQUEST_FILES['mouse_fasta'])},
         "db_files": files
     }
     params = {
