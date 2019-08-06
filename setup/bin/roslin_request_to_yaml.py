@@ -425,7 +425,6 @@ if __name__ == "__main__":
         'facets_snps': str(ROSLIN_RESOURCES['genomes'][genome]['facets_snps']),
         'custom_enst': str(REQUEST_FILES['custom_enst']),
         'vep_path': str(REQUEST_FILES['vep_path']),
-        'ref_fasta':  str(REQUEST_FILES['ref_fasta']),
         'conpair_markers': str(REQUEST_FILES['conpair_markers']),
         'conpair_markers_bed': str(REQUEST_FILES['conpair_markers_bed'])
     }
@@ -483,6 +482,7 @@ if __name__ == "__main__":
         "snps_1000g": {'class': 'File', 'path': str(REQUEST_FILES['snps_1000g'])},
         "cosmic": {'class': 'File', 'path': str(REQUEST_FILES['cosmic'])},
         'exac_filter': {'class': 'File', 'path': str(REQUEST_FILES['exac_filter'])},
+        'ref_fasta': {'class': 'File', 'path': str(REQUEST_FILES['ref_fasta'])},
         "db_files": files
     }
     params = {
