@@ -183,8 +183,8 @@ def get_baits_and_targets(assay, ROSLIN_RESOURCES, pdx_genome):
         assay = "IMPACT468_08390"
     if assay.find("IMPACT468+Poirier_RB1_intron_V2") > -1:
         assay = "IMPACT468_08050"
-    if pdx_genome: # kind of hacky
-        assay = "IMPACT468_b37_mm10"
+    #if pdx_genome: # kind of hacky
+    #    assay = "IMPACT468_b37_mm10"
 
     if assay in targets:
         return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
