@@ -76,7 +76,16 @@ inputs:
     mutect_rf: string[]
     refseq: File
     hotspot_vcf: string
-    ref_fasta: string
+    ref_fasta:
+        type: File
+        secondaryFiles:
+          - .amb
+          - .ann
+          - .bwt
+          - .pac
+          - .sa
+          - .fai
+          - ^.dict
     facets_pcval: int
     facets_cval: int
     facets_snps: string

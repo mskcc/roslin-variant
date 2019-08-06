@@ -68,7 +68,6 @@ inputs:
         bait_intervals: File
         target_intervals: File
         fp_intervals: File
-        ref_fasta: string
         conpair_markers_bed: string
   runparams:
     type:
@@ -79,6 +78,16 @@ inputs:
         scripts_bin: string
         tmp_dir: string
         gatk_jar_path: string
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   bams:
     type:
       type: array
@@ -142,8 +151,7 @@ steps:
         valueFrom: ${ return inputs.db_files.target_intervals }
       fp_intervals:
         valueFrom: ${ return inputs.db_files.fp_intervals }
-      ref_fasta:
-        valueFrom: ${ return inputs.db_files.ref_fasta }
+      ref_fasta: ref_fasta
       conpair_markers_bed:
         valueFrom: ${ return inputs.db_files.conpair_markers_bed }
       genome:

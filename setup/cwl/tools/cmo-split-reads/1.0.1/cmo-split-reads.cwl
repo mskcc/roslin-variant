@@ -56,14 +56,13 @@ doc: |
 
 inputs:
   fastq1:
-    type: string
-
+    type: File
     doc: filename to split
     inputBinding:
       prefix: --fastq1
 
   fastq2:
-    type: string
+    type: File
     doc: filename2 to split
     inputBinding:
       prefix: --fastq2

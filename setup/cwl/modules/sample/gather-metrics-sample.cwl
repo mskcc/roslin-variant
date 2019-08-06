@@ -61,8 +61,16 @@ inputs:
   tmp_dir: string
   gatk_jar_path: string
   conpair_markers_bed: string
-  ref_fasta: string
-
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
 outputs:
 
   gcbias_pdf:

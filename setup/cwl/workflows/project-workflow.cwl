@@ -60,7 +60,6 @@ inputs:
       type: record
       fields:
         refseq: File
-        ref_fasta: string
         vep_path: string
         custom_enst: string
         vep_data: string
@@ -77,6 +76,26 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
+  mouse_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   hapmap:
     type: File
     secondaryFiles:
@@ -135,22 +154,22 @@ inputs:
     type:
       type: array
       items:
-        type: array
-        items:
-          type: record
-          fields:
-            CN: string
-            LB: string
-            ID: string
-            PL: string
-            PU: string[]
-            R1: string[]
-            R2: string[]
-            RG_ID: string[]
-            adapter: string
-            adapter2: string
-            name: string
-            bwa_output: string
+        type: record
+        fields:
+          CN: string
+          LB: string
+          ID: string
+          PL: string
+          PU: string[]
+          R1: File[]
+          R2: File[]
+          zR1: File[]
+          zR2: File[]
+          bam: File
+          RG_ID: string[]
+          adapter: string
+          adapter2: string
+          bwa_output: string
 
 outputs:
 
@@ -306,6 +325,8 @@ steps:
       curated_bams: curated_bams
       cosmic: cosmic
       pair: pairs
+      ref_fasta: ref_fasta
+      mouse_fasta: mouse_fasta
     out: [bams,clstats1,clstats2,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileups,mutect_vcf,mutect_callstats,vardict_vcf,combine_vcf,annotate_vcf,vardict_norm_vcf,mutect_norm_vcf,facets_png,facets_txt_hisens,facets_txt_purity,facets_out,facets_rdata,facets_seg,facets_counts,maf]
     scatter: [pair]
     scatterMethod: dotproduct

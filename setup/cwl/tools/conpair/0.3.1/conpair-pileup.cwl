@@ -62,14 +62,17 @@ doc: |
 inputs:
 
   ref:
-    type:
-    - [File, string]
+    type: File
     inputBinding:
       prefix: --reference
     secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
       - ^.dict
-      - ^.fasta.fai
-
   java_xmx:
     type:
     - 'null'
