@@ -92,7 +92,7 @@ class SampleWorkflow(SingleCWLWorkflow):
 		sample_input = self.input_sample_or_pair(["sample","pair","pairs"],job_params,roslin_yaml)
 		dependency_input['sample'] = sample_input
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","gatk_jar_path","intervals"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -162,7 +162,7 @@ class Alignment(SingleCWLWorkflow):
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		dependency_input['pair'] = self.input_sample_or_pair([None,"pair","pairs"],job_params,roslin_yaml)
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","covariates","abra_scratch","abra_ram_min","gatk_jar_path","intervals"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -199,7 +199,7 @@ class GatherMetrics(SingleCWLWorkflow):
 		dependency_input = copy.deepcopy(roslin_yaml)
 		dependency_input['bam'] = self.input_sample_or_pair(["bam","bams","bams"],job_params,roslin_yaml)
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","gatk_jar_path"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -267,7 +267,7 @@ class MafProcessing(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","vep_path","custom_enst","vep_data","hotspot_list","pairing_file"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","pairing_file"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -331,7 +331,7 @@ class StructuralVariants(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","delly_type"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","vep_path","custom_enst","vep_data","hotspot_list","pairing_file","delly_exclude"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","pairing_file","delly_exclude"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -360,7 +360,7 @@ class VariantCalling(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","mutect_dcov","mutect_rf","facets_pcval","facets_cval","complex_tn","complex_nn"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","facets_snps","hotspot_vcf","refseq"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["facets_snps","hotspot_vcf","refseq"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
