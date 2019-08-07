@@ -270,6 +270,11 @@ def is_pdx(clinical_data):
                 pdx_samples.add(sample_id)
     return pdx_samples
 
+def create_input_file_list(file_path_list):
+    input_file_list = []
+    for single_file_path in file_path_list:
+        input_file_list.append( {"class": "File", "path": str(single_file_path)})
+    return input_file_list
 
 def create_yaml_entries_for_samples(reg, dmp, pdx):
     sample_dict = dict()
@@ -278,8 +283,8 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
         new_sample_object['adapter2'] = adapter_two_string
-        new_sample_object['R1'] = {"class": "File", "path": str(sample['fastqs']['R1'])}
-        new_sample_object['R2'] = {"class": "File", "path": str(sample['fastqs']['R2'])}
+        new_sample_object['R1'] = create_input_file_list(sample['fastqs']['R1'])
+        new_sample_object['R2'] = create_input_file_list(sample['fastqs']['R2'])
         new_sample_object['zR1'] = []
         new_sample_object['zR2'] = []
         new_sample_object['bam'] = []
@@ -298,8 +303,8 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['adapter2'] = adapter_two_string
         new_sample_object['R1'] = []
         new_sample_object['R2'] = []
-        new_sample_object['zR1'] = {"class": "File", "path": str(sample['fastqs']['R1'])}
-        new_sample_object['zR2'] = {"class": "File", "path": str(sample['fastqs']['R2'])}
+        new_sample_object['zR1'] = create_input_file_list(sample['fastqs']['R1'])
+        new_sample_object['zR2'] = create_input_file_list(sample['fastqs']['R2'])
         new_sample_object['bam'] = []
         new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
