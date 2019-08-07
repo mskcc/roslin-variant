@@ -145,7 +145,7 @@ steps:
   get_sample_info:
       in:
         sample: sample
-      out: [ CN,LB,ID,PL,PU,R1,R2,RG_ID,adapter,adapter2,bwa_output]
+      out: [ CN,LB,ID,PL,PU,zPU,R1,R2,zR1,zR2,bam,RG_ID,adapter,adapter2,bwa_output]
       run:
           class: ExpressionTool
           id: get_sample_info
@@ -201,8 +201,8 @@ steps:
       mouse_reference: mouse_fasta
       sample_id: get_sample_info/ID
       lane_id: get_sample_info/zPU
-      zR1: get_sample_info/zR1
-      zR2: get_sample_info/zR2
+      r1: get_sample_info/zR1
+      r2: get_sample_info/zR2
     out: [disambiguate_bam,summary]
     scatter: [lane_id]
     scatterMethod: dotproduct
