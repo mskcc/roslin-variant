@@ -174,7 +174,12 @@ steps:
             ID: string
             PL: string
             PU: string[]
-            zPU: string[]
+            zPU:
+              type:
+                type: array
+                items:
+                  type: array
+                  items: string
             R1: File[]
             R2: File[]
             zR1: File[]
@@ -188,7 +193,7 @@ steps:
             for(var key in inputs.sample){
               sample_object[key] = inputs.sample[key]
             }
-            sample_object['zPU'] = [];
+            sample_object['zPU'] = [[]];
             if(sample_object['zR1'].length != 0 && sample_object['zR2'].length != 0 ){
               sample_object['zPU'] = [sample_object['PU']];
             }
@@ -216,14 +221,24 @@ steps:
     out: [R1, R2]
     scatter: [input_bam]
     scatterMethod: dotproduct
+  flatten_R1:
+    run: ../tools/flatten-array/1.0.0/flatten-array-file.cwl
+    in:
+      file_list: unpack_bam/R1
+    out: [output_file_list]
+  flatten_R2:
+    run: ../tools/flatten-array/1.0.0/flatten-array-file.cwl
+    in:
+      file_list: unpack_bam/R2
+    out: [output_file_list]
   chunking:
     run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
       fastq1:
-        source: [get_sample_info/R1, unpack_bam/R1]
+        source: [get_sample_info/R1, flatten_R1/output_file_list]
         linkMerge: merge_flattened
       fastq2:
-        source: [get_sample_info/R2, unpack_bam/R2]
+        source: [get_sample_info/R2, flatten_R2/output_file_list]
         linkMerge: merge_flattened
       platform_unit: get_sample_info/PU
     out: [chunks1, chunks2]
