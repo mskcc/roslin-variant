@@ -397,10 +397,7 @@ if __name__ == "__main__":
     tmp_dir = list()
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
     rf = ["BadCigar"]
-    if pdx_genome:
-        genome = "GRCh37_mm10"
-    else:
-        genome = "GRCh37"
+    genome = "GRCh37"
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
