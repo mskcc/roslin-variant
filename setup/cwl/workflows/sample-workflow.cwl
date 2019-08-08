@@ -63,7 +63,7 @@ inputs:
         R2: File[]
         zR1: File[]
         zR2: File[]
-        bam: File
+        bam: File[]
         RG_ID: string[]
         adapter: string
         adapter2: string
@@ -163,7 +163,7 @@ steps:
                   R2: File[]
                   zR1: File[]
                   zR2: File[]
-                  bam: File
+                  bam: File[]
                   RG_ID: string[]
                   adapter: string
                   adapter2: string
@@ -184,7 +184,7 @@ steps:
             R2: File[]
             zR1: File[]
             zR2: File[]
-            bam: File
+            bam: File[]
             RG_ID: string[]
             adapter: string
             adapter2: string
@@ -193,9 +193,9 @@ steps:
             for(var key in inputs.sample){
               sample_object[key] = inputs.sample[key]
             }
-            sample_object['zPU'] = [[]];
+            sample_object['zPU'] = [];
             if(sample_object['zR1'].length != 0 && sample_object['zR2'].length != 0 ){
-              sample_object['zPU'] = [sample_object['PU']];
+              sample_object['zPU'] = sample_object['PU'];
             }
             return sample_object;
           }"
