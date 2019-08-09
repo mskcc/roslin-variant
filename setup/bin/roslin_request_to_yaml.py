@@ -345,7 +345,6 @@ if __name__ == "__main__":
     parser.add_argument("--pipeline-name-version",action="store",dest="pipeline_name_version",help="Pipeline name/version (e.g. variant/2.5.0)",required=True)
     parser.add_argument("--clinical", help="the clinical data file", required=False)
     args = parser.parse_args()
-    # hacky way of grabbing clinical data for using pdx ref
     pdx_genome = False
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
     pdx_samples = set()
@@ -359,7 +358,7 @@ if __name__ == "__main__":
                     pdx_genome = True
             pdx_samples = is_pdx(clinical_data)
         else:
-            print >>sys.stderr, "ERROR: Cound not find %s" % args.clinical
+            print >>sys.stderr, "ERROR: Could not find %s" % args.clinical
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = "/usr/bin"
     qcpdf_jar_path = os.path.join("/usr/bin", "QCPDF.jar")
