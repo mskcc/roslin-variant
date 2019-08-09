@@ -200,7 +200,7 @@ steps:
             return sample_object;
           }"
   resolve_pdx:
-    run: ../modules/sample/resolve-pdx.cwl
+    run: ../modules/sample/resolve-pdx/resolve-pdx.cwl
     in:
       human_reference: ref_fasta
       mouse_reference: mouse_fasta
