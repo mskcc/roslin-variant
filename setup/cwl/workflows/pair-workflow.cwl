@@ -165,7 +165,7 @@ inputs:
           R2: File[]
           zR1: File[]
           zR2: File[]
-          bam: File
+          bam: File[]
           RG_ID: string[]
           adapter: string
           adapter2: string
