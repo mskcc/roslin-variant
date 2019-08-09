@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/dcterms.rdf
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/foaf.rdf
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -154,22 +154,24 @@ inputs:
     type:
       type: array
       items:
-        type: record
-        fields:
-          CN: string
-          LB: string
-          ID: string
-          PL: string
-          PU: string[]
-          R1: File[]
-          R2: File[]
-          zR1: File[]
-          zR2: File[]
-          bam: File
-          RG_ID: string[]
-          adapter: string
-          adapter2: string
-          bwa_output: string
+        type: array
+        items:
+          type: record
+          fields:
+            CN: string
+            LB: string
+            ID: string
+            PL: string
+            PU: string[]
+            R1: File[]
+            R2: File[]
+            zR1: File[]
+            zR2: File[]
+            bam: File[]
+            RG_ID: string[]
+            adapter: string
+            adapter2: string
+            bwa_output: string
 
 outputs:
 

@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/dcterms.rdf
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/foaf.rdf
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/doap.rdf
 
 
 
@@ -80,7 +80,7 @@ inputs:
     inputBinding:
       prefix: --ncbi-build
   ref_fasta:
-    type: ['null', string]
+    type: ['null', File]
     doc: Reference FASTA file
     inputBinding:
       prefix: --ref-fasta

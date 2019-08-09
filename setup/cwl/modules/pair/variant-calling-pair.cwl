@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- http://dublincore.org/2012/06/14/dcterms.rdf
-- http://xmlns.com/foaf/spec/20140114.rdf
-- http://usefulinc.com/ns/doap#
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/dcterms.rdf
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/foaf.rdf
+- file:///juno/work/pi/prototypes/roslin-pipelines/core/2.1.0/schemas/doap.rdf
 
 doap:release:
 - class: doap:Version
@@ -283,7 +283,7 @@ steps:
                 vardict_vcf: File
                 hotspot_vcf: string
                 tumor_sample_name: string
-                ref_fasta: string
+                ref_fasta: File
             outputs:
                 mutect_vcf_filtering_output:
                     type: File
