@@ -323,7 +323,7 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['R2'] = []
         new_sample_object['zR1'] = []
         new_sample_object['zR2'] = []
-        new_sample_object['bam'] = sample['bam']
+        new_sample_object['bam'] = create_input_file_list(sample['bam'])
         new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
         new_sample_object['PU'] = sample['rg_id']
@@ -402,10 +402,7 @@ if __name__ == "__main__":
     tmp_dir = list()
     covariates = ['CycleCovariate', 'ContextCovariate', 'ReadGroupCovariate', 'QualityScoreCovariate']
     rf = ["BadCigar"]
-    if pdx_genome:
-        genome = "GRCh37_mm10"
-    else:
-        genome = "GRCh37"
+    genome = "GRCh37"
     delly_type = [ "DUP", "DEL", "INV", "INS", "BND" ]
     facets_cval = get_facets_cval(assay)
     facets_pcval = get_facets_pcval(assay)
