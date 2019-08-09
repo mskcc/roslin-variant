@@ -165,19 +165,11 @@ inputs:
           R2: File[]
           zR1: File[]
           zR2: File[]
-          bam: File
+          bam: File[]
           RG_ID: string[]
           adapter: string
           adapter2: string
           bwa_output: string
-  tmp_dir: string
-  genome: string
-  opt_dup_pix_dist: string
-  bait_intervals: File
-  target_intervals: File
-  fp_intervals: File
-  conpair_markers_bed: string
-  gatk_jar_path: string
 
 outputs:
 
@@ -332,6 +324,7 @@ steps:
       fp_intervals:
         valueFrom: ${ return inputs.db_files.fp_intervals }
       ref_fasta: ref_fasta
+      mouse_fasta: mouse_fasta
       conpair_markers_bed:
         valueFrom: ${ return inputs.db_files.conpair_markers_bed }
     out: [bams,clstats1,clstats2,md_metrics,covint_list,bed,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup]

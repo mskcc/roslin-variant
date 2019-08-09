@@ -283,7 +283,7 @@ steps:
                 vardict_vcf: File
                 hotspot_vcf: string
                 tumor_sample_name: string
-                ref_fasta: string
+                ref_fasta: File
             outputs:
                 mutect_vcf_filtering_output:
                     type: File

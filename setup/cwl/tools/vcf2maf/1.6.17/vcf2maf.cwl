@@ -10,8 +10,6 @@ $schemas:
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
 
-
-
 doap:release:
 - class: doap:Version
   doap:name: vcf2maf
@@ -80,7 +78,7 @@ inputs:
     inputBinding:
       prefix: --ncbi-build
   ref_fasta:
-    type: ['null', string]
+    type: ['null', File]
     doc: Reference FASTA file
     inputBinding:
       prefix: --ref-fasta
