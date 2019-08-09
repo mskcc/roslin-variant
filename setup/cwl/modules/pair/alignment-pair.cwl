@@ -106,6 +106,16 @@ inputs:
       - .sa
       - .fai
       - ^.dict
+  mouse_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   conpair_markers_bed: string
 
 outputs:
@@ -188,6 +198,7 @@ steps:
       target_intervals: target_intervals
       fp_intervals: fp_intervals
       ref_fasta: ref_fasta
+      mouse_fasta: mouse_fasta
       conpair_markers_bed: conpair_markers_bed
     out: [clstats1,clstats2,bam,md_metrics,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup]
     scatter: [sample]
