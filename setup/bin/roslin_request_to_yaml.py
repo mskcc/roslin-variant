@@ -279,6 +279,20 @@ def create_input_file_list(file_path_list):
 def create_yaml_entries_for_samples(reg, dmp, pdx):
     sample_dict = dict()
 
+    if (set(reg) & set(dmp) & set(pdx)):
+        print >>sys.stderr, "ERROR: The same sample cannot be in multiple classes:"
+        for single_sample_id, single_sample  in list(set(reg) & set(dmp) & set(pdx)):
+            error_string_list = [single_sample_id,":"]
+            if single_sample in reg:
+                error_string_list.append("reg")
+            if single_sample in dmp:
+                error_string_list.append("dmp")
+            if single_sample in pdx:
+                error_string_list.append("pdx")
+            error_string = " ".join(error_string_list)
+            print >>sys.stderr, error_string
+        sys.exit(1)
+
     for sample_id, sample in reg.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
