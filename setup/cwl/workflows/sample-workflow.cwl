@@ -195,7 +195,7 @@ steps:
             }
             sample_object['zPU'] = [];
             if(sample_object['zR1'].length != 0 && sample_object['zR2'].length != 0 ){
-              sample_object['zPU'] = sample_object['PU'];
+              sample_object['zPU'] = [sample_object['PU']];
             }
             return sample_object;
           }"
