@@ -34,20 +34,13 @@ inputs:
       position: 0
       prefix: '--tmp-dir'
 outputs:
-  - id: R1
-    type: File[]
+  - id: rg_output
+    type: Directory
     outputBinding:
       glob: |
         ${
-            return inputs.output_dir.concat('/rg1/*.fastq.gz');
-        }
-  - id: R2
-    type: File[]
-    outputBinding:
-      glob: |
-        ${
-            return inputs.output_dir.concat('/rg2/*.fastq.gz');
-        }
+          return inputs.output_dir;
+         }
 label: unpack-bam
 requirements:
   - class: DockerRequirement

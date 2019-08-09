@@ -195,12 +195,12 @@ steps:
             }
             sample_object['zPU'] = [];
             if(sample_object['zR1'].length != 0 && sample_object['zR2'].length != 0 ){
-              sample_object['zPU'] = sample_object['PU'];
+              sample_object['zPU'] = [sample_object['PU']];
             }
             return sample_object;
           }"
   resolve_pdx:
-    run: ../modules/sample/resolve-pdx.cwl
+    run: ../modules/sample/resolve-pdx/resolve-pdx.cwl
     in:
       human_reference: ref_fasta
       mouse_reference: mouse_fasta
@@ -218,27 +218,27 @@ steps:
         source: [resolve_pdx/disambiguate_bam, get_sample_info/bam]
         linkMerge: merge_flattened
       sample_id: get_sample_info/ID
-    out: [R1, R2]
+    out: [rg_output]
     scatter: [input_bam]
     scatterMethod: dotproduct
-  flatten_R1:
-    run: ../tools/flatten-array/1.0.0/flatten-array-file.cwl
+  flatten_dir:
+    run: ../tools/flatten-array/1.0.0/flatten-array-directory.cwl
     in:
-      file_list: unpack_bam/R1
-    out: [output_file_list]
-  flatten_R2:
-    run: ../tools/flatten-array/1.0.0/flatten-array-file.cwl
+      directory_list: unpack_bam/rg_output
+    out: [output_directory]
+  consolidate_reads:
+    run: ../tools/consolidate-files/consolidate-reads.cwl
     in:
-      file_list: unpack_bam/R2
-    out: [output_file_list]
+      reads_dir: flatten_dir/output_directory
+    out: [r1,r2]
   chunking:
     run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
     in:
       fastq1:
-        source: [get_sample_info/R1, flatten_R1/output_file_list]
+        source: [get_sample_info/R1, consolidate_reads/r1]
         linkMerge: merge_flattened
       fastq2:
-        source: [get_sample_info/R2, flatten_R2/output_file_list]
+        source: [get_sample_info/R2, consolidate_reads/r2]
         linkMerge: merge_flattened
       platform_unit: get_sample_info/PU
     out: [chunks1, chunks2]

@@ -12,7 +12,6 @@ ruamel.yaml==0.14.12
 PyYAML==3.12
 simplejson==3.16.0
 argparse==1.4.0
-cwltool==1.0.20180518123035
 schema-salad==2.7.20181126142424
 pytest==4.1.1
 pytest-xdist==1.26.0

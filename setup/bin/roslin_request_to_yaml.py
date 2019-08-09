@@ -279,6 +279,20 @@ def create_input_file_list(file_path_list):
 def create_yaml_entries_for_samples(reg, dmp, pdx):
     sample_dict = dict()
 
+    if (set(reg) & set(dmp) & set(pdx)):
+        print >>sys.stderr, "ERROR: The same sample cannot be in multiple classes:"
+        for single_sample_id, single_sample  in list(set(reg) & set(dmp) & set(pdx)):
+            error_string_list = [single_sample_id,":"]
+            if single_sample in reg:
+                error_string_list.append("reg")
+            if single_sample in dmp:
+                error_string_list.append("dmp")
+            if single_sample in pdx:
+                error_string_list.append("pdx")
+            error_string = " ".join(error_string_list)
+            print >>sys.stderr, error_string
+        sys.exit(1)
+
     for sample_id, sample in reg.items():
         new_sample_object = dict()
         new_sample_object['adapter'] = adapter_one_string
@@ -323,7 +337,7 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
         new_sample_object['R2'] = []
         new_sample_object['zR1'] = []
         new_sample_object['zR2'] = []
-        new_sample_object['bam'] = sample['bam']
+        new_sample_object['bam'] = create_input_file_list(sample['bam'])
         new_sample_object['LB'] = sample_id + sample['library_suffix']
         new_sample_object['RG_ID'] = [ x + sample['runtype'] for x in sample['rg_id'] ]
         new_sample_object['PU'] = sample['rg_id']
@@ -345,7 +359,6 @@ if __name__ == "__main__":
     parser.add_argument("--pipeline-name-version",action="store",dest="pipeline_name_version",help="Pipeline name/version (e.g. variant/2.5.0)",required=True)
     parser.add_argument("--clinical", help="the clinical data file", required=False)
     args = parser.parse_args()
-    # hacky way of grabbing clinical data for using pdx ref
     pdx_genome = False
     pipeline_settings = read_pipeline_settings(args.pipeline_name_version)
     pdx_samples = set()
@@ -359,7 +372,7 @@ if __name__ == "__main__":
                     pdx_genome = True
             pdx_samples = is_pdx(clinical_data)
         else:
-            print >>sys.stderr, "ERROR: Cound not find %s" % args.clinical
+            print >>sys.stderr, "ERROR: Could not find %s" % args.clinical
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = "/usr/bin"
     qcpdf_jar_path = os.path.join("/usr/bin", "QCPDF.jar")
