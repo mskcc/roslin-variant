@@ -8,6 +8,7 @@ from track_utils import log, RoslinWorkflow, SingleCWLWorkflow
 from core_utils  import run_command_realtime, add_record_argument
 import copy
 import dill
+import glob
 
 def get_varriant_workflow_outputs(output_config, workflow_output_path):
 	output_config["bam"] = [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}]
@@ -75,6 +76,12 @@ class SampleWorkflow(SingleCWLWorkflow):
 	def configure(self):
 		super().configure('SampleWorkflow','workflows','sample-workflow.cwl',[],[])
 
+	def configure_pdx(self):
+		super().configure('SampleWorkflowPDX','workflows','sample-workflow.cwl',[],[])
+
+	def configure_bam(self):
+		super().configure('SampleWorkflowBAM','workflows','sample-workflow.cwl',[],[])
+
 	def get_inputs(self,single_dependency_list,multi_dependency_list):
 		requirement_list, dependency_key_list = super().get_inputs(single_dependency_list,multi_dependency_list)
 		sample_number = self.add_sample_or_pair_argument("sample")
@@ -103,6 +110,79 @@ class SampleWorkflow(SingleCWLWorkflow):
 		output_config["bam"] = [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}]
 		output_config["qc"] = [{"patterns": ["*metrics","*.txt","*.pdf","*.summary"], "input_folder": workflow_output_path}]
 		return output_config
+
+class SampleWorkflowPDX(SampleWorkflow):
+
+	def configure(self):
+		super().configure_pdx()
+
+	def modify_test_files(self,mpgr_output_path):
+		clinical_file_glob = os.path.join(mpgr_output_path,'*_clinical.txt')
+		clinical_file_list = glob.glob(mapping_file_glob)
+		clinical_file_data = []
+		pdx_cols_to_check = ['SAMPLE_CLASS', 'SAMPLE_TYPE']
+		pdx_col_num = None
+		clinical_file_str = None
+		if clinical_file_list:
+			clinical_file_path = clinical_file_list[0]
+			if os.path.exists(clinical_file_path):
+				with open(clinical_file_path,"r") as clinical_file:
+					header = clinical_file.readline().strip().split("\t")
+					for single_col in pdx_cols_to_check:
+						if single_col in header and pdx_col_num != None:
+							pdx_col_num = header.index(single_col)
+					if pdx_col_num != None:
+						clinical_file_str = "\t".join(header)
+						for single_line in clinical_file:
+							single_sample = single_line.strip().split("\t")
+							single_sample[pdx_col_num] = 'pdx'
+							single_sample_line = "\t".join(single_sample)
+							clinical_file_data.append(single_sample_line)
+				clinical_file_str = "\n".join(clinical_file_data)
+			if clinical_file_str:
+				with open(clinical_file_path,"w") as clinical_file:
+					clinical_file.write(clinical_file_str)
+
+class SampleWorkflowBAM(SampleWorkflow):
+
+	def configure(self):
+		super().configure_bam()
+
+	def modify_test_files(self,mpgr_output_path):
+		mapping_file_glob = os.path.join(mpgr_output_path,'*_mapping.txt')
+		mapping_file_list = glob.glob(mapping_file_glob)
+		mapping_file_data = []
+		mapping_file_dict = {}
+		bam_list = []
+		workspace_path = os.environ['ROSLIN_PIPELINE_WORKSPACE_PATH']
+		test_data_path = os.path.join(workspace_path,'test_data')
+		if mapping_file_list:
+			mapping_file_path = mapping_file_list[0]
+			if os.path.exists(mapping_file_path):
+				with open(mapping_file_path,"r") as mapping_file:
+					for single_line in mapping_file:
+						singe_fastq = single_line.strip().split("\t")
+						fastq_name = singe_fastq[1]
+						bam_file_name = fastq_name + ".rg.md.bam"
+						bam_list.append(bam_file_name)
+						mapping_file_dict[bam_file_name] = singe_fastq
+				for root, dirnames, filenames in os.walk(test_data_path):
+					for single_file in filenames:
+						if single_file in bam_list:
+							single_bam = mapping_file_dict[single_file]
+							single_bam_path = os.path.join(root,single_bam)
+							single_bam[3] = single_bam_path
+							single_bam_line = "\t".join(single_bam)
+							mapping_file_data.append(single_bam_line)
+							bam_list.remove(single_file)
+							del mapping_file_dict[single_file]
+				for single_fastq_key in mapping_file_dict:
+					singe_fastq = mapping_file_dict[single_fastq_key]
+					single_fastq_line = "\t".join(single_fastq)
+					mapping_file_data.append(single_fastq_line)
+				mapping_file_str = "\n".join(mapping_file_data)
+				with open(mapping_file_path,"w") as mapping_file:
+					mapping_file.write(mapping_file_str)
 
 class PairWorkflow(SingleCWLWorkflow):
 
