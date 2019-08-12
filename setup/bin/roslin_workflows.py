@@ -118,7 +118,7 @@ class SampleWorkflowPDX(SampleWorkflow):
 
 	def modify_test_files(self,mpgr_output_path):
 		clinical_file_glob = os.path.join(mpgr_output_path,'*_clinical.txt')
-		clinical_file_list = glob.glob(mapping_file_glob)
+		clinical_file_list = glob.glob(clinical_file_glob)
 		clinical_file_data = []
 		pdx_cols_to_check = ['SAMPLE_CLASS', 'SAMPLE_TYPE']
 		pdx_col_num = None
@@ -129,10 +129,11 @@ class SampleWorkflowPDX(SampleWorkflow):
 				with open(clinical_file_path,"r") as clinical_file:
 					header = clinical_file.readline().strip().split("\t")
 					for single_col in pdx_cols_to_check:
-						if single_col in header and pdx_col_num != None:
+						if single_col in header and pdx_col_num == None:
 							pdx_col_num = header.index(single_col)
 					if pdx_col_num != None:
-						clinical_file_str = "\t".join(header)
+						clinical_file_header = "\t".join(header)
+						clinical_file_data.append(clinical_file_header)
 						for single_line in clinical_file:
 							single_sample = single_line.strip().split("\t")
 							single_sample[pdx_col_num] = 'pdx'
@@ -170,7 +171,7 @@ class SampleWorkflowBAM(SampleWorkflow):
 					for single_file in filenames:
 						if single_file in bam_list:
 							single_bam = mapping_file_dict[single_file]
-							single_bam_path = os.path.join(root,single_bam)
+							single_bam_path = os.path.join(root,single_file)
 							single_bam[3] = single_bam_path
 							single_bam_line = "\t".join(single_bam)
 							mapping_file_data.append(single_bam_line)
