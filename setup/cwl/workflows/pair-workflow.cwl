@@ -51,6 +51,7 @@ id: pair-workflow
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
 

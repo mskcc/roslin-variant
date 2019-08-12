@@ -57,7 +57,7 @@ inputs:
     genome: string
     normal_sample_name: string
     tumor_sample_name: string
-    ref_fasta: string
+    ref_fasta: File
     vep_path: string
     custom_enst: string
     vep_data: string
@@ -159,7 +159,7 @@ steps:
                 tumor_sample_name: string
                 delly_type: string
                 pairfile: File
-                ref_fasta: string
+                ref_fasta: File
                 delly_exclude: File
             outputs:
                 delly_sv:

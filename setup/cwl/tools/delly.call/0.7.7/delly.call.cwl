@@ -72,6 +72,7 @@ inputs:
   g:
     type:
     - 'null'
+    - File
     - string
     doc: genome fasta file
     inputBinding:

@@ -51,6 +51,7 @@ id: pair-workflow-sv
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
 
@@ -337,6 +338,7 @@ steps:
           valueFrom: ${ return inputs.db_files.target_intervals }
         fp_intervals:
           valueFrom: ${ return inputs.db_files.fp_intervals }
+        mouse_fasta: mouse_fasta
         ref_fasta: ref_fasta
         conpair_markers_bed:
           valueFrom: ${ return inputs.db_files.conpair_markers_bed }
