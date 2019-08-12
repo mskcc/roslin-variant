@@ -266,7 +266,7 @@ def is_pdx(clinical_data):
     for col in cols_to_check:
         for row in clinical_data:
             sample_id = row['SAMPLE_ID']
-            if 'pdx' in row[col].lower():
+            if 'pdx' in row[col].lower() or 'xenograft' in row[col].lower():
                 pdx_samples.add(sample_id)
     return pdx_samples
 
