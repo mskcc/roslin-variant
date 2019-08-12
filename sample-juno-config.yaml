@@ -1,6 +1,6 @@
 name: variant
-version: 2.5.0
-description: Roslin Variant Pipeline v2.5.0
+version: 2.5.2
+description: Roslin Variant Pipeline v2.5.2
 root: /juno/work/pi/nikhil/roslin-pipelines/
 binding:
   core: bin
@@ -21,8 +21,8 @@ env:
 dependencies:
   core:
     version:
-      min: 2.1.0
-      max: 2.1.0
+      min: 2.1.1
+      max: 2.1.1
   cmo:
     version: 1.9.13
     source: github:https://github.com/mskcc/cmo
