@@ -26,7 +26,7 @@ OPTIONS:
    -h                Print help
 EOF
 }
-
+git submodule update --init --recursive
 parentDir=$(pwd)
 script_dir_relative=`dirname "$0"`
 script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
