@@ -385,7 +385,7 @@
         "cosmic": "/juno/work/ci/resources/request_files/cosmic/CosmicCodingMuts_v67_b37_20131024__NDS.vcf",
         "refseq": "/juno/work/ci/resources/request_files/refseq/refGene_b37.sorted.txt",
         "exac_filter": "/juno/work/ci/resources/vep/cache/ExAC_nonTCGA.r0.3.1.sites.vep.vcf.gz",
-        "vep_data": "/opt/common/CentOS_6-dev/vep/cache",
+        "vep_data": "/juno/work/ci/resources/vep/cache",
         "conpair_markers": "/usr/bin/conpair/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.txt",
         "conpair_markers_bed": "/usr/bin/conpair/data/markers/GRCh37.autosomes.phase3_shapeit2_mvncall_integrated.20130502.SNV.genotype.sselect_v4_MAF_0.4_LD_0.8.bed",
         "curated_bams": {
@@ -521,6 +521,7 @@
         "hotspot_vcf": "/usr/bin/basicfiltering/data/hotspot-list-union-v1-v2.vcf",
         "custom_enst": "/usr/bin/vcf2maf/data/isoform_overrides_at_mskcc",
         "vep_path": "/usr/bin/vep",
-        "ref_fasta": "/juno/work/ci/resources/genomes/GRCh37/fasta/b37.fasta"
+        "ref_fasta": "/juno/work/ci/resources/genomes/GRCh37/fasta/b37.fasta",
+        "mouse_fasta": "/juno/work/ci/resources/genomes/GRCm38/GRCm38.fasta"
     }
 }

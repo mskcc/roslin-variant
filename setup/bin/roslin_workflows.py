@@ -8,6 +8,7 @@ from track_utils import log, RoslinWorkflow, SingleCWLWorkflow
 from core_utils  import run_command_realtime, add_record_argument
 import copy
 import dill
+import glob
 
 def get_varriant_workflow_outputs(output_config, workflow_output_path):
 	output_config["bam"] = [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}]
@@ -75,6 +76,12 @@ class SampleWorkflow(SingleCWLWorkflow):
 	def configure(self):
 		super().configure('SampleWorkflow','workflows','sample-workflow.cwl',[],[])
 
+	def configure_pdx(self):
+		super().configure('SampleWorkflowPDX','workflows','sample-workflow.cwl',[],[])
+
+	def configure_bam(self):
+		super().configure('SampleWorkflowBAM','workflows','sample-workflow.cwl',[],[])
+
 	def get_inputs(self,single_dependency_list,multi_dependency_list):
 		requirement_list, dependency_key_list = super().get_inputs(single_dependency_list,multi_dependency_list)
 		sample_number = self.add_sample_or_pair_argument("sample")
@@ -92,7 +99,7 @@ class SampleWorkflow(SingleCWLWorkflow):
 		sample_input = self.input_sample_or_pair(["sample","pair","pairs"],job_params,roslin_yaml)
 		dependency_input['sample'] = sample_input
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","gatk_jar_path","intervals"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -103,6 +110,80 @@ class SampleWorkflow(SingleCWLWorkflow):
 		output_config["bam"] = [{"patterns": ["*.bam","*.bai"], "input_folder": workflow_output_path}]
 		output_config["qc"] = [{"patterns": ["*metrics","*.txt","*.pdf","*.summary"], "input_folder": workflow_output_path}]
 		return output_config
+
+class SampleWorkflowPDX(SampleWorkflow):
+
+	def configure(self):
+		super().configure_pdx()
+
+	def modify_test_files(self,mpgr_output_path):
+		clinical_file_glob = os.path.join(mpgr_output_path,'*_clinical.txt')
+		clinical_file_list = glob.glob(clinical_file_glob)
+		clinical_file_data = []
+		pdx_cols_to_check = ['SAMPLE_CLASS', 'SAMPLE_TYPE']
+		pdx_col_num = None
+		clinical_file_str = None
+		if clinical_file_list:
+			clinical_file_path = clinical_file_list[0]
+			if os.path.exists(clinical_file_path):
+				with open(clinical_file_path,"r") as clinical_file:
+					header = clinical_file.readline().strip().split("\t")
+					for single_col in pdx_cols_to_check:
+						if single_col in header and pdx_col_num == None:
+							pdx_col_num = header.index(single_col)
+					if pdx_col_num != None:
+						clinical_file_header = "\t".join(header)
+						clinical_file_data.append(clinical_file_header)
+						for single_line in clinical_file:
+							single_sample = single_line.strip().split("\t")
+							single_sample[pdx_col_num] = 'pdx'
+							single_sample_line = "\t".join(single_sample)
+							clinical_file_data.append(single_sample_line)
+				clinical_file_str = "\n".join(clinical_file_data)
+			if clinical_file_str:
+				with open(clinical_file_path,"w") as clinical_file:
+					clinical_file.write(clinical_file_str)
+
+class SampleWorkflowBAM(SampleWorkflow):
+
+	def configure(self):
+		super().configure_bam()
+
+	def modify_test_files(self,mpgr_output_path):
+		mapping_file_glob = os.path.join(mpgr_output_path,'*_mapping.txt')
+		mapping_file_list = glob.glob(mapping_file_glob)
+		mapping_file_data = []
+		mapping_file_dict = {}
+		bam_list = []
+		workspace_path = os.environ['ROSLIN_PIPELINE_WORKSPACE_PATH']
+		test_data_path = os.path.join(workspace_path,'test_data')
+		if mapping_file_list:
+			mapping_file_path = mapping_file_list[0]
+			if os.path.exists(mapping_file_path):
+				with open(mapping_file_path,"r") as mapping_file:
+					for single_line in mapping_file:
+						singe_fastq = single_line.strip().split("\t")
+						fastq_name = singe_fastq[1]
+						bam_file_name = fastq_name + ".rg.md.bam"
+						bam_list.append(bam_file_name)
+						mapping_file_dict[bam_file_name] = singe_fastq
+				for root, dirnames, filenames in os.walk(test_data_path):
+					for single_file in filenames:
+						if single_file in bam_list:
+							single_bam = mapping_file_dict[single_file]
+							single_bam_path = os.path.join(root,single_file)
+							single_bam[3] = single_bam_path
+							single_bam_line = "\t".join(single_bam)
+							mapping_file_data.append(single_bam_line)
+							bam_list.remove(single_file)
+							del mapping_file_dict[single_file]
+				for single_fastq_key in mapping_file_dict:
+					singe_fastq = mapping_file_dict[single_fastq_key]
+					single_fastq_line = "\t".join(single_fastq)
+					mapping_file_data.append(single_fastq_line)
+				mapping_file_str = "\n".join(mapping_file_data)
+				with open(mapping_file_path,"w") as mapping_file:
+					mapping_file.write(mapping_file_str)
 
 class PairWorkflow(SingleCWLWorkflow):
 
@@ -162,7 +243,7 @@ class Alignment(SingleCWLWorkflow):
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		dependency_input['pair'] = self.input_sample_or_pair([None,"pair","pairs"],job_params,roslin_yaml)
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","opt_dup_pix_dist","covariates","abra_scratch","abra_ram_min","gatk_jar_path","intervals"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -199,7 +280,7 @@ class GatherMetrics(SingleCWLWorkflow):
 		dependency_input = copy.deepcopy(roslin_yaml)
 		dependency_input['bam'] = self.input_sample_or_pair(["bam","bams","bams"],job_params,roslin_yaml)
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","gatk_jar_path"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","ref_fasta","conpair_markers_bed"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["bait_intervals","target_intervals","fp_intervals","conpair_markers_bed"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -267,7 +348,7 @@ class MafProcessing(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","vep_path","custom_enst","vep_data","hotspot_list","pairing_file"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","pairing_file"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -331,7 +412,7 @@ class StructuralVariants(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","delly_type"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","vep_path","custom_enst","vep_data","hotspot_list","pairing_file","delly_exclude"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","pairing_file","delly_exclude"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -360,7 +441,7 @@ class VariantCalling(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","mutect_dcov","mutect_rf","facets_pcval","facets_cval","complex_tn","complex_nn"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["ref_fasta","facets_snps","hotspot_vcf","refseq"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["facets_snps","hotspot_vcf","refseq"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input

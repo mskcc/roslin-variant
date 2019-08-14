@@ -76,7 +76,16 @@ inputs:
     mutect_rf: string[]
     refseq: File
     hotspot_vcf: string
-    ref_fasta: string
+    ref_fasta:
+        type: File
+        secondaryFiles:
+          - .amb
+          - .ann
+          - .bwt
+          - .pac
+          - .sa
+          - .fai
+          - ^.dict
     facets_pcval: int
     facets_cval: int
     facets_snps: string
@@ -274,7 +283,7 @@ steps:
                 vardict_vcf: File
                 hotspot_vcf: string
                 tumor_sample_name: string
-                ref_fasta: string
+                ref_fasta: File
             outputs:
                 mutect_vcf_filtering_output:
                     type: File

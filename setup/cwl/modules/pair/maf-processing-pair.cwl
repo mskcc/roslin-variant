@@ -49,6 +49,7 @@ requirements:
     StepInputExpressionRequirement: {}
 
 inputs:
+
     pair:
         type:
           type: array
@@ -60,8 +61,11 @@ inputs:
               ID: string
               PL: string
               PU: string[]
-              R1: string[]
-              R2: string[]
+              R1: File[]
+              R2: File[]
+              zR1: File[]
+              zR2: File[]
+              bam: File[]
               RG_ID: string[]
               adapter: string
               adapter2: string
@@ -74,7 +78,16 @@ inputs:
     normal_sample_name: string
     tumor_sample_name: string
     genome: string
-    ref_fasta: string
+    ref_fasta:
+        type: File
+        secondaryFiles:
+          - .amb
+          - .ann
+          - .bwt
+          - .pac
+          - .sa
+          - .fai
+          - ^.dict
     vep_path: string
     custom_enst: string
     exac_filter:

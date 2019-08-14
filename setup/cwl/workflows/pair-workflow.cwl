@@ -51,6 +51,7 @@ id: pair-workflow
 requirements:
   MultipleInputFeatureRequirement: {}
   ScatterFeatureRequirement: {}
+  StepInputExpressionRequirement: {}
   SubworkflowFeatureRequirement: {}
   InlineJavascriptRequirement: {}
 
@@ -60,7 +61,6 @@ inputs:
       type: record
       fields:
         refseq: File
-        ref_fasta: string
         vep_path: string
         custom_enst: string
         vep_data: string
@@ -77,6 +77,26 @@ inputs:
         grouping_file: File
         request_file: File
         pairing_file: File
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
+  mouse_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   hapmap:
     type: File
     secondaryFiles:
@@ -142,8 +162,11 @@ inputs:
           ID: string
           PL: string
           PU: string[]
-          R1: string[]
-          R2: string[]
+          R1: File[]
+          R2: File[]
+          zR1: File[]
+          zR2: File[]
+          bam: File[]
           RG_ID: string[]
           adapter: string
           adapter2: string
@@ -301,8 +324,8 @@ steps:
         valueFrom: ${ return inputs.db_files.target_intervals }
       fp_intervals:
         valueFrom: ${ return inputs.db_files.fp_intervals }
-      ref_fasta:
-        valueFrom: ${ return inputs.db_files.ref_fasta }
+      ref_fasta: ref_fasta
+      mouse_fasta: mouse_fasta
       conpair_markers_bed:
         valueFrom: ${ return inputs.db_files.conpair_markers_bed }
     out: [bams,clstats1,clstats2,md_metrics,covint_list,bed,as_metrics,hs_metrics,insert_metrics,insert_pdf,per_target_coverage,qual_metrics,qual_pdf,doc_basecounts,gcbias_pdf,gcbias_metrics,gcbias_summary,conpair_pileup]
@@ -334,8 +357,7 @@ steps:
             valueFrom: ${ return inputs.db_files.refseq }
         hotspot_vcf:
             valueFrom: ${ return inputs.db_files.hotspot_vcf }
-        ref_fasta:
-            valueFrom: ${ return inputs.db_files.ref_fasta }
+        ref_fasta: ref_fasta
         facets_pcval:
             valueFrom: ${ return inputs.runparams.facets_pcval }
         facets_cval:
@@ -359,8 +381,7 @@ steps:
         pair: pair
         genome:
             valueFrom: ${ return inputs.runparams.genome }
-        ref_fasta:
-            valueFrom: ${ return inputs.db_files.ref_fasta }
+        ref_fasta: ref_fasta
         vep_path:
             valueFrom: ${ return inputs.db_files.vep_path }
         custom_enst:

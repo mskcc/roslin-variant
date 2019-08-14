@@ -56,14 +56,13 @@ doc: |
 
 inputs:
   fastq1:
-    type: string
-
+    type: File
     doc: filename to split
     inputBinding:
       prefix: --fastq1
 
   fastq2:
-    type: string
+    type: File
     doc: filename2 to split
     inputBinding:
       prefix: --fastq2
@@ -87,7 +86,7 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = inputs.platform_unit + "-" + inputs.fastq1.split('/').reverse()[0].split(".",1)[0].split('_').slice(1).join("-") + ".chunk*";
+          var pattern = inputs.platform_unit + "-" + inputs.fastq1.basename.split(".",1)[0].split('_').slice(1).join("-") + ".chunk*";
           return pattern
         }
 
@@ -98,6 +97,6 @@ outputs:
     outputBinding:
       glob: |
         ${
-          var pattern = inputs.platform_unit + "-" + inputs.fastq2.split('/').reverse()[0].split(".",1)[0].split('_').slice(1).join("-") + ".chunk*";
+          var pattern = inputs.platform_unit + "-" + inputs.fastq2.basename.split(".",1)[0].split('_').slice(1).join("-") + ".chunk*";
           return pattern
         }

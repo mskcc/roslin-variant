@@ -57,21 +57,24 @@ inputs:
             - ^.bai
     pair:
         type:
-            type: array
-            items:
-              type: record
-              fields:
-                CN: string
-                LB: string
-                ID: string
-                PL: string
-                PU: string[]
-                R1: string[]
-                R2: string[]
-                RG_ID: string[]
-                adapter: string
-                adapter2: string
-                bwa_output: string
+          type: array
+          items:
+            type: record
+            fields:
+              CN: string
+              LB: string
+              ID: string
+              PL: string
+              PU: string[]
+              R1: File[]
+              R2: File[]
+              zR1: File[]
+              zR2: File[]
+              bam: File[]
+              RG_ID: string[]
+              adapter: string
+              adapter2: string
+              bwa_output: string
     genome: string
     intervals: string[]
     hapmap:
