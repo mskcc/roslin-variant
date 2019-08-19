@@ -17,7 +17,6 @@ env:
   TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
   TMPDIR: '/fscratch'
   TMP: '/fscratch'
-  SINGULARITY_LOCALCACHEDIR: '/scratch'
 dependencies:
   core:
     version:
