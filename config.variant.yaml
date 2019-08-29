@@ -14,7 +14,7 @@ binding:
     - /srv
     - /juno
 env:
-  TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
+  TOIL_LSF_ARGS: '-S 1 -sla CMOPI -W 168:00'
   TMPDIR: '/fscratch'
   TMP: '/fscratch'
 dependencies:
