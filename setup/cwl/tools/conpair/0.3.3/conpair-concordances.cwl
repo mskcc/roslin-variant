@@ -103,7 +103,7 @@ inputs:
 
 outputs:
   outfiles:
-    type: File[]
+    type: File[]?
     outputBinding:
       glob: |
         ${
@@ -113,7 +113,7 @@ outputs:
         }
 
   pdf:
-    type: File
+    type: File?
     outputBinding:
       glob: |
         ${

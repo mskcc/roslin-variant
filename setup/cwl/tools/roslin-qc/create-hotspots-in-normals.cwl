@@ -76,7 +76,7 @@ inputs:
 
 outputs:
   hs_in_normals:
-    type: File 
+    type: File?
     outputBinding:
       glob: |
         ${
