@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-pileup.cwl
+  doap:name: conpair-concordance.cwl
   doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -34,7 +34,7 @@ dct:contributor:
     foaf:name: Zuojian Tang
     foaf:mbox: mailto:tangz@mskcc.org
 
-cwlVersion: v1.0
+cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -42,13 +42,12 @@ baseCommand:
 - --tool
 - "conpair"
 - --version
-- "0.3.1"
+- "0.3.3"
 - --language_version
 - "default"
 - --language
 - "python"
-- pileup
-id: conpair-pileup
+- concordance
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -60,67 +59,65 @@ doc: |
   None
 
 inputs:
-
-  ref:
-    type: File
+  normal_homozygous:
+    type: boolean
+    default: true
     inputBinding:
-      prefix: --reference
-    secondaryFiles:
-      - .amb
-      - .ann
-      - .bwt
-      - .pac
-      - .sa
-      - .fai
-      - ^.dict
-  java_xmx:
+      prefix: --normal_homozygous_markers_only
+
+  tpileup:
     type:
-    - 'null'
-    - type: array
-      items: string
-    doc: set up java -Xmx parameter
+      type: array
+      items: File
     inputBinding:
-      prefix: --xmx_java
+      prefix: --tumor_pileup
 
-  java_temp:
-    type: ['null', string]
-    doc: temporary directory to set -Djava.io.tmpdir
-    inputBinding:
-      prefix: --temp_dir_java
-
-  gatk:
+  npileup:
     type:
-    - [File, string, "null"]
+      type: array
+      items: File
     inputBinding:
-      prefix: --gatk
+      prefix: --normal_pileup
 
-  markers_bed:
+  markers:
     type:
     - [File, string]
     inputBinding:
       prefix: --markers
 
-  bam:
-    type:
-    - [File, string]
+  output_prefix:
+    type: string
     inputBinding:
-      prefix: --bam
-    secondaryFiles:
-      - ^.bai
+      prefix: --outpre
 
-  outfile:
-    type:
-    - string
+  pairing_file:
+    type: File
     inputBinding:
-      prefix: --outfile
+      prefix: --pairing
+
+  output_directory_name:
+    type: string
+    default: "."
+    inputBinding:
+      prefix: --outdir
 
 outputs:
-  out_file:
+  outfiles:
+    type: File[]
+    outputBinding:
+      glob: |
+        ${
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.*";
+          return null;
+        }
+
+  pdf:
     type: File
     outputBinding:
       glob: |
         ${
-          if (inputs.outfile)
-            return inputs.outfile;
+          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.pdf")
+            return inputs.output_directory_name + "/" + inputs.output_prefix + "_concordance*.pdf";
           return null;
         }
