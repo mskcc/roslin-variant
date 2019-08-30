@@ -38,16 +38,9 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
-- tool.sh
-- --tool
-- "conpair"
-- --version
-- "0.3.3"
-- --language_version
-- "default"
-- --language
-- "python"
-- pileup
+- python
+- /usr/bin/conpair/scripts/run_gatk_pileup_for_sample.py
+
 id: conpair-pileup
 
 requirements:
@@ -55,6 +48,8 @@ requirements:
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-conpair:0.3.3
 
 doc: |
   None

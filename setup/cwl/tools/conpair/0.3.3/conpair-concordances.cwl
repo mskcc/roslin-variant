@@ -38,22 +38,17 @@ cwlVersion: cwl:v1.0
 
 class: CommandLineTool
 baseCommand:
-- tool.sh
-- --tool
-- "conpair"
-- --version
-- "0.3.3"
-- --language_version
-- "default"
-- --language
-- "python"
-- concordance
+- python
+- /usr/bin/conpair/scripts/verify_concordances.py
 
+id: conpair-concordance
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-conpair:0.3.3
 
 doc: |
   None
