@@ -4,9 +4,9 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.basicfiltering="0.3" \
       version.alpine="3.8" \
-      version.cmo="1.9.10" \
+      version.cmo="1.9.13" \
       version.bcftools="1.9" \
-      source.cmo="https://github.com/mskcc/cmo/releases/tag/1.9.10" \
+      source.cmo="https://github.com/mskcc/cmo/releases/tag/1.9.13" \
       source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.3" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.9"
 
@@ -15,7 +15,7 @@ COPY run_test.sh /run_test.sh
 
 ENV BASICFILTERING_VERSION 0.3
 ENV HTSLIB_VERSION 1.5
-ENV CMO_VERSION 1.9.11
+ENV CMO_VERSION 1.9.13
 ENV BCFTOOLS_VERSION 1.9
 
 RUN apk add --update \
