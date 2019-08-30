@@ -151,7 +151,7 @@ outputs:
     outputSource: hotspots_fillout/portal_fillout
 
   hs_in_normals:
-    type: File
+    type: File?
     outputSource: run_hotspots_in_normals/hs_in_normals
 
   minor_contam_freqlist:

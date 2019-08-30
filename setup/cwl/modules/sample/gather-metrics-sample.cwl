@@ -197,7 +197,7 @@ steps:
       java_temp: tmp_dir
     out: [out_file]
   pileup:
-    run: ../../tools/conpair/0.3.1/conpair-pileup.cwl
+    run: ../../tools/conpair/0.3.3/conpair-pileup.cwl
     in:
       bam: bam
       ref: ref_fasta

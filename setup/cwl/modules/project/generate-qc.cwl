@@ -143,7 +143,7 @@ outputs:
 
 steps:
   run-contamination:
-    run: ../../tools/conpair/0.3.1/conpair-contaminations.cwl
+    run: ../../tools/conpair/0.3.3/conpair-contaminations.cwl
     in:
       runparams: runparams
       db_files: db_files
@@ -161,9 +161,9 @@ steps:
     out: [ outfiles, pdf ]
 
   run-concordance:
-    run: ../../tools/conpair/0.3.1/conpair-concordances.cwl
+    run: ../../tools/conpair/0.3.3/conpair-concordances.cwl
     in:
-      normal_homozygous: 
+      normal_homozygous:
         valueFrom: ${ return true; }
       runparams: runparams
       db_files: db_files
@@ -181,7 +181,7 @@ steps:
     out: [ outfiles, pdf ]
 
   run-concordance-non-homozygous:
-    run: ../../tools/conpair/0.3.1/conpair-concordances.cwl
+    run: ../../tools/conpair/0.3.3/conpair-concordances.cwl
     in:
       normal_homozygous:
         valueFrom: ${ return false; }
@@ -201,7 +201,7 @@ steps:
     out: [ outfiles, pdf ]
 
   put-conpair-files-into-directory:
-    run: ../../tools/conpair/0.3.1/consolidate-conpair-files.cwl
+    run: ../../tools/conpair/0.3.3/consolidate-conpair-files.cwl
     in:
       concordance_files: run-concordance/outfiles
       concordance_files_nohomo: run-concordance-non-homozygous/outfiles

@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: conpair-contamination.cwl
+  doap:name: conpair-pileup.cwl
   doap:revision: 0.2
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -31,10 +31,10 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
-    foaf:name: Christopher Harris
-    foaf:mbox: mailto:harrisc2@mskcc.org
+    foaf:name: Zuojian Tang
+    foaf:mbox: mailto:tangz@mskcc.org
 
-cwlVersion: cwl:v1.0
+cwlVersion: v1.0
 
 class: CommandLineTool
 baseCommand:
@@ -42,13 +42,14 @@ baseCommand:
 - --tool
 - "conpair"
 - --version
-- "0.3.1"
+- "0.3.3"
 - --language_version
 - "default"
 - --language
 - "python"
-- contamination
-id: conpair-contamination
+- pileup
+id: conpair-pileup
+
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
@@ -59,59 +60,67 @@ doc: |
   None
 
 inputs:
-  tpileup:
-    type:
-      type: array
-      items: File
-    inputBinding:
-      prefix: --tumor_pileup
 
-  npileup:
-    type:
-      type: array
-      items: File
+  ref:
+    type: File
     inputBinding:
-      prefix: --normal_pileup
+      prefix: --reference
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
+  java_xmx:
+    type:
+    - 'null'
+    - type: array
+      items: string
+    doc: set up java -Xmx parameter
+    inputBinding:
+      prefix: --xmx_java
 
-  markers:
+  java_temp:
+    type: ['null', string]
+    doc: temporary directory to set -Djava.io.tmpdir
+    inputBinding:
+      prefix: --temp_dir_java
+
+  gatk:
+    type:
+    - [File, string, "null"]
+    inputBinding:
+      prefix: --gatk
+
+  markers_bed:
     type:
     - [File, string]
     inputBinding:
       prefix: --markers
 
-  pairing_file:
-    type: File
+  bam:
+    type:
+    - [File, string]
     inputBinding:
-      prefix: --pairing
+      prefix: --bam
+    secondaryFiles:
+      - ^.bai
 
-  output_prefix:
-    type: string
+  outfile:
+    type:
+    - string
     inputBinding:
-      prefix: --outpre
-
-  output_directory_name:
-    type: string
-    default: "."
-    inputBinding:
-      prefix: --outdir
+      prefix: --outfile
 
 outputs:
-  outfiles:
-    type: File[]
-    outputBinding:
-      glob: |
-        ${
-          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*")
-            return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.*";
-          return null;
-        }
-
-  pdf:
+  out_file:
     type: File
     outputBinding:
       glob: |
         ${
-          if (inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.pdf")
-            return inputs.output_directory_name + "/" + inputs.output_prefix + "_contamination*.pdf";
+          if (inputs.outfile)
+            return inputs.outfile;
           return null;
         }

@@ -79,12 +79,12 @@
                     "source.gatk": "https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af",
                     "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R",
                     "version.alpine": "3.8",
-                    "version.conpair": "0.3.1",
+                    "version.conpair": "0.3.3",
                     "version.gatk": "3.3-0",
                     "version.image": "1.0.0"
                 }
             },
-            "version": "0.3.1"
+            "version": "0.3.3"
         }
     ],
     "delly": [
