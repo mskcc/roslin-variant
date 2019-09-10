@@ -43,23 +43,15 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "basic-filtering"
-- --version
-- "0.3"
-- --language_version
-- "default"
-- --language
-- "bash"
-- mutect
+baseCommand: [mutect]
 id: basic-filtering-mutect
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 16000
     coresMin: 2
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-basic-filtering:0.3
 
 
 doc: |

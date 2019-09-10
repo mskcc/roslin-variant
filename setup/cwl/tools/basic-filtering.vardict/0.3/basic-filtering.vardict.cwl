@@ -43,23 +43,15 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "basic-filtering"
-- --version
-- "0.3"
-- --language_version
-- "default"
-- --language
-- "bash"
-- vardict
+baseCommand: [vardict]
 id: basic-filtering-vardict
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 10000
     coresMin: 2
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-basic-filtering:0.3
 
 
 doc: |
