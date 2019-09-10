@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-abra
+  doap:name: abra
   doap:revision: 2.17
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -41,23 +41,31 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_abra
-- --version
-- '2.17'
-id: cmo-abra
+id: abra
+
+arguments:
+- valueFrom: "--jar"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: $(inputs.abra_ram_min)
     coresMin: 16
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-abra:2.17
 
 
 doc: |
   None
 
 inputs:
+
+  java_args:
+    type: string
+    default: "-Xmx36g"
+    inputBinding:
+      position: 0
 
   abra_ram_min:
     type: int
@@ -67,6 +75,7 @@ inputs:
     doc: Number of threads (default - 16)
     inputBinding:
       prefix: --threads
+      position: 2
     default: '16'
 
   bwa_ref:
@@ -74,18 +83,21 @@ inputs:
     doc: bwa ref
     inputBinding:
       prefix: --bwa-ref
+      position: 2
 
   mmr:
     type: ['null', string]
     doc: Max allowed mismatch rate when mapping reads back to contigs (default - 0.05)
     inputBinding:
       prefix: --mmr
+      position: 2
 
   kmer:
     type: ['null', string]
     doc: Optional assembly kmer size(delimit with commas if multiple sizes specified)
     inputBinding:
       prefix: --kmer
+      position: 2
 
   skip:
     type: ['null', string]
@@ -94,6 +106,7 @@ inputs:
       (default - GL.*|hs37d5|chr.*random|chrUn. *|chrEBV|CMV|HBV|HCV.*|HIV. *|KSHV|HTLV.*|MCV|SV40|HPV.*)
     inputBinding:
       prefix: --skip
+      position: 2
 
   sua:
     type: ['null', string]
@@ -101,30 +114,35 @@ inputs:
       are still eligible to contribute to assembly
     inputBinding:
       prefix: --sua
+      position: 2
 
   contigs:
     type: ['null', string]
     doc: Optional file to which assembled contigs are written
     inputBinding:
       prefix: --contigs
+      position: 2
 
   ssc:
     type: ['null', string]
     doc: Skip usage of soft clipped sequences as putative contigs
     inputBinding:
       prefix: --ssc
+      position: 2
 
   keep_tmp:
     type: ['null', string]
     doc: Do not delete the temporary directory
     inputBinding:
       prefix: --keep-tmp
+      position: 2
 
   gtf:
     type: ['null', string]
     doc: GTF file defining exons and transcripts
     inputBinding:
       prefix: --gtf
+      position: 2
 
   mapq:
     type: ['null', string]
@@ -132,11 +150,13 @@ inputs:
       for realignment (default - 20)
     inputBinding:
       prefix: --mapq
+      position: 2
 
   ref:
-    type: ['null', string]
+    type: File
     inputBinding:
-      prefix: --reference_sequence
+      prefix: --ref
+      position: 2
 
   index:
     type: ['null', string]
@@ -144,6 +164,7 @@ inputs:
       additonal memory)
     inputBinding:
       prefix: --index
+      position: 2
 
   out:
     type:
@@ -153,6 +174,7 @@ inputs:
     inputBinding:
       itemSeparator: ','
       prefix: --out
+      position: 2
 
   sga:
     type: ['null', string]
@@ -160,6 +182,7 @@ inputs:
       gap_extend_penalty) (default - 8,32,48,1)
     inputBinding:
       prefix: --sga
+      position: 2
 
   mbq:
     type: ['null', string]
@@ -167,18 +190,21 @@ inputs:
       the sum of base qualities per kmer position (default - 20)
     inputBinding:
       prefix: --mbq
+      position: 2
 
   mnf:
     type: ['null', string]
     doc: Assembly minimum node frequency (default - 1)
     inputBinding:
       prefix: --mnf
+      position: 2
 
   cons:
     type: ['null', string]
     doc: Use positional consensus sequence when aligning high quality soft clipping
     inputBinding:
       prefix: --cons
+      position: 2
 
   msr:
     type: ['null', string]
@@ -186,12 +212,14 @@ inputs:
       is exceeded, sort spills to disk (default - 1000000)
     inputBinding:
       prefix: --msr
+      position: 2
 
   nosort:
     type: ['null', string]
     doc: Do not attempt to sort final output
     inputBinding:
       prefix: --nosort
+      position: 2
 
   in:
     type:
@@ -202,6 +230,7 @@ inputs:
     inputBinding:
       itemSeparator: ','
       prefix: --in
+      position: 2
 
     secondaryFiles:
     - ^.bai
@@ -211,41 +240,49 @@ inputs:
       - 10,2)
     inputBinding:
       prefix: --ca
+      position: 2
 
   rcf:
     type: ['null', string]
     doc: Minimum read candidate fraction for triggering assembly (default - 0.01)
     inputBinding:
       prefix: --rcf
+      position: 2
 
   gkl:
     type: ['null', string]
     doc: If specified, use GKL Intel Deflater (experimental)
     inputBinding:
       prefix: --gkl
+      position: 2
 
   maxn:
     type: ['null', string]
     doc: Maximum pre-pruned nodes in regional assembly (default - 150000)
     inputBinding:
       prefix: --maxn
+      position: 2
 
   undup:
     type: ['null', string]
     doc: Unset duplicate flag
     inputBinding:
       prefix: --undup
+      position: 2
 
   working:
     doc: Working directory for intermediate output. Must not already exist
     inputBinding:
       prefix: --working
+      position: 2
     type: string
+
   cl:
     type: ['null', string]
     doc: Compression level of output bam file (s) (default - 5)
     inputBinding:
       prefix: --cl
+      position: 2
 
   sc:
     type: ['null', string]
@@ -253,12 +290,14 @@ inputs:
       (default - 16,13,80,15)
     inputBinding:
       prefix: --sc
+      position: 2
 
   sa:
     type: ['null', string]
     doc: Skip assembly
     inputBinding:
       prefix: --sa
+      position: 2
 
   mrn:
     type: ['null', string]
@@ -266,12 +305,14 @@ inputs:
       < readLength*mnr (default - 0.1)
     inputBinding:
       prefix: --mrn
+      position: 2
 
   junctions:
     type: ['null', string]
     doc: Splice junctions definition file
     inputBinding:
       prefix: --junctions
+      position: 2
 
   mrr:
     type: ['null', string]
@@ -279,18 +320,21 @@ inputs:
       disable. (default - 1000000)
     inputBinding:
       prefix: --mrr
+      position: 2
 
   sobs:
     type: ['null', string]
     doc: Do not use observed indels in original alignments to generate contigs
     inputBinding:
       prefix: --sobs
+      position: 2
 
   dist:
     type: ['null', string]
     doc: Max read move distance (default - 1000)
     inputBinding:
       prefix: --dist
+      position: 2
 
   mer:
     type: ['null', string]
@@ -299,6 +343,7 @@ inputs:
       - 0.01)
     inputBinding:
       prefix: --mer
+      position: 2
 
   amq:
     type: ['null', string]
@@ -306,18 +351,21 @@ inputs:
       contig. default of -1 disables (default - -1)
     inputBinding:
       prefix: --amq
+      position: 2
 
   tmpdir:
     type: ['null', string]
     doc: Set the temp directory (overrides java. io.tmpdir)
     inputBinding:
       prefix: --tmpdir
+      position: 2
 
   mcl:
     type: ['null', string]
     doc: Assembly minimum contig length (default - -1)
     inputBinding:
       prefix: --mcl
+      position: 2
 
   mad:
     type: ['null', string]
@@ -325,24 +373,28 @@ inputs:
       - 1000)
     inputBinding:
       prefix: --mad
+      position: 2
 
   single:
     type: ['null', string]
     doc: Input is single end
     inputBinding:
       prefix: --single
+      position: 2
 
   ws:
     type: ['null', string]
     doc: Processing window size and overlap (size,overlap) (default - 400,200)
     inputBinding:
       prefix: --ws
+      position: 2
 
   mac:
     type: ['null', string]
     doc: Max assembled contigs (default - 64)
     inputBinding:
       prefix: --mac
+      position: 2
 
   in_vcf:
     type: ['null', string]
@@ -350,6 +402,7 @@ inputs:
       be avoided.
     inputBinding:
       prefix: --in-vcf
+      position: 2
 
   target_kmers:
     type: ['null', string]
@@ -357,24 +410,28 @@ inputs:
       column
     inputBinding:
       prefix: --target-kmers
+      position: 2
 
   targets:
     type: ['null', File, string]
     doc: BED file containing target regions
     inputBinding:
       prefix: --targets
+      position: 2
 
   log:
     type: ['null', string]
     doc: Logging level (trace,debug,info,warn, error) (default - info)
     inputBinding:
       prefix: --log
+      position: 2
 
   mcr:
     type: ['null', string]
     doc: Max number of cached reads per sample per thread (default - 1000000)
     inputBinding:
       prefix: --mcr
+      position: 2
 
 
 outputs:
