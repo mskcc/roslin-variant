@@ -124,20 +124,20 @@
                 "commandType": "Multi",
                 "help": "echo \"Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN\"",
                 "labels": {
-                    "Docker_Image": "mskcc/roslin-variant-facets:1.5.6",
+                    "Docker_Image": "mskcc/roslin-variant-facets:1.6.2",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.facets": "https://github.com/mskcc/facets/archive/v0.5.14.tar.gz",
-                    "source.facets_suite": "https://github.com/mskcc/facets-suite/releases/tag/1.5.6",
+                    "source.facets_suite": "https://github.com/mskcc/facets-suite/releases/tag/1.6.2",
                     "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R",
                     "version.alpine": "3.8",
                     "version.facets": "0.5.14",
-                    "version.facets_suite": "1.5.6",
+                    "version.facets_suite": "1.6.2",
                     "version.image": "1.0.0",
                     "version.pctGCdata": "0.2.0",
                     "version.r": "3.5.1"
                 }
             },
-            "version": "1.5.6"
+            "version": "1.6.2"
         }
     ],
     "gatk": [
