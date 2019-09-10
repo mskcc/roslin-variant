@@ -252,15 +252,15 @@ cd $parentDir
 
 # Start building the pipeline
 printf "\n----------Building----------\n"
-if compareBool $USE_VAGRANT
-then
-    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
-    vagrant up
-    vagrant ssh -- -t "$buildCommand"
-else
-    buildCommand="python $buildScript $buildArgs"
-    $buildCommand
-fi
+#if compareBool $USE_VAGRANT
+#then
+#    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
+#    vagrant up
+#    vagrant ssh -- -t "$buildCommand"
+#else
+#    buildCommand="python $buildScript $buildArgs"
+#    $buildCommand
+#fi
 
 # Deploy
 printf "\n----------Deploying----------\n"
