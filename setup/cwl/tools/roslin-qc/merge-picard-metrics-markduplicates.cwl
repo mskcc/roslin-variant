@@ -40,21 +40,21 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.0"
+- "0.6.1"
 - --cmd
 - merge_picard_metrics
 id: merge-picard-metrics-markduplicates
 stdout: $(inputs.outfile_name)
 inputs:
   files:
-    type: 
+    type:
       type: array
       items:
         type: array
         items: File
     inputBinding:
       prefix: --files
-  outfile_name: 
+  outfile_name:
     type: string
 outputs:
   output:

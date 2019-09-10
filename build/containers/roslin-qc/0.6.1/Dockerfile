@@ -2,16 +2,16 @@ FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
-      version.roslin-qc="0.6.0" \
+      version.roslin-qc="0.6.1" \
       version.getbasecountsmultisample="1.2.2" \
       version.bamtools="2.5.1" \
       version.alpine="3.8" \
-      source.roslin-qc="https://github.com/mskcc/roslin-qc/tree/master" \
+      source.roslin-qc="https://github.com/mskcc/roslin-qc/tree/0.6.1" \
       source.getbasecountsmultisample="https://github.com/zengzheng123/GetBaseCountsMultiSample" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R" \
       source.bamtools="https://github.com/pezmaster31/bamtools"
 
-ENV ROSLIN_QC_VERSION 0.6.0
+ENV ROSLIN_QC_VERSION 0.6.1
 ENV GETBASECOUNTSMULTISAMPLE_VERSION 1.2.2
 ENV BAMTOOLS_VERSION 2.5.1
 
@@ -37,6 +37,7 @@ RUN apk add --update \
         # install pandas
         && pip install django==1.11 \
         && pip install dbconfig \
+        && pip install numpy \
         && pip install pandas==0.23.4 \
         # install R
         && apk add R R-dev \
