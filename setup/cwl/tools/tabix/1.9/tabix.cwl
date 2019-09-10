@@ -36,14 +36,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "htslib"
-- --version
-- "1.9"
-- --cmd
-- "tabix"
+baseCommand: [tabix]
 id: tabix
 
 requirements:
@@ -53,6 +46,8 @@ requirements:
   ResourceRequirement:
     ramMin: 80000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-htslib:1.9
 
 doc: |
   Index vcf files
