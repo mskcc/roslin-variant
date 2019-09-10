@@ -77,7 +77,7 @@ RUN apk add --update \
                 #&& sed -i "s/setkey(IMPACT341_targets/# setkey(IMPACT341_targets/g" geneLevel.R \
             # copy execs to /usr/bin/facets-suite
                 && mkdir -p /usr/bin/facets-suite/ \
-                && cp /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin/facets-suite/ \
+                && cp -r /tmp/facets-suite-${FACETS_SUITE_VERSION}/* /usr/bin/facets-suite/ \
     # clean up
         && rm -rf /var/cache/apk/* /tmp/* \
         && chmod +x /usr/bin/runscript.sh \
