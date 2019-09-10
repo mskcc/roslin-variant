@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-gatk.PrintReads
+  doap:name: gatk.DepthOfCoverage
   doap:revision: 3.3-0
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -31,140 +31,268 @@ dct:contributor:
   foaf:name: Memorial Sloan Kettering Cancer Center
   foaf:member:
   - class: foaf:Person
+    foaf:name: Christopher Harris
+    foaf:mbox: mailto:harrisc2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Ronak H. Shah
+    foaf:mbox: mailto:shahr2@mskcc.org
+  - class: foaf:Person
+    foaf:name: Nikhil Kumar
+    foaf:mbox: mailto:kumarn1@mskcc.org
+  - class: foaf:Person
     foaf:name: Jaeyoung Chun
     foaf:mbox: mailto:chunj@mskcc.org
-
-# This tool description was generated automatically by argparse2cwl ver. 0.3.1
-# To generate again: $ cmo_gatk --generate_cwl_tool
-# Help: $ cmo_gatk --help_arg2cwl
 
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_gatk]
-id: cmo-gatk-PrintReads
+id: gatk-DepthOfCoverage
 
 arguments:
-- valueFrom: "PrintReads"
-  prefix: -T
-  position: 0
-- valueFrom: "3.3-0"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar -T DepthOfCoverage"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
-    ramMin: 36000
-    coresMin: 2
+    ramMin: 16000
+    coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-gatk:3.3-0
 
 doc: |
   None
 
 inputs:
 
-
   java_args:
-    type: ['null', string]
-    default: -Xmx48g -Xms256m -XX:-UseGCOverheadLimit
-    doc: args to pass to java
+    type: string
+    default: "-Xmx48g -Xms256m -XX:-UseGCOverheadLimit"
     inputBinding:
-      prefix: --java_args
+      position: 0
 
   java_temp:
-    type: ['null', string]
-    doc: java.io.temp_dir, if you want to set it
+    type: string
     inputBinding:
-      prefix: --java-temp
-
-  filter_bases_not_stored:
-    type: ['null', boolean]
-    default: false
-    doc: if a read has no stored bases (i.e. a '*'), filter out the read instead of
-      blowing up.
-    inputBinding:
-      prefix: --filter_bases_not_stored
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
 
   out:
     type:
-    - 'null'
     - string
-    doc: Write output to this BAM filename instead of STDOUT
+    - type: array
+      items: string
+    doc: An output file created by the walker. Will overwrite contents if file exists
     inputBinding:
       prefix: --out
+      position: 2
 
-  readGroup:
+  minMappingQuality:
+    type: string
+    doc: Minimum mapping quality of reads to count towards depth
+    inputBinding:
+      prefix: --minMappingQuality
+      position: 2
+
+  maxMappingQuality:
     type:
     - 'null'
     - type: array
       items: string
 
-    doc: Exclude all reads with this read group from the output
+    doc: Maximum mapping quality of reads to count towards
     inputBinding:
-      prefix: --readGroup
+      prefix: --maxMappingQuality
+      position: 2
 
-  platform:
+  minBaseQuality:
+    type: string
+    doc: Minimum quality of bases to count towards depth
+    inputBinding:
+      prefix: --minBaseQuality
+      position: 2
+
+  maxBaseQuality:
     type:
     - 'null'
     - type: array
       items: string
 
-    doc: Exclude all reads with this platform from the output
+    doc: Maximum quality of bases to count towards depth
     inputBinding:
-      prefix: --platform
+      prefix: --maxBaseQuality
+      position: 2
 
-  number:
+  countType:
     type:
     - 'null'
     - type: array
       items: string
 
-    doc: Print the first n reads from the file, discarding the rest
+    doc: How should overlapping reads from the same
     inputBinding:
-      prefix: --number
+      prefix: --countType
+      position: 2
 
-  sample_file:
-    type:
-    - 'null'
-    - type: array
-      items: string
-
-    doc: File containing a list of samples (one per line). Can be specified multiple
-      times
-    inputBinding:
-      prefix: --sample_file
-
-  sample_name:
-    type:
-    - 'null'
-    - type: array
-      items: string
-
-    doc: Sample name to be included in the analysis. Can be specified multiple times.
-    inputBinding:
-      prefix: --sample_name
-
-  simplify:
+  printBaseCounts:
     type: ['null', boolean]
     default: false
-    doc: Simplify all reads.
+    doc: Add base counts to per-locus output
     inputBinding:
-      prefix: --simplify
+      prefix: --printBaseCounts
+      position: 2
+
+  omitLocusTable:
+    type: ['null', boolean]
+    default: false
+    doc: Do not calculate per-sample per-depth counts of loci
+    inputBinding:
+      prefix: --omitLocusTable
+      position: 2
+
+  omitIntervalStatistics:
+    type: ['null', boolean]
+    default: false
+    doc: Do not calculate per-interval statistics
+    inputBinding:
+      prefix: --omitIntervalStatistics
+      position: 2
+
+  omitDepthOutputAtEachBase:
+    type: ['null', boolean]
+    default: false
+    doc: Do not output depth of coverage at each base
+    inputBinding:
+      prefix: --omitDepthOutputAtEachBase
+      position: 2
+
+  calculateCoverageOverGenes:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: Calculate coverage statistics over this list of genes
+    inputBinding:
+      prefix: --calculateCoverageOverGenes
+      position: 2
+
+  outputFormat:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: The format of the output file
+    inputBinding:
+      prefix: --outputFormat
+      position: 2
+
+  includeRefNSites:
+    type: ['null', boolean]
+    default: false
+    doc: Include sites where the reference is N
+    inputBinding:
+      prefix: --includeRefNSites
+      position: 2
+
+  printBinEndpointsAndExit:
+    type: ['null', boolean]
+    default: false
+    doc: Print the bin values and exit immediately
+    inputBinding:
+      prefix: --printBinEndpointsAndExit
+      position: 2
+
+  start:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: Starting (left endpoint) for granular binning
+    inputBinding:
+      prefix: --start
+      position: 2
+
+  stop:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: Ending (right endpoint) for granular binning
+    inputBinding:
+      prefix: --stop
+      position: 2
+
+  nBins:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: Number of bins to use for granular binning
+    inputBinding:
+      prefix: --nBins
+      position: 2
+
+  omitPerSampleStats:
+    type: ['null', boolean]
+    default: false
+    doc: Do not output the summary files per-sample
+    inputBinding:
+      prefix: --omitPerSampleStats
+      position: 2
+
+  partitionType:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: Partition type for depth of coverage
+    inputBinding:
+      prefix: --partitionType
+      position: 2
+
+  includeDeletions:
+    type: ['null', boolean]
+    default: false
+    doc: Include information on deletions
+    inputBinding:
+      prefix: --includeDeletions
+      position: 2
+
+  ignoreDeletionSites:
+    type: ['null', boolean]
+    default: false
+    doc: Ignore sites consisting only of deletions
+    inputBinding:
+      prefix: --ignoreDeletionSites
+      position: 2
 
   arg_file:
     type:
     - 'null'
     - type: array
       items: string
+
     doc: Reads arguments from the specified file
     inputBinding:
       prefix: --arg_file
+      position: 2
 
   input_file:
-    type: File
+    type:
+    - File
+    - type: array
+      items: string
     doc: Input file containing sequence data (SAM or BAM)
     inputBinding:
       prefix: --input_file
+      position: 2
 
   read_buffer_size:
     type:
@@ -175,6 +303,7 @@ inputs:
     doc: Number of reads per SAM file to buffer in memory
     inputBinding:
       prefix: --read_buffer_size
+      position: 2
 
   phone_home:
     type:
@@ -185,6 +314,7 @@ inputs:
     doc: Run reporting mode (NO_ET|AWS| STDOUT)
     inputBinding:
       prefix: --phone_home
+      position: 2
 
   gatk_key:
     type:
@@ -195,6 +325,7 @@ inputs:
     doc: GATK key file required to run with -et NO_ET
     inputBinding:
       prefix: --gatk_key
+      position: 2
 
   tag:
     type:
@@ -205,6 +336,7 @@ inputs:
     doc: Tag to identify this GATK run as part of a group of runs
     inputBinding:
       prefix: --tag
+      position: 2
 
   read_filter:
     type:
@@ -215,16 +347,16 @@ inputs:
     doc: Filters to apply to reads before analysis
     inputBinding:
       prefix: --read_filter
+      position: 2
 
   intervals:
     type:
-    - 'null'
-    - type: array
-      items: string
-
+    - string
+    - File
     doc: One or more genomic intervals over which to operate
     inputBinding:
       prefix: --intervals
+      position: 2
 
   excludeIntervals:
     type:
@@ -235,6 +367,7 @@ inputs:
     doc: One or more genomic intervals to exclude from processing
     inputBinding:
       prefix: --excludeIntervals
+      position: 2
 
   interval_set_rule:
     type:
@@ -245,6 +378,7 @@ inputs:
     doc: Set merging approach to use for combining interval inputs (UNION|INTERSECTION)
     inputBinding:
       prefix: --interval_set_rule
+      position: 2
 
   interval_merging:
     type:
@@ -255,6 +389,7 @@ inputs:
     doc: Interval merging rule for abutting intervals (ALL| OVERLAPPING_ONLY)
     inputBinding:
       prefix: --interval_merging
+      position: 2
 
   interval_padding:
     type:
@@ -265,13 +400,16 @@ inputs:
     doc: Amount of padding (in bp) to add to each interval
     inputBinding:
       prefix: --interval_padding
+      position: 2
 
   reference_sequence:
     type:
     - 'null'
     - string
+    - File
     inputBinding:
       prefix: --reference_sequence
+      position: 2
 
   nonDeterministicRandomSeed:
     type: ['null', boolean]
@@ -279,6 +417,7 @@ inputs:
     doc: Use a non-deterministic random seed
     inputBinding:
       prefix: --nonDeterministicRandomSeed
+      position: 2
 
   maxRuntime:
     type:
@@ -289,6 +428,7 @@ inputs:
     doc: Stop execution cleanly as soon as maxRuntime has been reached
     inputBinding:
       prefix: --maxRuntime
+      position: 2
 
   maxRuntimeUnits:
     type:
@@ -300,6 +440,7 @@ inputs:
       HOURS|DAYS)
     inputBinding:
       prefix: --maxRuntimeUnits
+      position: 2
 
   downsampling_type:
     type:
@@ -310,6 +451,7 @@ inputs:
     doc: Type of read downsampling to employ at a given locus (NONE| ALL_READS|BY_SAMPLE)
     inputBinding:
       prefix: --downsampling_type
+      position: 2
 
   downsample_to_fraction:
     type:
@@ -320,6 +462,7 @@ inputs:
     doc: Fraction of reads to downsample to
     inputBinding:
       prefix: --downsample_to_fraction
+      position: 2
 
   downsample_to_coverage:
     type:
@@ -330,6 +473,7 @@ inputs:
     doc: Target coverage threshold for downsampling to coverage
     inputBinding:
       prefix: --downsample_to_coverage
+      position: 2
 
   baq:
     type:
@@ -341,6 +485,7 @@ inputs:
       RECALCULATE)
     inputBinding:
       prefix: --baq
+      position: 2
 
   baqGapOpenPenalty:
     type:
@@ -351,6 +496,7 @@ inputs:
     doc: BAQ gap open penalty
     inputBinding:
       prefix: --baqGapOpenPenalty
+      position: 2
 
   refactor_NDN_cigar_string:
     type: ['null', boolean]
@@ -358,6 +504,7 @@ inputs:
     doc: refactor cigar string with NDN elements to one element
     inputBinding:
       prefix: --refactor_NDN_cigar_string
+      position: 2
 
   fix_misencoded_quality_scores:
     type: ['null', boolean]
@@ -365,6 +512,7 @@ inputs:
     doc: Fix mis-encoded base quality scores
     inputBinding:
       prefix: --fix_misencoded_quality_scores
+      position: 2
 
   allow_potentially_misencoded_quality_scores:
     type: ['null', boolean]
@@ -372,6 +520,7 @@ inputs:
     doc: Ignore warnings about base quality score encoding
     inputBinding:
       prefix: --allow_potentially_misencoded_quality_scores
+      position: 2
 
   useOriginalQualities:
     type: ['null', boolean]
@@ -379,6 +528,7 @@ inputs:
     doc: Use the base quality scores from the OQ tag
     inputBinding:
       prefix: --useOriginalQualities
+      position: 2
 
   defaultBaseQualities:
     type:
@@ -389,6 +539,7 @@ inputs:
     doc: Assign a default base quality
     inputBinding:
       prefix: --defaultBaseQualities
+      position: 2
 
   performanceLog:
     type:
@@ -399,15 +550,18 @@ inputs:
     doc: Write GATK runtime performance log to this file
     inputBinding:
       prefix: --performanceLog
+      position: 2
 
   BQSR:
     type:
     - 'null'
-    - string
-    - File
+    - type: array
+      items: string
+
     doc: Input covariates table file for on-the-fly base quality score recalibration
     inputBinding:
       prefix: --BQSR
+      position: 2
 
   disable_indel_quals:
     type: ['null', boolean]
@@ -415,6 +569,7 @@ inputs:
     doc: Disable printing of base insertion and deletion tags (with -BQSR)
     inputBinding:
       prefix: --disable_indel_quals
+      position: 2
 
   emit_original_quals:
     type: ['null', boolean]
@@ -422,6 +577,7 @@ inputs:
     doc: Emit the OQ tag with the original base qualities (with -BQSR)
     inputBinding:
       prefix: --emit_original_quals
+      position: 2
 
   preserve_qscores_less_than:
     type:
@@ -433,6 +589,7 @@ inputs:
       -BQSR)
     inputBinding:
       prefix: --preserve_qscores_less_than
+      position: 2
 
   globalQScorePrior:
     type:
@@ -443,6 +600,7 @@ inputs:
     doc: Global Qscore Bayesian prior to use for BQSR
     inputBinding:
       prefix: --globalQScorePrior
+      position: 2
 
   validation_strictness:
     type:
@@ -453,6 +611,7 @@ inputs:
     doc: How strict should we be with validation (STRICT|LENIENT| SILENT)
     inputBinding:
       prefix: --validation_strictness
+      position: 2
 
   remove_program_records:
     type: ['null', boolean]
@@ -460,6 +619,7 @@ inputs:
     doc: Remove program records from the SAM header
     inputBinding:
       prefix: --remove_program_records
+      position: 2
 
   keep_program_records:
     type: ['null', boolean]
@@ -467,6 +627,7 @@ inputs:
     doc: Keep program records in the SAM header
     inputBinding:
       prefix: --keep_program_records
+      position: 2
 
   sample_rename_mapping_file:
     type:
@@ -477,6 +638,7 @@ inputs:
     doc: Rename sample IDs on-the-fly at runtime using the provided mapping file
     inputBinding:
       prefix: --sample_rename_mapping_file
+      position: 2
 
   unsafe:
     type:
@@ -489,6 +651,7 @@ inputs:
       ALLOW_SEQ_DICT_INCOMPATIBILITY| LENIENT_VCF_PROCESSING|ALL)
     inputBinding:
       prefix: --unsafe
+      position: 2
 
   sites_only:
     type: ['null', boolean]
@@ -497,6 +660,7 @@ inputs:
       VCF)
     inputBinding:
       prefix: --sites_only
+      position: 2
 
   never_trim_vcf_format_field:
     type: ['null', boolean]
@@ -504,6 +668,7 @@ inputs:
     doc: Always output all the records in VCF FORMAT fields, even if some are missing
     inputBinding:
       prefix: --never_trim_vcf_format_field
+      position: 2
 
   bam_compression:
     type:
@@ -514,6 +679,7 @@ inputs:
     doc: Compression level to use for writing BAM files (0 - 9, higher is more compressed)
     inputBinding:
       prefix: --bam_compression
+      position: 2
 
   simplifyBAM:
     type: ['null', boolean]
@@ -524,6 +690,7 @@ inputs:
       group identifier
     inputBinding:
       prefix: --simplifyBAM
+      position: 2
 
   disable_bam_indexing:
     type: ['null', boolean]
@@ -531,6 +698,7 @@ inputs:
     doc: Turn off on-the-fly creation of
     inputBinding:
       prefix: --disable_bam_indexing
+      position: 2
 
   generate_md5:
     type: ['null', boolean]
@@ -538,6 +706,7 @@ inputs:
     doc: Enable on-the-fly creation of
     inputBinding:
       prefix: --generate_md5
+      position: 2
 
   num_threads:
     type:
@@ -546,15 +715,16 @@ inputs:
     doc: Number of data threads to allocate to this analysis
     inputBinding:
       prefix: --num_threads
+      position: 2
 
   num_cpu_threads_per_data_thread:
     type:
     - 'null'
     - string
-    default: '2'
     doc: Number of CPU threads to allocate per data thread
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
+      position: 2
 
   monitorThreadEfficiency:
     type: ['null', boolean]
@@ -562,6 +732,7 @@ inputs:
     doc: Enable threading efficiency monitoring
     inputBinding:
       prefix: --monitorThreadEfficiency
+      position: 2
 
   num_bam_file_handles:
     type:
@@ -572,6 +743,7 @@ inputs:
     doc: Total number of BAM file handles to keep open simultaneously
     inputBinding:
       prefix: --num_bam_file_handles
+      position: 2
 
   read_group_black_list:
     type:
@@ -582,6 +754,7 @@ inputs:
     doc: Exclude read groups based on tags
     inputBinding:
       prefix: --read_group_black_list
+      position: 2
 
   pedigree:
     type:
@@ -592,6 +765,7 @@ inputs:
     doc: Pedigree files for samples
     inputBinding:
       prefix: --pedigree
+      position: 2
 
   pedigreeString:
     type:
@@ -602,6 +776,7 @@ inputs:
     doc: Pedigree string for samples
     inputBinding:
       prefix: --pedigreeString
+      position: 2
 
   pedigreeValidationType:
     type:
@@ -612,6 +787,7 @@ inputs:
     doc: Validation strictness for pedigree information (STRICT| SILENT)
     inputBinding:
       prefix: --pedigreeValidationType
+      position: 2
 
   variant_index_type:
     type:
@@ -622,6 +798,7 @@ inputs:
     doc: Type of IndexCreator to use for VCF/BCF indices (DYNAMIC_SEEK| DYNAMIC_SIZE|LINEAR|INTERVAL)
     inputBinding:
       prefix: --variant_index_type
+      position: 2
 
   variant_index_parameter:
     type:
@@ -632,6 +809,7 @@ inputs:
     doc: Parameter to pass to the VCF/BCF IndexCreator
     inputBinding:
       prefix: --variant_index_parameter
+      position: 2
 
   logging_level:
     type:
@@ -642,6 +820,7 @@ inputs:
     doc: Set the minimum level of logging
     inputBinding:
       prefix: --logging_level
+      position: 2
 
   log_to_file:
     type:
@@ -652,6 +831,18 @@ inputs:
     doc: Set the logging location
     inputBinding:
       prefix: --log_to_file
+      position: 2
+
+  summaryCoverageThreshold:
+    type:
+    - 'null'
+    - type: array
+      items: string
+
+    doc: Coverage threshold (in percent) for summarizing statistics
+    inputBinding:
+      prefix: --summaryCoverageThreshold
+      position: 2
 
   filter_reads_with_N_cigar:
     type: ['null', boolean]
@@ -660,6 +851,7 @@ inputs:
       and report an error.
     inputBinding:
       prefix: --filter_reads_with_N_cigar
+      position: 2
 
   filter_mismatching_base_and_quals:
     type: ['null', boolean]
@@ -668,24 +860,21 @@ inputs:
       the read instead of blowing up.
     inputBinding:
       prefix: --filter_mismatching_base_and_quals
+      position: 2
 
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
+  filter_bases_not_stored:
+    type: ['null', boolean]
+    default: false
+    doc: if a read has no stored bases (i.e. a '*'), filter out the read instead of
+      blowing up.
     inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
+      prefix: --filter_bases_not_stored
+      position: 2
 
 
 outputs:
-  out_bam:
+  out_file:
     type: File
-    secondaryFiles: [^.bai]
     outputBinding:
       glob: |
         ${
