@@ -29,7 +29,7 @@ dependencies:
     version: 3.3.0
     source: path:/opt/local/singularity/3.3.0/bin/singularity
   toil:
-    version: 3.19.0
+    version: 3.21.0
     source: github:https://github.com/mskcc/toil
 test:
   root: /juno/work/ci/roslin-test/
