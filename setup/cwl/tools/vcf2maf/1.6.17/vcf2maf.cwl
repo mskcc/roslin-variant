@@ -29,18 +29,8 @@ dct:creator:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "vcf2maf"
-- --version
-- "1.6.17"
-- --language_version
-- "default"
-- --language
-- "perl"
-- --cmd
-- "vcf2maf.pl"
+baseCommand: [vcf2maf.pl]
+
 label: vcf2maf
 
 requirements:
@@ -48,6 +38,8 @@ requirements:
   ResourceRequirement:
     ramMin: 8000
     coresMin: 2
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-vcf2maf:1.6.17
 
 doc: |
   None
