@@ -44,28 +44,15 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [tool.sh]
 id: remove-variants
-
-arguments:
-- valueFrom: "remove-variants"
-  prefix: --tool
-  position: 0
-- valueFrom: "0.1.1"
-  prefix: --version
-  position: 0
-- valueFrom: "default"
-  prefix: --language_version
-  position: 0
-- valueFrom: "python"
-  prefix: --language
-  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-remove-variants:0.1.1
 
 doc: |
   Remove snps/indels from the output maf where a complex variant is called
@@ -80,7 +67,7 @@ inputs:
       prefix: --verbose
 
   inputMaf:
-    type: 
+    type:
 
     - string
     - File
