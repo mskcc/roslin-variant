@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-trimgalore
+  doap:name: trimgalore
   doap:revision: 0.2.5.mod
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -41,13 +41,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_trimgalore]
-id: cmo-trimgalore
-
-arguments:
-- valueFrom: "0.2.5.mod"
-  prefix: --version
-  position: 0
+id: trimgalore
 
 requirements:
 - class: InlineJavascriptRequirement
@@ -56,6 +50,8 @@ requirements:
 - class: ResourceRequirement
   ramMin: 12000
   coresMin: 1
+- class: DockerRequirement
+  dockerPull: mskcc/roslin-variant-trimgalore:0.2.5.mod
 
 
 doc: |
@@ -65,6 +61,7 @@ inputs:
 
   quality:
     type: ['null', string]
+    default: '1'
     doc: Trim low-quality ends from reads in addition to adapter removal. For RRBS
       samples, quality trimming will be performed first, and adapter trimming is carried
       in a second round. Other files are quality and adapter trimmed in a single pass.
@@ -74,7 +71,6 @@ inputs:
     inputBinding:
       prefix: --quality
 
-    default: '1'
   phred33:
     type: ['null', boolean]
     default: false
@@ -136,6 +132,7 @@ inputs:
 
   length:
     type: ['null', string]
+    default: '25'
     doc: Discard reads that became shorter than length INT because of either quality
       or adapter trimming. A value of '0' effectively disables this behaviour. Default
       - 20 bp. For paired-end files, both reads of a read-pair need to be longer than
@@ -145,7 +142,6 @@ inputs:
     inputBinding:
       prefix: --length
 
-    default: '25'
   output_dir:
     type: ['null', string]
     doc: If specified all output will be written to this directory instead of the
