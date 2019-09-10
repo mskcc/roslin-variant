@@ -213,8 +213,8 @@
             "default": "sing.sh remove-variants 0.1.1"
         },
         "roslin-qc": {
-            "0.6.0": "sing.sh roslin-qc 0.6.0",
-            "default": "sing.sh roslin-qc 0.6.0"
+            "0.6.1": "sing.sh roslin-qc 0.6.1",
+            "default": "sing.sh roslin-qc 0.6.1"
         },
         "qc-summary": {
             "0.1.0": "sing.sh qc-summary 0.1.0",

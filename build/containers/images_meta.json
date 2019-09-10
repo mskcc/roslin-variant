@@ -33,11 +33,11 @@
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.basicfiltering": "https://github.com/mskcc/basicfiltering/releases/tag/0.3",
                     "source.bcftools": "https://github.com/samtools/bcftools/releases/tag/1.9",
-                    "source.cmo": "https://github.com/mskcc/cmo/releases/tag/1.9.10",
+                    "source.cmo": "https://github.com/mskcc/cmo/releases/tag/1.9.13",
                     "version.alpine": "3.8",
                     "version.basicfiltering": "0.3",
                     "version.bcftools": "1.9",
-                    "version.cmo": "1.9.10",
+                    "version.cmo": "1.9.13",
                     "version.image": "1.0.0"
                 }
             },
