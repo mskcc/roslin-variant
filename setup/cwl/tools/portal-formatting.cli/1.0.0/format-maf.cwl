@@ -73,6 +73,9 @@ steps:
             id: formatting_remove_comments
             baseCommand: ["grep", "^[^#;]"]
             stdout: $(inputs.output_filename)
+            requirements:
+                DockerRequirement:
+                    dockerPull: alpine:3.8
             inputs:
                 input_maf:
                     type: File
@@ -99,6 +102,9 @@ steps:
                 - "\t"
                 - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } print "Hugo_Symbol\\tEntrez_Gene_Id\\tCenter\\tTumor_Sample_Barcode\\tFusion\\tMethod\\tFrame" } NR>1 { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}'
             stdout: $(inputs.output_filename)
+            requirements:
+                DockerRequirement:
+                    dockerPull: alpine:3.8
             inputs:
                 grepped_file:
                     type: File
@@ -119,6 +125,9 @@ steps:
             id: add_two_columns
             baseCommand: ["sed", "1s/$/\\tDNA_support\\tRNA_support/;2,$s/$/\\tyes\\tno/"]
             stdout: $(inputs.output_filename)
+            requirements:
+                DockerRequirement:
+                    dockerPull: alpine:3.8
             inputs:
                 extracted_file:
                     type: File
@@ -146,6 +155,9 @@ steps:
                 - 'NR==1 { for(i=1;i<=NF;i++){ f[$i]=i } } { print \$(f["Hugo_Symbol"])"\\t"\$(f["Entrez_Gene_Id"])"\\t"\$(f["Center"])"\\t"\$(f["Tumor_Sample_Barcode"])"\\t"\$(f["Fusion"])"\\t"\$(f["DNA_support"])"\\t"\$(f["RNA_support"])"\\t"\$(f["Method"])"\\t"\$(f["Frame"])}'
 
             stdout: $(inputs.output_filename)
+            requirements:
+                DockerRequirement:
+                    dockerPull: alpine:3.8
             inputs:
                 sed_file:
                     type: File
