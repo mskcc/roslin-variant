@@ -117,7 +117,7 @@ inputs:
 - id: vcf
   type: string?
 - id: G
-  type: File[]
+  type: File
 - id: f_1
   type: string?
 label: vardict

@@ -169,7 +169,7 @@ requirements:
   coresMin: 4
   ramMin: 32000
 - class: DockerRequirement
-  dockerPull: roslin/pipeline-vardict:1.5.1
+  dockerPull: mskcc/roslin-variant-vardict:1.5.1
 - class: InlineJavascriptRequirement
 stdin: $(inputs.input_vcf.path)
 stdout: "${\n  if (inputs.vcf)\n    return inputs.vcf;\n  return null;\n}\n"

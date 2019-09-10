@@ -85,7 +85,7 @@ inputs:
     prefix: -G
   secondaryFiles:
   - .fai
-  type: File[]
+  type: File
 - default: false
   doc: Print this help page
   id: H
@@ -367,7 +367,7 @@ requirements:
   coresMin: 4
   ramMin: 32000
 - class: DockerRequirement
-  dockerPull: roslin/pipeline-vardict:1.5.1
+  dockerPull: mskcc/roslin-variant-vardict:1.5.1
 - class: InlineJavascriptRequirement
 stderr: tmp_err.log
 stdout: tmp_output.vcf

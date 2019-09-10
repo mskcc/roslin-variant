@@ -43,7 +43,7 @@ outputs:
   type: File?
 requirements:
 - class: DockerRequirement
-  dockerPull: sinisa88/vardict:1.5.1
+  dockerPull: mskcc/roslin-variant-vardict:1.5.1
 - class: InlineJavascriptRequirement
 stdin: $(inputs.input_vardict.path)
 stdout: output_testsomatic.var
