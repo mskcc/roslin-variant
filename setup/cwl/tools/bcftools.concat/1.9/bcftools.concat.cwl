@@ -45,14 +45,7 @@ dct:creator:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "htslib"
-- --version
-- "1.9"
-- --cmd
-- "concat"
+baseCommand: [concat]
 id: bcftools-concat
 
 requirements:
@@ -60,6 +53,8 @@ requirements:
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-htslib:1.9
 
 doc: |
   concatenate VCF/BCF files from the same set of samples
