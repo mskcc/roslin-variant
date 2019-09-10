@@ -33,16 +33,12 @@ requirements:
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-roslin-qc:0.6.1
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "roslin-qc"
-- --version
-- "0.6.0"
-- --cmd
-- merge_picard_metrics
+baseCommand: [merge_picard_metrics]
+
 id: merge-picard-metrics-hsmetrics
 stdout: $(inputs.outfile_name)
 inputs:

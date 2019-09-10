@@ -38,14 +38,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "roslin-qc"
-- --version
-- "0.6.0"
-- --cmd
-- create_hotspots_in_normal
+baseCommand: [create_hotspots_in_normal]
 id: create-hotspots-in-normal
 
 requirements:
@@ -53,6 +46,8 @@ requirements:
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-roslin-qc:0.6.1
 
 doc: |
   None

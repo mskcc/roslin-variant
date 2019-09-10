@@ -31,20 +31,15 @@ requirements:
   InlineJavascriptRequirement: {}
   InitialWorkDirRequirement:
     listing: $(inputs.data_dir.listing)
-
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-roslin-qc:0.6.1
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "roslin-qc"
-- --version
-- "0.6.0"
-- --cmd
-- genlatex
+baseCommand: [genlatex]
+
 id: genlatex
 
 inputs:

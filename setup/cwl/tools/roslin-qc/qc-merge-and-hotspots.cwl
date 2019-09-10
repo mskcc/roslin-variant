@@ -106,6 +106,16 @@ inputs:
   grouping_file: File
   pairing_file: File
   hotspot_list_maf: File
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   genome: string
 
 outputs:
@@ -182,13 +192,13 @@ steps:
     out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, minor_contam_output, qual_files_r, qual_files_o, cutadapt_summary ]
 
   hotspots_fillout:
-    run: ../cmo-fillout/1.2.2/cmo-fillout.cwl
+    run: ../cmo-utils/1.9.14/cmo-fillout.cwl
     in:
       maf: hotspot_list_maf
       aa_bams: bams
       bams:
         valueFrom: ${ var output = [];  for (var i=0; i<inputs.aa_bams.length; i++) { output=output.concat(inputs.aa_bams[i]); } return output; }
-      genome: genome
+      ref_fasta: ref_fasta
       output_format:
         valueFrom: ${ return "1"; }
       project_prefix: project_prefix

@@ -33,16 +33,12 @@ requirements:
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-roslin-qc:0.6.1
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "roslin-qc"
-- --version
-- "0.6.0"
-- --cmd
-- merge_gc_bias_metrics
+baseCommand: [merge_gc_bias_metrics]
+
 id: merge-gcbias-metrics
 stdout: $(inputs.outfile_name)
 inputs:
