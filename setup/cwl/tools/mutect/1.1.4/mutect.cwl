@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-mutect
+  doap:name: mutect
   doap:revision: 1.1.4
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -37,39 +37,37 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_mutect]
-id: cmo-mutect
+id: mutect
 
 arguments:
-- valueFrom: "1.1.4"
-  prefix: --version
-  position: 0
-- valueFrom: "6"
-  prefix: --java-version
-  position: 0
+- valueFrom: "--jar -T MuTect"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 24000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-mutect:1.1.4
 
 doc: |
   None
 
 inputs:
+
   java_args:
-    type: ['null', string]
-    default: -Xmx48g -Xms256m -XX:-UseGCOverheadLimit
-    doc: args to pass to java
+    type: string
+    default: "-Xmx48g -Xms256m -XX:-UseGCOverheadLimit"
     inputBinding:
-      prefix: --java_args
+      position: 0
 
   java_temp:
-    type: ['null', string]
-    doc: java.io.temp_dir, if you want to set it
+    type: string
     inputBinding:
-      prefix: --java-temp
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
 
   arg_file:
     type:
@@ -80,25 +78,26 @@ inputs:
     doc: Reads arguments from the specified file
     inputBinding:
       prefix: --arg_file
+      position: 2
 
   input_file_normal:
     type:
     - 'null'
     - File
-
     doc: SAM or BAM file(s)
     inputBinding:
       prefix: --input_file:normal
+      position: 2
     secondaryFiles: [.bai]
 
   input_file_tumor:
     type:
     - 'null'
     - File
-
     doc: SAM or BAM file(s)
     inputBinding:
       prefix: --input_file:tumor
+      position: 2
     secondaryFiles: [.bai]
 
   read_buffer_size:
@@ -110,6 +109,7 @@ inputs:
     doc: Number of reads per SAM file to buffer in memory
     inputBinding:
       prefix: --read_buffer_size
+      position: 2
 
   phone_home:
     type:
@@ -122,6 +122,7 @@ inputs:
       for details. (NO_ET|STANDARD|STDOUT)
     inputBinding:
       prefix: --phone_home
+      position: 2
 
   gatk_key:
     type:
@@ -133,6 +134,7 @@ inputs:
       for details.
     inputBinding:
       prefix: --gatk_key
+      position: 2
 
   tag:
     type:
@@ -144,6 +146,7 @@ inputs:
       for later analysis
     inputBinding:
       prefix: --tag
+      position: 2
 
   read_filter:
     type:
@@ -154,6 +157,7 @@ inputs:
     doc: Specify filtration criteria to apply to each read individually
     inputBinding:
       prefix: --read_filter
+      position: 2
 
   intervals:
     type:
@@ -165,6 +169,7 @@ inputs:
       on the command line or in a file (including a rod file)
     inputBinding:
       prefix: --intervals
+      position: 2
 
   excludeIntervals:
     type:
@@ -176,6 +181,7 @@ inputs:
       specified on the command line or in a file (including a rod file)
     inputBinding:
       prefix: --excludeIntervals
+      position: 2
 
   interval_set_rule:
     type:
@@ -187,6 +193,7 @@ inputs:
       the various -L or -XL inputs (UNION| INTERSECTION)
     inputBinding:
       prefix: --interval_set_rule
+      position: 2
 
   interval_merging:
     type:
@@ -198,6 +205,7 @@ inputs:
       (ALL| OVERLAPPING_ONLY)
     inputBinding:
       prefix: --interval_merging
+      position: 2
 
   interval_padding:
     type:
@@ -209,12 +217,13 @@ inputs:
       specified with the -L/
     inputBinding:
       prefix: --interval_padding
+      position: 2
 
   reference_sequence:
-    type: string
-
+    type: File
     inputBinding:
       prefix: --reference_sequence
+      position: 2
 
   nonDeterministicRandomSeed:
     type: ['null', boolean]
@@ -223,6 +232,7 @@ inputs:
       generated will be different in every run
     inputBinding:
       prefix: --nonDeterministicRandomSeed
+      position: 2
 
   disableRandomization:
     type: ['null', boolean]
@@ -232,6 +242,7 @@ inputs:
       differing numbers of calls to the generator.
     inputBinding:
       prefix: --disableRandomization
+      position: 2
 
   maxRuntime:
     type:
@@ -244,6 +255,7 @@ inputs:
       the value is interpreted in minutes, but this can be changed by maxRuntimeUnits
     inputBinding:
       prefix: --maxRuntime
+      position: 2
 
   maxRuntimeUnits:
     type:
@@ -255,12 +267,14 @@ inputs:
       HOURS|DAYS)
     inputBinding:
       prefix: --maxRuntimeUnits
+      position: 2
 
   enable_extended_output:
     type: boolean
     default: true
     inputBinding:
       prefix: --enable_extended_output
+      position: 2
 
   downsampling_type:
     type:
@@ -273,6 +287,7 @@ inputs:
       all possible reads at a locus
     inputBinding:
       prefix: --downsampling_type
+      position: 2
 
   baq:
     type:
@@ -284,6 +299,7 @@ inputs:
       RECALCULATE)
     inputBinding:
       prefix: --baq
+      position: 2
 
   baqGapOpenPenalty:
     type:
@@ -295,6 +311,7 @@ inputs:
       for whole genome call sets
     inputBinding:
       prefix: --baqGapOpenPenalty
+      position: 2
 
   performanceLog:
     type:
@@ -305,6 +322,7 @@ inputs:
     doc: If provided, a GATK runtime performance log will be written to this file
     inputBinding:
       prefix: --performanceLog
+      position: 2
 
   useOriginalQualities:
     type: ['null', boolean]
@@ -313,6 +331,7 @@ inputs:
       instead of the standard scores
     inputBinding:
       prefix: --useOriginalQualities
+      position: 2
 
   BQSR:
     type:
@@ -324,6 +343,7 @@ inputs:
       recalibration
     inputBinding:
       prefix: --BQSR
+      position: 2
 
   disable_indel_quals:
     type: ['null', boolean]
@@ -332,6 +352,7 @@ inputs:
       -BQSR)
     inputBinding:
       prefix: --disable_indel_quals
+      position: 2
 
   emit_original_quals:
     type: ['null', boolean]
@@ -340,6 +361,7 @@ inputs:
       (with -BQSR)
     inputBinding:
       prefix: --emit_original_quals
+      position: 2
 
   preserve_qscores_less_than:
     type:
@@ -351,6 +373,7 @@ inputs:
       (with -BQSR)
     inputBinding:
       prefix: --preserve_qscores_less_than
+      position: 2
 
   defaultBaseQualities:
     type:
@@ -362,6 +385,7 @@ inputs:
       used for all base quality scores
     inputBinding:
       prefix: --defaultBaseQualities
+      position: 2
 
   validation_strictness:
     type:
@@ -372,6 +396,7 @@ inputs:
     doc: How strict should we be with validation (STRICT|LENIENT|SILENT)
     inputBinding:
       prefix: --validation_strictness
+      position: 2
 
   remove_program_records:
     type: ['null', boolean]
@@ -380,6 +405,7 @@ inputs:
       SAM header
     inputBinding:
       prefix: --remove_program_records
+      position: 2
 
   keep_program_records:
     type: ['null', boolean]
@@ -388,6 +414,7 @@ inputs:
       SAM header
     inputBinding:
       prefix: --keep_program_records
+      position: 2
 
   unsafe:
     type:
@@ -401,6 +428,7 @@ inputs:
       ALLOW_SEQ_DICT_INCOMPATIBILITY| LENIENT_VCF_PROCESSING|ALL)
     inputBinding:
       prefix: --unsafe
+      position: 2
 
   num_threads:
     type:
@@ -409,6 +437,7 @@ inputs:
     doc: How many data threads should be allocated to running this analysis.
     inputBinding:
       prefix: --num_threads
+      position: 2
 
   num_cpu_threads_per_data_thread:
     type:
@@ -417,6 +446,7 @@ inputs:
     doc: How many CPU threads should be allocated per data thread to running this analysis?
     inputBinding:
       prefix: --num_cpu_threads_per_data_thread
+      position: 2
 
   monitorThreadEfficiency:
     type: ['null', boolean]
@@ -424,6 +454,7 @@ inputs:
     doc: Enable GATK threading efficiency monitoring
     inputBinding:
       prefix: --monitorThreadEfficiency
+      position: 2
 
   num_bam_file_handles:
     type:
@@ -434,6 +465,7 @@ inputs:
     doc: The total number of BAM file handles to keep open simultaneously
     inputBinding:
       prefix: --num_bam_file_handles
+      position: 2
 
   read_group_black_list:
     type:
@@ -445,6 +477,7 @@ inputs:
       the filter strings one per line.
     inputBinding:
       prefix: --read_group_black_list
+      position: 2
 
   pedigree:
     type:
@@ -455,6 +488,7 @@ inputs:
     doc: Pedigree files for samples
     inputBinding:
       prefix: --pedigree
+      position: 2
 
   pedigreeString:
     type:
@@ -465,6 +499,7 @@ inputs:
     doc: Pedigree string for samples
     inputBinding:
       prefix: --pedigreeString
+      position: 2
 
   pedigreeValidationType:
     type:
@@ -475,6 +510,7 @@ inputs:
     doc: How strict should we be in validating the pedigree information? (STRICT|SILENT)
     inputBinding:
       prefix: --pedigreeValidationType
+      position: 2
 
   logging_level:
     type:
@@ -486,6 +522,7 @@ inputs:
       FATAL, setting ERROR gets you ERROR and FATAL level logging.
     inputBinding:
       prefix: --logging_level
+      position: 2
 
   log_to_file:
     type:
@@ -496,6 +533,7 @@ inputs:
     doc: Set the logging location
     inputBinding:
       prefix: --log_to_file
+      position: 2
 
   noop:
     type: ['null', boolean]
@@ -503,6 +541,7 @@ inputs:
     doc: used for debugging, basically exit as soon as we get the reads
     inputBinding:
       prefix: --noop
+      position: 2
 
   tumor_sample_name:
     type:
@@ -513,6 +552,7 @@ inputs:
     doc: name to use for tumor in output files
     inputBinding:
       prefix: --tumor_sample_name
+      position: 2
 
   bam_tumor_sample_name:
     type:
@@ -524,6 +564,7 @@ inputs:
       equal to this value
     inputBinding:
       prefix: --bam_tumor_sample_name
+      position: 2
 
   normal_sample_name:
     type:
@@ -534,6 +575,7 @@ inputs:
     doc: name to use for normal in output files
     inputBinding:
       prefix: --normal_sample_name
+      position: 2
 
   force_output:
     type: ['null', boolean]
@@ -541,6 +583,7 @@ inputs:
     doc: force output for each site
     inputBinding:
       prefix: --force_output
+      position: 2
 
   force_alleles:
     type: ['null', boolean]
@@ -548,6 +591,7 @@ inputs:
     doc: force output for all alleles at each site
     inputBinding:
       prefix: --force_alleles
+      position: 2
 
   only_passing_calls:
     type: ['null', boolean]
@@ -555,6 +599,7 @@ inputs:
     doc: only emit passing calls
     inputBinding:
       prefix: --only_passing_calls
+      position: 2
 
   initial_tumor_lod:
     type:
@@ -565,6 +610,7 @@ inputs:
     doc: Initial LOD threshold for calling tumor variant
     inputBinding:
       prefix: --initial_tumor_lod
+      position: 2
 
   tumor_lod:
     type:
@@ -575,6 +621,7 @@ inputs:
     doc: LOD threshold for calling tumor variant
     inputBinding:
       prefix: --tumor_lod
+      position: 2
 
   fraction_contamination:
     type:
@@ -586,6 +633,7 @@ inputs:
       samples
     inputBinding:
       prefix: --fraction_contamination
+      position: 2
 
   minimum_mutation_cell_fraction:
     type:
@@ -597,6 +645,7 @@ inputs:
       handle non-clonality and contamination
     inputBinding:
       prefix: --minimum_mutation_cell_fraction
+      position: 2
 
   normal_lod:
     type:
@@ -607,6 +656,7 @@ inputs:
     doc: LOD threshold for calling normal non-germline
     inputBinding:
       prefix: --normal_lod
+      position: 2
 
   dbsnp_normal_lod:
     type:
@@ -617,6 +667,7 @@ inputs:
     doc: LOD threshold for calling normal non-variant at dbsnp sites
     inputBinding:
       prefix: --dbsnp_normal_lod
+      position: 2
 
   somatic_classification_normal_power_threshold:
     type: ['null', boolean]
@@ -625,6 +676,7 @@ inputs:
       determine germline vs variant
     inputBinding:
       prefix: --somatic_classification_normal_power_threshold
+      position: 2
 
   minimum_normal_allele_fraction:
     type:
@@ -636,6 +688,7 @@ inputs:
       contaminated with tumor
     inputBinding:
       prefix: --minimum_normal_allele_fraction
+      position: 2
 
   tumor_f_pretest:
     type:
@@ -647,6 +700,7 @@ inputs:
       threshold
     inputBinding:
       prefix: --tumor_f_pretest
+      position: 2
 
   min_qscore:
     type:
@@ -657,6 +711,7 @@ inputs:
     doc: threshold for minimum base quality score
     inputBinding:
       prefix: --min_qscore
+      position: 2
 
   gap_events_threshold:
     type:
@@ -667,6 +722,7 @@ inputs:
     doc: how many gapped events (ins/del) are allowed in proximity to this candidate
     inputBinding:
       prefix: --gap_events_threshold
+      position: 2
 
   heavily_clipped_read_fraction:
     type:
@@ -678,6 +734,7 @@ inputs:
       not use this read for mutation calling
     inputBinding:
       prefix: --heavily_clipped_read_fraction
+      position: 2
 
   clipping_bias_pvalue_threshold:
     type:
@@ -689,6 +746,7 @@ inputs:
       vs ref reads
     inputBinding:
       prefix: --clipping_bias_pvalue_threshold
+      position: 2
 
   fraction_mapq0_threshold:
     type:
@@ -700,6 +758,7 @@ inputs:
       allele read piles
     inputBinding:
       prefix: --fraction_mapq0_threshold
+      position: 2
 
   pir_median_threshold:
     type:
@@ -710,6 +769,7 @@ inputs:
     doc: threshold for clustered read position artifact median
     inputBinding:
       prefix: --pir_median_threshold
+      position: 2
 
   pir_mad_threshold:
     type:
@@ -720,6 +780,7 @@ inputs:
     doc: threshold for clustered read position artifact MAD
     inputBinding:
       prefix: --pir_mad_threshold
+      position: 2
 
   required_maximum_alt_allele_mapping_quality_score:
     type: ['null', boolean]
@@ -728,6 +789,7 @@ inputs:
       tumor alt allele maximum mapping quality score
     inputBinding:
       prefix: --required_maximum_alt_allele_mapping_quality_score
+      position: 2
 
   max_alt_alleles_in_normal_count:
     type:
@@ -738,6 +800,7 @@ inputs:
     doc: threshold for maximum alternate allele counts in normal
     inputBinding:
       prefix: --max_alt_alleles_in_normal_count
+      position: 2
 
   max_alt_alleles_in_normal_qscore_sum:
     type:
@@ -748,6 +811,7 @@ inputs:
     doc: threshold for maximum alternate allele quality score sum in normal
     inputBinding:
       prefix: --max_alt_alleles_in_normal_qscore_sum
+      position: 2
 
   max_alt_allele_in_normal_fraction:
     type:
@@ -758,6 +822,7 @@ inputs:
     doc: threshold for maximum alternate allele fraction in normal
     inputBinding:
       prefix: --max_alt_allele_in_normal_fraction
+      position: 2
 
   power_constant_qscore:
     type:
@@ -768,6 +833,7 @@ inputs:
     doc: Phred scale quality score constant to use in power calculations
     inputBinding:
       prefix: --power_constant_qscore
+      position: 2
 
   absolute_copy_number_data:
     type:
@@ -778,6 +844,7 @@ inputs:
     doc: Absolute Copy Number Data, as defined by Absolute, to use in power calculations
     inputBinding:
       prefix: --absolute_copy_number_data
+      position: 2
 
   power_constant_af:
     type:
@@ -788,6 +855,7 @@ inputs:
     doc: Allelic fraction constant to use in power calculations
     inputBinding:
       prefix: --power_constant_af
+      position: 2
 
   out:
     type:
@@ -797,6 +865,7 @@ inputs:
     doc: Call-stats output
     inputBinding:
       prefix: --out
+      position: 2
 
   vcf:
     type:
@@ -806,6 +875,7 @@ inputs:
     doc: VCF output of mutation candidates
     inputBinding:
       prefix: --vcf
+      position: 2
 
   dbsnp:
     type:
@@ -815,6 +885,7 @@ inputs:
     doc: VCF file of DBSNP information
     inputBinding:
       prefix: --dbsnp
+      position: 2
     secondaryFiles: [^.vcf.idx]
 
   cosmic:
@@ -825,6 +896,7 @@ inputs:
     doc: VCF file of COSMIC sites
     inputBinding:
       prefix: --cosmic
+      position: 2
     secondaryFiles: [^.vcf.idx]
 
   coverage_file:
@@ -836,6 +908,7 @@ inputs:
     doc: write out coverage in WIGGLE format to this file
     inputBinding:
       prefix: --coverage_file
+      position: 2
 
   coverage_20_q20_file:
     type:
@@ -846,6 +919,7 @@ inputs:
     doc: write out 20x of Q20 coverage in WIGGLE format to this file
     inputBinding:
       prefix: --coverage_20_q20_file
+      position: 2
 
   power_file:
     type:
@@ -856,6 +930,7 @@ inputs:
     doc: write out power in WIGGLE format to this file
     inputBinding:
       prefix: --power_file
+      position: 2
 
   tumor_depth_file:
     type:
@@ -866,6 +941,7 @@ inputs:
     doc: write out tumor read depth in WIGGLE format to this file
     inputBinding:
       prefix: --tumor_depth_file
+      position: 2
 
   normal_depth_file:
     type:
@@ -876,6 +952,7 @@ inputs:
     doc: write out normal read depth in WIGGLE format to this file
     inputBinding:
       prefix: --normal_depth_file
+      position: 2
 
   filter_mismatching_base_and_quals:
     type: ['null', boolean]
@@ -884,6 +961,7 @@ inputs:
       the read instead of blowing up.
     inputBinding:
       prefix: --filter_mismatching_base_and_quals
+      position: 2
 
 
 
@@ -892,6 +970,7 @@ inputs:
     doc: Target coverage threshold for downsampling to coverage
     inputBinding:
       prefix: --downsample_to_coverage
+      position: 2
 
 outputs:
   output:
