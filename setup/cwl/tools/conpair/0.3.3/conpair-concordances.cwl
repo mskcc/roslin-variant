@@ -37,9 +37,7 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- python
-- /usr/bin/conpair/scripts/verify_concordances.py
+baseCommand: [concordance]
 
 id: conpair-concordance
 requirements:

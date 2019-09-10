@@ -37,9 +37,7 @@ dct:contributor:
 cwlVersion: cwl:v1.0
 
 class: CommandLineTool
-baseCommand:
-- python
-- /usr/bin/conpair/scripts/estimate_tumor_normal_contaminations.py
+baseCommand: [contamination]
 
 id: conpair-contamination
 requirements:
