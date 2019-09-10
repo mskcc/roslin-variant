@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.AddOrReplaceReadGroups
+  doap:name: picard.AddOrReplaceReadGroups
   doap:revision: 2.9
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -41,45 +41,58 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-id: cmo-picard-AddOrReplaceReadGroups
+id: picard-AddOrReplaceReadGroups
 
 arguments:
-- valueFrom: "AddOrReplaceReadGroups"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar AddOrReplaceReadGroups"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 25000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-picard:2.9
 
 doc: |
   None
 
 inputs:
 
-  I:
-    type:
-    - 'null'
-    - File
-    - type: array
-      items: string
-
-
+  java_args:
+    type: string
+    default: "-Xms256m -Xmx30g -XX:-UseGCOverheadLimit"
     inputBinding:
-      prefix: --INPUT
+      position: 0
 
+  java_temp:
+    type: string
+    inputBinding:
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
+
+  TMP_DIR:
+    type: string
+    inputBinding:
+      prefix: TMP_DIR=
+      position: 2
+      separate: false
+
+  I:
+    type: File
+    inputBinding:
+      prefix: I=
+      position: 2
+      separate: false
   O:
     type: string
-
     doc: Output file (BAM or SAM). Required.
     inputBinding:
-      prefix: --OUTPUT
+      prefix: O=
+      position: 2
+      separate: false
 
   SO:
     type: ['null', string]
@@ -87,148 +100,163 @@ inputs:
       as INPUT. Default value - null. Possible values - {unsorted, queryname, coordinate,
       duplicate, unknown}
     inputBinding:
-      prefix: --SORT_ORDER
+      prefix: SO=
+      position: 2
+      separate: false
 
   ID:
     type: ['null', string]
     doc: Read Group ID Default value - 1. This option can be set to 'null' to clear
       the default value.
     inputBinding:
-      prefix: --RGID
+      prefix: ID=
+      position: 2
+      separate: false
 
   LB:
     type: string
-
     doc: Read Group library Required.
     inputBinding:
-      prefix: --RGLB
+      prefix: LB=
+      position: 2
+      separate: false
 
   PL:
     type: string
-
     doc: Read Group platform (e.g. illumina, solid) Required.
     inputBinding:
-      prefix: --RGPL
+      prefix: PL=
+      position: 2
+      separate: false
 
   PU:
     type: string
-
     doc: Read Group platform unit (eg. run barcode) Required.
     inputBinding:
-      prefix: --RGPU
+      prefix: PU=
+      position: 2
+      separate: false
 
   SM:
     type: string
-
     doc: Read Group sample name Required.
     inputBinding:
-      prefix: --RGSM
+      prefix: SM=
+      position: 2
+      separate: false
 
   CN:
     type: ['null', string]
     doc: Read Group sequencing center name Default value - null.
     inputBinding:
-      prefix: --RGCN
+      prefix: CN=
+      position: 2
+      separate: false
 
   DS:
     type: ['null', string]
     doc: Read Group description Default value - null.
     inputBinding:
-      prefix: --RGDS
+      prefix: DS=
+      position: 2
+      separate: false
 
   DT:
     type: ['null', string]
     doc: Read Group run date Default value - null.
     inputBinding:
-      prefix: --RGDT
+      prefix: DT=
+      position: 2
+      separate: false
 
   KS:
     type: ['null', string]
     doc: Read Group key sequence Default value - null.
     inputBinding:
-      prefix: --RGKS
+      prefix: KS=
+      position: 2
+      separate: false
 
   FO:
     type: ['null', string]
     doc: Read Group flow order Default value - null.
     inputBinding:
-      prefix: --RGFO
+      prefix: FO=
+      position: 2
+      separate: false
 
   PI:
     type: ['null', string]
     doc: Read Group predicted insert size Default value - null.
     inputBinding:
-      prefix: --RGPI
+      prefix: PI=
+      position: 2
+      separate: false
 
   PG:
     type: ['null', string]
     doc: Read Group program group Default value - null.
     inputBinding:
-      prefix: --RGPG
+      prefix: PG=
+      position: 2
+      separate: false
 
   PM:
     type: ['null', string]
     doc: Read Group platform model Default value - null.
     inputBinding:
-      prefix: --RGPM
+      prefix: PM=
+      position: 2
+      separate: false
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=True
+      position: 2
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=True
+      position: 2
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: true
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
+      prefix: CREATE_INDEX=True
+      position: 2
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      position: 2
+      separate: false
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
     inputBinding:
-      prefix: --VALIDATION_STRINGENCY
+      prefix: VALIDATION_STRINGENCY=
+      position: 2
+      separate: false
 
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      position: 2
+      separate: false
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
-
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
+      prefix: MAX_RECORDS_IN_RAM=
+      position: 2
+      separate: false
 
 
 outputs:

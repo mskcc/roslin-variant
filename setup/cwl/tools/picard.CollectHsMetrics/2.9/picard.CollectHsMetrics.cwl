@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.CalculateHsMetrics
+  doap:name: picard.CalculateHsMetrics
   doap:revision: 2.9
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -50,63 +50,88 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-id: cmo-picard-CollectHsMetrics
+id: picard-CollectHsMetrics
 
 arguments:
-- valueFrom: "CollectHsMetrics"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar CollectHsMetrics"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-picard:2.9
 
 
 doc: |
   None
 
 inputs:
+
+  java_args:
+    type: string
+    default: "-Xms256m -Xmx30g -XX:-UseGCOverheadLimit"
+    inputBinding:
+      position: 0
+
+  java_temp:
+    type: string
+    inputBinding:
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
+
+  TMP_DIR:
+    type: string
+    inputBinding:
+      prefix: TMP_DIR=
+      position: 2
+      separate: false
+
+  I:
+    type: File
+    inputBinding:
+      prefix: I=
+      position: 2
+      separate: false
+
   BI:
     type: File
     doc: An interval list file that contains the locations of the baits used. Default
       value - null. This option must be specified at least 1 times.
     inputBinding:
-      prefix: --BAIT_INTERVALS
+      prefix: BAIT_INTERVALS=
+      position: 2
+      separate: false
 
   N:
     type: ['null', string]
     doc: Bait set name. If not provided it is inferred from the filename of the bait
       intervals. Default value - null.
     inputBinding:
-      prefix: --BAIT_SET_NAME
+      prefix: BAIT_SET_NAME=
+      position: 2
+      separate: false
 
   TI:
     type: File
     doc: An interval list file that contains the locations of the targets. Default
       value - null. This option must be specified at least 1 times.
     inputBinding:
-      prefix: --TARGET_INTERVALS
+      prefix: TARGET_INTERVALS=
+      position: 2
+      separate: false
 
-  I:
-    type:
-    - File
-    - type: array
-      items: string
-    inputBinding:
-      prefix: --INPUT
 
   O:
     type: string
-
     doc: The output file to write the metrics to. Required.
     inputBinding:
-      prefix: --OUTPUT
+      prefix: O=
+      position: 2
+      separate: false
 
   LEVEL:
     type:
@@ -114,13 +139,18 @@ inputs:
     - type: array
       items: string
       inputBinding:
-        prefix: --LEVEL
+        prefix: LEVEL=
+        separate: false
+        position: 2
+
   PER_TARGET_COVERAGE:
     type: ['null', string]
     doc: An optional file to output per target coverage information to. Default value
       - null.
     inputBinding:
-      prefix: --PER_TARGET_COVERAGE
+      prefix: PER_TARGET_COVERAGE=
+      separate: false
+      position: 2
 
   PER_BASE_COVERAGE:
     type: ['null', string]
@@ -128,7 +158,9 @@ inputs:
       file contains one line per target base and can grow very large. It is not recommended
       for use with large target sets. Default value - null.
     inputBinding:
-      prefix: --PER_BASE_COVERAGE
+      prefix: PER_BASE_COVERAGE=
+      separate: false
+      position: 2
 
   NEAR_DISTANCE:
     type: ['null', string]
@@ -136,29 +168,36 @@ inputs:
       the read to be considered 'near probe' and included in percent selected. Default
       value - 250. This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --NEAR_DISTANCE
+      prefix: NEAR_DISTANCE=
+      separate: false
+      position: 2
 
   MQ:
     type: ['null', string]
     doc: Minimum mapping quality for a read to contribute coverage. Default value
       - 20. This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --MINIMUM_MAPPING_QUALITY
+      prefix: MINIMUM_MAPPING_QUALITY=
+      separate: false
+      position: 2
 
   Q:
     type: ['null', string]
     doc: Minimum base quality for a base to contribute coverage. Default value - 20.
       This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --MINIMUM_BASE_QUALITY
+      prefix: MINIMUM_BASE_QUALITY=
+      separate: false
+      position: 2
 
   CLIP_OVERLAPPING_READS:
-    type: ['null', string]
+    type: ['null', boolean]
     doc: if we are to clip overlapping reads, false otherwise. Default value - true.
       This option can be set to 'null' to clear the default value. Possible values
       - {true, false}
     inputBinding:
-      prefix: --CLIP_OVERLAPPING_READS
+      prefix: CLIP_OVERLAPPING_READS=True
+      position: 2
 
   COVMAX:
     type: ['null', string]
@@ -166,7 +205,9 @@ inputs:
       Default is 200. Default value - 200. This option can be set to 'null' to clear
       the default value.
     inputBinding:
-      prefix: --COVERAGE_CAP
+      prefix: COVERAGE_CAP=
+      separate: false
+      position: 2
 
   SAMPLE_SIZE:
     type: ['null', string]
@@ -174,72 +215,67 @@ inputs:
       Default value - 10000. This option can be set to 'null' to clear the default
       value.
     inputBinding:
-      prefix: --SAMPLE_SIZE
+      prefix: SAMPLE_SIZE=
+      separate: false
+      position: 2
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=True
+      position: 2
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=True
+      position: 2
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
+      prefix: CREATE_INDEX=True
+      position: 2
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      position: 2
+      separate: false
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
-    inputBinding:
-      prefix: --VALIDATION_STRINGENCY
-
     default: SILENT
+    inputBinding:
+      prefix: VALIDATION_STRINGENCY=
+      position: 2
+      separate: false
+
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      position: 2
+      separate: false
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
+      prefix: MAX_RECORDS_IN_RAM=
+      position: 2
+      separate: false
 
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
+  REFERENCE_SEQUENCE:
+    type: File
     inputBinding:
-      prefix: --stderr
+      prefix: REFERENCE_SEQUENCE=
+      separate: false
+      position: 2
 
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
-
-
-  R:
-    type: string
-    inputBinding:
-      prefix: --R
 outputs:
   out_file:
     type: File

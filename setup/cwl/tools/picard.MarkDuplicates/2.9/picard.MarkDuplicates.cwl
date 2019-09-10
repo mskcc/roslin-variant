@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.MarkDuplicates
+  doap:name: picard.MarkDuplicates
   doap:revision: 2.9
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -41,22 +41,19 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-id: cmo-picard-MarkDuplicates
+id: picard-MarkDuplicates
 
 arguments:
-- valueFrom: "MarkDuplicates"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar MarkDuplicates"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 32000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-picard:2.9
 
 
 doc: |
@@ -64,12 +61,43 @@ doc: |
 
 inputs:
 
+  java_args:
+    type: string
+    default: "-Xms256m -Xmx30g -XX:-UseGCOverheadLimit"
+    inputBinding:
+      position: 0
+
+  java_temp:
+    type: string
+    inputBinding:
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
+
+  TMP_DIR:
+    type: string
+    inputBinding:
+      prefix: TMP_DIR=
+      position: 2
+      separate: false
+
+  I:
+    type:
+    - type: array
+      items: File
+      inputBinding:
+        prefix: I=
+        position: 2
+        separate: false
+
   MAX_SEQS:
     type: ['null', string]
     doc: This option is obsolete. ReadEnds will always be spilled to disk. Default
       value - 50000. This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP
+      prefix: MAX_SEQUENCES_FOR_DISK_READ_ENDS_MAP=
+      position: 2
+      separate: false
 
   MAX_FILE_HANDLES:
     type: ['null', string]
@@ -79,7 +107,9 @@ inputs:
       a Unix system. Default value - 8000. This option can be set to 'null' to clear
       the default value.
     inputBinding:
-      prefix: --MAX_FILE_HANDLES_FOR_READ_ENDS_MAP
+      prefix: MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=
+      position: 2
+      separate: false
 
   SORTING_COLLECTION_SIZE_RATIO:
     type: ['null', string]
@@ -88,25 +118,33 @@ inputs:
       memory, try reducing this number. Default value - 0.25. This option can be set
       to 'null' to clear the default value.
     inputBinding:
-      prefix: --SORTING_COLLECTION_SIZE_RATIO
+      prefix: SORTING_COLLECTION_SIZE_RATIO=
+      position: 2
+      separate: false
 
   BARCODE_TAG:
     type: ['null', string]
     doc: Barcode SAM tag (ex. BC for 10X Genomics) Default value - null.
     inputBinding:
-      prefix: --BARCODE_TAG
+      prefix: BARCODE_TAG=
+      position: 2
+      separate: false
 
   READ_ONE_BARCODE_TAG:
     type: ['null', string]
     doc: Read one barcode SAM tag (ex. BX for 10X Genomics) Default value - null.
     inputBinding:
-      prefix: --READ_ONE_BARCODE_TAG
+      prefix: READ_ONE_BARCODE_TAG=
+      position: 2
+      separate: false
 
   READ_TWO_BARCODE_TAG:
     type: ['null', string]
     doc: Read two barcode SAM tag (ex. BX for 10X Genomics) Default value - null.
     inputBinding:
-      prefix: --READ_TWO_BARCODE_TAG
+      prefix: READ_TWO_BARCODE_TAG=
+      position: 2
+      separate: false
 
   TAG_DUPLICATE_SET_MEMBERS:
     type: ['null', string]
@@ -119,7 +157,9 @@ inputs:
       was selected out of the duplicate set. Default value - false. This option can
       be set to 'null' to clear the default value. Possible values - {true, false}
     inputBinding:
-      prefix: --TAG_DUPLICATE_SET_MEMBERS
+      prefix: TAG_DUPLICATE_SET_MEMBERS=
+      position: 2
+      separate: false
 
   REMOVE_SEQUENCING_DUPLICATES:
     type: ['null', string]
@@ -129,7 +169,9 @@ inputs:
       are removed and this option is ignored. Default value - false. This option can
       be set to 'null' to clear the default value. Possible values - {true, false}
     inputBinding:
-      prefix: --REMOVE_SEQUENCING_DUPLICATES
+      prefix: REMOVE_SEQUENCING_DUPLICATES=
+      position: 2
+      separate: false
 
   TAGGING_POLICY:
     type: ['null', string]
@@ -137,7 +179,9 @@ inputs:
       Default value - DontTag. This option can be set to 'null' to clear the default
       value. Possible values - {DontTag, OpticalOnly, All}
     inputBinding:
-      prefix: --TAGGING_POLICY
+      prefix: TAGGING_POLICY=
+      position: 2
+      separate: false
 
   CLEAR_DT:
     type: ['null', string]
@@ -145,47 +189,34 @@ inputs:
       doesn't have this tag. Default true Default value - true. This option can be
       set to 'null' to clear the default value. Possible values - {true, false}
     inputBinding:
-      prefix: --CLEAR_DT
-
-  I:
-    type:
-    - 'null'
-    - type: array
-      items: File
-      inputBinding:
-        prefix: --I
+      prefix: CLEAR_DT=
+      position: 2
+      separate: false
 
   O:
     type: string
-
     doc: The output file to write marked records to Required.
     inputBinding:
-      prefix: --OUTPUT
+      prefix: O=
+      position: 2
+      separate: false
 
   M:
     type: string
-
     doc: File to write duplication metrics to Required.
     inputBinding:
-      prefix: --METRICS_FILE
+      prefix: METRICS_FILE=
+      position: 2
+      separate: false
 
   REMOVE_DUPLICATES:
-    type: ['null', string]
+    type: ['null', boolean]
     doc: If true do not write duplicates to the output file instead of writing them
       with appropriate flags set. Default value - false. This option can be set to
       'null' to clear the default value. Possible values - {true, false}
     inputBinding:
-      prefix: --REMOVE_DUPLICATES
-
-  AS:
-    type: ['null', string]
-    doc: If true, assume that the input file is coordinate sorted even if the header
-      says otherwise. Deprecated, used ASSUME_SORT_ORDER=coordinate instead. Default
-      value - false. This option can be set to 'null' to clear the default value.
-      Possible values - {true, false} Cannot be used in conjuction with option(s)
-      ASSUME_SORT_ORDER (ASO)
-    inputBinding:
-      prefix: --ASSUME_SORTED
+      prefix: REMOVE_DUPLICATES=True
+      position: 2
 
   ASO:
     type: ['null', string]
@@ -194,7 +225,9 @@ inputs:
       coordinate, duplicate, unknown} Cannot be used in conjuction with option(s)
       ASSUME_SORTED (AS)
     inputBinding:
-      prefix: --ASSUME_SORT_ORDER
+      prefix: ASSUME_SORT_ORDER=
+      position: 2
+      separate: false
 
   DS:
     type: ['null', string]
@@ -203,7 +236,9 @@ inputs:
       default value. Possible values - {SUM_OF_BASE_QUALITIES, TOTAL_MAPPED_REFERENCE_LENGTH,
       RANDOM}
     inputBinding:
-      prefix: --DUPLICATE_SCORING_STRATEGY
+      prefix: DUPLICATE_SCORING_STRATEGY=
+      position: 2
+      separate: false
 
   PG:
     type: ['null', string]
@@ -212,35 +247,45 @@ inputs:
       to avoid collision with other program record IDs. Default value - MarkDuplicates.
       This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --PROGRAM_RECORD_ID
+      prefix: PROGRAM_RECORD_ID=
+      position: 2
+      separate: false
 
   PG_VERSION:
     type: ['null', string]
     doc: Value of VN tag of PG record to be created. If not specified, the version
       will be detected automatically. Default value - null.
     inputBinding:
-      prefix: --PROGRAM_GROUP_VERSION
+      prefix: PROGRAM_GROUP_VERSION=
+      position: 2
+      separate: false
 
   PG_COMMAND:
     type: ['null', string]
     doc: Value of CL tag of PG record to be created. If not supplied the command line
       will be detected automatically. Default value - null.
     inputBinding:
-      prefix: --PROGRAM_GROUP_COMMAND_LINE
+      prefix: PROGRAM_GROUP_COMMAND_LINE=
+      position: 2
+      separate: false
 
   PG_NAME:
     type: ['null', string]
     doc: Value of PN tag of PG record to be created. Default value - MarkDuplicates.
       This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --PROGRAM_GROUP_NAME
+      prefix: PROGRAM_GROUP_NAME=
+      position: 2
+      separate: false
 
   CO:
     type: ['null', string]
     doc: Comment(s) to include in the output file's header. Default value - null.
       This option may be specified 0 or more times.
     inputBinding:
-      prefix: --COMMENT
+      prefix: COMMENT=
+      position: 2
+      separate: false
 
   READ_NAME_REGEX:
     type: ['null', string]
@@ -261,7 +306,9 @@ inputs:
       separated fields as numeric values>. This option can be set to 'null' to clear
       the default value.
     inputBinding:
-      prefix: --READ_NAME_REGEX
+      prefix: READ_NAME_REGEX=
+      position: 2
+      separate: false
 
   OPTICAL_DUPLICATE_PIXEL_DISTANCE:
     type: ['null', string]
@@ -271,7 +318,9 @@ inputs:
       For other platforms and models, users should experiment to find what works best.
       Default value - 100. This option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --OPTICAL_DUPLICATE_PIXEL_DISTANCE
+      prefix: OPTICAL_DUPLICATE_PIXEL_DISTANCE=
+      position: 2
+      separate: false
 
   MAX_OPTICAL_DUPLICATE_SET_SIZE:
     type: ['null', string]
@@ -282,66 +331,77 @@ inputs:
       this check, set the value to -1. Default value - 300000. This option can be
       set to 'null' to clear the default value.
     inputBinding:
-      prefix: --MAX_OPTICAL_DUPLICATE_SET_SIZE
+      prefix: MAX_OPTICAL_DUPLICATE_SET_SIZE=
+      position: 2
+      separate: false
+
+  AS:
+    type: ['null', boolean]
+    doc: If true (default), then the sort order in the header file will be ignored.
+      Default value - true. This option can be set to 'null' to clear the default
+      value. Possible values - {true, false}
+    inputBinding:
+      prefix: ASSUME_SORTED=True
+      separate: false
+      position: 2
+
+  STOP_AFTER:
+    type: ['null', string]
+    doc: Stop after processing N reads, mainly for debugging. Default value - 0. This
+      option can be set to 'null' to clear the default value.
+    inputBinding:
+      prefix: STOP_AFTER=
+      position: 2
+      separate: false
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=True
+      position: 2
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=True
+      position: 2
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: true
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
+      prefix: CREATE_INDEX=True
+      position: 2
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      position: 2
+      separate: false
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
     inputBinding:
-      prefix: --VALIDATION_STRINGENCY
+      prefix: VALIDATION_STRINGENCY=
+      position: 2
+      separate: false
 
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      position: 2
+      separate: false
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
-
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
-
+      prefix: MAX_RECORDS_IN_RAM=
+      position: 2
+      separate: false
 
 outputs:
   bam:

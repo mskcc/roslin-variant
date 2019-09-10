@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.CollectMultipleMetrics
+  doap:name: picard.CollectMultipleMetrics
   doap:revision: 2.9
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -50,64 +50,61 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-id: cmo-picard-CollectMultipleMetrics
+id: picard-CollectMultipleMetrics
 
 arguments:
-- valueFrom: "CollectMultipleMetrics"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar CollectMultipleMetrics"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-picard:2.9
 
 
 doc: |
   None
 
 inputs:
-  I:
-    type:
-    - File
-    - type: array
-      items: string
-    inputBinding:
-      prefix: --INPUT
 
-  AS:
-    type: ['null', string]
-    doc: If true (default), then the sort order in the header file will be ignored.
-      Default value - true. This option can be set to 'null' to clear the default
-      value. Possible values - {true, false}
-    inputBinding:
-      prefix: --ASSUME_SORTED
-
-  STOP_AFTER:
-    type: ['null', string]
-    doc: Stop after processing N reads, mainly for debugging. Default value - 0. This
-      option can be set to 'null' to clear the default value.
-    inputBinding:
-      prefix: --STOP_AFTER
-
-  O:
+  java_args:
     type: string
-
-    doc: Base name of output files. Required.
+    default: "-Xms256m -Xmx30g -XX:-UseGCOverheadLimit"
     inputBinding:
-      prefix: --OUTPUT
+      position: 0
+
+  java_temp:
+    type: string
+    inputBinding:
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
+
+  TMP_DIR:
+    type: string
+    inputBinding:
+      prefix: TMP_DIR=
+      position: 2
+      separate: false
+
+  I:
+    type: File
+    inputBinding:
+      prefix: I=
+      position: 2
+      separate: false
 
   EXT:
     type: ['null', string]
     doc: Append the given file extension to all metric file names (ex. OUTPUT.insert_size_metrics.EXT).
       None if null Default value - null.
     inputBinding:
-      prefix: --FILE_EXTENSION
+      prefix: FILE_EXTENSION=
+      position: 2
+      separate: false
 
   PROGRAM:
     type:
@@ -115,20 +112,23 @@ inputs:
     - type: array
       items: string
       inputBinding:
-        prefix: --PROGRAM
-    inputBinding:
-      prefix:
+        prefix: PROGRAM=
+        position: 2
+        separate: false
     doc: List of metrics programs to apply during the pass through the SAM file. Possible
       values - {CollectAlignmentSummaryMetrics, CollectInsertSizeMetrics, QualityScoreDistribution,
       MeanQualityByCycle} This option may be specified 0 or more times. This option
       can be set to 'null' to clear the default list.
+
   INTERVALS:
     type: ['null', string]
     doc: An optional list of intervals to restrict analysis to. Only pertains to some
       of the PROGRAMs. Programs whose stand-alone CLP does not have an INTERVALS argument
       will silently ignore this argument. Default value - null.
     inputBinding:
-      prefix: --INTERVALS
+      prefix: INTERVALS=
+      position: 2
+      separate: false
 
   DB_SNP:
     type: ['null', string]
@@ -136,86 +136,98 @@ inputs:
       from analysis by some PROGRAMs; PROGRAMs whose CLP doesn't allow for this argument
       will quietly ignore it. Default value - null.
     inputBinding:
-      prefix: --DB_SNP
+      prefix: DB_SNP=
+      position: 2
+      separate: false
 
   UNPAIRED:
-    type: ['null', string]
+    type: ['null', boolean]
     doc: Include unpaired reads in CollectSequencingArtifactMetrics. If set to true
       then all paired reads will be included as well - MINIMUM_INSERT_SIZE and MAXIMUM_INSERT_SIZE
       will be ignored in CollectSequencingArtifactMetrics. Default value - false.
       This option can be set to 'null' to clear the default value. Possible values
       - {true, false}
     inputBinding:
-      prefix: --INCLUDE_UNPAIRED
+      prefix: INCLUDE_UNPAIRED=True
+      position: 2
+
+  O:
+    type: string
+    doc: Base name of output files. Required.
+    inputBinding:
+      prefix: OUTPUT=
+      separate: false
+      position: 2
+
+  AS:
+    type: ['null', boolean]
+    doc: If true (default), then the sort order in the header file will be ignored.
+      Default value - true. This option can be set to 'null' to clear the default
+      value. Possible values - {true, false}
+    inputBinding:
+      prefix: ASSUME_SORTED=True
+      separate: false
+      position: 2
+
+  STOP_AFTER:
+    type: ['null', string]
+    doc: Stop after processing N reads, mainly for debugging. Default value - 0. This
+      option can be set to 'null' to clear the default value.
+    inputBinding:
+      prefix: STOP_AFTER=
+      position: 2
+      separate: false
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=True
+      position: 2
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=True
+      position: 2
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
+      prefix: CREATE_INDEX=True
+      position: 2
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      position: 2
+      separate: false
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
-    inputBinding:
-      prefix: --VALIDATION_STRINGENCY
-
     default: SILENT
+    inputBinding:
+      prefix: VALIDATION_STRINGENCY=
+      position: 2
+      separate: false
+
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      position: 2
+      separate: false
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
+      prefix: MAX_RECORDS_IN_RAM=
+      position: 2
+      separate: false
 
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
-
-
-  R:
-    type:
-    - 'null'
-    - string
-  H:
-    type: ['null', string]
-    inputBinding:
-      prefix: --H
 outputs:
   qual_file:
     type: File

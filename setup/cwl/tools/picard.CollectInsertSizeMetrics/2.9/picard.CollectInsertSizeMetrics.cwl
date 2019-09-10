@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.CollectInsertSizeMetrics
+  doap:name: picard.CollectInsertSizeMetrics
   doap:revision: 2.9
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -44,34 +44,60 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-id: cmo-picard-CollectInsertSizeMetrics
+id: picard-CollectInsertSizeMetrics
 
 arguments:
-- valueFrom: "CollectInsertSizeMetrics"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar CollectInsertSizeMetrics"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-picard:2.9
 
 
 doc: |
   None
 
 inputs:
+
+  java_args:
+    type: string
+    default: "-Xms256m -Xmx30g -XX:-UseGCOverheadLimit"
+    inputBinding:
+      position: 0
+
+  java_temp:
+    type: string
+    inputBinding:
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
+
+  TMP_DIR:
+    type: string
+    inputBinding:
+      prefix: TMP_DIR=
+      position: 2
+      separate: false
+
+  I:
+    type: File
+    inputBinding:
+      prefix: I=
+      position: 2
+      separate: false
+
   H:
     type: string
-
     doc: File to write insert size Histogram chart to. Required.
     inputBinding:
-      prefix: --HISTOGRAM_FILE
+      prefix: HISTOGRAM_FILE=
+      position: 2
+      separate: false
 
   DEVIATIONS:
     type: ['null', string]
@@ -81,7 +107,9 @@ inputs:
       regarding the real distribution. Default value - 10.0. This option can be set
       to 'null' to clear the default value.
     inputBinding:
-      prefix: --DEVIATIONS
+      prefix: DEVIATIONS=
+      position: 2
+      separate: false
 
   W:
     type: ['null', string]
@@ -89,7 +117,9 @@ inputs:
       tail. Also, when calculating mean and standard deviation, only bins <= Histogram_WIDTH
       will be included. Default value - null.
     inputBinding:
-      prefix: --HISTOGRAM_WIDTH
+      prefix: HISTOGRAM_WIDTH=
+      position: 2
+      separate: false
 
   M:
     type: ['null', string]
@@ -98,7 +128,9 @@ inputs:
       Default value - 0.05. This option can be set to 'null' to clear the default
       value.
     inputBinding:
-      prefix: --MINIMUM_PCT
+      prefix: MINIMUM_PCT=
+      position: 2
+      separate: false
 
   LEVEL:
     type:
@@ -106,103 +138,95 @@ inputs:
     - type: array
       items: string
       inputBinding:
-        prefix: --LEVEL
+        prefix: LEVEL=
+        separate: false
+        position: 2
+
   INCLUDE_DUPLICATES:
-    type: ['null', string]
+    type: ['null', boolean]
     doc: If true, also include reads marked as duplicates in the insert size histogram.
       Default value - false. This option can be set to 'null' to clear the default
       value. Possible values - {true, false}
     inputBinding:
-      prefix: --INCLUDE_DUPLICATES
-
-  I:
-    type:
-    - 'null'
-    - File
-    inputBinding:
-      prefix: --INPUT
+      prefix: INCLUDE_DUPLICATES=True
+      position: 2
 
   O:
     type: string
-
     doc: File to write the output to. Required.
     inputBinding:
-      prefix: --OUTPUT
+      prefix: O=
+      separate: false
+      position: 2
 
   AS:
-    type: ['null', string]
+    type: ['null', boolean]
     doc: If true (default), then the sort order in the header file will be ignored.
       Default value - true. This option can be set to 'null' to clear the default
       value. Possible values - {true, false}
     inputBinding:
-      prefix: --ASSUME_SORTED
+      prefix: ASSUME_SORTED=True
+      separate: false
+      position: 2
 
   STOP_AFTER:
     type: ['null', string]
     doc: Stop after processing N reads, mainly for debugging. Default value - 0. This
       option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --STOP_AFTER
+      prefix: STOP_AFTER=
+      position: 2
+      separate: false
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=True
+      position: 2
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=True
+      position: 2
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
+      prefix: CREATE_INDEX=True
+      position: 2
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      position: 2
+      separate: false
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
-    inputBinding:
-      prefix: --VALIDATION_STRINGENCY
-
     default: SILENT
+    inputBinding:
+      prefix: VALIDATION_STRINGENCY=
+      position: 2
+      separate: false
+
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      position: 2
+      separate: false
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
-
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
-
+      prefix: MAX_RECORDS_IN_RAM=
+      position: 2
+      separate: false
 
 outputs:
   is_file:

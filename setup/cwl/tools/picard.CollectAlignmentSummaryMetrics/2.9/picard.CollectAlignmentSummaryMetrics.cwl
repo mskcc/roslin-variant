@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-picard.CollectAlignmentSummaryMetrics
+  doap:name: picard.CollectAlignmentSummaryMetrics
   doap:revision: 2.9
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -50,35 +50,63 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_picard]
-id: cmo-picard-CollectAlignmentSummaryMetrics
+id: picard-CollectAlignmentSummaryMetrics
+
 
 arguments:
-- valueFrom: "CollectAlignmentSummaryMetrics"
-  prefix: --cmd
-  position: 0
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
+- valueFrom: "--jar CollectAlignmentSummaryMetrics"
+  position: 1
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-picard:2.9
 
 
 doc: |
   None
 
 inputs:
+
+  java_args:
+    type: string
+    default: "-Xms256m -Xmx30g -XX:-UseGCOverheadLimit"
+    inputBinding:
+      position: 0
+
+  java_temp:
+    type: string
+    inputBinding:
+      prefix: -Djava.io.tmpdir=
+      position: 0
+      separate: false
+
+  TMP_DIR:
+    type: string
+    inputBinding:
+      prefix: TMP_DIR=
+      position: 2
+      separate: false
+
+  I:
+    type: File
+    inputBinding:
+      prefix: I=
+      position: 2
+      separate: false
+
   MAX_INSERT_SIZE:
     type: ['null', string]
     doc: Paired-end reads above this insert size will be considered chimeric along
       with inter-chromosomal pairs. Default value - 100000. This option can be set
       to 'null' to clear the default value.
     inputBinding:
-      prefix: --MAX_INSERT_SIZE
+      prefix: MAX_INSERT_SIZE=
+      position: 2
+      separate: false
 
   EXPECTED_PAIR_ORIENTATIONS:
     type: ['null', string]
@@ -87,7 +115,9 @@ inputs:
       default value. Possible values - {FR, RF, TANDEM} This option may be specified
       0 or more times. This option can be set to 'null' to clear the default list.
     inputBinding:
-      prefix: --EXPECTED_PAIR_ORIENTATIONS
+      prefix: EXPECTED_PAIR_ORIENTATIONS=
+      position: 2
+      separate: false
 
   ADAPTER_SEQUENCE:
     type: ['null', string]
@@ -99,7 +129,9 @@ inputs:
       be specified 0 or more times. This option can be set to 'null' to clear the
       default list.
     inputBinding:
-      prefix: --ADAPTER_SEQUENCE
+      prefix: ADAPTER_SEQUENCE=
+      position: 2
+      separate: false
 
   LEVEL:
     type:
@@ -107,115 +139,101 @@ inputs:
     - type: array
       items: string
       inputBinding:
-        prefix: --LEVEL
+        prefix: LEVEL=
+        separate: false
+        position: 2
   BS:
     type: ['null', string]
     doc: Whether the SAM or BAM file consists of bisulfite sequenced reads. Default
       value - false. This option can be set to 'null' to clear the default value.
       Possible values - {true, false}
     inputBinding:
-      prefix: --IS_BISULFITE_SEQUENCED
-
-  I:
-    type:
-    - 'null'
-    - File
-    inputBinding:
-      prefix: --INPUT
+      prefix: IS_BISULFITE_SEQUENCED=
+      separate: false
+      position: 2
 
   O:
     type: string
-
     doc: File to write the output to. Required.
     inputBinding:
-      prefix: --OUTPUT
+      prefix: O=
+      separate: false
+      position: 2
 
   AS:
-    type: ['null', string]
+    type: ['null',boolean]
     doc: If true (default), then the sort order in the header file will be ignored.
       Default value - true. This option can be set to 'null' to clear the default
       value. Possible values - {true, false}
     inputBinding:
-      prefix: --ASSUME_SORTED
+      prefix: ASSUME_SORTED=True
+      position: 2
 
   STOP_AFTER:
     type: ['null', string]
     doc: Stop after processing N reads, mainly for debugging. Default value - 0. This
       option can be set to 'null' to clear the default value.
     inputBinding:
-      prefix: --STOP_AFTER
-
-  R:
-    type:
-    - 'null'
-    - string
-    inputBinding:
-      prefix: --genome
+      prefix: STOP_AFTER=
+      separate: false
+      position: 2
 
   REFERENCE_SEQUENCE:
-    type: ['null', string]
+    type: File
     inputBinding:
-      prefix: --REFERENCE_SEQUENCE
+      prefix: REFERENCE_SEQUENCE=
+      separate: false
+      position: 2
 
   QUIET:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --QUIET
+      prefix: QUIET=True
+      position: 2
 
   CREATE_MD5_FILE:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_MD5_FILE
+      prefix: CREATE_MD5_FILE=True
+      position: 2
 
   CREATE_INDEX:
     type: ['null', boolean]
     default: false
-
     inputBinding:
-      prefix: --CREATE_INDEX
-
-  TMP_DIR:
-    type: ['null', string]
-    inputBinding:
-      prefix: --TMP_DIR
+      prefix: CREATE_INDEX=True
+      position: 2
 
   VERBOSITY:
     type: ['null', string]
     inputBinding:
-      prefix: --VERBOSITY
+      prefix: VERBOSITY=
+      separate: false
+      position: 2
 
   VALIDATION_STRINGENCY:
     type: ['null', string]
-    inputBinding:
-      prefix: --VALIDATION_STRINGENCY
-
     default: SILENT
+    inputBinding:
+      prefix: VALIDATION_STRINGENCY=
+      separate: false
+      position: 2
+
   COMPRESSION_LEVEL:
     type: ['null', string]
     inputBinding:
-      prefix: --COMPRESSION_LEVEL
+      prefix: COMPRESSION_LEVEL=
+      separate: false
+      position: 2
 
   MAX_RECORDS_IN_RAM:
     type: ['null', string]
     inputBinding:
-      prefix: --MAX_RECORDS_IN_RAM
-
-  stderr:
-    type: ['null', string]
-    doc: log stderr to file
-    inputBinding:
-      prefix: --stderr
-
-  stdout:
-    type: ['null', string]
-    doc: log stdout to file
-    inputBinding:
-      prefix: --stdout
-
+      prefix: MAX_RECORDS_IN_RAM=
+      separate: false
+      position: 2
 
 outputs:
   out_file:
