@@ -40,37 +40,24 @@ class: CommandLineTool
 baseCommand: [cmo_index]
 label: cmo-index
 
-arguments:
-- valueFrom: "2.9"
-  prefix: --version
-  position: 0
-
 requirements:
   ResourceRequirement:
     ramMin: 16000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-cmo-utils:1.9.14
 
 inputs:
 
-  tumor:
+  bam:
     type: File
     inputBinding:
-        prefix: --tumor
-  normal:
-    type: File
-    inputBinding:
-        prefix: --normal
-    doc: picard interval list
+        prefix: --bam
 
 outputs:
 
-  tumor_bam: 
+  bam_indexed:
     type: File
     outputBinding:
       glob: $(inputs.tumor.basename)
-    secondaryFiles: ["^.bai", ".bai"]
-  normal_bam: 
-    type: File
-    outputBinding:
-      glob: $(inputs.normal.basename)
     secondaryFiles: ["^.bai", ".bai"]
