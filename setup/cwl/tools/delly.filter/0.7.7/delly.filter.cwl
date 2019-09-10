@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-delly.filter
+  doap:name: delly.filter
   doap:revision: 0.7.7
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -37,20 +37,16 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "delly"
-- --version
-- "0.7.7"
-- --cmd
-- "filter"
+baseCommand: [filter]
+
 id: delly-filter
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-delly:0.7.7
 
 doc: |
   None
