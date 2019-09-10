@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-snp-pileup
+  doap:name: htstools-snp-pileup
   doap:revision: 0.1.1
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -44,31 +44,16 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [tool.sh]
+baseCommand: [snp-pileup]
 id: htstools-snp-pileup
-
-arguments:
-- valueFrom: "htstools"
-  prefix: --tool
-  position: 0
-- valueFrom: "0.1.1"
-  prefix: --version
-  position: 0
-- valueFrom: "default"
-  prefix: --language_version
-  position: 0
-- valueFrom: "bash"
-  prefix: --language
-  position: 0
-- valueFrom: "snp-pileup"
-  prefix: --cmd
-  position: 0
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-htstools:0.1.1
 
 
 doc: |
