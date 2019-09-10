@@ -49,6 +49,8 @@ requirements:
   ResourceRequirement:
     ramMin: 24000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-cmo-utils:1.9.14
 
 
 doc: |
