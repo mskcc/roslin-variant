@@ -44,10 +44,7 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- cmo_fillout
-- --version
-- 1.2.2
+baseCommand: [cmo_fillout]
 id: cmo-fillout
 
 requirements:
@@ -55,6 +52,8 @@ requirements:
   ResourceRequirement:
     ramMin: 32000
     coresMin: 2
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-cmo-utils:1.9.14
 
 doc: |
   Fillout allele counts for a MAF file using GetBaseCountsMultiSample on BAMs
@@ -80,11 +79,11 @@ inputs:
     inputBinding:
       prefix: --bams
 
-  genome:
-    type: string
-    doc: Reference assembly of BAM files, e.g. hg19/grch37/b37
+  ref_fasta:
+    type: File
+    doc: Reference assembly file of BAM files, e.g. hg19/grch37/b37
     inputBinding:
-      prefix: --genome
+      prefix: --ref-fasta
 
   output:
     type: ['null', string]
