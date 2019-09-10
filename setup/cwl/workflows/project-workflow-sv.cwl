@@ -360,6 +360,7 @@ steps:
       db_files: db_files
       runparams: runparams
       bams: pair_process/bams
+      ref_fasta: ref_fasta
       clstats1: pair_process/clstats1
       clstats2: pair_process/clstats2
       md_metrics: pair_process/md_metrics

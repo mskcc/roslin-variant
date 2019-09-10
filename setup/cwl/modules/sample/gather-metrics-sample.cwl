@@ -107,37 +107,40 @@ outputs:
 steps:
 
   as_metrics:
-    run: ../../tools/cmo-picard.CollectAlignmentSummaryMetrics/2.9/cmo-picard.CollectAlignmentSummaryMetrics.cwl
+    run: ../../tools/picard.CollectAlignmentSummaryMetrics/2.9/picard.CollectAlignmentSummaryMetrics.cwl
     in:
       I: bam
+      REFERENCE_SEQUENCE: ref_fasta
       O:
         valueFrom: ${ return inputs.I.basename.replace(".bam", ".asmetrics")}
       LEVEL:
         valueFrom: ${return ["null", "SAMPLE"]}
       TMP_DIR: tmp_dir
+      java_temp: tmp_dir
     out: [out_file]
 
   hs_metrics:
-    run: ../../tools/cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+    run: ../../tools/picard.CollectHsMetrics/2.9/picard.CollectHsMetrics.cwl
     in:
       BI: bait_intervals
       TI: target_intervals
       I: bam
-      R: genome
+      REFERENCE_SEQUENCE: ref_fasta
       O:
         valueFrom: ${ return inputs.I.basename.replace(".bam", ".hsmetrics")}
       LEVEL:
         valueFrom: ${ return ["null", "SAMPLE"];}
       TMP_DIR: tmp_dir
+      java_temp: tmp_dir
     out: [out_file, per_target_out]
 
   hst_metrics:
-    run: ../../tools/cmo-picard.CollectHsMetrics/2.9/cmo-picard.CollectHsMetrics.cwl
+    run: ../../tools/picard.CollectHsMetrics/2.9/picard.CollectHsMetrics.cwl
     in:
       BI: bait_intervals
       TI: target_intervals
       I: bam
-      R: genome
+      REFERENCE_SEQUENCE: ref_fasta
       O:
         valueFrom: ${ return "all_reads_hsmerics_dump.txt"; }
       PER_TARGET_COVERAGE:
@@ -145,10 +148,11 @@ steps:
       LEVEL:
         valueFrom: ${ return ["ALL_READS"];}
       TMP_DIR: tmp_dir
+      java_temp: tmp_dir
     out: [per_target_out]
 
   insert_metrics:
-    run: ../../tools/cmo-picard.CollectInsertSizeMetrics/2.9/cmo-picard.CollectInsertSizeMetrics.cwl
+    run: ../../tools/picard.CollectInsertSizeMetrics/2.9/picard.CollectInsertSizeMetrics.cwl
     in:
       I: bam
       H:
@@ -158,12 +162,13 @@ steps:
       LEVEL:
         valueFrom: ${ return ["null", "SAMPLE"];}
       TMP_DIR: tmp_dir
+      java_temp: tmp_dir
     out: [ is_file, is_hist]
   gcbias_metrics:
-    run: ../../tools/cmo-picard.CollectGcBiasMetrics/2.9/cmo-picard.CollectGcBiasMetrics.cwl
+    run: ../../tools/picard.CollectGcBiasMetrics/2.9/picard.CollectGcBiasMetrics.cwl
     in:
       I: bam
-      R: genome
+      REFERENCE_SEQUENCE: ref_fasta
       O:
         valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbiasmetrics") }
       CHART:
@@ -171,13 +176,14 @@ steps:
       S:
         valueFrom: ${ return inputs.I.basename.replace(".bam", ".gcbias.summary")}
       TMP_DIR: tmp_dir
+      java_temp: tmp_dir
     out: [pdf, out_file, summary]
   doc:
-    run: ../../tools/cmo-gatk.DepthOfCoverage/3.3-0/cmo-gatk.DepthOfCoverage.cwl
+    run: ../../tools/gatk.DepthOfCoverage/3.3-0/gatk.DepthOfCoverage.cwl
     in:
       input_file: bam
       intervals: fp_intervals
-      reference_sequence: genome
+      reference_sequence: ref_fasta
       out:
         valueFrom: ${ return inputs.input_file.basename.replace(".bam", "_FP_base_counts.txt") }
       omitLocustable:

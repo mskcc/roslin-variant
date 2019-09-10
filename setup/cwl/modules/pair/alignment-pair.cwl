@@ -215,6 +215,7 @@ steps:
       covariates: covariates
       abra_scratch: abra_scratch
       genome: genome
+      ref_fasta: ref_fasta
       intervals: intervals
       abra_ram_min: abra_ram_min
       tmp_dir: tmp_dir

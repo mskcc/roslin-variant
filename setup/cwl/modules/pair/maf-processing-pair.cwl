@@ -141,12 +141,12 @@ steps:
         out: [maf]
 
     fillout_tumor_normal:
-        run: ../../tools/cmo-fillout/1.2.2/cmo-fillout.cwl
+        run: ../../tools/cmo-utils/1.9.14/cmo-fillout.cwl
         in:
             pairing: pairing_file
             maf: remove_variants/maf
             bams: bams
-            genome: genome
+            ref_fasta: ref_fasta
             output_format:
                 default: "1"
         out: [fillout_out, portal_fillout]
@@ -154,7 +154,7 @@ steps:
     fillout_second:
         in:
             maf: fillout_tumor_normal/portal_fillout
-            genome: genome
+            ref_fasta: ref_fasta
             curated_bams: curated_bams
         out: [fillout_curated_bams]
         run:
@@ -162,7 +162,16 @@ steps:
             id: fillout_second
             inputs:
                 maf: File
-                genome: string
+                ref_fasta:
+                  type: File
+                  secondaryFiles:
+                    - .amb
+                    - .ann
+                    - .bwt
+                    - .pac
+                    - .sa
+                    - .fai
+                    - ^.dict
                 curated_bams: File[]
             outputs:
                 fillout_curated_bams:
@@ -170,11 +179,11 @@ steps:
                     outputSource: fillout_curated_bams_step/fillout_out
             steps:
                 fillout_curated_bams_step:
-                    run: ../../tools/cmo-fillout/1.2.2/cmo-fillout.cwl
+                    run: ../../tools/cmo-utils/1.9.14/cmo-fillout.cwl
                     in:
                         maf: maf
                         bams: curated_bams
-                        genome: genome
+                        ref_fasta: ref_fasta
                         output_format:
                             default: "1"
                         output:

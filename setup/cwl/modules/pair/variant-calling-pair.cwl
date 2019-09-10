@@ -142,18 +142,23 @@ outputs:
         secondaryFiles:
             - .tbi
 steps:
-    index:
-        run: ../../tools/cmo-index/1.0.0/cmo-index.cwl
+    normal_index:
+        run: ../../tools/cmo-utils/1.9.14/cmo-index.cwl
         in:
-            tumor: tumor_bam
-            normal: normal_bam
-        out: [tumor_bam, normal_bam]
+            bam: normal_bam
+        out: [bam_indexed]
+    tumor_index:
+        run: ../../tools/cmo-utils/1.9.14/cmo-index.cwl
+        in:
+            bam: tumor_bam
+        out: [bam_indexed]
     call_variants:
         in:
             tmp_dir: tmp_dir
-            tumor_bam: index/tumor_bam
-            normal_bam: index/normal_bam
+            tumor_bam: tumor_index/bam_indexed
+            normal_bam: normal_index/bam_indexed
             genome: genome
+            ref_fasta: ref_fasta
             normal_sample_name: normal_sample_name
             tumor_sample_name: tumor_sample_name
             dbsnp: dbsnp
@@ -173,6 +178,7 @@ steps:
                 tumor_bam: File
                 genome: string
                 normal_bam: File
+                ref_fasta: File
                 normal_sample_name: string
                 tumor_sample_name: string
                 dbsnp: File
@@ -229,9 +235,9 @@ steps:
                         facets_snps: facets_snps
                     out: [facets_png_output, facets_txt_output_hisens, facets_txt_output_purity, facets_out_output, facets_rdata_output, facets_seg_output, facets_counts_output]
                 vardict:
-                    run: ../../tools/cmo-vardict/1.5.1/cmo-vardict.cwl
+                    run: ../../tools/vardict/1.5.1/vardict.cwl
                     in:
-                        G: genome
+                        G: ref_fasta
                         b: tumor_bam
                         b2: normal_bam
                         N: tumor_sample_name
@@ -241,9 +247,9 @@ steps:
                             valueFrom: ${ return inputs.b.basename.replace(".bam", ".") + inputs.b2.basename.replace(".bam", ".vardict.vcf") }
                     out: [output]
                 mutect:
-                    run: ../../tools/cmo-mutect/1.1.4/cmo-mutect.cwl
+                    run: ../../tools/mutect/1.1.4/mutect.cwl
                     in:
-                        reference_sequence: genome
+                        reference_sequence: ref_fasta
                         dbsnp: dbsnp
                         cosmic: cosmic
                         input_file_normal: normal_bam

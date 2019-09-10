@@ -94,12 +94,16 @@ outputs:
         type: File
         outputSource: portal_format_output/portal_file
 steps:
-    index:
-        run: ../../tools/cmo-index/1.0.0/cmo-index.cwl
+    normal_index:
+        run: ../../tools/cmo-utils/1.9.14/cmo-index.cwl
         in:
-            tumor: tumor_bam
-            normal: normal_bam
-        out: [tumor_bam, normal_bam]
+            bam: normal_bam
+        out: [bam_indexed]
+    tumor_index:
+        run: ../../tools/cmo-utils/1.9.14/cmo-index.cwl
+        in:
+            bam: tumor_bam
+        out: [bam_indexed]
     createTNPair:
         in:
            tumor_sample_name: tumor_sample_name
@@ -118,7 +122,8 @@ steps:
             requirements:
                 InlineJavascriptRequirement: {}
                 MultipleInputFeatureRequirement: {}
-
+                DockerRequirement:
+                    dockerPull: alpine:3.8
             inputs:
                 echoString:
                     type: string
@@ -132,8 +137,8 @@ steps:
         scatter: [ delly_type ]
         scatterMethod: dotproduct
         in:
-            tumor_bam: index/tumor_bam
-            normal_bam: index/normal_bam
+            tumor_bam: tumor_index/bam_indexed
+            normal_bam: normal_index/bam_indexed
             normal_sample_name: normal_sample_name
             tumor_sample_name: tumor_sample_name
             genome: genome

@@ -232,7 +232,7 @@ steps:
       reads_dir: flatten_dir/output_directory
     out: [r1,r2]
   chunking:
-    run: ../tools/cmo-split-reads/1.0.1/cmo-split-reads.cwl
+    run: ../tools/cmo-utils/1.9.14/cmo-split-reads.cwl
     in:
       fastq1:
         source: [get_sample_info/R1, consolidate_reads/r1]
@@ -255,6 +255,7 @@ steps:
       [chunks1, chunks2, rg_ID, rg_PU]
   align:
     in:
+      ref_fasta: ref_fasta
       chunkfastq1: flatten/chunks1
       chunkfastq2: flatten/chunks2
       adapter: get_sample_info/adapter
@@ -275,6 +276,7 @@ steps:
       class: Workflow
       id: alignment_sample
       inputs:
+        ref_fasta: File
         chunkfastq1: File
         chunkfastq2: File
         adapter: string
@@ -300,7 +302,7 @@ steps:
           outputSource: add_rg_id/bam
       steps:
         trim_galore:
-          run: ../tools/cmo-trimgalore/0.2.5.mod/cmo-trimgalore.cwl
+          run: ../tools/trimgalore/0.2.5.mod/trimgalore.cwl
           in:
             fastq1: chunkfastq1
             fastq2: chunkfastq2
@@ -308,8 +310,9 @@ steps:
             adapter2: adapter2
           out: [clfastq1, clfastq2, clstats1, clstats2]
         bwa:
-          run: ../tools/cmo-bwa-mem/0.7.5a/cmo-bwa-mem.cwl
+          run: ../tools/bwa-mem/0.7.5a/bwa-mem.cwl
           in:
+            reference: ref_fasta
             fastq1: trim_galore/clfastq1
             fastq2: trim_galore/clfastq2
             basebamname: bwa_output
@@ -318,7 +321,7 @@ steps:
             genome: genome
           out: [bam]
         add_rg_id:
-          run: ../tools/cmo-picard.AddOrReplaceReadGroups/2.9/cmo-picard.AddOrReplaceReadGroups.cwl
+          run: ../tools/picard.AddOrReplaceReadGroups/2.9/picard.AddOrReplaceReadGroups.cwl
           in:
             I: bwa/bam
             O:
@@ -332,9 +335,10 @@ steps:
             SO:
               default: "coordinate"
             TMP_DIR: tmp_dir
+            java_temp: tmp_dir
           out: [bam, bai]
   mark_duplicates:
-    run: ../tools/cmo-picard.MarkDuplicates/2.9/cmo-picard.MarkDuplicates.cwl
+    run: ../tools/picard.MarkDuplicates/2.9/picard.MarkDuplicates.cwl
     in:
       OPTICAL_DUPLICATE_PIXEL_DISTANCE: opt_dup_pix_dist
       I: align/bam
@@ -343,6 +347,7 @@ steps:
       M:
         valueFrom: ${ return inputs.I[0].basename.replace(/\.chunk\d\d\d\.rg\.bam/, ".rg.md_metrics") }
       TMP_DIR: tmp_dir
+      java_temp: tmp_dir
     out: [bam, bai, mdmetrics]
   gather_metrics:
     run: ../modules/sample/gather-metrics-sample.cwl

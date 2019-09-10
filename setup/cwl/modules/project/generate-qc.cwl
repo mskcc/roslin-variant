@@ -56,6 +56,16 @@ inputs:
         project_prefix: string
         genome: string
         scripts_bin: string
+  ref_fasta:
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
   bams:
     type:
       type: array
@@ -217,6 +227,7 @@ steps:
     in:
       aa_bams: bams
       runparams: runparams
+      ref_fasta: ref_fasta
       db_files: db_files
       clstats1: clstats1
       clstats2: clstats2

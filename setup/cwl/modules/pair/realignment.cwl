@@ -75,7 +75,16 @@ inputs:
               adapter: string
               adapter2: string
               bwa_output: string
-    genome: string
+    ref_fasta:
+        type: File
+        secondaryFiles:
+          - .amb
+          - .ann
+          - .bwt
+          - .pac
+          - .sa
+          - .fai
+          - ^.dict
     intervals: string[]
     hapmap:
         type: File
@@ -149,12 +158,12 @@ steps:
             return output_object;
           }"
     gatk_find_covered_intervals:
-        run: ../../tools/cmo-gatk.FindCoveredIntervals/3.3-0/cmo-gatk.FindCoveredIntervals.cwl
+        run: ../../tools/gatk.FindCoveredIntervals/3.3-0/gatk.FindCoveredIntervals.cwl
         in:
             java_temp: tmp_dir
             pair: pair
             intervals_list: intervals
-            reference_sequence: genome
+            reference_sequence: ref_fasta
             coverage_threshold:
                 valueFrom: ${ return ["3"];}
             minBaseQuality:
@@ -192,18 +201,18 @@ steps:
                 mergedfile:
                     type: stdout
     list2bed:
-        run: ../../tools/cmo-list2bed/1.0.1/cmo-list2bed.cwl
+        run: ../../tools/list2bed/1.0.1/list2bed.cwl
         in:
             input_file: combine_intervals/mergedfile
             output_filename:
                 valueFrom: ${ return inputs.input_file.basename.replace(".list", ".bed"); }
         out: [output_file]
     abra:
-        run: ../../tools/cmo-abra/2.17/cmo-abra.cwl
+        run: ../../tools/abra/2.17/abra.cwl
         in:
             abra_ram_min: abra_ram_min
             in: bams
-            ref: genome
+            ref: ref_fasta
             out:
                 valueFrom: ${ return inputs.in.map(function(x){ return x.basename.replace(".bam", ".abra.bam"); }); }
             working: abra_scratch
@@ -211,10 +220,10 @@ steps:
         out: [outbams]
 
     gatk_base_recalibrator:
-        run: ../../tools/cmo-gatk.BaseRecalibrator/3.3-0/cmo-gatk.BaseRecalibrator.cwl
+        run: ../../tools/gatk.BaseRecalibrator/3.3-0/gatk.BaseRecalibrator.cwl
         in:
             java_temp: tmp_dir
-            reference_sequence: genome
+            reference_sequence: ref_fasta
             input_file: abra/outbams
             dbsnp: dbsnp
             hapmap: hapmap
@@ -232,7 +241,7 @@ steps:
     parallel_printreads:
         in:
             input_file: abra/outbams
-            reference_sequence: genome
+            reference_sequence: ref_fasta
             BQSR: gatk_base_recalibrator/recal_matrix
             tmp_dir: tmp_dir
         out: [out,qual_metrics,qual_pdf]
@@ -243,7 +252,7 @@ steps:
             id: parallel_printreads
             inputs:
                 input_file: File
-                reference_sequence: string
+                reference_sequence: File
                 BQSR: File
                 tmp_dir: string
             outputs:
@@ -260,7 +269,7 @@ steps:
                     outputSource: quality_metrics/qual_hist
             steps:
                 gatk_print_reads:
-                    run: ../../tools/cmo-gatk.PrintReads/3.3-0/cmo-gatk.PrintReads.cwl
+                    run: ../../tools/gatk.PrintReads/3.3-0/gatk.PrintReads.cwl
                     in:
                         reference_sequence: reference_sequence
                         BQSR: BQSR
@@ -276,9 +285,10 @@ steps:
                             valueFrom: ${ return inputs.input_file.basename.replace(".bam", ".printreads.bam");}
                     out: [out_bam]
                 quality_metrics:
-                    run: ../../tools/cmo-picard.CollectMultipleMetrics/2.9/cmo-picard.CollectMultipleMetrics.cwl
+                    run: ../../tools/picard.CollectMultipleMetrics/2.9/picard.CollectMultipleMetrics.cwl
                     in:
                       I: gatk_print_reads/out_bam
+                      java_temp: tmp_dir
                       PROGRAM:
                         valueFrom: ${return ["null","MeanQualityByCycle"]}
                       O:
