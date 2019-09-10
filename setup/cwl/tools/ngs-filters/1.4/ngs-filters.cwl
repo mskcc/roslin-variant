@@ -40,16 +40,6 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand:
-- tool.sh
-- --tool
-- "ngs-filters"
-- --version
-- "1.4"
-- --language_version
-- "default"
-- --language
-- "python"
 id: ngs-filters
 
 requirements:
@@ -57,6 +47,8 @@ requirements:
   ResourceRequirement:
     ramMin: 36000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-ngs-filters:1.4
 
 doc: |
   This tool flags false-positive somatic calls in a given MAF file
