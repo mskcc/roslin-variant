@@ -12,7 +12,7 @@ $schemas:
 
 doap:release:
 - class: doap:Version
-  doap:name: cmo-list2bed
+  doap:name: list2bed
   doap:revision: 1.0.1
 - class: doap:Version
   doap:name: cwl-wrapper
@@ -37,21 +37,22 @@ dct:contributor:
 cwlVersion: v1.0
 
 class: CommandLineTool
-baseCommand: [cmo_list2bed]
-id: cmo_list2bed
+id: list2bed
 
 requirements:
   InlineJavascriptRequirement: {}
   ResourceRequirement:
     ramMin: 2000
     coresMin: 1
+  DockerRequirement:
+    dockerPull: mskcc/roslin-variant-list2bed:1.0.1
 
 doc: |
   Convert a Picard interval list file to a UCSC BED format
 
 inputs:
   input_file:
-    type: 
+    type:
 
     - string
     - File
