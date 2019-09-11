@@ -262,6 +262,8 @@ printf "\n----------Building----------\n"
 #    $buildCommand
 #fi
 
+mkdir -p $script_dir/setup/img/
+cp $script_dir/build/containers/images_meta.json $script_dir/setup/img/
 # Deploy
 printf "\n----------Deploying----------\n"
 export TMP=$TempDir
