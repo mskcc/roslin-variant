@@ -47,7 +47,7 @@ class: CommandLineTool
 id: picard-CollectGcBiasMetrics
 
 arguments:
-- valueFrom: "--jar CollectGcBiasMetrics"
+- valueFrom: "-jar CollectGcBiasMetrics"
   position: 1
 
 requirements:

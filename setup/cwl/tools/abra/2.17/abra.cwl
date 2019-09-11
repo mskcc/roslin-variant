@@ -44,7 +44,7 @@ class: CommandLineTool
 id: abra
 
 arguments:
-- valueFrom: "--jar"
+- valueFrom: "-jar"
   position: 1
 
 requirements:

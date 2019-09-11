@@ -47,7 +47,7 @@ class: CommandLineTool
 id: picard-CollectInsertSizeMetrics
 
 arguments:
-- valueFrom: "--jar CollectInsertSizeMetrics"
+- valueFrom: "-jar CollectInsertSizeMetrics"
   position: 1
 
 requirements:

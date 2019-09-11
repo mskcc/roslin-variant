@@ -40,8 +40,9 @@ class: CommandLineTool
 id: mutect
 
 arguments:
-- valueFrom: "--jar -T MuTect"
+- valueFrom: "-jar -T MuTect"
   position: 1
+  shellQuote: false
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -61,6 +62,7 @@ inputs:
     default: "-Xmx48g -Xms256m -XX:-UseGCOverheadLimit"
     inputBinding:
       position: 0
+      shellQuote: false
 
   java_temp:
     type: string

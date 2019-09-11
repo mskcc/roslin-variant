@@ -53,7 +53,7 @@ class: CommandLineTool
 id: picard-CollectMultipleMetrics
 
 arguments:
-- valueFrom: "--jar CollectMultipleMetrics"
+- valueFrom: "-jar CollectMultipleMetrics"
   position: 1
 
 requirements:

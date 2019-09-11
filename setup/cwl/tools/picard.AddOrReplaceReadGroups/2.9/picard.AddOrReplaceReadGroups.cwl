@@ -44,7 +44,7 @@ class: CommandLineTool
 id: picard-AddOrReplaceReadGroups
 
 arguments:
-- valueFrom: "--jar AddOrReplaceReadGroups"
+- valueFrom: "-jar AddOrReplaceReadGroups"
   position: 1
 
 requirements:

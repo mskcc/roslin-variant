@@ -44,7 +44,7 @@ class: CommandLineTool
 id: picard-MarkDuplicates
 
 arguments:
-- valueFrom: "--jar MarkDuplicates"
+- valueFrom: "-jar MarkDuplicates"
   position: 1
 
 requirements:

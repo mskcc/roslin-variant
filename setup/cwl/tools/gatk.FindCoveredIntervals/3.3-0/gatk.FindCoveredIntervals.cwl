@@ -42,6 +42,7 @@ id: gatk-FindCoveredIntervals
 arguments:
 - valueFrom: "-jar -T FindCoveredIntervals"
   position: 1
+  shellQuote: false
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -61,6 +62,7 @@ inputs:
     default: "-Xmx48g -Xms256m -XX:-UseGCOverheadLimit"
     inputBinding:
       position: 0
+      shellQuote: false
 
   java_temp:
     type: string
@@ -198,10 +200,15 @@ inputs:
       position: 2
 
   reference_sequence:
-    type:
-    - 'null'
-    - string
-    - File
+    type: File
+    secondaryFiles:
+      - .amb
+      - .ann
+      - .bwt
+      - .pac
+      - .sa
+      - .fai
+      - ^.dict
     inputBinding:
       prefix: --reference_sequence
       position: 2

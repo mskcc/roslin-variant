@@ -54,7 +54,7 @@ id: picard-CollectAlignmentSummaryMetrics
 
 
 arguments:
-- valueFrom: "--jar CollectAlignmentSummaryMetrics"
+- valueFrom: "-jar CollectAlignmentSummaryMetrics"
   position: 1
 
 requirements:

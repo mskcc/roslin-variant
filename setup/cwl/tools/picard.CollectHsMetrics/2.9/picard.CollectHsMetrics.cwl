@@ -53,7 +53,7 @@ class: CommandLineTool
 id: picard-CollectHsMetrics
 
 arguments:
-- valueFrom: "--jar CollectHsMetrics"
+- valueFrom: "-jar CollectHsMetrics"
   position: 1
 
 requirements:
