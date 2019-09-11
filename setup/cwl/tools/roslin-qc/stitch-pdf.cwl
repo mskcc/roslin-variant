@@ -29,9 +29,9 @@ cwlVersion: v1.0
 
 requirements:
   InlineJavascriptRequirement: {}
-  InitialWorkDirRequirement: 
+  InitialWorkDirRequirement:
     listing: $(inputs.data_dir.listing)
- 
+
   ResourceRequirement:
     ramMin: 8000
     coresMin: 1
@@ -42,7 +42,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.0"
+- "0.6.1"
 - --cmd
 - stitch_pdf
 id: stitch-pdf
@@ -71,7 +71,7 @@ inputs:
 
   output_directory:
     type: [ 'null', string ]
-    default: "." 
+    default: "."
     inputBinding:
       prefix: -o
 
@@ -98,4 +98,4 @@ outputs:
     type: File
     outputBinding:
       glob: "*.pdf"
- 
+

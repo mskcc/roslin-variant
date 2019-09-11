@@ -41,7 +41,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.0"
+- "0.6.1"
 - --cmd
 - qc_summary
 id: generate-images

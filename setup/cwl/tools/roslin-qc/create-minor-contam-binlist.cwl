@@ -43,7 +43,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.0"
+- "0.6.1"
 - --cmd
 - create_minor_contam_binlist
 id: create-minor-contam-binlist
@@ -81,7 +81,7 @@ inputs:
 
 outputs:
   minor_contam_freqlist:
-    type: File 
+    type: File
     outputBinding:
       glob: |
         ${
