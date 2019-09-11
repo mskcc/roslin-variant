@@ -1,7 +1,7 @@
 name: variant
 root: /juno/work/ci/roslin-pipelines/
-version: 2.5.3
-description: Roslin Variant Pipeline v2.5.3
+version: 2.6.0
+description: Roslin Variant Pipeline v2.6.0
 binding:
   core: bin
   data: resources
