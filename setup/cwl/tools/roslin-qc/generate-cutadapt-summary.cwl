@@ -38,7 +38,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [merge_cut_adapt_stats]
-
 id: generate-cutadapt-summary.cwl
 inputs:
 

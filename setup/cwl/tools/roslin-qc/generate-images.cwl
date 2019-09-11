@@ -39,7 +39,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [qc_summary]
-
 id: generate-images
 
 inputs:

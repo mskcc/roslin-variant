@@ -39,7 +39,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [genlatex]
-
 id: genlatex
 
 inputs:

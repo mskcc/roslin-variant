@@ -38,7 +38,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [merge_mean_quality_histograms]
-
 id: generate-qual-files
 inputs:
   files:

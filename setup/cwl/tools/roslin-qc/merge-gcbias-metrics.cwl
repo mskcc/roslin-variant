@@ -38,7 +38,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [merge_gc_bias_metrics]
-
 id: merge-gcbias-metrics
 stdout: $(inputs.outfile_name)
 inputs:

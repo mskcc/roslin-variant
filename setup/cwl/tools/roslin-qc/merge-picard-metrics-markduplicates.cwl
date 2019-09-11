@@ -38,7 +38,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [merge_picard_metrics]
-
 id: merge-picard-metrics-markduplicates
 stdout: $(inputs.outfile_name)
 inputs:

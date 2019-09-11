@@ -38,7 +38,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [merge_insert_size_histograms]
-
 id: merge-insert-size-histograms
 stdout: $(inputs.outfile_name)
 inputs:

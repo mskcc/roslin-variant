@@ -38,7 +38,6 @@ requirements:
 
 class: CommandLineTool
 baseCommand: [analyze_fingerprint]
-
 id: generate-fingerprint
 inputs:
   files:
