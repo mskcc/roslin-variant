@@ -207,7 +207,8 @@ steps:
       concordance_files_nohomo: run-concordance-non-homozygous/outfiles
       contamination_files: run-contamination/outfiles
       files:
-        valueFrom: ${ var output = []; output=output.concat(inputs.concordance_files); output=output.concat(inputs.concordance_files_nohomo); output=output.concat(inputs.contamination_files); return output; }
+        source: [ run-concordance/outfiles, run-concordance-non-homozygous/outfiles, run-contamination/outfiles ]
+        linkMerge: merge_flattened
       output_directory_name:
         valueFrom: ${ return "conpair_output_files"; }
     out: [ directory ]
