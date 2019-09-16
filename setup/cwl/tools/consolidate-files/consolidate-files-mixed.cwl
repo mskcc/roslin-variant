@@ -49,13 +49,17 @@ inputs:
   files:
     type:
       type: array
-      items: File
+      items:
+        - File
+        - string
     default: []
 
   directories:
     type:
       type: array
-      items: Directory
+      items:
+        - Directory
+        - string
     default: []
 
 outputs:
@@ -96,8 +100,10 @@ expression: |
     var output_files = [];
     var output_files_trimmed = [];
     var output_file_basename_dict = {};
-    output_files = output_files.concat(addFile(inputs.files));
-    output_files = output_files.concat(addDirectory(inputs.directories));
+    var input_files = inputs.files.filter(single_file => String(single_file).toUpperCase() != 'NONE');
+    var input_directories = inputs.directories.filter(single_file => String(single_file).toUpperCase() != 'NONE');
+    output_files = output_files.concat(addFile(input_files));
+    output_files = output_files.concat(addDirectory(input_directories));
     console.log(output_files);
 
     for (var i = 0; i < output_files.length; i++) {

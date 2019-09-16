@@ -49,7 +49,9 @@ inputs:
   files:
     type:
       type: array
-      items: File
+      items:
+        - File
+        - string
 
 outputs:
 
@@ -62,9 +64,10 @@ outputs:
 expression: |
   ${
     var output_files = [];
+    var input_files = inputs.files.filter(single_file => String(single_file).toUpperCase() != 'NONE');
 
-    for (var i = 0; i < inputs.files.length; i++) {
-        output_files.push(inputs.files[i]);    
+    for (var i = 0; i < input_files.length; i++) {
+        output_files.push(input_files[i]);
     }
 
     return {
