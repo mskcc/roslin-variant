@@ -6,9 +6,9 @@ $namespaces:
   doap: http://usefulinc.com/ns/doap#
 
 $schemas:
-- file:///juno/work/pi/roslin-pipelines/2.5.0-su/roslin-core/2.0.6/schemas/dcterms.rdf
-- file:///juno/work/pi/roslin-pipelines/2.5.0-su/roslin-core/2.0.6/schemas/foaf.rdf
-- file:///juno/work/pi/roslin-pipelines/2.5.0-su/roslin-core/2.0.6/schemas/doap.rdf
+- http://dublincore.org/2012/06/14/dcterms.rdf
+- http://xmlns.com/foaf/spec/20140114.rdf
+- http://usefulinc.com/ns/doap#
 
 doap:release:
 - class: doap:Version
@@ -49,7 +49,9 @@ inputs:
   directories:
     type:
       type: array
-      items: Directory
+      items:
+        - Directory
+        - string
 
 outputs:
 
@@ -63,9 +65,11 @@ expression: |
   ${
     var output_files = [];
 
-    for (var i = 0; i < inputs.directories.length; i++) {
-       for (var j = 0; j < inputs.directories[i].listing.length; j++) {
-           var item = inputs.directories[i].listing[j];
+    var input_directories = inputs.directories.filter(single_file => String(single_file).toUpperCase() != 'NONE');
+
+    for (var i = 0; i < input_directories.length; i++) {
+       for (var j = 0; j < input_directories[i].listing.length; j++) {
+           var item = input_directories[i].listing[j];
            output_files.push(item);
        }
     }

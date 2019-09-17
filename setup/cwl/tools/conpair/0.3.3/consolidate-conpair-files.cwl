@@ -5,7 +5,7 @@ $namespaces:
   foaf: http://xmlns.com/foaf/0.1/
   doap: http://usefulinc.com/ns/doap#
 
-$schemas: 
+$schemas:
 - http://dublincore.org/2012/06/14/dcterms.rdf
 - http://xmlns.com/foaf/spec/20140114.rdf
 - http://usefulinc.com/ns/doap#
@@ -49,7 +49,9 @@ inputs:
   files:
     type:
       type: array
-      items: File
+      items:
+        - File
+        - string
 
 outputs:
 
@@ -63,8 +65,10 @@ expression: |
   ${
     var output_files = [];
 
-    for (var i = 0; i < inputs.files.length; i++) {
-        output_files.push(inputs.files[i]);    
+    var input_files = inputs.files.filter(single_file => String(single_file).toUpperCase() != 'NONE');
+
+    for (var i = 0; i < input_files.length; i++) {
+        output_files.push(input_files[i]);
     }
 
     return {
