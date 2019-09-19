@@ -52,6 +52,7 @@ inputs:
       items:
         - Directory
         - string
+        - 'null'
 
 outputs:
 
@@ -70,7 +71,10 @@ expression: |
     for (var i = 0; i < input_directories.length; i++) {
        for (var j = 0; j < input_directories[i].listing.length; j++) {
            var item = input_directories[i].listing[j];
-           output_files.push(item);
+           if(item){
+              output_files.push(item);
+           }
+
        }
     }
 
