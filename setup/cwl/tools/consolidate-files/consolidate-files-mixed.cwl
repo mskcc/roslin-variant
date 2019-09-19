@@ -104,7 +104,6 @@ expression: |
     var input_directories = inputs.directories.filter(single_file => String(single_file).toUpperCase() != 'NONE');
     output_files = output_files.concat(addFile(input_files));
     output_files = output_files.concat(addDirectory(input_directories));
-    console.log(output_files);
 
     for (var i = 0; i < output_files.length; i++) {
       var output_file =  output_files[i];
