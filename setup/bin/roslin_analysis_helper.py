@@ -192,7 +192,7 @@ def generate_study_meta(portal_config_data,pipeline_version_str):
     study_meta_data['description'] = portal_config_data['ProjectDesc'].replace('\n', '')
     study_meta_data['groups'] = 'PRISM;COMPONC;VIALEA' # These groups can access everything
     # Find the PI that funded this project, and make sure their group has access too
-    if 'PI' in portal_config_data and portal_config_data['PI'] is not 'NA':
+    if 'PI' in portal_config_data and portal_config_data['PI'] is not 'NA' and 'PITT' not in portal_config_data['PI']:
         study_meta_data['groups'] += ';' + portal_config_data['PI'].upper().replace(" ", "")
     #study_meta_data['add_global_case_list'] = True
     return study_meta_data
@@ -427,6 +427,7 @@ if __name__ == '__main__':
     parser.add_argument('--sample_summary',required=False,help='The sample summary file generated from Roslin QC')
     parser.add_argument('--clinical_data',required=False,help='The clinical file located with Roslin manifests')
     parser.add_argument('--debug',action="store_true",required=False, help="Run the analysis helper in debug mode")
+    parser.add_argument('--stable_id',required=False, help="For merges, overrides the stable_id")
     args = parser.parse_args()
     script_path = os.path.dirname(os.path.realpath(__file__))
     current_working_directory = os.getcwd()
@@ -498,7 +499,13 @@ if __name__ == '__main__':
                     raise Exception("Duplicate coverages on sample " + sample_value + " of " + coverage_values[sample_value] + " and " + coverage_value)
                 coverage_values[sample_value] = coverage_value
 
-    stable_id = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
+    if args.stable_id:
+        if 'Proj_' in args.stable_id:
+            stable_id = args.stable_id.replace('Proj_','')
+        else:
+            stable_id = args.stable_id
+    else:
+        stable_id = genPortalUUID.generateIGOBasedPortalUUID(portal_config_data['ProjectID'])[1]
     maf_file_name =  'data_mutations_extended.txt'
     fusion_file_name = 'data_fusions.txt'
     discrete_copy_number_file = 'data_CNA.txt'
@@ -562,7 +569,7 @@ if __name__ == '__main__':
         logger.info('Finished generating case lists')
 
     results_log_folder = os.path.join(args.results_directory,'log')
-    version_str = None
+    version_str = '2.x'
     workflow_params_file_path = os.path.join(results_log_folder,"workflow_params.json")
     if os.path.exists(workflow_params_file_path):
         with open(workflow_params_file_path,'r') as workflow_params_file:
