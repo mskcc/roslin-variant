@@ -107,7 +107,7 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
             interval_list = targets[assay]['targets_list']
             extra_arg = '--targetFile '+ interval_list
     cna_command_list = []
-    cna_command_list.append('tool.sh --tool facets --version 1.5.6 --language_version default --language python --cmd geneLevel ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m scna -o ' + output_path)
+    cna_command_list.append('tool.sh --tool facets --version 1.6.2 --language_version default --language python --cmd geneLevel ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m scna -o ' + output_path)
     cna_command_list.append('mv ' + output_path + ' ' + gene_cna_file)
     cna_command_list.append('mv ' + scna_output_path + ' ' + output_path)
     run_command_list(cna_command_list,'generate_discrete_copy_number')
