@@ -17,7 +17,10 @@ old_jobs_folder = "oldJobs"
 def generate_legacy_clinical_data(clinical_data,coverage_values):
     for single_row in clinical_data:
         sample_id = single_row['SAMPLE_ID']
-        coverage_value = coverage_values[sample_id]
+        try:
+	    coverage_value = coverage_values[sample_id]
+        except KeyError:
+	    coverage_value = ""
         single_row['SAMPLE_COVERAGE'] = coverage_value
     return clinical_data
 
