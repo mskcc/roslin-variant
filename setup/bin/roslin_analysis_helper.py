@@ -17,10 +17,10 @@ old_jobs_folder = "oldJobs"
 def generate_legacy_clinical_data(clinical_data,coverage_values):
     for single_row in clinical_data:
         sample_id = single_row['SAMPLE_ID']
-	try:
-	    coverage_value = coverage_values[sample_id]
-	except KeyError:
-	    coverage_value = ""
+        try:
+            coverage_value = coverage_values[sample_id]
+        except KeyError:
+            coverage_value = ""
         single_row['SAMPLE_COVERAGE'] = coverage_value
     return clinical_data
 
@@ -36,7 +36,7 @@ def run_command_list(command_list,name):
     for single_command in command_list:
         single_command_name = name + '_' + str(command_num)
         run_job(single_command,True,single_command_name)
-	time.sleep(2)
+        time.sleep(2)
         command_num = command_num + 1
 
 def generate_maf_data(maf_directory,output_directory,maf_file_name,analysis_mut_file,log_directory,script_path,pipeline_version_str,is_impact):
