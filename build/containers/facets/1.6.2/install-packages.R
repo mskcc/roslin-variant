@@ -1,7 +1,7 @@
 #!/usr/bin/Rscript
 
 # install required R libraries
-pkgs = c("ggplot2","Cairo","argparse","data.table","gtable","gridExtra","bit64","plyr","formatR")
+pkgs = c("ggplot2","Cairo","argparse","data.table","gtable","gridExtra","bit64","plyr","formatR","dplyr","tidyr")
 
 install.packages(pkgs, repos='http://cran.us.r-project.org')
 

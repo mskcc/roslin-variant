@@ -61,10 +61,10 @@ expression: |
       if (current_file_obj.class == "Directory"){
         for (var j = 0; j < current_file_obj.listing.length; j++) {
           var current_fastq = current_file_obj.listing[j];
-          if ( current_fastq.basename.includes("R1")){
+          if ( current_fastq.basename.includes("_R1_")){
             r1_files.push(current_fastq);
           }
-          else if ( current_fastq.basename.includes("R2")){
+          else if ( current_fastq.basename.includes("_R2_")){
             r2_files.push(current_fastq);
           }
         }
