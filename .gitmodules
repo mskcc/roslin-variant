@@ -5,3 +5,6 @@
 [submodule "setup/cwl/modules/sample/resolve-pdx"]
 	path = setup/cwl/modules/sample/resolve-pdx
 	url = https://github.com/mskcc/resolve-pdx
+[submodule "setup/roslin-cwl"]
+	path = setup/roslin-cwl
+	url = https://github.com/mskcc/roslin-cwl
