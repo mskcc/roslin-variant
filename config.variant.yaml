@@ -20,8 +20,8 @@ env:
 dependencies:
   core:
     version:
-      min: 2.1.1
-      max: 2.1.1
+      min: 2.1.2
+      max: 2.1.2
   cmo:
     version: 1.9.13
     source: github:https://github.com/mskcc/cmo
