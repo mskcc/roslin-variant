@@ -56,6 +56,7 @@ RUN apk add --update \
         # install Facets-Suite
             && cd /tmp/facets-suite-${FACETS_SUITE_VERSION} \
             # correct shebang line
+                && sed -i "s/# parser/parser/g" geneLevel.R \
                 && sed -i "s/opt\/common\/CentOS_6-dev\/R\/R-3.2.2\//usr\//g" *.R \
                 && sed -i "s/opt\/common\/CentOS_6-dev\/R\/R-3.4.1\//usr\//g" *.R \
                 && sed -i "s/opt\/common\/CentOS_6-dev\/R\/R-3.1.3\//usr\//g" *.R \
