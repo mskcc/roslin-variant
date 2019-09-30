@@ -31,6 +31,10 @@ parentDir=$(pwd)
 script_dir_relative=`dirname "$0"`
 script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
 build_script_dir=${script_dir}/build/scripts
+if [ -d "$script_dir/setup/cwl" ]
+then
+    yes | rm -r $script_dir/setup/cwl
+fi
 /bin/cp -r $script_dir/setup/roslin-cwl $script_dir/setup/cwl
 
 function finish {
