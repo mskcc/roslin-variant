@@ -34,5 +34,4 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev curl-dev \
       && chmod +x /usr/bin/runscript.sh \
       && exec /run_test.sh
 
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]
+ENTRYPOINT ["sh"]

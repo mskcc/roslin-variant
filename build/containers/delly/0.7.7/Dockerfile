@@ -60,5 +60,4 @@ RUN apk add --update --no-cache ncurses \
     && chmod +x /usr/bin/runscript.sh \
     && exec /run_test.sh
 
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]
+ENTRYPOINT ["sh"]

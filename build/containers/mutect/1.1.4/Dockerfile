@@ -16,5 +16,4 @@ RUN chmod +x /usr/bin/runscript.sh \
 	&& wget ${MUTECT_DOWNLOAD_URL} -O /usr/bin/mutect.jar \
 	&& exec /run_test.sh
 
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]
+ENTRYPOINT ["sh"]

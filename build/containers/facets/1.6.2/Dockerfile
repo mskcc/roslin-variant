@@ -87,5 +87,4 @@ RUN apk add --update \
 ENV PYTHONNOUSERSITE set
 ENV FACETS_OVERRIDE_EXITCODE set
 
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]
+ENTRYPOINT ["sh"]

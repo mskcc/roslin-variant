@@ -82,5 +82,4 @@ RUN apk add --update \
 
 ENV PYTHONNOUSERSITE set
 
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]
+ENTRYPOINT ["sh"]
