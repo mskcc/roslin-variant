@@ -24,7 +24,7 @@ COPY cmo_resources.json /usr/bin/cmo_resources.json
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add cmake jsoncpp build-base musl-dev python py-pip python-dev ca-certificates openssl gcc g++ make git curl curl-dev wget gzip musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev subversion \
+            && apk add coreutils bash cmake jsoncpp build-base musl-dev python py-pip python-dev ca-certificates openssl gcc g++ make git curl curl-dev wget gzip musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev subversion \
       # download and unzip gbcms
             && cd /tmp && wget https://github.com/zengzheng123/GetBaseCountsMultiSample/archive/v${GET_BASE_COUNTS_MULTI_SAMPLE_VERSION}.zip \
             && unzip v${GET_BASE_COUNTS_MULTI_SAMPLE_VERSION}.zip \
@@ -59,8 +59,8 @@ RUN apk add --update \
             && cd /tmp && wget https://github.com/mskcc/cmo/archive/${CMO_VERSION}.zip \
             && unzip ${CMO_VERSION}.zip \
             && cd /tmp/cmo-${CMO_VERSION} \
-            && mkdir -p /opt/common/CentOS_6-dev/cmo/ \
-            && cp /usr/bin/cmo_resources.json /opt/common/CentOS_6-dev/cmo/ \
+            && sed -i "s/'CMO_RESOURCE_CONFIG'/None/g" cmo/util.py \
+            && sed -i "s/\/opt\/common\/CentOS_6-dev\/cmo\/cmo_resources.json/\/usr\/bin\/cmo_resources.json/g" cmo/util.py \
             && python setup.py install \
       # clean up
             && rm -rf /var/cache/apk/* /tmp/* \
