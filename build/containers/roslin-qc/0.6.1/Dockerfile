@@ -81,5 +81,3 @@ RUN apk add --update \
         && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
-
-ENTRYPOINT ["sh"]

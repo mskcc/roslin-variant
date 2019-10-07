@@ -59,5 +59,3 @@ RUN apk add --update --no-cache ncurses \
     && install -p /opt/delly/src/cov /usr/local/bin/ \
     && chmod +x /usr/bin/runscript.sh \
     && exec /run_test.sh
-
-ENTRYPOINT ["sh"]

@@ -77,5 +77,3 @@ RUN apk add --update \
             && exec /run_test.sh
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
-
-ENTRYPOINT ["sh"]

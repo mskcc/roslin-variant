@@ -22,5 +22,3 @@ RUN apk add --update --no-cache ncurses \
         && apk del deps \
         && chmod +x /usr/bin/runscript.sh \
         && exec /run_test.sh
-
-ENTRYPOINT ["sh"]

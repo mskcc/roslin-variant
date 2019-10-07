@@ -33,5 +33,3 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev curl-dev \
       && rm -rf /var/cache/apk/* /tmp/* \
       && chmod +x /usr/bin/runscript.sh \
       && exec /run_test.sh
-
-ENTRYPOINT ["sh"]

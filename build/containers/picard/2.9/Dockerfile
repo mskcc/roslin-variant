@@ -22,5 +22,3 @@ RUN apk add --update \
       && rm -rf /var/cache/apk/* /tmp/* \
       && chmod +x /usr/bin/runscript.sh \
       && exec /run_test.sh
-
-ENTRYPOINT ["sh"]

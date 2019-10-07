@@ -36,5 +36,3 @@ RUN apk add --update \
 
 # disable per-user site-packages
 ENV PYTHONNOUSERSITE set
-
-ENTRYPOINT ["sh"]
