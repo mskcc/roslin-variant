@@ -4,18 +4,19 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.basicfiltering="0.3" \
       version.alpine="3.8" \
-      version.cmo="1.9.13" \
+      version.cmo="1.9.15" \
       version.bcftools="1.9" \
-      source.cmo="https://github.com/mskcc/cmo/releases/tag/1.9.13" \
+      source.cmo="https://github.com/mskcc/cmo/releases/tag/1.9.15" \
       source.basicfiltering="https://github.com/mskcc/basicfiltering/releases/tag/0.3" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.9"
 
 COPY runscript.sh /usr/bin/runscript.sh
 COPY run_test.sh /run_test.sh
+COPY cmo_resources.json /usr/bin/cmo_resources.json
 
 ENV BASICFILTERING_VERSION 0.3
 ENV HTSLIB_VERSION 1.5
-ENV CMO_VERSION 1.9.13
+ENV CMO_VERSION 1.9.15
 ENV BCFTOOLS_VERSION 1.9
 
 RUN apk add --update \
@@ -38,6 +39,8 @@ RUN apk add --update \
             && cd /tmp && wget https://github.com/mskcc/cmo/archive/${CMO_VERSION}.zip \
             && unzip ${CMO_VERSION}.zip \
             && cd /tmp/cmo-${CMO_VERSION} \
+            && sed -i "s/'CMO_RESOURCE_CONFIG'/None/g" cmo/util.py \
+            && sed -i "s/\/opt\/common\/CentOS_6-dev\/cmo\/cmo_resources.json/\/usr\/bin\/cmo_resources.json/g" cmo/util.py \
             && python setup.py install \
       # download, unzip, install basic-filtering
             && cd /tmp && wget https://github.com/mskcc/basicfiltering/archive/${BASICFILTERING_VERSION}.zip \
