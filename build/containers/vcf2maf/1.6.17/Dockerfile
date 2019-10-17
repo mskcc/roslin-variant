@@ -18,16 +18,18 @@ LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
 
 ENV VCF2MAF_VERSION 1.6.17
 ENV VEP_VERSION 86
+ENV VEP_DATA /var/cache
+ENV VEP_PATH /usr/bin/vep
 ENV HTSLIB_VERSION 1.9
 ENV SAMTOOLS_VERSION 1.9
-ENV BCFTOOLS_VERSION 1.9
+ENV BCFTOOLS_VERSION 1.
 
 COPY runscript.sh /usr/bin/runscript.sh
 COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
       # install all the build-related tools
-            && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev \
+            && apk add ca-certificates gcc g++ make git curl curl-dev wget gzip perl perl-dev musl-dev libgcrypt-dev zlib-dev bzip2-dev xz-dev ncurses-dev rsync \
       # install system packages and Perl modules
             && apk add expat-dev libressl-dev perl-net-ssleay mariadb-dev libxml2-dev perl-dbd-mysql perl-module-metadata perl-gd perl-db_file perl-archive-zip perl-cgi perl-dbi perl-encode perl-time-hires perl-file-copy-recursive perl-json \
       # install cpanminus
@@ -49,6 +51,14 @@ RUN apk add --update \
             && cd /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor \
             && perl INSTALL.pl --AUTO a 2>&1 | tee install.log \
             && cd /tmp && mv /tmp/ensembl-tools-release-${VEP_VERSION}/scripts/variant_effect_predictor /usr/bin/vep \
+      # download and unpack VEP's offline cache
+            && mkdir -p ${VEP_DATA} \
+            && rsync -zvh rsync://ftp.ensembl.org/ensembl/pub/release-86/variation/VEP/homo_sapiens_vep_86_GRCh37.tar.gz ${VEP_DATA} \
+            && cat ${VEP_DATA}/*_vep_86_GRC{h37,h38,m38}.tar.gz | tar -izxf - -C ${VEP_DATA} \
+            && cd /usr/bin/vep \
+            && perl INSTALL.pl --AUTO af --SPECIES homo_sapiens --ASSEMBLY GRCh37 --DESTDIR ${VEP_PATH} --CACHEDIR ${VEP_DATA} \
+            && perl convert_cache.pl --species homo_sapiens --version 86_GRCh37 --dir ${VEP_DATA} \
+            && rm ${VEP_DATA}/homo_sapiens_vep_86_GRCh37.tar.gz \
       # install bcftools
             && cd /tmp && wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
             && tar xvjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
