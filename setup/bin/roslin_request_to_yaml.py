@@ -432,7 +432,7 @@ if __name__ == "__main__":
         'grouping_file': {'class': 'File', 'path': os.path.realpath(args.grouping)},
         'request_file': {'class': 'File', 'path': os.path.realpath(args.request)},
         'refseq': {'class': 'File', 'path': str(REQUEST_FILES['refseq'])},
-        'vep_data': {'class': 'Directory', 'path': str(REQUEST_FILES['vep_data'])},
+        'vep_data': str(REQUEST_FILES['vep_data']),
         'hotspot_list': str(REQUEST_FILES['hotspot_list']),
         'hotspot_list_maf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list_maf'])},
         'delly_exclude': {'class': 'File', 'path': str(ROSLIN_RESOURCES['genomes'][genome]['delly'])},
