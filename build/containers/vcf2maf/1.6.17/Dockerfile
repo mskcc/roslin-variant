@@ -12,6 +12,7 @@ LABEL maintainer="Christopher Allan Bolipata (bolipatc@mskcc.org)" \
       version.alpine="3.8" \
       source.vcf2maf="https://github.com/mskcc/vcf2maf/releases/tag/v1.6.17" \
       source.vep="http://dec2016.archive.ensembl.org/info/docs/tools/vep/script/vep_download.html#versions" \
+      source.vep_cache="ftp.ensembl.org/ensembl/pub/release-86/variation/VEP/homo_sapiens_vep_86_GRCh37.tar.gz" \
       source.htslib="https://github.com/samtools/htslib/releases/tag/1.9" \
       source.bcftools="https://github.com/samtools/bcftools/releases/tag/1.9" \
       source.samtools="https://github.com/samtools/samtools/releases/tag/1.9"
@@ -22,7 +23,7 @@ ENV VEP_DATA /var/cache
 ENV VEP_PATH /usr/bin/vep
 ENV HTSLIB_VERSION 1.9
 ENV SAMTOOLS_VERSION 1.9
-ENV BCFTOOLS_VERSION 1.
+ENV BCFTOOLS_VERSION 1.9
 
 COPY runscript.sh /usr/bin/runscript.sh
 COPY run_test.sh /run_test.sh
@@ -54,9 +55,8 @@ RUN apk add --update \
       # download and unpack VEP's offline cache
             && mkdir -p ${VEP_DATA} \
             && rsync -zvh rsync://ftp.ensembl.org/ensembl/pub/release-86/variation/VEP/homo_sapiens_vep_86_GRCh37.tar.gz ${VEP_DATA} \
-            && cat ${VEP_DATA}/*_vep_86_GRC{h37,h38,m38}.tar.gz | tar -izxf - -C ${VEP_DATA} \
+            && tar -zxf ${VEP_DATA}/homo_sapiens_vep_86_GRCh37.tar.gz -C ${VEP_DATA} \
             && cd /usr/bin/vep \
-            && perl INSTALL.pl --AUTO af --SPECIES homo_sapiens --ASSEMBLY GRCh37 --DESTDIR ${VEP_PATH} --CACHEDIR ${VEP_DATA} \
             && perl convert_cache.pl --species homo_sapiens --version 86_GRCh37 --dir ${VEP_DATA} \
             && rm ${VEP_DATA}/homo_sapiens_vep_86_GRCh37.tar.gz \
       # install bcftools
