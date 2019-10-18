@@ -155,7 +155,4 @@ fi
 # Load singularity into PATH
 singularity_bin_path=`dirname $ROSLIN_SINGULARITY_PATH`
 export PATH=$singularity_bin_path:$PATH
-# Unset bind paths to ensure portability
-unset SINGULARITY_BIND
-unset DOCKER_BIND
 echo "Loaded Roslin Pipeline - $ROSLIN_PIPELINE_NAME ( $ROSLIN_PIPELINE_VERSION )"
