@@ -54,9 +54,11 @@
                     "Docker_Image": "mskcc/roslin-variant-bwa:0.7.5a",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.bwa": "https://github.com/lh3/bwa/releases/tag/0.7.5a",
+                    "source.samtools": "https://github.com/samtools/samtools/releases/tag/1.9",
                     "version.alpine": "3.8",
                     "version.bwa": "0.7.5a",
-                    "version.image": "1.0.0"
+                    "version.image": "1.0.0",
+                    "version.samtools": "1.9"
                 }
             },
             "version": "0.7.5a"
@@ -101,7 +103,7 @@
                 "commandType": "Multi",
                 "help": "echo \"Please use either pileup, concordance, contamination, merge\"",
                 "labels": {
-                    "Docker_Image": "mskcc/roslin-variant-conpair:0.3.1",
+                    "Docker_Image": "mskcc/roslin-variant-conpair:0.3.3",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.conpair": "https://github.com/mskcc/Conpair/releases/tag/0.3.1",
                     "source.gatk": "https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af",

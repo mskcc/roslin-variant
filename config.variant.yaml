@@ -50,5 +50,5 @@ build:
   dockerRegistry: 'mskcc'
   dockerPush: False
   useVagrant: False
-  installCore: True
+  installCore: False
   buildThreads: 2
