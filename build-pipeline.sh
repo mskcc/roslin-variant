@@ -31,6 +31,11 @@ parentDir=$(pwd)
 script_dir_relative=`dirname "$0"`
 script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
 build_script_dir=${script_dir}/build/scripts
+if [ -d "$script_dir/setup/cwl" ]
+then
+    yes | rm -r $script_dir/setup/cwl
+fi
+/bin/cp -r $script_dir/setup/roslin-cwl $script_dir/setup/cwl
 
 function finish {
     if [ ! -n "$USAGE" ]
@@ -252,16 +257,18 @@ cd $parentDir
 
 # Start building the pipeline
 printf "\n----------Building----------\n"
-if compareBool $USE_VAGRANT
-then
-    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
-    vagrant up
-    vagrant ssh -- -t "$buildCommand"
-else
-    buildCommand="python $buildScript $buildArgs"
-    $buildCommand
-fi
+#if compareBool $USE_VAGRANT
+#then
+#    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
+#    vagrant up
+#    vagrant ssh -- -t "$buildCommand"
+#else
+#    buildCommand="python $buildScript $buildArgs"
+#    $buildCommand
+#fi
 
+mkdir -p $script_dir/setup/img/
+cp $script_dir/build/containers/images_meta.json $script_dir/setup/img/
 # Deploy
 printf "\n----------Deploying----------\n"
 export TMP=$TempDir

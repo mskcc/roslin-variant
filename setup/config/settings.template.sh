@@ -90,7 +90,7 @@ then
 
 				# install cmo
 
-				{{ cmo_install }}
+				#{{ cmo_install }}
 				# create test files
 				roslin_create_test_files.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 				cd $CURRENT_DIR

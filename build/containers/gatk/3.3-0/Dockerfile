@@ -20,6 +20,3 @@ RUN apk add --update \
       && wget ${GATK_DOWNLOAD_URL} -O /usr/bin/gatk.jar \
       && chmod +x /usr/bin/runscript.sh \
       && exec /run_test.sh
-
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]

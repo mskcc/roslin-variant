@@ -14,6 +14,3 @@ ADD welcome.txt /
 RUN apk add --update bash \
 	&& chmod +x /usr/bin/runscript.sh \
     && exec /run_test.sh
-
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]

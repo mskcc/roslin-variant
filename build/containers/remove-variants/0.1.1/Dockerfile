@@ -19,6 +19,7 @@ RUN apk add --update \
             && cd /tmp && wget https://github.com/mskcc/remove_variants/archive/${REMOVEVARIANTS_VERSION}.zip \
             && unzip ${REMOVEVARIANTS_VERSION}.zip \
             && cd /tmp/remove-variants-${REMOVEVARIANTS_VERSION} \
+            && pip install numpy \
             && python setup.py install \
       # copy to /usr/bin
             && cp /tmp/remove-variants-${REMOVEVARIANTS_VERSION}/remove_variants.py /usr/bin/ \
@@ -29,6 +30,3 @@ RUN apk add --update \
 
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
-
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]

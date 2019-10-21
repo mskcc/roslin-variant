@@ -1,6 +1,6 @@
 name: variant
-version: 2.5.5
-description: Roslin Variant Pipeline v2.5.5
+version: 2.6.0
+description: Roslin Variant Pipeline v2.6.0
 root: /juno/work/pi/nikhil/roslin-pipelines/
 binding:
   core: bin

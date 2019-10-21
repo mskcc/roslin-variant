@@ -24,6 +24,3 @@ RUN apk add --update python py-pip perl gcc python-dev musl-dev \
       && rm -rf /var/cache/apk/* \
       && chmod +x /usr/bin/runscript.sh \
       && exec /run_test.sh
-
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]

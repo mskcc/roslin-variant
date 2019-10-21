@@ -437,7 +437,7 @@ if __name__ == "__main__":
         'hotspot_list_maf': {'class': 'File', 'path': str(REQUEST_FILES['hotspot_list_maf'])},
         'delly_exclude': {'class': 'File', 'path': str(ROSLIN_RESOURCES['genomes'][genome]['delly'])},
         'hotspot_vcf': str(REQUEST_FILES['hotspot_vcf']),
-        'facets_snps': str(ROSLIN_RESOURCES['genomes'][genome]['facets_snps']),
+        'facets_snps': {'class': 'File', 'path': str(ROSLIN_RESOURCES['genomes'][genome]['facets_snps'])},
         'custom_enst': str(REQUEST_FILES['custom_enst']),
         'vep_path': str(REQUEST_FILES['vep_path']),
         'conpair_markers': str(REQUEST_FILES['conpair_markers']),

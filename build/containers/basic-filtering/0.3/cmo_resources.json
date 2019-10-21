@@ -1,0 +1,52 @@
+{
+    "programs":
+    {
+        "samtools":
+        {
+            "default":""
+        },
+        "picard":
+        {
+            "default":"",
+            "2.9":""
+        },
+        "java":
+        {
+            "default": "/usr/bin/java"
+
+        },
+        "getbasecountsmultisample":
+        {
+            "default":"",
+            "1.2.2":""
+        },
+        "python":
+        {
+            "default":"/usr/bin/python"
+        },
+        "tabix":
+        {
+            "default":"/usr/local/bin/tabix"
+        },
+        "bgzip":
+        {
+            "default":"/usr/local/bin/bgzip"
+        },
+        "bedtools":{
+            "default": ""
+        },
+        "bcftools":{
+            "default": "/usr/bin/bcftools"
+        },
+        "R":
+        {
+            "default":""
+        }
+
+    },
+    "genomes": {},
+    "targets": {},
+    "chr1_fingerprints": {},
+    "keys" : {},
+    "config" : {}
+}

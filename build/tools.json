@@ -6,11 +6,11 @@
         "basic-filtering": [
             "0.3"
         ],
-        "htslib": [
-            "1.9"
-        ],
         "bwa": [
             "0.7.5a"
+        ],
+        "cmo-utils": [
+            "1.9.15"
         ],
         "conpair": [
             "0.3.3"
@@ -26,6 +26,9 @@
         ],
         "getbasecountsmultisample": [
             "1.2.2"
+        ],
+        "htslib": [
+            "1.9"
         ],
         "htstools": [
             "0.1.1"

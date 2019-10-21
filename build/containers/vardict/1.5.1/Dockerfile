@@ -28,6 +28,3 @@ RUN apk add --update \
 
 COPY testsomatic.R /usr/bin/vardict/
 COPY var2vcf_paired.pl /usr/bin/vardict/
-
-ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
-CMD ["help"]
