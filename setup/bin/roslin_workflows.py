@@ -23,10 +23,10 @@ def get_varriant_workflow_outputs(output_config, workflow_output_path):
 class VariantWorkflow(SingleCWLWorkflow):
 
 	def configure(self):
-		super().configure('VariantWorkflow','workflows','project-workflow.cwl',[],[])
+		super().configure('VariantWorkflow','','project-workflow.cwl',[],[])
 
 	def configure_sv(self):
-		super().configure('VariantWorkflowSV','workflows','project-workflow-sv.cwl',[],[])
+		super().configure('VariantWorkflowSV','','project-workflow-sv.cwl',[],[])
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
