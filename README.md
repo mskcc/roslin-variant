@@ -25,7 +25,7 @@ git checkout 2.5.x
 
 ```
 git submodule init
-git submodule update
+git submodule update --init --recursive
 ```
 
 #### Configure
