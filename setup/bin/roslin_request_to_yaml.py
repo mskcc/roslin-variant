@@ -139,7 +139,7 @@ def parse_grouping_file(gfile):
 
 
 def parse_request_file(rfile):
-    request_info = {'Assay': None,'ProjectID': None,'ProjectTitle': None,'ProjectDesc': None,'PI': None, 'TumorType': None, 'PI_E-mail': None}
+    request_info = {'Assay': None,'ProjectID': None,'ProjectTitle': None,'ProjectDesc': None,'PI:': None, 'TumorType': None, 'PI_E-mail': None}
 
     with open(rfile, "r") as stream:
         while True:
@@ -535,9 +535,9 @@ if __name__ == "__main__":
         "num_threads": 10,
         "tmp_dir": temp_dir,
         "project_prefix": project_id,
-        "assay": str(REQUEST_FILES['Assay']),
-        "pi": str(REQUEST_FILES['PI']),
-        "pi_email": str(REQUEST_FILES['PI_E-mail']),
+        "assay": str(assay),
+        "pi": str(request_info['PI']),
+        "pi_email": str(request_info['PI_E-mail']),
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
         "facets_cval": facets_cval,
