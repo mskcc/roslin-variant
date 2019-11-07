@@ -536,7 +536,7 @@ if __name__ == "__main__":
         "tmp_dir": temp_dir,
         "project_prefix": project_id,
         "assay": str(assay),
-        "pi": str(request_info['PI']),
+        "pi": str(request_info['PI:']),
         "pi_email": str(request_info['PI_E-mail']),
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
