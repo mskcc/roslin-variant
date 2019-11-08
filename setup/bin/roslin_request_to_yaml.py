@@ -139,7 +139,7 @@ def parse_grouping_file(gfile):
 
 
 def parse_request_file(rfile):
-    request_info = {'Assay': None,'ProjectID': None,'ProjectTitle': None,'ProjectDesc': None,'PI': None, 'TumorType': None}
+    request_info = {'Assay': None,'ProjectID': None,'ProjectTitle': None,'ProjectDesc': None,'PI:': None, 'TumorType': None, 'PI_E-mail': None}
 
     with open(rfile, "r") as stream:
         while True:
@@ -349,6 +349,26 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
 
     return sample_dict
 
+def add_grouping_info_for_samples(sample_dict,grouping_dict):
+    sample_to_group_dict = {}
+
+    for single_group in grouping_dict:
+        for single_group_sample in grouping_dict[single_group]:
+            if single_group_sample in sample_to_group_dict:
+                print >>sys.stderr, "ERROR: sample %s is in multiple groups" % single_group_sample
+                sys.exit(1)
+            else:
+                sample_to_group_dict[single_group_sample] = single_group
+
+    for single_sample in sample_dict:
+        if single_sample not in sample_to_group_dict:
+            print >>sys.stderr, "ERROR: sample %s is not in groups" % single_sample
+            sys.exit(1)
+        else:
+            sample_dict[single_sample]['group'] = str(single_group)
+    return sample_dict
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="convert current project files to yaml input")
     parser.add_argument("-m", "--mapping", help="the mapping file", required=True)
@@ -478,6 +498,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     sample_dict = create_yaml_entries_for_samples(samples_reg, samples_dmp, samples_pdx)
+    sample_dict = add_grouping_info_for_samples(sample_dict,grouping_dict)
 
     for pair in pairing_dict:
         first_pair_id = pair[0]
@@ -514,6 +535,9 @@ if __name__ == "__main__":
         "num_threads": 10,
         "tmp_dir": temp_dir,
         "project_prefix": project_id,
+        "assay": str(assay),
+        "pi": str(request_info['PI:']),
+        "pi_email": str(request_info['PI_E-mail']),
         "opt_dup_pix_dist": "2500",
         "delly_type": delly_type,
         "facets_cval": facets_cval,
