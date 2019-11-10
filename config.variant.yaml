@@ -1,5 +1,5 @@
 name: variant
-root: /juno/work/ci/roslin-pipelines/
+root: /vagrant/roslin-pipelines/
 version: 2.6.0
 description: Roslin Variant Pipeline v2.6.0
 binding:
@@ -8,15 +8,13 @@ binding:
   output: outputs
   workspace: workspace
   extra:
-    - /scratch
-    - /fscratch
-    - /ifs
+    - /tmp
     - /srv
-    - /juno
+    - /vagrant
 env:
-  TOIL_LSF_ARGS: '-S 1 -sla CMOPI -W 168:00'
-  TMPDIR: '/fscratch'
-  TMP: '/fscratch'
+  TOIL_LSF_ARGS: '-S 1 -W 168:00'
+  TMPDIR: /tmp
+  TMP: /tmp
 dependencies:
   core:
     version:
@@ -26,27 +24,27 @@ dependencies:
     version: 1.9.13
     source: github:https://github.com/mskcc/cmo
   singularity:
-    version: 3.3.0
-    source: path:/opt/local/singularity/3.3.0/bin/singularity
+    version: 3.4.1
+    source: path:/usr/bin/singularity
   toil:
     version: 3.19.0
     source: github:https://github.com/mskcc/toil
 test:
-  root: /juno/work/ci/roslin-test/
-  data_path: /juno/work/pi/nikhil/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
+  root: /vagrant/roslin-test/
+  data_path: /vagrant/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
   data_url: https://s3.us-east-2.amazonaws.com/roslindata/roslin_variant_version_2.5.0_test_data.tar.gz
-  batchsystem: LSF
-  cwlBatchsystem: LSF
+  batchsystem: singleMachine
+  cwlBatchsystem: singleMachine
   useDocker: False
   dockerRegistry: None
-  tempDir: /scratch
-  runArgs: '--test-mode --on-success /juno/work/pi/nikhil/roslin-internal-services/roslin-done.py --on-fail /juno/work/pi/nikhil/roslin-internal-services/roslin-fail.py'
+  tempDir: /tmp
+  runArgs: '--test-mode'
   env:
-    TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
+    TOIL_LSF_ARGS: '-S 1'
 build:
   buildDocker: False
   buildSingularity: True
-  buildCache: /juno/work/pi/nikhil/build-cache
+  buildCache: /vagrant/build-cache
   dockerRegistry: 'mskcc'
   dockerPush: False
   useVagrant: False
