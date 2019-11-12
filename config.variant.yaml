@@ -1,5 +1,5 @@
 name: variant
-root: /vagrant/roslin-pipelines/
+root: /home/vagrant/roslin-pipelines
 version: 2.6.0
 description: Roslin Variant Pipeline v2.6.0
 binding:
@@ -10,7 +10,6 @@ binding:
   extra:
     - /tmp
     - /srv
-    - /vagrant
 env:
   TOIL_LSF_ARGS: '-S 1 -W 168:00'
   TMPDIR: /tmp
@@ -30,8 +29,8 @@ dependencies:
     version: 3.19.0
     source: github:https://github.com/mskcc/toil
 test:
-  root: /vagrant/roslin-test/
-  data_path: /vagrant/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
+  root: /home/vagrant/roslin-test
+  data_path: /home/vagrant/roslin-test/roslin_variant_version_2.5.0_test_data.tar.gz
   data_url: https://s3.us-east-2.amazonaws.com/roslindata/roslin_variant_version_2.5.0_test_data.tar.gz
   batchsystem: singleMachine
   cwlBatchsystem: singleMachine
@@ -44,7 +43,7 @@ test:
 build:
   buildDocker: False
   buildSingularity: True
-  buildCache: /vagrant/build-cache
+  buildCache: /tmp/build-cache
   dockerRegistry: 'mskcc'
   dockerPush: False
   useVagrant: False
