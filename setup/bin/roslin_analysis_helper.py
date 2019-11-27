@@ -106,6 +106,8 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
         with open(roslin_resources_path) as roslin_resources_file:
             roslin_resources_data = json.load(roslin_resources_file)
             targets = roslin_resources_data['targets']
+            if 'impact' not in assay.lower() or 'hemepact' not in assay.lower():
+                assay = 'IMPACT468' #coerce impact468 if it is an exome
             if assay not in targets:
                 assay = assay_matcher(assay)
             interval_list = targets[assay]['targets_list']
@@ -191,7 +193,7 @@ def generate_study_meta(portal_config_data,pipeline_version_str):
     study_meta_data = {}
     study_meta_data['type_of_cancer'] = portal_config_data['TumorType'].lower()
     study_meta_data['cancer_study_identifier'] = portal_config_data['stable_id']
-    study_meta_data['name'] = portal_config_data['ProjectTitle'] + ' (' + portal_config_data['ProjectID'] + ') [' + pipeline_version_str + ', ' + str(date.today()) + ']'
+    study_meta_data['name'] = portal_config_data['ProjectTitle']# + ' (' + portal_config_data['ProjectID'] + ') [' + pipeline_version_str + ', ' + str(date.today()) + ']'
     study_meta_data['short_name'] =  portal_config_data['ProjectID']
     study_meta_data['description'] = portal_config_data['ProjectDesc'].replace('\n', '')
     study_meta_data['groups'] = 'PRISM;COMPONC;VIALEA' # These groups can access everything
@@ -611,20 +613,20 @@ if __name__ == '__main__':
     logger.info('Writing meta files')
 
     with open(study_meta_path,'w') as study_meta_path_file:
-        yaml.dump(study_meta,study_meta_path_file,default_flow_style=False,width=float("inf"))
+        yaml.safe_dump(study_meta,study_meta_path_file,default_flow_style=False,width=float("inf"))
 
     with open(mutation_meta_path,'w') as mutation_meta_path_file:
-        yaml.dump(mutation_meta,mutation_meta_path_file,default_flow_style=False,width=float("inf"))
+        yaml.safe_dump(mutation_meta,mutation_meta_path_file,default_flow_style=False,width=float("inf"))
 
     if clinical_data:
         create_meta_clinical_files_new_format("SAMPLE_ATTRIBUTES", clinical_meta_samples_path, clinical_data_samples_file, stable_id)
         create_meta_clinical_files_new_format("PATIENT_ATTRIBUTES", clinical_meta_patients_path, clinical_data_patients_file, stable_id)
 
     with open(discrete_copy_number_meta_path,'w') as discrete_copy_number_meta_path_file:
-        yaml.dump(discrete_copy_number_meta,discrete_copy_number_meta_path_file,default_flow_style=False,width=float("inf"))
+        yaml.safe_dump(discrete_copy_number_meta,discrete_copy_number_meta_path_file,default_flow_style=False,width=float("inf"))
 
     with open(segmented_data_meta_path,'w') as segmented_data_meta_path_file:
-        yaml.dump(segmented_data_meta,segmented_data_meta_path_file,default_flow_style=False,width=float("inf"))
+        yaml.safe_dump(segmented_data_meta,segmented_data_meta_path_file,default_flow_style=False,width=float("inf"))
 
     if project_is_impact:
         fusion_meta = generate_fusion_meta(portal_config_data,fusion_file_name)
@@ -634,4 +636,4 @@ if __name__ == '__main__':
         fusion_meta_path = os.path.join(portal_dir,fusion_meta_file)
         logger.info('Writing fusion meta file')
         with open(fusion_meta_path,'w') as fusion_meta_path_file:
-            yaml.dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))
+            yaml.safe_dump(fusion_meta,fusion_meta_path_file,default_flow_style=False,width=float("inf"))

@@ -157,10 +157,11 @@ def get_curated_bams(assay,REQUEST_FILES):
     # Default to AgilentExon_51MB_b37_v3 BAMs for all assays except those specified below
     json_curated_bams = REQUEST_FILES['curated_bams']['AgilentExon_51MB_b37_v3']
     # Default to IMPACT468_b37 BAMs for all IMPACT/HemePACT assays
-    if assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
-        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
-    elif assay.find("IDT_Exome_v1_FP") > -1:
+    if assay.find("IDT_Exome") > -1:
         json_curated_bams = REQUEST_FILES['curated_bams']['IDT_Exome_v1_FP_b37']
+    elif assay.find("IMPACT") > -1 or assay.find("HemePACT") > -1:
+        json_curated_bams = REQUEST_FILES['curated_bams']['IMPACT468_b37']
+
     array = []
     for bam in json_curated_bams:
         array.append({'class': 'File', 'path': str(bam)})
@@ -177,12 +178,12 @@ def get_baits_and_targets(assay, ROSLIN_RESOURCES, pdx_genome):
         assay = "IMPACT468_b37"
     if assay.find("IMPACT341") > -1:
         assay = "IMPACT341_b37"
-    if assay.find("IDT_Exome_v1_FP") > -1:
-        assay = "IDT_Exome_v1_FP_b37"
     if assay.find("IMPACT468+08390") > -1:
         assay = "IMPACT468_08390"
     if assay.find("IMPACT468+Poirier_RB1_intron_V2") > -1:
         assay = "IMPACT468_08050"
+    if assay.find("IDT_Exome") > -1:
+        assay = "IDT_Exome_v1_FP_b37"
     #if pdx_genome: # kind of hacky
     #    assay = "IMPACT468_b37_mm10"
 
