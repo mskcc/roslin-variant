@@ -1,70 +1,52 @@
 # Roslin-variant
 
-> Roslin-variant is a reproducible and reusable workflow for Cancer Genomic Sequencing Analysis
+Roslin-variant is a reproducible and reusable workflow for Cancer Genomic Sequencing Analysis
 
 ## Prerequisites
 
-To run the pipeline you need:
+To build, deploy, and use Roslin, you will need:
 
-- Python 2.7.x ( with virtualenv )
-- [Singularity 3.1.1+](https://github.com/sylabs/singularity/releases/tag/v3.1.1)
+- [Python 2.7.10+](https://gist.github.com/ckandoth/f25c7469f23e63e34bee346fcb10ec29) (with virtualenv)
+- [Singularity 3.3.0+](https://sylabs.io/guides/3.0/user-guide/installation.html#distribution-packages-of-singularity)
+- [MongoDB 3.0.15+](https://docs.openstack.org/project-install-guide/meter/newton/database/environment-nosql-database-rdo.html)
+
+Most testing of Roslin has been done with the specific versions above on hosts running CentOS 7.6. If you run into problems, search through [the issues](../../issues) for related solutions. If you cannot solve the problem without our help, then please create a [new issue](../../issues/new) with detailed information on how to reproduce your problem.
 
 ## Installation
 
-#### Download
-
-###### Clone the repo and checkout
-
+Clone the repo, switch to the current branch, init and update submodules:
 ```
-git clone https://github.com/mskcc/roslin-variant.git
+git clone --branch 2.6.x --recurse-submodules https://github.com/mskcc/roslin-variant.git
+```
+
+Enter the repo and edit the configuration files as appropriate for your host/environment. At minimum, enter your MongoDB admin user/password in `core/config.core.yaml`:
+```
 cd roslin-variant
-git checkout 2.5.x
+vi core/config.core.yaml
+vi config.variant.yaml
 ```
 
-###### Update the core
-
+Users of the Juno cluster at MSKCC, can simply copy [sample-juno-config.yaml](sample-juno-config.yaml) instead:
 ```
-git submodule init
-git submodule update
+cp sample-juno-config.yaml config.variant.yaml
 ```
 
-#### Configure
+1. Add the root with the path where you want to install the pipeline
+2. Modify `TOIL_LSF_ARGS` within both root and test env's as appropriate
 
-##### Configure the core
+You can use `TOIL_LSF_ARGS` to run all your jobs under a SLA or increase walltime. For example:
+```
+TOIL_LSF_ARGS: '-sla jvSC -W 168:00'
+```
 
-You would need to edit the core config file located in: `core/config.core.yaml`
-
-Here is a table containing the description of important keys for the core config.
+Here is a table containing the description of important keys in `core/config.core.yaml`:
 
 | Key       | Description       |
 | :------------- |:-------------|
 | root      | The path to install roslin core, or an existing installation of roslin core |
 | mongo      | All the information needed to connect to the mongo database |
 
-##### Configure the pipeline
-
-###### For MSKCC users on the the Juno cluster:
-
-Use the example config: [sample-juno-config.yaml](sample-juno-config.yaml)
-
-```
-cp sample-juno-config.yaml config.variant.yaml
-```
-
-1. Add the root with the path where you want tot install the pipeline
-2. Modify TOIL_LSF_ARGS within both root and test env's
-
-You can used TOIL_LSF_ARGS to run your jobs under a SLA. For example:
-
-```
-TOIL_LSF_ARGS: '-S 1 -sla CMOPI'
-```
-
-###### For other users:
-
-You would need to edit the pipeline config file located in: `config.variant.yaml`
-
-Here is a table containing the description of important keys for the variant config.
+Here is a table containing the description of important keys in `config.variant.yaml`:
 
 | Key       | Description       |
 | :------------- |:-------------|
@@ -76,7 +58,7 @@ Here is a table containing the description of important keys for the variant con
 | test.tempDir     | Path to test tempdir |
 | test.runArgs     | Path to test run arguments |
 
-Here is a table describing how to use the `source` field for dependencies
+Here is how to use the `source` key under `dependencies` in `config.variant.yaml`:
 
 | Type       | Example       | Description |  Dependency Supported |
 | :------------- |:-------------| :-------------| :-------------|
@@ -84,16 +66,12 @@ Here is a table describing how to use the `source` field for dependencies
 | module      | module:singularity | Module name with the version key representing the module version | singularity
 | github      | github:https://github.com/dataBiosphere/toil | Github repo with the version key representing the branch/tag | toil, cmo
 
-#### Install
-
-For installation, you would need to have Internet access
-
+For installation, simply run this script. Make sure it has internet access:
 ```
 ./build-pipeline.sh
 ```
 
 After installation is completed you should see a message like this:
-
 ```
  ______     ______     ______     __         __     __   __
 /\  == \   /\  __ \   /\  ___\   /\ \       /\ \   /\ "-.\ \
@@ -108,44 +86,32 @@ After installation is completed you should see a message like this:
 
 Roslin Pipeline
 
-Your workspace: /juno/work/pi/nikhil/roslin-workspace/variant/2.5.0/workspace/nikhil-3.10
+Your workspace: /home/vagrant/roslin-pipelines/variant/2.6.0/workspace/vagrant-3.10
 
 Add the following line to your .profile or .bashrc if not already added:
 
-source /juno/work/pi/nikhil/roslin-workspace/roslin-core/2.1.0/config/settings.sh
+source /home/vagrant/roslin-core/2.1.2/config/settings.sh
 ```
+
 This message has two important pieces of information:
-1. The settings.sh file that needs to be sourced before running the pipeline
-2. The location of your workspace in the pipeline.
+1. The location of your workspace in the pipeline
+2. The settings.sh file that sets your env to operate the pipeline
 
-Make sure to add the settings.sh to your .bashrc or any startup script
+Make sure to source the `settings.sh` in your `~/.bashrc` or some other appropriate startup dotfile.
 
-#### Run an example
+## Test an example
 
-To run an example you need to load the settings and enter the example directory
-
+Source the `settings.sh`, enter a folder with sample data, and run the bash wrapper around `roslin_request_to_yaml.py` and `roslin_submit.py`:
 ```
 source [your settings.sh file path]
-cd [your workspace path]/examples
-
-```
-
-Now we can run an example workflow
-
-```
-cd SampleWorkflow
+cd [your workspace path]/examples/SampleWorkflow
 ./run-example.sh
 ```
 
-#### User setup
+## Add a user
 
-If another user wants to run your pipeline, they can setup their workspace by running:
-
+If another user wants to run your deployment of Roslin, they can setup their own workspace by running:
 ```
 source [your settings.sh file path]
 roslin_workspace_init.py --name [your pipeline name] --version [your pipeline version]
 ```
-
----
-
-Please report all bugs [ here ](https://github.com/mskcc/roslin-variant/issues)
