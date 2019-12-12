@@ -26,7 +26,10 @@ RUN apk add --update \
     # for compilation
         && apk add build-base musl-dev python py-pip python-dev \
     # install cairo and R package system dependencies
-        && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 \
+        && apk add cairo cairo-dev libxt-dev libxml2-dev font-xfree86-type1 msttcorefonts-installer \
+        # configure the installed fonts
+        && update-ms-fonts \
+        && fc-cache -f \
     # download and install R
         && apk add R R-dev \
     # download and unzip facets, facets-suite, pctGCdata
