@@ -46,3 +46,4 @@ roslin-build-log
 *.sif
 checksum.dat
 setup/examples/roslin_workflows_test.py
+config.variant.yaml

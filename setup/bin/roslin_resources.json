@@ -163,7 +163,7 @@
             "default": "sing.sh delly 0.7.7"
         },
         "facets": {
-            "1.6.2": "sing.sh facets 1.6.2"
+            "1.6.3": "sing.sh facets 1.6.3"
         },
         "gatk": {
             "3.3-0": "sing.sh gatk 3.3-0",
