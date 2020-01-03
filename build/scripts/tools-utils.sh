@@ -1,6 +1,6 @@
 #!/bin/bash
 script_rel_dir=`dirname ${BASH_SOURCE[0]}`
-script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
+script_dir=`python3 -c "import os; print(os.path.abspath('${script_rel_dir}'))"`
 # input example -> bwa:0.7.12
 function get_tool_name {
     echo `echo $1 | awk -F':' '{ print $1 }'`
@@ -19,11 +19,11 @@ function is_tool_available {
         echo "false"
         return 1
     fi
-    echo `python $script_dir/tools_utils.py is_available $tool_name $tool_version`
+    echo `python3 $script_dir/tools_utils.py is_available $tool_name $tool_version`
 }
 
 # this returns comma-separated list of all tools instalalble
 # e.g. samtools:1.3.1,trimgalore:0.4.3
 function get_tools_name_version {
-    echo `python $script_dir/tools_utils.py get_name_version`
+    echo `python3 $script_dir/tools_utils.py get_name_version`
 }

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse, os, sys, yaml, json, re, time, io, csv, shutil, logging
 from subprocess import Popen, PIPE
@@ -565,9 +565,9 @@ if __name__ == '__main__':
         clinical_data_samples_output_path = os.path.join(portal_dir, clinical_data_samples_file)
         clinical_data_patients_output_path = os.path.join(portal_dir, clinical_data_patients_file)
         with open(clinical_data_samples_output_path, 'wb') as out:
-            out.write(data_clinical_sample_txt)
+            out.write(data_clinical_sample_txt.encode())
         with open(clinical_data_patients_output_path, 'wb') as out:
-            out.write(data_clinical_patient_txt)
+            out.write(data_clinical_patient_txt.encode())
         logger.info('Finished generating clinical data, including in the new format')
         logger.info('Removing legacy data_clinical.txt file.')
         sample_list = get_sample_list(clinical_data)

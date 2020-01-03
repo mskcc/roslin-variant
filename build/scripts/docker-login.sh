@@ -3,7 +3,7 @@
 # the following command returns auth token if user is authenticated
 if test -f ~/.docker/config.json
 then
-    is_login=`cat ~/.docker/config.json |  python -c 'import sys, json; print len(json.load(sys.stdin)["auths"])'`
+    is_login=`cat ~/.docker/config.json |  python3 -c 'import sys, json; print(len(json.load(sys.stdin)["auths"]))'`
 else
     is_login="0"
 fi

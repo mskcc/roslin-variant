@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import os
@@ -27,7 +27,7 @@ def read_pipeline_settings(pipeline_name_version):
     proc = subprocess.Popen(command, stdout=subprocess.PIPE)
     source_env = {}
     for line in proc.stdout:
-        (key, _, value) = line.partition("=")
+        (key, _, value) = line.decode().partition("=")
         source_env[key] = value.rstrip()
     proc.communicate()
     return source_env
@@ -228,7 +228,7 @@ def sort_fastqs_into_dict(files):
             m = re.search("(?P<sample>[^_]+)_(?P<barcode>\S+)_(?P<flowcell>\S+)_(?P<lane>\S+)_(?P<set>\d\d\d).(?P<read>R[12]).fastq.gz", base)
         if not m or not (m.group('sample') and m.group('read') and m.group('set')):
             # FIXME LOGGING instead of CRITICAL fail?
-            print >>sys.stderr, "ERROR: Can't find filename parts (Sample/Barcode, R1/2, group) for this fastq: %s" % file
+            print("ERROR: Can't find filename parts (Sample/Barcode, R1/2, group) for this fastq: %s" % file,file=sys.stderr)
             sys.exit(1)
         # fastq file large sample and barcode prefix
         readset = "_".join([m.group('sample') + m.group('lane') + m.group('set')])
@@ -245,8 +245,8 @@ def sort_fastqs_into_dict(files):
                 try:
                     paired_by_sample[read].append(os.path.abspath(sorted[sample][readset][read]))
                 except:
-                    print >>sys.stderr, "cant find %s for %s" % (read, readset)
-                    print >>sys.stderr, "aligning as single end"
+                    print("cant find %s for %s" % (read, readset),file=sys.stderr)
+                    print("aligning as single end",file=sys.stderr)
                     paired_by_sample[read].append(None)
     return paired_by_sample
 
@@ -281,7 +281,7 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
     sample_dict = dict()
 
     if (set(reg) & set(dmp) & set(pdx)):
-        print >>sys.stderr, "ERROR: The same sample cannot be in multiple classes:"
+        print("ERROR: The same sample cannot be in multiple classes:",file=sys.stderr)
         for single_sample_id, single_sample  in list(set(reg) & set(dmp) & set(pdx)):
             error_string_list = [single_sample_id,":"]
             if single_sample in reg:
@@ -291,7 +291,7 @@ def create_yaml_entries_for_samples(reg, dmp, pdx):
             if single_sample in pdx:
                 error_string_list.append("pdx")
             error_string = " ".join(error_string_list)
-            print >>sys.stderr, error_string
+            print(error_string,file=sys.stderr)
         sys.exit(1)
 
     for sample_id, sample in reg.items():
@@ -356,14 +356,14 @@ def add_grouping_info_for_samples(sample_dict,grouping_dict):
     for single_group in grouping_dict:
         for single_group_sample in grouping_dict[single_group]:
             if single_group_sample in sample_to_group_dict:
-                print >>sys.stderr, "ERROR: sample %s is in multiple groups" % single_group_sample
+                print("ERROR: sample %s is in multiple groups" % single_group_sample,file=sys.stderr)
                 sys.exit(1)
             else:
                 sample_to_group_dict[single_group_sample] = single_group
 
     for single_sample in sample_dict:
         if single_sample not in sample_to_group_dict:
-            print >>sys.stderr, "ERROR: sample %s is not in groups" % single_sample
+            print("ERROR: sample %s is not in groups" % single_sample,file=sys.stderr)
             sys.exit(1)
         else:
             sample_dict[single_sample]['group'] = str(single_group)
@@ -385,7 +385,7 @@ if __name__ == "__main__":
     pdx_samples = set()
     if args.clinical:
         if os.path.exists(args.clinical):
-            with open(args.clinical, 'rb') as clinical_data_file:
+            with open(args.clinical, 'r') as clinical_data_file:
                 clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
                 clinical_data = list(clinical_reader)
             for tumor_samp in clinical_data:
@@ -393,7 +393,7 @@ if __name__ == "__main__":
                     pdx_genome = True
             pdx_samples = is_pdx(clinical_data)
         else:
-            print >>sys.stderr, "ERROR: Could not find %s" % args.clinical
+            print("ERROR: Could not find %s" % args.clinical,file=sys.stderr)
     ROSLIN_PATH = pipeline_settings['ROSLIN_PIPELINE_BIN_PATH']
     scripts_bin = "/usr/bin"
     qcpdf_jar_path = os.path.join("/usr/bin", "QCPDF.jar")
@@ -474,28 +474,28 @@ if __name__ == "__main__":
     fail = 0
     list_of_pair_samples = []
 
-    samples_found = set(samples_reg.keys() + samples_pdx.keys() + samples_dmp.keys())
+    samples_found = set(list(samples_reg.keys()) + list(samples_pdx.keys()) + list(samples_dmp.keys()))
 
     for pair in pairing_dict:
         if pair[0] not in samples_found:
-            print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[0])
+            print("pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[0]),file=sys.stderr)
             fail = 1
         if pair[1] not in samples_found:
-            print >>sys.stderr, "pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[1])
+            print("pair %s in pairing file has id not in mapping file: %s" % (str(pair), pair[1]),file=sys.stderr)
             fail = 1
         list_of_pair_samples.append(pair[0])
         list_of_pair_samples.append(pair[1])
-    for group in grouping_dict.values():
+    for group in list(grouping_dict.values()):
         for sample in group:
             if sample not in samples_found:
-                print >>sys.stderr, "grouping file has id %s, but this wasn't found in mapping file" % sample
+                print("grouping file has id %s, but this wasn't found in mapping file" % sample,file=sys.stderr)
                 fail = 1
             if sample not in list_of_pair_samples:
-                print >>sys.stderr, "grouping file has id %s, but this wasn't found in pairing file" % sample
+                print("grouping file has id %s, but this wasn't found in pairing file" % sample,file=sys.stderr)
                 sys.exit(1)
 
     if fail:
-        print >>sys.stderr, "ERROR: Pairing/grouping files have sample IDs not found in mapping file. Please review."
+        print("ERROR: Pairing/grouping files have sample IDs not found in mapping file. Please review.",file=sys.stderr)
         sys.exit(1)
 
     sample_dict = create_yaml_entries_for_samples(samples_reg, samples_dmp, samples_pdx)
@@ -511,7 +511,7 @@ if __name__ == "__main__":
 
     out_dict = {
         "pairs": pair_list,
-        "groups": grouping_dict.values(),
+        "groups": list(grouping_dict.values()),
         "curated_bams": curated_bams,
         "hapmap": {'class': 'File', 'path': str(REQUEST_FILES['hapmap'])},
         "dbsnp": {'class': 'File', 'path': str(REQUEST_FILES['dbsnp'])},
@@ -551,5 +551,8 @@ if __name__ == "__main__":
     out_dict.update({"runparams": params})
     out_dict.update({"meta": request_info})
     if args.clinical:
-        out_dict['meta'].update({"clinical_data": clinical_data})
+        clinical_data_list = []
+        for single_sample in clinical_data:
+            clinical_data_list.append(dict(single_sample))
+        out_dict['meta'].update({"clinical_data": clinical_data_list})
     save_yaml(args.yaml_output_file, out_dict)

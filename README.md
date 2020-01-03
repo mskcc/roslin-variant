@@ -6,7 +6,8 @@ Roslin-variant is a reproducible and reusable workflow for Cancer Genomic Sequen
 
 To build, deploy, and use Roslin, you will need:
 
-- [Python 2.7.10+](https://gist.github.com/ckandoth/f25c7469f23e63e34bee346fcb10ec29) (with virtualenv)
+- [Python 3](https://packages.ubuntu.com/bionic/python3)
+- [Python3-dev](https://packages.ubuntu.com/bionic/python3-dev)
 - [Singularity 3.3.0+](https://sylabs.io/guides/3.0/user-guide/installation.html#distribution-packages-of-singularity)
 - [MongoDB 3.0.15+](https://docs.openstack.org/project-install-guide/meter/newton/database/environment-nosql-database-rdo.html)
 

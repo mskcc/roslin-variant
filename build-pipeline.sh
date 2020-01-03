@@ -29,7 +29,7 @@ EOF
 git submodule update --init --recursive
 parentDir=$(pwd)
 script_dir_relative=`dirname "$0"`
-script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
+script_dir=`python3 -c "import os; print(os.path.abspath('${script_dir_relative}'))"`
 build_script_dir=${script_dir}/build/scripts
 if [ -d "$script_dir/setup/cwl" ]
 then
@@ -118,13 +118,14 @@ then
     echo "Overwriting virtualenv"
     rm -r build-venv
 fi
-virtualenv build-venv
 source build-venv/bin/activate
-pip install --requirement build/build_requirements.txt
+python3 -m venv build-venv
+pip3 install wheel
+pip3 install --requirement build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
-python $build_script_dir/configure.py config.variant.yaml
+python3 $build_script_dir/configure.py config.variant.yaml
 # load settings
 source setup/config/settings.sh
 source setup/config/build-settings.sh
@@ -132,7 +133,7 @@ source setup/config/build-settings.sh
 source build-venv/bin/activate
 
 cd core
-python configure.py config.core.yaml
+python3 configure.py config.core.yaml
 # load core settings
 source config/settings.sh
 cd ..
@@ -191,8 +192,8 @@ else
     fi
 fi
 
-TempDir=$(python -c "import os; print os.path.abspath('$TempDir')")
-TestDir=$(python -c "import os; print os.path.abspath('$TestDir')")
+TempDir=$(python3 -c "import os; print(os.path.abspath('$TempDir'))")
+TestDir=$(python3 -c "import os; print(os.path.abspath('$TestDir'))")
 
 if compareBool $INSTALL_CORE && [ -d "$coreDir" ]
 then

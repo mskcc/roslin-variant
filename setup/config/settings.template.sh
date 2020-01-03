@@ -49,8 +49,8 @@ export ROSLIN_CMO_INSTALL_PATH="{{ dependencies_cmo_install_path }}"
 export ROSLIN_TOIL_VERSION="{{ dependencies_toil_version }}"
 export ROSLIN_TOIL_INSTALL_PATH="{{ dependencies_toil_install_path }}"
 
-export ROSLIN_CURRENT_USER=`python -c "import getpass; print getpass.getuser()"`
-export ROSLIN_CURRENT_KERNEL=`python -c "import os; print '.'.join(os.uname()[2].split('.')[0:2])"`
+export ROSLIN_CURRENT_USER=`python3 -c "import getpass; print(getpass.getuser())"`
+export ROSLIN_CURRENT_KERNEL=`python3 -c "import os; print('.'.join(os.uname()[2].split('.')[0:2]))"`
 
 export ROSLIN_USER_WORKSPACE_PATH=${ROSLIN_PIPELINE_WORKSPACE_PATH}/${ROSLIN_CURRENT_USER}-${ROSLIN_CURRENT_KERNEL}
 export ROSLIN_PIPELINE_RESOURCE_PATH=${ROSLIN_USER_WORKSPACE_PATH}/resources
@@ -75,10 +75,11 @@ then
 				${ROSLIN_PIPELINE_DATA_PATH}/build-node.sh
 
 				# setup virtualenv
-				virtualenv virtualenv
-				source virtualenv/bin/activate
+				python3 -m venv virtualenv
+				. virtualenv/bin/activate
 				export PATH=${ROSLIN_PIPELINE_RESOURCE_PATH}/virtualenv/bin/:$PATH
-				pip install --requirement ${ROSLIN_PIPELINE_DATA_PATH}/run_requirements.txt
+				pip3 install wheel
+				pip3 install --requirement ${ROSLIN_PIPELINE_DATA_PATH}/run_requirements.txt
 
 				# install toil
 				if [ -x "$(command -v unsetopt)" ]
@@ -88,6 +89,7 @@ then
 
 				{{ toil_install }}
 
+				cd $ROSLIN_PIPELINE_RESOURCE_PATH
 				# create test files
 				roslin_create_test_files.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 				cd $CURRENT_DIR

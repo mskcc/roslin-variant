@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 script_rel_dir=`dirname ${BASH_SOURCE[0]}`
-script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
+script_dir=`python3 -c "import os; print(os.path.abspath('${script_rel_dir}'))"`
 
 # load build-related settings
 source $script_dir/settings-build.sh
@@ -179,7 +179,7 @@ do
         cache_path=${BUILD_CACHE}/${tool_name}/${tool_version}/${tool_name}.sif
         mkdir -p $image_tmp
         # retrieve labels from docker image and save to labels.json
-        python $script_dir/docker-inspect.py --docker_image $docker_image_name --output $image_tmp
+        python3 $script_dir/docker-inspect.py --docker_image $docker_image_name --output $image_tmp
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/runscript.sh >> ${image_tmp}/checksum.dat
         md5sum ${CONTAINER_DIRECTORY}/${tool_name}/${tool_version}/run_test.sh >> ${image_tmp}/checksum.dat
         cat ${image_tmp}/checksum.dat | awk -F" " '{print $1}' > ${image_tmp}/checksum.dat

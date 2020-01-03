@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys, os, csv, re, requests
 
@@ -15,7 +15,7 @@ with open(os.path.join(os.path.dirname(sys.argv[0]), 'known_fusions_at_mskcc.txt
         dmp_fusion[pair] = 1
 
 with open(input_file,'rb') as infile:
-    header = infile.readline().strip('\r\n').split('\t')
+    header = infile.readline().decode().strip('\r\n').split('\t')
     gene_position = header.index('Hugo_Symbol')
     Entrez_Gene_Id_position = header.index('Entrez_Gene_Id')
     Fusion_position = header.index('Fusion')
@@ -33,7 +33,7 @@ with open(input_file,'rb') as infile:
 
 with open(output_file,'wb') as outfile:
     header_line = '\t'.join(header) + '\n'
-    outfile.write(header_line)
+    outfile.write(header_line.encode())
     for line in fixed_file_content:
         fusion = line[Fusion_position]
         if fusion in list_of_fusions_to_remove:

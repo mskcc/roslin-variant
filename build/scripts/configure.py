@@ -1,7 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os, sys
-import ruamel.yaml
+import yaml
 from jinja2 import Template
 import copy
 from subprocess import PIPE, Popen
@@ -23,11 +23,11 @@ def check_if_module_exists(module_name):
         errorcode = 1
         output = None
     if errorcode != 0:
-        print "Error module " + str(module_name) + " could not be loaded.\n"
+        print("Error module " + str(module_name) + " could not be loaded.\n")
         if output:
-            print "---------- output ----------\n" + str(output)
+            print("---------- output ----------\n" + str(output))
         if error:
-            print "---------- error ----------\n" + str(error)
+            print("---------- error ----------\n" + str(error))
         exit(1)
 
 def check_if_url_exists(url):
@@ -39,20 +39,20 @@ def check_if_url_exists(url):
     except:
         error = traceback.format_exc()
     if error:
-        print error
+        print(error)
         exit(1)
 
 def load_or_install_dependency(name, version, source_str):
     source_list = source_str.split(":",1)
     if len(source_list) == 1:
-        print "Error: Could not parse " + str(source_str) + "\nPlease use the format source_type:source\nFor example: github:https://github.com/dataBiosphere/toil\nAvailable types: path, module, or github"
+        print("Error: Could not parse " + str(source_str) + "\nPlease use the format source_type:source\nFor example: github:https://github.com/dataBiosphere/toil\nAvailable types: path, module, or github")
     source_type = source_list[0].lower()
     source_value = source_list[1]
     dependency_cmd = ''
 
     if source_type == 'path':
         if not os.path.exists(source_value):
-            print "Error: Could not find " + str(source_value)
+            print("Error: Could not find " + str(source_value))
             exit(1)
         else:
             if name == 'singularity':
@@ -61,20 +61,20 @@ def load_or_install_dependency(name, version, source_str):
                 dependency_cmd = 'cp -r {} $ROSLIN_PIPELINE_RESOURCE_PATH/{}'.format(str(source_value),str(name))
     elif source_type == 'module':
         if name != 'singularity':
-            print "Error: Module source type is not supported for " + str(name)
+            print("Error: Module source type is not supported for " + str(name))
             exit(1)
         module_name = "{}/{}".format(str(source_value),str(version))
         check_if_module_exists(module_name)
         dependency_cmd = "module load {}\nexport ROSLIN_SINGULARITY_PATH=`which {}`".format(str(module_name),str(name))
     elif source_type == 'github':
         if name == 'singularity':
-            print "Error: Github source type not supported for singularity"
+            print("Error: Github source type not supported for singularity")
             exit(1)
         else:
             dependency_cmd = 'cd $ROSLIN_PIPELINE_RESOURCE_PATH\n'
             dependency_cmd = dependency_cmd + "\ngit clone -b {} {} {}".format(str(version),str(source_value),str(name))
     else:
-        print "Error: Source type: " + str(source_type) + " not supported. Available types: path, module, or github"
+        print("Error: Source type: " + str(source_type) + " not supported. Available types: path, module, or github")
         exit(1)
     if name != 'singularity':
         dependency_cmd = dependency_cmd + "\ncd $ROSLIN_PIPELINE_RESOURCE_PATH/{}".format(str(name))
@@ -97,7 +97,7 @@ def write_to_disk(filename, content):
     with open(template_path, 'w') as file_out:
         file_out.write(content)
 
-    print "Modified: {}".format(filename)
+    print("Modified: {}".format(filename))
 
 
 def get_template(filename):
@@ -215,13 +215,10 @@ def main():
     "main function"
 
     if len(sys.argv) < 2:
-        print "USAGE: config.py configuration_file.yaml"
+        print("USAGE: config.py configuration_file.yaml")
         exit()
 
-    settings = ruamel.yaml.load(
-        read_from_disk(sys.argv[1]),
-        ruamel.yaml.RoundTripLoader
-    )
+    settings = yaml.safe_load(read_from_disk(sys.argv[1]))
 
     filtered_binding_point_list = get_deduplicated_binding_points(settings)
 

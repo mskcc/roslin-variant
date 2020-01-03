@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys, os, csv, re
 
@@ -17,10 +17,10 @@ analyst_header = ''
 portal_header = ''
 
 with open(input_file,'rb') as input_maf:
-    header = input_maf.readline().strip('\r\n').split('\t')
+    header = input_maf.readline().decode().strip('\r\n').split('\t')
     # Skip all comment lines, and assume that the first line after them is the header
     while header[0].startswith("#"):
-        header = input_maf.readline().strip('\r\n').split('\t')
+        header = input_maf.readline().decode().strip('\r\n').split('\t')
     # The analyst MAF needs all the same columns as the input MAF (from vcf2maf, ngs-filters, etc.)
     analyst_header = '\t'.join(header) + '\n'
     # The portal MAF can be minimized since Genome Nexus re-annotates it when HGVSp_Short column is missing
@@ -108,26 +108,26 @@ with open(input_file,'rb') as input_maf:
 # Keep fillout lines (Mutation_Status==None) in portal/data_mutations_extended.txt
 # write into analysis files
 with open(analyst_file,'wb') as analyst_maf:
-    analyst_maf.write(roslin_version_line)
-    analyst_maf.write(analyst_header)
+    analyst_maf.write(roslin_version_line.encode())
+    analyst_maf.write(analyst_header.encode())
     for key, values in dict_analyst_kept.items():
         # write events first
         for value in values:
-            analyst_maf.write(value + '\n')
+            analyst_maf.write(value.encode() + '\n')
 
 # write into portal file
 with open(portal_file,'wb') as portal_maf:
-    portal_maf.write(roslin_version_line)
-    portal_maf.write(portal_header)
+    portal_maf.write(roslin_version_line.encode())
+    portal_maf.write(portal_header.encode())
     for key, values in dict_portal_kept.items():
         # write events first
         for value in values:
-            portal_maf.write(value + '\n')
+            portal_maf.write(value.encode() + '\n')
         # write fillout if available
         if key in dict_fillout:
             for fillout in dict_fillout[key]:
                 portal_fillout = fillout.split('\t')
-                portal_maf.write('\t'.join(portal_fillout[0:45]) + '\n')
+                portal_maf.write('\t'.join(portal_fillout[0:45]).encode() + '\n')
 
 # The concatenated MAF can be enormous, so cleanup after
 os.remove(input_file)
