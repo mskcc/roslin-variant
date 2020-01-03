@@ -14,7 +14,6 @@ import yaml
 import subprocess
 from collections import defaultdict
 
-
 mapping_headers = ["library_suffix", "sample_id", "run_id", "fastq_directory", "runtype"]
 pairing_headers = ['normal_id', 'tumor_id']
 grouping_headers = ['sample_id', 'group_id']
