@@ -126,31 +126,36 @@ fi
 if [ -s $NVM_DIR/nvm.sh ]
 then
 	echo "Loading Node..."
-	source $NVM_DIR/nvm.sh
+	. $NVM_DIR/nvm.sh
 fi
 
 # Load the virtualenv
 if [ -e $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate ]
 then
 	echo "Loading Virtualenv..."
-	source $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate
+	. $ROSLIN_PIPELINE_RESOURCE_PATH/virtualenv/bin/activate
 fi
 
 # Run environment
 {{ run_env }}
-if [[ $SINGULARITY_BIND == *"$TMPDIR"* && -n "$TMPDIR" ]]
-then
-	mkdir -p $TMPDIR >/dev/null 2>&1 || true
-	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMPDIR"
-	export DOCKER_BIND="$DOCKER_BIND -v $TMPDIR:$TMPDIR"
-fi
-
-if [[ $SINGULARITY_BIND == *"$TMP"* && -n "$TMP" ]]
-then
-	mkdir -p $TMPDIR >/dev/null 2>&1 || true
-	export SINGULARITY_BIND="$SINGULARITY_BIND,$TMP"
-	export DOCKER_BIND="$DOCKER_BIND -v $TMP:$TMP"
-fi
+case "$SINGULARITY_BIND" in
+	*$TMPDIR*)
+		if [ -n "$TMPDIR" ]
+		then
+			mkdir -p $TMPDIR >/dev/null 2>&1 || true
+			export SINGULARITY_BIND="$SINGULARITY_BIND,$TMPDIR"
+			export DOCKER_BIND="$DOCKER_BIND -v $TMPDIR:$TMPDIR"
+		fi
+	;;
+	*$TMP*)
+		if [ -n "$TMP" ]
+		then
+			mkdir -p $TMP >/dev/null 2>&1 || true
+			export SINGULARITY_BIND="$SINGULARITY_BIND,$TMP"
+			export DOCKER_BIND="$DOCKER_BIND -v $TMP:$TMP"
+		fi
+	;;
+esac
 # Load singularity into PATH
 singularity_bin_path=`dirname $ROSLIN_SINGULARITY_PATH`
 export PATH=$singularity_bin_path:$PATH
