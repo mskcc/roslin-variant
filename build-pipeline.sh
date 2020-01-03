@@ -118,8 +118,8 @@ then
     echo "Overwriting virtualenv"
     rm -r build-venv
 fi
-source build-venv/bin/activate
 python3 -m venv build-venv
+. build-venv/bin/activate
 pip3 install wheel
 pip3 install --requirement build/build_requirements.txt
 
@@ -127,15 +127,15 @@ printf "\n----------Starting----------\n"
 # Set the config
 python3 $build_script_dir/configure.py config.variant.yaml
 # load settings
-source setup/config/settings.sh
-source setup/config/build-settings.sh
+. setup/config/settings.sh
+. setup/config/build-settings.sh
 
-source build-venv/bin/activate
+. build-venv/bin/activate
 
 cd core
 python3 configure.py config.core.yaml
 # load core settings
-source config/settings.sh
+. config/settings.sh
 cd ..
 coreDir=$ROSLIN_CORE_PATH
 buildArgs="--t $BUILD_THREADS"
@@ -168,7 +168,7 @@ fi
 
 if [ -n "$TEST_MODE" ]
 then
-    source setup/config/test-settings.sh
+    . setup/config/test-settings.sh
     printf "Starting Build $BUILD_NUMBER\n"
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
     TempDir=test_output/$BUILD_NUMBER
@@ -176,8 +176,8 @@ then
     TestCoreDir=$installDir/roslin-core
     sed -i "s|${ROSLIN_ROOT}|${installDir}|g" setup/config/settings.sh
     sed -i "s|${ROSLIN_CORE_ROOT}|${TestCoreDir}|g" core/config/settings.sh
-    source setup/config/settings.sh
-    source core/config/settings.sh
+    . setup/config/settings.sh
+    . core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
     buildArgs="$buildArgs --d"
 else
@@ -279,6 +279,6 @@ printf "\n----------Setting up----------\n"
 deactivate
 cp $script_dir/build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
 cp $script_dir/build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
-source $ROSLIN_CORE_CONFIG_PATH/settings.sh
+. $ROSLIN_CORE_CONFIG_PATH/settings.sh
 roslin_workspace_init.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 cd $parentDir
