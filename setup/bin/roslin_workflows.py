@@ -9,7 +9,6 @@ sys.path.append(ROSLIN_CORE_BIN_PATH)
 from track_utils import log, RoslinWorkflow, SingleCWLWorkflow
 from core_utils  import run_command_realtime, add_record_argument
 import copy
-import dill
 import glob
 
 def get_varriant_workflow_outputs(output_config, workflow_output_path):
@@ -68,7 +67,6 @@ class SampleWorkflow(SingleCWLWorkflow):
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
 		params = self.params
 		requirements = params['requirements']
-		logger = dill.loads(params['logger'])
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		sample_input = self.input_sample_or_pair(["sample","pair","pairs"],job_params,roslin_yaml)
 		dependency_input['sample'] = sample_input
@@ -178,7 +176,6 @@ class PairWorkflow(SingleCWLWorkflow):
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
 		params = self.params
 		requirements = params['requirements']
-		logger = dill.loads(params['logger'])
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		pair_input = self.input_sample_or_pair([None,"pair","pairs"],job_params,roslin_yaml)
 		dependency_input = copy.deepcopy(roslin_yaml)
