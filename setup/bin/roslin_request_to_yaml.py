@@ -172,26 +172,26 @@ def get_baits_and_targets(assay, ROSLIN_RESOURCES, pdx_genome):
     # probably need similar rules for whatever "Exome" string is in rquest
     targets = ROSLIN_RESOURCES['targets']
 
-    if assay.find("IMPACT410") > -1:
-        assay = "IMPACT410_b37"
-    if assay.find("IMPACT468") > -1:
-        assay = "IMPACT468_b37"
-    if assay.find("IMPACT341") > -1:
-        assay = "IMPACT341_b37"
-    if assay.find("IMPACT468+08390") > -1:
-        assay = "IMPACT468_08390"
-    if assay.find("IMPACT468+Poirier_RB1_intron_V2") > -1:
-        assay = "IMPACT468_08050"
-    if assay.find("IDT_Exome") > -1:
-        assay = "IDT_Exome_v1_FP_b37"
-    #if pdx_genome: # kind of hacky
-    #    assay = "IMPACT468_b37_mm10"
+    target_assay = ""
 
-    if assay in targets:
-        return {"bait_intervals": {"class": "File", "path": str(targets[assay]['baits_list'])},
-                "target_intervals": {"class": "File", "path": str(targets[assay]['targets_list'])},
-                "fp_intervals": {"class": "File", "path": str(targets[assay]['FP_intervals'])},
-                "fp_genotypes": {"class": "File", "path": str(targets[assay]['FP_genotypes'])}
+    if assay.find("IMPACT410") > -1:
+        target_assay = "IMPACT410_b37"
+    if assay.find("IMPACT468") > -1:
+        target_assay = "IMPACT468_b37"
+    if assay.find("IMPACT341") > -1:
+        target_assay = "IMPACT341_b37"
+    if assay.find("IDT_Exome_v1_FP") > -1:
+        target_assay = "IDT_Exome_v1_FP_b37"
+    if assay.find("IMPACT468+08390") > -1:
+        target_assay = "IMPACT468_08390"
+    if assay.find("IMPACT468+Poirier_RB1_intron_V2") > -1:
+        target_assay = "IMPACT468_08050"
+
+    if target_assay in targets:
+        return {"bait_intervals": {"class": "File", 'location': str(targets[target_assay]['baits_list'])},
+                "target_intervals": {"class": "File", 'location': str(targets[target_assay]['targets_list'])},
+                "fp_intervals": {"class": "File", 'location': str(targets[target_assay]['FP_intervals'])},
+                "fp_genotypes": {"class": "File", 'location': str(targets[target_assay]['FP_genotypes'])}
     }
     else:
         print >>sys.stderr, "ERROR: Targets for Assay not found in roslin_resources.json: %s" % assay
