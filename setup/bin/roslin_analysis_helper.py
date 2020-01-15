@@ -112,8 +112,9 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
                 assay = assay_matcher(assay)
             interval_list = targets[assay]['targets_list']
             extra_arg = '--targetFile '+ interval_list
+    os.environ['SINGULARITY_CACHEDIR'] = os.path.join(os.environ["ROSLIN_PIPELINE_BIN_PATH"],'img')
     cna_command_list = []
-    cna_command_list.append('tool.sh --tool facets --version 1.6.3 --language_version default --language python --cmd geneLevel ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m -o ' + output_path)
+    cna_command_list.append('singularity run docker://mskcc/roslin-variant-facets:1.6.3 /usr/bin/facets-suite/geneLevel.R ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m -o ' + output_path)
     cna_command_list.append('mv ' + output_path + ' ' + gene_cna_file)
     cna_command_list.append('mv ' + scna_output_path + ' ' + output_path)
     run_command_list(cna_command_list,'generate_discrete_copy_number')
