@@ -281,7 +281,7 @@ def check_if_impact(assay):
     return is_impact
 
 def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id):
-    with open(filepath, 'wb') as output_file:
+    with open(filepath, 'w') as output_file:
         output_file.write('cancer_study_identifier: %s\n' % study_id)
         output_file.write('genetic_alteration_type: CLINICAL\n')
         output_file.write('datatype: %s\n' % datatype)
@@ -481,7 +481,7 @@ if __name__ == '__main__':
     clinical_data = None
 
     if args.clinical_data:
-        with open(args.clinical_data, 'rb') as clinical_data_file:
+        with open(args.clinical_data, 'r') as clinical_data_file:
             clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
             clinical_data = list(clinical_reader)
     else:
@@ -564,10 +564,10 @@ if __name__ == '__main__':
         data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(legacy_clinical_data)
         clinical_data_samples_output_path = os.path.join(portal_dir, clinical_data_samples_file)
         clinical_data_patients_output_path = os.path.join(portal_dir, clinical_data_patients_file)
-        with open(clinical_data_samples_output_path, 'wb') as out:
-            out.write(data_clinical_sample_txt.encode())
-        with open(clinical_data_patients_output_path, 'wb') as out:
-            out.write(data_clinical_patient_txt.encode())
+        with open(clinical_data_samples_output_path, 'w') as out:
+            out.write(data_clinical_sample_txt)
+        with open(clinical_data_patients_output_path, 'w') as out:
+            out.write(data_clinical_patient_txt)
         logger.info('Finished generating clinical data, including in the new format')
         logger.info('Removing legacy data_clinical.txt file.')
         sample_list = get_sample_list(clinical_data)
