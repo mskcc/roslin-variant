@@ -9,7 +9,7 @@ To build, deploy, and use Roslin, you will need:
 - [Python 3](https://packages.ubuntu.com/bionic/python3)
 - [Python3-dev](https://packages.ubuntu.com/bionic/python3-dev)
 - [Singularity 3.3.0+](https://sylabs.io/guides/3.0/user-guide/installation.html#distribution-packages-of-singularity)
-- [MongoDB 3.0.15+](https://docs.openstack.org/project-install-guide/meter/newton/database/environment-nosql-database-rdo.html)
+- [MongoDB 3.0.15+](https://docs.openstack.org/project-install-guide/meter/newton/database/environment-nosql-database-rdo.html) (optional)
 
 Most testing of Roslin has been done with the specific versions above on hosts running CentOS 7.6. If you run into problems, search through [the issues](../../issues) for related solutions. If you cannot solve the problem without our help, then please create a [new issue](../../issues/new) with detailed information on how to reproduce your problem.
 
