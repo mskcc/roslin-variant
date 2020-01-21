@@ -104,9 +104,9 @@ then
     exit 1;
 fi
 
-if ! [ -x "$(command -v virtualenv)" ]
+if ! [ -x "$(command -v python3)" ]
 then
-     >&2 echo "Error, virtualenv not installed"
+     >&2 echo "Error, python3 not installed"
      exit 1;
 fi
 
