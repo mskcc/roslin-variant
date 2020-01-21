@@ -13,6 +13,7 @@ source $parentDir/setup/config/test-settings.sh
 rm -f $parentDir/core/config/settings.sh
 rm -f $parentDir/setup/config/settings.sh
 rm -f $parentDir/setup/config/test-settings.sh
+pip install pytest-xdist
 export TMPDIR_TEST=$TMPDIR
 export LOG_TEST=$2
 export PATH=$ROSLIN_CORE_BIN_PATH:$PATH
