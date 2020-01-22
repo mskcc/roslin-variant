@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os, sys
 from builtins import super
 
@@ -7,7 +9,6 @@ sys.path.append(ROSLIN_CORE_BIN_PATH)
 from track_utils import log, RoslinWorkflow, SingleCWLWorkflow
 from core_utils  import run_command_realtime, add_record_argument
 import copy
-import dill
 import glob
 
 def get_varriant_workflow_outputs(output_config, workflow_output_path):
@@ -66,7 +67,6 @@ class SampleWorkflow(SingleCWLWorkflow):
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
 		params = self.params
 		requirements = params['requirements']
-		logger = dill.loads(params['logger'])
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		sample_input = self.input_sample_or_pair(["sample","pair","pairs"],job_params,roslin_yaml)
 		dependency_input['sample'] = sample_input
@@ -176,7 +176,6 @@ class PairWorkflow(SingleCWLWorkflow):
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
 		params = self.params
 		requirements = params['requirements']
-		logger = dill.loads(params['logger'])
 		dependency_input =  copy.deepcopy(roslin_yaml)
 		pair_input = self.input_sample_or_pair([None,"pair","pairs"],job_params,roslin_yaml)
 		dependency_input = copy.deepcopy(roslin_yaml)
@@ -320,7 +319,7 @@ class MafProcessing(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","pairing_file"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
@@ -384,7 +383,7 @@ class StructuralVariants(SingleCWLWorkflow):
 		dependency_input['normal_sample_name'] = dependency_input['pair'][1]['ID']
 		dependency_input['tumor_sample_name'] = dependency_input['pair'][0]['ID']
 		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","tmp_dir","delly_type"])
-		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","pairing_file","delly_exclude"])
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["vep_path","custom_enst","vep_data","hotspot_list","delly_exclude"])
 		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input

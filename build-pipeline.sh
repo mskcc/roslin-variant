@@ -29,7 +29,7 @@ EOF
 git submodule update --init --recursive
 parentDir=$(pwd)
 script_dir_relative=`dirname "$0"`
-script_dir=`python -c "import os; print os.path.abspath('${script_dir_relative}')"`
+script_dir=`python3 -c "import os; print(os.path.abspath('${script_dir_relative}'))"`
 build_script_dir=${script_dir}/build/scripts
 if [ -d "$script_dir/setup/cwl" ]
 then
@@ -104,9 +104,9 @@ then
     exit 1;
 fi
 
-if ! [ -x "$(command -v virtualenv)" ]
+if ! [ -x "$(command -v python3)" ]
 then
-     >&2 echo "Error, virtualenv not installed"
+     >&2 echo "Error, python3 not installed"
      exit 1;
 fi
 
@@ -118,23 +118,24 @@ then
     echo "Overwriting virtualenv"
     rm -r build-venv
 fi
-virtualenv build-venv
-source build-venv/bin/activate
-pip install --requirement build/build_requirements.txt
+python3 -m venv build-venv
+. build-venv/bin/activate
+pip3 install wheel
+pip3 install --requirement build/build_requirements.txt
 
 printf "\n----------Starting----------\n"
 # Set the config
-python $build_script_dir/configure.py config.variant.yaml
+python3 $build_script_dir/configure.py config.variant.yaml
 # load settings
-source setup/config/settings.sh
-source setup/config/build-settings.sh
+. setup/config/settings.sh
+. setup/config/build-settings.sh
 
-source build-venv/bin/activate
+. build-venv/bin/activate
 
 cd core
-python configure.py config.core.yaml
+python3 configure.py config.core.yaml
 # load core settings
-source config/settings.sh
+. config/settings.sh
 cd ..
 coreDir=$ROSLIN_CORE_PATH
 buildArgs="--t $BUILD_THREADS"
@@ -167,7 +168,7 @@ fi
 
 if [ -n "$TEST_MODE" ]
 then
-    source setup/config/test-settings.sh
+    . setup/config/test-settings.sh
     printf "Starting Build $BUILD_NUMBER\n"
     installDir=$ROSLIN_TEST_ROOT/$ROSLIN_PIPELINE_NAME/$BUILD_NUMBER
     TempDir=test_output/$BUILD_NUMBER
@@ -175,8 +176,8 @@ then
     TestCoreDir=$installDir/roslin-core
     sed -i "s|${ROSLIN_ROOT}|${installDir}|g" setup/config/settings.sh
     sed -i "s|${ROSLIN_CORE_ROOT}|${TestCoreDir}|g" core/config/settings.sh
-    source setup/config/settings.sh
-    source core/config/settings.sh
+    . setup/config/settings.sh
+    . core/config/settings.sh
     coreDir=$ROSLIN_CORE_PATH
     buildArgs="$buildArgs --d"
 else
@@ -191,8 +192,8 @@ else
     fi
 fi
 
-TempDir=$(python -c "import os; print os.path.abspath('$TempDir')")
-TestDir=$(python -c "import os; print os.path.abspath('$TestDir')")
+TempDir=$(python3 -c "import os; print(os.path.abspath('$TempDir'))")
+TestDir=$(python3 -c "import os; print(os.path.abspath('$TestDir'))")
 
 if compareBool $INSTALL_CORE && [ -d "$coreDir" ]
 then
@@ -254,19 +255,6 @@ fi
 
 
 cd $parentDir
-
-# Start building the pipeline
-printf "\n----------Building----------\n"
-#if compareBool $USE_VAGRANT
-#then
-#    buildCommand="sudo python /vagrant/build/scripts/build_images_parallel.py $buildArgs"
-#    vagrant up
-#    vagrant ssh -- -t "$buildCommand"
-#else
-#    buildCommand="python $buildScript $buildArgs"
-#    $buildCommand
-#fi
-
 mkdir -p $script_dir/setup/img/
 cp $script_dir/build/containers/images_meta.json $script_dir/setup/img/
 # Deploy
@@ -278,6 +266,6 @@ printf "\n----------Setting up----------\n"
 deactivate
 cp $script_dir/build/run_requirements.txt $ROSLIN_PIPELINE_DATA_PATH
 cp $script_dir/build/scripts/build-node.sh $ROSLIN_PIPELINE_DATA_PATH
-source $ROSLIN_CORE_CONFIG_PATH/settings.sh
+. $ROSLIN_CORE_CONFIG_PATH/settings.sh
 roslin_workspace_init.py --name ${ROSLIN_PIPELINE_NAME} --version ${ROSLIN_PIPELINE_VERSION}
 cd $parentDir

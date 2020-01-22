@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse, os, sys, yaml, json, re, time, io, csv, shutil, logging
 from subprocess import Popen, PIPE
@@ -112,8 +112,9 @@ def generate_discrete_copy_number_data(data_directory,output_directory,data_file
                 assay = assay_matcher(assay)
             interval_list = targets[assay]['targets_list']
             extra_arg = '--targetFile '+ interval_list
+    os.environ['SINGULARITY_CACHEDIR'] = os.path.join(os.environ["ROSLIN_PIPELINE_BIN_PATH"],'img')
     cna_command_list = []
-    cna_command_list.append('tool.sh --tool facets --version 1.6.2 --language_version default --language python --cmd geneLevel ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m -o ' + output_path)
+    cna_command_list.append('singularity run docker://mskcc/roslin-variant-facets:1.6.3 /usr/bin/facets-suite/geneLevel.R ' + extra_arg + ' -f ' + discrete_copy_number_files_query + ' -m -o ' + output_path)
     cna_command_list.append('mv ' + output_path + ' ' + gene_cna_file)
     cna_command_list.append('mv ' + scna_output_path + ' ' + output_path)
     run_command_list(cna_command_list,'generate_discrete_copy_number')
@@ -281,7 +282,7 @@ def check_if_impact(assay):
     return is_impact
 
 def create_meta_clinical_files_new_format(datatype, filepath, filename, study_id):
-    with open(filepath, 'wb') as output_file:
+    with open(filepath, 'w') as output_file:
         output_file.write('cancer_study_identifier: %s\n' % study_id)
         output_file.write('genetic_alteration_type: CLINICAL\n')
         output_file.write('datatype: %s\n' % datatype)
@@ -481,7 +482,7 @@ if __name__ == '__main__':
     clinical_data = None
 
     if args.clinical_data:
-        with open(args.clinical_data, 'rb') as clinical_data_file:
+        with open(args.clinical_data, 'r') as clinical_data_file:
             clinical_reader = csv.DictReader(clinical_data_file, dialect='excel-tab')
             clinical_data = list(clinical_reader)
     else:
@@ -564,9 +565,9 @@ if __name__ == '__main__':
         data_clinical_sample_txt, data_clinical_patient_txt = create_data_clinical_files_new_format(legacy_clinical_data)
         clinical_data_samples_output_path = os.path.join(portal_dir, clinical_data_samples_file)
         clinical_data_patients_output_path = os.path.join(portal_dir, clinical_data_patients_file)
-        with open(clinical_data_samples_output_path, 'wb') as out:
+        with open(clinical_data_samples_output_path, 'w') as out:
             out.write(data_clinical_sample_txt)
-        with open(clinical_data_patients_output_path, 'wb') as out:
+        with open(clinical_data_patients_output_path, 'w') as out:
             out.write(data_clinical_patient_txt)
         logger.info('Finished generating clinical data, including in the new format')
         logger.info('Removing legacy data_clinical.txt file.')

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """tools_utils"""
 
 import json
@@ -12,9 +12,12 @@ def is_available(tools, name, version):
     # return smallcase true/false to maintain compatibility with the previous
     # version that uses jq.
     if name in tools["programs"]:
-        print "true" if version in tools["programs"][name] else "false"
+        if version in tools["programs"][name]:
+            print("true")
+        else:
+            print("false")
     else:
-        print "false"
+        print("false")
 
 
 def get_name_version(tools):
@@ -22,9 +25,9 @@ def get_name_version(tools):
 
     for tool_name in tools["programs"]:
         for tool_version in tools["programs"][tool_name]:
-            print "{tool_name}:{tool_version}".format(
+            print("{tool_name}:{tool_version}".format(
                 tool_name=tool_name,
-                tool_version=tool_version)
+                tool_version=tool_version))
 
 def main():
     """main function"""

@@ -1,6 +1,6 @@
 #!/bin/bash
 script_rel_dir=`dirname ${BASH_SOURCE[0]}`
-script_dir=`python -c "import os; print os.path.abspath('${script_rel_dir}')"`
+script_dir=`python3 -c "import os; print(os.path.abspath('${script_rel_dir}'))"`
 # load utils
 source $script_dir/tools-utils.sh
 source $script_dir/settings-build.sh
@@ -35,7 +35,7 @@ cp ${CONTAINER_DIRECTORY}/images_meta.json ${IMG_DIRECTORY}
 
 echo "--- IMAGE TREE ---"
 # show tree
-python ${script_dir}/../../core/bin/tree.py -f ${IMG_DIRECTORY}
+python3 ${script_dir}/../../core/bin/tree.py -f ${IMG_DIRECTORY}
 
 # get md5 checksum for all image files
 cd ${IMG_DIRECTORY}
@@ -44,7 +44,7 @@ find . -name "*.sif" -type f | xargs md5sum > ${IMG_DIRECTORY}/checksum.dat
 # get md5 checksum for all cwl files
 echo "--- CWL TREE ---"
 # show tree
-python ${script_dir}/../../core/bin/tree.py -f ${CWL_DIRECTORY}
+python3 ${script_dir}/../../core/bin/tree.py -f ${CWL_DIRECTORY}
 
 cd ${CWL_DIRECTORY}
 find . -name "*.cwl" -type f | xargs md5sum > ${CWL_DIRECTORY}/checksum.dat

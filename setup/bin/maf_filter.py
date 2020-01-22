@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys, os, csv, re
 
@@ -16,7 +16,7 @@ dict_portal_kept = dict()
 analyst_header = ''
 portal_header = ''
 
-with open(input_file,'rb') as input_maf:
+with open(input_file,'r') as input_maf:
     header = input_maf.readline().strip('\r\n').split('\t')
     # Skip all comment lines, and assume that the first line after them is the header
     while header[0].startswith("#"):
@@ -107,7 +107,7 @@ with open(input_file,'rb') as input_maf:
 
 # Keep fillout lines (Mutation_Status==None) in portal/data_mutations_extended.txt
 # write into analysis files
-with open(analyst_file,'wb') as analyst_maf:
+with open(analyst_file,'w') as analyst_maf:
     analyst_maf.write(roslin_version_line)
     analyst_maf.write(analyst_header)
     for key, values in dict_analyst_kept.items():
@@ -116,7 +116,7 @@ with open(analyst_file,'wb') as analyst_maf:
             analyst_maf.write(value + '\n')
 
 # write into portal file
-with open(portal_file,'wb') as portal_maf:
+with open(portal_file,'w') as portal_maf:
     portal_maf.write(roslin_version_line)
     portal_maf.write(portal_header)
     for key, values in dict_portal_kept.items():

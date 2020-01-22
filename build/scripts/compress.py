@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import subprocess
@@ -35,7 +35,7 @@ def compress(output_filename):
 def main():
     "main function"
     if len(sys.argv) < 2:
-	print "USAGE: compress.py pipeline_name"
+        print("USAGE: compress.py pipeline_name")
         exit()
 
     pipeline_name = sys.argv[1]
@@ -48,13 +48,13 @@ def main():
 
     stdout, stderr, exit_code = compress(output_filename)
 
-    print stdout
-    print stderr
+    print(stdout)
+    print(stderr)
 
     if exit_code == 0:
-        print "Compress finished"
+        print("Compress finished")
     else:
-        print "Compress failed"
+        print("Compress failed")
 
     sys.exit(exit_code)
 

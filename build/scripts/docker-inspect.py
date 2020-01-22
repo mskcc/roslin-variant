@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import requests
 import json
@@ -10,11 +12,11 @@ def run_command(command,name):
     stdout, stderr = process.communicate()
     exit_code = process.returncode
     if exit_code != 0:
-        print str(name) + " failed"
+        print(str(name) + " failed")
         if stdout:
-            print "----stdout----\n" + stdout
+            print("----stdout----\n" + stdout)
         if stderr:
-            print "----stderr----\n" + stderr
+            print("----stderr----\n" + stderr)
         exit(1)
     return stdout
 
@@ -53,10 +55,10 @@ def get_docker_labels(docker_image,output):
                 docker_labels = docker_meta['config']['Labels']
                 docker_id = docker_meta['id']
             else:
-                print "Docker label request failed. Reason:\n" + label_request.text
+                print("Docker label request failed. Reason:\n" + label_request.text)
                 exit(1)
         else:
-            print "Docker token request failed. Reason:\n" + token_request.text
+            print("Docker token request failed. Reason:\n" + token_request.text)
             exit(1)
     docker_labels['Docker_Image'] = docker_image
 

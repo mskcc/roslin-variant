@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 """post-process of cwl"""
 
 import os.path
@@ -11,7 +11,7 @@ def get_requirements(filename):
     requirements = ""
 
     if os.path.exists(filename) is False:
-        print "File not found: {}".format(filename)
+        print("File not found: {}".format(filename))
         exit(1)
 
     with open(filename, "r") as file_in:
@@ -29,7 +29,7 @@ def get_metadata(filename):
     metadata = ""
 
     if os.path.exists(filename) is False:
-        print "File not found: {}".format(filename)
+        print("File not found: {}".format(filename))
         exit(1)
 
     with open(filename, "r") as file_in:
