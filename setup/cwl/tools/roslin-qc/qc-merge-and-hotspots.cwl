@@ -142,11 +142,7 @@ outputs:
   qual_files_o:
     type: File
     outputSource: qc_merge/qual_files_o
-
-  cutadapt_summary:
-    type: File
-    outputSource: qc_merge/cutadapt_summary
-
+    
   hs_portal_fillout:
     type: File
     outputSource: hotspots_fillout/portal_fillout
@@ -180,7 +176,7 @@ steps:
       fp_genotypes: fp_genotypes
       grouping_file: grouping_file
       pairing_file: pairing_file
-    out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, minor_contam_output, qual_files_r, qual_files_o, cutadapt_summary ]
+    out: [ merged_mdmetrics, merged_hsmetrics, merged_hstmetrics, merged_insert_size_histograms, fingerprints_output, fingerprint_summary, minor_contam_output, qual_files_r, qual_files_o ]
 
   hotspots_fillout:
     run: ../cmo-fillout/1.2.2/cmo-fillout.cwl
@@ -217,7 +213,7 @@ steps:
     run: ../consolidate-files/consolidate-files.cwl
     in:
       files:
-        source: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/minor_contam_output, qc_merge/qual_files_r, qc_merge/qual_files_o, qc_merge/cutadapt_summary, run_hotspots_in_normals/hs_in_normals, run_minor_contam_binlist/minor_contam_freqlist, qc_merge/fingerprints_output ]
+        source: [ qc_merge/merged_mdmetrics, qc_merge/merged_hsmetrics, qc_merge/merged_hstmetrics, qc_merge/merged_insert_size_histograms, qc_merge/fingerprint_summary, qc_merge/minor_contam_output, qc_merge/qual_files_r, qc_merge/qual_files_o, run_hotspots_in_normals/hs_in_normals, run_minor_contam_binlist/minor_contam_freqlist, qc_merge/fingerprints_output ]
         linkMerge: merge_flattened
       output_directory_name:
         valueFrom: ${ return "qc_merged_directory"; }
