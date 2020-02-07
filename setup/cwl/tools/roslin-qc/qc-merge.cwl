@@ -132,6 +132,10 @@ outputs:
     type: File
     outputSource: generate_qual_files/oqual_output
 
+  cutadapt_summary:
+    type: File
+    outputSource: generate_cutadapt_summary/output
+
 steps:
 
   merge_mdmetrics:
@@ -190,3 +194,14 @@ steps:
         valueFrom: ${ return inputs.project_prefix + "_pre_recal_MeanQualityByCycle.txt"; }
     out: [ rqual_output, oqual_output ]
     run: ./generate-qual-files.cwl
+
+  generate_cutadapt_summary:
+    in:
+      project_prefix: project_prefix
+      pairing_file: pairing_file
+      clstats1: clstats1
+      clstats2: clstats2
+      output_filename:
+        valueFrom: ${ return inputs.project_prefix + "_CutAdaptStats.txt"; }
+    out: [ output ]
+    run: ./generate-cutadapt-summary.cwl
