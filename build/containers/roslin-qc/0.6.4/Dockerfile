@@ -2,7 +2,7 @@ FROM alpine:3.8
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
-      version.roslin-qc="0.6.1" \
+      version.roslin-qc="0.6.4" \
       version.getbasecountsmultisample="1.2.2" \
       version.bamtools="2.5.1" \
       version.alpine="3.8" \

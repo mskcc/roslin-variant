@@ -43,7 +43,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.1"
+- "0.6.4"
 - --cmd
 - create_hotspots_in_normal
 id: create-hotspots-in-normal

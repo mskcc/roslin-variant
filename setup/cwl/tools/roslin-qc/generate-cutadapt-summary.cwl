@@ -40,7 +40,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.1"
+- "0.6.4"
 - --cmd
 - merge_cut_adapt_stats
 id: generate-cutadapt-summary.cwl

@@ -40,7 +40,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.1"
+- "0.6.4"
 - --cmd
 - merge_mean_quality_histograms
 id: generate-qual-files

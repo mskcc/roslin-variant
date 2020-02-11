@@ -42,7 +42,7 @@ baseCommand:
 - --tool
 - "roslin-qc"
 - --version
-- "0.6.1"
+- "0.6.4"
 - --cmd
 - stitch_pdf
 id: stitch-pdf
