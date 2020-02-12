@@ -33,11 +33,11 @@
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.basicfiltering": "https://github.com/mskcc/basicfiltering/releases/tag/0.3",
                     "source.bcftools": "https://github.com/samtools/bcftools/releases/tag/1.9",
-                    "source.cmo": "https://github.com/mskcc/cmo/releases/tag/1.9.10",
+                    "source.cmo": "https://github.com/mskcc/cmo/releases/tag/1.9.15",
                     "version.alpine": "3.8",
                     "version.basicfiltering": "0.3",
                     "version.bcftools": "1.9",
-                    "version.cmo": "1.9.10",
+                    "version.cmo": "1.9.15",
                     "version.image": "1.0.0"
                 }
             },
@@ -54,9 +54,11 @@
                     "Docker_Image": "mskcc/roslin-variant-bwa:0.7.5a",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.bwa": "https://github.com/lh3/bwa/releases/tag/0.7.5a",
+                    "source.samtools": "https://github.com/samtools/samtools/releases/tag/1.9",
                     "version.alpine": "3.8",
                     "version.bwa": "0.7.5a",
-                    "version.image": "1.0.0"
+                    "version.image": "1.0.0",
+                    "version.samtools": "1.9"
                 }
             },
             "version": "0.7.5a"
@@ -73,7 +75,7 @@
                 "commandType": "Multi",
                 "help": "echo \"Please use either pileup, concordance, contamination, merge\"",
                 "labels": {
-                    "Docker_Image": "mskcc/roslin-variant-conpair:0.3.1",
+                    "Docker_Image": "mskcc/roslin-variant-conpair:0.3.3",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.conpair": "https://github.com/mskcc/Conpair/releases/tag/0.3.1",
                     "source.gatk": "https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af",
@@ -124,20 +126,20 @@
                 "commandType": "Multi",
                 "help": "echo \"Please use either doFacets, mafAnno, normDepth, geneLevel, or mergeTN\"",
                 "labels": {
-                    "Docker_Image": "mskcc/roslin-variant-facets:1.6.2",
+                    "Docker_Image": "mskcc/roslin-variant-facets:1.6.3",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.facets": "https://github.com/mskcc/facets/archive/v0.5.14.tar.gz",
-                    "source.facets_suite": "https://github.com/mskcc/facets-suite/releases/tag/1.6.2",
+                    "source.facets_suite": "https://github.com/mskcc/facets-suite/releases/tag/1.6.3",
                     "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R",
                     "version.alpine": "3.8",
                     "version.facets": "0.5.14",
-                    "version.facets_suite": "1.6.2",
+                    "version.facets_suite": "1.6.3",
                     "version.image": "1.0.0",
                     "version.pctGCdata": "0.2.0",
                     "version.r": "3.5.1"
                 }
             },
-            "version": "1.6.2"
+            "version": "1.6.3"
         }
     ],
     "gatk": [
@@ -359,20 +361,20 @@
                 "commandType": "Multi",
                 "help": "echo \"merge_cut_adapt_stats, analyze_fingerprint, qc_summary, merge_mean_quality_histograms, merge_gc_bias_metrics, merge_insert_size_histograms, merge_picard_metrics, stitch_pdf, hotspots_in_normals, or genlatex\"",
                 "labels": {
-                    "Docker_Image": "mskcc/roslin-variant-roslin-qc:0.6.1",
+                    "Docker_Image": "mskcc/roslin-variant-roslin-qc:0.6.4",
                     "maintainer": "Nikhil Kumar (kumarn1@mskcc.org)",
                     "source.bamtools": "https://github.com/pezmaster31/bamtools",
                     "source.getbasecountsmultisample": "https://github.com/zengzheng123/GetBaseCountsMultiSample",
                     "source.r": "https://pkgs.alpinelinux.org/package/edge/community/x86/R",
-                    "source.roslin-qc": "https://github.com/mskcc/roslin-qc/tree/0.6.1",
+                    "source.roslin-qc": "https://github.com/mskcc/roslin-qc/releases/tag/0.6.4",
                     "version.alpine": "3.8",
                     "version.bamtools": "2.5.1",
                     "version.getbasecountsmultisample": "1.2.2",
                     "version.image": "1.0.0",
-                    "version.roslin-qc": "0.6.1"
+                    "version.roslin-qc": "0.6.4"
                 }
             },
-            "version": "0.6.1"
+            "version": "0.6.4"
         }
     ],
     "samtools": [
