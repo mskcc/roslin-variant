@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.11
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
