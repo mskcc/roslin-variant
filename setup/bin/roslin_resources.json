@@ -312,6 +312,12 @@
             "baits_list": "/juno/work/ci/resources/genomes/GRCh37_mm10/targets/picard_baits.interval_list",
             "targets_list": "/juno/work/ci/resources/genomes/GRCh37_mm10/targets/picard_targets.interval_list"
         },
+        "IMPACT505": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/IMPACT505/b37/IMPACT505_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IMPACT505/b37/IMPACT505_FP_tiling_intervals.intervals",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT505/b37/IMPACT505_b37_baits.ilist",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT505/b37/IMPACT505_b37_targets.ilist"
+        },
         "IMPACT468_08390": {
             "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_genotypes.txt",
             "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08390/b37/IMPACT468_08390_FP_tiling_intervals.intervals",
@@ -323,6 +329,12 @@
             "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_FP_tiling_intervals.intervals",
             "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_b37_baits.ilist",
             "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08050/b37/IMPACT468_08050_b37_targets.ilist"
+        },
+        "IMPACT468_08954": {
+            "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08954/b37/IMPACT468_08954_FP_tiling_genotypes.txt",
+            "FP_intervals": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08954/b37/IMPACT468_08954_FP_tiling_intervals.intervals",
+            "baits_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08954/b37/IMPACT468_08954_b37_baits.ilist",
+            "targets_list": "/juno/work/ci/resources/roslin_resources/targets/IMPACT468_08954/b37/IMPACT468_08954_b37_targets.ilist"
         },
         "Agilent_v4_51MB_Human": {
             "FP_genotypes": "/juno/work/ci/resources/roslin_resources/targets/Agilent_v4_51MB_Human/b37/Agilent_v4_51MB_Human_FP_tiling_genotypes.txt",
