@@ -6,12 +6,12 @@ LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.getbasecountsmultisample="1.2.2" \
       version.bamtools="2.5.1" \
       version.alpine="3.8" \
-      source.roslin-qc="https://github.com/mskcc/roslin-qc/releases/tag/0.6.1" \
+      source.roslin-qc="https://github.com/mskcc/roslin-qc/releases/tag/0.6.4" \
       source.getbasecountsmultisample="https://github.com/zengzheng123/GetBaseCountsMultiSample" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R" \
       source.bamtools="https://github.com/pezmaster31/bamtools"
 
-ENV ROSLIN_QC_VERSION 0.6.1
+ENV ROSLIN_QC_VERSION 0.6.4
 ENV GETBASECOUNTSMULTISAMPLE_VERSION 1.2.2
 ENV BAMTOOLS_VERSION 2.5.1
 
