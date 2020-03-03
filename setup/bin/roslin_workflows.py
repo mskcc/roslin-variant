@@ -277,19 +277,11 @@ class GenerateQc(SingleCWLWorkflow):
 		dependency_input = copy.deepcopy(roslin_yaml)
 		dependency_input['files'] = []
 		dependency_input['directories'] = []
-		dependency_input['normal_bams'] = []
-		dependency_input['tumor_bams'] = []
-		dependency_input['normal_sample_names'] = []
-		dependency_input['tumor_sample_names'] = []
-		for single_pair in dependency_input['bams']:
-			dependency_input['normal_bams'].append(single_pair[1])
-			dependency_input['tumor_bams'].append(single_pair[0])
-		for single_pair in dependency_input['pairs']:
-			dependency_input['normal_sample_names'].append(single_pair[1]['ID'])
-			dependency_input['tumor_sample_names'].append(single_pair[0]['ID'])
-		runparams_inputs = add_record_argument(roslin_yaml['runparams'],["genome","assay","pi","pi_email","project_prefix"])
+		dependency_input['normal_bams'] = dependency_input['normal_bam']
+		dependency_input['tumor_bams'] = dependency_input['tumor_bam']
+		dependency_input['normal_sample_names'] = dependency_input['normal_sample_name']
+		dependency_input['tumor_sample_names'] = dependency_input['tumor_sample_name']
 		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["fp_genotypes","hotspot_list_maf","conpair_markers"])
-		dependency_input.update(runparams_inputs)
 		dependency_input.update(db_files_inputs)
 		return dependency_input
 
