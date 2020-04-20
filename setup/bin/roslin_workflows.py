@@ -263,7 +263,7 @@ class GenerateQc(SingleCWLWorkflow):
 		super().configure('GenerateQc','modules/project','generate-qc.cwl',[],['PairWorkflow'])
 
 	def configure_sv(self):
-		super().configure('GenerateQc','modules/project','generate-qc.cwl',['CdnaContam'],['PairWorkflowSV'])
+		super().configure('GenerateQc','modules/project','generate-qc-sv.cwl',[],['PairWorkflowSV'])
 
 	def get_outputs(self,workflow_output_folder):
 		workflow_output_path = os.path.join("outputs",workflow_output_folder)
@@ -277,6 +277,12 @@ class GenerateQc(SingleCWLWorkflow):
 		dependency_input = copy.deepcopy(roslin_yaml)
 		dependency_input['files'] = []
 		dependency_input['directories'] = []
+		dependency_input['normal_bams'] = dependency_input['normal_bam']
+		dependency_input['tumor_bams'] = dependency_input['tumor_bam']
+		dependency_input['normal_sample_names'] = dependency_input['normal_sample_name']
+		dependency_input['tumor_sample_names'] = dependency_input['tumor_sample_name']
+		db_files_inputs = add_record_argument(roslin_yaml['db_files'],["fp_genotypes","hotspot_list_maf","conpair_markers"])
+		dependency_input.update(db_files_inputs)
 		return dependency_input
 
 class GenerateQcSV(GenerateQc):
@@ -285,9 +291,10 @@ class GenerateQcSV(GenerateQc):
 		super().configure_sv()
 
 	def modify_dependency_inputs(self,roslin_yaml,job_params):
-		files = roslin_yaml['cdna_contam_output']
+		roslin_yaml = super().modify_dependency_inputs(roslin_yaml,job_params)
 		dependency_input = copy.deepcopy(roslin_yaml)
-		dependency_input['files'] = [files]
+		dependency_input['mafs'] = roslin_yaml['maf_file']
+		dependency_input['files'] = []
 		dependency_input['directories'] = []
 		return dependency_input
 

@@ -1,17 +1,17 @@
-FROM alpine:3.8
+FROM alpine:3.10
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
-      version.roslin-qc="0.6.3" \
+      version.roslin-qc="0.6.4" \
       version.getbasecountsmultisample="1.2.2" \
       version.bamtools="2.5.1" \
-      version.alpine="3.8" \
-      source.roslin-qc="https://github.com/mskcc/roslin-qc/releases/tag/0.6.3" \
+      version.alpine="3.10" \
+      source.roslin-qc="https://github.com/mskcc/roslin-qc/releases/tag/0.6.4" \
       source.getbasecountsmultisample="https://github.com/zengzheng123/GetBaseCountsMultiSample" \
       source.r="https://pkgs.alpinelinux.org/package/edge/community/x86/R" \
       source.bamtools="https://github.com/pezmaster31/bamtools"
 
-ENV ROSLIN_QC_VERSION 0.6.3
+ENV ROSLIN_QC_VERSION 0.6.4
 ENV GETBASECOUNTSMULTISAMPLE_VERSION 1.2.2
 ENV BAMTOOLS_VERSION 2.5.1
 
@@ -37,8 +37,6 @@ RUN apk add --update \
         # install pandas
         && pip install django==1.11 \
         && pip install dbconfig \
-        && pip install numpy \
-        && pip install pandas==0.23.4 \
         # install R
         && apk add R R-dev \
         # install pylatex
@@ -57,8 +55,11 @@ RUN apk add --update \
         && sed -i "s/opt\/common\/CentOS_6-dev\//usr\//g" *.pl \
         && sed -i "s/opt\/common\/CentOS_6\/R\/R-3.2.0\//usr\//g" *.R \
         && R -e "install.packages('corrplot', repos='http://cran.wustl.edu')" \
-        && R -e "install.packages(c('ggplot2','gplots','scales','reshape','plyr','RColorBrewer','optparse','ggforce'), repos='http://cran.us.r-project.org')" \
+        && R -e "install.packages('ggplot2', repos='http://cran.wustl.edu')" \
+        && R -e "install.packages(c('gplots','scales','reshape','plyr','RColorBrewer','optparse','ggforce'), repos='http://cran.us.r-project.org')" \
         && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
+        && pip install numpy \
+        && pip install pandas==0.23.4 \
         # Install perl dependency needed
         && perl -MCPAN -e 'install Tie::IxHash' \
         # build and install bamtools
@@ -81,3 +82,6 @@ RUN apk add --update \
         && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
+
+ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
+CMD ["help"]
