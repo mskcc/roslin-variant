@@ -83,5 +83,7 @@ RUN apk add --update \
 
 ENV PYTHONNOUSERSITE set
 
+ENV LANG "C.UTF-8"
+
 ENTRYPOINT ["sh","/usr/bin/runscript.sh"]
 CMD ["help"]
