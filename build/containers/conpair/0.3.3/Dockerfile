@@ -43,4 +43,5 @@ RUN apk add --update \
         && chmod +x /usr/bin/runscript.sh \
         && exec /run_test.sh
 
+ENV LANG "C.UTF-8"
 ENV PYTHONNOUSERSITE set
