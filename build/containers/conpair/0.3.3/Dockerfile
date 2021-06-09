@@ -1,9 +1,9 @@
-FROM alpine:3.8
+FROM alpine:3.10
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.conpair="0.3.3" \
-      version.alpine="3.8" \
+      version.alpine="3.10" \
       version.gatk="3.3-0" \
       source.gatk="https://software.broadinstitute.org/gatk/download/auth?package=GATK-archive&version=3.3-0-g37228af" \
       source.conpair="https://github.com/mskcc/Conpair/releases/tag/0.3.1" \
@@ -27,7 +27,7 @@ RUN apk add --update \
         # install R
         && apk add R R-dev \
         # install R dependencies
-        && Rscript --vanilla install-packages.R \
+        && R -e "install.packages(c('ggplot2', 'reshape2'), repos='http://cran.wustl.edu')" \
         # install numpy and scipy
         && pip install numpy==1.15.4 \
         && pip install scipy==1.1.0 \
