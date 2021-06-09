@@ -34,7 +34,5 @@ RUN apk add --update \
             && chmod +x /usr/bin/runscript.sh \
             && exec /run_test.sh
 
-# set LANG to ensure R works
-env LANG "C.UTF-8"
 # disable per-user site-packages
 ENV PYTHONNOUSERSITE set
