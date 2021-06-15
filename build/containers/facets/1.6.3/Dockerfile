@@ -1,11 +1,11 @@
-FROM alpine:3.8
+FROM alpine:3.10
 
 LABEL maintainer="Nikhil Kumar (kumarn1@mskcc.org)" \
       version.image="1.0.0" \
       version.facets_suite="1.6.3" \
       version.facets="0.5.14"\
-      version.alpine="3.8" \
-      version.r="3.5.1" \
+      version.alpine="3.10" \
+      version.r="3.6" \
       version.pctGCdata="0.2.0" \
       source.facets_suite="https://github.com/mskcc/facets-suite/releases/tag/1.6.3" \
       source.facets="https://github.com/mskcc/facets/archive/v0.5.14.tar.gz"\
@@ -22,7 +22,7 @@ COPY run_test.sh /run_test.sh
 
 RUN apk add --update \
     # for wget
-        && apk add ca-certificates openssl \
+        && apk add bash ca-certificates openssl \
     # for compilation
         && apk add build-base musl-dev python py-pip python-dev \
     # install cairo and R package system dependencies
