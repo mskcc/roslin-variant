@@ -8,4 +8,4 @@ PyYAML==5.2
 argparse==1.4.0
 pytest==5.3.2
 pytest-xdist==1.30.0
-urllib3==1.25.7
+urllib3==1.26.5
