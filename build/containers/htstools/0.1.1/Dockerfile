@@ -46,3 +46,7 @@ RUN apk add --update \
             && exec /run_test.sh
 
 ENV PYTHONNOUSERSITE set
+
+FROM mskcc/roslin-variant-htstools:0.1.1
+
+RUN apk add bash

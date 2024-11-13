@@ -24,3 +24,7 @@ RUN apk add --update python py-pip perl gcc python-dev musl-dev \
       && rm -rf /var/cache/apk/* \
       && chmod +x /usr/bin/runscript.sh \
       && exec /run_test.sh
+
+FROM mskcc/roslin-variant-trimgalore:0.2.5.mod
+
+RUN apk add bash

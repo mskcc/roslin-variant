@@ -40,3 +40,7 @@ RUN apk add --update make g++ zlib-dev bzip2-dev xz-dev ncurses-dev \
     && rm -rf /var/cache/apk/* /tmp/* \
     && chmod +x /usr/bin/runscript.sh \
     && exec /run_test.sh
+
+FROM mskcc/roslin-variant-htslib:1.9
+
+RUN apk add bash

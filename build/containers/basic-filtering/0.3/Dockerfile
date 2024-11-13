@@ -56,3 +56,7 @@ RUN apk add --update \
 
 # disable per-user site-packages before run
 ENV PYTHONNOUSERSITE set
+
+FROM mskcc/roslin-variant-basic-filtering:0.3
+
+RUN apk add bash
